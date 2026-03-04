@@ -4,14 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BANF Jacksonville - Bengali Association of North Florida</title>
-    <!-- Frame-breaker: if loaded inside a Wix iframe (HTML element), redirect the top window -->
+    <!-- Wix postMessage bridge: reports page height so Wix can resize the HTML element -->
     <script>
         (function () {
-            try {
-                if (window.self !== window.top) {
-                    window.top.location.replace(window.location.href);
-                }
-            } catch (e) { /* cross-origin access denied — ignore */ }
+            function reportHeight() {
+                var h = Math.max(
+                    document.body.scrollHeight,
+                    document.documentElement.scrollHeight
+                );
+                try { parent.postMessage({ type: 'wix-resize', height: h }, '*'); } catch(e) {}
+            }
+            window.addEventListener('load', reportHeight);
+            window.addEventListener('resize', reportHeight);
+            setTimeout(reportHeight, 1500);
         })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
