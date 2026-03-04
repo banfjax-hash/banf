@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Login - Bengali Association of North Florida</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --banf-orange: #FF6B35;
+            --banf-deep-red: #DC143C;
+            --banf-green: #006A4E;
+            --banf-gold: #D4AF37;
+            --gradient-primary: linear-gradient(135deg, #FF6B35, #DC143C);
+            --gradient-green: linear-gradient(135deg, #006A4E, #00856F);
+        }
+        * { font-family: 'Poppins', 'Hind Siliguri', sans-serif; box-sizing: border-box; }
+        body {
+            margin: 0; padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #006A4E 0%, #00856F 50%, #004D40 100%);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .login-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 400px; max-width: 92vw;
+            padding: 2.5rem 2rem;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .login-logo {
+            text-align: center; margin-bottom: 1.5rem;
+        }
+        .login-logo img {
+            height: 70px; border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .login-logo h4 {
+            margin: 0.75rem 0 0.25rem;
+            font-weight: 700; color: #2D2D2D;
+        }
+        .login-logo .subtitle {
+            font-size: 0.85rem; color: #888;
+        }
+        .form-control:focus {
+            border-color: var(--banf-green);
+            box-shadow: 0 0 0 0.2rem rgba(0,106,78,0.15);
+        }
+        .btn-banf {
+            background: var(--gradient-green);
+            border: none; color: #fff;
+            font-weight: 600; padding: 0.7rem;
+            border-radius: 10px; font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .btn-banf:hover { opacity: 0.9; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(0,106,78,0.4); }
+        .btn-banf:disabled { opacity: 0.6; transform: none; }
+        .demo-section {
+            margin-top: 1.5rem; padding-top: 1rem;
+            border-top: 1px solid #eee; text-align: center;
+        }
+        .demo-section .hint {
+            font-size: 0.78rem; color: #999; margin-bottom: 0.5rem;
+        }
+        .btn-demo {
+            background: linear-gradient(135deg, #FF6B35, #DC143C);
+            border: none; color: #fff;
+            font-weight: 600; padding: 0.5rem 1.5rem;
+            border-radius: 8px; font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .btn-demo:hover { opacity: 0.9; color: #fff; }
+        .error-msg {
+            color: #DC143C; font-size: 0.82rem;
+            margin-top: 0.5rem; display: none;
+        }
+        .back-link {
+            text-align: center; margin-top: 1.5rem;
+        }
+        .back-link a {
+            color: rgba(255,255,255,0.8); text-decoration: none;
+            font-size: 0.85rem; transition: color 0.2s;
+        }
+        .back-link a:hover { color: #fff; }
+        .spinner-border-sm { width: 1rem; height: 1rem; border-width: 0.15em; }
+        .test-credentials {
+            background: #f8f9fa; border-radius: 10px;
+            padding: 0.75rem; margin-top: 1rem;
+            font-size: 0.78rem; color: #666;
+        }
+        .test-credentials code {
+            background: #e9ecef; padding: 0.15rem 0.4rem;
+            border-radius: 4px; font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="login-logo">
+            <img src="banf-logo.jpg" alt="BANF Logo">
+            <h4>Member Portal</h4>
+            <div class="subtitle">Bengali Association of North Florida</div>
+        </div>
+
+        <form id="loginForm" onsubmit="doLogin(event)">
+            <div class="mb-3">
+                <label class="form-label small fw-semibold">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope text-muted"></i></span>
+                    <input type="email" class="form-control" id="login-email" placeholder="your@email.com" required autofocus>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-banf w-100" id="btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </button>
+            <div class="error-msg" id="login-err"></div>
+        </form>
+
+        <div class="demo-section">
+            <div class="hint">Want to explore the portal first?</div>
+            <button class="btn btn-demo" onclick="enterDemo()">
+                <i class="fas fa-play me-2"></i>Demo Mode
+            </button>
+        </div>
+
+        <div class="test-credentials">
+            <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Test Accounts</div>
+            <div>Member: <code>ranadhir.ghosh@gmail.com</code></div>
+            <div>EC Member: <code>president@banf.org</code></div>
+        </div>
+    </div>
+
+    <div class="back-link">
+        <a href="landing.html"><i class="fas fa-arrow-left me-1"></i>Back to BANF Home</a>
+    </div>
+
+    <script>
+        const API = 'https://banfwix.wixsite.com/banf1/_functions';
+
+        // Demo CRM member data for offline/testing
+        const DEMO_MEMBERS = {
+            'ranadhir.ghosh@gmail.com': {
+                name: 'Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
+                email: 'ranadhir.ghosh@gmail.com', phone: '904-555-0101',
+                membershipType: 'Family', memberId: 'MBR-001', isECMember: true
+            },
+            'president@banf.org': {
+                name: 'Arun Sen', firstName: 'Arun', lastName: 'Sen',
+                email: 'president@banf.org', phone: '904-555-0102',
+                membershipType: 'Family', memberId: 'MBR-002', isECMember: true
+            },
+            'treasurer@banf.org': {
+                name: 'Priya Bose', firstName: 'Priya', lastName: 'Bose',
+                email: 'treasurer@banf.org', phone: '904-555-0103',
+                membershipType: 'Couple', memberId: 'MBR-003', isECMember: true
+            },
+            'secretary@banf.org': {
+                name: 'Suman Das', firstName: 'Suman', lastName: 'Das',
+                email: 'secretary@banf.org', phone: '904-555-0104',
+                membershipType: 'Family', memberId: 'MBR-004', isECMember: true
+            }
+        };
+
+        async function doLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const btn = document.getElementById('btn-login');
+            const errEl = document.getElementById('login-err');
+            errEl.style.display = 'none';
+
+            if (!email) {
+                errEl.textContent = 'Please enter your email address.';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in…';
+
+            try {
+                // Try live Wix API first
+                const res = await fetch(`${API}/member_profile`, {
+                    headers: { 'x-user-email': email }
+                });
+                const data = await res.json();
+
+                if (data.success && data.profile) {
+                    const member = {
+                        name: `${data.profile.firstName || ''} ${data.profile.lastName || ''}`.trim() || email,
+                        firstName: data.profile.firstName || '',
+                        lastName: data.profile.lastName || '',
+                        email: email,
+                        phone: data.profile.phone || '',
+                        membershipType: data.profile.membershipType || 'Member',
+                        memberId: data.profile.memberId || '',
+                        isECMember: data.profile.isECMember || false
+                    };
+                    sessionStorage.setItem('banf_member_data', JSON.stringify(member));
+                    localStorage.setItem('banf_member_email', email);
+                    window.location.href = 'member-portal.html';
+                    return;
+                }
+
+                // If API says not found, try demo fallback
+                if (DEMO_MEMBERS[email]) {
+                    sessionStorage.setItem('banf_member_data', JSON.stringify(DEMO_MEMBERS[email]));
+                    localStorage.setItem('banf_member_email', email);
+                    window.location.href = 'member-portal.html';
+                    return;
+                }
+
+                errEl.textContent = data.error || 'Member not found. Please check your email or contact admin.';
+                errEl.style.display = 'block';
+            } catch (err) {
+                // Network error — fall back to demo data
+                console.warn('API unreachable, trying demo data:', err.message);
+                if (DEMO_MEMBERS[email]) {
+                    sessionStorage.setItem('banf_member_data', JSON.stringify(DEMO_MEMBERS[email]));
+                    localStorage.setItem('banf_member_email', email);
+                    window.location.href = 'member-portal.html';
+                    return;
+                }
+                errEl.textContent = 'Could not reach server. Try a test account or Demo Mode.';
+                errEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
+            }
+        }
+
+        function enterDemo() {
+            // Store generic demo member data
+            const demoMember = {
+                name: 'Demo Member', firstName: 'Demo', lastName: 'Member',
+                email: 'demo@banf.org', phone: '',
+                membershipType: 'Family', memberId: 'DEMO-001', isECMember: false
+            };
+            sessionStorage.setItem('banf_member_data', JSON.stringify(demoMember));
+            window.location.href = 'member-portal.html';
+        }
+
+        // Auto-fill from localStorage if returning
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedEmail = localStorage.getItem('banf_member_email');
+            if (savedEmail) {
+                document.getElementById('login-email').value = savedEmail;
+            }
+        });
+    </script>
+</body>
+</html>
