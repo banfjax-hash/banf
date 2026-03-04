@@ -1005,6 +1005,206 @@
             z-index: 1000;
         }
 
+        /* STRATEGIC VISION SECTION */
+        .strategic-vision {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            border-radius: 20px;
+            color: #fff;
+        }
+        .strategic-vision h3 {
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .pillar-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            border-left: 4px solid #ffd700;
+            transition: transform 0.3s, background 0.3s;
+        }
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+        .pillar-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .pillar-card h5 {
+            color: #ffd700;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .pillar-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+        .pillar-card ul li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+        .pillar-card ul li::before {
+            content: '•';
+            color: #ffd700;
+            position: absolute;
+            left: 0;
+        }
+        .vision-quote {
+            text-align: center;
+            font-style: italic;
+            color: #ffd700;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* EVENTS MATRIX MODAL */
+        .matrix-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .matrix-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .matrix-modal {
+            background: #fff;
+            border-radius: 15px;
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+        }
+        .matrix-modal-header {
+            background: linear-gradient(135deg, var(--banf-deep-red), #a52a2a);
+            color: #fff;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .matrix-modal-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .matrix-table th {
+            background: #f8f9fa;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        .matrix-table td {
+            padding: 0.5rem;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        .matrix-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        .matrix-table .event-name {
+            text-align: left;
+            font-weight: 500;
+        }
+        .matrix-check { color: #28a745; font-weight: bold; }
+        .matrix-price { color: #dc3545; font-size: 0.8rem; }
+        .matrix-na { color: #6c757d; }
+        .matrix-legend {
+            padding: 1rem;
+            background: #f8f9fa;
+            font-size: 0.85rem;
+            border-top: 1px solid #dee2e6;
+        }
+
+        /* ADVERTISEMENT SECTION */
+        .ads-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
+            padding: 3rem 0;
+        }
+        .ad-slot {
+            background: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #dee2e6;
+            transition: all 0.3s;
+        }
+        .ad-slot:hover {
+            border-color: var(--banf-deep-red);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+        .ad-slot.filled {
+            border: none;
+            padding: 0;
+        }
+        .ad-slot.filled img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .ad-slot-placeholder {
+            color: #6c757d;
+        }
+        .ad-slot-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+        .ad-contact-btn {
+            margin-top: 1rem;
+            background: var(--gradient-primary);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .ad-contact-btn:hover {
+            transform: scale(1.05);
+        }
+
         /* RESPONSIVE */
         @media (max-width: 992px) {
             .president-header { flex-direction: column; text-align: center; }
@@ -1171,6 +1371,61 @@
                                 <p class="mb-0 text-muted">President, BANF</p>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Strategic Vision - Common to both languages -->
+                    <div class="strategic-vision">
+                        <h3><i class="fas fa-compass me-2"></i>Strategic Vision — FY 2026-27 and Beyond</h3>
+                        <p class="mb-4 opacity-90">Three Strategic Pillars for Organizational Growth and Community Impact</p>
+                        
+                        <div class="row g-4">
+                            <!-- Pillar 1: Digital Transformation -->
+                            <div class="col-lg-4">
+                                <div class="pillar-card">
+                                    <div class="pillar-icon">🖥️</div>
+                                    <h5>PILLAR 1: Digital Transformation & Process Automation</h5>
+                                    <ul>
+                                        <li>Digitize organizational archives — historical records, financial documents, and cultural artifacts</li>
+                                        <li>Automate membership management with online enrollment, renewals, and tier selection</li>
+                                        <li>Implement digital event registration and ticketing system with QR-based check-in</li>
+                                        <li>Streamline financial reporting and treasury management with automated dashboards</li>
+                                        <li>Build a centralized knowledge base for institutional memory and succession planning</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Pillar 2: Membership Engagement -->
+                            <div class="col-lg-4">
+                                <div class="pillar-card">
+                                    <div class="pillar-icon">🤝</div>
+                                    <h5>PILLAR 2: Diversifying Membership Engagement</h5>
+                                    <ul>
+                                        <li>Youth engagement — targeted programs, mentorship, and leadership roles for next-generation Bengalis</li>
+                                        <li>Senior & parent outreach — culturally relevant social, wellness, and community-health programs</li>
+                                        <li>Non-Bengali Hindu families — welcoming broader South Asian community with shared cultural values</li>
+                                        <li>Bangladeshi Bengali community — inclusive cultural bridge-building through shared language and heritage</li>
+                                        <li>Cross-club collaboration — partnerships with Bengali associations across Central Florida</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Pillar 3: Social & Cultural Outreach -->
+                            <div class="col-lg-4">
+                                <div class="pillar-card">
+                                    <div class="pillar-icon">🌍</div>
+                                    <h5>PILLAR 3: Expanding Social & Cultural Outreach</h5>
+                                    <ul>
+                                        <li>Establish BANF as a recognized cultural anchor and civic partner in Greater Jacksonville</li>
+                                        <li>Pursue interfaith and multicultural partnerships to foster cross-community dialogue</li>
+                                        <li>Develop community service initiatives — from food drives to cultural education</li>
+                                        <li>Collaborate with local arts councils, schools, libraries, and civic organizations</li>
+                                        <li>Build a sustainable outreach model that celebrates heritage while engaging diverse audiences</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="vision-quote">"Preserving heritage, building bridges, and fostering a more connected and inclusive community"</p>
                     </div>
                 </div>
             </div>
@@ -1475,6 +1730,9 @@
                     <div class="p-3 rounded-3 text-center" style="background: linear-gradient(135deg, #28a745, #20c997); color: #fff;">
                         <i class="fas fa-clock fa-lg me-2"></i>
                         <strong>⏰ Early Bird Pricing Available!</strong> Save on Earlybird Premium — Family $375, Couple $290, Individual $215, Student $145 — Until May 31, 2026
+                        <button class="btn btn-sm btn-light ms-3" onclick="openEventsMatrix()">
+                            <i class="fas fa-table me-1"></i>View Events Matrix
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1796,6 +2054,115 @@
         </div>
     </section>
 
+    <!-- Events Matrix Modal -->
+    <div class="matrix-modal-overlay" id="eventsMatrixOverlay" onclick="if(event.target===this)closeEventsMatrix()">
+        <div class="matrix-modal">
+            <div class="matrix-modal-header">
+                <div>
+                    <h4 class="mb-0"><i class="fas fa-table me-2"></i>Event Access by Membership Category</h4>
+                    <small>FY 2026-27 | ✓ = Included • $ = Add-on price • — = Not available</small>
+                </div>
+                <button class="matrix-modal-close" onclick="closeEventsMatrix()">&times;</button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>M2 🏆</th>
+                            <th>M1 📋</th>
+                            <th>Cultural 🎭</th>
+                            <th>DP-1 🙏</th>
+                            <th>DP-2 🙏</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="event-name">Bosonto Utsob</td><td>Mar 7</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Noboborsho</td><td>Apr 14</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$30</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Kids Summer Sports Training</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$45</td><td class="matrix-price">$50</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Summer Workshops – Kids</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-price">$40</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Summer Workshops – General</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-price">$40</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Sports Day</td><td>Jul</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-price">$20</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Spondon</td><td>Aug</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Mohaloya</td><td>Oct 17</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Durga Puja Day 1&2 + Lunch</td><td>Oct 24–25</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Lakshmi Puja</td><td>Oct 24</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Bijoya Sonmiloni</td><td>Oct 25</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Artist Program – Day 1 + Dinner</td><td>Oct 24</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Artist Program – Day 2 + Dinner</td><td>Oct 25</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Kali Puja + Lunch</td><td>Nov 14</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Natok (Drama) + Dinner</td><td>Nov 14</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Winter Picnic</td><td>Jan 11/27</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Saraswati Puja</td><td>Feb 27</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="matrix-legend">
+                <strong>Event Counts:</strong> M2 Premium: 17 | M1 Regular: 11 | Cultural Special: 5 | DP Special-1: 6 | DP Special-2: 4<br>
+                <small class="text-muted">💡 M2 Premium includes ALL 17 events. Cultural Special covers 12 events at 3.5× value. DP Specials offer focused Durga Puja access from $150.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advertisement Section -->
+    <section class="ads-section" id="advertisements">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-ad me-2"></i>Community Partners & Sponsors</h2>
+                <p class="text-muted">Support our community and promote your business</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <!-- Ad Slot 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="ad-slot" id="ad-slot-1">
+                        <div class="ad-slot-placeholder">
+                            <i class="fas fa-bullhorn"></i>
+                            <h5>Advertisement Space</h5>
+                            <p class="small mb-0">Reach 100+ Bengali families in Jacksonville</p>
+                            <a href="mailto:sponsorship@jaxbengali.org?subject=Advertisement%20Inquiry" class="ad-contact-btn">
+                                <i class="fas fa-envelope me-1"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ad Slot 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="ad-slot" id="ad-slot-2">
+                        <div class="ad-slot-placeholder">
+                            <i class="fas fa-store"></i>
+                            <h5>Promote Your Business</h5>
+                            <p class="small mb-0">Local restaurants, services, and shops welcome</p>
+                            <a href="mailto:sponsorship@jaxbengali.org?subject=Advertisement%20Inquiry" class="ad-contact-btn">
+                                <i class="fas fa-envelope me-1"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ad Slot 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="ad-slot" id="ad-slot-3">
+                        <div class="ad-slot-placeholder">
+                            <i class="fas fa-handshake"></i>
+                            <h5>Partner With BANF</h5>
+                            <p class="small mb-0">Corporate sponsorships and collaborations</p>
+                            <a href="mailto:sponsorship@jaxbengali.org?subject=Partnership%20Inquiry" class="ad-contact-btn">
+                                <i class="fas fa-envelope me-1"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="text-muted mb-2"><i class="fas fa-info-circle me-1"></i>To know more about advertising opportunities, please contact us</p>
+                <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-primary">
+                    <i class="fas fa-envelope me-2"></i>sponsorship@jaxbengali.org
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="container">
@@ -2081,9 +2448,23 @@
             document.body.style.overflow = '';
         }
 
+        // Open/Close Events Matrix Modal
+        function openEventsMatrix() {
+            document.getElementById('eventsMatrixOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEventsMatrix() {
+            document.getElementById('eventsMatrixOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
         // Close on Escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeEcModal();
+            if (e.key === 'Escape') {
+                closeEcModal();
+                closeEventsMatrix();
+            }
         });
 
         const DEFAULT_ANNOUNCEMENTS = [
