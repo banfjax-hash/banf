@@ -2,24 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script>
-// Redirect the top-level browser window to the BANF landing page.
-// In Wix Editor: window.top is same-origin (editor.wix.com), so we detect it and skip.
-// On live site: window.top is cross-origin, so the catch block fires and redirects.
-try {
-  var topUrl = window.top.location.href;
-  // If we can read it, we're in the Editor — don't redirect
-  if (topUrl.indexOf('editor.wix.com') === -1 &&
-      topUrl.indexOf('editorx.com') === -1 &&
-      topUrl.indexOf('wix.com/editor') === -1) {
-    // Not in editor, do redirect
-    window.top.location.replace("https://banfjax-hash.github.io/banf/");
-  }
-} catch(e) {
-  // Cross-origin error = we are on the live published site
-  window.top.location.replace("https://banfjax-hash.github.io/banf/");
-}
-</script>
+<meta http-equiv="refresh" content="0;url=https://banfjax-hash.github.io/banf/">
 <style>
   body {
     margin: 0; padding: 0;
@@ -32,14 +15,16 @@ try {
     height: 100vh;
     text-align: center;
   }
-  p { font-size: 16px; }
-  .sub { font-size: 12px; opacity: 0.6; }
+  h2 { margin: 0 0 8px; font-size: 22px; }
+  p { font-size: 14px; opacity: 0.7; margin: 4px 0; }
+  a { color: #C8A23C; }
 </style>
 </head>
 <body>
 <div>
-  <p>BANF Jacksonville</p>
-  <p class="sub">Loading landing page...</p>
+  <h2>BANF Jacksonville</h2>
+  <p>Bengali Association of North Florida</p>
+  <p style="margin-top:16px"><a href="https://banfjax-hash.github.io/banf/">Open Landing Page</a></p>
 </div>
 </body>
 </html>
