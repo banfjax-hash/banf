@@ -258,33 +258,48 @@ const SQ_LABELS = {
 
 // ── EC MEMBER CREDENTIAL DATABASE ──
 // Only EC members (not super-admin or standalone stakeholders)
+// ─── ROLE HIERARCHY (portal-level, hyphenated) ───────────────────────────────
+// super-admin   → IT Lead / System Administrator (Ranadhir only)
+//                 Full access: roles mgmt, delete data, computer-agent, all views
+// admin         → Senior EC officers: President, VP, Treasurer, General Secretary
+//                 Full operational except system config / role management
+// ec-member     → Coordinators: Cultural, Food, Event, Puja
+//                 Feature-specific: events, view reports, approve responses
+// business-stakeholder → Sponsors/community partners (managed in admin-login.html)
+// ─────────────────────────────────────────────────────────────────────────────
 const AUTH_DB = {
-  // ─── REAL BANF EC ROSTER FY2026-27 (user confirmed 2025-06-15) ───
+  // ─── REAL BANF EC ROSTER FY2026-27 (confirmed 2025-06-15) ───────────────
   // WARNING: Do NOT use docs/admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
+
+  // ── SUPER ADMIN ──────────────────────────────────────────────────────────
   'ranadhir.ghosh@gmail.com': {
     name: 'Dr. Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
-    roles: ['ec-member', 'admin'], ecTitle: 'President / IT-Tech Lead',
-    offlinePw: 'banf-ec-2026',
+    roles: ['super-admin'], ecTitle: 'IT / Tech Lead (Super Admin)',
+    offlinePw: 'banf-super-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
+
+  // ── ADMIN — Senior EC Officers ───────────────────────────────────────────
   'mukhopadhyay.partha@gmail.com': {
     name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
-    roles: ['ec-member'], ecTitle: 'Vice President',
+    roles: ['admin'], ecTitle: 'Vice President',
     offlinePw: 'banf-ec-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
   'amit.chandak@gmail.com': {
     name: 'Amit Chandak', firstName: 'Amit', lastName: 'Chandak',
-    roles: ['ec-member'], ecTitle: 'Treasurer',
+    roles: ['admin'], ecTitle: 'Treasurer',
     offlinePw: 'banf-ec-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
   'rajanya.ghosh@gmail.com': {
     name: 'Rajanya Ghosh', firstName: 'Rajanya', lastName: 'Ghosh',
-    roles: ['ec-member'], ecTitle: 'General Secretary',
+    roles: ['admin'], ecTitle: 'General Secretary',
     offlinePw: 'banf-ec-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
+
+  // ── EC MEMBER — Coordinators ─────────────────────────────────────────────
   'moumita.mukherje@gmail.com': {
     name: 'Dr. Moumita Ghosh', firstName: 'Moumita', lastName: 'Ghosh',
     roles: ['ec-member'], ecTitle: 'Cultural Secretary',
@@ -398,6 +413,11 @@ function resolveEmail(input) {
 }
 
 // ── ENTER PORTAL ──
+// effectiveRole drives UI gating in admin-portal.html:
+//   'super-admin'         → full system access (roles mgmt, delete, computer-agent)
+//   'admin'               → full operational (members, payments, CRM, email, agents)
+//   'ec-member'           → read + approve responses + view reports
+//   'business-stakeholder'→ stakeholder drive & sponsor views only
 function enterPortal(user, email) {
   const session = {
     email: email,
@@ -405,7 +425,7 @@ function enterPortal(user, email) {
     firstName: user.firstName,
     lastName: user.lastName,
     roles: user.roles,
-    effectiveRole: 'ec-member',
+    effectiveRole: user.roles[0] || 'ec-member',  // use actual role, NOT hardcoded
     ecTitle: user.ecTitle || '',
     loginTime: new Date().toISOString(),
     source: 'ec-admin-login'

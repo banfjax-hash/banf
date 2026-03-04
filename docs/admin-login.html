@@ -262,75 +262,74 @@ const SQ_LABELS = {
 
 // ── UNIFIED CREDENTIAL DATABASE ──
 // All known admin/EC/stakeholder users with offline passwords
-// Role hierarchy: super-admin > business-stakeholder > ec-member
+// Role hierarchy: super-admin > admin > ec-member > business-stakeholder
+//
+// super-admin         → IT Lead only (Ranadhir): full system access, role mgmt, delete data
+// admin               → Senior EC officers: full operational except system config
+// ec-member           → Coordinators: events, view reports, approve responses
+// business-stakeholder→ Sponsors/community partners: stakeholder drive & sponsor views
+//
+// REAL BANF EC ROSTER FY2026-27 (confirmed 2025-06-15)
+// WARNING: Do NOT use admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
 const AUTH_DB = {
+
+  // ── SUPER ADMIN ──────────────────────────────────────────────────────────
   'ranadhir.ghosh@gmail.com': {
     name: 'Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
-    roles: ['super-admin'], ecTitle: 'IT / Tech Lead',
+    roles: ['super-admin'], ecTitle: 'IT / Tech Lead (Super Admin)',
     offlinePw: 'banf-super-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
-  'president@banf.org': {
-    name: 'Arun Sen', firstName: 'Arun', lastName: 'Sen',
-    roles: ['ec-member', 'business-stakeholder'], ecTitle: 'President',
+
+  // ── ADMIN — Senior EC Officers ───────────────────────────────────────────
+  'mukhopadhyay.partha@gmail.com': {
+    name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
+    roles: ['admin'], ecTitle: 'Vice President',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'pet_name', securityA: 'buddy'
-  },
-  'treasurer@banf.org': {
-    name: 'Priya Bose', firstName: 'Priya', lastName: 'Bose',
-    roles: ['ec-member'], ecTitle: 'Treasurer',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'school_name', securityA: 'south point'
-  },
-  'secretary@banf.org': {
-    name: 'Suman Das', firstName: 'Suman', lastName: 'Das',
-    roles: ['ec-member'], ecTitle: 'Secretary',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'mother_maiden', securityA: 'mukherjee'
-  },
-  'cultural@banf.org': {
-    name: 'Mita Roy', firstName: 'Mita', lastName: 'Roy',
-    roles: ['ec-member'], ecTitle: 'Cultural Secretary',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'fav_teacher', securityA: 'das sir'
-  },
-  'vp-membership@banf.org': {
-    name: 'Dipak Mukherjee', firstName: 'Dipak', lastName: 'Mukherjee',
-    roles: ['ec-member'], ecTitle: 'VP Membership',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'childhood_friend', securityA: 'subrata'
-  },
-  'vp-events@banf.org': {
-    name: 'Tanmay Chatterjee', firstName: 'Tanmay', lastName: 'Chatterjee',
-    roles: ['ec-member'], ecTitle: 'VP Events',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'howrah'
-  },
-  'it@banf.org': {
-    name: 'Jayanta Pal', firstName: 'Jayanta', lastName: 'Pal',
-    roles: ['ec-member'], ecTitle: 'IT Lead',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'pet_name', securityA: 'bagha'
-  },
-  'jt-secretary@banf.org': {
-    name: 'Kamal Gupta', firstName: 'Kamal', lastName: 'Gupta',
-    roles: ['ec-member'], ecTitle: 'Jt. Secretary',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'school_name', securityA: 'don bosco'
-  },
-  'sponsor1@banf.org': {
-    name: 'Sharmila Dey', firstName: 'Sharmila', lastName: 'Dey',
-    roles: ['business-stakeholder'], ecTitle: 'Business Sponsor',
-    offlinePw: 'banf-sh-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
-  // Legacy admin user (maps to admin@banf.org or just 'admin')
-  'admin': {
-    name: 'Admin', firstName: 'Admin', lastName: '',
-    roles: ['super-admin'], ecTitle: 'Admin',
-    offlinePw: 'banf-admin-2026',
-    securityQ: 'city_born', securityA: 'jacksonville'
-  }
+  'amit.chandak@gmail.com': {
+    name: 'Amit Chandak', firstName: 'Amit', lastName: 'Chandak',
+    roles: ['admin'], ecTitle: 'Treasurer',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'rajanya.ghosh@gmail.com': {
+    name: 'Rajanya Ghosh', firstName: 'Rajanya', lastName: 'Ghosh',
+    roles: ['admin'], ecTitle: 'General Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+
+  // ── EC MEMBER — Coordinators ─────────────────────────────────────────────
+  'moumita.mukherje@gmail.com': {
+    name: 'Dr. Moumita Ghosh', firstName: 'Moumita', lastName: 'Ghosh',
+    roles: ['ec-member'], ecTitle: 'Cultural Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'duttasoumyajit86@gmail.com': {
+    name: 'Soumyajit Dutta', firstName: 'Soumyajit', lastName: 'Dutta',
+    roles: ['ec-member'], ecTitle: 'Food Coordinator',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'sumo475@gmail.com': {
+    name: 'Dr. Sumanta Ghosh', firstName: 'Sumanta', lastName: 'Ghosh',
+    roles: ['ec-member'], ecTitle: 'Event Coordinator',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'rwitichoudhury@gmail.com': {
+    name: 'Rwiti Chowdhury', firstName: 'Rwiti', lastName: 'Chowdhury',
+    roles: ['ec-member'], ecTitle: 'Puja Coordinator',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+
+  // ── BUSINESS STAKEHOLDERS ─────────────────────────────────────────────────
+  // Add real sponsor/community-partner Gmail addresses here when confirmed.
+  // Format: 'sponsor.name@gmail.com': { roles: ['business-stakeholder'], ecTitle: 'Business Sponsor', ... }
 };
 
 // Also allow username-based lookup (e.g. 'ranadhir.ghosh' → ranadhir.ghosh@gmail.com)
