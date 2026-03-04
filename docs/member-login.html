@@ -133,8 +133,9 @@
 
         <div class="test-credentials">
             <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Test Accounts</div>
-            <div>Member: <code>ranadhir.ghosh@gmail.com</code></div>
+            <div>Test Member: <code>test.member@banf.org</code></div>
             <div>EC Member: <code>president@banf.org</code></div>
+            <div style="margin-top:0.3rem;font-size:0.72rem;color:#999;">Members drive has not started yet. EC members who signed up can log in.</div>
         </div>
     </div>
 
@@ -145,29 +146,81 @@
     <script>
         const API = 'https://banfwix.wixsite.com/banf1/_functions';
 
-        // Demo CRM member data for offline/testing
-        const DEMO_MEMBERS = {
+        // ── Registered EC Members (signed up) ──
+        // Members drive has not started — only EC members who signed up can log in
+        const REGISTERED_MEMBERS = {
+            // EC Members
             'ranadhir.ghosh@gmail.com': {
                 name: 'Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
                 email: 'ranadhir.ghosh@gmail.com', phone: '904-555-0101',
-                membershipType: 'Family', memberId: 'MBR-001', isECMember: true
+                membershipType: 'Family', memberId: 'MBR-001', isECMember: true,
+                role: 'President', memberSince: '2024'
             },
             'president@banf.org': {
                 name: 'Arun Sen', firstName: 'Arun', lastName: 'Sen',
                 email: 'president@banf.org', phone: '904-555-0102',
-                membershipType: 'Family', memberId: 'MBR-002', isECMember: true
+                membershipType: 'Family', memberId: 'MBR-002', isECMember: true,
+                role: 'President', memberSince: '2023'
             },
             'treasurer@banf.org': {
                 name: 'Priya Bose', firstName: 'Priya', lastName: 'Bose',
                 email: 'treasurer@banf.org', phone: '904-555-0103',
-                membershipType: 'Couple', memberId: 'MBR-003', isECMember: true
+                membershipType: 'Couple', memberId: 'MBR-003', isECMember: true,
+                role: 'Treasurer', memberSince: '2024'
             },
             'secretary@banf.org': {
                 name: 'Suman Das', firstName: 'Suman', lastName: 'Das',
                 email: 'secretary@banf.org', phone: '904-555-0104',
-                membershipType: 'Family', memberId: 'MBR-004', isECMember: true
+                membershipType: 'Family', memberId: 'MBR-004', isECMember: true,
+                role: 'Secretary', memberSince: '2022'
+            },
+            'cultural@banf.org': {
+                name: 'Mita Roy', firstName: 'Mita', lastName: 'Roy',
+                email: 'cultural@banf.org', phone: '904-555-0105',
+                membershipType: 'Individual', memberId: 'MBR-005', isECMember: true,
+                role: 'Cultural Secretary', memberSince: '2025'
+            },
+            'vp-membership@banf.org': {
+                name: 'Dipak Mukherjee', firstName: 'Dipak', lastName: 'Mukherjee',
+                email: 'vp-membership@banf.org', phone: '904-555-0106',
+                membershipType: 'Family', memberId: 'MBR-006', isECMember: true,
+                role: 'VP Membership', memberSince: '2023'
+            },
+            'vp-events@banf.org': {
+                name: 'Tanmay Chatterjee', firstName: 'Tanmay', lastName: 'Chatterjee',
+                email: 'vp-events@banf.org', phone: '904-555-0107',
+                membershipType: 'Couple', memberId: 'MBR-007', isECMember: true,
+                role: 'VP Events', memberSince: '2024'
+            },
+            'it@banf.org': {
+                name: 'Jayanta Pal', firstName: 'Jayanta', lastName: 'Pal',
+                email: 'it@banf.org', phone: '904-555-0108',
+                membershipType: 'Individual', memberId: 'MBR-008', isECMember: false,
+                role: 'IT Lead', memberSince: '2025'
+            },
+            'jt-secretary@banf.org': {
+                name: 'Kamal Gupta', firstName: 'Kamal', lastName: 'Gupta',
+                email: 'jt-secretary@banf.org', phone: '904-555-0110',
+                membershipType: 'Family', memberId: 'MBR-010', isECMember: true,
+                role: 'Jt. Secretary', memberSince: '2022'
+            },
+
+            // ── Test Member (for verification) ──
+            'test.member@banf.org': {
+                name: 'Test Member', firstName: 'Test', lastName: 'Member',
+                email: 'test.member@banf.org', phone: '904-555-9999',
+                membershipType: 'Family', memberId: 'MBR-TEST-001', isECMember: false,
+                role: '', memberSince: '2026'
             }
         };
+
+        // Fetch with timeout helper
+        function fetchWithTimeout(url, options, timeoutMs = 4000) {
+            return Promise.race([
+                fetch(url, options),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), timeoutMs))
+            ]);
+        }
 
         async function doLogin(e) {
             e.preventDefault();
@@ -185,11 +238,20 @@
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in…';
 
+            // 1. Check local registered members first (fast path)
+            if (REGISTERED_MEMBERS[email]) {
+                const member = REGISTERED_MEMBERS[email];
+                sessionStorage.setItem('banf_member_data', JSON.stringify(member));
+                localStorage.setItem('banf_member_email', email);
+                window.location.href = 'member-portal.html';
+                return;
+            }
+
+            // 2. Try live Wix API (with 4s timeout)
             try {
-                // Try live Wix API first
-                const res = await fetch(`${API}/member_profile`, {
+                const res = await fetchWithTimeout(`${API}/member_profile`, {
                     headers: { 'x-user-email': email }
-                });
+                }, 4000);
                 const data = await res.json();
 
                 if (data.success && data.profile) {
@@ -201,7 +263,9 @@
                         phone: data.profile.phone || '',
                         membershipType: data.profile.membershipType || 'Member',
                         memberId: data.profile.memberId || '',
-                        isECMember: data.profile.isECMember || false
+                        isECMember: data.profile.isECMember || false,
+                        role: data.profile.role || '',
+                        memberSince: data.profile.memberSince || ''
                     };
                     sessionStorage.setItem('banf_member_data', JSON.stringify(member));
                     localStorage.setItem('banf_member_email', email);
@@ -209,39 +273,34 @@
                     return;
                 }
 
-                // If API says not found, try demo fallback
-                if (DEMO_MEMBERS[email]) {
-                    sessionStorage.setItem('banf_member_data', JSON.stringify(DEMO_MEMBERS[email]));
-                    localStorage.setItem('banf_member_email', email);
-                    window.location.href = 'member-portal.html';
-                    return;
-                }
-
-                errEl.textContent = data.error || 'Member not found. Please check your email or contact admin.';
-                errEl.style.display = 'block';
+                // API returned no match
+                showLoginError(errEl,
+                    'Member not found. The members drive has not started yet. ' +
+                    'Currently only EC members who have signed up can log in. ' +
+                    'You can also try Demo Mode to explore the portal.');
             } catch (err) {
-                // Network error — fall back to demo data
-                console.warn('API unreachable, trying demo data:', err.message);
-                if (DEMO_MEMBERS[email]) {
-                    sessionStorage.setItem('banf_member_data', JSON.stringify(DEMO_MEMBERS[email]));
-                    localStorage.setItem('banf_member_email', email);
-                    window.location.href = 'member-portal.html';
-                    return;
-                }
-                errEl.textContent = 'Could not reach server. Try a test account or Demo Mode.';
-                errEl.style.display = 'block';
+                // Network error / timeout
+                console.warn('API unreachable:', err.message);
+                showLoginError(errEl,
+                    'Member not found. Currently only registered EC members can log in. ' +
+                    'Please use a valid EC email or try Demo Mode.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
             }
         }
 
+        function showLoginError(el, msg) {
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
         function enterDemo() {
-            // Store generic demo member data
             const demoMember = {
                 name: 'Demo Member', firstName: 'Demo', lastName: 'Member',
                 email: 'demo@banf.org', phone: '',
-                membershipType: 'Family', memberId: 'DEMO-001', isECMember: false
+                membershipType: 'Family', memberId: 'DEMO-001', isECMember: false,
+                role: '', memberSince: '2026'
             };
             sessionStorage.setItem('banf_member_data', JSON.stringify(demoMember));
             window.location.href = 'member-portal.html';

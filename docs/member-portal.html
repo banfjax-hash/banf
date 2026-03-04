@@ -1365,6 +1365,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
+        // ========== AUTH GATE ==========
+        // If no session data, redirect to login page immediately
+        (function() {
+            const memberData = sessionStorage.getItem('banf_member_data');
+            if (!memberData) {
+                // Allow if inside Wix iframe with postMessage
+                if (window.parent === window) {
+                    window.location.href = 'member-login.html';
+                }
+            }
+        })();
+
         // ========== NAVIGATION ==========
         const MEMBER_ACTIVE_SECTIONS = new Set(['dashboard']); // Phase 1: chatbot + dashboard only
         function showSection(sectionId, clickedNav) {
@@ -1428,15 +1440,44 @@
             // Check for stored member data
             const memberData = sessionStorage.getItem('banf_member_data');
             if (!memberData) {
-                // Demo mode — show portal with default data for testing
+                // No session — show defaults (auth gate should have caught this)
                 document.getElementById('userName').textContent = 'Member';
                 document.getElementById('memberNameDisplay').textContent = 'Member';
                 return;
             }
             
             const member = JSON.parse(memberData);
-            document.getElementById('userName').textContent = member.name || 'Member';
-            document.getElementById('memberNameDisplay').textContent = member.name?.split(' ')[0] || 'Member';
+            const displayName = member.name || 'Member';
+            const firstName = member.firstName || displayName.split(' ')[0] || 'Member';
+            document.getElementById('userName').textContent = displayName;
+            document.getElementById('memberNameDisplay').textContent = firstName;
+            
+            // Set avatar initials
+            const initials = ((member.firstName || '')[0] || '') + ((member.lastName || '')[0] || '');
+            const avatarEl = document.getElementById('userAvatar');
+            if (initials && avatarEl) {
+                avatarEl.innerHTML = '<span style="font-weight:700;font-size:1rem;">' + initials.toUpperCase() + '</span>';
+            }
+
+            // Show EC badge or member role in header
+            if (member.isECMember && member.role) {
+                const badge = document.createElement('span');
+                badge.style.cssText = 'background:#D4AF37;color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;font-weight:600;margin-left:0.5rem;';
+                badge.textContent = member.role;
+                document.getElementById('userName').appendChild(badge);
+            } else if (member.isECMember) {
+                const badge = document.createElement('span');
+                badge.style.cssText = 'background:#D4AF37;color:#fff;font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;font-weight:600;margin-left:0.5rem;';
+                badge.textContent = 'EC Member';
+                document.getElementById('userName').appendChild(badge);
+            }
+
+            // Show membership type in dashboard stat
+            const membershipStat = document.querySelector('.stat-info h3');
+            if (membershipStat && member.membershipType) {
+                // First stat card is membership status
+                membershipStat.textContent = 'Active';
+            }
             
             // Populate profile form
             if (member.firstName) document.getElementById('firstName').value = member.firstName;
