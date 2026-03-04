@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -639,8 +639,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
           <div class="pipe-step done"><h6>1. Year Init</h6><small>ec_year_status</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
           <div class="pipe-step done"><h6>2. Import</h6><small>EC members</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
           <div class="pipe-step active"><h6>3. Gate Check</h6><small>membership_gate</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="pipe-step pending"><h6>4. Reminders</h6><small>ec_send_reminder</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="pipe-step pending"><h6>5. Complete</h6><small>ec_year_complete</small></div>
+          <div class="pipe-step pending"><h6>4. Signup Check</h6><small>ec_signup_status</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>5. Reminders</h6><small>ec_send_reminder</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>6. Complete</h6><small>ec_year_complete</small></div>
         </div>
       </div>
       <div class="row g-3">
@@ -651,30 +652,57 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <tr><td>Fiscal Year</td><td><strong>FY2026-27</strong></td></tr>
               <tr><td>Status</td><td><span class="badge-s badge-yellow">In Progress</span></td></tr>
               <tr><td>Total</td><td><strong>11</strong></td></tr>
-              <tr><td>Gate Passed</td><td><span class="badge-s badge-green">7</span></td></tr>
-              <tr><td>Pending</td><td><span class="badge-s badge-yellow">3</span></td></tr>
-              <tr><td>Failed</td><td><span class="badge-s badge-red">1</span></td></tr>
+              <tr><td>Gate Passed</td><td><span class="badge-s badge-green" id="ec-gate-passed">7</span></td></tr>
+              <tr><td>Pending</td><td><span class="badge-s badge-yellow" id="ec-gate-pending">3</span></td></tr>
+              <tr><td>Failed</td><td><span class="badge-s badge-red" id="ec-gate-failed">1</span></td></tr>
+              <tr><td style="border-top:2px solid var(--line)"><strong>Signed Up</strong></td><td style="border-top:2px solid var(--line)"><span class="badge-s badge-green" id="ec-signed-up">0</span></td></tr>
+              <tr><td><strong>Not Signed Up</strong></td><td><span class="badge-s badge-red" id="ec-not-signed-up">0</span></td></tr>
             </tbody></table>
           </div>
         </div>
         <div class="col-lg-7">
           <div class="card-a" style="height:100%">
-            <h2><i class="fas fa-terminal"></i> EC Drive Actions (ec-onboarding-gate.js)</h2>
+            <h2><i class="fas fa-terminal"></i> EC Drive Actions</h2>
             <div style="display:flex;flex-direction:column;gap:8px">
               <button class="btn-primary" id="btn-ec-gate"><i class="fas fa-sync me-1"></i>Run Gate Check (membership_gate_check)</button>
-              <button class="btn-primary" style="background:linear-gradient(135deg,var(--yellow),#ca8a04)" id="btn-ec-remind"><i class="fas fa-envelope me-1"></i>Send Reminders (ec_send_reminder)</button>
-              <button class="btn-secondary" id="btn-ec-pending"><i class="fas fa-users me-1"></i>View Pending (ec_pending_members)</button>
+              <button class="btn-primary" style="background:linear-gradient(135deg,var(--cyan),#0891b2)" id="btn-ec-signup-check"><i class="fas fa-user-check me-1"></i>Check Signup Status</button>
+              <button class="btn-primary" style="background:linear-gradient(135deg,var(--red),#dc2626)" id="btn-ec-send-reminder"><i class="fas fa-envelope-open-text me-1"></i>Send Signup Reminders (24hr Expiry Link)</button>
+              <button class="btn-secondary" id="btn-ec-pending"><i class="fas fa-users me-1"></i>View Pending Members</button>
+              <button class="btn-primary" style="background:linear-gradient(135deg,var(--yellow),#ca8a04)" id="btn-ec-remind"><i class="fas fa-bell me-1"></i>Send General Reminders</button>
               <button class="btn-success" id="btn-ec-complete"><i class="fas fa-check-double me-1"></i>Mark Complete (ec_year_complete)</button>
             </div>
           </div>
         </div>
       </div>
       <div class="card-a mt-3">
-        <h2><i class="fas fa-users"></i> EC Members Progress</h2>
-        <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Status</th></tr></thead>
+        <h2><i class="fas fa-users"></i> EC Members &#x2014; Onboarding &amp; Signup Status</h2>
+        <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Signed Up</th><th>Signup Date</th><th>Reminder</th></tr></thead>
         <tbody id="ec-body"></tbody></table>
       </div>
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-tasks" style="color:var(--accent)"></i> EC Onboarding Drive &#x2014; Task List</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px"><i class="fas fa-eye me-1"></i>Visible to <strong>Super Admin</strong> and <strong>Stakeholders</strong></p>
+        <table class="t"><thead><tr><th>ID</th><th>Task</th><th>Assignee</th><th>Status</th><th>Due</th><th>Note</th></tr></thead>
+        <tbody id="ec-drive-tasks-body"></tbody></table>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="btn-secondary" id="btn-ec-add-task"><i class="fas fa-plus me-1"></i>Add Task</button>
+        </div>
+      </div>
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-envelope" style="color:var(--blue)"></i> Reminder Email Preview</h2>
+        <div style="font-size:.72rem;color:var(--green);margin-bottom:6px"><i class="fas fa-robot me-1"></i><strong>Communication Agent (auto-generated HTML)</strong></div>
+        <div style="font-size:.7rem;color:var(--muted);line-height:1.6">
+          &#x2022; BANF-branded urgent reminder HTML email<br>
+          &#x2022; Personalized greeting and EC title<br>
+          &#x2022; <strong style="color:var(--red)">URGENT</strong> flag &#x2014; signup blocking membership drive<br>
+          &#x2022; One-click signup link with <strong>24-hour expiry</strong><br>
+          &#x2022; Data Privacy Act notice + unsubscribe<br>
+          &#x2022; BANF footer with security headers
+        </div>
+        <button class="btn-secondary mt-2" id="btn-ec-preview-reminder"><i class="fas fa-eye me-1"></i>Preview Reminder Email</button>
+      </div>
     </div>
+
 
     <!-- â•â•â•â•â•â•â• FEEDBACK PIPELINE â•â•â•â•â•â•â• -->
     <div class="portal-section" id="panel-feedback">
@@ -962,17 +990,26 @@ let IDENTITY_COUNTER = 4;
 let DRIVE_LIST = [];
 
 const EC_MEMBERS = [
-  {name:'Arun Sen',title:'President',email:'president@banf.org',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Dipak Mukherjee',title:'VP Membership',email:'vp-membership@banf.org',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Priya Bose',title:'Treasurer',email:'treasurer@banf.org',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Suman Das',title:'Secretary',email:'secretary@banf.org',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Kamal Gupta',title:'Jt Secretary',email:'jt-secretary@banf.org',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Mita Roy',title:'Cultural Sec',email:'cultural@banf.org',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Ranadhir Ghosh',title:'IT / Tech Lead',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete'},
-  {name:'Tanmay Chatterjee',title:'VP Events',email:'vp-events@banf.org',membership:'Pending',gate:'pending',status:'pending'},
-  {name:'Jayanta Pal',title:'IT Coord',email:'it@banf.org',membership:'Pending',gate:'pending',status:'pending'},
-  {name:'Ananya Banerjee',title:'Youth Rep',email:'youth@banf.org',membership:'Pending',gate:'pending',status:'pending'},
-  {name:'Subir Ghosh',title:'Former',email:'subir.ghosh@gmail.com',membership:'Expired',gate:'failed',status:'failed'},
+  {name:'Arun Sen',title:'President',email:'president@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-20'},
+  {name:'Dipak Mukherjee',title:'VP Membership',email:'vp-membership@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-21'},
+  {name:'Priya Bose',title:'Treasurer',email:'treasurer@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-19'},
+  {name:'Suman Das',title:'Secretary',email:'secretary@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-22'},
+  {name:'Kamal Gupta',title:'Jt Secretary',email:'jt-secretary@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:false,signupDate:null},
+  {name:'Mita Roy',title:'Cultural Sec',email:'cultural@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:false,signupDate:null},
+  {name:'Ranadhir Ghosh',title:'IT / Tech Lead',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-15'},
+  {name:'Tanmay Chatterjee',title:'VP Events',email:'vp-events@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
+  {name:'Jayanta Pal',title:'IT Coord',email:'it@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
+  {name:'Ananya Banerjee',title:'Youth Rep',email:'youth@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
+  {name:'Subir Ghosh',title:'Former',email:'subir.ghosh@gmail.com',membership:'Expired',gate:'failed',status:'failed',signedUp:false,signupDate:null},
+];
+
+// EC Onboarding Drive Task List — visible to Stakeholder / Super Admin
+let EC_DRIVE_TASKS = [
+  {id:'ECDT-001',task:'Check EC member signup status',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'Auto-checked: 5 signed up, 6 pending'},
+  {id:'ECDT-002',task:'Send signup reminder to non-signed-up EC members',assignee:'Super Admin',status:'in-progress',created:'2026-03-04',due:'2026-03-05',note:'URGENT: Blocking membership drive. Link expires 24hrs.'},
+  {id:'ECDT-003',task:'Follow up on pending membership payments',assignee:'Treasurer',status:'todo',created:'2026-03-04',due:'2026-03-06',note:'Tanmay, Jayanta, Ananya — membership pending'},
+  {id:'ECDT-004',task:'Resolve failed gate (Subir Ghosh)',assignee:'VP Membership',status:'todo',created:'2026-03-04',due:'2026-03-07',note:'Expired membership — confirm if still active EC'},
+  {id:'ECDT-005',task:'Complete EC onboarding drive FY2026-27',assignee:'Super Admin',status:'blocked',created:'2026-03-04',due:'2026-03-10',note:'Blocked until all EC members sign up'},
 ];
 
 let FEEDBACK = [
@@ -2119,22 +2156,287 @@ document.getElementById('btn-preview-drive-email').addEventListener('click',()=>
   w.document.close();
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════════
 //  EC DRIVE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ═══════════════════════════════════════════════════════════════════
+
+function updateECSignupCounts(){
+  const signedUp = EC_MEMBERS.filter(m=>m.signedUp).length;
+  const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp).length;
+  const el1 = document.getElementById('ec-signed-up');
+  const el2 = document.getElementById('ec-not-signed-up');
+  if(el1) el1.textContent = signedUp;
+  if(el2) el2.textContent = notSignedUp;
+}
 
 function renderEC(){
   document.getElementById('ec-body').innerHTML=EC_MEMBERS.map(m=>`<tr>
-    <td><strong>${m.name}</strong></td><td>${m.title}</td><td>${m.email}</td>
+    <td><strong>${m.name}</strong></td><td>${m.title}</td><td style="font-size:.78rem">${m.email}</td>
     <td><span class="badge-s badge-${m.membership==='Paid'?'green':m.membership==='Pending'?'yellow':'red'}">${m.membership}</span></td>
     <td><span class="badge-s badge-${m.gate==='passed'?'green':m.gate==='pending'?'yellow':'red'}">${m.gate}</span></td>
-    <td><span class="badge-s badge-${m.status==='complete'?'green':m.status==='pending'?'yellow':'red'}">${m.status}</span></td>
+    <td><span class="badge-s badge-${m.signedUp?'green':'red'}">${m.signedUp?'Yes':'No'}</span></td>
+    <td>${m.signupDate||'<span style="color:var(--muted)">—</span>'}</td>
+    <td>${m.signedUp?'<span style="color:var(--green);font-size:.78rem"><i class="fas fa-check"></i> Done</span>':'<button class="btn-sm" style="background:var(--red);color:#fff;border:none;padding:3px 10px;border-radius:6px;font-size:.72rem;cursor:pointer" onclick="sendSingleReminder(\''+m.email+'\',\''+m.name+'\',\''+m.title+'\')"><i class="fas fa-paper-plane me-1"></i>Send</button>'}</td>
+  </tr>`).join('');
+  updateECSignupCounts();
+}
+
+function renderECDriveTasks(){
+  const el = document.getElementById('ec-drive-tasks-body');
+  if(!el) return;
+  el.innerHTML = EC_DRIVE_TASKS.map(t=>`<tr>
+    <td style="font-family:monospace;font-size:.78rem">${t.id}</td>
+    <td><strong>${t.task}</strong></td>
+    <td>${t.assignee}</td>
+    <td><span class="badge-s badge-${t.status==='done'?'green':t.status==='in-progress'?'yellow':t.status==='blocked'?'red':'dim'}">${t.status}</span></td>
+    <td style="font-size:.78rem">${t.due}</td>
+    <td style="font-size:.75rem;color:var(--muted);max-width:200px">${t.note}</td>
   </tr>`).join('');
 }
-document.getElementById('btn-ec-gate').addEventListener('click',()=>{addLog('EC_CHECK','Ran EC gate check (membership_gate_check) â€” 7 passed, 3 pending, 1 failed');renderAll();alert('EC Gate Check completed. See Activity Log.');});
-document.getElementById('btn-ec-remind').addEventListener('click',()=>{addLog('EC_REMIND','Sent reminders to 3 pending EC members via sendGmail (ec-onboarding-gate.js buildReminderEmail)');renderAll();alert('Reminder emails sent via Communication Agent.');});
-document.getElementById('btn-ec-pending').addEventListener('click',()=>{alert('Pending EC Members:\n'+EC_MEMBERS.filter(m=>m.status==='pending').map(m=>`${m.name} (${m.title}) â€” ${m.email}`).join('\n'));});
-document.getElementById('btn-ec-complete').addEventListener('click',()=>{if(confirm('Mark EC year FY2026-27 complete?')){addLog('EC_COMPLETE','EC Year FY2026-27 marked complete by Super Admin');document.querySelectorAll('#ec-pipe .pipe-step').forEach(s=>s.className='pipe-step done');renderAll();alert('EC Year completed.');}});
+
+function buildECReminderEmail(opts) {
+  const name = opts.name, email = opts.email, title = opts.title;
+  const signupLink = opts.signupLink;
+  const expiresAt = opts.expiresAt;
+  const year = new Date().getFullYear();
+  const sentDate = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  return '<!DOCTYPE html>' +
+'<html lang="en">' +
+'<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+'<title>URGENT: BANF EC Signup Required</title></head>' +
+'<body style="margin:0;padding:0;background:#f5f7fa;font-family:Segoe UI,Arial,sans-serif">' +
+'<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f7fa;padding:30px 0">' +
+'<tr><td align="center">' +
+'<table width="620" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1)">' +
+
+'<tr><td style="background:linear-gradient(135deg,#DC143C,#8B0000);padding:32px 40px;text-align:center">' +
+'<div style="display:inline-block;background:rgba(255,255,255,.15);color:#fff;padding:6px 18px;border-radius:20px;font-size:.82rem;font-weight:700;letter-spacing:1px;margin-bottom:14px">&#x26A0; URGENT ACTION REQUIRED</div>' +
+'<h1 style="color:#fff;margin:0;font-size:1.5rem;font-weight:700">Bengali Association of North Florida</h1>' +
+'<p style="color:rgba(255,255,255,.85);margin:8px 0 0;font-size:.95rem;letter-spacing:.3px">' +
+'EC Member Signup — Immediate Action Needed</p>' +
+'</td></tr>' +
+
+'<tr><td style="padding:36px 40px 4px">' +
+'<p style="font-size:1.05rem;color:#333;margin:0 0 18px">Dear <strong>' + name + '</strong>,</p>' +
+'<p style="color:#444;line-height:1.75;margin:0 0 14px">' +
+'We are writing to you as <strong style="color:#8B0000">' + title + '</strong> of the ' +
+'<strong>BANF Executive Committee (FY2026-27)</strong>. Our records indicate that ' +
+'you have <strong>not yet completed your signup</strong> on the BANF EC Admin portal.</p>' +
+'</td></tr>' +
+
+'<tr><td style="padding:4px 40px">' +
+'<div style="background:#fef2f2;border-left:4px solid #DC143C;border-radius:0 10px 10px 0;padding:18px 20px;margin:8px 0 18px">' +
+'<p style="margin:0 0 8px;font-weight:700;color:#991b1b;font-size:1rem">&#x1F6A8; Why This Is Urgent</p>' +
+'<p style="margin:0;color:#7f1d1d;font-size:.92rem;line-height:1.7">' +
+'Your signup is <strong>currently blocking the BANF membership drive</strong> for FY2026-27. ' +
+'The EC onboarding must be completed before we can proceed with the general membership campaign. ' +
+'All EC members must be signed up and onboarded to authorize and oversee the membership process.</p>' +
+'</div></td></tr>' +
+
+'<tr><td style="padding:4px 40px">' +
+'<div style="background:#fffbeb;border-left:4px solid #D4AF37;border-radius:0 10px 10px 0;padding:16px 20px;margin:8px 0 18px">' +
+'<p style="margin:0 0 6px;font-weight:700;color:#7B5800;font-size:.95rem">&#x23F0; Time-Sensitive Link</p>' +
+'<p style="margin:0;color:#5a4000;font-size:.88rem;line-height:1.6">' +
+'The signup link below will <strong>expire in 24 hours</strong> (by ' + expiresAt + '). ' +
+'After expiry, you will need to request a new link from the Super Admin.</p>' +
+'</div></td></tr>' +
+
+'<tr><td style="padding:8px 40px 24px;text-align:center">' +
+'<a href="' + signupLink + '" ' +
+'style="display:inline-block;background:linear-gradient(135deg,#DC143C,#8B0000);color:#fff;text-decoration:none;' +
+'padding:16px 48px;border-radius:30px;font-size:1.1rem;font-weight:700;letter-spacing:.5px;' +
+'box-shadow:0 4px 18px rgba(139,0,0,.35)">' +
+'Sign Up Now &#x2192;</a>' +
+'<p style="margin:14px 0 4px;font-size:.8rem;color:#888">Sign up with your EC email: <strong>' + email + '</strong></p>' +
+'<p style="margin:4px 0 0;font-size:.75rem;color:#bbb">This link expires: ' + expiresAt + '</p>' +
+'</td></tr>' +
+
+'<tr><td style="padding:4px 40px">' +
+'<p style="margin:0 0 10px;font-weight:700;color:#333;font-size:.95rem">What happens after signup?</p>' +
+'<table cellpadding="0" cellspacing="0" style="margin:0 0 18px;width:100%">' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> Your EC Admin portal access will be activated immediately</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> You can authorize and oversee the FY2026-27 membership drive</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> Access EC meeting notes, budgets, and community dashboards</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> Collaborate with other EC members on the admin platform</td></tr>' +
+'</table></td></tr>' +
+
+'<tr><td style="padding:4px 40px 8px">' +
+'<p style="color:#444;line-height:1.75;margin:0 0 8px;font-size:.9rem">' +
+'Please complete your signup at the earliest. If you face any issues, reach out to the IT team immediately.</p>' +
+'<p style="color:#444;margin:0 0 4px;font-size:.9rem">Best regards,</p>' +
+'<p style="color:#333;margin:0 0 2px;font-size:.95rem;font-weight:700">Ranadhir Ghosh</p>' +
+'<p style="color:#666;margin:0;font-size:.82rem">Technical Lead and Super Admin — BANF Platform</p>' +
+'<p style="color:#888;margin:4px 0 0;font-size:.78rem">Bengali Association of North Florida | <a href="mailto:banfjax@gmail.com" style="color:#8B0000">banfjax@gmail.com</a></p>' +
+'</td></tr>' +
+
+'<tr><td style="background:#f0f4f8;border-top:1px solid #dde3ea;padding:22px 40px">' +
+'<p style="margin:0 0 8px;font-size:.85rem;font-weight:700;color:#555;letter-spacing:.3px">DATA PRIVACY NOTICE</p>' +
+'<p style="margin:0;font-size:.8rem;color:#666;line-height:1.75">' +
+'The information associated with your account is collected <strong>solely for internal BANF communication and platform collaboration purposes</strong>. ' +
+'Your data is used exclusively to provide you with EC access and community management capabilities.</p>' +
+'<ul style="margin:8px 0 0;padding-left:18px;font-size:.79rem;color:#666;line-height:1.9">' +
+'<li><strong>No third-party sharing:</strong> Your personal details will never be sold, rented, or shared with any external organisation, advertiser, or third party.</li>' +
+'<li><strong>Purpose limitation:</strong> Data collected is used only for BANF platform collaboration and communication purposes.</li>' +
+'<li><strong>Data security:</strong> Your information is stored securely within the BANF management system with access restricted to authorised BANF committee members and system administrators.</li>' +
+'<li><strong>Right to opt out:</strong> You may withdraw consent and unsubscribe at any time by contacting <a href="mailto:banfjax@gmail.com" style="color:#8B0000">banfjax@gmail.com</a>.</li>' +
+'<li><strong>Right to erasure:</strong> You may request complete deletion of your personal data at any time.</li>' +
+'</ul>' +
+'</td></tr>' +
+
+'<tr><td style="background:#f9f9f9;border-top:1px solid #eee;padding:14px 40px;text-align:center">' +
+'<p style="margin:0 0 6px;font-size:.75rem;color:#999">' +
+'<a href="mailto:banfjax@gmail.com?subject=Unsubscribe" style="color:#8B0000;text-decoration:underline">Unsubscribe from BANF communications</a>' +
+' | Sent on ' + sentDate + '</p>' +
+'<p style="margin:0;font-size:.73rem;color:#bbb">&copy; ' + year + ' Bengali Association of North Florida (BANF). All rights reserved.</p>' +
+'<p style="margin:4px 0 0;font-size:.7rem;color:#ccc">jaxbengali.org | banfjax@gmail.com | Jacksonville, FL</p>' +
+'</td></tr>' +
+
+'</table></td></tr></table></body></html>';
+}
+
+function generateSignupToken(email){
+  const payload = email + '|' + Date.now();
+  return btoa(payload).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+}
+
+function getExpiryTime(){
+  const exp = new Date(Date.now() + 24*60*60*1000);
+  return exp.toLocaleString('en-US',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
+}
+
+function buildSignupLink(email){
+  const token = generateSignupToken(email);
+  const expires = Date.now() + 24*60*60*1000;
+  return 'https://banfjax-hash.github.io/banf/ec-admin-login.html?signup=true&email='+encodeURIComponent(email)+'&token='+token+'&expires='+expires;
+}
+
+async function sendSingleReminder(email, name, title){
+  if(!confirm('Send URGENT signup reminder to '+name+' ('+email+')?')) return;
+  const signupLink = buildSignupLink(email);
+  const expiresAt = getExpiryTime();
+  const htmlBody = buildECReminderEmail({name,email,title,signupLink,expiresAt});
+  try{
+    addLog('EC_REMIND','Sending urgent signup reminder to '+name+' ('+email+') — link expires '+expiresAt);
+    const resp = await fetch('https://www.jaxbengali.org/_functions/send_email',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({to:email,toName:name,subject:'URGENT: Complete Your BANF EC Signup — Link Expires in 24 Hours',body_html:htmlBody})
+    });
+    if(resp.ok){
+      addLog('EC_REMIND_OK','Reminder sent successfully to '+name+' ('+email+')');
+      alert('Reminder sent to '+name+' ('+email+')');
+    } else {
+      addLog('EC_REMIND_FAIL','Failed to send reminder to '+name+': HTTP '+resp.status);
+      alert('Failed to send reminder to '+name+'. Check Activity Log.');
+    }
+  }catch(err){
+    addLog('EC_REMIND_ERR','Error sending reminder to '+name+': '+err.message);
+    alert('Error sending reminder: '+err.message);
+  }
+  renderAll();
+}
+
+// Button handlers
+document.getElementById('btn-ec-gate').addEventListener('click',()=>{
+  addLog('EC_CHECK','Ran EC gate check (membership_gate_check) — '+EC_MEMBERS.filter(m=>m.gate==='passed').length+' passed, '+EC_MEMBERS.filter(m=>m.gate==='pending').length+' pending, '+EC_MEMBERS.filter(m=>m.gate==='failed').length+' failed');
+  renderAll();
+  alert('EC Gate Check completed. See Activity Log.');
+});
+
+document.getElementById('btn-ec-signup-check').addEventListener('click',()=>{
+  const signedUp = EC_MEMBERS.filter(m=>m.signedUp);
+  const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp);
+  addLog('EC_SIGNUP_CHECK','Signup status checked: '+signedUp.length+' signed up, '+notSignedUp.length+' not signed up');
+  let msg = 'EC Signup Status Check\n═══════════════════\n\n';
+  msg += '✅ SIGNED UP ('+signedUp.length+'):\n';
+  signedUp.forEach(m=>{ msg += '  • '+m.name+' ('+m.title+') — '+m.signupDate+'\n'; });
+  msg += '\n❌ NOT SIGNED UP ('+notSignedUp.length+'):\n';
+  notSignedUp.forEach(m=>{ msg += '  • '+m.name+' ('+m.title+') — '+m.email+'\n'; });
+  msg += '\n⚠️ '+notSignedUp.length+' members blocking the membership drive!';
+  alert(msg);
+  renderAll();
+});
+
+document.getElementById('btn-ec-send-reminder').addEventListener('click', async ()=>{
+  const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp);
+  if(notSignedUp.length===0){ alert('All EC members have signed up!'); return; }
+  const names = notSignedUp.map(m=>m.name+' ('+m.email+')').join('\n');
+  if(!confirm('Send URGENT signup reminders with 24hr expiry link to '+notSignedUp.length+' EC members?\n\n'+names)) return;
+  
+  addLog('EC_REMIND_BATCH','Initiating batch signup reminders to '+notSignedUp.length+' EC members...');
+  let sent=0, failed=0;
+  for(const m of notSignedUp){
+    const signupLink = buildSignupLink(m.email);
+    const expiresAt = getExpiryTime();
+    const htmlBody = buildECReminderEmail({name:m.name,email:m.email,title:m.title,signupLink,expiresAt});
+    try{
+      const resp = await fetch('https://www.jaxbengali.org/_functions/send_email',{
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({to:m.email,toName:m.name,subject:'URGENT: Complete Your BANF EC Signup — Link Expires in 24 Hours',body_html:htmlBody})
+      });
+      if(resp.ok){ sent++; addLog('EC_REMIND_OK','Reminder sent to '+m.name+' ('+m.email+')'); }
+      else { failed++; addLog('EC_REMIND_FAIL','Failed: '+m.name+' — HTTP '+resp.status); }
+    }catch(err){
+      failed++; addLog('EC_REMIND_ERR','Error: '+m.name+' — '+err.message);
+    }
+  }
+  addLog('EC_REMIND_BATCH_DONE','Batch complete: '+sent+' sent, '+failed+' failed out of '+notSignedUp.length);
+  // Update task ECDT-002
+  const task = EC_DRIVE_TASKS.find(t=>t.id==='ECDT-002');
+  if(task){ task.status = failed===0?'done':'in-progress'; task.note='Sent '+sent+'/'+notSignedUp.length+'. '+(failed>0?failed+' failed.':'All sent. Link expires 24hrs.'); }
+  renderAll();
+  alert('Signup reminders sent!\n\nSent: '+sent+'\nFailed: '+failed+'\nTotal: '+notSignedUp.length+'\n\nLinks expire in 24 hours.');
+});
+
+document.getElementById('btn-ec-pending').addEventListener('click',()=>{
+  const pending = EC_MEMBERS.filter(m=>m.status==='pending'||m.status==='failed');
+  if(pending.length===0){ alert('No pending/failed EC members.'); return; }
+  alert('Pending/Failed EC Members:\n'+pending.map(m=>m.name+' ('+m.title+') — '+m.email+' ['+m.status+']').join('\n'));
+});
+
+document.getElementById('btn-ec-remind').addEventListener('click',()=>{
+  addLog('EC_REMIND','Sent general reminders to pending EC members');
+  renderAll();
+  alert('General reminder emails sent via Communication Agent.');
+});
+
+document.getElementById('btn-ec-complete').addEventListener('click',()=>{
+  const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp).length;
+  if(notSignedUp > 0 && !confirm('Warning: '+notSignedUp+' EC members have NOT signed up yet.\nAre you sure you want to mark EC year complete?')) return;
+  if(confirm('Mark EC year FY2026-27 complete?')){
+    addLog('EC_COMPLETE','EC Year FY2026-27 marked complete by Super Admin');
+    document.querySelectorAll('#ec-pipe .pipe-step').forEach(s=>s.className='pipe-step done');
+    // Update task ECDT-005
+    const task = EC_DRIVE_TASKS.find(t=>t.id==='ECDT-005');
+    if(task){ task.status='done'; task.note='Completed by Super Admin'; }
+    renderAll();
+    alert('EC Year completed.');
+  }
+});
+
+document.getElementById('btn-ec-preview-reminder').addEventListener('click',()=>{
+  const previewHtml = buildECReminderEmail({
+    name:'[EC Member Name]', email:'member@banf.org', title:'[EC Title]',
+    signupLink:'https://banfjax-hash.github.io/banf/ec-admin-login.html?signup=true&email=demo&token=PREVIEW&expires=9999999',
+    expiresAt:getExpiryTime()
+  });
+  const w=window.open('','_blank','width=700,height=900');
+  w.document.write(previewHtml);
+  w.document.close();
+});
+
+document.getElementById('btn-ec-add-task').addEventListener('click',()=>{
+  const task = prompt('Enter new task description:');
+  if(!task) return;
+  const assignee = prompt('Assignee (e.g. Super Admin, Treasurer):','Super Admin');
+  if(!assignee) return;
+  const due = prompt('Due date (YYYY-MM-DD):',new Date(Date.now()+3*24*60*60*1000).toISOString().split('T')[0]);
+  if(!due) return;
+  const newId = 'ECDT-'+ String(EC_DRIVE_TASKS.length+1).padStart(3,'0');
+  EC_DRIVE_TASKS.push({id:newId,task,assignee,status:'todo',created:new Date().toISOString().split('T')[0],due,note:''});
+  addLog('EC_TASK_ADD','Added task '+newId+': '+task);
+  renderAll();
+});
 
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 //  FEEDBACK PIPELINE
@@ -2630,7 +2932,7 @@ function renderAll(){
     {v:DEV_TICKETS.length,k:'Dev Tickets',cls:'yellow'},
     {v:LOG.length,k:'Audit Log',cls:'dim'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
-  renderRoles();renderUsers();renderDrive();renderEC();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();updatePortalSwitcher();
+  renderRoles();renderUsers();renderDrive();renderEC();renderECDriveTasks();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();updatePortalSwitcher();
 }
 
 </script>
