@@ -103,10 +103,10 @@ select{appearance:auto}
 
       <div class="test-creds">
         <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Test Account</div>
-        <div>EC Admin: <code>president@banf.org</code> / <code>banf-ec-2026</code></div>
+        <div>EC Admin: <code>ranadhir.ghosh@gmail.com</code> / <code>banf-ec-2026</code></div>
         <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">Any EC member email with their password will work.</div>
         <div class="ec-member-list">
-          <strong>EC Emails:</strong> president@, treasurer@, secretary@, cultural@, vp-membership@, vp-events@, it@, jt-secretary@ (all @banf.org)
+          <strong>EC Emails:</strong> ranadhir.ghosh@gmail.com, mukhopadhyay.partha@gmail.com, amit.chandak@gmail.com, rajanya.ghosh@gmail.com, moumita.mukherje@gmail.com, duttasoumyajit86@gmail.com, sumo475@gmail.com, rwitichoudhury@gmail.com
         </div>
       </div>
     </div>
@@ -259,53 +259,55 @@ const SQ_LABELS = {
 // ── EC MEMBER CREDENTIAL DATABASE ──
 // Only EC members (not super-admin or standalone stakeholders)
 const AUTH_DB = {
-  'president@banf.org': {
-    name: 'Arun Sen', firstName: 'Arun', lastName: 'Sen',
-    roles: ['ec-member'], ecTitle: 'President',
+  // ─── REAL BANF EC ROSTER FY2026-27 (user confirmed 2025-06-15) ───
+  // WARNING: Do NOT use docs/admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
+  'ranadhir.ghosh@gmail.com': {
+    name: 'Dr. Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
+    roles: ['ec-member', 'admin'], ecTitle: 'President / IT-Tech Lead',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'pet_name', securityA: 'buddy'
+    securityQ: 'city_born', securityA: 'kolkata'
   },
-  'treasurer@banf.org': {
-    name: 'Priya Bose', firstName: 'Priya', lastName: 'Bose',
+  'mukhopadhyay.partha@gmail.com': {
+    name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
+    roles: ['ec-member'], ecTitle: 'Vice President',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'amit.chandak@gmail.com': {
+    name: 'Amit Chandak', firstName: 'Amit', lastName: 'Chandak',
     roles: ['ec-member'], ecTitle: 'Treasurer',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'school_name', securityA: 'south point'
+    securityQ: 'city_born', securityA: 'kolkata'
   },
-  'secretary@banf.org': {
-    name: 'Suman Das', firstName: 'Suman', lastName: 'Das',
-    roles: ['ec-member'], ecTitle: 'Secretary',
+  'rajanya.ghosh@gmail.com': {
+    name: 'Rajanya Ghosh', firstName: 'Rajanya', lastName: 'Ghosh',
+    roles: ['ec-member'], ecTitle: 'General Secretary',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'mother_maiden', securityA: 'mukherjee'
+    securityQ: 'city_born', securityA: 'kolkata'
   },
-  'cultural@banf.org': {
-    name: 'Mita Roy', firstName: 'Mita', lastName: 'Roy',
+  'moumita.mukherje@gmail.com': {
+    name: 'Dr. Moumita Ghosh', firstName: 'Moumita', lastName: 'Ghosh',
     roles: ['ec-member'], ecTitle: 'Cultural Secretary',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'fav_teacher', securityA: 'das sir'
+    securityQ: 'city_born', securityA: 'kolkata'
   },
-  'vp-membership@banf.org': {
-    name: 'Dipak Mukherjee', firstName: 'Dipak', lastName: 'Mukherjee',
-    roles: ['ec-member'], ecTitle: 'VP Membership',
+  'duttasoumyajit86@gmail.com': {
+    name: 'Soumyajit Dutta', firstName: 'Soumyajit', lastName: 'Dutta',
+    roles: ['ec-member'], ecTitle: 'Food Coordinator',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'childhood_friend', securityA: 'subrata'
+    securityQ: 'city_born', securityA: 'kolkata'
   },
-  'vp-events@banf.org': {
-    name: 'Tanmay Chatterjee', firstName: 'Tanmay', lastName: 'Chatterjee',
-    roles: ['ec-member'], ecTitle: 'VP Events',
+  'sumo475@gmail.com': {
+    name: 'Dr. Sumanta Ghosh', firstName: 'Sumanta', lastName: 'Ghosh',
+    roles: ['ec-member'], ecTitle: 'Event Coordinator',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'howrah'
+    securityQ: 'city_born', securityA: 'kolkata'
   },
-  'it@banf.org': {
-    name: 'Jayanta Pal', firstName: 'Jayanta', lastName: 'Pal',
-    roles: ['ec-member'], ecTitle: 'IT Lead',
+  'rwitichoudhury@gmail.com': {
+    name: 'Rwiti Chowdhury', firstName: 'Rwiti', lastName: 'Chowdhury',
+    roles: ['ec-member'], ecTitle: 'Puja Coordinator',
     offlinePw: 'banf-ec-2026',
-    securityQ: 'pet_name', securityA: 'bagha'
-  },
-  'jt-secretary@banf.org': {
-    name: 'Kamal Gupta', firstName: 'Kamal', lastName: 'Gupta',
-    roles: ['ec-member'], ecTitle: 'Jt. Secretary',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'school_name', securityA: 'don bosco'
+    securityQ: 'city_born', securityA: 'kolkata'
   }
 };
 
@@ -643,8 +645,9 @@ async function forgotStep3() {
   showStep('forgot', 4);
 }
 
-// ── AUTO-LOGIN CHECK ──
+// ── AUTO-LOGIN CHECK + URL PARAM HANDLER ──
 document.addEventListener('DOMContentLoaded', () => {
+  // Auto-redirect if already logged in
   const existing = sessionStorage.getItem('banf_admin_session');
   if (existing) {
     try {
@@ -657,6 +660,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const savedEmail = localStorage.getItem('banf_ec_admin_email');
   if (savedEmail) document.getElementById('login-email').value = savedEmail;
+
+  // ── Handle ?signup=true&email=X&expires=Y links from reminder emails ──
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('signup') === 'true') {
+    const expires = parseInt(params.get('expires') || '0', 10);
+    const email   = decodeURIComponent(params.get('email') || '');
+
+    if (expires && Date.now() > expires) {
+      // Link has expired — show signup tab with expiry error message
+      showAuth('signup');
+      if (email) document.getElementById('signup-email').value = email;
+      showError('signup-error-1',
+        '\u26D4 This signup link has expired (valid for 24 hours). Please contact the BANF Super Admin at banfjax@gmail.com to request a new link.');
+      return;
+    }
+
+    // Valid link — switch to signup tab and pre-fill email
+    showAuth('signup');
+    if (email) {
+      document.getElementById('signup-email').value = email;
+      // If this email is pre-known in AUTH_DB, auto-show info banner
+      if (AUTH_DB[email]) {
+        showInfo('signup-info-1',
+          '\u2705 Welcome, ' + AUTH_DB[email].firstName + '! You\'ve been pre-verified as ' +
+          AUTH_DB[email].ecTitle + '. Click \"Send Verification Code\" to continue.');
+      }
+    }
+  }
 });
 </script>
 </body>
