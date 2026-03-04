@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANF Jacksonville - Bengali Association of North Florida</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* === BANF Design System — derived from official logo & header === */
+            --banf-orange: #C07830;       /* warm bronze from logo ornaments */
+            --banf-yellow: #D4A845;       /* ornate gold from header */
+            --banf-deep-red: #8B1A1A;     /* deep crimson from logo arch */
+            --banf-green: #006A4E;        /* Bangladesh green (heritage) */
+            --gold: #C8A23C;              /* header gold filigree */
+            --gold-light: #E5C158;        /* lighter gold for accents */
+            --navy: #0F1B3D;              /* deep royal navy from header bg */
+            --navy-light: #162254;        /* lighter navy variant */
+            --cream: #FAF8F5;             /* warm cream from logo background */
+            --crimson: #6B1020;           /* dark crimson from header tier cards */
+            --gradient-primary: linear-gradient(135deg, #C8A23C 0%, #D4A845 50%, #E5C158 100%);
+            --gradient-hero: linear-gradient(135deg, rgba(15,27,61,0.97) 0%, rgba(22,34,84,0.95) 50%, rgba(10,23,68,0.92) 100%);
+            --gradient-gold: linear-gradient(135deg, #C8A23C 0%, #D4A845 100%);
+            --gradient-crimson: linear-gradient(135deg, #8B1A1A 0%, #A52A2A 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: #3a3a3a;
+            line-height: 1.7;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .bengali-text { font-family: 'Hind Siliguri', sans-serif; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: safe center;
+            justify-content: center;
+            position: relative;
+            background: var(--gradient-hero);
+            padding-top: 60px;
+            padding-bottom: 100px;
+            overflow: visible;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('banf-header.jpg') center top/cover;
+            opacity: 0.25;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--cream), transparent);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 2px 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .hero-bengali {
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin-bottom: 2rem;
+            text-shadow: 1px 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+
+        .btn-primary-custom {
+            background: var(--gradient-gold);
+            color: var(--navy);
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(200, 162, 60, 0.5);
+            color: var(--navy);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.5);
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-custom:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: #fff;
+            color: #fff;
+        }
+
+        /* STATS */
+        .stats-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 4rem 0;
+            margin-top: -80px;
+            position: relative;
+            z-index: 3;
+            border-top: 3px solid var(--gold);
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .stat-item { text-align: center; color: #fff; }
+        .stat-number { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; }
+        .stat-label { font-size: 0.95rem; opacity: 0.9; }
+
+        /* SECTIONS */
+        section { padding: 5rem 0; }
+
+        .section-header { text-align: center; margin-bottom: 3rem; }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-gold);
+            border-radius: 2px;
+        }
+
+        .section-header p { color: #6c757d; font-size: 1.1rem; max-width: 600px; margin: 1.5rem auto 0; }
+
+        /* PRESIDENT'S WELCOME - Styled from reference */
+        .president-welcome {
+            background: #fff;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+
+        .president-header {
+            background: linear-gradient(135deg, var(--banf-deep-red) 0%, #a52a2a 100%);
+            padding: 2rem;
+            color: #fff;
+        }
+
+        .president-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+        }
+
+        .president-body {
+            padding: 2.5rem;
+            line-height: 1.9;
+            color: #2c3e50;
+        }
+
+        .president-body p {
+            margin-bottom: 1.25rem;
+        }
+
+        .president-body .lead {
+            font-size: 1.2rem;
+            color: var(--banf-deep-red);
+        }
+
+        .poem-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #fff3e0 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin: 1.5rem 0;
+            border-left: 5px solid var(--gold);
+            font-style: italic;
+            color: #5d4037;
+        }
+
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .lang-toggle .btn {
+            border-radius: 20px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .lang-toggle .btn.active {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* EC CARDS - Styled from reference */
+        .ec-section { background: linear-gradient(180deg, var(--cream) 0%, #f0ebe4 100%); }
+
+        .ec-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.4s;
+            border: 2px solid transparent;
+            height: 100%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .ec-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(15,27,61,0.15);
+            border-color: var(--gold);
+        }
+
+        .ec-card::after {
+            content: 'Click for details';
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--gold);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 600;
+        }
+
+        .ec-card:hover::after {
+            opacity: 1;
+        }
+
+        .ec-avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid var(--gold);
+            box-shadow: 0 5px 20px rgba(200,162,60,0.25);
+        }
+
+        .ec-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--gold-light);
+            font-weight: 700;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--gold);
+        }
+
+        .ec-position {
+            display: inline-block;
+            background: var(--gradient-gold);
+            color: var(--navy);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ec-card h6 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: var(--navy);
+        }
+
+        .ec-short-bio {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin: 0.75rem 0 0.5rem;
+            line-height: 1.5;
+        }
+
+        .ec-view-profile {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ec-view-profile:hover {
+            color: var(--navy);
+        }
+
+        /* EC Profile Modal */
+        .ec-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 27, 61, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .ec-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ec-modal-content {
+            background: linear-gradient(135deg, #0F1B3D 0%, #162254 100%);
+            border: 2px solid var(--gold);
+            border-radius: 24px;
+            max-width: 680px;
+            width: 92%;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+
+        .ec-modal-overlay.active .ec-modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .ec-modal-header {
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            border-bottom: 1px solid rgba(200,162,60,0.2);
+            position: relative;
+        }
+
+        .ec-modal-header .ec-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ec-modal-header .ec-modal-close:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .ec-modal-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 3px solid var(--gold);
+        }
+
+        .ec-modal-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ec-modal-avatar-initials {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold-light);
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+        }
+
+        .ec-modal-name {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 0.3rem;
+        }
+
+        .ec-modal-role {
+            display: inline-block;
+            background: var(--gradient-gold);
+            color: var(--navy);
+            padding: 0.3rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .ec-modal-body {
+            padding: 2rem;
+        }
+
+        .ec-modal-body h6 {
+            color: var(--gold);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .ec-modal-body p {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .ec-modal-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        .ec-modal-detail i {
+            color: var(--gold);
+            width: 20px;
+            text-align: center;
+        }
+
+        .ec-modal-detail a {
+            color: var(--gold-light);
+            text-decoration: none;
+        }
+
+        .ec-modal-detail a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .ec-modal-interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .ec-modal-interests .badge {
+            background: rgba(200,162,60,0.15);
+            color: var(--gold-light);
+            border: 1px solid rgba(200,162,60,0.3);
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+        }
+
+        .ec-modal-footer {
+            padding: 1rem 2rem 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            border-top: 1px solid rgba(200,162,60,0.15);
+        }
+
+        .ec-modal-footer a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .ec-modal-btn-email {
+            background: var(--gradient-gold);
+            color: var(--navy);
+        }
+
+        .ec-modal-btn-email:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(200,162,60,0.4);
+        }
+
+        .ec-modal-btn-phone {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .ec-modal-btn-phone:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* EVENTS */
+        .event-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .event-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+
+        .event-image {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .event-content { padding: 1.5rem; }
+
+        .event-date {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: var(--gold-light);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .event-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .event-location { color: #6c757d; font-size: 0.9rem; }
+        .event-location i { color: var(--gold); margin-right: 0.5rem; }
+
+        /* RADIO */
+        .radio-section { background: linear-gradient(135deg, var(--navy), #1a2550); color: #fff; }
+
+        .radio-player {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .radio-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(200, 162, 60, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .now-playing { font-size: 1.5rem; margin-bottom: 2rem; color: rgba(255,255,255,0.9); }
+
+        .radio-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: var(--gradient-gold);
+            color: var(--navy);
+            transition: all 0.3s;
+        }
+
+        .radio-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(200,162,60,0.4); }
+
+        /* MEMBERSHIP SECTION - From Reference */
+        .membership-section {
+            background: linear-gradient(135deg, var(--navy) 0%, #0a1230 50%, var(--navy-light) 100%);
+            color: #fff;
+        }
+
+        .membership-section .section-header h2 { color: var(--gold-light); }
+        .membership-section .section-header h2::after { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+
+        .pricing-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+            height: 100%;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .pricing-card.featured {
+            background: #fff;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.08);
+        }
+
+        .pricing-header {
+            padding: 2rem;
+            text-align: center;
+            color: #fff;
+        }
+
+        .pricing-card.featured .pricing-header {
+            background: var(--gradient-gold);
+            color: var(--navy);
+        }
+
+        .pricing-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .pricing-body {
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .pricing-card.featured .pricing-body {
+            background: #fff;
+            color: var(--navy);
+        }
+
+        .pricing-feature {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-card.featured .pricing-feature {
+            border-color: #eee;
+        }
+
+        .pricing-feature i {
+            color: #28a745;
+        }
+
+        .pricing-footer {
+            padding: 1.5rem 2rem;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .pricing-card.featured .pricing-footer {
+            background: #f8f9fa;
+        }
+
+        /* SPONSORSHIP TIERS */
+        .sponsorship-tier-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            transition: all 0.4s;
+            height: 100%;
+        }
+
+        .sponsorship-tier-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .tier-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .tier-benefit {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            text-align: left;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* CONTACT */
+        .contact-section { background: linear-gradient(180deg, var(--cream) 0%, #f0ebe4 100%); }
+
+        .contact-form {
+            background: #fff;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--navy); }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus { outline: none; border-color: var(--banf-green); }
+        textarea.form-control { min-height: 120px; resize: vertical; }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--gradient-gold);
+            color: var(--navy);
+            border: none;
+            padding: 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 0 30px rgba(200,162,60,0.4); }
+
+        /* ANNOUNCEMENTS */
+        .announcements-section {
+            background: linear-gradient(180deg, #fff 0%, #f7f3ec 100%);
+            padding: 2.5rem 0 2rem;
+            border-bottom: 1px solid rgba(200,162,60,0.2);
+        }
+
+        .announcement-ticker {
+            background: var(--navy);
+            color: #fff;
+            border-radius: 999px;
+            border: 1px solid rgba(200,162,60,0.45);
+            overflow: hidden;
+            padding: 0.65rem 0;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .announcement-ticker-track {
+            display: inline-flex;
+            white-space: nowrap;
+            animation: marquee 72s linear infinite;
+            padding-left: 100%;
+            gap: 2rem;
+            font-weight: 600;
+            color: var(--gold-light);
+        }
+
+        .announcement-item {
+            background: #fff;
+            border: 1px solid rgba(200,162,60,0.25);
+            border-left: 4px solid var(--gold);
+            border-radius: 14px;
+            padding: 1rem 1rem 0.9rem;
+            height: 100%;
+            box-shadow: 0 6px 20px rgba(15,27,61,0.08);
+        }
+
+        .announcement-item img.announcement-img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .announcement-item .announcement-link {
+            display: inline-block;
+            margin-top: 0.6rem;
+            background: var(--gradient-gold);
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .announcement-item .announcement-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(200,162,60,0.4);
+        }
+
+        .announcement-item.high { border-left-color: #c62828; }
+        .announcement-item.medium { border-left-color: #ef6c00; }
+        .announcement-item.low { border-left-color: #2e7d32; }
+
+        .announcement-meta {
+            font-size: 0.75rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 0.45rem;
+            font-weight: 700;
+        }
+
+        .announcement-title {
+            color: var(--navy);
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .announcement-text {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            line-height: 1.45;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 768px) {
+            .announcement-ticker-track {
+                animation-duration: 90s;
+            }
+        }
+
+        /* FOOTER */
+        .footer {
+            background: linear-gradient(135deg, var(--navy), #0a1230);
+            color: #fff;
+            padding: 4rem 0 2rem;
+            border-top: 3px solid var(--gold);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h5 { color: var(--gold); font-size: 1.1rem; margin-bottom: 1.5rem; }
+        .footer-section p, .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover { color: var(--gold); }
+
+        .social-links { display: flex; gap: 1rem; margin-top: 1rem; }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            transform: translateY(-3px);
+            color: #fff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        /* VERSION BADGE */
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gradient-primary);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(255,107,53,0.3);
+            z-index: 1000;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .president-header { flex-direction: column; text-align: center; }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .stat-number { font-size: 2.5rem; }
+            .president-body { padding: 1.5rem; }
+            .pricing-card.featured { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <!-- Official BANF Header Banner -->
+            <div style="margin-bottom: 2rem;">
+                <img src="banf-header.jpg" alt="BANF - Bengali Association of North Florida" 
+                     style="max-width: 800px; width: 90%; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); border: 2px solid rgba(200,162,60,0.4);">
+            </div>
+            <div class="hero-badge" id="hero-badge"><i class="fas fa-star me-2"></i>Since 2008 — 17 Years of Heritage</div>
+            <p class="hero-bengali bengali-text" id="hero-bengali">স্বাগতম | আমাদের পরিবারে আপনাকে স্বাগত</p>
+            <h1 id="hero-title" style="font-size: clamp(2rem, 5vw, 3.5rem);">Bengali Association of<br>North Florida</h1>
+            <p class="hero-subtitle" id="hero-subtitle">Preserving Bengali culture, traditions, and heritage in Jacksonville — Building bridges between generations through community, celebration, and service.</p>
+            <div class="hero-buttons">
+                <a href="#membership" class="btn-primary-custom"><i class="fas fa-user-plus me-2"></i>Become a Member</a>
+                <a href="#events" class="btn-outline-custom"><i class="fas fa-calendar me-2"></i>Upcoming Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row" id="stats-row">
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">80+</div>
+                        <div class="stat-label">Active Families</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Events Yearly</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">17</div>
+                        <div class="stat-label">Years Strong</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">45+</div>
+                        <div class="stat-label">Sponsors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="announcements-section" id="announcements">
+        <div class="container">
+            <div class="section-header mb-4">
+                <h2><i class="fas fa-bullhorn me-2"></i>Important Announcements</h2>
+                <p>Priority updates from BANF communications pipeline</p>
+            </div>
+            <div class="announcement-ticker" aria-label="Live announcement ticker">
+                <div class="announcement-ticker-track" id="announcement-ticker-track"></div>
+            </div>
+            <div class="row g-3" id="announcements-list"></div>
+        </div>
+    </section>
+
+    <!-- President's Message Section -->
+    <section id="about" class="py-5" style="background: #f0f4f8;">
+        <div class="container">
+            <div class="section-header">
+                <h2>সভাপতির বার্তা</h2>
+                <p class="text-muted mt-3">President's Welcome Message</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="president-welcome">
+                        <div class="president-header">
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-3">
+                                <img src="assets/ec-photos/ranadhir-ghosh.jpg" alt="Dr. Ranadhir Ghosh" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid white;">
+                                <div class="text-start text-md-start text-center">
+                                    <h4 class="mb-1"><i class="fas fa-crown me-2"></i>Dr. Ranadhir Ghosh</h4>
+                                    <p class="mb-0 opacity-90">President, BANF 2025-26</p>
+                                </div>
+                            </div>
+                            <!-- Language Toggle -->
+                            <div class="lang-toggle">
+                                <button type="button" class="btn btn-light btn-sm active" onclick="toggleLanguage('bengali')" id="btn-bengali">
+                                    <i class="fas fa-language me-1"></i>বাংলা
+                                </button>
+                                <button type="button" class="btn btn-outline-light btn-sm" onclick="toggleLanguage('english')" id="btn-english">
+                                    <i class="fas fa-globe me-1"></i>English
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Bengali Version -->
+                        <div class="president-body bengali-text" id="message-bengali">
+                            <p class="lead fw-bold">প্রিয় BANF পরিবার,</p>
+                            
+                            <p>BANF শুধু একটি সংগঠন নয়—এটি আমাদের সবার স্বপ্ন, পরিশ্রম ও সাংস্কৃতিক বন্ধনের প্রতিফলন। আমরা প্রত্যেকে ভিন্ন ভিন্ন জায়গা থেকে এসেছি—কেউ নতুন, কেউ বহু বছর ধরে এখানে আছেন। আমাদের একে অপরের প্রতি ভালোবাসা ও শ্রদ্ধা একইভাবে গভীর।</p>
+
+                            <p>আমাদের যাত্রার শুরু হয়েছিল কিছু মানুষের হাত ধরে—যারা শূন্য থেকে চিন্তা-ভাবনা করে এই ক্লাবের প্রাণ প্রতিষ্ঠা করেছিলেন। তাঁদের অক্লান্ত পরিশ্রম, দৃঢ় মনোবল এবং দায়িত্ববোধ আজ আমাদের পথ দেখায়।</p>
+
+                            <div class="alert" style="background:linear-gradient(135deg,#e8f5e8,#f0f8f0);border-left:5px solid #28a745;border-radius:10px;padding:20px;margin:25px 0;">
+                                <p class="mb-0 fw-bold" style="color:#155724;">আমাদের মূল বিশ্বাস—BANF-এর সদস্যদের মধ্যে সংযোগ, সমন্বয় এবং সহমর্মিতা বজায় রাখা ও বৃদ্ধি করা।</p>
+                            </div>
+
+                            <p>এখনই সময়—আরও বড় স্বপ্ন দেখার, এবং আমাদের সংস্কৃতি ও মূল্যবোধকে ভবিষ্যৎ প্রজন্মের হাতে সঠিকভাবে তুলে দেওয়ার। আমরা চাই তারা শৃঙ্খলা, সততা এবং সহানুভূতির পাঠ গ্রহণ করুক।</p>
+
+                            <div class="poem-section">
+                                <p class="mb-2">তব চরণ নিম্নে উৎসবময়ী শ্যামধরনী সরসা</p>
+                                <p class="mb-2">ঊর্ধ্বে চাহো অগণিত মণি রঞ্জিত নভঃ নীলাঞ্চলা,</p>
+                                <p class="mb-0">সৌম্য মধুর দিব্যাঙ্গনা শান্ত-কুশল-দরশা॥</p>
+                            </div>
+
+                            <p>আমরা একসাথে পথ চলতে চাই, হাতে হাত রেখে, লক্ষ্য এক রেখে—BANF-কে শুধু একটি সংগঠন নয়, একটি পরিবার হিসেবে গড়ে তুলতে।</p>
+
+                            <div class="text-end mt-4 pt-3" style="border-top:2px solid #dee2e6;">
+                                <p class="mb-1 fw-bold" style="color:#2c3e50;">— ডঃ রণধীর ঘোষ</p>
+                                <p class="mb-0 text-muted">সভাপতি, BANF</p>
+                            </div>
+                        </div>
+                        
+                        <!-- English Version (Hidden by default) -->
+                        <div class="president-body" id="message-english" style="display:none;">
+                            <p class="lead fw-bold">Dear BANF Family,</p>
+                            
+                            <p>BANF is not just an organization—it is a reflection of all our dreams, hard work, and cultural bonds. Each of us has come from different places—some are new, some have been here for many years. Our love and respect for each other remains equally deep.</p>
+
+                            <p>Our journey began with the hands of a few individuals—who built the soul of this club from nothing through their thoughts and vision. Their tireless efforts, strong determination, and sense of responsibility guide us today.</p>
+
+                            <div class="alert" style="background:linear-gradient(135deg,#e8f5e8,#f0f8f0);border-left:5px solid #28a745;border-radius:10px;padding:20px;margin:25px 0;">
+                                <p class="mb-0 fw-bold" style="color:#155724;">Our core belief—to maintain and strengthen the connection, coordination, and compassion among BANF members.</p>
+                            </div>
+
+                            <p>Now is the time—to dream bigger, and to properly pass on our culture and values to future generations. We want them to learn lessons of discipline, honesty, and empathy.</p>
+
+                            <div class="poem-section">
+                                <p class="mb-2"><em>At your feet lies the festive, verdant, flowing Earth,</em></p>
+                                <p class="mb-2"><em>Above, gaze upon the countless jewel-adorned blue sky,</em></p>
+                                <p class="mb-0"><em>The gentle, sweet divine maiden, bestowing peace and welfare.</em></p>
+                            </div>
+
+                            <p>We want to walk together, hand in hand, with one goal—to build BANF not just as an organization, but as a family.</p>
+
+                            <div class="text-end mt-4 pt-3" style="border-top:2px solid #dee2e6;">
+                                <p class="mb-1 fw-bold" style="color:#2c3e50;">— Dr. Ranadhir Ghosh</p>
+                                <p class="mb-0 text-muted">President, BANF</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Executive Committee Section -->
+    <section class="ec-section" id="ec-team">
+        <div class="container">
+            <div class="section-header">
+                <h2>Executive Committee</h2>
+                <p>2026-2028 Leadership Team | 8 Positions</p>
+            </div>
+            
+            <div class="row g-4" id="ec-grid">
+                <!-- EC cards rendered by JavaScript below -->
+            </div>
+        </div>
+    </section>
+
+    <!-- EC Profile Modal Container -->
+    <div class="ec-modal-overlay" id="ecModalOverlay" onclick="if(event.target===this)closeEcModal()">
+        <div class="ec-modal-content" id="ecModalContent">
+            <!-- Populated dynamically -->
+        </div>
+    </div>
+
+    <!-- Social Media Integration Section -->
+    <section class="py-5" id="social-media" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-share-alt me-2"></i>Connect With Us</h2>
+                <p>Stay updated — Follow BANF on social media for the latest news, photos & event updates</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://facebook.com/banfofficial" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(24,119,242,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-facebook-f" style="font-size: 2.5rem; color: #1877F2;"></i></div>
+                            <h5 class="text-dark">Facebook</h5>
+                            <p class="text-muted mb-2">@banfofficial</p>
+                            <span class="btn btn-sm" style="background: #1877F2; color: white; border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Follow Us</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://instagram.com/banf_jax" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(225,48,108,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-instagram" style="font-size: 2.5rem; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i></div>
+                            <h5 class="text-dark">Instagram</h5>
+                            <p class="text-muted mb-2">@banf_jax</p>
+                            <span class="btn btn-sm text-white" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Follow Us</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://youtube.com/@banfjacksonville" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(255,0,0,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-youtube" style="font-size: 2.5rem; color: #FF0000;"></i></div>
+                            <h5 class="text-dark">YouTube</h5>
+                            <p class="text-muted mb-2">@banfjacksonville</p>
+                            <span class="btn btn-sm" style="background: #FF0000; color: white; border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Subscribe</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="py-5" id="events">
+        <div class="container">
+            <div class="section-header">
+                <h2>2026-27 Event Calendar</h2>
+                <p>17 events throughout the year — Cultural, Educational, Religious &amp; Social</p>
+            </div>
+            <div class="row g-3" id="events-row">
+                <!-- 1. Bosonto Utsob (Completed) -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card" style="position: relative;">
+                        <div class="event-image" style="background: linear-gradient(135deg, #e91e63, #ff5722);">🌸</div>
+                        <span class="badge bg-success" style="position: absolute; top: 10px; right: 10px; font-size: 0.65rem;"><i class="fas fa-check me-1"></i>Done</span>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Mar 7</span>
+                            <h4 style="font-size: 0.95rem;">Bosonto Utsob</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 2. Noboborsho -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card" style="position: relative;">
+                        <div class="event-image" style="background: linear-gradient(135deg, #ff6f00, #ffa000);">🎊</div>
+                        <span class="badge" style="position: absolute; top: 10px; right: 10px; font-size: 0.65rem; background: #6f42c1;"><i class="fas fa-clock me-1"></i>Next</span>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Apr 25</span>
+                            <h4 style="font-size: 0.95rem;">Noboborsho</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 3. Kids Summer Sports Training -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #00bcd4, #0097a7);">⚽</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jun-Jul</span>
+                            <h4 style="font-size: 0.95rem;">Kids Summer Sports</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-graduation-cap me-1"></i>Educational</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 4. Summer Workshops - Kids -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #26a69a, #00897b);">🎨</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jun-Jul</span>
+                            <h4 style="font-size: 0.95rem;">Summer Workshops (Kids)</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-graduation-cap me-1"></i>Educational</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5. Summer Workshops - General -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #009688, #00796b);">📝</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jun-Jul</span>
+                            <h4 style="font-size: 0.95rem;">Summer Workshops (General)</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-graduation-cap me-1"></i>Educational</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 6. Sports Day -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #43a047, #2e7d32);">🏅</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jul</span>
+                            <h4 style="font-size: 0.95rem;">Sports Day</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-users me-1"></i>Social</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 7. Spondon -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #006A4E, #00856F);">🎭</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Aug</span>
+                            <h4 style="font-size: 0.95rem;">Spondon</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 8. Mohaloya -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #4a148c, #7b1fa2);">🔔</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 17</span>
+                            <h4 style="font-size: 0.95rem;">Mohaloya</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 9. Durga Puja Day 1&2 + Lunch (Flagship) -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card" style="border: 2px solid var(--gold);">
+                        <div class="event-image" style="background: linear-gradient(135deg, #8B0000, #A52A2A);">🕉️</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 24-25</span>
+                            <h4 style="font-size: 0.95rem;">Durga Puja Day 1&amp;2</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-trophy me-1" style="color: var(--gold);"></i>Flagship + Lunch</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 10. Lakshmi Puja -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #c62828, #b71c1c);">🪷</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 25</span>
+                            <h4 style="font-size: 0.95rem;">Lakshmi Puja</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 11. Bijoya Sonmiloni -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #ef6c00, #e65100);">🤝</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 25</span>
+                            <h4 style="font-size: 0.95rem;">Bijoya Sonmiloni</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-users me-1"></i>Social</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 12. Artist Program Day 1 + Dinner -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #ad1457, #880e4f);">🎤</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 24</span>
+                            <h4 style="font-size: 0.95rem;">Artist Program Day 1</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural + Dinner</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 13. Artist Program Day 2 + Dinner -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #880e4f, #6a0080);">🎶</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 25</span>
+                            <h4 style="font-size: 0.95rem;">Artist Program Day 2</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural + Dinner</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 14. Kali Puja + Lunch -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #1a237e, #283593);">🪔</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Nov 7</span>
+                            <h4 style="font-size: 0.95rem;">Kali Puja + Lunch</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 15. Natok (Drama) + Dinner -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #6a1b9a, #8e24aa);">🎭</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Nov 7</span>
+                            <h4 style="font-size: 0.95rem;">Natok (Drama) + Dinner</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 16. Winter Picnic -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #0277bd, #01579b);">🧺</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jan 11/27</span>
+                            <h4 style="font-size: 0.95rem;">Winter Picnic</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-users me-1"></i>Social</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 17. Saraswati Puja 2027 -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: linear-gradient(135deg, #ffc107, #ff9800);">📚</div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Feb 27</span>
+                            <h4 style="font-size: 0.95rem;">Saraswati Puja 2027</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Radio Section -->
+    <section class="radio-section" id="radio">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: #fff;">BANF Radio</h2>
+                <p style="color: rgba(255,255,255,0.8);">Listen to Bengali music, news, and cultural programs</p>
+            </div>
+            <div class="radio-player">
+                <div class="radio-status">
+                    <div class="live-dot"></div>
+                    <span>LIVE NOW</span>
+                </div>
+                <h3 class="now-playing bengali-text">🎵 Bengali Music Hour — Rabindra Sangeet Special</h3>
+                <div class="radio-controls">
+                    <button class="radio-btn"><i class="fas fa-play"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership & Sponsorship Section -->
+    <section class="membership-section" id="membership">
+        <div class="container">
+            <div class="section-header">
+                <h2>Membership & Sponsorship</h2>
+                <p style="color: rgba(255,255,255,0.8);" id="membership-subtitle">Join our community or support our mission • 2026-2027 Season</p>
+            </div>
+            
+            <!-- Early Bird Alert Banner -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="p-3 rounded-3 text-center" style="background: linear-gradient(135deg, #28a745, #20c997); color: #fff;">
+                        <i class="fas fa-clock fa-lg me-2"></i>
+                        <strong>⏰ Early Bird Pricing Available!</strong> Save on Earlybird Premium — Family $375, Couple $290, Individual $215, Student $145 — Until May 31, 2026
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Portal Access Box -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 2px solid var(--gold);">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 style="color: #fff;"><i class="fas fa-user-lock me-2" style="color: var(--gold);"></i>Member Portal</h4>
+                                <p style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
+                                    <strong>Already a member?</strong> Log in to access your profile, payment history, event registrations, career network, and exclusive member content.
+                                    <br><span class="small">New member who has paid fees? Click "Sign Up" to create your account.</span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <button class="btn me-2" style="background: var(--gold); color: #1a1a2e; font-weight: 600;" onclick="openMemberPortal('login')">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Login
+                                </button>
+                                <button class="btn btn-outline-light" onclick="openMemberPortal('signup')">
+                                    <i class="fas fa-user-plus me-1"></i> Sign Up
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership Plans — 6 Categories matching official fee structure -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-12 text-center mb-3">
+                    <h3 class="text-white"><i class="fas fa-users me-2"></i>Membership Plans — FY 2026-27</h3>
+                    <p class="text-white-50" id="membership-budget-label">17 Events • 80 Target Members • Choose the plan that fits your needs</p>
+                </div>
+            </div>
+
+            <!-- Row 1: Membership Fees (3 categories) -->
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 text-center mb-2">
+                    <h5 style="color: var(--gold);"><i class="fas fa-id-card me-2"></i>Membership Fees</h5>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-4" id="membership-plans-row">
+                <!-- 1. M2 Premium (Early Bird) - Featured -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card featured">
+                        <div class="pricing-header">
+                            <span class="badge bg-warning text-dark mb-2"><i class="fas fa-clock me-1"></i>Available until May 31st, 2026</span>
+                            <h4 style="color: #fff;"><i class="fas fa-bolt me-2"></i>M2 Premium (Early Bird)</h4>
+                            <p class="mb-2 opacity-75">All 17 events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong style="color: var(--gold);">$375</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$290</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$215</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$145</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>All 17 events included</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>Early Bird — save vs M2 Premium</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-info-circle me-1" style="color:var(--gold);"></i>EB discount valid until May 31st, 2026</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn w-100" style="background: var(--gradient-primary); color: white; border: none;">Select Plan</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. M2 Premium -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);">
+                            <h4><i class="fas fa-crown me-2"></i>M2 Premium</h4>
+                            <p class="mb-2 opacity-75">All 17 events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$410</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$330</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$240</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$175</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>All 17 events included</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-info-circle me-1" style="color:var(--gold);"></i>Regular price — available after May 31st</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Plan</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. M1 Regular -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                            <h4><i class="fas fa-id-badge me-2"></i>M1 Regular</h4>
+                            <p class="mb-2 opacity-75">11 events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$280</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$255</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$140</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$100</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>11 events included (excludes 6 premium events)</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>Best value for selective attendees</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Plan</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Special Passes (3 categories) -->
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 text-center mb-2">
+                    <h5 style="color: var(--gold);"><i class="fas fa-theater-masks me-2"></i>Special Passes</h5>
+                    <p class="text-white-50 small">Can't attend all events? Choose the pass that fits your interests!</p>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <!-- 4. Culture Special Pass -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #e83e8c 0%, #c2185b 100%);">
+                            <h4><i class="fas fa-music me-2"></i>Culture Special Pass</h4>
+                            <p class="mb-2 opacity-75">4 cultural events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$200</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$175</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$100</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$75</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>4 cultural events included</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Pass</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Durga Puja Celebration Pass -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);">
+                            <h4 style="color: #1a1a2e;"><i class="fas fa-om me-2"></i>Durga Puja Celebration</h4>
+                            <p class="mb-2" style="color: rgba(0,0,0,0.6);">5 events — Puja + Artist performances</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$210</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$175</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$110</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$80</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>5 events: Puja + Artist (both days)</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Pass</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Durga Puja Core Pass -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #20c997 0%, #198754 100%);">
+                            <h4><i class="fas fa-pray me-2"></i>Durga Puja Core Pass</h4>
+                            <p class="mb-2 opacity-75">3 events — Puja only (no artist)</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$150</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$125</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$80</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$60</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>3 Puja events (no artist programs)</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Pass</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
+                        <p class="text-white mb-2"><i class="fas fa-info-circle me-2" style="color: var(--gold);"></i><strong>Important Notes</strong></p>
+                        <p class="text-white-50 mb-1 small">****** Early bird discount will be available to all members till 31st May, 2026 ******</p>
+                        <p class="text-white-50 mb-0 small" style="font-style: italic;">Celebrate our culture, strengthen our community, and preserve our heritage!<br>Join us to keep our Bengali roots alive, to connect, and to celebrate together!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Benefits Summary -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="p-4 rounded-3" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
+                        <h5 class="text-center mb-4" style="color: #fff;"><i class="fas fa-calendar-check me-2"></i>What's Included in Your Membership</h5>
+                        <div class="row g-3 text-center">
+                            <div class="col-6 col-md-4">
+                                <div class="p-2" style="color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-calendar-alt fa-2x mb-2" style="color: var(--gold);"></i>
+                                    <h6 class="mb-0" style="font-size:0.85rem;">Cultural Events</h6>
+                                    <small class="opacity-75">Bosonto, Durga Puja & more</small>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-2" style="color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-utensils fa-2x mb-2" style="color: var(--gold);"></i>
+                                    <h6 class="mb-0" style="font-size:0.85rem;">Puja Dinner</h6>
+                                    <small class="opacity-75">M2 Premium &amp; M2 Premium (EB) plans</small>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-2" style="color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-music fa-2x mb-2" style="color: var(--gold);"></i>
+                                    <h6 class="mb-0" style="font-size:0.85rem;">Artist Performances</h6>
+                                    <small class="opacity-75">M2 Premium &amp; Durga Puja Celebration</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sponsorship Tiers -->
+            <div class="row mb-5">
+                <div class="col-12 text-center mb-4">
+                    <h3 class="text-white"><i class="fas fa-handshake me-2"></i>Become a Sponsor</h3>
+                    <p class="text-white-50" id="sponsor-stats-label">FY 2024-25: $15,551 raised from 45 sponsors | Target FY 2026-27: $18,000</p>
+                </div>
+                
+                <!-- Dynamic Sponsorship Tiers -->
+            </div>
+            <div class="row mb-5" id="sponsorship-tiers-row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="sponsorship-tier-card text-center">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <i class="fas fa-gem text-white"></i>
+                        </div>
+                        <h5 class="text-white mb-2">Platinum</h5>
+                        <div class="pricing-price text-warning mb-3">$2,500<span class="text-white-50">/year</span></div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Logo on all event banners</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Full-page Jagriti ad</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>VIP seating (10 seats)</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Social media promotion</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Website logo + link</div>
+                        <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                    </div>
+                </div>
+                
+                <!-- Gold -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="sponsorship-tier-card text-center">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #f7931e 0%, #f5af19 100%);">
+                            <i class="fas fa-medal text-white"></i>
+                        </div>
+                        <h5 class="text-white mb-2">Gold</h5>
+                        <div class="pricing-price text-warning mb-3">$1,000<span class="text-white-50">/year</span></div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Logo on main banner</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Half-page Jagriti ad</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>VIP seating (6 seats)</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Social media mention</div>
+                        <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                    </div>
+                </div>
+                
+                <!-- Silver -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="sponsorship-tier-card text-center">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);">
+                            <i class="fas fa-award text-white"></i>
+                        </div>
+                        <h5 class="text-white mb-2">Silver</h5>
+                        <div class="pricing-price text-warning mb-3">$500<span class="text-white-50">/year</span></div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Logo on event banner</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Quarter-page Jagriti ad</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Reserved seating (4 seats)</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Website mention</div>
+                        <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                    </div>
+                </div>
+                
+                <!-- Bronze -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="sponsorship-tier-card text-center">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #cd7f32 0%, #b8860b 100%);">
+                            <i class="fas fa-trophy text-white"></i>
+                        </div>
+                        <h5 class="text-white mb-2">Bronze</h5>
+                        <div class="pricing-price text-warning mb-3">$250<span class="text-white-50">/year</span></div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Name on event banner</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Business card ad in Jagriti</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Reserved seating (2 seats)</div>
+                        <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Thank you acknowledgment</div>
+                        <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment Info -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card bg-white text-dark p-4 rounded-4" id="payment-card">
+                        <h4 class="mb-4 text-center" style="color: var(--banf-deep-red);"><i class="fas fa-credit-card me-2"></i>Payment Information</h4>
+                        <div class="row text-center">
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="fas fa-university me-2" style="color: #6d1ed4;"></i>Zelle</h6>
+                                <p class="mb-0" style="font-family: monospace;">banfjax@gmail.com</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="fas fa-shopping-cart me-2" style="color: var(--banf-orange);"></i>Square Store</h6>
+                                <a href="https://squareup.com/store/bengali-association-of-north-florida" target="_blank" class="btn btn-sm" style="background: var(--gradient-primary); color: white;">Pay Online</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="text-center text-muted mb-0"><i class="fas fa-file-alt me-2"></i>BANF is a 501(c)(3) tax-deductible organization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>Have questions? We'd love to hear from you</p>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" class="form-control" placeholder="What is this about?">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea class="form-control" placeholder="Your message..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane me-2"></i>Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://linkedin.com/company/banf-jacksonville" class="social-link" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://wa.me/19040000000" class="social-link" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="#events"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="#membership"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="#ec-team"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Members Portal</h5>
+                    <a href="#" onclick="openMemberPortal('login'); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
+                    <a href="#" onclick="openMemberPortal('careers'); return false;"><i class="fas fa-briefcase me-2"></i>Career Network</a>
+                    <a href="#" onclick="openMemberPortal('profile'); return false;"><i class="fas fa-id-card me-2"></i>My Profile</a>
+                    <a href="#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="#"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>
+                    <a href="#"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                    <a href="#"><i class="fas fa-file-alt me-2"></i>Meeting Minutes</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@banfjax.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                    <p><i class="fas fa-globe me-2"></i>www.banfjax.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom" id="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>© 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+                <p>Platform Version 3.0 — EC 2026-2028 | FY Budget: $50,000</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Version Badge -->
+    <div class="version-badge"><i class="fas fa-rocket me-2"></i>Preview v3 — CRM Powered</div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== EC MEMBERS DATA (Single Source of Truth) =====
+        const EC_MEMBERS = [
+            {
+                id: 'rana',
+                name: 'Dr. Ranadhir Ghosh',
+                role: 'President',
+                initials: 'RG',
+                photoUrl: 'assets/ec-photos/ranadhir-ghosh.jpg',
+                summary: 'AI Thought Leader. Expert in fintech space with a rich mix of finance, technology and management.',
+                fullBio: 'Dynamic and innovative AI Solution Architect with extensive experience driving digital transformation initiatives through advanced analytics, machine learning, and data engineering. Proven track record of leading teams, managing end-to-end AI/ML ecosystems, and delivering impactful solutions that align with business strategies. Possess strong mentorship skills, passionate about building and cultivating talent in data science. Adept at exploring emerging technologies and fostering a culture of AI awareness and application within organizations.<br><br>Published more than 80 research papers. 50 patents (Published and Under review).',
+                education: 'Ph.D., Computer Science',
+                profession: 'AI Solution Architect — Fintech & Digital Transformation',
+                email: 'ranadhir.ghosh@gmail.com',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/dr-ranadhir-ghosh-bbb7b827/',
+                interests: ['AI & Machine Learning', 'Fintech Innovation', 'Data Engineering', 'Bengali Literature', 'Rabindra Sangeet'],
+                yearJoined: 2020,
+                gradient: 'linear-gradient(135deg, #8B1A1A, #6B1020)'
+            },
+            {
+                id: 'partha',
+                name: 'Partha Mukhopadhyay',
+                role: 'Vice President',
+                initials: 'PM',
+                photoUrl: null,
+                summary: 'Deputy Executive overseeing operations and strategic planning.',
+                fullBio: 'Deputy executive overseeing operations and strategic planning for BANF community initiatives. Leading coordination across all committees.',
+                profession: 'Operations Leader',
+                email: 'vp@jaxbengali.org',
+                phone: '',
+                linkedin: '',
+                interests: ['Community Service', 'Strategic Planning', 'Operations Management'],
+                yearJoined: 2021,
+                gradient: 'linear-gradient(135deg, #006A4E, #00856F)'
+            },
+            {
+                id: 'amit',
+                name: 'Amit Chandak',
+                role: 'Treasurer',
+                initials: 'AC',
+                photoUrl: 'assets/ec-photos/amit-chandak.jpg',
+                summary: 'Financial management with transparency and accountability.',
+                fullBio: 'Managing BANF\'s financial operations including budgeting, payments, sponsorship accounting, and financial reporting with full transparency.',
+                profession: 'Finance Professional',
+                email: 'treasurer@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/amit-chandak-97304b4a',
+                interests: ['Financial Planning', 'Community Volunteering', 'Budget Management'],
+                yearJoined: 2022,
+                gradient: 'linear-gradient(135deg, #D4AF37, #E5C158)'
+            },
+            {
+                id: 'rajanya',
+                name: 'Rajanya Ghosh',
+                role: 'General Secretary',
+                initials: 'RG',
+                photoUrl: 'assets/ec-photos/rajanya-ghosh.jpg',
+                summary: 'Classical dancer & hospitality leader with 15 years in Bharatanatyam & Kathak.',
+                fullBio: 'Passionate leader dedicated to bridging generations within the Bengali community. Classical dancer trained in Bharatanatyam & Kathak for 15+ years. Hospitality industry professional driving organizational excellence and community engagement.',
+                profession: 'Hospitality Professional & Classical Dancer',
+                email: 'secretary@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/rajanya-ghosh-mba',
+                interests: ['Bharatanatyam', 'Kathak', 'Cultural Arts', 'Youth Leadership', 'Community Outreach'],
+                yearJoined: 2023,
+                gradient: 'linear-gradient(135deg, #8B0000, #a52a2a)'
+            },
+            {
+                id: 'moumita',
+                name: 'Dr. Moumita Ghosh',
+                role: 'Cultural Secretary',
+                initials: 'MG',
+                photoUrl: null,
+                summary: 'Creative visionary, educator, and cultural program director.',
+                fullBio: 'A creative visionary and educator who directs BANF\'s cultural programs — from Rabindra Jayanti to Durga Puja cultural evenings. Curating vibrant cultural experiences that preserve and celebrate Bengali heritage.',
+                education: 'Ph.D., Education',
+                profession: 'Educator & Cultural Director',
+                email: 'cultural@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/dr-moumita-ghosh',
+                interests: ['Dance', 'Rabindra Sangeet', 'Cultural Programming', 'Education'],
+                yearJoined: 2021,
+                gradient: 'linear-gradient(135deg, #9C27B0, #E91E63)'
+            },
+            {
+                id: 'banty',
+                name: 'Banty Dutta',
+                role: 'Food Coordinator',
+                initials: 'BD',
+                photoUrl: null,
+                summary: 'Coordinating authentic Bengali cuisine for all BANF events.',
+                fullBio: 'Coordinates authentic Bengali cuisine for all BANF events, managing vendor relationships and menu planning. Ensuring delicious, traditional food at every community gathering.',
+                profession: 'Food & Catering Coordinator',
+                email: 'food@jaxbengali.org',
+                phone: '',
+                linkedin: '',
+                interests: ['Bengali Cuisine', 'Event Catering', 'Vendor Management'],
+                yearJoined: 2023,
+                gradient: 'linear-gradient(135deg, #FF5722, #FF9800)'
+            },
+            {
+                id: 'sumanta',
+                name: 'Dr. Sumanta Ghosh',
+                role: 'Event Coordinator',
+                initials: 'SG',
+                photoUrl: 'assets/ec-photos/sumanta-ghosh.jpg',
+                summary: 'Postdoctoral Research Fellow at Mayo Clinic — Biophysics & neurodegeneration.',
+                fullBio: 'Postdoctoral Research Fellow at Mayo Clinic specializing in biophysics and neurodegeneration research. Manages end-to-end event planning and logistics for BANF\'s community gatherings and celebrations.',
+                education: 'Ph.D., Biophysics',
+                profession: 'Postdoctoral Research Fellow — Mayo Clinic',
+                email: 'events@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/sumantaghosh1989',
+                interests: ['Biophysics', 'Neurodegeneration Research', 'Event Management', 'Community Building'],
+                yearJoined: 2022,
+                gradient: 'linear-gradient(135deg, #2196F3, #03A9F4)'
+            },
+            {
+                id: 'rwiti',
+                name: 'Rwiti Choudhury',
+                role: 'Puja Coordinator',
+                initials: 'RC',
+                photoUrl: null,
+                summary: 'Financial Aid Counselor at Edward Waters University.',
+                fullBio: 'Financial Aid Counselor at Edward Waters University. Coordinates Durga Puja and other religious/cultural ceremonies for the BANF community with devotion and organizational skill.',
+                profession: 'Financial Aid Counselor — Edward Waters University',
+                email: 'puja@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/rwiti-choudhury-763775180',
+                interests: ['Puja Organization', 'Cultural Traditions', 'Volunteer Management', 'Higher Education'],
+                yearJoined: 2023,
+                gradient: 'linear-gradient(135deg, #673AB7, #9C27B0)'
+            }
+        ];
+
+        // Render EC Cards
+        function renderECCards() {
+            const grid = document.getElementById('ec-grid');
+            if (!grid) return;
+            grid.innerHTML = EC_MEMBERS.map(m => `
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="ec-card" onclick="openEcModal('${m.id}')">
+                        ${m.photoUrl
+                            ? `<img src="${m.photoUrl}" alt="${m.name}" class="ec-avatar-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                               <div class="ec-avatar" style="display:none;background:${m.gradient}">${m.initials}</div>`
+                            : `<div class="ec-avatar" style="background:${m.gradient}">${m.initials}</div>`
+                        }
+                        <span class="ec-position mb-2">${m.role}</span>
+                        <h6 class="mt-2">${m.name}</h6>
+                        <p class="ec-short-bio">${m.summary}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open EC Profile Modal
+        function openEcModal(memberId) {
+            const m = EC_MEMBERS.find(x => x.id === memberId);
+            if (!m) return;
+            const interestsHtml = (m.interests || []).map(i => `<span class="badge">${i}</span>`).join('');
+            
+            document.getElementById('ecModalContent').innerHTML = `
+                <div class="ec-modal-header">
+                    <div class="ec-modal-avatar">
+                        ${m.photoUrl
+                            ? `<img src="${m.photoUrl}" alt="${m.name}" onerror="this.parentElement.innerHTML='<div class=ec-modal-avatar-initials style=background:${m.gradient.replace(/[()]/g, '')}>${m.initials}</div>'">`
+                            : `<div class="ec-modal-avatar-initials" style="background:${m.gradient}">${m.initials}</div>`}
+                    </div>
+                    <div>
+                        <h4 class="ec-modal-name">${m.name}</h4>
+                        <span class="ec-modal-role">${m.role}</span>
+                    </div>
+                    <button class="ec-modal-close" onclick="closeEcModal()">&times;</button>
+                </div>
+                <div class="ec-modal-body">
+                    <h6><i class="fas fa-user me-2"></i>About</h6>
+                    <p>${m.fullBio}</p>
+                    ${m.education ? `<div class="ec-modal-detail"><i class="fas fa-graduation-cap"></i><span>${m.education}</span></div>` : ''}
+                    ${m.profession ? `<div class="ec-modal-detail"><i class="fas fa-briefcase"></i><span>${m.profession}</span></div>` : ''}
+                    ${m.yearJoined ? `<div class="ec-modal-detail"><i class="fas fa-calendar-alt"></i><span>EC Member since ${m.yearJoined}</span></div>` : ''}
+                    ${interestsHtml ? `<h6 class="mt-3"><i class="fas fa-heart me-2"></i>Interests</h6><div class="ec-modal-interests">${interestsHtml}</div>` : ''}
+                </div>
+                <div class="ec-modal-footer">
+                    <a href="mailto:${m.email}" class="ec-modal-btn-email"><i class="fas fa-envelope"></i>${m.email}</a>
+                    ${m.phone ? `<a href="tel:${m.phone}" class="ec-modal-btn-phone"><i class="fas fa-phone"></i>${m.phone}</a>` : ''}
+                    ${m.linkedin ? `<a href="${m.linkedin}" target="_blank" class="ec-modal-btn-phone"><i class="fab fa-linkedin-in"></i>LinkedIn</a>` : ''}
+                </div>
+            `;
+            document.getElementById('ecModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close EC Modal
+        function closeEcModal() {
+            document.getElementById('ecModalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeEcModal();
+        });
+
+        const DEFAULT_ANNOUNCEMENTS = [
+            {
+                title: 'BANF Kids & Youth Engagement Initiative',
+                message: '',
+                priority: 'high',
+                category: 'program',
+                source: 'email',
+                imageUrl: 'announcement-banner.jpg',
+                effectiveOn: '2026-03-03',
+                expiresOn: '2026-07-31',
+                pinned: true,
+                order: 1,
+                active: true
+            },
+            {
+                title: 'Young Venture Builder — Registration Open',
+                message: 'Registration is now open for the week long game / learning experience program as part of BANF\'s kids and youth engagement initiative. Parents are requested to go through the details and register.',
+                priority: 'high',
+                category: 'program',
+                source: 'email',
+                linkUrl: 'https://banf-young-venture-builder.lovable.app/',
+                linkText: 'Register — Young Venture Builder',
+                effectiveOn: '2026-03-03',
+                expiresOn: '2026-07-31',
+                pinned: true,
+                order: 2,
+                active: true
+            },
+            {
+                title: 'Youth Civic Design Lab — Competition for Grade 6-10',
+                message: 'Registration is now open for competition for grade 6 - grade 10 students. Students across Florida will be invited. Depending on membership category, the program is free. Launch: 1st week of July with mentor assigned.',
+                priority: 'high',
+                category: 'program',
+                source: 'email',
+                linkUrl: 'https://banf-youth-civ-design-lab.lovable.app/',
+                linkText: 'Register — Youth Civic Design Lab',
+                effectiveOn: '2026-03-03',
+                expiresOn: '2026-07-31',
+                pinned: true,
+                order: 3,
+                active: true
+            }
+        ];
+
+        function renderAnnouncements(items) {
+            const announcements = Array.isArray(items) ? items : [];
+            const list = document.getElementById('announcements-list');
+            const ticker = document.getElementById('announcement-ticker-track');
+            if (!list || !ticker) return;
+
+            const visible = announcements
+                .filter(a => a && a.active !== false)
+                .sort((a, b) => (b.pinned === true) - (a.pinned === true) || (Number(a.order) || 999) - (Number(b.order) || 999));
+
+            if (!visible.length) {
+                list.innerHTML = '<div class="col-12"><div class="announcement-item low"><p class="announcement-text">No announcements available yet.</p></div></div>';
+                ticker.innerHTML = '<span><i class="fas fa-bullhorn me-2"></i>Stay tuned for announcements...</span>';
+                return;
+            }
+
+            list.innerHTML = visible.slice(0, 6).map(a => {
+                const level = (a.priority || 'medium').toLowerCase();
+                const effective = a.effectiveOn ? new Date(a.effectiveOn).toLocaleDateString() : 'Ongoing';
+                const imgHtml = a.imageUrl ? `<img class="announcement-img" src="${esc(a.imageUrl)}" alt="${esc(a.title || 'Announcement')}">` : '';
+                const linkHtml = a.linkUrl ? `<a class="announcement-link" href="${esc(a.linkUrl)}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-1"></i>${esc(a.linkText || 'Learn More')}</a>` : '';
+                return `
+                    <div class="col-lg-4 col-md-6">
+                        <div class="announcement-item ${esc(level)}">
+                            ${imgHtml}
+                            <div class="announcement-meta">${esc(a.category || 'general')} • ${esc(level)}</div>
+                            <h5 class="announcement-title">${esc(a.title || 'Announcement')}</h5>
+                            ${a.message ? `<p class="announcement-text">${esc(a.message)}</p>` : ''}
+                            ${linkHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const tickerItems = visible.filter(a => a.title).map(a => `<span><i class="fas fa-circle-info me-2"></i>${esc(a.title)}${a.message ? ' — ' + esc(a.message).substring(0, 80) : ''}</span>`);
+            ticker.innerHTML = tickerItems.concat(tickerItems).join('');
+        }
+
+        // Render EC cards on load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderECCards();
+            renderAnnouncements(DEFAULT_ANNOUNCEMENTS);
+        });
+
+        // Language Toggle
+        function toggleLanguage(lang) {
+            const bengaliMsg = document.getElementById('message-bengali');
+            const englishMsg = document.getElementById('message-english');
+            const btnBengali = document.getElementById('btn-bengali');
+            const btnEnglish = document.getElementById('btn-english');
+            
+            if (lang === 'bengali') {
+                bengaliMsg.style.display = 'block';
+                englishMsg.style.display = 'none';
+                btnBengali.classList.add('active');
+                btnBengali.classList.remove('btn-outline-light');
+                btnBengali.classList.add('btn-light');
+                btnEnglish.classList.remove('active');
+                btnEnglish.classList.remove('btn-light');
+                btnEnglish.classList.add('btn-outline-light');
+            } else {
+                bengaliMsg.style.display = 'none';
+                englishMsg.style.display = 'block';
+                btnEnglish.classList.add('active');
+                btnEnglish.classList.remove('btn-outline-light');
+                btnEnglish.classList.add('btn-light');
+                btnBengali.classList.remove('active');
+                btnBengali.classList.remove('btn-light');
+                btnBengali.classList.add('btn-outline-light');
+            }
+        }
+
+        // ═══════════════════════════════════════════════
+        //  CRM-POWERED DYNAMIC LANDING PAGE
+        //  Fetches from /_functions/landing_data
+        //  Gracefully falls back to hardcoded defaults
+        // ═══════════════════════════════════════════════
+
+        // Always use the Wix direct URL — custom domain (jaxbengali.org) does not proxy /_functions
+        const API_BASE = window.location.hostname.includes('wixsite.com')
+            ? '/_functions'
+            : 'https://www.jaxbengali.org/_functions';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const resp = await fetch(API_BASE + '/landing_data');
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                if (!json.success || !json.data) throw new Error('Invalid response');
+                const d = json.data;
+
+                // ── Hero Section ──
+                if (d.siteContent) {
+                    const c = d.siteContent;
+                    if (c.heroBadge)    setHTML('hero-badge', '<i class="fas fa-star me-2"></i>' + esc(c.heroBadge));
+                    if (c.heroBengali)  setHTML('hero-bengali', esc(c.heroBengali));
+                    if (c.heroTitle)    setHTML('hero-title', c.heroTitle); // Allow <br> tags
+                    if (c.heroSubtitle) setHTML('hero-subtitle', esc(c.heroSubtitle));
+                    if (c.membershipSeasonLabel) {
+                        setHTML('membership-subtitle', 'Join our community or support our mission • ' + c.membershipSeasonLabel);
+                    }
+                }
+
+                // ── Stats Section ──
+                if (d.stats && d.stats.length) {
+                    const row = document.getElementById('stats-row');
+                    if (row) {
+                        row.innerHTML = d.stats.map(s => `
+                            <div class="col-6 col-md-3">
+                                <div class="stat-item">
+                                    <div class="stat-number">${esc(s.value)}</div>
+                                    <div class="stat-label">${esc(s.label)}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                // ── Announcements ── (CRM overrides defaults only if CRM has data)
+                if (d.announcements && d.announcements.length) {
+                    renderAnnouncements(d.announcements);
+                }
+
+                // ── Executive Committee ──
+                // CRM data updates EC_MEMBERS photoUrl if available, then re-renders
+                if (d.ecMembers && d.ecMembers.length) {
+                    d.ecMembers.forEach(cm => {
+                        if (cm.photoUrl) {
+                            const match = EC_MEMBERS.find(m => m.name === cm.name || m.initials === cm.initials);
+                            if (match && !match.photoUrl) match.photoUrl = cm.photoUrl;
+                        }
+                    });
+                    renderECCards(); // Re-render with any new photos from CRM
+                }
+
+                // ── Membership Plans ──
+                if (d.membershipPlans && d.membershipPlans.length) {
+                    const container = document.getElementById('membership-plans-row');
+                    if (container) {
+                        container.innerHTML = d.membershipPlans.map(p => {
+                            const featured = p.isFeatured ? ' featured' : '';
+                            const badge = p.badgeText
+                                ? `<span class="badge bg-warning text-dark mb-2"><i class="fas fa-clock me-1"></i>${esc(p.badgeText)}</span>`
+                                : '';
+                            const headerStyle = p.isFeatured ? '' : ` style="background: ${esc(p.headerColor)};"`;
+                            // Per-member-type pricing rows (preferred) or single price fallback
+                            let pricingRows = '';
+                            const pt = p.priceTable;
+                            if (pt && typeof pt === 'object') {
+                                const rows = [
+                                    { icon: 'fas fa-users', color: 'text-warning', label: 'Family', sub: 'Couple + Children', key: 'family' },
+                                    { icon: 'fas fa-heart', color: 'text-info',    label: 'Couple', sub: 'Two Adults',         key: 'couple' },
+                                    { icon: 'fas fa-user',  color: 'text-light',   label: 'Individual', sub: 'One Adult',     key: 'individual' },
+                                    { icon: 'fas fa-graduation-cap', color: 'text-success', label: 'Student', sub: 'Full-time', key: 'student' }
+                                ].filter(r => pt[r.key] != null);
+                                pricingRows = rows.map(r =>
+                                    `<div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="${r.icon} me-2 ${r.color}"></i>${r.label} <small class="opacity-60 ms-1">(${r.sub})</small></span><strong${r.key === 'family' ? ' style="color:var(--gold);"' : ''}>$${pt[r.key]}</strong></div>`
+                                ).join('');
+                            } else {
+                                pricingRows = `<div class="pricing-price">$${p.price}<span>${esc(p.period)}</span></div>`;
+                            }
+                            // Feature checklist (events/notes)
+                            const features = (Array.isArray(p.features) ? p.features : []).map(f =>
+                                `<div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>${esc(f)}</div>`
+                            ).join('');
+                            const bodyContent = pricingRows
+                                + (features ? `<hr style="border-color:rgba(255,255,255,0.2);margin:0.5rem 0;">${features}` : '');
+                            const btnStyle = p.isFeatured
+                                ? 'btn w-100 btn-lg" style="background: var(--gradient-primary); color: white; border: none;"'
+                                : 'btn btn-outline-light w-100 btn-lg"';
+                            return `
+                                <div class="col-lg-4 col-md-6 mb-4">
+                                    <div class="pricing-card${featured}">
+                                        <div class="pricing-header"${headerStyle}>
+                                            ${badge}
+                                            <h4><i class="${esc(p.icon)} me-2"></i>${esc(p.name)}</h4>
+                                            <p class="mb-2 opacity-75">${esc(p.subtitle)}</p>
+                                        </div>
+                                        <div class="pricing-body">${bodyContent}</div>
+                                        <div class="pricing-footer">
+                                            <a href="${esc(p.ctaLink)}" class="${btnStyle}>${esc(p.ctaText)}</a>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        }).join('');
+                    }
+
+                    // Update budget label
+                    if (d.budget) {
+                        setHTML('membership-budget-label',
+                            `Based on FY ${esc(d.budget.fiscalYear)} Budget: ${d.budget.membershipTarget} target members`);
+                    }
+                }
+
+                // ── Sponsorship Tiers ──
+                if (d.sponsorshipTiers && d.sponsorshipTiers.length) {
+                    const container = document.getElementById('sponsorship-tiers-row');
+                    if (container) {
+                        container.innerHTML = d.sponsorshipTiers.map(t => {
+                            const benefits = (Array.isArray(t.benefits) ? t.benefits : []).map(b =>
+                                `<div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>${esc(b)}</div>`
+                            ).join('');
+                            return `
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="sponsorship-tier-card text-center">
+                                        <div class="tier-icon" style="background: ${esc(t.iconGradient)};">
+                                            <i class="${esc(t.icon)} text-white"></i>
+                                        </div>
+                                        <h5 class="text-white mb-2">${esc(t.name)}</h5>
+                                        <div class="pricing-price text-warning mb-3">$${t.price.toLocaleString()}<span class="text-white-50">${esc(t.period)}</span></div>
+                                        ${benefits}
+                                        <a href="${esc(t.ctaLink)}" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                                    </div>
+                                </div>`;
+                        }).join('');
+                    }
+
+                    // Update sponsor stats label from budget
+                    if (d.budget) {
+                        setHTML('sponsor-stats-label',
+                            `${esc(d.budget.sponsorPrevFY)}: ${esc(d.budget.sponsorPrevYear)} | Target FY ${esc(d.budget.fiscalYear)}: $${d.budget.sponsorTarget.toLocaleString()}`);
+                    }
+                }
+
+                // ── Payment Info ──
+                if (d.siteContent) {
+                    const c = d.siteContent;
+                    const card = document.getElementById('payment-card');
+                    if (card && (c.paymentZelle || c.paymentSquareUrl)) {
+                        card.innerHTML = `
+                            <h4 class="mb-4 text-center" style="color: var(--banf-deep-red);"><i class="fas fa-credit-card me-2"></i>Payment Information</h4>
+                            <div class="row text-center">
+                                <div class="col-md-6 mb-3">
+                                    <h6><i class="fas fa-university me-2" style="color: #6d1ed4;"></i>Zelle</h6>
+                                    <p class="mb-0" style="font-family: monospace;">${esc(c.paymentZelle || '')}</p>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <h6><i class="fas fa-shopping-cart me-2" style="color: var(--banf-orange);"></i>Square Store</h6>
+                                    <a href="${esc(c.paymentSquareUrl || '#')}" target="_blank" class="btn btn-sm" style="background: var(--gradient-primary); color: white;">${esc(c.paymentSquareLabel || 'Pay Online')}</a>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="text-center text-muted mb-0"><i class="fas fa-file-alt me-2"></i>${esc(c.taxNotice || '')}</p>`;
+                    }
+                }
+
+                // ── Footer ──
+                if (d.siteContent) {
+                    const c = d.siteContent;
+                    const footerContent = document.getElementById('footer-content');
+                    if (footerContent) {
+                        footerContent.innerHTML = `
+                            <div class="footer-section">
+                                <h5>About BANF</h5>
+                                <p>${esc(c.footerTagline || '')}</p>
+                                <div class="social-links">
+                                    ${c.facebookUrl  ? `<a href="${esc(c.facebookUrl)}" class="social-link"><i class="fab fa-facebook-f"></i></a>` : ''}
+                                    ${c.instagramUrl ? `<a href="${esc(c.instagramUrl)}" class="social-link"><i class="fab fa-instagram"></i></a>` : ''}
+                                    ${c.youtubeUrl   ? `<a href="${esc(c.youtubeUrl)}" class="social-link"><i class="fab fa-youtube"></i></a>` : ''}
+                                    ${c.linkedinUrl  ? `<a href="${esc(c.linkedinUrl)}" class="social-link"><i class="fab fa-linkedin-in"></i></a>` : ''}
+                                    ${c.whatsappUrl  ? `<a href="${esc(c.whatsappUrl)}" class="social-link"><i class="fab fa-whatsapp"></i></a>` : ''}
+                                </div>
+                            </div>
+                            <div class="footer-section">
+                                <h5>Quick Links</h5>
+                                <a href="#events"><i class="fas fa-calendar me-2"></i>Events</a>
+                                <a href="#membership"><i class="fas fa-users me-2"></i>Membership</a>
+                                <a href="#ec-team"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                                <a href="#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                            </div>
+                            <div class="footer-section">
+                                <h5>Resources</h5>
+                                <a href="#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
+                                <a href="#"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>
+                                <a href="#"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                            </div>
+                            <div class="footer-section">
+                                <h5>Contact Info</h5>
+                                <p><i class="fas fa-envelope me-2"></i>${esc(c.contactEmail || '')}</p>
+                                <p><i class="fas fa-map-marker-alt me-2"></i>${esc(c.contactLocation || '')}</p>
+                                <p><i class="fas fa-globe me-2"></i>${esc(c.contactWebsite || '')}</p>
+                            </div>`;
+                    }
+
+                    // Footer bottom
+                    const footerBottom = document.getElementById('footer-bottom');
+                    if (footerBottom && c.footerCopyright) {
+                        const budgetLine = d.budget
+                            ? ` | FY Budget: $${d.budget.totalBudget.toLocaleString()}`
+                            : '';
+                        footerBottom.innerHTML = `
+                            <div style="margin-bottom: 1rem;">
+                                <img src="banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                            </div>
+                            <p>${esc(c.footerCopyright)}</p>
+                            <p>Platform Version 3.0 — CRM Powered${budgetLine}</p>`;
+                    }
+                }
+
+                console.log('[BANF] Landing page hydrated from CRM at', json.timestamp);
+
+            } catch (err) {
+                // Graceful fallback — hardcoded HTML already visible
+                console.warn('[BANF] CRM fetch failed, using defaults:', err.message);
+            }
+        });
+
+        // ── Utility: safe HTML setter ──
+        function setHTML(id, html) {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = html;
+        }
+
+        // ── Utility: escape HTML entities ──
+        function esc(str) {
+            if (str == null) return '';
+            const s = String(str);
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(s));
+            return div.innerHTML;
+        }
+
+        // ── Member Portal Navigation ──
+        function openMemberPortal(section) {
+            // Route through live Wix function endpoint (stable in production)
+            const portalFn = 'https://www.jaxbengali.org/_functions/member_portal';
+            const routeParam = section ? `?route=${encodeURIComponent(section)}` : '';
+            window.open(portalFn + routeParam, '_blank');
+        }
+    </script>
+</body>
+</html>
+
