@@ -366,6 +366,17 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
           <a href="https://www.jaxbengali.org/stakeholder-requirements-journey.html" target="_blank" class="btn-secondary"><i class="fas fa-route me-1"></i>Requirements Journey</a>
           <a href="https://www.jaxbengali.org" target="_blank" class="btn-secondary"><i class="fas fa-globe me-1"></i>Live Site</a>
         </div>
+        <!-- Super Admin Quick Links: Portal Switcher -->
+        <div id="portal-switcher" style="margin-top:14px;padding:14px;background:rgba(249,115,22,.04);border:1px solid var(--line);border-radius:10px;display:none">
+          <div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:10px"><i class="fas fa-exchange-alt me-1"></i>Portal Quick Links</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a href="member-login.html" target="_blank" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-user me-1"></i>Member Portal</a>
+            <a href="#" onclick="switchView('ec-member');return false" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-users-cog me-1"></i>EC Admin View</a>
+            <a href="#" onclick="switchView('business-stakeholder');return false" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-bullhorn me-1"></i>Stakeholder View</a>
+            <a href="#" onclick="switchView('super-admin');return false" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-shield-alt me-1"></i>Full Super Admin</a>
+          </div>
+          <div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-info-circle me-1"></i>Switch views to preview each role's portal experience. Same credentials, different feature visibility.</div>
+        </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.78rem;color:var(--muted);">
           <i class="fas fa-info-circle me-1" style="color:var(--accent)"></i>
           <strong>Phase 1:</strong> Dashboard + AI Assistant are live. All other modules (Role Definitions, User Management, Identity Engine, Drives, Feedback, Dev Board, E2E, Audit) will be launched step-wise with security &amp; RBAC compliance.
@@ -820,9 +831,54 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 const API = 'https://www.jaxbengali.org/_functions';
-let CURRENT_ADMIN = null; // { email, role, firstName, lastName, ecTitle }
+let CURRENT_ADMIN = null; // { email, role, firstName, lastName, ecTitle, roles:[] }
 let SIGNUP_STATE = {}; // temp state for signup flow
 let FORGOT_STATE = {}; // temp state for forgot flow
+
+// ═══ ROLE-BASED ACCESS CONTROL (RBAC) ═══
+// Defines which sidebar panels each role can see
+const ROLE_PANEL_ACCESS = {
+  'super-admin': ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
+  'ec-member': ['dashboard','ec-drive','drive-status']
+};
+
+function getVisiblePanels(roles) {
+  const panels = new Set();
+  (roles || ['super-admin']).forEach(function(role) {
+    (ROLE_PANEL_ACCESS[role] || []).forEach(function(p) { panels.add(p); });
+  });
+  return panels;
+}
+
+function applyRoleVisibility(roles) {
+  const visible = getVisiblePanels(roles);
+  document.querySelectorAll('.sb-item[data-panel]').forEach(function(item) {
+    var panel = item.dataset.panel;
+    item.style.display = visible.has(panel) ? '' : 'none';
+  });
+  // Hide group headers if all child items are hidden
+  document.querySelectorAll('.sb-group').forEach(function(group) {
+    var next = group.nextElementSibling;
+    var anyVisible = false;
+    while (next && !next.classList.contains('sb-group') && !next.classList.contains('sb-user')) {
+      if (next.classList.contains('sb-item') && next.style.display !== 'none') anyVisible = true;
+      next = next.nextElementSibling;
+    }
+    group.style.display = anyVisible ? '' : 'none';
+  });
+  // Update portal title based on role
+  var brandSmall = document.querySelector('.sb-brand small');
+  if (brandSmall && CURRENT_ADMIN) {
+    var isSuperAdmin = (CURRENT_ADMIN.roles || []).includes('super-admin');
+    var isStakeholder = (CURRENT_ADMIN.roles || []).includes('business-stakeholder');
+    var isEC = (CURRENT_ADMIN.roles || []).includes('ec-member');
+    if (isSuperAdmin) brandSmall.textContent = 'Super Admin Portal v3.0 (Full Access)';
+    else if (isStakeholder) brandSmall.textContent = 'Stakeholder Portal (Role-Based Access)';
+    else if (isEC) brandSmall.textContent = 'EC Admin Portal (Role-Based Access)';
+  }
+}
+
 const SQ_LABELS = {
   city_born: 'What city were you born in?',
   pet_name: 'What is the name of your first pet?',
@@ -1035,7 +1091,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   // allow username-only login for legacy
   for (const [uname, cred] of Object.entries(CREDS)) {
     if ((email === uname || email === uname + '@gmail.com') && cred.pw === pass) {
-      CURRENT_ADMIN = { email: uname + '@gmail.com', role: 'super_admin', firstName: cred.name.split(' ')[0], lastName: cred.name.split(' ').slice(1).join(' '), ecTitle: 'Super Admin' };
+      CURRENT_ADMIN = { email: uname + '@gmail.com', role: 'super_admin', roles: ['super-admin'], firstName: cred.name.split(' ')[0], lastName: cred.name.split(' ').slice(1).join(' '), ecTitle: 'Super Admin' };
       enterPortal(cred.name);
       return;
     }
@@ -1055,7 +1111,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       showInfo('login-info', 'Your account has no password yet. Please use Sign Up to set your password and security question.');
       return;
     }
-    CURRENT_ADMIN = { email, role: result.adminRole, firstName: result.firstName || '', lastName: result.lastName || '', ecTitle: result.ecTitle || '' };
+    CURRENT_ADMIN = { email, role: result.adminRole, roles: [result.adminRole || 'super-admin'], firstName: result.firstName || '', lastName: result.lastName || '', ecTitle: result.ecTitle || '' };
     const displayName = [result.firstName, result.lastName].filter(Boolean).join(' ') || email;
     enterPortal(displayName);
   } else if (result.needsOnboarding) {
@@ -1077,17 +1133,19 @@ document.getElementById('login-email').addEventListener('keypress', e => {
 function enterPortal(displayName) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('portal').style.display = 'flex';
-  addLog('LOGIN', 'Super Admin login — ' + displayName);
+  var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || ['super-admin'];
+  var roleLabel = roles.includes('super-admin') ? 'Super Admin' : roles.includes('business-stakeholder') ? 'Stakeholder' : 'EC Admin';
+  addLog('LOGIN', roleLabel + ' login — ' + displayName);
   // Update sidebar user display
   const nameEl = document.querySelector('.sb-user .name');
   if (nameEl) nameEl.textContent = displayName;
-  const roleEl = document.querySelector('.sb-user .role-lbl');
-  if (roleEl && CURRENT_ADMIN) roleEl.textContent = CURRENT_ADMIN.role;
   const avatarEl = document.querySelector('.sb-avatar');
   if (avatarEl && CURRENT_ADMIN) {
     const initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
     avatarEl.textContent = initials;
   }
+  // Apply role-based sidebar visibility
+  applyRoleVisibility(roles);
   renderAll();
 }
 
@@ -1095,12 +1153,56 @@ function enterPortal(displayName) {
 document.querySelector('.sb-user').addEventListener('click', () => {
   if (confirm('Logout?')) {
     CURRENT_ADMIN = null;
+    sessionStorage.removeItem('banf_admin_session');
     document.getElementById('portal').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('login-pass').value = '';
     showAuth('signin');
   }
 });
+
+// ═══ SESSION-BASED AUTO-LOGIN ═══
+// If arriving from admin-login.html with a session, skip the login overlay
+(function checkSession() {
+  var sessionData = sessionStorage.getItem('banf_admin_session');
+  if (!sessionData) return; // No session — show login overlay as normal
+  try {
+    var session = JSON.parse(sessionData);
+    if (!session.email || !session.roles || !session.roles.length) return;
+    CURRENT_ADMIN = {
+      email: session.email,
+      role: session.effectiveRole || session.roles[0],
+      roles: session.roles,
+      firstName: session.firstName || '',
+      lastName: session.lastName || '',
+      ecTitle: session.ecTitle || ''
+    };
+    enterPortal(session.name || session.email);
+  } catch (e) { console.warn('Session parse error:', e); }
+})();
+
+// ═══ SUPER ADMIN VIEW SWITCHER ═══
+// Allows super-admin to preview the portal as different roles
+function switchView(roleId) {
+  if (!CURRENT_ADMIN) return;
+  applyRoleVisibility([roleId]);
+  // Show toast
+  var t = document.createElement('div');
+  var rn = roleId === 'super-admin' ? 'Super Admin (Full Access)' : roleId === 'business-stakeholder' ? 'Stakeholder View' : 'EC Admin View';
+  t.style.cssText = 'position:fixed;top:20px;right:20px;background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:12px 20px;z-index:99999;font-size:.82rem;color:var(--accent);box-shadow:0 8px 30px rgba(0,0,0,.3)';
+  t.innerHTML = '<i class="fas fa-exchange-alt me-1"></i>Switched to <strong>' + rn + '</strong>';
+  document.body.appendChild(t);
+  setTimeout(function(){t.remove()},2500);
+  // Return to dashboard
+  navTo('dashboard');
+}
+
+// Show portal switcher only for super-admin
+function updatePortalSwitcher() {
+  var el = document.getElementById('portal-switcher');
+  if (!el) return;
+  el.style.display = (CURRENT_ADMIN && CURRENT_ADMIN.roles && CURRENT_ADMIN.roles.includes('super-admin')) ? 'block' : 'none';
+}
 
 // ── SIGN UP FLOW (4 steps: email → code → password+SQ → success) ──
 async function signupStep1() {
@@ -2528,7 +2630,7 @@ function renderAll(){
     {v:DEV_TICKETS.length,k:'Dev Tickets',cls:'yellow'},
     {v:LOG.length,k:'Audit Log',cls:'dim'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
-  renderRoles();renderUsers();renderDrive();renderEC();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();
+  renderRoles();renderUsers();renderDrive();renderEC();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();updatePortalSwitcher();
 }
 
 </script>

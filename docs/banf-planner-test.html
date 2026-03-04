@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF Planner Test Agent - Comprehensive Portal Test Suite</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1117;--bg2:#1a1d27;--card:#21242f;--line:#2a2d3a;--text:#e1e4ed;--muted:#8b8fa3;--dim:#555a6e;--accent:#f97316;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--cyan:#06b6d4;--yellow:#eab308;--purple:#a855f7}
+*{font-family:'Inter',system-ui,sans-serif;box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);padding:2rem;min-height:100vh}
+h1{font-size:1.4rem;font-weight:800;margin-bottom:0.5rem}
+.subtitle{font-size:.82rem;color:var(--muted);margin-bottom:2rem}
+.test-suite{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem}
+.suite-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.suite-title{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.suite-badge{font-size:.65rem;padding:3px 10px;border-radius:999px;font-weight:600}
+.badge-pass{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.badge-fail{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.badge-pending{background:rgba(85,90,110,.12);color:var(--dim);border:1px solid rgba(85,90,110,.25)}
+.badge-running{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
+.test-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(42,45,58,.5)}
+.test-step:last-child{border-bottom:none}
+.ts-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;flex-shrink:0;margin-top:2px}
+.ts-icon.pending{background:var(--bg2);color:var(--dim)}
+.ts-icon.running{background:rgba(234,179,8,.15);color:var(--yellow)}
+.ts-icon.pass{background:rgba(34,197,94,.15);color:var(--green)}
+.ts-icon.fail{background:rgba(239,68,68,.15);color:var(--red)}
+.ts-icon.skip{background:rgba(85,90,110,.15);color:var(--dim)}
+.ts-label{font-size:.82rem;font-weight:600;flex:1}
+.ts-detail{font-size:.7rem;color:var(--muted);margin-top:2px}
+.ts-status{font-size:.68rem;font-weight:700;min-width:60px;text-align:right}
+.ts-time{font-size:.65rem;color:var(--dim);min-width:50px;text-align:right}
+.controls{display:flex;gap:10px;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center}
+.btn-run{padding:10px 24px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--accent),#fb923c);color:#fff;font-size:.88rem;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.btn-run:hover{opacity:.9;transform:translateY(-1px)}
+.btn-run:disabled{opacity:.4;transform:none;cursor:default}
+.btn-reset{padding:10px 20px;border:1px solid var(--line);border-radius:10px;background:var(--bg2);color:var(--muted);font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s}
+.btn-reset:hover{border-color:var(--accent);color:var(--text)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem}
+.summary-card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;text-align:center}
+.summary-card .val{font-size:1.6rem;font-weight:800}
+.summary-card .lbl{font-size:.72rem;color:var(--muted);margin-top:2px}
+.green{color:var(--green)}.red{color:var(--red)}.blue{color:var(--blue)}.yellow{color:var(--yellow)}.cyan{color:var(--cyan)}
+.progress-bar-outer{background:var(--bg2);border-radius:999px;height:6px;margin-bottom:1.5rem;overflow:hidden}
+.progress-bar-inner{height:100%;border-radius:999px;transition:.3s;background:var(--green)}
+.log-panel{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;max-height:300px;overflow-y:auto;font-size:.72rem;font-family:'Fira Code','Consolas',monospace}
+.log-line{padding:3px 0;border-bottom:1px solid rgba(42,45,58,.3);display:flex;gap:8px}
+.log-ts{color:var(--dim);min-width:60px}
+.log-type{font-weight:700;min-width:50px}
+.log-msg{color:var(--muted);flex:1}
+.base-url-input{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;color:var(--cyan);font-size:.82rem;width:320px;outline:none}
+.base-url-input:focus{border-color:var(--accent)}
+.iframe-preview{width:100%;height:400px;border:1px solid var(--line);border-radius:10px;background:#fff;margin-top:12px}
+</style>
+</head>
+<body>
+
+<h1><i class="fas fa-clipboard-check me-2" style="color:var(--accent)"></i>BANF Planner Test Agent</h1>
+<div class="subtitle">Comprehensive test suite for all BANF portals — landing page, member login, admin login, role-based access, and unified auth system</div>
+
+<!-- Summary -->
+<div class="summary" id="summary">
+  <div class="summary-card"><div class="val" id="s-total">0</div><div class="lbl">Total Tests</div></div>
+  <div class="summary-card"><div class="val green" id="s-pass">0</div><div class="lbl">Passed</div></div>
+  <div class="summary-card"><div class="val red" id="s-fail">0</div><div class="lbl">Failed</div></div>
+  <div class="summary-card"><div class="val yellow" id="s-skip">0</div><div class="lbl">Skipped</div></div>
+  <div class="summary-card"><div class="val cyan" id="s-time">0s</div><div class="lbl">Duration</div></div>
+  <div class="summary-card"><div class="val" id="s-result" style="color:var(--dim)">—</div><div class="lbl">Result</div></div>
+</div>
+
+<div class="progress-bar-outer"><div class="progress-bar-inner" id="progress" style="width:0%"></div></div>
+
+<!-- Controls -->
+<div class="controls">
+  <button class="btn-run" id="btn-run" onclick="runAllTests()"><i class="fas fa-play"></i>Run All Tests</button>
+  <button class="btn-reset" onclick="resetTests()"><i class="fas fa-redo me-1"></i>Reset</button>
+  <label style="font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px">
+    <span>Base URL:</span>
+    <input type="text" class="base-url-input" id="base-url" value="https://banfjax-hash.github.io/banf/">
+  </label>
+</div>
+
+<!-- Test Suite 1: Landing Page -->
+<div class="test-suite" id="suite-landing">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-home" style="color:var(--green)"></i>Suite 1: Landing Page</div>
+    <span class="suite-badge badge-pending" id="suite-1-badge">Pending</span>
+  </div>
+  <div id="suite-1-tests"></div>
+</div>
+
+<!-- Test Suite 2: Member Login -->
+<div class="test-suite" id="suite-member-login">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-user" style="color:var(--blue)"></i>Suite 2: Member Login</div>
+    <span class="suite-badge badge-pending" id="suite-2-badge">Pending</span>
+  </div>
+  <div id="suite-2-tests"></div>
+</div>
+
+<!-- Test Suite 3: Member Portal -->
+<div class="test-suite" id="suite-member-portal">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-id-card" style="color:var(--cyan)"></i>Suite 3: Member Portal</div>
+    <span class="suite-badge badge-pending" id="suite-3-badge">Pending</span>
+  </div>
+  <div id="suite-3-tests"></div>
+</div>
+
+<!-- Test Suite 4: Admin Login -->
+<div class="test-suite" id="suite-admin-login">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-shield-alt" style="color:var(--accent)"></i>Suite 4: Admin &amp; Stakeholder Login</div>
+    <span class="suite-badge badge-pending" id="suite-4-badge">Pending</span>
+  </div>
+  <div id="suite-4-tests"></div>
+</div>
+
+<!-- Test Suite 5: Admin Portal RBAC -->
+<div class="test-suite" id="suite-admin-rbac">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-user-lock" style="color:var(--purple)"></i>Suite 5: Role-Based Access Control</div>
+    <span class="suite-badge badge-pending" id="suite-5-badge">Pending</span>
+  </div>
+  <div id="suite-5-tests"></div>
+</div>
+
+<!-- Test Suite 6: Unified Auth -->
+<div class="test-suite" id="suite-unified-auth">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-key" style="color:var(--yellow)"></i>Suite 6: Unified Auth System</div>
+    <span class="suite-badge badge-pending" id="suite-6-badge">Pending</span>
+  </div>
+  <div id="suite-6-tests"></div>
+</div>
+
+<!-- Test Suite 7: Security -->
+<div class="test-suite" id="suite-security">
+  <div class="suite-header">
+    <div class="suite-title"><i class="fas fa-lock" style="color:var(--red)"></i>Suite 7: Security &amp; Auth Flows</div>
+    <span class="suite-badge badge-pending" id="suite-7-badge">Pending</span>
+  </div>
+  <div id="suite-7-tests"></div>
+</div>
+
+<!-- Log -->
+<h2 style="font-size:.95rem;font-weight:700;margin:1.5rem 0 .75rem"><i class="fas fa-terminal me-2" style="color:var(--accent)"></i>Test Log</h2>
+<div class="log-panel" id="test-log"></div>
+
+<!-- Hidden iframe for page loading tests -->
+<iframe id="test-frame" style="display:none" sandbox="allow-same-origin allow-scripts"></iframe>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  BANF PLANNER TEST AGENT
+//  Comprehensive test suite for all BANF portals
+// ═══════════════════════════════════════════════════════════════
+
+const BASE_URL = () => document.getElementById('base-url').value.replace(/\/+$/, '') + '/';
+let testLog = [];
+let allResults = [];
+let startTime = 0;
+let running = false;
+
+// ── Test Definitions ──
+const SUITES = [
+  {
+    id: 1, name: 'Landing Page',
+    tests: [
+      { id: 'L1', name: 'Landing page loads', detail: 'GET landing.html returns 200', type: 'fetch' },
+      { id: 'L2', name: 'Landing page has BANF title', detail: 'Page contains "Bengali Association"', type: 'content', page: 'landing.html', search: 'Bengali Association' },
+      { id: 'L3', name: 'Admin login link exists', detail: 'Page has link to admin-portal.html', type: 'content', page: 'landing.html', search: 'admin-portal.html' },
+      { id: 'L4', name: 'Member login link exists', detail: 'Page has link to member-login.html', type: 'content', page: 'landing.html', search: 'member-login.html' },
+      { id: 'L5', name: 'Event images referenced', detail: 'Page contains event image .jpg references', type: 'content', page: 'landing.html', search: '.jpg' },
+      { id: 'L6', name: 'Chatbot widget loaded', detail: 'banf-chatbot-widget.js is referenced', type: 'content', page: 'landing.html', search: 'banf-chatbot-widget' },
+      { id: 'L7', name: 'BANF logo present', detail: 'banf-logo.jpg referenced on page', type: 'content', page: 'landing.html', search: 'banf-logo' },
+    ]
+  },
+  {
+    id: 2, name: 'Member Login',
+    tests: [
+      { id: 'ML1', name: 'Member login page loads', detail: 'GET member-login.html returns 200', type: 'fetch', page: 'member-login.html' },
+      { id: 'ML2', name: 'Login form present', detail: 'Page has login-email input and sign-in button', type: 'content', page: 'member-login.html', search: 'login-email' },
+      { id: 'ML3', name: 'REGISTERED_MEMBERS defined', detail: 'Offline member database is present', type: 'content', page: 'member-login.html', search: 'REGISTERED_MEMBERS' },
+      { id: 'ML4', name: 'Test member included', detail: 'test.member@banf.org is in the database', type: 'content', page: 'member-login.html', search: 'test.member@banf.org' },
+      { id: 'ML5', name: 'EC members included', detail: 'President email (president@banf.org) is registered', type: 'content', page: 'member-login.html', search: 'president@banf.org' },
+      { id: 'ML6', name: 'Demo mode button exists', detail: 'Demo Mode button for quick portal preview', type: 'content', page: 'member-login.html', search: 'Demo Mode' },
+      { id: 'ML7', name: 'Back to home link', detail: 'Link back to landing.html', type: 'content', page: 'member-login.html', search: 'landing.html' },
+      { id: 'ML8', name: 'Wix API fallback', detail: 'fetchWithTimeout helper for API calls', type: 'content', page: 'member-login.html', search: 'fetchWithTimeout' },
+    ]
+  },
+  {
+    id: 3, name: 'Member Portal',
+    tests: [
+      { id: 'MP1', name: 'Member portal page loads', detail: 'GET member-portal.html returns 200', type: 'fetch', page: 'member-portal.html' },
+      { id: 'MP2', name: 'Auth gate present', detail: 'Redirect to member-login.html if no session', type: 'content', page: 'member-portal.html', search: 'banf_member_data' },
+      { id: 'MP3', name: 'Dashboard section exists', detail: 'Dashboard content section with welcome message', type: 'content', page: 'member-portal.html', search: 'content-section active' },
+      { id: 'MP4', name: 'Sidebar navigation', detail: 'Dashboard, Profile, Family, Payments, etc.', type: 'content', page: 'member-portal.html', search: 'sidebar' },
+      { id: 'MP5', name: 'Coming Soon modal', detail: 'comingSoon() function for unreleased features', type: 'content', page: 'member-portal.html', search: 'comingSoon' },
+      { id: 'MP6', name: 'Chatbot widget reference', detail: 'banf-chatbot-widget.js loaded', type: 'content', page: 'member-portal.html', search: 'banf-chatbot-widget.js' },
+      { id: 'MP7', name: 'Active sections controlled', detail: 'MEMBER_ACTIVE_SECTIONS set for Phase 1', type: 'content', page: 'member-portal.html', search: 'MEMBER_ACTIVE_SECTIONS' },
+      { id: 'MP8', name: 'Avatar initials display', detail: 'User avatar shows initials from member data', type: 'content', page: 'member-portal.html', search: 'userAvatar' },
+    ]
+  },
+  {
+    id: 4, name: 'Admin & Stakeholder Login',
+    tests: [
+      { id: 'AL1', name: 'Admin login page loads', detail: 'GET admin-login.html returns 200', type: 'fetch', page: 'admin-login.html' },
+      { id: 'AL2', name: 'Sign In form present', detail: 'Email + password inputs with Sign In button', type: 'content', page: 'admin-login.html', search: 'btn-login' },
+      { id: 'AL3', name: 'Sign Up flow exists', detail: '4-step signup: email → code → password+SQ → success', type: 'content', page: 'admin-login.html', search: 'signup-step-3' },
+      { id: 'AL4', name: 'Forgot Password flow exists', detail: '4-step reset: email → SQ → new password → success', type: 'content', page: 'admin-login.html', search: 'forgot-step-3' },
+      { id: 'AL5', name: 'Security questions defined', detail: 'SQ_LABELS with 6 security questions', type: 'content', page: 'admin-login.html', search: 'SQ_LABELS' },
+      { id: 'AL6', name: 'AUTH_DB has super admin', detail: 'Ranadhir Ghosh with super-admin role', type: 'content', page: 'admin-login.html', search: 'super-admin' },
+      { id: 'AL7', name: 'AUTH_DB has EC members', detail: 'EC members with ec-member role', type: 'content', page: 'admin-login.html', search: 'ec-member' },
+      { id: 'AL8', name: 'AUTH_DB has stakeholders', detail: 'Business stakeholder role entries', type: 'content', page: 'admin-login.html', search: 'business-stakeholder' },
+      { id: 'AL9', name: 'Role badges displayed', detail: 'Super Admin, Stakeholder, EC Admin badges', type: 'content', page: 'admin-login.html', search: 'role-badge' },
+      { id: 'AL10', name: 'Password strength meter', detail: 'checkPwdStrength function for signup/forgot', type: 'content', page: 'admin-login.html', search: 'checkPwdStrength' },
+      { id: 'AL11', name: 'Session storage on login', detail: 'banf_admin_session stored in sessionStorage', type: 'content', page: 'admin-login.html', search: 'banf_admin_session' },
+      { id: 'AL12', name: 'Not linked from landing', detail: 'admin-login.html is NOT in landing page links', type: 'content-absent', page: 'landing.html', search: 'admin-login.html' },
+    ]
+  },
+  {
+    id: 5, name: 'Role-Based Access Control',
+    tests: [
+      { id: 'RB1', name: 'Admin portal loads', detail: 'GET admin-portal.html returns 200', type: 'fetch', page: 'admin-portal.html' },
+      { id: 'RB2', name: 'ROLE_PANEL_ACCESS defined', detail: 'Role-to-panel mapping for RBAC', type: 'content', page: 'admin-portal.html', search: 'ROLE_PANEL_ACCESS' },
+      { id: 'RB3', name: 'Super admin sees all panels', detail: 'super-admin has dashboard through activity access', type: 'content', page: 'admin-portal.html', search: "'super-admin': ['dashboard','roles','users'" },
+      { id: 'RB4', name: 'Stakeholder restricted panels', detail: 'business-stakeholder: dashboard, stakeholder-drive, drive-status, feedback', type: 'content', page: 'admin-portal.html', search: "'business-stakeholder': ['dashboard','stakeholder-drive'" },
+      { id: 'RB5', name: 'EC member restricted panels', detail: 'ec-member: dashboard, ec-drive, drive-status only', type: 'content', page: 'admin-portal.html', search: "'ec-member': ['dashboard','ec-drive'" },
+      { id: 'RB6', name: 'applyRoleVisibility function', detail: 'Hides sidebar items based on role', type: 'content', page: 'admin-portal.html', search: 'applyRoleVisibility' },
+      { id: 'RB7', name: 'Portal switcher for super admin', detail: 'Quick links to switch between role views', type: 'content', page: 'admin-portal.html', search: 'portal-switcher' },
+      { id: 'RB8', name: 'switchView function', detail: 'Allows super admin to preview other role views', type: 'content', page: 'admin-portal.html', search: 'switchView' },
+      { id: 'RB9', name: 'Session-based auto-login', detail: 'Checks banf_admin_session on page load', type: 'content', page: 'admin-portal.html', search: 'checkSession' },
+      { id: 'RB10', name: 'Session cleared on logout', detail: 'removeItem banf_admin_session on logout', type: 'content', page: 'admin-portal.html', search: "removeItem('banf_admin_session')" },
+    ]
+  },
+  {
+    id: 6, name: 'Unified Auth System',
+    tests: [
+      { id: 'UA1', name: 'Same email works in member login', detail: 'ranadhir.ghosh@gmail.com in REGISTERED_MEMBERS', type: 'content', page: 'member-login.html', search: 'ranadhir.ghosh@gmail.com' },
+      { id: 'UA2', name: 'Same email works in admin login', detail: 'ranadhir.ghosh@gmail.com in AUTH_DB', type: 'content', page: 'admin-login.html', search: 'ranadhir.ghosh@gmail.com' },
+      { id: 'UA3', name: 'EC email in member login', detail: 'president@banf.org valid for member portal', type: 'content', page: 'member-login.html', search: 'president@banf.org' },
+      { id: 'UA4', name: 'EC email in admin login', detail: 'president@banf.org valid for admin portal with EC role', type: 'content', page: 'admin-login.html', search: 'president@banf.org' },
+      { id: 'UA5', name: 'Role detection on admin login', detail: 'getEffectiveRole determines highest role', type: 'content', page: 'admin-login.html', search: 'getEffectiveRole' },
+      { id: 'UA6', name: 'Member data mirrored to session', detail: 'banf_member_data also set on admin login', type: 'content', page: 'admin-login.html', search: 'banf_member_data' },
+      { id: 'UA7', name: 'Username-based login supported', detail: 'USERNAME_MAP maps usernames to emails', type: 'content', page: 'admin-login.html', search: 'USERNAME_MAP' },
+      { id: 'UA8', name: 'Legacy CREDS fallback in portal', detail: 'admin-portal.html has CREDS for offline mode', type: 'content', page: 'admin-portal.html', search: 'CREDS' },
+    ]
+  },
+  {
+    id: 7, name: 'Security & Auth Flows',
+    tests: [
+      { id: 'SE1', name: 'Security question on signup', detail: 'signup-sq select with 6 options', type: 'content', page: 'admin-login.html', search: 'signup-sq' },
+      { id: 'SE2', name: 'Security answer stored', detail: 'securityQ and securityA in AUTH_DB', type: 'content', page: 'admin-login.html', search: 'securityQ' },
+      { id: 'SE3', name: 'Password minimum 8 chars', detail: 'Validation check for minimum password length', type: 'content', page: 'admin-login.html', search: 'pass.length < 8' },
+      { id: 'SE4', name: 'Password confirmation match', detail: 'pass !== pass2 validation', type: 'content', page: 'admin-login.html', search: 'pass !== pass2' },
+      { id: 'SE5', name: 'Forgot password uses SQ', detail: 'Security question verification before reset', type: 'content', page: 'admin-login.html', search: 'securityA' },
+      { id: 'SE6', name: 'Forgot supports username lookup', detail: 'resolveEmail handles username input', type: 'content', page: 'admin-login.html', search: 'resolveEmail' },
+      { id: 'SE7', name: 'Offline mode code fallback', detail: 'Code 123456 works in offline signup', type: 'content', page: 'admin-login.html', search: '123456' },
+      { id: 'SE8', name: 'Member portal auth gate blocks', detail: 'Redirect when no banf_member_data', type: 'content', page: 'member-portal.html', search: "window.location.href = 'member-login.html'" },
+      { id: 'SE9', name: 'Admin portal login overlay', detail: 'login-screen overlay blocks portal access', type: 'content', page: 'admin-portal.html', search: 'login-screen' },
+      { id: 'SE10', name: 'Eye toggle for password fields', detail: 'togglePwd function on all password inputs', type: 'content', page: 'admin-login.html', search: 'togglePwd' },
+    ]
+  }
+];
+
+// ── Flatten all tests ──
+function getAllTests() {
+  var tests = [];
+  SUITES.forEach(function(s) {
+    s.tests.forEach(function(t) { tests.push(Object.assign({}, t, { suiteId: s.id })); });
+  });
+  return tests;
+}
+
+// Page cache for fetched content
+var pageCache = {};
+
+async function fetchPage(page) {
+  if (pageCache[page]) return pageCache[page];
+  try {
+    var url = BASE_URL() + page;
+    var res = await fetch(url, { mode: 'cors', cache: 'no-cache' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var text = await res.text();
+    pageCache[page] = { ok: true, text: text, status: res.status };
+  } catch (e) {
+    pageCache[page] = { ok: false, text: '', error: e.message };
+  }
+  return pageCache[page];
+}
+
+// ── Run a single test ──
+async function runTest(test) {
+  var start = performance.now();
+  var result = { id: test.id, suiteId: test.suiteId, status: 'pending', time: 0, detail: '' };
+
+  try {
+    var page = test.page || 'landing.html';
+
+    if (test.type === 'fetch') {
+      var data = await fetchPage(page);
+      if (data.ok) {
+        result.status = 'pass';
+        result.detail = 'HTTP ' + data.status + ' OK (' + data.text.length + ' bytes)';
+      } else {
+        result.status = 'fail';
+        result.detail = 'Failed: ' + data.error;
+      }
+    }
+    else if (test.type === 'content') {
+      var data = await fetchPage(page);
+      if (!data.ok) {
+        result.status = 'fail';
+        result.detail = 'Page failed to load: ' + data.error;
+      } else if (data.text.includes(test.search)) {
+        result.status = 'pass';
+        result.detail = 'Found "' + test.search.substring(0, 40) + '" in ' + page;
+      } else {
+        result.status = 'fail';
+        result.detail = 'Missing "' + test.search.substring(0, 40) + '" in ' + page;
+      }
+    }
+    else if (test.type === 'content-absent') {
+      var data = await fetchPage(page);
+      if (!data.ok) {
+        result.status = 'skip';
+        result.detail = 'Page failed to load';
+      } else if (!data.text.includes(test.search)) {
+        result.status = 'pass';
+        result.detail = '"' + test.search + '" correctly absent from ' + page;
+      } else {
+        result.status = 'fail';
+        result.detail = '"' + test.search + '" found in ' + page + ' (should be absent)';
+      }
+    }
+  } catch (e) {
+    result.status = 'fail';
+    result.detail = 'Error: ' + e.message;
+  }
+
+  result.time = Math.round(performance.now() - start);
+  return result;
+}
+
+// ── Render tests into DOM ──
+function renderSuiteTests(suiteId, results) {
+  var suite = SUITES.find(function(s) { return s.id === suiteId; });
+  if (!suite) return;
+  var el = document.getElementById('suite-' + suiteId + '-tests');
+  el.innerHTML = suite.tests.map(function(t) {
+    var r = results.find(function(res) { return res.id === t.id; }) || { status: 'pending', time: 0, detail: '' };
+    var icons = { pending: 'fa-circle', running: 'fa-spinner fa-spin', pass: 'fa-check', fail: 'fa-times', skip: 'fa-forward' };
+    var labels = { pending: '—', running: '...', pass: 'PASS', fail: 'FAIL', skip: 'SKIP' };
+    var colors = { pending: 'var(--dim)', running: 'var(--yellow)', pass: 'var(--green)', fail: 'var(--red)', skip: 'var(--dim)' };
+    return '<div class="test-step">' +
+      '<div class="ts-icon ' + r.status + '"><i class="fas ' + icons[r.status] + '"></i></div>' +
+      '<div style="flex:1"><div class="ts-label">' + t.id + ': ' + t.name + '</div>' +
+      '<div class="ts-detail">' + (r.detail || t.detail) + '</div></div>' +
+      '<div class="ts-status" style="color:' + colors[r.status] + '">' + labels[r.status] + '</div>' +
+      '<div class="ts-time">' + (r.time ? r.time + 'ms' : '') + '</div>' +
+      '</div>';
+  }).join('');
+
+  // Update badge
+  var suiteResults = results.filter(function(r) { return r.suiteId === suiteId; });
+  var badge = document.getElementById('suite-' + suiteId + '-badge');
+  if (suiteResults.length === 0) {
+    badge.className = 'suite-badge badge-pending'; badge.textContent = 'Pending';
+  } else {
+    var failed = suiteResults.filter(function(r) { return r.status === 'fail'; }).length;
+    var passed = suiteResults.filter(function(r) { return r.status === 'pass'; }).length;
+    if (failed > 0) { badge.className = 'suite-badge badge-fail'; badge.textContent = failed + ' Failed'; }
+    else if (passed === suite.tests.length) { badge.className = 'suite-badge badge-pass'; badge.textContent = 'All Passed'; }
+    else { badge.className = 'suite-badge badge-running'; badge.textContent = passed + '/' + suite.tests.length; }
+  }
+}
+
+function renderAllSuites(results) {
+  SUITES.forEach(function(s) { renderSuiteTests(s.id, results); });
+}
+
+function updateSummary(results) {
+  var total = getAllTests().length;
+  var passed = results.filter(function(r) { return r.status === 'pass'; }).length;
+  var failed = results.filter(function(r) { return r.status === 'fail'; }).length;
+  var skipped = results.filter(function(r) { return r.status === 'skip'; }).length;
+  var elapsed = startTime > 0 ? ((performance.now() - startTime) / 1000).toFixed(1) : '0';
+
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-pass').textContent = passed;
+  document.getElementById('s-fail').textContent = failed;
+  document.getElementById('s-skip').textContent = skipped;
+  document.getElementById('s-time').textContent = elapsed + 's';
+
+  var pct = total > 0 ? Math.round((results.length / total) * 100) : 0;
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('progress').style.background = failed > 0 ? 'var(--red)' : 'var(--green)';
+
+  if (results.length === total) {
+    var resultEl = document.getElementById('s-result');
+    if (failed === 0) {
+      resultEl.textContent = 'PASS';
+      resultEl.style.color = 'var(--green)';
+    } else {
+      resultEl.textContent = 'FAIL';
+      resultEl.style.color = 'var(--red)';
+    }
+  }
+}
+
+function addLogEntry(type, msg) {
+  testLog.push({ ts: new Date().toLocaleTimeString('en-US', { hour12: false }), type: type, msg: msg });
+  var el = document.getElementById('test-log');
+  el.innerHTML = testLog.map(function(l) {
+    var color = l.type === 'PASS' ? 'var(--green)' : l.type === 'FAIL' ? 'var(--red)' : l.type === 'SKIP' ? 'var(--dim)' : l.type === 'INFO' ? 'var(--blue)' : 'var(--muted)';
+    return '<div class="log-line"><span class="log-ts">' + l.ts + '</span><span class="log-type" style="color:' + color + '">' + l.type + '</span><span class="log-msg">' + l.msg + '</span></div>';
+  }).join('');
+  el.scrollTop = el.scrollHeight;
+}
+
+// ── Main Runner ──
+async function runAllTests() {
+  if (running) return;
+  running = true;
+  pageCache = {};
+  allResults = [];
+  testLog = [];
+  startTime = performance.now();
+
+  var btn = document.getElementById('btn-run');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
+
+  addLogEntry('INFO', 'Starting BANF Planner Test Agent v1.0');
+  addLogEntry('INFO', 'Base URL: ' + BASE_URL());
+  addLogEntry('INFO', 'Total tests: ' + getAllTests().length + ' across ' + SUITES.length + ' suites');
+
+  renderAllSuites([]);
+
+  var tests = getAllTests();
+  for (var i = 0; i < tests.length; i++) {
+    var test = tests[i];
+    // Mark running
+    allResults.push({ id: test.id, suiteId: test.suiteId, status: 'running', time: 0, detail: 'Running...' });
+    renderAllSuites(allResults);
+    updateSummary(allResults);
+
+    // Run
+    var result = await runTest(test);
+    allResults[allResults.length - 1] = result;
+
+    addLogEntry(result.status.toUpperCase(), test.id + ' ' + test.name + ' — ' + result.detail);
+
+    renderAllSuites(allResults);
+    updateSummary(allResults);
+
+    // Small delay for visual feedback
+    await new Promise(function(r) { setTimeout(r, 50); });
+  }
+
+  // Final summary
+  var passed = allResults.filter(function(r) { return r.status === 'pass'; }).length;
+  var failed = allResults.filter(function(r) { return r.status === 'fail'; }).length;
+  var elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+
+  addLogEntry('INFO', '═══════════════════════════════════════');
+  addLogEntry('INFO', 'TEST RUN COMPLETE');
+  addLogEntry('INFO', 'Total: ' + allResults.length + ' | Pass: ' + passed + ' | Fail: ' + failed + ' | Duration: ' + elapsed + 's');
+  addLogEntry(failed === 0 ? 'PASS' : 'FAIL', failed === 0 ? 'ALL TESTS PASSED' : failed + ' TEST(S) FAILED');
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-play"></i> Run All Tests';
+  running = false;
+}
+
+function resetTests() {
+  if (running) return;
+  allResults = [];
+  testLog = [];
+  pageCache = {};
+  startTime = 0;
+  renderAllSuites([]);
+  updateSummary([]);
+  document.getElementById('test-log').innerHTML = '';
+  document.getElementById('s-result').textContent = '—';
+  document.getElementById('s-result').style.color = 'var(--dim)';
+  document.getElementById('progress').style.width = '0%';
+  SUITES.forEach(function(s) {
+    var badge = document.getElementById('suite-' + s.id + '-badge');
+    badge.className = 'suite-badge badge-pending';
+    badge.textContent = 'Pending';
+  });
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', function() {
+  renderAllSuites([]);
+  updateSummary([]);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin &amp; Stakeholder Login - BANF</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--bg2:#1a1d27;--card:#21242f;--line:#2a2d3a;
+  --text:#e1e4ed;--muted:#8b8fa3;--dim:#555a6e;
+  --accent:#f97316;--accent2:#fb923c;
+  --green:#22c55e;--red:#ef4444;--blue:#3b82f6;--cyan:#06b6d4;
+  --purple:#a855f7;--yellow:#eab308;--orange:#f97316;
+}
+*{font-family:'Inter',system-ui,sans-serif;box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.login-container{width:440px;max-width:94vw}
+.login-box{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:2.5rem 2rem;box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  animation:slideUp .5s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:#fff;margin:0 auto 1.2rem}
+h1{font-size:1.15rem;font-weight:700;text-align:center;margin-bottom:4px}
+.sub{text-align:center;font-size:.78rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
+.role-badges{display:flex;gap:6px;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap}
+.role-badge{font-size:.65rem;padding:3px 10px;border-radius:999px;font-weight:600;border:1px solid}
+.role-badge.sa{color:var(--red);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)}
+.role-badge.sh{color:var(--orange);border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.08)}
+.role-badge.ec{color:var(--blue);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.08)}
+input,select{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:.88rem;margin-bottom:10px;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,.12)}
+input::placeholder{color:var(--dim)}
+.pwd-toggle{position:relative}
+.pwd-toggle input{padding-right:40px}
+.toggle-eye{position:absolute;right:12px;top:12px;color:var(--dim);cursor:pointer;font-size:.85rem}
+.toggle-eye:hover{color:var(--muted)}
+.btn-login{
+  width:100%;padding:12px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;
+  margin-top:6px;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px
+}
+.btn-login:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
+.btn-login:disabled{opacity:.5;transform:none}
+.error-msg{color:var(--red);font-size:.78rem;margin-top:6px;display:none;text-align:center}
+.success-msg{color:var(--green);font-size:.78rem;margin-top:6px;display:none;text-align:center}
+.info-msg{color:var(--blue);font-size:.78rem;margin-top:6px;display:none;text-align:center}
+.auth-links{display:flex;gap:16px;justify-content:center;margin-top:14px}
+.auth-links a{color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:none;transition:.2s}
+.auth-links a:hover{color:var(--accent)}
+.auth-screen{display:none}
+.auth-screen.active{display:block}
+.auth-step{display:none}
+.auth-step.active{display:block}
+.back-link{font-size:.78rem;color:var(--muted);cursor:pointer;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--accent)}
+.field-label{font-size:.75rem;color:var(--muted);margin-bottom:4px;font-weight:600}
+.auth-divider{border-top:1px solid var(--line);margin:14px 0}
+.pwd-strength{height:4px;background:var(--bg2);border-radius:999px;margin:2px 0 10px;overflow:hidden}
+.pwd-strength .bar{height:100%;width:0;transition:.3s;border-radius:999px}
+.bottom-links{text-align:center;margin-top:1.5rem}
+.bottom-links a{color:rgba(255,255,255,.5);font-size:.78rem;text-decoration:none;transition:.2s}
+.bottom-links a:hover{color:rgba(255,255,255,.8)}
+.test-creds{
+  background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin-top:14px;font-size:.72rem;color:var(--muted)
+}
+.test-creds code{background:var(--bg);padding:1px 6px;border-radius:4px;font-size:.7rem;color:var(--cyan)}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <div class="login-box">
+    <div class="logo">B</div>
+    <h1>BANF Admin &amp; Stakeholder Portal</h1>
+    <div class="sub">Authorized access for Super Admin, Business Stakeholders &amp; EC Administrators</div>
+    <div class="role-badges">
+      <span class="role-badge sa"><i class="fas fa-shield-alt me-1"></i>Super Admin</span>
+      <span class="role-badge sh"><i class="fas fa-bullhorn me-1"></i>Stakeholder</span>
+      <span class="role-badge ec"><i class="fas fa-users-cog me-1"></i>EC Admin</span>
+    </div>
+
+    <!-- ══ SIGN IN ══ -->
+    <div class="auth-screen active" id="auth-signin">
+      <input type="email" id="login-email" placeholder="Email address" autocomplete="email" autofocus>
+      <div class="pwd-toggle">
+        <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+        <i class="fas fa-eye toggle-eye" onclick="togglePwd('login-pass',this)"></i>
+      </div>
+      <button class="btn-login" id="btn-login"><i class="fas fa-shield-alt"></i>Sign In</button>
+      <div class="error-msg" id="login-error"></div>
+      <div class="success-msg" id="login-success"></div>
+      <div class="info-msg" id="login-info"></div>
+      <div class="auth-links">
+        <a onclick="showAuth('forgot')"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+        <a onclick="showAuth('signup')"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+      </div>
+      <div style="margin-top:14px;font-size:.7rem;color:var(--dim);text-align:center">
+        <i class="fas fa-lock me-1"></i>Unified BANF Auth — same credentials work across all portals
+      </div>
+
+      <div class="test-creds">
+        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Test Accounts</div>
+        <div>Super Admin: <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
+        <div>EC Admin: <code>president@banf.org</code> / <code>banf-ec-2026</code></div>
+        <div>Stakeholder: <code>sponsor1@banf.org</code> / <code>banf-sh-2026</code></div>
+        <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">System auto-detects your role(s) and configures the portal accordingly.</div>
+      </div>
+    </div>
+
+    <!-- ══ SIGN UP (Multi-Step) ══ -->
+    <div class="auth-screen" id="auth-signup">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Admin Sign Up</h1>
+
+      <!-- Step 1: Email -->
+      <div class="auth-step active" id="signup-step-1">
+        <div class="field-label">Your BANF Email (must be in AdminRoles or EC Members list)</div>
+        <input type="email" id="signup-email" placeholder="your-email@example.com" autocomplete="email">
+        <button class="btn-login" onclick="signupStep1()"><i class="fas fa-paper-plane"></i>Send Verification Code</button>
+        <div class="error-msg" id="signup-error-1"></div>
+        <div class="info-msg" id="signup-info-1"></div>
+        <div style="margin-top:8px;font-size:.7rem;color:var(--dim)">A 6-digit code will be sent. You must be an authorized admin/EC member/stakeholder.</div>
+      </div>
+
+      <!-- Step 2: Code -->
+      <div class="auth-step" id="signup-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-envelope me-1"></i>Code sent to <strong id="signup-code-email"></strong></div>
+        <div class="field-label">Enter 6-Digit Code</div>
+        <input type="text" id="signup-code" placeholder="Enter code" maxlength="6" style="text-align:center;letter-spacing:6px;font-size:1.2rem;font-weight:700" autocomplete="one-time-code">
+        <button class="btn-login" onclick="signupStep2()"><i class="fas fa-check-circle"></i>Verify Code</button>
+        <div class="error-msg" id="signup-error-2"></div>
+        <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">Code expires in 10 min. <a href="#" onclick="signupResend();return false" style="color:var(--accent)">Resend code</a></div>
+        <div class="info-msg" id="signup-info-2"></div>
+      </div>
+
+      <!-- Step 3: Password + Security Question -->
+      <div class="auth-step" id="signup-step-3">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:14px"><i class="fas fa-check-circle me-1"></i>Email verified: <strong id="signup-confirmed-email"></strong></div>
+        <div class="field-label">Create Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="signup-pass" placeholder="Minimum 8 characters" oninput="checkPwdStrength(this.value,'signup-strength')">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('signup-pass',this)"></i>
+        </div>
+        <div class="pwd-strength"><div class="bar" id="signup-strength"></div></div>
+        <div class="field-label">Confirm Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="signup-pass2" placeholder="Re-enter password">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('signup-pass2',this)"></i>
+        </div>
+        <div class="auth-divider"></div>
+        <div class="field-label">Security Question</div>
+        <select id="signup-sq">
+          <option value="">— Select a security question —</option>
+          <option value="city_born">What city were you born in?</option>
+          <option value="pet_name">What is the name of your first pet?</option>
+          <option value="mother_maiden">What is your mother's maiden name?</option>
+          <option value="school_name">What was the name of your first school?</option>
+          <option value="fav_teacher">Who was your favorite teacher?</option>
+          <option value="childhood_friend">What is the name of your childhood best friend?</option>
+        </select>
+        <div class="field-label">Security Answer</div>
+        <input type="text" id="signup-sa" placeholder="Your answer (case-insensitive)">
+        <button class="btn-login" onclick="signupStep3()"><i class="fas fa-user-shield"></i>Create Account</button>
+        <div class="error-msg" id="signup-error-3"></div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="auth-step" id="signup-step-4">
+        <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Account Created Successfully!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;text-align:center">Your admin account is ready. Sign in with your email and password.</div>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+      </div>
+    </div>
+
+    <!-- ══ FORGOT PASSWORD ══ -->
+    <div class="auth-screen" id="auth-forgot">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-key me-1"></i>Reset Password</h1>
+
+      <!-- Step 1: Find account (email or username) -->
+      <div class="auth-step active" id="forgot-step-1">
+        <div class="field-label">Enter your email or username</div>
+        <input type="text" id="forgot-email" placeholder="email or username" autocomplete="email">
+        <button class="btn-login" onclick="forgotStep1()"><i class="fas fa-search"></i>Find My Account</button>
+        <div class="error-msg" id="forgot-error-1"></div>
+        <div class="info-msg" id="forgot-info-1"></div>
+      </div>
+
+      <!-- Step 2: Security question -->
+      <div class="auth-step" id="forgot-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found: <strong id="forgot-found-name"></strong></div>
+        <div class="field-label">Security Question</div>
+        <div style="font-size:.88rem;color:var(--text);background:var(--bg2);padding:12px 16px;border-radius:8px;margin-bottom:12px" id="forgot-sq-display"></div>
+        <div class="field-label">Your Answer</div>
+        <input type="text" id="forgot-sa" placeholder="Type your answer">
+        <button class="btn-login" onclick="forgotStep2()"><i class="fas fa-check"></i>Verify Answer</button>
+        <div class="error-msg" id="forgot-error-2"></div>
+      </div>
+
+      <!-- Step 3: New password -->
+      <div class="auth-step" id="forgot-step-3">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:14px"><i class="fas fa-check-circle me-1"></i>Identity verified!</div>
+        <div class="field-label">New Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="forgot-newpass" placeholder="Minimum 8 characters" oninput="checkPwdStrength(this.value,'forgot-strength')">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('forgot-newpass',this)"></i>
+        </div>
+        <div class="pwd-strength"><div class="bar" id="forgot-strength"></div></div>
+        <div class="field-label">Confirm New Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="forgot-newpass2" placeholder="Re-enter password">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('forgot-newpass2',this)"></i>
+        </div>
+        <button class="btn-login" onclick="forgotStep3()"><i class="fas fa-save"></i>Reset Password</button>
+        <div class="error-msg" id="forgot-error-3"></div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="auth-step" id="forgot-step-4">
+        <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Password Reset Successfully!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;text-align:center">You can now sign in with your new password.</div>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-links">
+    <a href="landing.html"><i class="fas fa-arrow-left me-1"></i>Back to BANF Home</a>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  UNIFIED BANF AUTH SYSTEM
+//  Same credentials work across all portals.
+//  System detects role(s) and configures portal accordingly.
+// ═══════════════════════════════════════════════════════════════
+
+const API = 'https://www.jaxbengali.org/_functions';
+let SIGNUP_STATE = {};
+let FORGOT_STATE = {};
+
+const SQ_LABELS = {
+  city_born: 'What city were you born in?',
+  pet_name: 'What is the name of your first pet?',
+  mother_maiden: "What is your mother's maiden name?",
+  school_name: 'What was the name of your first school?',
+  fav_teacher: 'Who was your favorite teacher?',
+  childhood_friend: 'What is the name of your childhood best friend?'
+};
+
+// ── UNIFIED CREDENTIAL DATABASE ──
+// All known admin/EC/stakeholder users with offline passwords
+// Role hierarchy: super-admin > business-stakeholder > ec-member
+const AUTH_DB = {
+  'ranadhir.ghosh@gmail.com': {
+    name: 'Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
+    roles: ['super-admin'], ecTitle: 'IT / Tech Lead',
+    offlinePw: 'banf-super-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'president@banf.org': {
+    name: 'Arun Sen', firstName: 'Arun', lastName: 'Sen',
+    roles: ['ec-member', 'business-stakeholder'], ecTitle: 'President',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'pet_name', securityA: 'buddy'
+  },
+  'treasurer@banf.org': {
+    name: 'Priya Bose', firstName: 'Priya', lastName: 'Bose',
+    roles: ['ec-member'], ecTitle: 'Treasurer',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'school_name', securityA: 'south point'
+  },
+  'secretary@banf.org': {
+    name: 'Suman Das', firstName: 'Suman', lastName: 'Das',
+    roles: ['ec-member'], ecTitle: 'Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'mother_maiden', securityA: 'mukherjee'
+  },
+  'cultural@banf.org': {
+    name: 'Mita Roy', firstName: 'Mita', lastName: 'Roy',
+    roles: ['ec-member'], ecTitle: 'Cultural Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'fav_teacher', securityA: 'das sir'
+  },
+  'vp-membership@banf.org': {
+    name: 'Dipak Mukherjee', firstName: 'Dipak', lastName: 'Mukherjee',
+    roles: ['ec-member'], ecTitle: 'VP Membership',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'childhood_friend', securityA: 'subrata'
+  },
+  'vp-events@banf.org': {
+    name: 'Tanmay Chatterjee', firstName: 'Tanmay', lastName: 'Chatterjee',
+    roles: ['ec-member'], ecTitle: 'VP Events',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'howrah'
+  },
+  'it@banf.org': {
+    name: 'Jayanta Pal', firstName: 'Jayanta', lastName: 'Pal',
+    roles: ['ec-member'], ecTitle: 'IT Lead',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'pet_name', securityA: 'bagha'
+  },
+  'jt-secretary@banf.org': {
+    name: 'Kamal Gupta', firstName: 'Kamal', lastName: 'Gupta',
+    roles: ['ec-member'], ecTitle: 'Jt. Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'school_name', securityA: 'don bosco'
+  },
+  'sponsor1@banf.org': {
+    name: 'Sharmila Dey', firstName: 'Sharmila', lastName: 'Dey',
+    roles: ['business-stakeholder'], ecTitle: 'Business Sponsor',
+    offlinePw: 'banf-sh-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  // Legacy admin user (maps to admin@banf.org or just 'admin')
+  'admin': {
+    name: 'Admin', firstName: 'Admin', lastName: '',
+    roles: ['super-admin'], ecTitle: 'Admin',
+    offlinePw: 'banf-admin-2026',
+    securityQ: 'city_born', securityA: 'jacksonville'
+  }
+};
+
+// Also allow username-based lookup (e.g. 'ranadhir.ghosh' → ranadhir.ghosh@gmail.com)
+const USERNAME_MAP = {};
+Object.keys(AUTH_DB).forEach(email => {
+  const user = AUTH_DB[email];
+  const username = email.split('@')[0].replace(/\./g, '.');
+  USERNAME_MAP[username] = email;
+  USERNAME_MAP[username.replace(/\./g, '_')] = email;
+});
+
+// ── UTILITY FUNCTIONS ──
+function showAuth(screen) {
+  document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('auth-' + screen);
+  if (el) el.classList.add('active');
+  if (screen === 'signup') {
+    document.querySelectorAll('#auth-signup .auth-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('signup-step-1').classList.add('active');
+  }
+  if (screen === 'forgot') {
+    document.querySelectorAll('#auth-forgot .auth-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('forgot-step-1').classList.add('active');
+  }
+  document.querySelectorAll('.error-msg,.success-msg,.info-msg').forEach(m => m.style.display = 'none');
+}
+
+function showStep(prefix, num) {
+  document.querySelectorAll('#auth-' + prefix + ' .auth-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(prefix + '-step-' + num).classList.add('active');
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function showInfo(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function hideMsg(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+function togglePwd(inputId, icon) {
+  const inp = document.getElementById(inputId);
+  if (inp.type === 'password') { inp.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
+  else { inp.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
+}
+
+function checkPwdStrength(pwd, barId) {
+  const bar = document.getElementById(barId);
+  if (!bar) return;
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (pwd.length >= 12) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  const pct = Math.min(score * 20, 100);
+  const colors = ['#ef4444', '#ef4444', '#eab308', '#eab308', '#22c55e', '#22c55e'];
+  bar.style.width = pct + '%';
+  bar.style.background = colors[score] || '#ef4444';
+}
+
+async function apiCall(endpoint, body) {
+  try {
+    const resp = await fetch(API + '/' + endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    return await resp.json();
+  } catch (e) {
+    return { success: false, error: 'Network error: ' + e.message };
+  }
+}
+
+function resolveEmail(input) {
+  const lower = (input || '').trim().toLowerCase();
+  // Direct email match
+  if (AUTH_DB[lower]) return lower;
+  // Username map
+  if (USERNAME_MAP[lower]) return USERNAME_MAP[lower];
+  // Try appending common domains
+  if (!lower.includes('@')) {
+    if (AUTH_DB[lower + '@banf.org']) return lower + '@banf.org';
+    if (AUTH_DB[lower + '@gmail.com']) return lower + '@gmail.com';
+  }
+  return lower; // Return as-is for backend lookup
+}
+
+// Determine effective role for portal routing
+function getEffectiveRole(roles) {
+  if (roles.includes('super-admin')) return 'super-admin';
+  if (roles.includes('business-stakeholder')) return 'business-stakeholder';
+  if (roles.includes('ec-member')) return 'ec-member';
+  return roles[0] || 'ec-member';
+}
+
+// ── ENTER PORTAL ──
+function enterPortal(user, email) {
+  const effectiveRole = getEffectiveRole(user.roles);
+  const session = {
+    email: email,
+    name: user.name,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    roles: user.roles,
+    effectiveRole: effectiveRole,
+    ecTitle: user.ecTitle || '',
+    loginTime: new Date().toISOString(),
+    source: 'admin-login'
+  };
+  sessionStorage.setItem('banf_admin_session', JSON.stringify(session));
+  // Also mirror into banf_member_data so member portal works too
+  sessionStorage.setItem('banf_member_data', JSON.stringify({
+    name: user.name, firstName: user.firstName, lastName: user.lastName,
+    email: email, phone: '', membershipType: 'Admin',
+    memberId: 'ADMIN', isECMember: true, role: user.ecTitle,
+    memberSince: '2024'
+  }));
+  window.location.href = 'admin-portal.html';
+}
+
+// ── SIGN IN ──
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const rawEmail = (document.getElementById('login-email').value || '').trim();
+  const pass = document.getElementById('login-pass').value;
+  hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
+
+  if (!rawEmail) return showError('login-error', 'Please enter your email address.');
+
+  const email = resolveEmail(rawEmail);
+  const localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
+
+  // 1. Offline credential check
+  if (localUser && localUser.offlinePw === pass) {
+    enterPortal(localUser, email);
+    return;
+  }
+
+  // 2. Try backend API
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+
+  const result = await apiCall('admin_verify_login', { email, password: pass || '' });
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-shield-alt"></i> Sign In';
+
+  if (result.success) {
+    if (result.noPassword) {
+      showInfo('login-info', 'Your account needs a password. Please use Sign Up to set your password and security question.');
+      return;
+    }
+    // Build user from API result + local role data
+    const user = localUser || {
+      name: [result.firstName, result.lastName].filter(Boolean).join(' ') || email,
+      firstName: result.firstName || '', lastName: result.lastName || '',
+      roles: [result.adminRole || 'ec-member'], ecTitle: result.ecTitle || '',
+      offlinePw: null
+    };
+    enterPortal(user, email);
+  } else if (localUser && !pass) {
+    // User exists locally but no password entered
+    showError('login-error', 'Please enter your password.');
+  } else if (localUser) {
+    showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
+  } else {
+    showError('login-error', result.error || 'Account not found. Only authorized admins, EC members, and stakeholders can sign in.');
+  }
+});
+
+document.getElementById('login-pass').addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('btn-login').click();
+});
+document.getElementById('login-email').addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('login-pass').focus();
+});
+
+// ── SIGN UP FLOW ──
+async function signupStep1() {
+  const email = resolveEmail(document.getElementById('signup-email').value);
+  hideMsg('signup-error-1'); hideMsg('signup-info-1');
+
+  if (!email || !email.includes('@')) return showError('signup-error-1', 'Please enter a valid email address.');
+
+  // Check if authorized
+  if (!AUTH_DB[email]) {
+    return showError('signup-error-1', 'This email is not in the authorized admin/EC/stakeholder list. Contact the Super Admin.');
+  }
+
+  showInfo('signup-info-1', 'Sending verification code...');
+
+  const result = await apiCall('admin_signup_send_code', { email });
+  hideMsg('signup-info-1');
+
+  if (result.success) {
+    SIGNUP_STATE = { email };
+    document.getElementById('signup-code-email').textContent = email;
+    showStep('signup', 2);
+  } else {
+    // For offline mode, simulate code sent
+    SIGNUP_STATE = { email, offlineMode: true };
+    document.getElementById('signup-code-email').textContent = email;
+    showInfo('signup-info-1', 'Offline mode: use code 123456');
+    setTimeout(() => showStep('signup', 2), 1500);
+  }
+}
+
+async function signupResend() {
+  hideMsg('signup-error-2'); hideMsg('signup-info-2');
+  showInfo('signup-info-2', 'Resending code...');
+  const result = await apiCall('admin_signup_send_code', { email: SIGNUP_STATE.email });
+  hideMsg('signup-info-2');
+  if (result.success) showInfo('signup-info-2', 'New code sent!');
+  else showInfo('signup-info-2', 'Offline mode: use code 123456');
+}
+
+async function signupStep2() {
+  const code = (document.getElementById('signup-code').value || '').trim();
+  hideMsg('signup-error-2'); hideMsg('signup-info-2');
+
+  if (!code || code.length !== 6) return showError('signup-error-2', 'Enter the 6-digit code.');
+
+  if (SIGNUP_STATE.offlineMode) {
+    if (code !== '123456') return showError('signup-error-2', 'Invalid code. Use 123456 for offline mode.');
+    SIGNUP_STATE.token = 'offline-token';
+    document.getElementById('signup-confirmed-email').textContent = SIGNUP_STATE.email;
+    showStep('signup', 3);
+    return;
+  }
+
+  showInfo('signup-info-2', 'Verifying...');
+  const result = await apiCall('admin_signup_verify_code', { email: SIGNUP_STATE.email, code });
+  hideMsg('signup-info-2');
+
+  if (!result.success) return showError('signup-error-2', result.error || 'Invalid code.');
+
+  SIGNUP_STATE.token = result.setupToken;
+  document.getElementById('signup-confirmed-email').textContent = SIGNUP_STATE.email;
+  showStep('signup', 3);
+}
+
+async function signupStep3() {
+  const pass = document.getElementById('signup-pass').value;
+  const pass2 = document.getElementById('signup-pass2').value;
+  const sq = document.getElementById('signup-sq').value;
+  const sa = document.getElementById('signup-sa').value.trim();
+  hideMsg('signup-error-3');
+
+  if (!pass || pass.length < 8) return showError('signup-error-3', 'Password must be at least 8 characters.');
+  if (pass !== pass2) return showError('signup-error-3', 'Passwords do not match.');
+  if (!sq) return showError('signup-error-3', 'Please select a security question.');
+  if (!sa || sa.length < 2) return showError('signup-error-3', 'Please provide a security answer (at least 2 characters).');
+
+  if (SIGNUP_STATE.offlineMode) {
+    // Update offline DB
+    const user = AUTH_DB[SIGNUP_STATE.email];
+    if (user) {
+      user.offlinePw = pass;
+      user.securityQ = sq;
+      user.securityA = sa.toLowerCase();
+    }
+    showStep('signup', 4);
+    return;
+  }
+
+  const pwResult = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, password: pass });
+  if (!pwResult.success) return showError('signup-error-3', pwResult.error || 'Failed to set password.');
+
+  await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() });
+  await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token });
+
+  showStep('signup', 4);
+}
+
+// ── FORGOT PASSWORD FLOW ──
+async function forgotStep1() {
+  const rawInput = (document.getElementById('forgot-email').value || '').trim();
+  hideMsg('forgot-error-1'); hideMsg('forgot-info-1');
+
+  if (!rawInput) return showError('forgot-error-1', 'Please enter your email or username.');
+
+  const email = resolveEmail(rawInput);
+  const localUser = AUTH_DB[email] || AUTH_DB[rawInput.toLowerCase()];
+
+  if (localUser) {
+    FORGOT_STATE = { email, user: localUser };
+    document.getElementById('forgot-found-name').textContent = localUser.name;
+    if (localUser.securityQ) {
+      document.getElementById('forgot-sq-display').textContent = SQ_LABELS[localUser.securityQ] || localUser.securityQ;
+      showStep('forgot', 2);
+    } else {
+      showError('forgot-error-1', 'No security question configured. Contact the Super Admin.');
+    }
+    return;
+  }
+
+  showInfo('forgot-info-1', 'Looking up account...');
+  const result = await apiCall('admin_verify_login', { email });
+  hideMsg('forgot-info-1');
+
+  if (!result.success && !result.needsOnboarding) {
+    return showError('forgot-error-1', 'Account not found. Check your email/username.');
+  }
+
+  const profileResult = await apiCall('admin_get_security_question', { email });
+  if (!profileResult.success || !profileResult.question) {
+    return showError('forgot-error-1', 'No security question set. Contact the Super Admin.');
+  }
+
+  FORGOT_STATE = { email, resetToken: profileResult.resetToken || '' };
+  document.getElementById('forgot-found-name').textContent = email;
+  document.getElementById('forgot-sq-display').textContent = SQ_LABELS[profileResult.question] || profileResult.question;
+  showStep('forgot', 2);
+}
+
+async function forgotStep2() {
+  const answer = (document.getElementById('forgot-sa').value || '').trim();
+  hideMsg('forgot-error-2');
+
+  if (!answer) return showError('forgot-error-2', 'Please enter your answer.');
+
+  // Offline check
+  if (FORGOT_STATE.user && FORGOT_STATE.user.securityA) {
+    if (answer.toLowerCase() === FORGOT_STATE.user.securityA) {
+      showStep('forgot', 3);
+      return;
+    } else {
+      return showError('forgot-error-2', 'Incorrect answer. Please try again.');
+    }
+  }
+
+  const result = await apiCall('admin_verify_security_answer', { email: FORGOT_STATE.email, answer: answer.toLowerCase() });
+  if (!result.success) return showError('forgot-error-2', result.error || 'Incorrect answer.');
+
+  FORGOT_STATE.resetToken = result.resetToken || FORGOT_STATE.resetToken;
+  showStep('forgot', 3);
+}
+
+async function forgotStep3() {
+  const pass = document.getElementById('forgot-newpass').value;
+  const pass2 = document.getElementById('forgot-newpass2').value;
+  hideMsg('forgot-error-3');
+
+  if (!pass || pass.length < 8) return showError('forgot-error-3', 'Password must be at least 8 characters.');
+  if (pass !== pass2) return showError('forgot-error-3', 'Passwords do not match.');
+
+  // Offline update
+  if (FORGOT_STATE.user) {
+    FORGOT_STATE.user.offlinePw = pass;
+    showStep('forgot', 4);
+    return;
+  }
+
+  const result = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: FORGOT_STATE.resetToken, password: pass });
+  if (!result.success) return showError('forgot-error-3', result.error || 'Failed to reset password.');
+
+  showStep('forgot', 4);
+}
+
+// ── AUTO-LOGIN CHECK ──
+document.addEventListener('DOMContentLoaded', () => {
+  // If already authenticated, redirect to portal
+  const existing = sessionStorage.getItem('banf_admin_session');
+  if (existing) {
+    try {
+      const session = JSON.parse(existing);
+      if (session.email && session.roles) {
+        window.location.href = 'admin-portal.html';
+        return;
+      }
+    } catch (e) {}
+  }
+  // Auto-fill email from localStorage
+  const savedEmail = localStorage.getItem('banf_admin_email');
+  if (savedEmail) document.getElementById('login-email').value = savedEmail;
+});
+</script>
+</body>
+</html>
