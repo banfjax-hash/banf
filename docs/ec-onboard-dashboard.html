@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANF EC Onboarding Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --banf-red: #8B0000;
+            --banf-orange: #FF6B35;
+            --banf-green: #28a745;
+            --banf-gold: #f7931e;
+        }
+        body { background: #0f1923; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; }
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--banf-red), #DC143C);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .dashboard-header h1 { font-size: 1.8rem; margin: 0; }
+        .dashboard-header p { opacity: 0.8; margin: 0.5rem 0 0; }
+        .card { background: #1a2332; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; }
+        .card-header { border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); }
+
+        /* Gate Chain */
+        .gate-chain { display: flex; gap: 0; align-items: stretch; margin: 2rem 0; }
+        .gate-step {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 12px;
+            position: relative;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .gate-step::after {
+            content: '→';
+            position: absolute;
+            right: -18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #555;
+            z-index: 1;
+        }
+        .gate-step:last-child::after { display: none; }
+        .gate-step.locked { background: #1a2332; border: 2px dashed #444; opacity: 0.6; }
+        .gate-step.in-progress { background: linear-gradient(135deg, #1a2332, #2a3342); border: 2px solid var(--banf-orange); }
+        .gate-step.complete { background: linear-gradient(135deg, #1a3322, #1a4332); border: 2px solid var(--banf-green); }
+        .gate-step.ready { background: linear-gradient(135deg, #1a2332, #2a2342); border: 2px solid var(--banf-gold); }
+        .gate-step.active { background: linear-gradient(135deg, #1a2332, #2a3342); border: 2px solid #17a2b8; }
+        .gate-step.waiting { background: #1a2332; border: 2px solid #555; }
+        .gate-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .gate-step.locked .gate-icon { color: #555; }
+        .gate-step.in-progress .gate-icon { color: var(--banf-orange); }
+        .gate-step.complete .gate-icon { color: var(--banf-green); }
+        .gate-step.ready .gate-icon { color: var(--banf-gold); }
+        .gate-step.active .gate-icon { color: #17a2b8; }
+
+        /* Progress */
+        .progress-ring { width: 120px; height: 120px; margin: 0 auto 1rem; }
+        .progress-ring-bg { fill: none; stroke: #2a3342; stroke-width: 8; }
+        .progress-ring-fg { fill: none; stroke: var(--banf-green); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.8s ease; }
+        .progress-center { font-size: 1.8rem; font-weight: bold; fill: #fff; }
+
+        /* EC Member Cards */
+        .ec-member-row { 
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.2s;
+        }
+        .ec-member-row:hover { background: rgba(255,255,255,0.06); }
+        .ec-avatar {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: var(--banf-red);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .ec-info { flex: 1; min-width: 0; }
+        .ec-name { font-weight: 600; font-size: 0.95rem; }
+        .ec-title { font-size: 0.8rem; color: #888; }
+        .ec-steps { display: flex; gap: 0.5rem; }
+        .step-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .step-done { background: rgba(40,167,69,0.2); color: var(--banf-green); }
+        .step-pending { background: rgba(255,107,53,0.2); color: var(--banf-orange); }
+
+        /* Stats */
+        .stat-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value { font-size: 2rem; font-weight: bold; }
+        .stat-label { font-size: 0.8rem; color: #888; margin-top: 0.3rem; }
+
+        /* Actions */
+        .btn-banf { background: linear-gradient(135deg, var(--banf-red), #DC143C); color: #fff; border: none; }
+        .btn-banf:hover { background: linear-gradient(135deg, #6d0000, var(--banf-red)); color: #fff; }
+        .btn-banf:disabled { opacity: 0.5; }
+
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15,25,35,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999;
+        }
+        .spinner { width: 50px; height: 50px; border: 3px solid #333; border-top-color: var(--banf-red); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 10000; }
+        .alert-sm { padding: 0.5rem 1rem; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .gate-chain { flex-direction: column; }
+            .gate-step::after { content: '↓'; right: 50%; transform: translateX(50%); top: auto; bottom: -18px; }
+            .ec-member-row { flex-wrap: wrap; }
+            .ec-steps { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading-overlay">
+        <div class="text-center">
+            <div class="spinner mb-3"></div>
+            <div style="color:#888">Loading EC Onboarding Dashboard...</div>
+        </div>
+    </div>
+
+    <div id="toast-area" class="toast-container"></div>
+
+    <div class="container py-4" id="main-content" style="display:none">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1><i class="fas fa-shield-alt me-2"></i>EC Onboarding Progress Dashboard</h1>
+            <p id="fy-label">FY2026-27 Operational Readiness</p>
+        </div>
+
+        <!-- Gate Chain Visualization -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-project-diagram me-2"></i>Operational Gate Chain</h5>
+                <span id="gate-status-badge" class="badge bg-secondary">Loading...</span>
+            </div>
+            <div class="card-body">
+                <div class="gate-chain" id="gate-chain">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="row g-3 mb-4" id="stats-row">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Progress Ring + Actions -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-3">EC Onboarding Progress</h6>
+                        <svg class="progress-ring" viewBox="0 0 40 40">
+                            <circle class="progress-ring-bg" cx="20" cy="20" r="16"/>
+                            <circle id="progress-fg" class="progress-ring-fg" cx="20" cy="20" r="16"
+                                stroke-dasharray="100.53" stroke-dashoffset="100.53"
+                                transform="rotate(-90 20 20)"/>
+                            <text id="progress-text" class="progress-center" x="20" y="22" text-anchor="middle">0%</text>
+                        </svg>
+                        <div id="progress-detail" class="text-muted small"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-3"><i class="fas fa-cogs me-2"></i>Super Admin Actions</h6>
+                        <div class="d-grid gap-2">
+                            <button id="btn-reminder" class="btn btn-outline-info" onclick="sendReminders()" disabled>
+                                <i class="fas fa-envelope me-2"></i>Send Reminder to Pending EC
+                            </button>
+                            <button id="btn-complete" class="btn btn-banf" onclick="markComplete()" disabled>
+                                <i class="fas fa-check-circle me-2"></i>Mark EC Onboarding Complete
+                            </button>
+                            <button id="btn-force" class="btn btn-outline-warning btn-sm" onclick="markComplete(true)" disabled>
+                                <i class="fas fa-bolt me-2"></i>Force Complete (Skip Pending)
+                            </button>
+                            <button id="btn-reset" class="btn btn-outline-danger btn-sm" onclick="resetOnboarding()" disabled>
+                                <i class="fas fa-undo me-2"></i>Reset EC Onboarding
+                            </button>
+                        </div>
+                        <div id="action-status" class="small mt-3 text-muted"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-3"><i class="fas fa-info-circle me-2"></i>Year Status</h6>
+                        <div id="year-status-detail">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EC Member List -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-users me-2"></i>EC Members Onboarding Status</h5>
+                <span id="member-count-badge" class="badge bg-primary">0 members</span>
+            </div>
+            <div class="card-body" id="ec-member-list">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Registration Stats (if drive active) -->
+        <div class="card mb-4" id="reg-stats-card" style="display:none">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Membership Drive Registration Stats</h5>
+            </div>
+            <div class="card-body" id="reg-stats-body">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://www.jaxbengali.org/_functions';
+        let adminEmail = '';
+        let dashboardData = null;
+
+        // Get admin email from URL or prompt
+        const params = new URLSearchParams(window.location.search);
+        adminEmail = params.get('email') || '';
+
+        if (!adminEmail) {
+            adminEmail = prompt('Enter your admin email:');
+            if (!adminEmail) {
+                document.getElementById('loading').innerHTML = '<div class="text-center text-danger"><h3>Admin email required</h3></div>';
+            }
+        }
+
+        if (adminEmail) loadDashboard();
+
+        async function loadDashboard() {
+            try {
+                const resp = await fetch(`${API_BASE}/ec_onboard_progress`, {
+                    headers: { 'x-user-email': adminEmail }
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const json = await resp.json();
+                if (!json.success) throw new Error(json.error || 'Failed to load');
+                dashboardData = json;
+                render(json);
+            } catch (e) {
+                document.getElementById('loading').innerHTML = `
+                    <div class="text-center text-danger">
+                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                        <h4>Failed to load dashboard</h4>
+                        <p>${esc(e.message)}</p>
+                        <button class="btn btn-banf mt-2" onclick="location.reload()">Retry</button>
+                    </div>`;
+            }
+        }
+
+        function render(data) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('fy-label').textContent = data.fiscalYear + ' Operational Readiness';
+
+            renderGateChain(data.gates);
+            renderStats(data.summary, data.registrationStats);
+            renderProgress(data.summary);
+            renderYearStatus(data.yearStatus);
+            renderECMembers(data.ecMembers);
+            renderRegStats(data.registrationStats);
+            updateActions(data.yearStatus, data.summary);
+        }
+
+        function renderGateChain(gates) {
+            const chain = document.getElementById('gate-chain');
+            const steps = [
+                { key: 'step1_ecOnboarding', icon: 'fa-user-shield', ...gates.step1_ecOnboarding },
+                { key: 'step2_membershipDrive', icon: 'fa-rocket', ...gates.step2_membershipDrive },
+                { key: 'step3_memberLogin', icon: 'fa-sign-in-alt', ...gates.step3_memberLogin }
+            ];
+
+            chain.innerHTML = steps.map((s, i) => {
+                const statusClass = s.status;
+                const statusIcon = s.status === 'complete' ? 'fa-check-circle text-success'
+                    : s.status === 'in-progress' ? 'fa-spinner fa-spin text-warning'
+                    : s.status === 'ready' ? 'fa-play-circle text-warning'
+                    : s.status === 'active' ? 'fa-check text-info'
+                    : s.status === 'locked' ? 'fa-lock text-secondary'
+                    : 'fa-clock text-secondary';
+                const progressBar = s.progress !== undefined
+                    ? `<div class="progress mt-2" style="height:4px;background:#333"><div class="progress-bar bg-success" style="width:${s.progress}%"></div></div>`
+                    : '';
+                const extra = s.activeMembers !== undefined
+                    ? `<div class="small mt-1">${s.activeMembers} active member${s.activeMembers !== 1 ? 's' : ''}</div>`
+                    : '';
+                return `
+                    <div class="gate-step ${statusClass}">
+                        <div class="gate-icon"><i class="fas ${s.icon}"></i></div>
+                        <div class="fw-bold small">Step ${i + 1}</div>
+                        <div class="fw-bold">${esc(s.label)}</div>
+                        <div class="small text-muted mt-1">${esc(s.description)}</div>
+                        <div class="mt-2"><i class="fas ${statusIcon}"></i> <span class="small text-uppercase fw-bold">${esc(s.status)}</span></div>
+                        ${progressBar}${extra}
+                    </div>`;
+            }).join('');
+
+            // Overall status badge
+            const badge = document.getElementById('gate-status-badge');
+            const allComplete = steps.every(s => s.status === 'complete' || s.status === 'active');
+            if (allComplete) {
+                badge.className = 'badge bg-success'; badge.textContent = 'ALL GATES OPEN';
+            } else if (steps[0].status === 'complete') {
+                badge.className = 'badge bg-warning text-dark'; badge.textContent = 'DRIVE ENABLED';
+            } else {
+                badge.className = 'badge bg-danger'; badge.textContent = 'EC ONBOARDING IN PROGRESS';
+            }
+        }
+
+        function renderStats(summary, regStats) {
+            const stats = [
+                { value: summary.totalEC, label: 'Total EC', icon: 'fa-users', color: '#17a2b8' },
+                { value: summary.onboarded, label: 'Onboarded', icon: 'fa-check-circle', color: '#28a745' },
+                { value: summary.passwordDone, label: 'Password Set', icon: 'fa-key', color: '#f7931e' },
+                { value: summary.pendingOnboarding, label: 'Pending', icon: 'fa-hourglass-half', color: '#dc3545' },
+                { value: summary.featureAssigned, label: 'Features Set', icon: 'fa-puzzle-piece', color: '#6f42c1' },
+                { value: regStats ? regStats.active : '—', label: 'Active Members', icon: 'fa-user-check', color: '#20c997' }
+            ];
+            document.getElementById('stats-row').innerHTML = stats.map(s => `
+                <div class="col-6 col-md-2">
+                    <div class="stat-box">
+                        <i class="fas ${s.icon}" style="color:${s.color};font-size:1.2rem"></i>
+                        <div class="stat-value" style="color:${s.color}">${s.value}</div>
+                        <div class="stat-label">${s.label}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderProgress(summary) {
+            const pct = summary.completionPercent || 0;
+            const circumference = 2 * Math.PI * 16; // r=16
+            const offset = circumference - (pct / 100) * circumference;
+            const fg = document.getElementById('progress-fg');
+            fg.style.strokeDasharray = circumference;
+            fg.style.strokeDashoffset = offset;
+            fg.style.stroke = pct >= 100 ? '#28a745' : pct >= 50 ? '#f7931e' : '#dc3545';
+            document.getElementById('progress-text').textContent = pct + '%';
+            document.getElementById('progress-detail').textContent =
+                `${summary.onboarded} of ${summary.nonSuperAdmin} EC members completed onboarding`;
+        }
+
+        function renderYearStatus(ys) {
+            const el = document.getElementById('year-status-detail');
+            const statusColor = ys.ecOnboardComplete ? '#28a745' : '#f7931e';
+            const statusText = ys.ecOnboardComplete ? 'COMPLETE' : 'IN PROGRESS';
+            const driveColor = ys.driveEnabled ? '#28a745' : '#dc3545';
+            const driveText = ys.driveEnabled ? 'ENABLED' : 'LOCKED';
+            el.innerHTML = `
+                <div class="mb-2">
+                    <span class="small text-muted">EC Onboarding:</span>
+                    <span class="fw-bold ms-2" style="color:${statusColor}">${statusText}</span>
+                </div>
+                <div class="mb-2">
+                    <span class="small text-muted">Membership Drive:</span>
+                    <span class="fw-bold ms-2" style="color:${driveColor}"><i class="fas fa-${ys.driveEnabled ? 'unlock' : 'lock'} me-1"></i>${driveText}</span>
+                </div>
+                ${ys.completedBy ? `<div class="mb-2"><span class="small text-muted">Completed by:</span><br><span class="small">${esc(ys.completedBy)}</span></div>` : ''}
+                ${ys.completedAt ? `<div class="mb-2"><span class="small text-muted">Completed at:</span><br><span class="small">${new Date(ys.completedAt).toLocaleString()}</span></div>` : ''}
+                ${ys.forced ? '<div class="badge bg-warning text-dark">Force-Completed</div>' : ''}
+                ${ys.notes ? `<div class="mt-2 small text-muted"><i class="fas fa-sticky-note me-1"></i>${esc(ys.notes)}</div>` : ''}
+            `;
+        }
+
+        function renderECMembers(members) {
+            const list = document.getElementById('ec-member-list');
+            document.getElementById('member-count-badge').textContent = members.length + ' members';
+
+            // Sort: active first, then by role priority
+            const rolePriority = { super_admin: 0, admin: 1, ec_member: 2 };
+            members.sort((a, b) => {
+                if (a.isActive !== b.isActive) return b.isActive ? 1 : -1;
+                return (rolePriority[a.role] || 3) - (rolePriority[b.role] || 3);
+            });
+
+            list.innerHTML = members.map(m => {
+                const initials = ((m.firstName || '')[0] || '') + ((m.lastName || '')[0] || '') || m.email[0].toUpperCase();
+                const steps = m.steps || {};
+                const badges = [
+                    { done: true, label: 'Role', icon: 'fa-user-tag' },
+                    { done: steps.passwordSet, label: 'Password', icon: 'fa-key' },
+                    { done: steps.profileComplete, label: 'Profile', icon: 'fa-id-card' },
+                    { done: steps.featureAssigned, label: 'Features', icon: 'fa-puzzle-piece' }
+                ];
+                const allDone = badges.every(b => b.done);
+                const avatarBg = allDone ? 'var(--banf-green)' : m.role === 'super_admin' ? '#6f42c1' : 'var(--banf-red)';
+
+                return `
+                    <div class="ec-member-row">
+                        <div class="ec-avatar" style="background:${avatarBg}">${esc(initials)}</div>
+                        <div class="ec-info">
+                            <div class="ec-name">${esc(m.firstName || '')} ${esc(m.lastName || '')} ${!m.isActive ? '<span class="badge bg-secondary">Inactive</span>' : ''}</div>
+                            <div class="ec-title">${esc(m.ecTitle || m.role)} &middot; ${esc(m.email)}</div>
+                        </div>
+                        <div class="ec-steps">
+                            ${badges.map(b => `
+                                <span class="step-badge ${b.done ? 'step-done' : 'step-pending'}">
+                                    <i class="fas ${b.icon} me-1"></i>${b.label}
+                                </span>
+                            `).join('')}
+                        </div>
+                        <div>
+                            ${allDone ? '<i class="fas fa-check-circle text-success fa-lg"></i>' : '<i class="fas fa-clock text-warning fa-lg"></i>'}
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        function renderRegStats(regStats) {
+            if (!regStats || regStats.total === 0) {
+                document.getElementById('reg-stats-card').style.display = 'none';
+                return;
+            }
+            document.getElementById('reg-stats-card').style.display = 'block';
+            document.getElementById('reg-stats-body').innerHTML = `
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <div class="stat-value" style="color:#17a2b8">${regStats.total}</div>
+                            <div class="stat-label">Total Registrations</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <div class="stat-value" style="color:#28a745">${regStats.active}</div>
+                            <div class="stat-label">Active (Paid)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <div class="stat-value" style="color:#f7931e">${regStats.pendingPayment}</div>
+                            <div class="stat-label">Pending Payment</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-box">
+                            <div class="stat-value" style="color:#20c997">$${(regStats.totalRevenue || 0).toLocaleString()}</div>
+                            <div class="stat-label">Total Revenue</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateActions(yearStatus, summary) {
+            const btnComplete = document.getElementById('btn-complete');
+            const btnForce = document.getElementById('btn-force');
+            const btnReset = document.getElementById('btn-reset');
+            const btnReminder = document.getElementById('btn-reminder');
+
+            if (yearStatus.ecOnboardComplete) {
+                btnComplete.disabled = true;
+                btnComplete.innerHTML = '<i class="fas fa-check me-2"></i>EC Onboarding Already Complete';
+                btnForce.disabled = true;
+                btnReset.disabled = false;
+                btnReminder.disabled = true;
+                document.getElementById('action-status').innerHTML =
+                    '<span class="text-success"><i class="fas fa-check-circle me-1"></i>Drive is open for membership registration</span>';
+            } else {
+                const canComplete = summary.pendingOnboarding === 0;
+                const hasPending = summary.pendingOnboarding > 0;
+                btnComplete.disabled = !canComplete;
+                btnForce.disabled = false;
+                btnReset.disabled = true;
+                btnReminder.disabled = !hasPending;
+                
+                // Update reminder button text with pending count
+                if (hasPending) {
+                    btnReminder.innerHTML = `<i class="fas fa-envelope me-2"></i>Send Reminder (${summary.pendingOnboarding})`;
+                }
+                
+                if (canComplete) {
+                    document.getElementById('action-status').innerHTML =
+                        '<span class="text-success"><i class="fas fa-check me-1"></i>All EC members onboarded — ready to mark complete</span>';
+                } else {
+                    document.getElementById('action-status').innerHTML =
+                        `<span class="text-warning"><i class="fas fa-exclamation-triangle me-1"></i>${summary.pendingOnboarding} EC member(s) still pending</span>`;
+                }
+            }
+        }
+
+        async function markComplete(force = false) {
+            const label = force ? 'force-complete' : 'complete';
+            if (!confirm(`Are you sure you want to ${label} EC onboarding? This will ENABLE the membership drive.`)) return;
+
+            try {
+                showToast('Processing...', 'info');
+                const resp = await fetch(`${API_BASE}/ec_year_complete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-user-email': adminEmail },
+                    body: JSON.stringify({ force: force === true })
+                });
+                const json = await resp.json();
+                if (json.success) {
+                    showToast(json.message || 'EC Onboarding marked complete!', 'success');
+                    setTimeout(() => loadDashboard(), 1500);
+                } else {
+                    showToast(json.error || 'Failed', 'danger');
+                }
+            } catch (e) {
+                showToast('Error: ' + e.message, 'danger');
+            }
+        }
+
+        async function resetOnboarding() {
+            if (!confirm('Reset EC onboarding? This will DISABLE the membership drive. Are you sure?')) return;
+
+            try {
+                showToast('Resetting...', 'info');
+                const resp = await fetch(`${API_BASE}/ec_year_reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-user-email': adminEmail },
+                    body: JSON.stringify({})
+                });
+                const json = await resp.json();
+                if (json.success) {
+                    showToast(json.message || 'EC Onboarding reset!', 'warning');
+                    setTimeout(() => loadDashboard(), 1500);
+                } else {
+                    showToast(json.error || 'Failed', 'danger');
+                }
+            } catch (e) {
+                showToast('Error: ' + e.message, 'danger');
+            }
+        }
+
+        async function sendReminders() {
+            const pending = dashboardData?.summary?.pendingOnboarding || 0;
+            if (pending === 0) {
+                showToast('No pending EC members to remind!', 'info');
+                return;
+            }
+            
+            if (!confirm(`Send reminder emails to ${pending} pending EC member(s)?\\n\\nNote: Emails are sent via Gmail from banfjax@gmail.com`)) return;
+
+            try {
+                showToast('Sending reminders...', 'info');
+                const resp = await fetch(`${API_BASE}/ec_send_reminder`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'x-user-email': adminEmail },
+                    body: JSON.stringify({ sendAll: true })
+                });
+                const json = await resp.json();
+                if (json.success) {
+                    let msg = json.message;
+                    if (json.testMode) msg += ' (TEST MODE - sent to admin only)';
+                    showToast(msg, 'success');
+                    setTimeout(() => loadDashboard(), 2000);
+                } else {
+                    showToast(json.error || 'Failed to send reminders', 'danger');
+                }
+            } catch (e) {
+                showToast('Error: ' + e.message, 'danger');
+            }
+        }
+
+        // Utilities
+        function esc(str) {
+            if (str == null) return '';
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(String(str)));
+            return div.innerHTML;
+        }
+
+        function showToast(msg, type = 'info') {
+            const area = document.getElementById('toast-area');
+            const id = 'toast-' + Date.now();
+            area.insertAdjacentHTML('beforeend', `
+                <div id="${id}" class="alert alert-${type} alert-sm alert-dismissible fade show" role="alert">
+                    ${esc(msg)}
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                </div>
+            `);
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if (el) el.remove();
+            }, 5000);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

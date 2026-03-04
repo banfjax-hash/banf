@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF CRM Admin - v5.7</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --banf-red: #8B0000;
+  --banf-crimson: #DC143C;
+  --banf-gold: #D4AF37;
+  --banf-orange: #FF6B35;
+  --bg: #f0f2f5;
+  --sidebar-w: 240px;
+  --header-h: 60px;
+  --card-radius: 12px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.12);
+}
+*{box-sizing:border-box;font-family:'Poppins',sans-serif;margin:0;padding:0;}
+body{background:var(--bg);min-height:100vh;display:flex;flex-direction:column;}
+
+/* â”€â”€ HEADER â”€â”€ */
+.top-bar{
+  height:var(--header-h);background:linear-gradient(135deg,var(--banf-red),var(--banf-crimson));
+  color:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 1.5rem;position:fixed;top:0;left:0;right:0;z-index:1100;
+  box-shadow:0 2px 16px rgba(139,0,0,0.4);
+}
+.top-bar .brand{display:flex;align-items:center;gap:0.75rem;}
+.top-bar .brand-icon{width:36px;height:36px;background:rgba(255,255,255,0.2);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
+.top-bar .brand h1{font-size:1.1rem;font-weight:700;letter-spacing:0.5px;margin:0;}
+.top-bar .brand small{font-size:0.7rem;opacity:0.8;}
+.top-bar .topbar-right{display:flex;align-items:center;gap:1rem;}
+.top-bar .user-pill{
+  background:rgba(255,255,255,0.15);border-radius:20px;padding:0.25rem 0.8rem;
+  font-size:0.78rem;display:flex;align-items:center;gap:0.5rem;
+}
+#topbar-status{width:8px;height:8px;border-radius:50%;background:#4caf50;display:inline-block;}
+.btn-logout{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+  color:#fff;border-radius:8px;padding:0.3rem 0.8rem;font-size:0.78rem;cursor:pointer;}
+.btn-logout:hover{background:rgba(255,255,255,0.25);}
+
+/* â”€â”€ LAYOUT â”€â”€ */
+.app-body{display:flex;margin-top:var(--header-h);min-height:calc(100vh - var(--header-h));}
+
+/* â”€â”€ SIDEBAR â”€â”€ */
+.sidebar{
+  width:var(--sidebar-w);background:#1a1a2e;color:#ccc;
+  position:fixed;top:var(--header-h);bottom:0;left:0;
+  overflow-y:auto;z-index:1000;display:flex;flex-direction:column;
+  transition:width 0.2s;
+}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:#444;}
+.sidebar-section{padding:0.5rem 0 0.25rem;margin-top:0.5rem;}
+.sidebar-section-label{
+  font-size:0.62rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:1px;color:#666;padding:0.3rem 1rem 0.1rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:0.7rem;padding:0.55rem 1rem;
+  color:#aaa;cursor:pointer;transition:all 0.15s;font-size:0.83rem;
+  border-left:3px solid transparent;user-select:none;
+}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.nav-item.active{background:rgba(220,20,60,0.15);color:#fff;border-left-color:var(--banf-crimson);}
+.nav-item i{width:18px;text-align:center;font-size:0.85rem;}
+.nav-badge{
+  margin-left:auto;background:var(--banf-crimson);color:#fff;
+  font-size:0.6rem;padding:0.1rem 0.45rem;border-radius:10px;font-weight:600;
+}
+.sidebar-footer{margin-top:auto;padding:1rem;border-top:1px solid #333;}
+.sidebar-footer small{font-size:0.65rem;color:#555;}
+
+/* â”€â”€ MAIN CONTENT â”€â”€ */
+.main{margin-left:var(--sidebar-w);flex:1;padding:1.5rem;overflow-x:hidden;}
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+/* â”€â”€ CARDS â”€â”€ */
+.card{background:#fff;border-radius:var(--card-radius);box-shadow:var(--shadow);border:none;margin-bottom:1.25rem;}
+.card-header{padding:1rem 1.25rem;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;}
+.card-header h5{font-size:0.95rem;font-weight:600;margin:0;display:flex;align-items:center;gap:0.5rem;}
+.card-body{padding:1.25rem;}
+
+/* â”€â”€ STAT CARDS â”€â”€ */
+.stat-card{
+  background:#fff;border-radius:var(--card-radius);box-shadow:var(--shadow);
+  padding:1.25rem;display:flex;align-items:center;gap:1rem;margin-bottom:1rem;
+}
+.stat-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.stat-icon.red{background:#fff0f0;color:var(--banf-crimson);}
+.stat-icon.gold{background:#fffbe6;color:var(--banf-gold);}
+.stat-icon.blue{background:#e8f4fd;color:#1976d2;}
+.stat-icon.green{background:#e8f5e9;color:#388e3c;}
+.stat-icon.purple{background:#f3e5f5;color:#7b1fa2;}
+.stat-icon.orange{background:#fff3e0;color:#f57c00;}
+.stat-val{font-size:1.8rem;font-weight:700;line-height:1;}
+.stat-label{font-size:0.75rem;color:#888;margin-top:0.15rem;}
+
+/* â”€â”€ PAGE TITLE â”€â”€ */
+.page-title{font-size:1.3rem;font-weight:700;color:#1a1a2e;margin-bottom:1.25rem;
+  display:flex;align-items:center;gap:0.6rem;}
+.page-title i{color:var(--banf-crimson);}
+
+/* â”€â”€ TABLES â”€â”€ */
+.table-wrapper{overflow-x:auto;border-radius:8px;}
+table.crm-table{width:100%;border-collapse:collapse;font-size:0.82rem;}
+table.crm-table th{
+  background:#f8f9fa;padding:0.65rem 0.85rem;text-align:left;
+  font-weight:600;color:#555;font-size:0.75rem;text-transform:uppercase;
+  letter-spacing:0.5px;border-bottom:2px solid #eee;
+}
+table.crm-table td{padding:0.6rem 0.85rem;border-bottom:1px solid #f0f0f0;color:#333;vertical-align:middle;}
+table.crm-table tr:hover td{background:#fafbfc;}
+table.crm-table .badge-role{
+  font-size:0.65rem;padding:0.15rem 0.5rem;border-radius:10px;font-weight:600;
+}
+
+/* â”€â”€ FORMS â”€â”€ */
+.form-label{font-size:0.8rem;font-weight:500;color:#555;margin-bottom:0.25rem;}
+.form-control,.form-select{
+  font-size:0.83rem;border-radius:8px;border:1px solid #ddd;
+  padding:0.45rem 0.75rem;transition:border-color 0.15s;
+}
+.form-control:focus,.form-select:focus{
+  border-color:var(--banf-crimson);box-shadow:0 0 0 3px rgba(220,20,60,0.1);
+  outline:none;
+}
+.input-group-text{font-size:0.82rem;background:#f8f9fa;border-color:#ddd;}
+
+/* â”€â”€ BUTTONS â”€â”€ */
+.btn{font-size:0.82rem;border-radius:8px;padding:0.4rem 1rem;font-weight:500;cursor:pointer;}
+.btn-primary{background:var(--banf-crimson);border-color:var(--banf-crimson);color:#fff;}
+.btn-primary:hover{background:#b8002e;border-color:#b8002e;}
+.btn-outline-primary{border-color:var(--banf-crimson);color:var(--banf-crimson);}
+.btn-outline-primary:hover{background:var(--banf-crimson);color:#fff;}
+.btn-sm{padding:0.25rem 0.7rem;font-size:0.75rem;}
+.btn-icon{width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;}
+
+/* â”€â”€ STATUS BADGES â”€â”€ */
+.badge-active{background:#e8f5e9;color:#2e7d32;padding:0.2rem 0.5rem;border-radius:6px;font-size:0.7rem;font-weight:600;}
+.badge-inactive{background:#fff3e0;color:#e65100;padding:0.2rem 0.5rem;border-radius:6px;font-size:0.7rem;font-weight:600;}
+.badge-pending{background:#e3f2fd;color:#1565c0;padding:0.2rem 0.5rem;border-radius:6px;font-size:0.7rem;font-weight:600;}
+
+/* â”€â”€ ALERTS / TOAST â”€â”€ */
+#toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem;}
+.toast-msg{
+  padding:0.75rem 1.25rem;border-radius:10px;color:#fff;font-size:0.82rem;
+  box-shadow:var(--shadow-md);display:flex;align-items:center;gap:0.6rem;
+  animation:slideIn 0.25s ease;min-width:260px;max-width:380px;
+}
+.toast-msg.success{background:#2e7d32;}
+.toast-msg.error{background:#c62828;}
+.toast-msg.info{background:#1565c0;}
+.toast-msg.warn{background:#e65100;}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* â”€â”€ LOADING SPINNER â”€â”€ */
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);
+  border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-overlay{
+  position:absolute;inset:0;background:rgba(255,255,255,0.75);
+  display:flex;align-items:center;justify-content:center;border-radius:var(--card-radius);z-index:10;
+}
+
+/* â”€â”€ TABS INSIDE SECTIONS â”€â”€ */
+.inner-tab-bar{display:flex;gap:0.25rem;border-bottom:2px solid #eee;margin-bottom:1rem;}
+.inner-tab{padding:0.5rem 1rem;font-size:0.8rem;cursor:pointer;border-radius:8px 8px 0 0;
+  color:#777;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-2px;}
+.inner-tab:hover{background:#f8f9fa;}
+.inner-tab.active{color:var(--banf-crimson);border-bottom-color:var(--banf-crimson);font-weight:600;}
+.inner-pane{display:none;}
+.inner-pane.active{display:block;}
+
+/* â”€â”€ PROGRESS BAR â”€â”€ */
+.progress-bar-custom{height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--banf-crimson),var(--banf-orange));transition:width 0.4s;}
+
+/* â”€â”€ CODE BLOCK â”€â”€ */
+pre.api-response{
+  background:#1e1e2e;color:#cdd6f4;font-size:0.75rem;padding:1rem;
+  border-radius:8px;max-height:300px;overflow-y:auto;white-space:pre-wrap;
+}
+
+/* â”€â”€ RESPONSIVE â”€â”€ */
+@media(max-width:768px){
+  /* Sidebar hidden by default on mobile; hamburger opens it */
+  .sidebar{
+    width:0;overflow:hidden;transition:width 0.25s;z-index:1050;
+  }
+  .sidebar.open{
+    width:var(--sidebar-w);box-shadow:4px 0 20px rgba(0,0,0,0.4);
+  }
+  .main{margin-left:0 !important;}
+  .hamburger-btn{display:flex;}
+  .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1040;}
+  .sidebar-overlay.open{display:block;}
+  /* Re-hide text in icon-only collapsed state is irrelevant â€” full drawer: keep text */
+}
+
+/* â”€â”€ TOUCH TARGETS & TAP FEEDBACK â”€â”€ */
+button,.btn,.nav-item,.btn-logout,.btn-icon,
+.stat-card,.inner-tab{-webkit-tap-highlight-color:transparent;}
+button,.btn,.nav-item,.btn-logout,.btn-icon,.inner-tab{touch-action:manipulation;}
+
+/* â”€â”€ HOVER â€” POINTER DEVICES ONLY â”€â”€ */
+@media(hover:hover) and (pointer:fine){
+  .nav-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+}
+/* No hover transforms to remove â€” CRM uses no card hover transforms */
+
+/* â”€â”€ FORM INPUTS â€” PREVENT iOS AUTO-ZOOM â”€â”€ */
+@media(max-width:768px){
+  .form-control,.form-select,input,select,textarea{
+    font-size:16px !important;
+    touch-action:manipulation;
+  }
+  .btn{min-height:44px;}
+  .btn-sm{min-height:36px;}
+  /* Hamburger visible */
+}
+
+/* â”€â”€ HAMBURGER BUTTON â”€â”€ */
+.hamburger-btn{
+  display:none;align-items:center;justify-content:center;
+  width:40px;height:40px;
+  background:rgba(255,255,255,0.15);border:none;color:#fff;
+  font-size:1.25rem;border-radius:8px;cursor:pointer;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  flex-shrink:0;
+}
+
+/* â”€â”€ VERY SMALL PHONES (â‰¤ 480px) â”€â”€ */
+@media(max-width:480px){
+  .top-bar .brand h1{font-size:0.95rem;}
+  .top-bar .brand small{display:none;}
+  #topbar-user{display:none;}
+  .badge-role{display:none;}
+  .main{padding:0.75rem;}
+  .stat-card{padding:1rem;}
+  .stat-val{font-size:1.5rem;}
+  .card-body{padding:0.85rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar overlay for mobile tap-outside-to-close -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- â•â•â•â•â•â•â• TOP BAR â•â•â•â•â•â•â• -->
+<header class="top-bar">
+  <div class="brand">
+    <!-- Hamburger (visible only on mobile â‰¤768px) -->
+    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Toggle navigation">
+      <i class="fas fa-bars" id="hamburgerIcon"></i>
+    </button>
+    <div class="brand-icon"><i class="fas fa-om"></i></div>
+    <div>
+      <h1>BANF CRM Admin</h1>
+      <small>Bengali Association of North Florida â€” v5.7</small>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="user-pill">
+      <span id="topbar-status"></span>
+      <span id="topbar-user">banfjax@gmail.com</span>
+      <span class="badge-role" style="background:#D4AF37;color:#000;font-size:0.6rem;padding:0.1rem 0.4rem;border-radius:6px;">SUPER ADMIN</span>
+    </div>
+    <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+  </div>
+</header>
+
+<!-- â•â•â•â•â•â•â• APP BODY â•â•â•â•â•â•â• -->
+<div class="app-body">
+
+<!-- â•â•â•â•â•â•â• SIDEBAR â•â•â•â•â•â•â• -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Overview</div>
+    <div class="nav-item active" onclick="showTab('dashboard',this)">
+      <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">CRM</div>
+    <div class="nav-item" onclick="showTab('members',this)">
+      <i class="fas fa-users"></i><span>Members</span><span class="nav-badge" id="nb-members">â€¦</span>
+    </div>
+    <div class="nav-item" onclick="showTab('families',this)">
+      <i class="fas fa-house-user"></i><span>Families</span><span class="nav-badge" id="nb-families">â€¦</span>
+    </div>
+    <div class="nav-item" onclick="showTab('roles',this)">
+      <i class="fas fa-id-badge"></i><span>EC Roles</span><span class="nav-badge" id="nb-roles">â€¦</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Communications</div>
+    <div class="nav-item" onclick="showTab('email',this)">
+      <i class="fas fa-envelope"></i><span>Email / Gmail</span><span class="nav-badge" id="nb-inbox">â€¦</span>
+    </div>
+    <div class="nav-item" onclick="showTab('evites',this)">
+      <i class="fas fa-paper-plane"></i><span>Evites</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Data</div>
+    <div class="nav-item" onclick="showTab('drive',this)">
+      <i class="fab fa-google-drive"></i><span>Google Drive</span>
+    </div>
+    <div class="nav-item" onclick="showTab('import',this)">
+      <i class="fas fa-file-import"></i><span>Data Import</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Operations</div>
+    <div class="nav-item" onclick="showTab('events',this)">
+      <i class="fas fa-calendar-alt"></i><span>Events / RSVP</span>
+    </div>
+    <div class="nav-item" onclick="showTab('finance',this)">
+      <i class="fas fa-rupee-sign"></i><span>Finance</span>
+    </div>
+    <div class="nav-item" onclick="showTab('surveys',this)">
+      <i class="fas fa-poll"></i><span>Surveys</span>
+    </div>
+    <div class="nav-item" onclick="showTab('radio',this)">
+      <i class="fas fa-broadcast-tower"></i><span>Radio</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Intelligence</div>
+    <div class="nav-item" onclick="showTab('ai',this)">
+      <i class="fas fa-robot"></i><span>AI / RAG</span>
+    </div>
+    <div class="nav-item" onclick="showTab('reports',this)">
+      <i class="fas fa-chart-bar"></i><span>Reports</span>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <small id="sidebar-ver">v5.7.0-gdrive-mapper</small>
+  </div>
+</nav>
+
+<!-- â•â•â•â•â•â•â• MAIN â•â•â•â•â•â•â• -->
+<main class="main" id="main-content">
+
+  <!-- â”€â”€ TAB: DASHBOARD â”€â”€ -->
+  <div class="tab-pane active" id="tab-dashboard">
+    <div class="page-title"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+
+    <!-- Stat Cards Row -->
+    <div class="row g-3 mb-3">
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="fas fa-users"></i></div>
+          <div><div class="stat-val" id="ds-members">â€¦</div><div class="stat-label">Members</div></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon gold"><i class="fas fa-house-user"></i></div>
+          <div><div class="stat-val" id="ds-families">â€¦</div><div class="stat-label">Families</div></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fas fa-id-badge"></i></div>
+          <div><div class="stat-val" id="ds-roles">â€¦</div><div class="stat-label">EC Roles</div></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-envelope"></i></div>
+          <div><div class="stat-val" id="ds-comms">â€¦</div><div class="stat-label">Comms Linked</div></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-dollar-sign"></i></div>
+          <div><div class="stat-val" id="ds-payments">â€¦</div><div class="stat-label">Payments</div></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-4 col-xl-2">
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="fas fa-percentage"></i></div>
+          <div><div class="stat-val" id="ds-gmail-pct">â€¦</div><div class="stat-label">Gmail Coverage</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <!-- System Health -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card h-100">
+          <div class="card-header"><h5><i class="fas fa-heartbeat text-danger"></i> System Health</h5>
+            <button class="btn btn-sm btn-outline-primary" onclick="loadDashHealth()"><i class="fas fa-sync-alt"></i></button>
+          </div>
+          <div class="card-body" id="dash-health">
+            <div class="text-muted small">Checkingâ€¦</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import Status -->
+      <div class="col-md-6 col-xl-4">
+        <div class="card h-100">
+          <div class="card-header"><h5><i class="fas fa-database text-primary"></i> Collection Counts</h5>
+            <button class="btn btn-sm btn-outline-primary" onclick="loadImportStatus()"><i class="fas fa-sync-alt"></i></button>
+          </div>
+          <div class="card-body" id="dash-import">
+            <div class="text-muted small">Loadingâ€¦</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="col-md-12 col-xl-4">
+        <div class="card h-100">
+          <div class="card-header"><h5><i class="fas fa-bolt text-warning"></i> Quick Actions</h5></div>
+          <div class="card-body d-flex flex-column gap-2">
+            <button class="btn btn-outline-primary w-100 text-start" onclick="doGmailSync()">
+              <i class="fas fa-sync me-2 text-danger"></i>Sync Gmail Inbox
+            </button>
+            <button class="btn btn-outline-primary w-100 text-start" onclick="doGmailLink()">
+              <i class="fas fa-link me-2 text-warning"></i>Re-Link Gmail â†’ Members
+            </button>
+            <button class="btn btn-outline-primary w-100 text-start" onclick="doFullSync()">
+              <i class="fas fa-database me-2 text-success"></i>Full Data Sync
+            </button>
+            <button class="btn btn-outline-primary w-100 text-start" onclick="_goDrive()">
+              <i class="fab fa-google-drive me-2 text-info"></i>Open Drive Browser
+            </button>
+            <button class="btn btn-outline-primary w-100 text-start" onclick="_goAI()">
+              <i class="fas fa-robot me-2 text-purple"></i>Ask AI Assistant
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gmail Progress Bar -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header"><h5><i class="fab fa-google text-danger"></i> Gmail Coverage Progress</h5></div>
+          <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+              <small class="text-muted">Members with linked Gmail</small>
+              <small id="gmail-pct-label">â€“%</small>
+            </div>
+            <div class="progress-bar-custom">
+              <div class="progress-bar-fill" id="gmail-progress-bar" style="width:0%"></div>
+            </div>
+            <div class="mt-2 d-flex gap-3">
+              <small class="text-muted">Linked: <strong id="gmail-linked">0</strong></small>
+              <small class="text-muted">Total: <strong id="gmail-total">0</strong></small>
+              <small class="text-muted">Inbox: <strong id="gmail-inbox-ct">0</strong></small>
+              <small class="text-muted">Sent: <strong id="gmail-sent-ct">0</strong></small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: MEMBERS â”€â”€ -->
+  <div class="tab-pane" id="tab-members">
+    <div class="page-title"><i class="fas fa-users"></i> Members
+      <span class="ms-auto d-flex gap-2">
+        <button class="btn btn-sm btn-outline-primary" onclick="loadMembers()"><i class="fas fa-sync-alt"></i></button>
+        <button class="btn btn-sm btn-primary" onclick="openAddMember()"><i class="fas fa-plus me-1"></i>Add</button>
+      </span>
+    </div>
+
+    <!-- Search / Filter bar -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-4">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input id="member-search" class="form-control" placeholder="Search name / emailâ€¦" oninput="filterMembers()">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <select id="member-status-filter" class="form-select form-select-sm" onchange="filterMembers()">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select id="member-family-filter" class="form-select form-select-sm" onchange="filterMembers()">
+              <option value="">All Families</option>
+            </select>
+          </div>
+          <div class="col-auto ms-auto">
+            <span class="badge-pending" id="member-count-badge">0 members</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members Table -->
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-wrapper">
+          <table class="crm-table" id="members-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Family</th>
+                <th>Status</th>
+                <th>Gmail</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="members-tbody">
+              <tr><td colspan="9" class="text-center py-4 text-muted">Click Refresh or navigate here to load</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-between align-items-center p-2 border-top">
+          <small class="text-muted" id="members-page-info">Page 1</small>
+          <div class="d-flex gap-1">
+            <button class="btn btn-sm btn-outline-primary" id="btn-prev-members" onclick="membersPage(-1)" disabled><i class="fas fa-chevron-left"></i></button>
+            <button class="btn btn-sm btn-outline-primary" id="btn-next-members" onclick="membersPage(1)"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: FAMILIES â”€â”€ -->
+  <div class="tab-pane" id="tab-families">
+    <div class="page-title"><i class="fas fa-house-user"></i> Family Groups
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadFamilies()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div class="row g-2 mb-3">
+      <div class="col-md-4">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+          <input id="family-search" class="form-control" placeholder="Search familyâ€¦" oninput="filterFamilies()">
+        </div>
+      </div>
+      <div class="col-auto ms-auto"><span class="badge-pending" id="family-count-badge">0 families</span></div>
+    </div>
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-wrapper">
+          <table class="crm-table">
+            <thead><tr><th>#</th><th>Family Name</th><th>Head</th><th>Email</th><th>City</th><th>Member Count</th><th>Joined</th></tr></thead>
+            <tbody id="families-tbody"><tr><td colspan="7" class="text-center py-3 text-muted">Press Refresh to load</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: EC ROLES â”€â”€ -->
+  <div class="tab-pane" id="tab-roles">
+    <div class="page-title"><i class="fas fa-id-badge"></i> EC Org Roles
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadRoles()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div class="row g-2 mb-3">
+      <div class="col-md-4">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+          <input id="roles-search" class="form-control" placeholder="Search by name or roleâ€¦" oninput="filterRoles()">
+        </div>
+      </div>
+      <div class="col-md-2">
+        <select id="roles-year-filter" class="form-select form-select-sm" onchange="filterRoles()">
+          <option value="">All Years</option>
+        </select>
+      </div>
+      <div class="col-auto ms-auto"><span class="badge-pending" id="roles-count-badge">0 roles</span></div>
+    </div>
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-wrapper">
+          <table class="crm-table">
+            <thead><tr><th>#</th><th>Name</th><th>Role / Title</th><th>Category</th><th>Year</th><th>Email</th></tr></thead>
+            <tbody id="roles-tbody"><tr><td colspan="6" class="text-center py-3 text-muted">Press Refresh to load</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: EMAIL â”€â”€ -->
+  <div class="tab-pane" id="tab-email">
+    <div class="page-title"><i class="fas fa-envelope"></i> Email &amp; Gmail
+      <span class="ms-auto d-flex gap-2">
+        <button class="btn btn-sm btn-outline-primary" onclick="doGmailSync()"><i class="fas fa-sync-alt me-1"></i>Sync</button>
+        <button class="btn btn-sm btn-primary" onclick="openComposeModal()"><i class="fas fa-pen me-1"></i>Compose</button>
+      </span>
+    </div>
+    <div id="email-tab-group">
+      <div class="inner-tab-bar">
+        <div class="inner-tab active" onclick="showInner('email-tab-group','email-inbox')">Inbox <span class="nav-badge ms-1" id="email-inbox-nb">â€¦</span></div>
+        <div class="inner-tab" onclick="showInner('email-tab-group','email-sent')">Sent History</div>
+        <div class="inner-tab" onclick="showInner('email-tab-group','email-audit')">Audit / Stats</div>
+      </div>
+      <!-- INBOX -->
+      <div class="inner-pane active" id="email-inbox">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-wrapper">
+              <table class="crm-table">
+                <thead><tr><th>From</th><th>Subject</th><th>Date</th><th>Labels</th><th>Actions</th></tr></thead>
+                <tbody id="inbox-tbody"><tr><td colspan="5" class="text-center py-3 text-muted">Press Sync to load</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SENT -->
+      <div class="inner-pane" id="email-sent">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-wrapper">
+              <table class="crm-table">
+                <thead><tr><th>To</th><th>Subject</th><th>Status</th><th>Sent At</th></tr></thead>
+                <tbody id="sent-tbody"><tr><td colspan="4" class="text-center py-3 text-muted">Loading sent historyâ€¦</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- AUDIT -->
+      <div class="inner-pane" id="email-audit">
+        <div class="card">
+          <div class="card-body" id="email-audit-body">
+            <div class="text-muted small">Loading auditâ€¦</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compose Modal -->
+    <div class="modal fade" id="compose-modal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background:var(--banf-red);color:#fff">
+            <h5 class="modal-title"><i class="fas fa-envelope me-2"></i>Compose Email</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3"><label class="form-label">To (email)</label><input class="form-control" id="compose-to" placeholder="recipient@example.com"></div>
+            <div class="mb-3"><label class="form-label">Subject</label><input class="form-control" id="compose-subject" placeholder="Subjectâ€¦"></div>
+            <div class="mb-3"><label class="form-label">Message</label><textarea class="form-control" id="compose-body" rows="8" placeholder="Message bodyâ€¦"></textarea></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" onclick="sendEmailNow()"><i class="fas fa-paper-plane me-1"></i>Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: EVITES â”€â”€ -->
+  <div class="tab-pane" id="tab-evites">
+    <div class="page-title"><i class="fas fa-paper-plane"></i> Evites
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadEvites()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div id="evites-tab-group">
+      <div class="inner-tab-bar">
+        <div class="inner-tab active" onclick="showInner('evites-tab-group','evite-list')">History</div>
+        <div class="inner-tab" onclick="showInner('evites-tab-group','evite-send')">Send Evite</div>
+        <div class="inner-tab" onclick="showInner('evites-tab-group','evite-rsvp')">RSVP Tracker</div>
+      </div>
+      <div class="inner-pane active" id="evite-list">
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="table-wrapper">
+              <table class="crm-table">
+                <thead><tr><th>Event</th><th>Sent To</th><th>Sent At</th><th>RSVP Yes</th><th>RSVP No</th><th>Pending</th></tr></thead>
+                <tbody id="evite-tbody"><tr><td colspan="6" class="text-center py-3 text-muted">Press Refresh to load</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="evite-send">
+        <div class="card">
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6"><label class="form-label">Event Title</label><input class="form-control" id="evite-title" placeholder="Event nameâ€¦"></div>
+              <div class="col-md-6"><label class="form-label">Event Date</label><input type="date" class="form-control" id="evite-date"></div>
+              <div class="col-12"><label class="form-label">Message Body</label><textarea class="form-control" id="evite-msg" rows="5" placeholder="Dear Membersâ€¦"></textarea></div>
+              <div class="col-12 text-end"><button class="btn btn-primary" onclick="sendEviteNow()"><i class="fas fa-paper-plane me-1"></i>Send to All Members</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inner-pane" id="evite-rsvp">
+        <div class="card"><div class="card-body" id="rsvp-body"><div class="text-muted small">Select an event to see RSVPs</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: DRIVE â”€â”€ -->
+  <div class="tab-pane" id="tab-drive">
+    <div class="page-title"><i class="fab fa-google-drive"></i> Google Drive
+      <span class="ms-auto d-flex gap-2">
+        <button class="btn btn-sm btn-outline-primary" onclick="loadDriveFiles()"><i class="fas fa-sync-alt me-1"></i>Refresh</button>
+        <button class="btn btn-sm btn-outline-success" onclick="findBanfFolder()"><i class="fas fa-folder-open me-1"></i>Find BANF Folder</button>
+      </span>
+    </div>
+    <!-- Drive Status -->
+    <div class="card mb-3">
+      <div class="card-body py-2">
+        <div class="row g-2 align-items-center">
+          <div class="col-md-5">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input id="drive-search-q" class="form-control" placeholder="Search Drive filesâ€¦">
+              <button class="btn btn-outline-secondary" onclick="searchDrive()">Go</button>
+            </div>
+          </div>
+          <div class="col-auto ms-auto">
+            <span id="drive-status-pill" class="badge-pending">Checkingâ€¦</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-wrapper">
+          <table class="crm-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Modified</th><th>Size</th><th>Actions</th></tr></thead>
+            <tbody id="drive-tbody"><tr><td colspan="5" class="text-center py-3 text-muted">Press Refresh to list Drive files</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: IMPORT â”€â”€ -->
+  <div class="tab-pane" id="tab-import">
+    <div class="page-title"><i class="fas fa-file-import"></i> Data Import Pipeline
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadImportStatus()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div class="row g-3">
+      <!-- Collection Counts -->
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-header"><h5><i class="fas fa-database text-primary"></i> Live Counts</h5></div>
+          <div class="card-body" id="import-counts-body"><div class="text-muted small">Loadingâ€¦</div></div>
+        </div>
+      </div>
+      <!-- Import Actions -->
+      <div class="col-md-8">
+        <div class="card h-100">
+          <div class="card-header"><h5><i class="fas fa-upload text-success"></i> Import Actions</h5></div>
+          <div class="card-body d-flex flex-column gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <div class="flex-grow-1">
+                <strong style="font-size:0.82rem">Bulk Import Members (JSON)</strong>
+                <div style="font-size:0.72rem;color:#888">POST /bulk_import_members â€” upserts CRMMembers + FamilyGroups</div>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="runBulkImport('members')">Run</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex align-items-center gap-2">
+              <div class="flex-grow-1">
+                <strong style="font-size:0.82rem">Bulk Import Org Roles</strong>
+                <div style="font-size:0.72rem;color:#888">POST /bulk_import_org_roles â€” upserts MemberOrgRoles</div>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="runBulkImport('roles')">Run</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex align-items-center gap-2">
+              <div class="flex-grow-1">
+                <strong style="font-size:0.82rem">Gmail Full Link</strong>
+                <div style="font-size:0.72rem;color:#888">POST /gmail_full_link â€” links inbox/sent to CRMMembers</div>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="doGmailLink()">Run</button>
+            </div>
+            <hr class="my-1">
+            <div class="d-flex align-items-center gap-2">
+              <div class="flex-grow-1">
+                <strong style="font-size:0.82rem">Full Data Sync</strong>
+                <div style="font-size:0.72rem;color:#888">POST /full_data_sync â€” runs complete data pipeline</div>
+              </div>
+              <button class="btn btn-sm btn-success" onclick="doFullSync()"><i class="fas fa-database me-1"></i>Run All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Import Log -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header"><h5><i class="fas fa-terminal text-warning"></i> Import Log</h5></div>
+          <div class="card-body p-0">
+            <pre class="api-response" id="import-log" style="max-height:200px">Ready.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: EVENTS â”€â”€ -->
+  <div class="tab-pane" id="tab-events">
+    <div class="page-title"><i class="fas fa-calendar-alt"></i> Events &amp; RSVP
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadEvents()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div id="events-tab-group">
+      <div class="inner-tab-bar">
+        <div class="inner-tab active" onclick="showInner('events-tab-group','ev-upcoming')">Upcoming</div>
+        <div class="inner-tab" onclick="showInner('events-tab-group','ev-past')">Past</div>
+        <div class="inner-tab" onclick="showInner('events-tab-group','ev-rsvps')">RSVPs</div>
+      </div>
+      <div class="inner-pane active" id="ev-upcoming">
+        <div class="card"><div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="crm-table">
+              <thead><tr><th>Title</th><th>Date</th><th>Location</th><th>RSVP Yes</th><th>Actions</th></tr></thead>
+              <tbody id="events-upcoming-tbody"><tr><td colspan="5" class="text-center py-3 text-muted">Press Refresh to load</td></tr></tbody>
+            </table>
+          </div>
+        </div></div>
+      </div>
+      <div class="inner-pane" id="ev-past">
+        <div class="card"><div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="crm-table">
+              <thead><tr><th>Title</th><th>Date</th><th>Attendees</th></tr></thead>
+              <tbody id="events-past-tbody"><tr><td colspan="3" class="text-center py-3 text-muted">Loadingâ€¦</td></tr></tbody>
+            </table>
+          </div>
+        </div></div>
+      </div>
+      <div class="inner-pane" id="ev-rsvps">
+        <div class="card"><div class="card-body" id="rsvp-list-body"><div class="text-muted small">Select an event</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: FINANCE â”€â”€ -->
+  <div class="tab-pane" id="tab-finance">
+    <div class="page-title"><i class="fas fa-rupee-sign"></i> Finance &amp; Payments
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadFinance()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-md-3"><div class="stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div><div><div class="stat-val" id="fin-total">â€¦</div><div class="stat-label">Total Collected</div></div></div></div>
+      <div class="col-md-3"><div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div><div class="stat-val" id="fin-paying">â€¦</div><div class="stat-label">Paying Members</div></div></div></div>
+      <div class="col-md-3"><div class="stat-card"><div class="stat-icon gold"><i class="fas fa-clock"></i></div><div><div class="stat-val" id="fin-pending">â€¦</div><div class="stat-label">Pending</div></div></div></div>
+      <div class="col-md-3"><div class="stat-card"><div class="stat-icon red"><i class="fas fa-times-circle"></i></div><div><div class="stat-val" id="fin-rejected">â€¦</div><div class="stat-label">Rejected</div></div></div></div>
+    </div>
+    <div id="finance-tab-group">
+      <div class="inner-tab-bar">
+        <div class="inner-tab active" onclick="showInner('finance-tab-group','fin-payments')">Payments</div>
+        <div class="inner-tab" onclick="showInner('finance-tab-group','fin-zelle')">Zelle Scanner</div>
+        <div class="inner-tab" onclick="showInner('finance-tab-group','fin-sponsors')">Sponsors</div>
+      </div>
+      <div class="inner-pane active" id="fin-payments">
+        <div class="card"><div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="crm-table">
+              <thead><tr><th>Member</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+              <tbody id="payments-tbody"><tr><td colspan="6" class="text-center py-3 text-muted">Press Refresh to load</td></tr></tbody>
+            </table>
+          </div>
+        </div></div>
+      </div>
+      <div class="inner-pane" id="fin-zelle">
+        <div class="card"><div class="card-body">
+          <button class="btn btn-primary mb-3" onclick="runZelleScan()"><i class="fas fa-search-dollar me-1"></i>Scan Zelle Gmail</button>
+          <pre class="api-response" id="zelle-scan-result">Press Scan to startâ€¦</pre>
+        </div></div>
+      </div>
+      <div class="inner-pane" id="fin-sponsors">
+        <div class="card"><div class="card-body p-0">
+          <div class="table-wrapper">
+            <table class="crm-table">
+              <thead><tr><th>Name</th><th>Tier</th><th>Amount</th><th>Type</th></tr></thead>
+              <tbody id="sponsors-tbody"><tr><td colspan="4" class="text-center py-3 text-muted">Loadingâ€¦</td></tr></tbody>
+            </table>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: SURVEYS â”€â”€ -->
+  <div class="tab-pane" id="tab-surveys">
+    <div class="page-title"><i class="fas fa-poll"></i> Surveys
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadSurveys()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-wrapper">
+          <table class="crm-table">
+            <thead><tr><th>#</th><th>Survey Title</th><th>Questions</th><th>Responses</th><th>Created</th><th>Actions</th></tr></thead>
+            <tbody id="surveys-tbody"><tr><td colspan="6" class="text-center py-3 text-muted">Press Refresh to load</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-3" id="survey-detail-card" style="display:none">
+      <div class="card-header"><h5 id="survey-detail-title">Survey Responses</h5></div>
+      <div class="card-body" id="survey-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: RADIO â”€â”€ -->
+  <div class="tab-pane" id="tab-radio">
+    <div class="page-title"><i class="fas fa-broadcast-tower"></i> BANF Radio
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadRadio()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div class="row g-3">
+      <!-- Now Playing -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header"><h5><i class="fas fa-music text-danger"></i> Now Playing</h5></div>
+          <div class="card-body">
+            <div id="radio-now-playing" class="text-muted small">Loadingâ€¦</div>
+            <div class="d-flex gap-2 mt-3 justify-content-center">
+              <button class="btn btn-outline-primary" onclick="radioAction('previous')"><i class="fas fa-backward"></i></button>
+              <button class="btn btn-primary px-4" onclick="radioAction('start')"><i class="fas fa-play me-1"></i>Start</button>
+              <button class="btn btn-outline-primary" onclick="radioAction('next')"><i class="fas fa-forward"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Schedule -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header"><h5><i class="fas fa-clock text-warning"></i> Schedule</h5></div>
+          <div class="card-body p-0">
+            <div class="table-wrapper">
+              <table class="crm-table">
+                <thead><tr><th>Show</th><th>Day</th><th>Time</th></tr></thead>
+                <tbody id="radio-schedule-tbody"><tr><td colspan="3" class="text-center py-3 text-muted">Loadingâ€¦</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: AI/RAG â”€â”€ -->
+  <div class="tab-pane" id="tab-ai">
+    <div class="page-title"><i class="fas fa-robot"></i> AI &amp; RAG Engine</div>
+    <div id="ai-tab-group">
+      <div class="inner-tab-bar">
+        <div class="inner-tab active" onclick="showInner('ai-tab-group','ai-rag')">RAG Query</div>
+        <div class="inner-tab" onclick="showInner('ai-tab-group','ai-agent')">Agent Console</div>
+        <div class="inner-tab" onclick="showInner('ai-tab-group','ai-history')">History</div>
+      </div>
+      <!-- RAG CHAT -->
+      <div class="inner-pane active" id="ai-rag">
+        <div class="card">
+          <div class="card-header"><h5><i class="fas fa-brain text-primary"></i> RAG Query â€” Ask about BANF data</h5></div>
+          <div class="card-body d-flex flex-column" style="min-height:400px;">
+            <div id="rag-messages" style="flex:1;overflow-y:auto;padding:0.5rem;background:#f8f9fa;border-radius:8px;min-height:300px;max-height:400px;margin-bottom:1rem;display:flex;flex-direction:column;gap:0.75rem;">
+              <div class="d-flex align-items-start gap-2">
+                <div style="width:32px;height:32px;border-radius:50%;background:var(--banf-crimson);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-robot" style="color:#fff;font-size:0.8rem;"></i></div>
+                <div style="background:#fff;border-radius:12px 12px 12px 0;padding:0.6rem 0.9rem;font-size:0.83rem;box-shadow:0 1px 4px rgba(0,0,0,0.08);max-width:80%;">
+                  Hello! I can answer questions about BANF members, events, finances, and documents. Ask me anything!
+                </div>
+              </div>
+            </div>
+            <div class="input-group">
+              <input id="rag-input" class="form-control" placeholder="Ask about members, events, paymentsâ€¦" onkeydown="if(event.key==='Enter')sendRagQuery()">
+              <button class="btn btn-primary" onclick="sendRagQuery()"><i class="fas fa-paper-plane me-1"></i>Ask</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- AGENT CONSOLE -->
+      <div class="inner-pane" id="ai-agent">
+        <div class="card">
+          <div class="card-header"><h5><i class="fas fa-terminal text-success"></i> Computer Agent Console</h5>
+            <button class="btn btn-sm btn-outline-primary" onclick="checkAgentStatus()"><i class="fas fa-circle me-1"></i>Status</button>
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">Agent Task</label>
+              <textarea class="form-control" id="agent-task" rows="3" placeholder="Describe a task for the computer use agentâ€¦"></textarea>
+            </div>
+            <button class="btn btn-primary mb-3" onclick="runAgent()"><i class="fas fa-play me-1"></i>Run Agent</button>
+            <div id="agent-status-pill" class="badge-pending mb-2">idle</div>
+            <pre class="api-response" id="agent-output" style="max-height:300px">Ready.</pre>
+          </div>
+        </div>
+      </div>
+      <!-- HISTORY -->
+      <div class="inner-pane" id="ai-history">
+        <div class="card">
+          <div class="card-header"><h5><i class="fas fa-history"></i> Agent History</h5>
+            <button class="btn btn-sm btn-outline-primary" onclick="loadAgentHistory()"><i class="fas fa-sync-alt"></i></button>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-wrapper">
+              <table class="crm-table">
+                <thead><tr><th>Task</th><th>Status</th><th>Result</th><th>Time</th></tr></thead>
+                <tbody id="agent-history-tbody"><tr><td colspan="4" class="text-center py-3 text-muted">Press Refresh</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- â”€â”€ TAB: REPORTS â”€â”€ -->
+  <div class="tab-pane" id="tab-reports">
+    <div class="page-title"><i class="fas fa-chart-bar"></i> Reports
+      <span class="ms-auto"><button class="btn btn-sm btn-outline-primary" onclick="loadReports()"><i class="fas fa-sync-alt"></i></button></span>
+    </div>
+    <div id="reports-tab-group">
+      <div class="inner-tab-bar">
+        <div class="inner-tab active" onclick="showInner('reports-tab-group','rep-overview')">Overview</div>
+        <div class="inner-tab" onclick="showInner('reports-tab-group','rep-email')">Email Categorization</div>
+        <div class="inner-tab" onclick="showInner('reports-tab-group','rep-payment')">Payment Insights</div>
+        <div class="inner-tab" onclick="showInner('reports-tab-group','rep-evite')">Evite RSVP</div>
+      </div>
+      <div class="inner-pane active" id="rep-overview">
+        <div class="card"><div class="card-body" id="reports-overview-body"><div class="text-muted small">Press Refresh to generate report</div></div></div>
+      </div>
+      <div class="inner-pane" id="rep-email">
+        <div class="card"><div class="card-body" id="reports-email-body"><div class="text-muted small">Loadingâ€¦</div></div></div>
+      </div>
+      <div class="inner-pane" id="rep-payment">
+        <div class="card"><div class="card-body" id="reports-payment-body"><div class="text-muted small">Loadingâ€¦</div></div></div>
+      </div>
+      <div class="inner-pane" id="rep-evite">
+        <div class="card"><div class="card-body" id="reports-evite-body"><div class="text-muted small">Loadingâ€¦</div></div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- â•â•â•â•â•â•â• TOAST CONTAINER â•â•â•â•â•â•â• -->
+<div id="toast-container"></div>
+
+<!-- â•â•â•â•â•â•â• BOOTSTRAP JS â•â•â•â•â•â•â• -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// â”€â”€â”€ GLOBAL CONFIG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const API = 'https://www.jaxbengali.org/_functions';
+const ADMIN_EMAIL = 'banfjax@gmail.com';
+const H = { 'Content-Type': 'application/json', 'x-user-email': ADMIN_EMAIL };
+
+// â”€â”€â”€ NAVIGATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function showTab(tabId, navEl) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('tab-' + tabId).classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  // Lazy-load content on first visit
+  if (!window._tabLoaded) window._tabLoaded = {};
+  if (!window._tabLoaded[tabId]) {
+    window._tabLoaded[tabId] = true;
+    if (window['load_' + tabId]) window['load_' + tabId]();
+  }
+}
+
+// â”€â”€â”€ TOAST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toast(msg, type = 'info', duration = 3500) {
+  const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warn: 'fa-exclamation-triangle' };
+  const el = document.createElement('div');
+  el.className = `toast-msg ${type}`;
+  el.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${msg}`;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(() => el.remove(), duration);
+}
+
+// â”€â”€â”€ API HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+async function api(endpoint, method = 'GET', body = null) {
+  try {
+    const opts = { method, headers: H };
+    if (body) opts.body = JSON.stringify(body);
+    const r = await fetch(`${API}/${endpoint}`, opts);
+    const text = await r.text();
+    try { return JSON.parse(text); }
+    catch { return { success: false, error: text.substring(0, 200) }; }
+  } catch (e) {
+    return { success: false, error: e.message };
+  }
+}
+const apiGet  = (ep) => api(ep);
+const apiPost = (ep, body) => api(ep, 'POST', body);
+
+// â”€â”€â”€ LOGOUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function logout() {
+  toast('Logging outâ€¦', 'info', 1500);
+  setTimeout(() => { window.location.href = '/'; }, 1500);
+}
+
+// â”€â”€â”€ INNER TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function showInner(groupId, paneId) {
+  document.querySelectorAll(`#${groupId} .inner-pane`).forEach(p => p.classList.remove('active'));
+  document.querySelectorAll(`#${groupId} .inner-tab`).forEach(t => t.classList.remove('active'));
+  document.getElementById(paneId).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// â”€â”€â”€ FORMAT HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function fmtNum(n) { return (n||0).toLocaleString(); }
+function fmtDate(d) { if(!d) return 'â€”'; return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function fmtEmail(e) { return e ? `<a href="mailto:${e}" class="text-decoration-none text-primary" style="font-size:0.8rem">${e}</a>` : 'â€”'; }
+function fmtBadge(label, type) {
+  const map = { active:'badge-active', inactive:'badge-inactive', pending:'badge-pending' };
+  return `<span class="${map[type]||'badge-pending'}">${label}</span>`;
+}
+
+// â”€â”€â”€ BIND STATUS DOT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+async function checkHealth() {
+  const r = await apiGet('health');
+  const dot = document.getElementById('topbar-status');
+  dot.style.background = r.status === 'ok' ? '#4caf50' : '#f44336';
+}
+
+// â”€â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window.addEventListener('DOMContentLoaded', () => {
+  // Read admin credentials passed from landing page SSO
+  const storedEmail = localStorage.getItem('banf_admin_email');
+  const storedName = localStorage.getItem('banf_admin_name');
+  if (storedEmail) {
+    const topbarUser = document.getElementById('topbar-user');
+    if (topbarUser) topbarUser.textContent = storedEmail;
+    H['x-user-email'] = storedEmail;
+  }
+  if (storedName) {
+    const topbarUser = document.getElementById('topbar-user');
+    if (topbarUser && storedEmail) topbarUser.title = 'Logged in as: ' + storedName;
+  }
+  checkHealth();
+  // Dashboard is the active tab â€” load it
+  window._tabLoaded = { dashboard: true };
+  if (window.load_dashboard) window.load_dashboard();
+});
+</script>
+
+<!-- â”€â”€ STEP 2: DASHBOARD JS â”€â”€ -->
+<script>
+async function load_dashboard() {
+  await Promise.all([loadImportStatus(), loadDashHealth()]);
+}
+
+async function loadImportStatus() {
+  const el = document.getElementById('dash-import');
+  el.innerHTML = '<div class="text-muted small"><span class="spinner" style="border-top-color:var(--banf-crimson);border-color:rgba(0,0,0,0.1);"></span> Loadingâ€¦</div>';
+  const r = await apiGet('import_status');
+  if (!r || r.error) { el.innerHTML = `<div class="text-danger small">${r?.error||'Failed'}</div>`; return; }
+  const d = r.data || r;
+  const rows = [
+    ['CRMMembers',           d.crmMembersCount    ?? d.members          ?? 'â€”', 'red'],
+    ['FamilyGroups',         d.familyGroupsCount  ?? d.families         ?? 'â€”', 'gold'],
+    ['MemberOrgRoles',       d.orgRolesCount      ?? d.roles            ?? 'â€”', 'purple'],
+    ['MemberCommunications', d.communicationsCount?? d.communications   ?? 'â€”', 'blue'],
+    ['Payments',             d.paymentsCount      ?? d.payments         ?? 'â€”', 'green'],
+    ['SentEmails',           d.sentEmailsCount    ?? d.sentEmails       ?? 'â€”', 'orange'],
+    ['InboxMessages',        d.inboxCount         ?? d.inbox            ?? 'â€”', 'red'],
+  ];
+  // Update stat cards
+  const dv = (v) => v !== 'â€”' ? fmtNum(v) : 'â€”';
+  document.getElementById('ds-members').textContent   = dv(rows[0][1]);
+  document.getElementById('ds-families').textContent  = dv(rows[1][1]);
+  document.getElementById('ds-roles').textContent     = dv(rows[2][1]);
+  document.getElementById('ds-comms').textContent     = dv(rows[3][1]);
+  document.getElementById('ds-payments').textContent  = dv(rows[4][1]);
+  // Update sidebar badges
+  const setNB = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v !== 'â€”' ? v : '?'; };
+  setNB('nb-members', rows[0][1]);
+  setNB('nb-families', rows[1][1]);
+  setNB('nb-roles', rows[2][1]);
+  setNB('nb-inbox', rows[6][1]);
+
+  el.innerHTML = rows.map(([label, count, cls]) =>
+    `<div class="d-flex justify-content-between align-items-center py-1 border-bottom">
+      <span class="stat-label" style="font-size:0.78rem">${label}</span>
+      <span class="stat-icon ${cls}" style="width:28px;height:28px;border-radius:6px;font-size:0.75rem;font-weight:700">${fmtNum(count)}</span>
+    </div>`
+  ).join('');
+}
+
+async function loadDashHealth() {
+  const el = document.getElementById('dash-health');
+  const r = await apiGet('health');
+  if (!r) { el.innerHTML = '<div class="text-danger small">Unreachable</div>'; return; }
+  const status = r.status === 'ok' ? 'success' : 'danger';
+  const icon   = r.status === 'ok' ? 'fa-check-circle' : 'fa-times-circle';
+  el.innerHTML = `
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <i class="fas ${icon} text-${status}" style="font-size:1.4rem"></i>
+      <span class="fw-bold text-${status}" style="font-size:0.9rem">${r.status?.toUpperCase() || 'UNKNOWN'}</span>
+    </div>
+    <div class="small text-muted">Version: <strong>${r.version || '5.7.0'}</strong></div>
+    <div class="small text-muted">Timestamp: <strong>${fmtDate(r.timestamp || new Date())}</strong></div>
+    ${r.collections ? `<div class="small text-muted mt-1">Collections: <strong>${Object.keys(r.collections||{}).length}</strong></div>` : ''}
+    ${r.message ? `<div class="small text-muted mt-1">${r.message}</div>` : ''}
+  `;
+  // Gmail coverage
+  const pct = r.gmailCoverage ?? d?.gmailCoverage ?? null;
+  updateGmailBar(r);
+}
+
+function updateGmailBar(data) {
+  const linked = data?.linkedCount ?? data?.gmailLinked ?? 0;
+  const total  = data?.totalMembers ?? data?.memberCount ?? 0;
+  const pct    = total > 0 ? Math.round((linked / total) * 100) : 0;
+  document.getElementById('ds-gmail-pct').textContent = pct + '%';
+  document.getElementById('gmail-pct-label').textContent = pct + '%';
+  document.getElementById('gmail-progress-bar').style.width = pct + '%';
+  document.getElementById('gmail-linked').textContent  = fmtNum(linked);
+  document.getElementById('gmail-total').textContent   = fmtNum(total);
+  document.getElementById('gmail-inbox-ct').textContent = fmtNum(data?.inboxCount ?? 0);
+  document.getElementById('gmail-sent-ct').textContent  = fmtNum(data?.sentCount ?? 0);
+}
+
+// Quick actions
+async function doGmailSync() {
+  toast('Syncing Gmailâ€¦', 'info');
+  const r = await apiPost('sync_gmail_messages', {});
+  toast(r.success ? `Synced ${r.synced||0} messages` : (r.error||'Gmail sync failed'), r.success ? 'success' : 'error');
+}
+async function doGmailLink() {
+  toast('Re-linking Gmail to membersâ€¦', 'info');
+  const r = await apiPost('gmail_full_link', {});
+  toast(r.success ? `Linked ${r.linked||0} / ${r.total||0} members` : (r.error||'Link failed'), r.success ? 'success' : 'error');
+  if (r.success) loadImportStatus();
+}
+async function doFullSync() {
+  toast('Full data sync startedâ€¦', 'info');
+  const r = await apiPost('full_data_sync', {});
+  toast(r.success ? 'Full sync complete' : (r.error||'Sync failed'), r.success ? 'success' : 'error');
+  if (r.success) loadImportStatus();
+}
+</script>
+<!-- â”€â”€ STEP 3: MEMBERS JS â”€â”€ -->
+<script>
+let _members_all = [], _members_page = 1, _members_per = 25;
+
+async function load_members() { await loadMembers(); }
+
+async function loadMembers() {
+  const tbody = document.getElementById('members-tbody');
+  tbody.innerHTML = '<tr><td colspan="9" class="text-center py-4"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:24px;height:24px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('members');
+  const members = r.members || r.data || r.items || r || [];
+  if (!Array.isArray(members)) { tbody.innerHTML = '<tr><td colspan="9" class="text-danger">Failed to load</td></tr>'; return; }
+  _members_all = members;
+  _members_page = 1;
+  // Populate family filter
+  const families = [...new Set(members.map(m => m.familyName || m.family || '').filter(Boolean))].sort();
+  const ff = document.getElementById('member-family-filter');
+  ff.innerHTML = '<option value="">All Families</option>' + families.map(f => `<option value="${f}">${f}</option>`).join('');
+  renderMembersTable();
+}
+
+function filterMembers() { _members_page = 1; renderMembersTable(); }
+function membersPage(dir) { _members_page += dir; renderMembersTable(); }
+
+function renderMembersTable() {
+  const q     = (document.getElementById('member-search')?.value || '').toLowerCase();
+  const stFil = document.getElementById('member-status-filter')?.value || '';
+  const famFil= document.getElementById('member-family-filter')?.value || '';
+
+  let filtered = _members_all.filter(m => {
+    const name  = (m.fullName||m.name||m.firstName+' '+m.lastName||'').toLowerCase();
+    const email = (m.email||m.primaryEmail||'').toLowerCase();
+    const st    = m.memberStatus||m.status||'';
+    const fam   = m.familyName||m.family||'';
+    return (!q || name.includes(q) || email.includes(q))
+        && (!stFil || st === stFil)
+        && (!famFil || fam === famFil);
+  });
+
+  const total = filtered.length;
+  const pages = Math.max(1, Math.ceil(total / _members_per));
+  _members_page = Math.min(_members_page, pages);
+  const start = (_members_page - 1) * _members_per;
+  const page  = filtered.slice(start, start + _members_per);
+
+  document.getElementById('member-count-badge').textContent = `${total} members`;
+  document.getElementById('members-page-info').textContent = `Page ${_members_page} / ${pages} (${total} total)`;
+  document.getElementById('btn-prev-members').disabled = _members_page <= 1;
+  document.getElementById('btn-next-members').disabled = _members_page >= pages;
+
+  const tbody = document.getElementById('members-tbody');
+  if (!page.length) { tbody.innerHTML = '<tr><td colspan="9" class="text-center py-3 text-muted">No members found</td></tr>'; return; }
+
+  tbody.innerHTML = page.map((m, i) => {
+    const name   = m.fullName || ((m.firstName||'') + ' ' + (m.lastName||'')).trim() || 'â€”';
+    const email  = m.email || m.primaryEmail || '';
+    const phone  = m.phone || m.primaryPhone || 'â€”';
+    const family = m.familyName || m.family || 'â€”';
+    const status = m.memberStatus || m.status || 'unknown';
+    const hasGmail = m.gmailLinked || m.hasGmail || !!m.gmailMessageId;
+    const joined = m._createdDate || m.createdDate || m.joinedDate;
+    const idx    = start + i + 1;
+    return `<tr>
+      <td class="text-muted" style="font-size:0.72rem">${idx}</td>
+      <td><strong style="font-size:0.83rem">${name}</strong></td>
+      <td>${fmtEmail(email)}</td>
+      <td style="font-size:0.8rem">${phone}</td>
+      <td style="font-size:0.8rem">${family}</td>
+      <td>${fmtBadge(status, status === 'active' ? 'active' : status === 'inactive' ? 'inactive' : 'pending')}</td>
+      <td class="text-center">${hasGmail ? '<i class="fab fa-google text-danger" title="Gmail linked"></i>' : '<i class="fas fa-times text-muted"></i>'}</td>
+      <td style="font-size:0.75rem;color:#999">${fmtDate(joined)}</td>
+      <td>
+        <button class="btn btn-sm btn-icon btn-outline-primary me-1" onclick="viewMember('${m._id||''}','${name}')" title="View"><i class="fas fa-eye"></i></button>
+        <button class="btn btn-sm btn-icon btn-outline-danger" onclick="deleteMember('${m._id||''}','${name}')" title="Delete"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function viewMember(id, name) {
+  toast(`Viewing ${name} (${id})`, 'info');
+}
+function deleteMember(id, name) {
+  if (!confirm(`Delete member: ${name}?`)) return;
+  toast(`Delete not yet wired â€” id: ${id}`, 'warn');
+}
+function openAddMember() {
+  toast('Add member modal â€” coming in Step 10 wire-up', 'info');
+}
+</script>
+<!-- â”€â”€ STEP 4: FAMILIES + ROLES JS â”€â”€ -->
+<script>
+let _families_all = [], _roles_all = [];
+
+// â”€â”€ FAMILIES â”€â”€
+async function load_families() { await loadFamilies(); }
+async function loadFamilies() {
+  const tbody = document.getElementById('families-tbody');
+  tbody.innerHTML = '<tr><td colspan="7" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('family_mapping');
+  const fams = r.families || r.data || r.items || r || [];
+  if (!Array.isArray(fams)) { tbody.innerHTML = '<tr><td colspan="7" class="text-danger">Failed</td></tr>'; return; }
+  _families_all = fams;
+  renderFamilies();
+}
+function filterFamilies() { renderFamilies(); }
+function renderFamilies() {
+  const q = (document.getElementById('family-search')?.value||'').toLowerCase();
+  const filtered = _families_all.filter(f => {
+    const n = (f.familyName||f.name||'').toLowerCase();
+    return !q || n.includes(q);
+  });
+  document.getElementById('family-count-badge').textContent = `${filtered.length} families`;
+  const tbody = document.getElementById('families-tbody');
+  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="7" class="text-center py-3 text-muted">No families found</td></tr>'; return; }
+  tbody.innerHTML = filtered.map((f, i) => {
+    const name  = f.familyName || f.name || 'â€”';
+    const head  = f.headOfFamily || f.primaryContact || 'â€”';
+    const email = f.email || f.primaryEmail || '';
+    const city  = f.city || f.address?.city || 'â€”';
+    const count = f.memberCount || f.members?.length || 'â€”';
+    const joined= f._createdDate || f.createdDate;
+    return `<tr>
+      <td class="text-muted" style="font-size:0.72rem">${i+1}</td>
+      <td><strong style="font-size:0.83rem">${name}</strong></td>
+      <td style="font-size:0.8rem">${head}</td>
+      <td>${fmtEmail(email)}</td>
+      <td style="font-size:0.8rem">${city}</td>
+      <td class="text-center"><span class="badge-pending">${count}</span></td>
+      <td style="font-size:0.75rem;color:#999">${fmtDate(joined)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// â”€â”€ ROLES â”€â”€
+async function load_roles() { await loadRoles(); }
+async function loadRoles() {
+  const tbody = document.getElementById('roles-tbody');
+  tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('crm_contacts');
+  const roles = r.roles || r.data || r.items || r || [];
+  if (!Array.isArray(roles)) { tbody.innerHTML = '<tr><td colspan="6" class="text-danger">Failed</td></tr>'; return; }
+  _roles_all = roles;
+  // Populate year filter
+  const years = [...new Set(roles.map(r => r.year || r.electionYear || '').filter(Boolean))].sort().reverse();
+  const yf = document.getElementById('roles-year-filter');
+  yf.innerHTML = '<option value="">All Years</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
+  renderRoles();
+}
+function filterRoles() { renderRoles(); }
+function renderRoles() {
+  const q    = (document.getElementById('roles-search')?.value||'').toLowerCase();
+  const year = document.getElementById('roles-year-filter')?.value || '';
+  const filtered = _roles_all.filter(r => {
+    const n  = (r.memberName||r.name||r.fullName||'').toLowerCase();
+    const role = (r.roleTitle||r.role||r.title||'').toLowerCase();
+    const y  = String(r.year||r.electionYear||'');
+    return (!q || n.includes(q) || role.includes(q))
+        && (!year || y === year);
+  });
+  document.getElementById('roles-count-badge').textContent = `${filtered.length} roles`;
+  const tbody = document.getElementById('roles-tbody');
+  if (!filtered.length) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3 text-muted">No roles found</td></tr>'; return; }
+  tbody.innerHTML = filtered.map((r, i) => {
+    const name  = r.memberName || r.name || r.fullName || 'â€”';
+    const role  = r.roleTitle  || r.role || r.title || 'â€”';
+    const cat   = r.category   || r.roleCategory || 'â€”';
+    const year  = r.year       || r.electionYear || 'â€”';
+    const email = r.email      || r.memberEmail  || '';
+    return `<tr>
+      <td class="text-muted" style="font-size:0.72rem">${i+1}</td>
+      <td><strong style="font-size:0.83rem">${name}</strong></td>
+      <td style="font-size:0.8rem">${role}</td>
+      <td><span class="badge-pending">${cat}</span></td>
+      <td style="font-size:0.8rem">${year}</td>
+      <td>${fmtEmail(email)}</td>
+    </tr>`;
+  }).join('');
+}
+</script>
+<!-- â”€â”€ STEP 5: EMAIL + EVITES JS â”€â”€ -->
+<script>
+async function load_email() { await Promise.all([loadInbox(), loadSentHistory(), loadEmailAudit()]); }
+
+async function loadInbox() {
+  const tbody = document.getElementById('inbox-tbody');
+  tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('email_inbox');
+  const msgs = r.messages || r.data || r.items || r || [];
+  document.getElementById('email-inbox-nb').textContent = Array.isArray(msgs) ? msgs.length : '?';
+  if (!Array.isArray(msgs) || !msgs.length) { tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3 text-muted">No messages</td></tr>'; return; }
+  tbody.innerHTML = msgs.slice(0,50).map(m => {
+    const from    = m.from || m.sender || 'â€”';
+    const subject = m.subject || '(no subject)';
+    const date    = fmtDate(m.date || m.receivedAt || m.timestamp);
+    const labels  = (m.labels||[]).join(', ') || 'â€”';
+    const id      = m.id || m._id || '';
+    return `<tr>
+      <td style="font-size:0.8rem;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${from}</td>
+      <td style="font-size:0.8rem;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${subject}</td>
+      <td style="font-size:0.75rem;color:#999">${date}</td>
+      <td style="font-size:0.72rem">${labels}</td>
+      <td><button class="btn btn-sm btn-icon btn-outline-primary" onclick="markRead('${id}')" title="Mark read"><i class="fas fa-check"></i></button></td>
+    </tr>`;
+  }).join('');
+}
+
+async function loadSentHistory() {
+  const tbody = document.getElementById('sent-tbody');
+  tbody.innerHTML = '<tr><td colspan="4" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('sent_history');
+  const emails = r.emails || r.data || r.items || r || [];
+  if (!Array.isArray(emails) || !emails.length) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-3 text-muted">No sent emails</td></tr>'; return; }
+  tbody.innerHTML = emails.slice(0,50).map(e => {
+    const to      = e.to || e.recipient || 'â€”';
+    const subject = e.subject || '(no subject)';
+    const status  = e.status || 'sent';
+    const sentAt  = fmtDate(e.sentAt || e._createdDate);
+    return `<tr>
+      <td style="font-size:0.8rem">${to}</td>
+      <td style="font-size:0.8rem">${subject}</td>
+      <td>${fmtBadge(status, status==='sent'||status==='delivered'?'active':status==='failed'?'inactive':'pending')}</td>
+      <td style="font-size:0.75rem;color:#999">${sentAt}</td>
+    </tr>`;
+  }).join('');
+}
+
+async function loadEmailAudit() {
+  const el = document.getElementById('email-audit-body');
+  const r = await apiGet('email_audit');
+  if (!r) { el.innerHTML = '<div class="text-danger small">Failed</div>'; return; }
+  const audit = r.audit || r.data || r;
+  el.innerHTML = `<pre class="api-response">${JSON.stringify(audit, null, 2)}</pre>`;
+}
+
+async function markRead(id) {
+  const r = await apiPost('email_mark_read', { messageId: id });
+  toast(r.success ? 'Marked read' : (r.error||'Failed'), r.success ? 'success' : 'error');
+}
+
+function openComposeModal() {
+  new bootstrap.Modal(document.getElementById('compose-modal')).show();
+}
+async function sendEmailNow() {
+  const to      = document.getElementById('compose-to').value.trim();
+  const subject = document.getElementById('compose-subject').value.trim();
+  const body    = document.getElementById('compose-body').value.trim();
+  if (!to || !subject) { toast('To and Subject required', 'warn'); return; }
+  const r = await apiPost('send_email', { to, subject, body });
+  toast(r.success ? 'Email sent!' : (r.error||'Failed'), r.success ? 'success' : 'error');
+  if (r.success) bootstrap.Modal.getInstance(document.getElementById('compose-modal')).hide();
+}
+
+// â”€â”€ EVITES â”€â”€
+async function load_evites() { await loadEvites(); }
+async function loadEvites() {
+  const tbody = document.getElementById('evite-tbody');
+  tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('evite_history');
+  const evites = r.evites || r.data || r.items || r || [];
+  if (!Array.isArray(evites) || !evites.length) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3 text-muted">No evites found</td></tr>'; return; }
+  tbody.innerHTML = evites.map((e, i) => {
+    const event   = e.eventTitle || e.event || e.title || 'â€”';
+    const sentTo  = e.sentCount  || e.recipients?.length || 'â€”';
+    const sentAt  = fmtDate(e.sentAt || e._createdDate);
+    const yes     = e.rsvpYes    || e.yesCount   || 0;
+    const no      = e.rsvpNo     || e.noCount     || 0;
+    const pending = e.rsvpPending|| e.pendingCount|| 'â€”';
+    return `<tr>
+      <td style="font-size:0.83rem"><strong>${event}</strong></td>
+      <td class="text-center">${sentTo}</td>
+      <td style="font-size:0.75rem;color:#999">${sentAt}</td>
+      <td class="text-center"><span class="badge-active">${yes}</span></td>
+      <td class="text-center"><span class="badge-inactive">${no}</span></td>
+      <td class="text-center"><span class="badge-pending">${pending}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+async function sendEviteNow() {
+  const title = document.getElementById('evite-title').value.trim();
+  const date  = document.getElementById('evite-date').value;
+  const msg   = document.getElementById('evite-msg').value.trim();
+  if (!title || !msg) { toast('Title and message required', 'warn'); return; }
+  const r = await apiPost('send_evite', { eventTitle: title, eventDate: date, message: msg });
+  toast(r.success ? `Evite sent to ${r.sentCount||0} members` : (r.error||'Failed'), r.success ? 'success' : 'error');
+}
+</script>
+<!-- â”€â”€ STEP 6: DRIVE + IMPORT JS â”€â”€ -->
+<script>
+// â”€â”€ DRIVE â”€â”€
+async function load_drive() { await Promise.all([loadDriveStatus(), loadDriveFiles()]); }
+
+async function loadDriveStatus() {
+  const pill = document.getElementById('drive-status-pill');
+  const r = await apiGet('gdrive_status');
+  if (r?.authenticated) {
+    pill.className = 'badge-active'; pill.textContent = 'Drive Connected';
+  } else {
+    pill.className = 'badge-inactive'; pill.textContent = 'Not Authenticated';
+  }
+}
+
+async function loadDriveFiles() {
+  const tbody = document.getElementById('drive-tbody');
+  tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('gdrive_list');
+  const files = r.files || r.data || r.items || r || [];
+  if (!Array.isArray(files) || !files.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3 text-muted">No files found â€” try searching</td></tr>'; return;
+  }
+  tbody.innerHTML = files.map(f => {
+    const name = f.name || f.title || 'â€”';
+    const type = (f.mimeType||'').split('/').pop().replace('vnd.google-apps.','').replace('vnd.openxmlformats-officedocument.spreadsheetml.sheet','xlsx');
+    const mod  = fmtDate(f.modifiedTime || f.modifiedDate);
+    const size = f.size ? (f.size / 1024).toFixed(0) + ' KB' : 'â€”';
+    const id   = f.id || '';
+    const icon = type.includes('spread')||type==='xlsx' ? 'fa-file-excel text-success' : type.includes('csv') ? 'fa-file-csv text-info' : 'fa-file text-muted';
+    return `<tr>
+      <td style="font-size:0.82rem"><i class="fas ${icon} me-2"></i>${name}</td>
+      <td style="font-size:0.72rem">${type}</td>
+      <td style="font-size:0.75rem;color:#999">${mod}</td>
+      <td style="font-size:0.75rem">${size}</td>
+      <td>
+        <button class="btn btn-sm btn-icon btn-outline-success me-1" onclick="syncDriveFile('${id}','${name.replace(/'/g,'')}','csv')" title="Sync as CSV"><i class="fas fa-cloud-download-alt"></i></button>
+        <a class="btn btn-sm btn-icon btn-outline-primary" href="https://drive.google.com/file/d/${id}/view" target="_blank" title="Open in Drive"><i class="fas fa-external-link-alt"></i></a>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+async function searchDrive() {
+  const q = document.getElementById('drive-search-q').value.trim();
+  if (!q) { await loadDriveFiles(); return; }
+  const tbody = document.getElementById('drive-tbody');
+  tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet(`gdrive_search?q=${encodeURIComponent(q)}`);
+  const files = r.files || r.data || [];
+  if (!Array.isArray(files) || !files.length) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-3 text-muted">No results for "${q}"</td></tr>`; return; }
+  // Reuse render logic
+  const saved = document.getElementById('drive-tbody');
+  await loadDriveFiles._renderFiles?.(files) || (function() {
+    saved.innerHTML = files.map(f => {
+      const id = f.id||''; const name = f.name||'â€”';
+      return `<tr><td style="font-size:0.82rem">${name}</td><td style="font-size:0.72rem">${(f.mimeType||'').split('/').pop()}</td><td style="font-size:0.75rem;color:#999">${fmtDate(f.modifiedTime)}</td><td>â€”</td><td><a class="btn btn-sm btn-icon btn-outline-primary" href="https://drive.google.com/file/d/${id}/view" target="_blank"><i class="fas fa-external-link-alt"></i></a></td></tr>`;
+    }).join('');
+  })();
+}
+
+async function findBanfFolder() {
+  toast('Searching for BANF folderâ€¦', 'info');
+  const r = await apiPost('gdrive_find_banf_folder', {});
+  toast(r.success ? `Found: ${r.folderName} (${r.fileCount||0} files)` : (r.error||'Not found'), r.success ? 'success' : 'warn');
+  if (r.success) loadDriveFiles();
+}
+
+async function syncDriveFile(fileId, name, format) {
+  toast(`Syncing ${name}â€¦`, 'info');
+  const r = await apiPost('gdrive_sync_csv', { fileId, format });
+  toast(r.success ? `Synced ${r.rows||0} rows` : (r.error||'Sync failed'), r.success ? 'success' : 'error');
+}
+
+// â”€â”€ IMPORT â”€â”€
+async function load_import() { await loadImportCounts(); }
+
+async function loadImportCounts() {
+  const el = document.getElementById('import-counts-body');
+  const r = await apiGet('import_status');
+  if (!r) { el.innerHTML = '<div class="text-danger small">Failed</div>'; return; }
+  const d = r.data || r;
+  const rows = [
+    ['CRMMembers', d.crmMembersCount ?? d.members ?? '?'],
+    ['FamilyGroups', d.familyGroupsCount ?? d.families ?? '?'],
+    ['MemberOrgRoles', d.orgRolesCount ?? d.roles ?? '?'],
+    ['MemberCommunications', d.communicationsCount ?? d.communications ?? '?'],
+    ['Payments', d.paymentsCount ?? d.payments ?? '?'],
+    ['SentEmails', d.sentEmailsCount ?? d.sentEmails ?? '?'],
+    ['InboxMessages', d.inboxCount ?? d.inbox ?? '?'],
+  ];
+  el.innerHTML = rows.map(([l,v]) => `<div class="d-flex justify-content-between py-1 border-bottom"><span style="font-size:0.78rem">${l}</span><strong style="font-size:0.83rem">${fmtNum(v)}</strong></div>`).join('');
+}
+
+function importLog(msg) {
+  const el = document.getElementById('import-log');
+  if (el) { el.textContent = el.textContent === 'Ready.' ? msg : el.textContent + '\n' + msg; el.scrollTop = el.scrollHeight; }
+}
+
+async function runBulkImport(which) {
+  importLog(`[${new Date().toLocaleTimeString()}] Starting bulk import: ${which}â€¦`);
+  const ep = which === 'roles' ? 'bulk_import_org_roles' : 'bulk_import_members';
+  const r = await apiPost(ep, {});
+  const msg = r.success ? `âœ“ ${which}: upserted ${r.inserted||r.upserted||0}, skipped ${r.skipped||0}` : `âœ- ${which}: ${r.error||'failed'}`;
+  importLog(`[${new Date().toLocaleTimeString()}] ${msg}`);
+  toast(r.success ? msg : (r.error||'Import failed'), r.success ? 'success' : 'error');
+  if (r.success) loadImportCounts();
+}
+</script>
+<!-- â”€â”€ STEP 7: EVENTS + FINANCE JS â”€â”€ -->
+<script>
+// â”€â”€ EVENTS â”€â”€
+async function load_events() { await loadEvents(); }
+async function loadEvents() {
+  const [up, past] = await Promise.all([apiGet('events'), apiGet('past_events')]);
+  renderEventTable(up.events || up.data || up || [], document.getElementById('events-upcoming-tbody'), 5);
+  renderEventTable(past.events || past.data || past || [], document.getElementById('events-past-tbody'), 3);
+}
+function renderEventTable(events, tbody, cols) {
+  if (!Array.isArray(events)||!events.length) { tbody.innerHTML = `<tr><td colspan="${cols}" class="text-center py-3 text-muted">No events</td></tr>`; return; }
+  tbody.innerHTML = events.map(e => {
+    const title = e.title||e.eventTitle||'â€”';
+    const date  = fmtDate(e.date||e.eventDate||e.startDate);
+    const loc   = e.location||e.venue||'â€”';
+    const rsvp  = e.rsvpYesCount||e.rsvpCount||'â€”';
+    const id    = e._id||e.id||'';
+    if (cols === 3) return `<tr><td style="font-size:0.83rem"><strong>${title}</strong></td><td style="font-size:0.75rem">${date}</td><td>${rsvp}</td></tr>`;
+    return `<tr>
+      <td style="font-size:0.83rem"><strong>${title}</strong></td>
+      <td style="font-size:0.75rem">${date}</td>
+      <td style="font-size:0.8rem">${loc}</td>
+      <td class="text-center"><span class="badge-active">${rsvp}</span></td>
+      <td><button class="btn btn-sm btn-icon btn-outline-primary" onclick="sendEviteForEvent('${id}','${title.replace(/'/g,'')}')" title="Send evite"><i class="fas fa-paper-plane"></i></button></td>
+    </tr>`;
+  }).join('');
+}
+async function sendEviteForEvent(id, title) {
+  if (!confirm(`Send evite for: ${title}?`)) return;
+  const r = await apiPost('send_evite', { eventId: id, eventTitle: title });
+  toast(r.success ? `Evite sent to ${r.sentCount||0} members` : (r.error||'Failed'), r.success ? 'success' : 'error');
+}
+
+// â”€â”€ FINANCE â”€â”€
+async function load_finance() { await loadFinance(); }
+async function loadFinance() {
+  const [stats, pays, sponsors] = await Promise.all([apiGet('zelle_stats'), apiGet('zelle_payments'), apiGet('sponsors')]);
+  // Stats
+  const s = stats.stats || stats.data || stats || {};
+  document.getElementById('fin-total').textContent    = '$' + fmtNum(s.totalAmount||s.total||0);
+  document.getElementById('fin-paying').textContent   = fmtNum(s.payingMembers||s.paying||0);
+  document.getElementById('fin-pending').textContent  = fmtNum(s.pendingCount||s.pending||0);
+  document.getElementById('fin-rejected').textContent = fmtNum(s.rejectedCount||s.rejected||0);
+  // Payments table
+  const payments = pays.payments || pays.data || pays.items || pays || [];
+  const ptbody = document.getElementById('payments-tbody');
+  if (!Array.isArray(payments)||!payments.length) { ptbody.innerHTML = '<tr><td colspan="6" class="text-center py-3 text-muted">No payments</td></tr>'; }
+  else ptbody.innerHTML = payments.slice(0,50).map((p, i) => {
+    const member = p.memberName||p.name||p.from||'â€”';
+    const amount = p.amount ? '$'+fmtNum(p.amount) : 'â€”';
+    const method = p.method||p.paymentMethod||'Zelle';
+    const status = p.status||'pending';
+    const date   = fmtDate(p.date||p.paymentDate||p._createdDate);
+    const id     = p._id||p.id||'';
+    return `<tr>
+      <td style="font-size:0.83rem">${member}</td>
+      <td><strong>${amount}</strong></td>
+      <td style="font-size:0.78rem">${method}</td>
+      <td>${fmtBadge(status, status==='verified'||status==='matched'?'active':status==='rejected'?'inactive':'pending')}</td>
+      <td style="font-size:0.75rem;color:#999">${date}</td>
+      <td>
+        <button class="btn btn-sm btn-icon btn-outline-success me-1" onclick="verifyPayment('${id}')" title="Verify"><i class="fas fa-check"></i></button>
+        <button class="btn btn-sm btn-icon btn-outline-danger" onclick="rejectPayment('${id}')" title="Reject"><i class="fas fa-times"></i></button>
+      </td>
+    </tr>`;
+  }).join('');
+  // Sponsors
+  const sp = sponsors.sponsors || sponsors.data || sponsors || [];
+  const stbody = document.getElementById('sponsors-tbody');
+  if (!Array.isArray(sp)||!sp.length) { stbody.innerHTML = '<tr><td colspan="4" class="text-center py-3 text-muted">No sponsors</td></tr>'; }
+  else stbody.innerHTML = sp.map(s => `<tr><td style="font-size:0.83rem">${s.name||'â€”'}</td><td><span class="badge-pending">${s.tier||'â€”'}</span></td><td>$${fmtNum(s.amount||0)}</td><td style="font-size:0.78rem">${s.type||'â€”'}</td></tr>`).join('');
+}
+async function verifyPayment(id) {
+  const r = await apiPost('zelle_verify', { paymentId: id });
+  toast(r.success ? 'Payment verified' : (r.error||'Failed'), r.success ? 'success' : 'error');
+  if (r.success) loadFinance();
+}
+async function rejectPayment(id) {
+  const r = await apiPost('zelle_reject', { paymentId: id });
+  toast(r.success ? 'Payment rejected' : (r.error||'Failed'), r.success ? 'success' : 'error');
+  if (r.success) loadFinance();
+}
+async function runZelleScan() {
+  const el = document.getElementById('zelle-scan-result');
+  el.textContent = 'Scanning Gmail for Zelleâ€¦';
+  const r = await apiPost('zelle_scan', {});
+  el.textContent = JSON.stringify(r, null, 2);
+  toast(r.success ? `Found ${r.found||0} Zelle transactions` : (r.error||'Scan failed'), r.success ? 'success' : 'warn');
+}
+</script>
+<!-- â”€â”€ STEP 8: SURVEYS + RADIO JS â”€â”€ -->
+<script>
+// â”€â”€ SURVEYS â”€â”€
+async function load_surveys() { await loadSurveys(); }
+async function loadSurveys() {
+  const tbody = document.getElementById('surveys-tbody');
+  tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:20px;height:20px;border-width:3px;"></span></td></tr>';
+  const r = await apiGet('surveys');
+  const surveys = r.surveys || r.data || r.items || r || [];
+  if (!Array.isArray(surveys)||!surveys.length) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-3 text-muted">No surveys found</td></tr>'; return; }
+  tbody.innerHTML = surveys.map((s, i) => {
+    const title    = s.title||s.surveyTitle||'â€”';
+    const qCount   = s.questionCount||s.questions?.length||'â€”';
+    const respCount= s.responseCount||s.responses||'â€”';
+    const created  = fmtDate(s._createdDate||s.createdDate);
+    const id       = s._id||s.id||'';
+    return `<tr>
+      <td class="text-muted" style="font-size:0.72rem">${i+1}</td>
+      <td style="font-size:0.83rem"><strong>${title}</strong></td>
+      <td class="text-center">${qCount}</td>
+      <td class="text-center"><span class="badge-pendng">${respCount}</span></td>
+      <td style="font-size:0.75rem;color:#999">${created}</td>
+      <td><button class="btn btn-sm btn-icon btn-outline-primary" onclick="viewSurvey('${id}','${title.replace(/'/g,'')}')"><i class="fas fa-eye"></i></button></td>
+    </tr>`;
+  }).join('');
+}
+async function viewSurvey(id, title) {
+  const card = document.getElementById('survey-detail-card');
+  const body = document.getElementById('survey-detail-body');
+  document.getElementById('survey-detail-title').textContent = `Responses: ${title}`;
+  card.style.display = 'block';
+  body.innerHTML = '<div class="text-muted small">Loading responsesâ€¦</div>';
+  const r = await apiGet(`survey?id=${id}`);
+  const survey = r.survey || r.data || r;
+  body.innerHTML = `<pre class="api-response">${JSON.stringify(survey, null, 2)}</pre>`;
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// â”€â”€ RADIO â”€â”€
+async function load_radio() { await loadRadio(); }
+async function loadRadio() {
+  const [status, schedule] = await Promise.all([apiGet('radio_status'), apiGet('radio_schedule')]);
+  const now = document.getElementById('radio-now-playing');
+  const st  = status.status || status.data || status || {};
+  const currentTrack = st.currentTrack || st.nowPlaying || st.track;
+  if (currentTrack) {
+    now.innerHTML = `
+      <div class="d-flex align-items-center gap-3">
+        <div class="stat-icon red" style="width:48px;height:48px;border-radius:12px;flex-shrink:0"><i class="fas fa-music"></i></div>
+        <div>
+          <div style="font-size:0.9rem;font-weight:600">${currentTrack.title||currentTrack.name||'Unknown Track'}</div>
+          <div style="font-size:0.75rem;color:#888">${currentTrack.artist||st.showName||'BANF Radio'}</div>
+          <div style="font-size:0.7rem;color:#aaa">${st.status||'playing'}</div>
+        </div>
+      </div>`;
+  } else {
+    now.innerHTML = `<div class="text-muted" style="font-size:0.83rem"><i class="fas fa-pause-circle me-2"></i>Radio inactive â€” press Start to begin</div>`;
+  }
+  // Schedule
+  const sched = schedule.schedule || schedule.data || schedule || [];
+  const stbody = document.getElementById('radio-schedule-tbody');
+  if (!Array.isArray(sched)||!sched.length) { stbody.innerHTML = '<tr><td colspan="3" class="text-center py-3 text-muted">No schedule</td></tr>'; return; }
+  stbody.innerHTML = sched.map(s => `<tr>
+    <td style="font-size:0.83rem"><strong>${s.showName||s.title||'â€”'}</strong></td>
+    <td style="font-size:0.78rem">${s.day||s.dayOfWeek||'â€”'}</td>
+    <td style="font-size:0.78rem">${s.time||s.startTime||'â€”'}</td>
+  </tr>`).join('');
+}
+async function radioAction(action) {
+  const ep = action === 'start' ? 'radio_start' : action === 'next' ? 'radio_next' : 'radio_previous';
+  const r = await apiPost(ep, {});
+  toast(r.success ? `Radio: ${action}` : (r.error||`${action} failed`), r.success ? 'success' : 'warn');
+  if (r.success) setTimeout(loadRadio, 1000);
+}
+</script>
+<!-- â”€â”€ STEP 9: AI/RAG + REPORTS JS â”€â”€ -->
+<script>
+// â”€â”€ RAG QUERY â”€â”€
+async function load_ai() { /* auto-ready */ }
+
+function appendRagMsg(content, role) {
+  const container = document.getElementById('rag-messages');
+  const isUser = role === 'user';
+  const div = document.createElement('div');
+  div.style.cssText = `display:flex;align-items:flex-start;gap:0.5rem;${isUser?'flex-direction:row-reverse':''}`;
+  const iconBg = isUser ? '#1976d2' : 'var(--banf-crimson)';
+  const iconName = isUser ? 'fa-user' : 'fa-robot';
+  const bubbleRadius = isUser ? '12px 12px 0 12px' : '12px 12px 12px 0';
+  div.innerHTML = `
+    <div style="width:32px;height:32px;border-radius:50%;background:${iconBg};display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas ${iconName}" style="color:#fff;font-size:0.8rem;"></i></div>
+    <div style="background:#fff;border-radius:${bubbleRadius};padding:0.6rem 0.9rem;font-size:0.83rem;box-shadow:0 1px 4px rgba(0,0,0,0.08);max-width:80%;white-space:pre-wrap;">${content}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendRagQuery() {
+  const input = document.getElementById('rag-input');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  appendRagMsg(q, 'user');
+  // Thinking indicator
+  const thinkId = 'think-' + Date.now();
+  const container = document.getElementById('rag-messages');
+  const thinkDiv = document.createElement('div');
+  thinkDiv.id = thinkId;
+  thinkDiv.style.cssText = 'display:flex;align-items:flex-start;gap:0.5rem;';
+  thinkDiv.innerHTML = `<div style="width:32px;height:32px;border-radius:50%;background:var(--banf-crimson);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fas fa-robot" style="color:#fff;font-size:0.8rem;"></i></div><div style="background:#fff;border-radius:12px 12px 12px 0;padding:0.6rem 0.9rem;font-size:0.83rem;box-shadow:0 1px 4px rgba(0,0,0,0.08);color:#888;"><span class="spinner" style="border-color:rgba(0,0,0,0.1);border-top-color:var(--banf-crimson);width:14px;height:14px;border-width:2px;"></span> Thinkingâ€¦</div>`;
+  container.appendChild(thinkDiv);
+  container.scrollTop = container.scrollHeight;
+  const r = await apiPost('rag_query', { query: q, context: 'admin' });
+  document.getElementById(thinkId)?.remove();
+  const answer = r.answer || r.response || r.result || r.text || (r.error ? `Error: ${r.error}` : 'No response');
+  appendRagMsg(answer, 'assistant');
+}
+
+// â”€â”€ AGENT â”€â”€
+async function runAgent() {
+  const task = document.getElementById('agent-task').value.trim();
+  if (!task) { toast('Enter a task first', 'warn'); return; }
+  const pill = document.getElementById('agent-status-pill');
+  const out  = document.getElementById('agent-output');
+  pill.className = 'badge-pending'; pill.textContent = 'runningâ€¦';
+  out.textContent = `Starting: ${task}`;
+  const r = await apiPost('agent', { task, mode: 'admin' });
+  pill.className = r.success ? 'badge-active' : 'badge-inactive';
+  pill.textContent = r.success ? 'complete' : 'failed';
+  out.textContent = JSON.stringify(r, null, 2);
+}
+async function checkAgentStatus() {
+  const r = await apiGet('agent_status');
+  const pill = document.getElementById('agent-status-pill');
+  pill.textContent = r.status || 'unknown';
+}
+async function loadAgentHistory() {
+  const tbody = document.getElementById('agent-history-tbody');
+  const r = await apiGet('agent_history');
+  const history = r.history || r.data || r || [];
+  if (!Array.isArray(history)||!history.length) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-3 text-muted">No history</td></tr>'; return; }
+  tbody.innerHTML = history.map(h => `<tr>
+    <td style="font-size:0.8rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h.task||'â€”'}</td>
+    <td>${fmtBadge(h.status||'unknown', h.status==='complete'?'active':h.status==='failed'?'inactive':'pending')}</td>
+    <td style="font-size:0.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${h.result||h.summary||'â€”'}</td>
+    <td style="font-size:0.75rem;color:#999">${fmtDate(h.timestamp||h._createdDate)}</td>
+  </tr>`).join('');
+}
+
+// â”€â”€ REPORTS â”€â”€
+async function load_reports() { await loadReports(); }
+async function loadReports() {
+  await Promise.all([
+    loadReportOverview(),
+    loadReportEmail(),
+    loadReportPayment(),
+    loadReportEvite()
+  ]);
+}
+async function loadReportOverview() {
+  const el = document.getElementById('reports-overview-body');
+  const r  = await apiGet('admin_report');
+  const data = r.report || r.data || r;
+  el.innerHTML = `<pre class="api-response">${JSON.stringify(data, null, 2)}</pre>`;
+}
+async function loadReportEmail() {
+  const el = document.getElementById('reports-email-body');
+  const r  = await apiGet('report_email_categorization');
+  const data = r.report || r.data || r;
+  el.innerHTML = `<pre class="api-response">${JSON.stringify(data, null, 2)}</pre>`;
+}
+async function loadReportPayment() {
+  const el = document.getElementById('reports-payment-body');
+  const r  = await apiGet('report_payment_insights');
+  const data = r.report || r.data || r;
+  el.innerHTML = `<pre class="api-response">${JSON.stringify(data, null, 2)}</pre>`;
+}
+async function loadReportEvite() {
+  const el = document.getElementById('reports-evite-body');
+  const r  = await apiGet('report_evite_rsvp');
+  const data = r.report || r.data || r;
+  el.innerHTML = `<pre class="api-response">${JSON.stringify(data, null, 2)}</pre>`;
+}
+</script>
+<!-- â”€â”€ STEP 10: FINAL CORE FIXES â”€â”€ -->
+<script>
+// â”€â”€ Fix showInner to accept element reference â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Override to accept (groupId, paneId, clickedEl)
+// All inner-tab onclick calls pass `this` as third arg if available.
+// Safe fallback: find active tab within group that matches via querySelectorAll.
+(function patchShowInner() {
+  const orig = window.showInner;
+  window.showInner = function(groupId, paneId, el) {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    group.querySelectorAll('.inner-pane').forEach(p => p.classList.remove('active'));
+    group.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+    const pane = document.getElementById(paneId);
+    if (pane) pane.classList.add('active');
+    // Find the tab that triggered this by pane data or use el
+    const tabEl = el || (typeof event !== 'undefined' && event.currentTarget) || null;
+    if (tabEl) tabEl.classList.add('active');
+    // Lazy-load inner content
+    if (!window._innerLoaded) window._innerLoaded = {};
+    const key = `${groupId}-${paneId}`;
+    if (!window._innerLoaded[key]) {
+      window._innerLoaded[key] = true;
+      const loaderMap = {
+        'email-tab-group-email-inbox': loadInbox,
+        'email-tab-group-email-sent': loadSentHistory,
+        'email-tab-group-email-audit': loadEmailAudit,
+        'evites-tab-group-evite-list': loadEvites,
+        'drive-tab-group-drive-files': loadDriveFiles,
+        'finance-tab-group-fin-payments': loadFinance,
+        'ai-tab-group-ai-history': loadAgentHistory,
+        'reports-tab-group-rep-email': loadReportEmail,
+        'reports-tab-group-rep-payment': loadReportPayment,
+        'reports-tab-group-rep-evite': loadReportEvite,
+      };
+      if (loaderMap[key]) loaderMap[key]();
+    }
+  };
+})();
+
+// â”€â”€ Fix showTab breadcrumb update â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ Mobile sidebar toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window.toggleSidebar = function() {
+  const sidebar  = document.getElementById('sidebar');
+  const overlay  = document.getElementById('sidebarOverlay');
+  const icon     = document.getElementById('hamburgerIcon');
+  const isOpen   = sidebar.classList.contains('open');
+  if (isOpen) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    if (icon) { icon.classList.replace('fa-times', 'fa-bars'); }
+  } else {
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+    if (icon) { icon.classList.replace('fa-bars', 'fa-times'); }
+  }
+};
+window.closeSidebar = function() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const icon    = document.getElementById('hamburgerIcon');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  if (icon) { icon.classList.replace('fa-times', 'fa-bars'); }
+};
+
+// Auto-close sidebar on tab switch (mobile UX)
+(function patchShowTab() {
+  const orig = window.showTab;
+  window.showTab = function(tabId, navEl) {
+    if (orig) orig(tabId, navEl);
+    // Close sidebar on mobile after navigation
+    if (window.innerWidth <= 768) {
+      window.closeSidebar();
+      // Scroll to top
+      try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (_) {}
+    }
+  };
+})();
+
+// â”€â”€ Fix dashboard Quick Action "Open Drive Browser" button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window._goDrive = function() {
+  const driveItem = [...document.querySelectorAll('.nav-item')].find(el => el.textContent.trim().startsWith('Google Drive'));
+  showTab('drive', driveItem || null);
+};
+
+// â”€â”€ Fix dashboard Quick Action "Ask AI" button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window._goAI = function() {
+  const aiItem = [...document.querySelectorAll('.nav-item')].find(el => el.textContent.trim().startsWith('AI'));
+  showTab('ai', aiItem || null);
+};
+
+// â”€â”€ Import: wire load_import to loadImportCounts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window.load_import = async function() { await loadImportCounts(); };
+
+// â”€â”€ Keyboard shortcut: / focuses RAG input anywhere â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    e.preventDefault();
+    const ragInput = document.getElementById('rag-input');
+    if (ragInput) {
+      const aiItem = [...document.querySelectorAll('.nav-item')].find(el => el.textContent.trim().startsWith('AI'));
+      showTab('ai', aiItem || null);
+      setTimeout(() => ragInput.focus(), 100);
+    }
+  }
+});
+
+// â”€â”€ Version watermark in sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', () => {
+  const verEl = document.getElementById('sidebar-ver');
+  if (verEl) verEl.textContent = 'v5.7.1 Â· BANF CRM';
+});
+</script>
+<!-- END SCRIPTS -->
+
+</body>
+</html>
+

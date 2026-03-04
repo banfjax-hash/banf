@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF Archive Mapping Report</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ── Screen styles ───────────────────────────────────────────────────────── */
+:root {
+  --banf: #8B0000;
+  --banf-light: #fdf3f3;
+  --banf-mid: #c0392b;
+  --gdrive: #1a73e8;
+  --gmail: #d93025;
+  --cat: #8b5cf6;
+  --fin: #0ea5e9;
+  --mem: #16a34a;
+  --gov: #f59e0b;
+  --comm: #ec4899;
+  --ven: #6b7280;
+}
+body {
+  background: #f0eeee;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  color: #222;
+}
+.screen-toolbar {
+  background: var(--banf);
+  color: #fff;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.screen-toolbar h1 { font-size: 1.1rem; font-weight: 700; margin: 0; }
+.btn-banf { background: var(--banf); color: #fff; border: none; }
+.btn-banf:hover { background: #a00000; color: #fff; }
+.btn-print { background: #fff; color: var(--banf); border: 2px solid var(--banf); font-weight: 700; }
+.btn-print:hover { background: var(--banf); color: #fff; }
+
+/* Report pages */
+.report-page {
+  background: #fff;
+  width: 210mm;
+  min-height: 297mm;
+  margin: 20px auto;
+  padding: 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+  border-radius: 4px;
+  overflow: hidden;
+  page-break-after: always;
+}
+.report-page:last-of-type { page-break-after: auto; }
+
+/* Cover page */
+.cover-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 297mm;
+}
+.cover-header {
+  background: var(--banf);
+  color: #fff;
+  padding: 48px 50px 36px;
+}
+.cover-logo {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: 6px;
+  display: block;
+  margin-bottom: 6px;
+}
+.cover-logo-sub {
+  font-size: .85rem;
+  opacity: .75;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  display: block;
+}
+.cover-title {
+  font-size: 1.9rem;
+  font-weight: 300;
+  line-height: 1.3;
+}
+.cover-title strong { font-weight: 800; color: #ffcdd2; }
+.cover-body {
+  padding: 40px 50px;
+  flex: 1;
+}
+.cover-meta-table {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.cover-meta-table td {
+  padding: 7px 0;
+  border-bottom: 1px solid #f0e0e0;
+  font-size: .9rem;
+}
+.cover-meta-table td:first-child { color: #666; width: 180px; font-weight: 600; }
+.cover-meta-table td:last-child { font-weight: 700; color: #222; }
+
+.cover-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+.cover-stat {
+  background: var(--banf-light);
+  border: 1px solid #f5d0d0;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.cover-stat .num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--banf);
+  line-height: 1;
+}
+.cover-stat .lbl {
+  font-size: .72rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-top: 4px;
+}
+.cover-footer {
+  background: #2d2d2d;
+  color: #aaa;
+  padding: 18px 50px;
+  font-size: .78rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Section pages */
+.page-header {
+  background: var(--banf);
+  color: #fff;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.page-header h2 { font-size: 1.05rem; font-weight: 700; margin: 0; }
+.page-header .pg-num {
+  margin-left: auto;
+  font-size: .78rem;
+  opacity: .7;
+}
+.page-body { padding: 24px 32px; }
+.page-footer {
+  border-top: 1px solid #f0e0e0;
+  padding: 8px 32px;
+  font-size: .7rem;
+  color: #999;
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+/* stat cards row */
+.stat-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.stat-box {
+  background: #fff;
+  border: 1px solid #e8d0d0;
+  border-radius: 10px;
+  padding: 14px 18px;
+  min-width: 110px;
+  text-align: center;
+  flex: 1;
+}
+.stat-box .n { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+.stat-box .l { font-size: .67rem; color: #777; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+/* source bar */
+.src-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.src-bar-label { width: 100px; font-size: .8rem; font-weight: 600; flex-shrink: 0; }
+.src-bar-track { flex: 1; background: #f0f0f0; border-radius: 99px; height: 14px; overflow: hidden; }
+.src-bar-fill { height: 100%; border-radius: 99px; transition: width .4s; }
+.src-bar-val { width: 50px; text-align: right; font-size: .78rem; font-weight: 700; }
+
+/* category section */
+.cat-section { margin-bottom: 24px; }
+.cat-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: .85rem;
+  color: #fff;
+}
+.cat-section-header .cat-count { margin-left: auto; font-size: .8rem; opacity: .85; }
+
+/* Detail table */
+.detail-tbl { width: 100%; border-collapse: collapse; font-size: .72rem; }
+.detail-tbl th {
+  background: #fdf0f0;
+  color: var(--banf);
+  font-weight: 700;
+  padding: 6px 8px;
+  border-bottom: 2px solid #f5d0d0;
+  text-align: left;
+  white-space: nowrap;
+}
+.detail-tbl td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #f5f0f0;
+  vertical-align: top;
+}
+.detail-tbl tr:nth-child(even) td { background: #fdf8f8; }
+.detail-tbl tr:hover td { background: #fdf0f0; }
+
+/* badges */
+.badge-status { border-radius: 4px; padding: 1px 6px; font-size: .68rem; font-weight: 700; white-space: nowrap; }
+.badg-auto { background: #e2e8f0; color: #334155; }
+.badg-verified { background: #d1fae5; color: #065f46; }
+.badg-corrected { background: #dbeafe; color: #1e40af; }
+.badg-rejected { background: #fee2e2; color: #991b1b; }
+.badg-pending { background: #fef9c3; color: #78350f; }
+.conf-dot-high::before   { content: '● '; color: #16a34a; }
+.conf-dot-med::before    { content: '● '; color: #f59e0b; }
+.conf-dot-low::before    { content: '● '; color: #dc3545; }
+.src-pill { border-radius: 4px; padding: 1px 6px; font-size: .68rem; white-space: nowrap; }
+.src-cat  { background: #f1f5f9; color: #475569; }
+.src-gdr  { background: #e8f0fe; color: #1a73e8; }
+.src-gml  { background: #fce8e6; color: #d93025; }
+
+/* Mapping matrix table */
+.matrix-tbl { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.matrix-tbl th { background: #fdf0f0; color: var(--banf); font-weight: 700; padding: 7px 12px; border: 1px solid #f5d0d0; text-align: center; }
+.matrix-tbl td { padding: 7px 12px; border: 1px solid #f0e8e8; text-align: center; }
+.matrix-tbl td:first-child { text-align: left; font-weight: 600; }
+.matrix-tbl tr:nth-child(even) td { background: #fdf8f8; }
+.count-cell { font-weight: 800; }
+.count-cell.gt0 { color: var(--banf); }
+
+/* Loading */
+#loading-overlay {
+  position: fixed; inset: 0; background: rgba(255,255,255,.92);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999;
+}
+#loading-overlay .spin { width: 48px; height: 48px; border: 4px solid #f5d0d0; border-top-color: var(--banf); border-radius: 50%; animation: spin .7s linear infinite; margin-bottom: 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#loading-overlay .msg { color: var(--banf); font-weight: 600; font-size: 1rem; }
+#error-overlay { position: fixed; inset: 0; background: #fff; display: none; align-items: center; justify-content: center; z-index: 9998; flex-direction: column; gap: 16px; text-align: center; padding: 40px; }
+
+/* ── Print styles ────────────────────────────────────────────────────────── */
+@media print {
+  @page { size: A4; margin: 0; }
+  body { background: #fff !important; }
+  .screen-toolbar, #print-btn-bar { display: none !important; }
+  .report-page {
+    width: 100% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    page-break-after: always;
+  }
+  .cover-page { min-height: 100vh; }
+  .no-break { page-break-inside: avoid; }
+  .force-break { page-break-before: always; }
+  a { color: inherit !important; text-decoration: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Screen toolbar -->
+<div class="screen-toolbar">
+  <i class="fas fa-file-pdf fa-lg"></i>
+  <h1>Archive Scan PDF Report</h1>
+  <div class="ms-auto d-flex gap-2 align-items-center">
+    <span id="tb-year-badge" class="badge" style="background:rgba(255,255,255,.2);font-size:.8rem"></span>
+    <button class="btn btn-sm btn-print" onclick="window.print()">
+      <i class="fas fa-print me-1"></i>Print / Save as PDF
+    </button>
+    <a id="back-link" href="https://www.jaxbengali.org/_functions/archive_mapping" class="btn btn-sm" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">
+      <i class="fas fa-arrow-left me-1"></i>Back to Mapper
+    </a>
+  </div>
+</div>
+
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="spin"></div>
+  <div class="msg" id="load-msg">Loading scan data…</div>
+</div>
+<div id="error-overlay">
+  <i class="fas fa-exclamation-triangle fa-3x text-danger mb-2"></i>
+  <h4 id="err-title">Data load failed</h4>
+  <p id="err-detail" class="text-muted"></p>
+  <button class="btn btn-banf" onclick="location.reload()">Retry</button>
+</div>
+
+<!-- Report container (populated by JS) -->
+<div id="report-container"></div>
+
+<script>
+const API = 'https://www.jaxbengali.org/_functions';
+
+// Read year from URL param; default FY2024-25
+const urlYear = new URLSearchParams(location.search).get('year') || 'FY2024-25';
+document.getElementById('tb-year-badge').textContent = urlYear;
+document.title = `BANF Archive Report — ${urlYear}`;
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'}); }
+  catch(_) { return String(d); }
+}
+function countBy(arr, key) {
+  return arr.reduce((acc, item) => {
+    const v = item[key] || 'unknown';
+    acc[v] = (acc[v] || 0) + 1;
+    return acc;
+  }, {});
+}
+function pct(n, d) { return d ? Math.round((n/d)*100) : 0; }
+
+function statusBadge(s) {
+  const map = {
+    'auto-mapped':'badg-auto', 'verified':'badg-verified', 'corrected':'badg-corrected',
+    'rejected':'badg-rejected', 'pending-import':'badg-pending'
+  };
+  return `<span class="badge-status ${map[s]||'badg-auto'}">${esc(s||'auto-mapped')}</span>`;
+}
+function confDot(c) {
+  const cls = c==='high'?'conf-dot-high':c==='medium'?'conf-dot-med':'conf-dot-low';
+  return `<span class="${cls}">${c||'?'}</span>`;
+}
+function sourcePill(src) {
+  const s = src||'catalogue';
+  const labels = { catalogue:'Catalogue', gdrive:'Google Drive', gmail:'Gmail' };
+  const cls    = { catalogue:'src-cat', gdrive:'src-gdr', gmail:'src-gml' };
+  return `<span class="src-pill ${cls[s]||'src-cat'}">${labels[s]||s}</span>`;
+}
+
+// Category colour map
+const CAT_COLORS = {
+  Events:'#8b5cf6', Financial:'#0ea5e9', Membership:'#16a34a',
+  Governance:'#f59e0b', Communication:'#ec4899', Vendor:'#6b7280',
+  Analysis:'#64748b', Other:'#94a3b8'
+};
+const CAT_ICONS = {
+  Events:'calendar-star', Financial:'chart-line', Membership:'users',
+  Governance:'landmark', Communication:'envelope', Vendor:'store',
+  Analysis:'magnifying-glass-chart', Other:'file'
+};
+
+// ─── Fetch data ───────────────────────────────────────────────────────────────
+async function fetchData() {
+  setLoadMsg('Fetching saved mappings from WixData…');
+  const [dbResp, catResp] = await Promise.all([
+    fetch(`${API}/archive_map_report?year=${encodeURIComponent(urlYear)}&limit=500`, {
+      headers: { 'Content-Type':'application/json' }
+    }),
+    fetch(`${API}/archive_catalog?year=${encodeURIComponent(urlYear)}`, {
+      headers: { 'Content-Type':'application/json' }
+    })
+  ]);
+
+  const dbData  = await dbResp.json();
+  const catData = await catResp.json();
+
+  if (!dbData.success)  throw new Error('archive_map_report: ' + (dbData.message || 'unknown error'));
+  if (!catData.success) throw new Error('archive_catalog: '    + (catData.message || 'unknown error'));
+
+  return { saved: dbData.items || [], pending: dbData.pendingImport || [], catalogue: catData.docs || [] };
+}
+
+// ─── Render report ────────────────────────────────────────────────────────────
+function renderReport(data) {
+  const { saved, pending, catalogue } = data;
+  const all = [
+    ...saved,
+    ...pending.map(d => ({ ...d, mappingStatus: 'pending-import', source: d.source||'catalogue' }))
+  ];
+
+  // Compute stats
+  const total      = all.length;
+  const verified   = all.filter(d => d.mappingStatus === 'verified').length;
+  const corrected  = all.filter(d => d.mappingStatus === 'corrected').length;
+  const autoMapped = all.filter(d => d.mappingStatus === 'auto-mapped').length;
+  const rejected   = all.filter(d => d.mappingStatus === 'rejected').length;
+  const pendingCnt = all.filter(d => d.mappingStatus === 'pending-import').length;
+  const highConf   = all.filter(d => d.confidence === 'high').length;
+  const medConf    = all.filter(d => d.confidence === 'medium').length;
+  const lowConf    = all.filter(d => d.confidence === 'low').length;
+
+  const bySrc   = countBy(all, 'source');
+  const byCat   = countBy(all, 'category');
+  const byCol   = countBy(all, 'targetCollection');
+  const byStat  = countBy(all, 'mappingStatus');
+  const catList = Object.keys(byCat).sort();
+  const colList = Object.keys(byCol).sort();
+
+  const todayStr    = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const todayTimeStr = new Date().toLocaleString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  const savedInDB   = saved.length;
+  const sources     = Object.keys(bySrc).filter(s => bySrc[s] > 0);
+  const sourceLabel = sources.length ? sources.map(s => `${s} (${bySrc[s]})`).join(', ') : 'catalogue';
+
+  // Maps category → verifiedCount, highConfCount
+  const catStats = {};
+  catList.forEach(cat => {
+    const docs = all.filter(d => (d.category||'Other') === cat);
+    catStats[cat] = {
+      total:    docs.length,
+      verified: docs.filter(d => d.mappingStatus==='verified'||d.mappingStatus==='corrected').length,
+      highConf: docs.filter(d => d.confidence==='high').length,
+      docs
+    };
+  });
+
+  // ── PAGE 1: Cover ──────────────────────────────────────────────────────────
+  const page1 = `
+<div class="report-page">
+  <div class="cover-page">
+    <div class="cover-header">
+      <span class="cover-logo">BANF</span>
+      <span class="cover-logo-sub">Bengali Association of Northern Florida</span>
+      <div class="cover-title">
+        Archive Document Mapping<br><strong>Scan Report</strong>
+      </div>
+    </div>
+    <div class="cover-body">
+      <table class="cover-meta-table">
+        <tr><td>Accounting Year</td><td>${esc(urlYear)}</td></tr>
+        <tr><td>Report Generated</td><td>${todayStr}</td></tr>
+        <tr><td>Data Sources</td><td>${esc(sourceLabel)}</td></tr>
+        <tr><td>Total Documents</td><td>${total.toLocaleString()}</td></tr>
+        <tr><td>In WixData (saved)</td><td>${savedInDB.toLocaleString()}</td></tr>
+        <tr><td>Pending Import</td><td>${pendingCnt.toLocaleString()}</td></tr>
+        <tr><td>Verification Rate</td><td>${pct(verified+corrected, total)}%  (${verified+corrected} of ${total} verified / corrected)</td></tr>
+        <tr><td>Target Collections</td><td>${colList.join(', ') || '—'}</td></tr>
+      </table>
+
+      <div class="cover-stat-grid">
+        <div class="cover-stat"><div class="num">${total}</div><div class="lbl">Total Documents</div></div>
+        <div class="cover-stat"><div class="num" style="color:#16a34a">${verified+corrected}</div><div class="lbl">Verified / Corrected</div></div>
+        <div class="cover-stat"><div class="num" style="color:#0ea5e9">${autoMapped}</div><div class="lbl">Auto-Mapped</div></div>
+        <div class="cover-stat"><div class="num" style="color:#f59e0b">${pendingCnt}</div><div class="lbl">Pending Import</div></div>
+        <div class="cover-stat"><div class="num" style="color:var(--banf)">${highConf}</div><div class="lbl">High Confidence</div></div>
+        <div class="cover-stat"><div class="num" style="color:#6b7280">${catList.length}</div><div class="lbl">Categories</div></div>
+      </div>
+    </div>
+    <div class="cover-footer">
+      <span>BANF Archive Document Mapping Report &mdash; ${esc(urlYear)}</span>
+      <span>Generated: ${todayTimeStr}</span>
+    </div>
+  </div>
+</div>`;
+
+  // ── PAGE 2: Executive Summary + Source breakdown ───────────────────────────
+  const maxSrc = Math.max(...Object.values(bySrc), 1);
+  const srcBarHTML = Object.entries(bySrc).map(([src, cnt]) => {
+    const pctVal = Math.round((cnt/total)*100);
+    const colors = { catalogue:'#475569', gdrive:'#1a73e8', gmail:'#d93025' };
+    const icons  = { catalogue:'📁', gdrive:'☁️', gmail:'📧' };
+    const fillW  = Math.round((cnt/maxSrc)*100);
+    return `<div class="src-bar-row">
+      <div class="src-bar-label">${icons[src]||'📄'} ${src}</div>
+      <div class="src-bar-track"><div class="src-bar-fill" style="width:${fillW}%;background:${colors[src]||'#888'}"></div></div>
+      <div class="src-bar-val" style="color:${colors[src]||'#888'}">${cnt} <span style="font-weight:400;color:#999;font-size:.72rem">(${pctVal}%)</span></div>
+    </div>`;
+  }).join('');
+
+  const statusBarHTML = Object.entries({
+    'verified': { cnt: verified, color: '#16a34a', lbl: '✓ Verified' },
+    'corrected': { cnt: corrected, color: '#1e40af', lbl: '✎ Corrected' },
+    'auto-mapped': { cnt: autoMapped, color: '#64748b', lbl: '⚡ Auto-Mapped' },
+    'pending-import': { cnt: pendingCnt, color: '#f59e0b', lbl: '⏳ Pending Import' },
+    'rejected': { cnt: rejected, color: '#dc3545', lbl: '✗ Rejected' },
+  }).filter(([,v]) => v.cnt > 0).map(([, { cnt, color, lbl }]) => {
+    const fillW = Math.round((cnt/total)*100);
+    return `<div class="src-bar-row">
+      <div class="src-bar-label" style="color:${color};font-size:.78rem">${lbl}</div>
+      <div class="src-bar-track"><div class="src-bar-fill" style="width:${fillW}%;background:${color}"></div></div>
+      <div class="src-bar-val" style="color:${color}">${cnt} <span style="font-weight:400;color:#999;font-size:.72rem">(${pct(cnt,total)}%)</span></div>
+    </div>`;
+  }).join('');
+
+  const confHTML = `
+    <div class="d-flex gap-3 mt-2" style="font-size:.82rem">
+      <span><span class="conf-dot-high">High</span> — ${highConf} (${pct(highConf,total)}%)</span>
+      <span><span class="conf-dot-med">Medium</span> — ${medConf} (${pct(medConf,total)}%)</span>
+      <span><span class="conf-dot-low">Low</span> — ${lowConf} (${pct(lowConf,total)}%)</span>
+    </div>`;
+
+  const page2 = `
+<div class="report-page">
+  <div class="page-header">
+    <i class="fas fa-chart-bar"></i>
+    <h2>Executive Summary</h2>
+    <span class="pg-num">Page 2</span>
+  </div>
+  <div class="page-body">
+    <!-- KPI row -->
+    <div class="stat-row">
+      <div class="stat-box"><div class="n" style="color:var(--banf)">${total}</div><div class="l">Total Docs</div></div>
+      <div class="stat-box"><div class="n" style="color:#16a34a">${verified+corrected}</div><div class="l">Verified</div></div>
+      <div class="stat-box"><div class="n" style="color:#0ea5e9">${autoMapped}</div><div class="l">Auto-Mapped</div></div>
+      <div class="stat-box"><div class="n" style="color:#f59e0b">${pendingCnt}</div><div class="l">Pending Import</div></div>
+      <div class="stat-box"><div class="n" style="color:var(--banf)">${highConf}</div><div class="l">High Confidence</div></div>
+      <div class="stat-box"><div class="n" style="color:#6b7280">${rejected}</div><div class="l">Rejected</div></div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-6">
+        <h6 class="fw-700 mb-2" style="color:var(--banf);border-bottom:2px solid #f5d0d0;padding-bottom:4px">
+          <i class="fas fa-database me-1"></i>By Data Source
+        </h6>
+        ${srcBarHTML || '<p class="text-muted small">No data</p>'}
+      </div>
+      <div class="col-6">
+        <h6 class="fw-700 mb-2" style="color:var(--banf);border-bottom:2px solid #f5d0d0;padding-bottom:4px">
+          <i class="fas fa-tasks me-1"></i>By Mapping Status
+        </h6>
+        ${statusBarHTML || '<p class="text-muted small">No data</p>'}
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <h6 class="fw-700 mb-2" style="color:var(--banf);border-bottom:2px solid #f5d0d0;padding-bottom:4px">
+        <i class="fas fa-circle me-1"></i>Classification Confidence
+      </h6>
+      ${confHTML}
+    </div>
+
+    <div class="mt-4">
+      <h6 class="fw-700 mb-2" style="color:var(--banf);border-bottom:2px solid #f5d0d0;padding-bottom:4px">
+        <i class="fas fa-folder-tree me-1"></i>Category Overview
+      </h6>
+      <table class="matrix-tbl">
+        <thead>
+          <tr>
+            <th style="text-align:left">Category</th>
+            <th>Total</th>
+            <th>Verified</th>
+            <th>Auto-Mapped</th>
+            <th>Pending</th>
+            <th>High Conf.</th>
+            <th>Collections</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${catList.map(cat => {
+            const docs = all.filter(d => (d.category||'Other') === cat);
+            const vd   = docs.filter(d => ['verified','corrected'].includes(d.mappingStatus)).length;
+            const am   = docs.filter(d => d.mappingStatus === 'auto-mapped').length;
+            const pe   = docs.filter(d => d.mappingStatus === 'pending-import').length;
+            const hc   = docs.filter(d => d.confidence === 'high').length;
+            const cols = [...new Set(docs.map(d=>d.targetCollection).filter(Boolean))].join(', ');
+            return `<tr>
+              <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${CAT_COLORS[cat]||'#888'};margin-right:6px"></span>${esc(cat)}</td>
+              <td class="count-cell ${docs.length?'gt0':''}">${docs.length}</td>
+              <td class="count-cell ${vd?'gt0':''}">${vd}</td>
+              <td class="count-cell">${am}</td>
+              <td class="count-cell">${pe}</td>
+              <td class="count-cell ${hc?'gt0':''}">${hc}</td>
+              <td style="font-size:.7rem;color:#666">${esc(cols)||'—'}</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+        <tfoot>
+          <tr style="background:#fdf0f0;font-weight:700">
+            <td>TOTAL</td>
+            <td>${total}</td>
+            <td>${verified+corrected}</td>
+            <td>${autoMapped}</td>
+            <td>${pendingCnt}</td>
+            <td>${highConf}</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span>BANF Archive Document Mapping Report — ${esc(urlYear)}</span>
+    <span>Generated: ${todayTimeStr} | Page 2 of ${catList.length + 2}</span>
+  </div>
+</div>`;
+
+  // ── PAGES 3+: Per-Category Detail ─────────────────────────────────────────
+  const catPages = catList.map((cat, catIdx) => {
+    const cs       = catStats[cat];
+    const catColor = CAT_COLORS[cat] || '#888';
+    const catIcon  = CAT_ICONS[cat] || 'file';
+    const docsInCat = cs.docs;
+
+    const rowsHTML = docsInCat.map((d, i) => `
+      <tr class="no-break">
+        <td style="color:#999">${i+1}</td>
+        <td style="max-width:180px;word-break:break-word">
+          <strong style="font-size:.72rem">${esc(d.filename)}</strong>
+          ${d.driveLink ? `<br><a href="${esc(d.driveLink)}" style="font-size:.65rem;color:#1a73e8">View in Drive ↗</a>` :
+            d.originalPath && d.originalPath.startsWith('http') ? `<br><a href="${esc(d.originalPath)}" style="font-size:.65rem;color:#1a73e8">Open ↗</a>` : ''}
+        </td>
+        <td>${sourcePill(d.source)}</td>
+        <td style="font-size:.7rem">${esc(d.accountingYear||'')}</td>
+        <td style="font-size:.7rem">${esc(d.subCategory||'')}</td>
+        <td style="font-size:.7rem;color:#555">${esc(d.targetCollection||'')}</td>
+        <td>${confDot(d.confidence)}</td>
+        <td>${statusBadge(d.mappingStatus)}</td>
+        <td style="font-size:.68rem;color:#777;max-width:120px;word-break:break-word">${esc(d.notes||'')}</td>
+      </tr>`).join('');
+
+    return `
+<div class="report-page force-break">
+  <div class="page-header">
+    <i class="fas fa-${catIcon}"></i>
+    <h2>${esc(cat)}</h2>
+    <span style="margin-left:8px;font-size:.78rem;opacity:.75">${cs.total} documents &middot; ${cs.verified} verified &middot; ${cs.highConf} high confidence</span>
+    <span class="pg-num">Page ${catIdx+3}</span>
+  </div>
+  <div class="page-body">
+    <!-- Cat summary strip -->
+    <div class="stat-row mb-3">
+      <div class="stat-box"><div class="n" style="color:${catColor}">${cs.total}</div><div class="l">Documents</div></div>
+      <div class="stat-box"><div class="n" style="color:#16a34a">${cs.verified}</div><div class="l">Verified</div></div>
+      <div class="stat-box"><div class="n" style="color:var(--banf)">${cs.highConf}</div><div class="l">High Confidence</div></div>
+      <div class="stat-box"><div class="n" style="color:#1a73e8">${cs.docs.filter(d=>d.source==='gdrive').length}</div><div class="l">From Drive</div></div>
+      <div class="stat-box"><div class="n" style="color:#d93025">${cs.docs.filter(d=>d.source==='gmail').length}</div><div class="l">From Gmail</div></div>
+      <div class="stat-box"><div class="n" style="color:#475569">${cs.docs.filter(d=>(!d.source||d.source==='catalogue')).length}</div><div class="l">From Catalogue</div></div>
+    </div>
+
+    <table class="detail-tbl w-100">
+      <thead>
+        <tr>
+          <th style="width:22px">#</th>
+          <th>Filename / Link</th>
+          <th>Source</th>
+          <th>Year</th>
+          <th>Sub-Category</th>
+          <th>Collection</th>
+          <th>Conf.</th>
+          <th>Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsHTML || '<tr><td colspan="9" class="text-center text-muted py-3">No documents in this category for ' + esc(urlYear) + '</td></tr>'}
+      </tbody>
+    </table>
+  </div>
+  <div class="page-footer">
+    <span>BANF Archive Report — ${esc(urlYear)} · ${esc(cat)} (${cs.total} docs)</span>
+    <span>Generated: ${todayTimeStr} | Page ${catIdx+3} of ${catList.length+2}</span>
+  </div>
+</div>`;
+  }).join('');
+
+  return page1 + page2 + catPages;
+}
+
+// ─── Bootstrap ────────────────────────────────────────────────────────────────
+function setLoadMsg(m) { document.getElementById('load-msg').textContent = m; }
+
+(async () => {
+  try {
+    setLoadMsg(`Fetching FY ${urlYear} document mappings…`);
+    const data = await fetchData();
+
+    setLoadMsg('Rendering report…');
+    await new Promise(r => setTimeout(r, 80)); // allow repaint
+
+    document.getElementById('report-container').innerHTML = renderReport(data);
+    document.getElementById('loading-overlay').style.display = 'none';
+
+    // Back link preserves year
+    document.getElementById('back-link').href =
+      `https://www.jaxbengali.org/_functions/archive_mapping?year=${encodeURIComponent(urlYear)}`;
+
+  } catch(e) {
+    document.getElementById('loading-overlay').style.display = 'none';
+    const ov = document.getElementById('error-overlay');
+    ov.style.display = 'flex';
+    document.getElementById('err-title').textContent = 'Failed to load report data';
+    document.getElementById('err-detail').innerHTML = `<pre style="text-align:left;font-size:.78rem;background:#f8f8f8;padding:12px;border-radius:6px;max-width:600px;overflow:auto">${esc(e.message)}</pre><br>Make sure you have run a Full Scan first.<br><a href="https://www.jaxbengali.org/_functions/archive_mapping" class="text-decoration-none">← Back to Archive Mapper</a>`;
+  }
+})();
+</script>
+</body>
+</html>

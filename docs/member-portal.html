@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Portal - Bengali Association of North Florida</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --banf-orange: #FF6B35;
+            --banf-deep-red: #DC143C;
+            --banf-green: #006A4E;
+            --banf-gold: #D4AF37;
+            --banf-charcoal: #2D2D2D;
+            --gradient-primary: linear-gradient(135deg, #FF6B35, #DC143C);
+            --gradient-green: linear-gradient(135deg, #006A4E, #00856F);
+            --gradient-member: linear-gradient(135deg, #006A4E, #00856F);
+        }
+        
+        * {
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* ========== HEADER ========== */
+        .portal-header {
+            background: var(--gradient-green);
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .portal-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .portal-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .portal-logo img {
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        .portal-logo h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .portal-logo span {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .btn-logout {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.3);
+            color: #fff;
+        }
+        
+        /* ========== MAIN LAYOUT ========== */
+        .portal-container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+        
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+        
+        .sidebar-section h6 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            padding-left: 0.75rem;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem;
+            border-radius: 12px;
+            color: var(--banf-charcoal);
+            text-decoration: none;
+            margin-bottom: 0.25rem;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .nav-item:hover {
+            background: rgba(0,106,78,0.08);
+            color: var(--banf-green);
+        }
+        
+        .nav-item.active {
+            background: var(--gradient-green);
+            color: #fff;
+        }
+        
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .nav-badge {
+            margin-left: auto;
+            background: var(--banf-orange);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        
+        .page-header h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--banf-charcoal);
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+        
+        /* ========== DASHBOARD CARDS ========== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .stat-icon.green { background: var(--gradient-green); }
+        .stat-icon.orange { background: var(--gradient-primary); }
+        .stat-icon.gold { background: linear-gradient(135deg, #D4AF37, #FFD700); }
+        .stat-icon.purple { background: linear-gradient(135deg, #673AB7, #9C27B0); }
+        
+        .stat-info h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--banf-charcoal);
+        }
+        
+        .stat-info p {
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0;
+        }
+        
+        /* ========== FEATURE CARDS ========== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+            border-color: var(--banf-green);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: var(--gradient-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: #fff;
+            margin-bottom: 1.25rem;
+        }
+        
+        .feature-card h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--banf-charcoal);
+        }
+        
+        .feature-card p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+        
+        .feature-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient-green);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .feature-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,106,78,0.3);
+            color: #fff;
+        }
+        
+        .feature-btn.secondary {
+            background: #f0f0f0;
+            color: var(--banf-charcoal);
+        }
+        
+        .feature-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        /* ========== CONTENT SECTIONS ========== */
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        /* ========== TABLES ========== */
+        .data-table {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background: var(--banf-green);
+            color: #fff;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+        
+        .data-table tr:hover td {
+            background: rgba(0,106,78,0.03);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-badge.active { background: #d4edda; color: #155724; }
+        .status-badge.pending { background: #fff3cd; color: #856404; }
+        .status-badge.expired { background: #f8d7da; color: #721c24; }
+        
+        /* ========== FORMS ========== */
+        .form-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--banf-charcoal);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--banf-green);
+            box-shadow: 0 0 0 4px rgba(0,106,78,0.1);
+        }
+        
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 992px) {
+            .portal-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-x: contain;
+                padding: 0.75rem;
+                scrollbar-width: none;
+            }
+            .sidebar::-webkit-scrollbar { display: none; }
+            
+            .sidebar-section {
+                display: flex;
+                gap: 0.25rem;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            
+            .sidebar-section h6 {
+                display: none;
+            }
+            
+            .nav-item {
+                white-space: nowrap;
+                padding: 0.6rem 0.85rem;
+                min-height: 44px;
+                border-radius: 10px;
+                font-size: 0.85rem;
+            }
+            
+            .nav-item span { display: none; }
+            .nav-item i { font-size: 1.2rem; width: auto; }
+            .nav-badge { font-size: 0.6rem; padding: 0.15rem 0.35rem; }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Sidebar section divider dots between groups */
+            .sidebar-section + .sidebar-section::before {
+                content: '';
+                display: block;
+                width: 1px;
+                background: #ddd;
+                align-self: stretch;
+                margin: 0.25rem 0.25rem 0.25rem 0;
+                flex-shrink: 0;
+            }
+        }
+
+        /* ========== TOUCH TARGETS & TAP FEEDBACK ========== */
+        button, a, .nav-item, .feature-btn, .btn-logout,
+        .user-avatar, .stat-card { -webkit-tap-highlight-color: transparent; }
+        button, .feature-btn, .nav-item, .btn-logout, .user-avatar {
+            touch-action: manipulation;
+        }
+
+        /* ========== HOVER â€” POINTER DEVICES ONLY ========== */
+        /* Remove hover transforms on touch devices to prevent stuck states */
+        .stat-card { transition: box-shadow 0.3s; }
+        .feature-card { transition: box-shadow 0.3s, border-color 0.3s; }
+        .feature-btn { transition: background 0.3s, color 0.3s, box-shadow 0.3s; }
+        
+        @media (hover: hover) and (pointer: fine) {
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            }
+            .feature-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+                border-color: var(--banf-green);
+            }
+            .feature-btn:hover {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(0,106,78,0.3);
+                color: #fff;
+            }
+        }
+
+        /* ========== DATA TABLE RESPONSIVENESS ========== */
+        .data-table {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .data-table table { min-width: 500px; }
+
+        /* ========== FORM INPUTS â€” PREVENT iOS AUTO-ZOOM ========== */
+        /* iOS Safari zooms in when input font-size < 16px */
+        @media (max-width: 768px) {
+            .form-control, input, select, textarea {
+                font-size: 16px !important;
+                touch-action: manipulation;
+            }
+            .feature-btn { min-height: 44px; }
+            .stat-card:hover, .feature-card:hover, .feature-btn:hover {
+                transform: none !important;
+            }
+        }
+
+        /* ========== VERY SMALL PHONES (â‰¤ 480px) ========== */
+        @media (max-width: 480px) {
+            .portal-logo h1 { font-size: 1.05rem; }
+            .portal-logo span { display: none; }
+            .portal-logo img { height: 32px; }
+            #userName { display: none; }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+            .stat-card { padding: 0.85rem; }
+            .stat-icon { width: 44px; height: 44px; font-size: 1.05rem; }
+            .stat-info h3 { font-size: 1.2rem; }
+
+            .main-content { padding: 0.75rem; }
+            .form-card { padding: 1rem; }
+            .feature-card { padding: 1.25rem; }
+            .feature-icon { width: 52px; height: 52px; font-size: 1.35rem; }
+            .feature-card h4 { font-size: 1rem; }
+            .page-header h2 { font-size: 1.35rem; }
+
+            .btn-logout .me-1 { display: none; }
+        }
+        
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* ========== COMING SOON NOTE ========== */
+        .coming-soon-note {
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: #FF9800;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* ========== COMING SOON MODAL ========== */
+        .coming-soon-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+        .coming-soon-modal {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 480px;
+            width: 92%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .coming-soon-modal .icon {
+            width: 80px; height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #FF9800, #FFC107);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: #fff;
+            margin: 0 auto 1.5rem;
+        }
+        .coming-soon-modal h3 { color: var(--banf-charcoal); margin-bottom: 0.75rem; }
+        .coming-soon-modal p { color: #666; font-size: 0.95rem; line-height: 1.6; }
+        .coming-soon-modal .chatbot-hint {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            color: #064e3b;
+        }
+        .coming-soon-modal .close-btn {
+            margin-top: 1.25rem;
+            padding: 0.75rem 2rem;
+            background: var(--gradient-green);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="portal-header">
+        <div class="container">
+            <div class="portal-logo">
+                <img src="https://static.wixstatic.com/media/c62f94_banf_logo.png" alt="BANF Logo" onerror="this.style.display='none'">
+                <div>
+                    <h1>Member Portal</h1>
+                    <span>Bengali Association of North Florida</span>
+                </div>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="userName">Member</span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="portal-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-section">
+                <h6>Main</h6>
+                <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard', this)">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="https://www.jaxbengali.org/stakeholder-requirements-journey.html" class="nav-item" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-route"></i>
+                    <span>Requirements Journey</span>
+                    <span class="nav-badge">Live</span>
+                </a>
+                <a href="#profile" class="nav-item" onclick="showSection('profile', this)">
+                    <i class="fas fa-id-card"></i>
+                    <span>My Profile</span>
+                </a>
+                <a href="#family" class="nav-item" onclick="showSection('family', this)">
+                    <i class="fas fa-users"></i>
+                    <span>Family Members</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-section">
+                <h6>Finance</h6>
+                <a href="#payments" class="nav-item" onclick="showSection('payments', this)">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments & Receipts</span>
+                    <span class="nav-badge">Due</span>
+                </a>
+                <a href="#budget" class="nav-item" onclick="showSection('budget', this)">
+                    <i class="fas fa-wallet"></i>
+                    <span>Budget Reports</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-section">
+                <h6>Community</h6>
+                <a href="#meetings" class="nav-item" onclick="showSection('meetings', this)">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Meeting Minutes</span>
+                </a>
+                <a href="#events" class="nav-item" onclick="showSection('events', this)">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Events & RSVP</span>
+                </a>
+                <a href="#surveys" class="nav-item" onclick="showSection('surveys', this)">
+                    <i class="fas fa-poll-h"></i>
+                    <span>Surveys</span>
+                    <span class="nav-badge">2</span>
+                </a>
+                <a href="#directory" class="nav-item" onclick="showSection('directory', this)">
+                    <i class="fas fa-address-book"></i>
+                    <span>Member Directory</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-section">
+                <h6>Media</h6>
+                <a href="#radio" class="nav-item" onclick="showSection('radio', this)">
+                    <i class="fas fa-music"></i>
+                    <span>Request Songs</span>
+                </a>
+                <a href="#magazine" class="nav-item" onclick="showSection('magazine', this)">
+                    <i class="fas fa-pen-fancy"></i>
+                    <span>Magazine Submission</span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="page-header">
+                    <h2>Welcome back, <span id="memberNameDisplay">Member</span>! ðŸ‘‹</h2>
+                    <p>Here's your BANF membership overview</p>
+                </div>
+                
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Active</h3>
+                            <p>Membership Status</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-calendar"></i></div>
+                        <div class="stat-info">
+                            <h3>5</h3>
+                            <p>Upcoming Events</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon gold"><i class="fas fa-receipt"></i></div>
+                        <div class="stat-info">
+                            <h3>$0</h3>
+                            <p>Dues Balance</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="fas fa-poll"></i></div>
+                        <div class="stat-info">
+                            <h3>2</h3>
+                            <p>Active Surveys</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Access Features -->
+                <h3 style="margin-bottom: 1.5rem; color: var(--banf-charcoal);">Quick Access</h3>
+                <div class="features-grid">
+                    <!-- AI Chatbot (ACTIVE) -->
+                    <div class="feature-card" style="border: 2px solid var(--banf-green); position: relative;">
+                        <span class="status-badge active" style="position: absolute; top: 12px; right: 12px;">Live</span>
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #006A4E, #00856F);"><i class="fas fa-robot"></i></div>
+                        <h4>BANF Assistant</h4>
+                        <p>Ask about events, membership fees, contact info, EC team, and more. Your AI-powered community assistant is ready!</p>
+                        <button class="feature-btn" onclick="banfChatToggle()">
+                            <i class="fas fa-comment-dots"></i> Open Chat
+                        </button>
+                    </div>
+
+                    <!-- Profile -->
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-id-card"></i></div>
+                        <h4>My Profile & Family</h4>
+                        <p>Update your personal information, contact details, and manage family member profiles.</p>
+                        <button class="feature-btn" onclick="comingSoon('Profile & Family Management')">
+                            <i class="fas fa-user-edit"></i> Edit Profile
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 2 — Coming Soon</div>
+                    </div>
+                    
+                    <!-- Payments -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: var(--gradient-primary);"><i class="fas fa-credit-card"></i></div>
+                        <h4>Payments & Receipts</h4>
+                        <p>View payment history, download receipts, and make membership or event payments.</p>
+                        <button class="feature-btn" onclick="comingSoon('Payments & Receipts')">
+                            <i class="fas fa-receipt"></i> View Payments
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 2 — Coming Soon</div>
+                    </div>
+                    
+                    <!-- Meetings -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #795548, #8D6E63);"><i class="fas fa-file-alt"></i></div>
+                        <h4>Meeting Minutes</h4>
+                        <p>Access EC meeting summaries, decisions, action items, and announcements.</p>
+                        <button class="feature-btn" onclick="comingSoon('Meeting Minutes')">
+                            <i class="fas fa-folder-open"></i> View Minutes
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 3 — Coming Soon</div>
+                    </div>
+                    
+                    <!-- Events -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #2196F3, #03A9F4);"><i class="fas fa-calendar-check"></i></div>
+                        <h4>Events & RSVP</h4>
+                        <p>Browse upcoming events, register your family, and check-in at venues.</p>
+                        <button class="feature-btn" onclick="comingSoon('Events & RSVP')">
+                            <i class="fas fa-calendar-plus"></i> View Events
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 2 — Coming Soon</div>
+                    </div>
+                    
+                    <!-- Surveys -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #FF9800, #FFC107);"><i class="fas fa-poll-h"></i></div>
+                        <h4>Surveys & Polls</h4>
+                        <p>Participate in community polls and provide feedback on BANF initiatives.</p>
+                        <button class="feature-btn" onclick="comingSoon('Surveys & Polls')">
+                            <i class="fas fa-vote-yea"></i> Take Survey
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 3 — Coming Soon</div>
+                    </div>
+                    
+                    <!-- Radio -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #673AB7, #9C27B0);"><i class="fas fa-music"></i></div>
+                        <h4>Request Songs</h4>
+                        <p>Request your favorite Bengali songs to be played on BANF Radio 24/7.</p>
+                        <button class="feature-btn" onclick="comingSoon('Song Requests')">
+                            <i class="fas fa-microphone"></i> Request Song
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 3 — Coming Soon</div>
+                    </div>
+
+                    <!-- Magazine -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #E91E63, #FF5722);"><i class="fas fa-pen-fancy"></i></div>
+                        <h4>Magazine Submission</h4>
+                        <p>Submit poems, stories, and articles for the BANF E-Magazine (Jagriti).</p>
+                        <button class="feature-btn" onclick="comingSoon('Magazine Submissions')">
+                            <i class="fas fa-paper-plane"></i> Submit
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 4 — Coming Soon</div>
+                    </div>
+
+                    <!-- Member Directory -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #00BCD4, #0097A7);"><i class="fas fa-address-book"></i></div>
+                        <h4>Member Directory</h4>
+                        <p>Connect with fellow BANF members — search by name, city, or profession.</p>
+                        <button class="feature-btn" onclick="comingSoon('Member Directory')">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 3 — Coming Soon</div>
+                    </div>
+
+                    <!-- Budget Reports -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <h4>Budget Reports</h4>
+                        <p>View BANF financial transparency reports and annual summaries.</p>
+                        <button class="feature-btn" onclick="comingSoon('Budget Reports')">
+                            <i class="fas fa-download"></i> View Reports
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 4 — Coming Soon</div>
+                    </div>
+
+                    <!-- Stakeholder Journey -->
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #0D47A1, #1976D2);"><i class="fas fa-route"></i></div>
+                        <h4>Stakeholder Requirements Journey</h4>
+                        <p>Track every requirement from approval to technical validation, DevOps deployment, and final stakeholder acceptance.</p>
+                        <button class="feature-btn" onclick="comingSoon('Stakeholder Journey')">
+                            <i class="fas fa-arrow-up-right-from-square"></i> Open Journey
+                        </button>
+                        <div class="coming-soon-note"><i class="fas fa-clock"></i> Phase 4 — Coming Soon</div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Profile Section -->
+            <section id="profile" class="content-section">
+                <div class="page-header">
+                    <h2>My Profile</h2>
+                    <p>Update your personal information and preferences</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="form-card">
+                            <form id="profileForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" id="firstName" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" id="lastName" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input type="email" class="form-control" id="email" value="">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone" value="">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea class="form-control" id="address" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>City</label>
+                                            <input type="text" class="form-control" id="city" value="Jacksonville">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>State</label>
+                                            <input type="text" class="form-control" id="state" value="FL">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>ZIP Code</label>
+                                            <input type="text" class="form-control" id="zip" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="feature-btn">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-card text-center">
+                            <div style="width: 120px; height: 120px; border-radius: 50%; background: var(--gradient-green); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user fa-3x text-white"></i>
+                            </div>
+                            <h5>Member Photo</h5>
+                            <p class="text-muted small">Upload a profile picture</p>
+                            <button class="feature-btn secondary">
+                                <i class="fas fa-camera"></i> Upload Photo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Family Section -->
+            <section id="family" class="content-section">
+                <div class="page-header">
+                    <h2>Family Members</h2>
+                    <p>Manage family members under your membership</p>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Relationship</th>
+                                <th>Age</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="familyTableBody">
+                            <tr>
+                                <td colspan="5" class="text-center py-4">
+                                    <i class="fas fa-users fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted mb-0">Loading family members...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button class="feature-btn mt-3" onclick="openAddFamilyModal()">
+                    <i class="fas fa-user-plus"></i> Add Family Member
+                </button>
+            </section>
+            
+            <!-- Payments Section -->
+            <section id="payments" class="content-section">
+                <div class="page-header">
+                    <h2>Payments & Receipts</h2>
+                    <p>View your payment history and download receipts</p>
+                </div>
+                
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>$0.00</h3>
+                            <p>Balance Due</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-history"></i></div>
+                        <div class="stat-info">
+                            <h3>$250.00</h3>
+                            <p>Total Paid (2026)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4 style="margin-bottom: 1rem;">Payment History</h4>
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <tr>
+                                <td>Feb 01, 2026</td>
+                                <td>Annual Membership - Family</td>
+                                <td>$150.00</td>
+                                <td><span class="status-badge active">Paid</span></td>
+                                <td><a href="#" class="text-primary"><i class="fas fa-download"></i> PDF</a></td>
+                            </tr>
+                            <tr>
+                                <td>Feb 02, 2026</td>
+                                <td>Saraswati Puja Registration</td>
+                                <td>$100.00</td>
+                                <td><span class="status-badge active">Paid</span></td>
+                                <td><a href="#" class="text-primary"><i class="fas fa-download"></i> PDF</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Budget Section -->
+            <section id="budget" class="content-section">
+                <div class="page-header">
+                    <h2>Budget Reports</h2>
+                    <p>View BANF financial transparency reports</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <h4>2026 Budget</h4>
+                        <p>Current fiscal year budget allocation and spending summary.</p>
+                        <button class="feature-btn" onclick="downloadBudget('2026')">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #607D8B, #455A64);"><i class="fas fa-archive"></i></div>
+                        <h4>2025 Annual Report</h4>
+                        <p>Complete financial summary and audit report for 2025.</p>
+                        <button class="feature-btn secondary" onclick="downloadBudget('2025')">
+                            <i class="fas fa-download"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Meetings Section -->
+            <section id="meetings" class="content-section">
+                <div class="page-header">
+                    <h2>Meeting Minutes</h2>
+                    <p>Access EC meeting summaries and decisions</p>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Meeting Type</th>
+                                <th>Summary</th>
+                                <th>Document</th>
+                            </tr>
+                        </thead>
+                        <tbody id="meetingsTableBody">
+                            <tr>
+                                <td>Feb 10, 2026</td>
+                                <td>EC Meeting</td>
+                                <td>Nabo Borsho planning, budget review</td>
+                                <td><a href="#" class="text-primary"><i class="fas fa-file-pdf"></i> View PDF</a></td>
+                            </tr>
+                            <tr>
+                                <td>Jan 25, 2026</td>
+                                <td>General Body</td>
+                                <td>Annual review, 2026 goals</td>
+                                <td><a href="#" class="text-primary"><i class="fas fa-file-pdf"></i> View PDF</a></td>
+                            </tr>
+                            <tr>
+                                <td>Jan 10, 2026</td>
+                                <td>EC Meeting</td>
+                                <td>Saraswati Puja planning</td>
+                                <td><a href="#" class="text-primary"><i class="fas fa-file-pdf"></i> View PDF</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Events Section -->
+            <section id="events" class="content-section">
+                <div class="page-header">
+                    <h2>Events & RSVP</h2>
+                    <p>Register for upcoming events and manage your RSVPs</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #E91E63, #FF5722);"><i class="fas fa-om"></i></div>
+                        <h4>Nabo Borsho 1433</h4>
+                        <p><strong>April 25, 2026</strong> â€¢ Bengali New Year celebration with cultural program and feast.</p>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="feature-btn">
+                                <i class="fas fa-user-check"></i> RSVP Now
+                            </button>
+                            <button class="feature-btn secondary">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);"><i class="fas fa-campground"></i></div>
+                        <h4>Summer Camp 2026</h4>
+                        <p><strong>June 2026</strong> â€¢ Bengali language and culture camp for children ages 5-15.</p>
+                        <button class="feature-btn secondary">
+                            <i class="fas fa-clock"></i> Coming Soon
+                        </button>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #2196F3, #03A9F4);"><i class="fas fa-utensils"></i></div>
+                        <h4>Summer Picnic</h4>
+                        <p><strong>July 2026</strong> â€¢ Annual community picnic with games, food, and music.</p>
+                        <button class="feature-btn secondary">
+                            <i class="fas fa-clock"></i> Coming Soon
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Surveys Section -->
+            <section id="surveys" class="content-section">
+                <div class="page-header">
+                    <h2>Surveys & Polls</h2>
+                    <p>Share your feedback and participate in community decisions</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card" style="border: 2px solid var(--banf-orange);">
+                        <span class="status-badge pending" style="margin-bottom: 1rem;">Active</span>
+                        <h4>Nabo Borsho 2026 Menu Preferences</h4>
+                        <p>Help us decide the food menu for the Bengali New Year celebration!</p>
+                        <button class="feature-btn">
+                            <i class="fas fa-vote-yea"></i> Take Survey
+                        </button>
+                    </div>
+                    
+                    <div class="feature-card" style="border: 2px solid var(--banf-orange);">
+                        <span class="status-badge pending" style="margin-bottom: 1rem;">Active</span>
+                        <h4>Summer Camp Interest Survey</h4>
+                        <p>Would you like to enroll your children in Bengali summer camp?</p>
+                        <button class="feature-btn">
+                            <i class="fas fa-vote-yea"></i> Take Survey
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Directory Section -->
+            <section id="directory" class="content-section">
+                <div class="page-header">
+                    <h2>Member Directory</h2>
+                    <p>Connect with fellow BANF members</p>
+                </div>
+                
+                <div class="form-card" style="margin-bottom: 1.5rem;">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" placeholder="Search by name, city, or profession..." id="directorySearch">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="feature-btn w-100" onclick="searchDirectory()">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Member Since</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody id="directoryTableBody">
+                            <tr>
+                                <td colspan="4" class="text-center py-4">
+                                    <i class="fas fa-address-book fa-2x text-muted mb-2"></i>
+                                    <p class="text-muted mb-0">Search to view member directory</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Radio Section -->
+            <section id="radio" class="content-section">
+                <div class="page-header">
+                    <h2>Request Songs</h2>
+                    <p>Request your favorite Bengali songs on BANF Radio 24/7</p>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-card">
+                            <h4 style="margin-bottom: 1.5rem;"><i class="fas fa-music me-2"></i>Song Request Form</h4>
+                            <form id="songRequestForm">
+                                <div class="form-group">
+                                    <label>Song Title</label>
+                                    <input type="text" class="form-control" placeholder="e.g., Amar Sonar Bangla" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Artist Name</label>
+                                    <input type="text" class="form-control" placeholder="e.g., Rabindranath Tagore">
+                                </div>
+                                <div class="form-group">
+                                    <label>Dedication Message (Optional)</label>
+                                    <textarea class="form-control" rows="3" placeholder="Dedicate this song to someone special..."></textarea>
+                                </div>
+                                <button type="submit" class="feature-btn">
+                                    <i class="fas fa-paper-plane"></i> Submit Request
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-card">
+                            <h4 style="margin-bottom: 1rem;"><i class="fas fa-broadcast-tower me-2"></i>Now Playing</h4>
+                            <div style="background: linear-gradient(135deg, #673AB7, #9C27B0); border-radius: 16px; padding: 2rem; color: #fff; text-align: center;">
+                                <i class="fas fa-music fa-3x mb-3"></i>
+                                <h5 id="nowPlayingTitle">BANF Radio 24/7</h5>
+                                <p id="nowPlayingArtist" style="opacity: 0.8;">Bengali Music Non-Stop</p>
+                                <button class="btn btn-light btn-lg rounded-pill mt-2" onclick="toggleRadio()">
+                                    <i class="fas fa-play me-2"></i> Listen Live
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Magazine Section -->
+            <section id="magazine" class="content-section">
+                <div class="page-header">
+                    <h2>Magazine Submission</h2>
+                    <p>Submit your literary works for BANF E-Magazine</p>
+                </div>
+                
+                <div class="form-card">
+                    <form id="magazineSubmissionForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Submission Type</label>
+                                    <select class="form-control" required>
+                                        <option value="">Select type...</option>
+                                        <option value="poem">Poem (à¦•à¦¬à¦¿à¦¤à¦¾)</option>
+                                        <option value="story">Short Story (à¦-à¦²à§à¦ª)</option>
+                                        <option value="article">Article (à¦ªà§à¦°à¦¬à¦¨à§à¦§)</option>
+                                        <option value="essay">Essay (à¦°à¦šà¦¨à¦¾)</option>
+                                        <option value="memoir">Memoir (à¦¸à§à¦®à§ƒà¦¤à¦¿à¦•à¦¥à¦¾)</option>
+                                        <option value="review">Book/Movie Review</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Language</label>
+                                    <select class="form-control" required>
+                                        <option value="bengali">Bengali (à¦¬à¦¾à¦‚à¦²à¦¾)</option>
+                                        <option value="english">English</option>
+                                        <option value="both">Both</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" class="form-control" placeholder="Enter the title of your work" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Content</label>
+                            <textarea class="form-control" rows="10" placeholder="Paste your content here..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Author Bio (Optional)</label>
+                            <textarea class="form-control" rows="2" placeholder="Brief bio to be published with your work..."></textarea>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="feature-btn">
+                                <i class="fas fa-paper-plane"></i> Submit for Review
+                            </button>
+                            <button type="button" class="feature-btn secondary">
+                                <i class="fas fa-save"></i> Save Draft
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ========== NAVIGATION ==========
+        const MEMBER_ACTIVE_SECTIONS = new Set(['dashboard']); // Phase 1: chatbot + dashboard only
+        function showSection(sectionId, clickedNav) {
+            if (!MEMBER_ACTIVE_SECTIONS.has(sectionId)) {
+                comingSoon(sectionId.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
+                return;
+            }
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            if (clickedNav) {
+                clickedNav.classList.add('active');
+            } else {
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    if (nav.getAttribute('href') === '#' + sectionId) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+
+            // Scroll main content to top on section change (mobile UX)
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.scrollTop = 0;
+                // Also scroll the page itself for mobile
+                try { window.scrollTo({ top: mainContent.offsetTop - 60, behavior: 'smooth' }); } catch (_) {}
+            }
+        }
+        
+        // ========== LOGOUT ==========
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear session
+                localStorage.removeItem('banf_member_token');
+                sessionStorage.removeItem('banf_member_data');
+                
+                // Redirect to login
+                if (window.parent !== window) {
+                    window.parent.postMessage({ type: 'LOGOUT' }, '*');
+                } else {
+                    window.location.href = 'member-login.html';
+                }
+            }
+        }
+        
+        // ========== MEMBER DATA ==========
+        function loadMemberData() {
+            // Check for stored member data
+            const memberData = sessionStorage.getItem('banf_member_data');
+            if (!memberData) {
+                // Demo mode — show portal with default data for testing
+                document.getElementById('userName').textContent = 'Member';
+                document.getElementById('memberNameDisplay').textContent = 'Member';
+                return;
+            }
+            
+            const member = JSON.parse(memberData);
+            document.getElementById('userName').textContent = member.name || 'Member';
+            document.getElementById('memberNameDisplay').textContent = member.name?.split(' ')[0] || 'Member';
+            
+            // Populate profile form
+            if (member.firstName) document.getElementById('firstName').value = member.firstName;
+            if (member.lastName) document.getElementById('lastName').value = member.lastName;
+            if (member.email) document.getElementById('email').value = member.email;
+            if (member.phone) document.getElementById('phone').value = member.phone;
+        }
+        
+        // ========== API CALLS ==========
+        const API_BASE = '/api';
+        
+        async function fetchMemberDashboard() {
+            try {
+                const response = await fetch(API_BASE + '/member/dashboard');
+                if (response.ok) {
+                    const data = await response.json();
+                    updateDashboard(data);
+                }
+            } catch (error) {
+                console.error('Error fetching dashboard:', error);
+            }
+        }
+        
+        function updateDashboard(data) {
+            // Update stats and tables with real data
+            console.log('Dashboard data:', data);
+        }
+        
+        // ========== COMING SOON ==========
+        function comingSoon(featureName) {
+            const overlay = document.createElement('div');
+            overlay.className = 'coming-soon-overlay';
+            overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
+            overlay.innerHTML = `
+                <div class="coming-soon-modal">
+                    <div class="icon"><i class="fas fa-rocket"></i></div>
+                    <h3>${featureName}</h3>
+                    <p>This feature agent is being launched in a phased rollout with proper security and compliance measures.</p>
+                    <p style="font-size:0.85rem;color:#888;">Each module undergoes stakeholder validation, security audit, and role-based access control setup before going live.</p>
+                    <div class="chatbot-hint">
+                        <i class="fas fa-robot me-2"></i>
+                        <strong>In the meantime</strong> — use the <strong>BANF Assistant</strong> chatbot (bottom-right corner) to ask questions about events, membership fees, contacts, and more!
+                    </div>
+                    <button class="close-btn" onclick="this.closest('.coming-soon-overlay').remove()">
+                        <i class="fas fa-check me-2"></i>Got it
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        // ========== ACTIONS ==========
+        function openAddFamilyModal() {
+            comingSoon('Add Family Member');
+        }
+        
+        function downloadBudget(year) {
+            comingSoon('Budget Reports');
+        }
+        
+        function searchDirectory() {
+            comingSoon('Member Directory Search');
+        }
+        
+        function toggleRadio() {
+            comingSoon('BANF Radio Player');
+        }
+
+        function openStakeholderJourney() {
+            comingSoon('Stakeholder Requirements Journey');
+        }
+
+        // ========== FORM HANDLERS ==========
+        document.getElementById('profileForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Profile updated successfully!');
+        });
+        
+        document.getElementById('songRequestForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Song request submitted! It will be played soon.');
+            this.reset();
+        });
+        
+        document.getElementById('magazineSubmissionForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Your submission has been sent for editorial review. You will receive an email notification about the status.');
+            this.reset();
+        });
+        
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMemberData();
+            fetchMemberDashboard();
+            
+            // Handle hash navigation
+            if (window.location.hash) {
+                const section = window.location.hash.substring(1);
+                showSection(section);
+            }
+        });
+        
+        // Listen for messages from parent (Wix)
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'MEMBER_DATA') {
+                sessionStorage.setItem('banf_member_data', JSON.stringify(event.data.member));
+                loadMemberData();
+            }
+        });
+    </script>
+    <!-- BANF RAG Chatbot Widget -->
+    <script src="banf-chatbot-widget.js"></script>
+</body>
+</html>
+

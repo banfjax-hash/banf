@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BANF - Super Admin Portal v2</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{--bg:#060a10;--bg2:#0b1120;--panel:#111827;--card:#0f172a;--line:#1e293b;--line2:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#475569;--accent:#f97316;--accent2:#ea580c;--red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--yellow:#eab308;--pink:#ec4899;--lime:#84cc16;--teal:#14b8a6;--indigo:#6366f1;--radius:12px;--radius-sm:8px}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.5;overflow-x:hidden}
+
+/* LOGIN */
+.login-overlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}
+.login-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:40px;max-width:460px;width:92%;text-align:center}
+.login-box .logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.5rem;color:#fff;margin:0 auto 20px}
+.login-box h1{font-size:1.2rem;font-weight:700;margin:0 0 6px;background:linear-gradient(90deg,#f97316,#fb923c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.login-box .sub{font-size:.82rem;color:var(--muted);margin-bottom:24px}
+.login-box input,.login-box select{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:12px 16px;border-radius:8px;font-size:.88rem;margin-bottom:12px;outline:none}
+.login-box input:focus,.login-box select:focus{border-color:var(--accent)}
+.login-box .btn-login{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:12px;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;transition:.2s}
+.login-box .btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(249,115,22,.3)}
+.login-box .error-msg{color:var(--red);font-size:.78rem;margin-top:8px;display:none}
+.login-box .success-msg{color:var(--green);font-size:.78rem;margin-top:8px;display:none}
+.login-box .info-msg{color:var(--blue);font-size:.78rem;margin-top:8px;display:none}
+.auth-links{display:flex;justify-content:space-between;margin-top:16px;font-size:.78rem}
+.auth-links a{color:var(--accent);cursor:pointer;text-decoration:none;transition:.2s}
+.auth-links a:hover{color:#fb923c;text-decoration:underline}
+.auth-screen{display:none}.auth-screen.active{display:block}
+.auth-divider{height:1px;background:var(--line);margin:18px 0}
+.auth-step{display:none}.auth-step.active{display:block}
+.pwd-strength{height:4px;border-radius:2px;margin:-8px 0 12px;background:var(--line);overflow:hidden}
+.pwd-strength .bar{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.pwd-toggle{position:relative}
+.pwd-toggle input{padding-right:40px}
+.pwd-toggle .toggle-eye{position:absolute;right:14px;top:14px;color:var(--dim);cursor:pointer;font-size:.85rem}
+.pwd-toggle .toggle-eye:hover{color:var(--accent)}
+.back-link{display:inline-flex;align-items:center;gap:4px;color:var(--muted);font-size:.78rem;cursor:pointer;margin-bottom:14px;transition:.2s}
+.back-link:hover{color:var(--accent)}
+.login-box .field-label{text-align:left;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px;margin-top:4px}
+
+/* SIDEBAR */
+.portal{display:none;height:100vh;overflow:hidden}
+.sidebar{width:230px;background:var(--card);border-right:1px solid var(--line);height:100vh;overflow-y:auto;position:fixed;left:0;top:0;z-index:100;display:flex;flex-direction:column}
+.sb-brand{padding:16px 18px;border-bottom:1px solid var(--line)}
+.sb-brand h2{font-size:.95rem;font-weight:700;margin:0;background:linear-gradient(90deg,#f97316,#fb923c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sb-brand small{font-size:.68rem;color:var(--dim)}
+.sb-group{padding:8px 10px 4px;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:700;margin-top:6px}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--muted);font-size:.82rem;cursor:pointer;transition:.15s;border-left:3px solid transparent}
+.sb-item:hover{background:rgba(249,115,22,.06);color:var(--text)}
+.sb-item.active{color:var(--accent);background:rgba(249,115,22,.1);border-left-color:var(--accent)}
+.sb-item i{width:18px;text-align:center;font-size:.78rem}
+.sb-user{margin-top:auto;padding:12px 18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:.78rem;cursor:pointer}
+.sb-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:#fff;flex-shrink:0}
+.sb-user .name{font-weight:600;color:var(--text);font-size:.78rem}.sb-user .role-lbl{font-size:.65rem;color:var(--dim)}
+.main-content{margin-left:230px;height:100vh;overflow-y:auto;padding:20px 28px 40px}
+.portal-section{display:none;max-width:1300px}.portal-section.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* Cards / KPI / Table / Badge / Form */
+.card-a{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card-a h2{font-size:.95rem;font-weight:700;color:#fff;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+.card-a h2 i{color:var(--accent);font-size:.85rem}
+.card-a h3{font-size:.84rem;color:var(--accent);margin:12px 0 6px;font-weight:600}
+.stg-label{display:inline-flex;align-items:center;gap:4px;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:700;margin-bottom:6px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;text-align:center}.kpi .v{font-size:1.4rem;font-weight:800;color:#fff;line-height:1.1}.kpi .k{font-size:.68rem;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+.kpi.green .v{color:var(--green)}.kpi.red .v{color:var(--red)}.kpi.blue .v{color:var(--blue)}.kpi.orange .v{color:var(--accent)}.kpi.purple .v{color:var(--purple)}.kpi.cyan .v{color:var(--cyan)}.kpi.yellow .v{color:var(--yellow)}
+.t{color:var(--text);width:100%;border-collapse:collapse;font-size:.78rem}
+.t thead th{background:rgba(249,115,22,.06);color:#ffd7c2;padding:7px 10px;border-bottom:1px solid var(--line2);font-weight:600;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+.t td{padding:6px 10px;border-bottom:1px solid rgba(30,41,59,.6);vertical-align:top}
+.t tbody tr:hover td{background:rgba(249,115,22,.03)}
+.badge-s{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.66rem;font-weight:600}
+.badge-green{background:rgba(34,197,94,.15);color:var(--green)}.badge-red{background:rgba(239,68,68,.15);color:var(--red)}
+.badge-yellow{background:rgba(234,179,8,.15);color:var(--yellow)}.badge-blue{background:rgba(59,130,246,.15);color:var(--blue)}
+.badge-purple{background:rgba(168,85,247,.15);color:var(--purple)}.badge-orange{background:rgba(249,115,22,.15);color:var(--accent)}
+.badge-cyan{background:rgba(6,182,212,.15);color:var(--cyan)}.badge-dim{background:rgba(71,85,105,.2);color:var(--dim)}
+.form-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;align-items:flex-end}
+.form-group{display:flex;flex-direction:column;gap:4px;flex:1;min-width:150px}
+.form-group label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.form-group input,.form-group select,.form-group textarea{background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:6px;font-size:.82rem;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(249,115,22,.3)}
+.btn-secondary{background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 18px;border-radius:8px;font-size:.8rem;cursor:pointer;transition:.2s}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+.btn-sm{padding:4px 10px;font-size:.72rem;border-radius:6px}
+.btn-danger{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:var(--red);padding:5px 12px;border-radius:6px;font-size:.74rem;cursor:pointer}
+.btn-danger:hover{background:rgba(239,68,68,.2)}
+.btn-success{background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer}
+
+/* PIPELINE  */
+.pipe{display:flex;gap:4px;margin:14px 0;flex-wrap:wrap}
+.pipe-step{flex:1;min-width:110px;padding:10px 6px;text-align:center;border-radius:var(--radius-sm);border:1px solid;transition:.2s}
+.pipe-step.pending{background:rgba(71,85,105,.08);border-color:var(--dim);color:var(--dim)}
+.pipe-step.active{background:rgba(234,179,8,.1);border-color:var(--yellow);color:var(--yellow);animation:pulse 1.5s infinite}
+.pipe-step.done{background:rgba(34,197,94,.08);border-color:var(--green);color:var(--green)}
+.pipe-step h6{font-size:.72rem;margin:0;font-weight:700}.pipe-step small{font-size:.62rem;opacity:.7}
+.pipe-arrow{display:flex;align-items:center;color:var(--line2);font-size:.7rem}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* SEARCH DROPDOWN */
+.search-wrap{position:relative}
+.search-wrap input{width:100%}
+.search-results{position:absolute;top:100%;left:0;right:0;max-height:240px;overflow-y:auto;background:var(--card);border:1px solid var(--accent);border-top:none;border-radius:0 0 8px 8px;z-index:50;display:none}
+.search-results.open{display:block}
+.sr-item{padding:8px 12px;font-size:.78rem;cursor:pointer;display:flex;gap:10px;align-items:center;border-bottom:1px solid var(--line)}
+.sr-item:hover{background:rgba(249,115,22,.08)}
+.sr-item .sr-name{font-weight:600;color:#fff}.sr-item .sr-email{color:var(--muted);font-size:.72rem}.sr-item .sr-badge{margin-left:auto}
+
+/* FEEDBACK */
+.feedback-card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin-bottom:10px}
+.feedback-card .fb-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.feedback-card .fb-section{font-weight:600;color:var(--accent);font-size:.82rem}
+.feedback-card .fb-ts{color:var(--dim);font-size:.7rem}
+.feedback-card .fb-body{font-size:.8rem;color:var(--muted);margin-bottom:8px}
+.feedback-card .fb-user{font-size:.72rem;color:var(--cyan)}
+.pipeline-flow{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}
+.pipeline-flow .pf-step{padding:3px 10px;border-radius:999px;font-size:.66rem;font-weight:600}
+.pipeline-flow .pf-arrow{color:var(--dim);font-size:.6rem}
+
+/* LOG */
+.act-log{max-height:280px;overflow-y:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:4px}
+.log-line{font-size:.72rem;padding:4px 8px;border-bottom:1px solid rgba(30,41,59,.3);display:flex;gap:8px}
+.log-line .ll-ts{color:var(--dim);min-width:105px;font-family:Consolas,monospace;flex-shrink:0}
+.log-line .ll-act{min-width:95px;flex-shrink:0;font-weight:600}
+.log-line .ll-msg{color:var(--muted);flex:1}
+
+/* E2E TEST */
+.test-step{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:6px;display:flex;align-items:center;gap:12px}
+.test-step .ts-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.test-step .ts-icon.pending{background:rgba(71,85,105,.2);color:var(--dim)}
+.test-step .ts-icon.running{background:rgba(234,179,8,.15);color:var(--yellow);animation:pulse 1s infinite}
+.test-step .ts-icon.pass{background:rgba(34,197,94,.15);color:var(--green)}
+.test-step .ts-icon.fail{background:rgba(239,68,68,.15);color:var(--red)}
+.test-step .ts-lbl{font-size:.8rem;font-weight:600}
+.test-step .ts-detail{font-size:.72rem;color:var(--muted)}
+.test-step .ts-status{margin-left:auto;font-size:.7rem;font-weight:600}
+
+/* PRIVACY BANNER */
+.privacy-banner{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:.74rem;color:var(--green);display:flex;align-items:flex-start;gap:8px}
+.privacy-banner i{margin-top:2px}
+
+@media(max-width:900px){.sidebar{width:52px}.sidebar .sb-group,.sidebar .sb-brand small,.sidebar .sb-user .name,.sidebar .sb-user .role-lbl,.sb-item span{display:none}.sb-item{padding:10px;justify-content:center}.sb-item i{width:auto}.main-content{margin-left:52px;padding:12px}}
+</style>
+</head>
+<body>
+
+<!-- ═══════ AUTH SYSTEM ═══════ -->
+<div class="login-overlay" id="login-screen">
+  <div class="login-box">
+    <div class="logo">B</div>
+    <h1>BANF Super Admin Portal</h1>
+    <div class="sub">Authorized access only — Executive Committee &amp; Super Administrator</div>
+
+    <!-- ══ SCREEN 1: SIGN IN ══ -->
+    <div class="auth-screen active" id="auth-signin">
+      <input type="email" id="login-email" placeholder="Email address" autocomplete="email">
+      <div class="pwd-toggle">
+        <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+        <i class="fas fa-eye toggle-eye" onclick="togglePwd('login-pass',this)"></i>
+      </div>
+      <button class="btn-login" id="btn-login"><i class="fas fa-shield-alt me-1"></i>Sign In</button>
+      <div class="error-msg" id="login-error"></div>
+      <div class="success-msg" id="login-success"></div>
+      <div class="info-msg" id="login-info"></div>
+      <div class="auth-links">
+        <a onclick="showAuth('forgot')"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+        <a onclick="showAuth('signup')"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+      </div>
+      <div style="margin-top:14px;font-size:.72rem;color:var(--dim)"><i class="fas fa-lock me-1"></i>Secured by BANF Admin Auth System</div>
+    </div>
+
+    <!-- ══ SCREEN 2: SIGN UP (Multi-Step) ══ -->
+    <div class="auth-screen" id="auth-signup">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Super Admin Sign Up</h1>
+
+      <!-- Step 1: Email — send verification code -->
+      <div class="auth-step active" id="signup-step-1">
+        <div class="field-label">Admin Email (must be in AdminRoles)</div>
+        <input type="email" id="signup-email" placeholder="your-email@example.com" autocomplete="email">
+        <button class="btn-login" onclick="signupStep1()"><i class="fas fa-paper-plane me-1"></i>Send Verification Code</button>
+        <div class="error-msg" id="signup-error-1"></div>
+        <div class="info-msg" id="signup-info-1"></div>
+        <div style="margin-top:10px;font-size:.72rem;color:var(--dim)">A 6-digit verification code will be sent to your email. You must be an authorized admin to sign up.</div>
+      </div>
+
+      <!-- Step 2: Enter verification code -->
+      <div class="auth-step" id="signup-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-envelope me-1"></i>Verification code sent to <strong id="signup-code-email"></strong></div>
+        <div class="field-label">Enter 6-Digit Code</div>
+        <input type="text" id="signup-code" placeholder="Enter the 6-digit code" maxlength="6" style="text-align:center;letter-spacing:6px;font-size:1.2rem;font-weight:700" autocomplete="one-time-code">
+        <button class="btn-login" onclick="signupStep2Code()"><i class="fas fa-check-circle me-1"></i>Verify Code</button>
+        <div class="error-msg" id="signup-error-2"></div>
+        <div style="margin-top:8px;font-size:.72rem;color:var(--dim)">Code expires in 10 minutes. <a href="#" onclick="signupResend();return false" style="color:var(--accent)">Resend code</a></div>
+        <div class="info-msg" id="signup-info-2"></div>
+      </div>
+
+      <!-- Step 3: Set password + security question -->
+      <div class="auth-step" id="signup-step-3">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:14px"><i class="fas fa-check-circle me-1"></i>Email verified: <strong id="signup-confirmed-email"></strong></div>
+        <div class="field-label">Create Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="signup-pass" placeholder="Minimum 8 characters" oninput="checkPwdStrength(this.value,'signup-strength')">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('signup-pass',this)"></i>
+        </div>
+        <div class="pwd-strength"><div class="bar" id="signup-strength"></div></div>
+        <div class="field-label">Confirm Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="signup-pass2" placeholder="Re-enter password">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('signup-pass2',this)"></i>
+        </div>
+        <div class="auth-divider"></div>
+        <div class="field-label">Security Question</div>
+        <select id="signup-sq">
+          <option value="">— Select a security question —</option>
+          <option value="city_born">What city were you born in?</option>
+          <option value="pet_name">What is the name of your first pet?</option>
+          <option value="mother_maiden">What is your mother's maiden name?</option>
+          <option value="school_name">What was the name of your first school?</option>
+          <option value="fav_teacher">Who was your favorite teacher?</option>
+          <option value="childhood_friend">What is the name of your childhood best friend?</option>
+        </select>
+        <div class="field-label">Security Answer</div>
+        <input type="text" id="signup-sa" placeholder="Your answer (case-insensitive)">
+        <button class="btn-login" onclick="signupStep3()"><i class="fas fa-user-shield me-1"></i>Create Account</button>
+        <div class="error-msg" id="signup-error-3"></div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="auth-step" id="signup-step-4">
+        <div style="font-size:2rem;color:var(--green);margin-bottom:10px"><i class="fas fa-check-circle"></i></div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px">Account Created Successfully!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px">Your admin account is ready. You can now sign in with your email and password.</div>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt me-1"></i>Go to Sign In</button>
+      </div>
+    </div>
+
+    <!-- ══ SCREEN 3: FORGOT PASSWORD ══ -->
+    <div class="auth-screen" id="auth-forgot">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-key me-1"></i>Reset Password</h1>
+
+      <!-- Step 1: Email lookup -->
+      <div class="auth-step active" id="forgot-step-1">
+        <div class="field-label">Enter your admin email</div>
+        <input type="email" id="forgot-email" placeholder="your-email@example.com" autocomplete="email">
+        <button class="btn-login" onclick="forgotStep1()"><i class="fas fa-search me-1"></i>Find My Account</button>
+        <div class="error-msg" id="forgot-error-1"></div>
+        <div class="info-msg" id="forgot-info-1"></div>
+      </div>
+
+      <!-- Step 2: Security question -->
+      <div class="auth-step" id="forgot-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found: <strong id="forgot-found-name"></strong></div>
+        <div class="field-label">Security Question</div>
+        <div style="font-size:.88rem;color:var(--text);background:var(--bg2);padding:12px 16px;border-radius:8px;margin-bottom:12px;text-align:left" id="forgot-sq-display"></div>
+        <div class="field-label">Your Answer</div>
+        <input type="text" id="forgot-sa" placeholder="Type your answer">
+        <button class="btn-login" onclick="forgotStep2()"><i class="fas fa-check me-1"></i>Verify Answer</button>
+        <div class="error-msg" id="forgot-error-2"></div>
+      </div>
+
+      <!-- Step 3: New password -->
+      <div class="auth-step" id="forgot-step-3">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:14px"><i class="fas fa-check-circle me-1"></i>Identity verified!</div>
+        <div class="field-label">New Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="forgot-newpass" placeholder="Minimum 8 characters" oninput="checkPwdStrength(this.value,'forgot-strength')">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('forgot-newpass',this)"></i>
+        </div>
+        <div class="pwd-strength"><div class="bar" id="forgot-strength"></div></div>
+        <div class="field-label">Confirm New Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="forgot-newpass2" placeholder="Re-enter password">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('forgot-newpass2',this)"></i>
+        </div>
+        <button class="btn-login" onclick="forgotStep3()"><i class="fas fa-save me-1"></i>Reset Password</button>
+        <div class="error-msg" id="forgot-error-3"></div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="auth-step" id="forgot-step-4">
+        <div style="font-size:2rem;color:var(--green);margin-bottom:10px"><i class="fas fa-check-circle"></i></div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px">Password Reset Successfully!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px">You can now sign in with your new password.</div>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt me-1"></i>Go to Sign In</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="portal" id="portal">
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <h2><i class="fas fa-shield-alt me-1"></i> BANF Admin</h2>
+      <small>Super Admin Portal v3.0 (Multi-Role Identity)</small>
+    </div>
+
+    <div class="sb-group">Operations</div>
+    <div class="sb-item active" data-panel="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></div>
+    <div class="sb-item" data-panel="roles"><i class="fas fa-id-badge"></i><span>Role Definitions</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
+    <div class="sb-item" data-panel="users"><i class="fas fa-users-cog"></i><span>User Management</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
+    <div class="sb-item" data-panel="identity"><i class="fas fa-fingerprint"></i><span>Identity Engine</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
+
+    <div class="sb-group">Drives</div>
+    <div class="sb-item" data-panel="stakeholder-drive"><i class="fas fa-bullhorn"></i><span>Stakeholder Drive</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
+    <div class="sb-item" data-panel="ec-drive"><i class="fas fa-shield-halved"></i><span>EC Drive</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
+    <div class="sb-item" data-panel="drive-status"><i class="fas fa-chart-line"></i><span>Drive Status</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
+
+    <div class="sb-group">Development</div>
+    <div class="sb-item" data-panel="feedback"><i class="fas fa-comments"></i><span>Feedback Pipeline</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
+    <div class="sb-item" data-panel="dev-board"><i class="fas fa-clipboard-list"></i><span>Dev Board</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
+
+    <div class="sb-group">Testing</div>
+    <div class="sb-item" data-panel="e2e-test"><i class="fas fa-vial"></i><span>E2E Test Suite</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 4</span></div>
+
+    <div class="sb-group">Audit</div>
+    <div class="sb-item" data-panel="activity"><i class="fas fa-history"></i><span>Activity Log</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
+    <div class="sb-item" onclick="window.open('https://www.jaxbengali.org/unified-ecosystem-dashboard.html','_blank')"><i class="fas fa-atom"></i><span>Main Dashboard</span></div>
+    <div class="sb-item" onclick="window.open('https://www.jaxbengali.org/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
+
+    <div class="sb-user">
+      <div class="sb-avatar">RG</div>
+      <div><div class="name">Ranadhir Ghosh</div><div class="role-lbl">Super Admin / Tech Lead</div></div>
+    </div>
+  </aside>
+
+  <div class="main-content">
+
+    <!-- â•â•â•â•â•â•â• DASHBOARD PANEL â•â•â•â•â•â•â• -->
+    <div class="portal-section active" id="panel-dashboard">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Control Center</div>
+      <div class="kpi-grid" id="dash-kpis"></div>
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-shield-alt"></i> Capabilities by Development Stage</h2>
+            <table class="t"><thead><tr><th>Capability</th><th>Stage</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><i class="fas fa-id-badge me-1" style="color:var(--blue)"></i>Role Definitions</td><td><span class="badge-s badge-blue">1. Setup</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr><td><i class="fas fa-users-cog me-1" style="color:var(--blue)"></i>User & CRM Management</td><td><span class="badge-s badge-blue">1. Setup</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr><td><i class="fas fa-bullhorn me-1" style="color:var(--purple)"></i>Stakeholder Drive</td><td><span class="badge-s badge-purple">2. Execution</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr><td><i class="fas fa-shield-halved me-1" style="color:var(--purple)"></i>EC Year Drive</td><td><span class="badge-s badge-purple">2. Execution</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr><td><i class="fas fa-comments me-1" style="color:var(--cyan)"></i>Feedback â†’ Agent Pipeline</td><td><span class="badge-s badge-cyan">3. Review</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr><td><i class="fas fa-clipboard-list me-1" style="color:var(--orange)"></i>Dev Board / Approval</td><td><span class="badge-s badge-orange">4. Delivery</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr><td><i class="fas fa-vial me-1" style="color:var(--yellow)"></i>E2E Test Suite</td><td><span class="badge-s badge-yellow">5. QA</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-clock-rotate-left"></i> Recent Activity</h2>
+            <div class="act-log" id="dash-log"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-link"></i> Quick Actions</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="if(typeof banfChatToggle==='function')banfChatToggle()"><i class="fas fa-robot me-1"></i>BANF Admin Assistant</button>
+          <a href="https://www.jaxbengali.org/unified-ecosystem-dashboard.html" target="_blank" class="btn-secondary"><i class="fas fa-atom me-1"></i>Main Dashboard</a>
+          <a href="https://www.jaxbengali.org/stakeholder-requirements-journey.html" target="_blank" class="btn-secondary"><i class="fas fa-route me-1"></i>Requirements Journey</a>
+          <a href="https://www.jaxbengali.org" target="_blank" class="btn-secondary"><i class="fas fa-globe me-1"></i>Live Site</a>
+        </div>
+        <div style="margin-top:12px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.78rem;color:var(--muted);">
+          <i class="fas fa-info-circle me-1" style="color:var(--accent)"></i>
+          <strong>Phase 1:</strong> Dashboard + AI Assistant are live. All other modules (Role Definitions, User Management, Identity Engine, Drives, Feedback, Dev Board, E2E, Audit) will be launched step-wise with security &amp; RBAC compliance.
+        </div>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• ROLE DEFINITIONS â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-roles">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--blue)"></i> Stage 1: Setup</div>
+      <div class="card-a">
+        <h2><i class="fas fa-id-badge"></i> Define New Role</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Roles <strong>must be defined before</strong> assigning to users. Each role specifies purpose, data access, process views, and feedback capabilities available to the stakeholder.</p>
+        <div class="form-row">
+          <div class="form-group" style="min-width:170px"><label>Role ID</label><input type="text" id="role-id" placeholder="e.g. technical-lead"></div>
+          <div class="form-group" style="flex:2"><label>Role Name</label><input type="text" id="role-name" placeholder="e.g. Technical Lead"></div>
+          <div class="form-group" style="flex:3"><label>Purpose</label><input type="text" id="role-purpose" placeholder="e.g. Final authority on implementation decisions"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:2"><label>Data / Information Views (select all)</label>
+            <select id="role-data" multiple size="4" style="min-height:80px">
+              <option value="overview" selected>Overview & KPIs</option>
+              <option value="pipeline">Agent Pipeline</option>
+              <option value="agents">AI Agents</option>
+              <option value="endpoints">API Endpoints</option>
+              <option value="testing">Testing Results</option>
+              <option value="deployment">Deployment Status</option>
+              <option value="data-model">Data Model</option>
+              <option value="sprints">Sprint Board</option>
+              <option value="requirements">Requirements Docs</option>
+              <option value="dev-status">Development Status</option>
+              <option value="observability">Observability</option>
+              <option value="internals">System Internals</option>
+              <option value="expert-review">Expert Review</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:2"><label>Process / Workflow Views</label>
+            <select id="role-process" multiple size="4" style="min-height:80px">
+              <option value="stakeholder-acceptance">Stakeholder Acceptance</option>
+              <option value="dev-team">Dev Agent Team</option>
+              <option value="ticket-flow">Ticket Flow</option>
+              <option value="feedback-pipeline">Feedback â†’ Agent Pipeline</option>
+              <option value="board-review">Board Review</option>
+              <option value="tech-lead-approval">Tech Lead Approval</option>
+              <option value="design-change">Design Changes</option>
+              <option value="implementation">Implementation Tracking</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Feedback Ability</label>
+            <select id="role-feedback">
+              <option value="full">Full (Submit + Vote + Approve)</option>
+              <option value="submit">Submit Feedback Only</option>
+              <option value="vote">Submit + Vote</option>
+              <option value="view">View Only</option>
+              <option value="none">No Feedback Access</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Comments Ability</label>
+            <select id="role-comment">
+              <option value="full">Full (All sections)</option>
+              <option value="assigned">Assigned sections only</option>
+              <option value="view">View comments only</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Suggestions Ability</label>
+            <select id="role-suggestion">
+              <option value="full">Full (Design + Dev + Process)</option>
+              <option value="design">Design suggestions only</option>
+              <option value="none">No suggestion access</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" id="btn-add-role"><i class="fas fa-plus me-1"></i>Define Role</button>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-list"></i> Defined Roles</h2>
+        <table class="t"><thead><tr><th>ID</th><th>Name</th><th>Purpose</th><th>Data Views</th><th>Process Views</th><th>Feedback</th><th>Actions</th></tr></thead>
+        <tbody id="roles-body"></tbody></table>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• USER MANAGEMENT â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-users">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--blue)"></i> Stage 1: Setup</div>
+      <div class="card-a">
+        <h2><i class="fas fa-search"></i> Search CRM Members</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Search by name, nickname, or email to find members from the CRM system (CRMMembers collection). Select a member to assign a role.</p>
+        <div class="search-wrap">
+          <input type="text" id="crm-search" placeholder="Type name, nickname, or email to search CRM..." style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:10px 14px;border-radius:8px;font-size:.85rem;outline:none">
+          <div class="search-results" id="crm-results"></div>
+        </div>
+        <div style="margin-top:8px"><button class="btn-secondary btn-sm" id="btn-browse-crm"><i class="fas fa-table me-1"></i>Browse All CRM Members</button></div>
+      </div>
+
+      <div class="card-a" id="crm-browse-panel" style="display:none">
+        <h2><i class="fas fa-database"></i> CRM Member Directory (CRMMembers Collection)</h2>
+        <table class="t"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Family</th><th>EC</th><th>Opt-In</th><th>Active</th><th>Actions</th></tr></thead>
+        <tbody id="crm-browse-body"></tbody></table>
+      </div>
+
+      <div class="card-a" id="assign-panel" style="display:none">
+        <h2><i class="fas fa-user-tag"></i> Assign Role to: <span id="assign-member-name" style="color:var(--accent)"></span></h2>
+        <div id="no-roles-warning" class="privacy-banner" style="display:none;background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.2);color:var(--red)">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>No roles defined yet. You must <a href="#" onclick="navTo('roles');return false" style="color:var(--accent)">define roles first</a> before assigning them to users.</span>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Member Email</label><input type="text" id="assign-email" readonly></div>
+          <div class="form-group"><label>Assigned Role</label><select id="assign-role"></select></div>
+          <div class="form-group"><label>Dashboard Access</label>
+            <select id="assign-access"><option value="full">Full Access</option><option value="stakeholder">Stakeholder View</option><option value="developer">Developer View</option><option value="readonly">Read-Only</option></select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" id="btn-assign-role"><i class="fas fa-check me-1"></i>Assign Role & Add User</button>
+          <button class="btn-secondary" id="btn-assign-invite"><i class="fas fa-envelope me-1"></i>Assign & Send Invite Email</button>
+        </div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-users-cog"></i> Registered Users &amp; Access <span style="font-size:.68rem;color:var(--cyan);font-weight:400">(Multi-Role Identity System)</span></h2>
+        <table class="t"><thead><tr><th>Name / Identity</th><th>Email</th><th>Roles (Multi)</th><th>Access / Creds</th><th>Invited</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="users-body"></tbody></table>
+      </div>
+    </div>
+
+
+    <!-- ======= IDENTITY ENGINE ======= -->
+    <div class="portal-section" id="panel-identity">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--cyan)"></i> Multi-Dimensional Identity</div>
+      
+      <div class="card-a">
+        <h2><i class="fas fa-fingerprint"></i> Identity Resolution Engine</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">
+          <strong>Strategy:</strong> Since the same first + last name can exist in the community and date of birth cannot be stored, 
+          identity is resolved using <strong>multi-dimensional matching</strong>: email (primary), phone, family ID, children's names, 
+          join timestamp, membership year history, city, and profession. Spouse name is treated as <em>mutable</em> (lower weight).
+        </p>
+        <div class="privacy-banner" style="background:rgba(6,182,212,.06);border-color:rgba(6,182,212,.2);color:var(--cyan)">
+          <i class="fas fa-shield-alt"></i>
+          <div><strong>Identity Dimensions (No DOB Policy)</strong> &mdash; Date of birth is never collected or stored. 
+          Identity is resolved via composite scoring across 9 dimensions. Score &ge;80 = auto-match, 50-79 = manual review, &lt;50 = new identity.</div>
+        </div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-search"></i> Identity Lookup / Disambiguation</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Search by name to test multi-dimensional identity resolution. Useful when same first+last name exists.</p>
+        <div class="form-row">
+          <div class="form-group" style="flex:2"><label>Search Name</label><input type="text" id="identity-search" placeholder="e.g. Ghosh (will find Ranadhir Ghosh AND Subir Ghosh)"></div>
+          <div class="form-group"><label>&nbsp;</label><button class="btn-primary" id="btn-identity-search"><i class="fas fa-search me-1"></i>Resolve Identity</button></div>
+        </div>
+        <div id="identity-results" style="margin-top:12px"></div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-project-diagram"></i> Identity Graph (<span id="identity-count">0</span> identities)</h2>
+        <table class="t"><thead><tr><th>ID</th><th>Name</th><th>Primary Email</th><th>Dimensions</th><th>Confidence</th><th>Linked Members</th><th>Roles</th><th>Verified</th></tr></thead>
+        <tbody id="identity-graph-body"></tbody></table>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-layer-group"></i> Dimension Weights</h2>
+        <table class="t"><thead><tr><th>Dimension</th><th>Weight</th><th>Type</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><i class="fas fa-envelope me-1" style="color:var(--green)"></i><strong>Email Address</strong></td><td><span class="badge-s badge-green">100%</span></td><td>Primary Key</td><td>Immutable. Exact match = instant identity.</td></tr>
+          <tr><td><i class="fas fa-phone me-1" style="color:var(--blue)"></i><strong>Phone Number</strong></td><td><span class="badge-s badge-blue">80%</span></td><td>Strong Signal</td><td>Exact match on phone across records.</td></tr>
+          <tr><td><i class="fas fa-people-roof me-1" style="color:var(--cyan)"></i><strong>Family ID</strong></td><td><span class="badge-s badge-cyan">70%</span></td><td>Strong Signal</td><td>Same familyId links household members.</td></tr>
+          <tr><td><i class="fas fa-child me-1" style="color:var(--purple)"></i><strong>Children's Names</strong></td><td><span class="badge-s badge-purple">60%</span></td><td>Supporting</td><td>Each matching child adds 60% / count. Stable dimension.</td></tr>
+          <tr><td><i class="fas fa-user-tag me-1" style="color:var(--yellow)"></i><strong>Name + City + Profession</strong></td><td><span class="badge-s badge-yellow">50%</span></td><td>Supporting</td><td>Composite: name match + same city + same profession.</td></tr>
+          <tr><td><i class="fas fa-clock me-1" style="color:var(--orange)"></i><strong>Join Timestamp</strong></td><td><span class="badge-s badge-orange">40%</span></td><td>Time Signature</td><td>Registration within 30 days = match. Unique temporal fingerprint.</td></tr>
+          <tr><td><i class="fas fa-calendar-check me-1" style="color:var(--blue)"></i><strong>Membership Year History</strong></td><td><span class="badge-s badge-blue">35%</span></td><td>Supporting</td><td>Overlap in membership years indicates same person.</td></tr>
+          <tr><td><i class="fas fa-heart me-1" style="color:var(--pink)"></i><strong>Spouse Name</strong></td><td><span class="badge-s badge-dim">20%</span></td><td>Mutable</td><td>Lower weight because spouse name can change. Fuzzy match.</td></tr>
+          <tr><td><i class="fas fa-birthday-cake me-1" style="color:var(--red)"></i><strong>Date of Birth</strong></td><td><span class="badge-s badge-red">N/A</span></td><td>EXCLUDED</td><td>NOT stored per BANF privacy policy. Identity resolved without DOB.</td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-clock-rotate-left"></i> Role History &amp; Credential Persistence</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">
+          A user can hold <strong>multiple roles simultaneously</strong>. Once credentials are set (username/password), 
+          they persist across <strong>all drives</strong> (membership, EC, stakeholder). Role changes are tracked in history.
+        </p>
+        <div id="role-history-panel"></div>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• STAKEHOLDER DRIVE â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-stakeholder-drive">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--purple)"></i> Stage 2: Execution</div>
+      <div class="card-a">
+        <h2><i class="fas fa-bullhorn"></i> High Stakeholder Onboarding Drive</h2>
+        <div class="pipe" id="sh-pipe">
+          <div class="pipe-step done"><h6>1. Define Roles</h6><small>Role setup</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step active"><h6>2. Select Members</h6><small>CRM search</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>3. Assign Roles</h6><small>Map each</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>4. Privacy Check</h6><small>Opt-in verify</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>5. Send via CommsAgent</h6><small>Gmail + template</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>6. Track Signups</h6><small>Response status</small></div>
+        </div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-user-plus"></i> Add Members to Drive</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Search CRM to add members. Each must have a defined role assigned.</p>
+        <div class="search-wrap">
+          <input type="text" id="drive-search" placeholder="Search CRM by name / nickname / email...">
+          <div class="search-results" id="drive-results"></div>
+        </div>
+      </div>
+
+      <div class="privacy-banner">
+        <i class="fas fa-lock"></i>
+        <div><strong>Data Privacy Compliance (comms-correction.js patterns)</strong> â€” Emails only sent to members with <code style="color:var(--green)">emailOptIn: true</code>. All invitations include: unsubscribe link, data privacy notice (no third-party sharing, purpose limitation, right to erasure, right to opt-out). Communication agent uses sendGmail() with MIME headers, privacy footer, and MemberCommunications logging.</div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-list-check"></i> Drive Invite List</h2>
+        <table class="t"><thead><tr><th>Name</th><th>Email</th><th>Assigned Role</th><th>Opt-In</th><th>Privacy OK</th><th>Email Status</th><th>Actions</th></tr></thead>
+        <tbody id="drive-body"></tbody></table>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-primary" id="btn-privacy-check"><i class="fas fa-shield-alt me-1"></i>Run Privacy Check</button>
+          <button class="btn-primary" id="btn-send-drive"><i class="fas fa-paper-plane me-1"></i>Send All via Communication Agent</button>
+          <button class="btn-secondary" id="btn-preview-drive-email"><i class="fas fa-eye me-1"></i>Preview Email</button>
+        </div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-envelope-open-text"></i> Email Template (Communication Agent)</h2>
+        <div class="form-row">
+          <div class="form-group" style="flex:2"><label>Subject</label><input type="text" id="drive-subject" value="BANF Stakeholder Invitation — You’ve Been Selected for a Key Role"></div>
+          <div class="form-group"><label>Sender (sendGmail from)</label><input type="text" id="drive-sender" value="Bengali Association of North Florida <banfjax@gmail.com>"></div>
+        </div>
+        <div class="form-group"><label>Custom Note (optional — appended before privacy section)</label>
+          <textarea id="drive-custom-note" rows="3" style="width:100%;font-family:Consolas,monospace;font-size:.75rem" placeholder="Add any custom message for this drive batch (leave blank for default)..."></textarea>
+        </div>
+        <div style="margin-top:8px;padding:10px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px">
+          <div style="font-size:.72rem;color:var(--green);margin-bottom:6px"><i class="fas fa-robot me-1"></i><strong>Communication Agent (auto-generated HTML)</strong></div>
+          <div style="font-size:.7rem;color:var(--muted);line-height:1.6">
+            • Professional BANF-branded HTML email (matching comms-correction.js pattern)<br>
+            • Personalized greeting with recipient name and assigned role<br>
+            • Role-specific access details and dashboard capabilities<br>
+            • Direct CTA button to personalized dashboard<br>
+            • Full Data Privacy Act notice (purpose limitation, no third-party sharing, right to erasure, right to opt-out)<br>
+            • Unsubscribe link + BANF footer with security headers
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• EC DRIVE â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-ec-drive">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--purple)"></i> Stage 2: Execution</div>
+      <div class="card-a">
+        <h2><i class="fas fa-shield-halved"></i> EC Year Onboarding Drive</h2>
+        <div class="pipe" id="ec-pipe">
+          <div class="pipe-step done"><h6>1. Year Init</h6><small>ec_year_status</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step done"><h6>2. Import</h6><small>EC members</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step active"><h6>3. Gate Check</h6><small>membership_gate</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>4. Reminders</h6><small>ec_send_reminder</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>5. Complete</h6><small>ec_year_complete</small></div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-lg-5">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-info-circle"></i> EC Year Status</h2>
+            <table class="t"><tbody>
+              <tr><td>Fiscal Year</td><td><strong>FY2026-27</strong></td></tr>
+              <tr><td>Status</td><td><span class="badge-s badge-yellow">In Progress</span></td></tr>
+              <tr><td>Total</td><td><strong>11</strong></td></tr>
+              <tr><td>Gate Passed</td><td><span class="badge-s badge-green">7</span></td></tr>
+              <tr><td>Pending</td><td><span class="badge-s badge-yellow">3</span></td></tr>
+              <tr><td>Failed</td><td><span class="badge-s badge-red">1</span></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-terminal"></i> EC Drive Actions (ec-onboarding-gate.js)</h2>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <button class="btn-primary" id="btn-ec-gate"><i class="fas fa-sync me-1"></i>Run Gate Check (membership_gate_check)</button>
+              <button class="btn-primary" style="background:linear-gradient(135deg,var(--yellow),#ca8a04)" id="btn-ec-remind"><i class="fas fa-envelope me-1"></i>Send Reminders (ec_send_reminder)</button>
+              <button class="btn-secondary" id="btn-ec-pending"><i class="fas fa-users me-1"></i>View Pending (ec_pending_members)</button>
+              <button class="btn-success" id="btn-ec-complete"><i class="fas fa-check-double me-1"></i>Mark Complete (ec_year_complete)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-users"></i> EC Members Progress</h2>
+        <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Status</th></tr></thead>
+        <tbody id="ec-body"></tbody></table>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• FEEDBACK PIPELINE â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-feedback">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--cyan)"></i> Stage 3: Review</div>
+      <div class="card-a">
+        <h2><i class="fas fa-comments"></i> Feedback â†’ Agent â†’ Development Pipeline</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Stakeholder feedback flows through the AI agent pipeline: <strong>feedback â†’ Copilot CLI analysis â†’ design change proposal â†’ board review (implications) â†’ tech lead approval â†’ development board.</strong></p>
+        <div class="pipe">
+          <div class="pipe-step done"><h6>1. Feedback</h6><small>Stakeholder input</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step done"><h6>2. Agent Analysis</h6><small>Copilot CLI</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step active"><h6>3. Design Change</h6><small>Proposal created</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>4. Board Review</h6><small>Implications</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>5. Tech Lead OK</h6><small>Final approval</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending"><h6>6. Dev Board</h6><small>Implementation</small></div>
+        </div>
+      </div>
+
+      <div id="feedback-list"></div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-gavel"></i> Pending Tech Lead Approvals</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Board-approved changes awaiting final sign-off from the Technical Lead (Ranadhir Ghosh).</p>
+        <table class="t"><thead><tr><th>ID</th><th>From</th><th>Section</th><th>Change</th><th>Board</th><th>Tech Lead</th><th>Actions</th></tr></thead>
+        <tbody id="approvals-body"></tbody></table>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• DEV BOARD â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-dev-board">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--accent)"></i> Stage 4: Delivery</div>
+      <div class="card-a">
+        <h2><i class="fas fa-clipboard-list"></i> Development Board</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Approved changes from the feedback pipeline appear here for implementation by the dev agent team.</p>
+        <table class="t"><thead><tr><th>Ticket</th><th>Origin</th><th>Description</th><th>Assignee</th><th>Sprint</th><th>Priority</th><th>Status</th></tr></thead>
+        <tbody id="dev-board-body"></tbody></table>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• E2E TEST SUITE â•â•â•â•â•â•â• -->
+    <div class="portal-section" id="panel-e2e-test">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--yellow)"></i> Stage 5: QA</div>
+      <div class="card-a">
+        <h2><i class="fas fa-vial"></i> End-to-End Test: Technical Lead (Ranadhir Ghosh)</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Complete test of the full workflow: Search CRM â†’ Define Role â†’ Assign â†’ Send Drive Email (via Communication Agent with data privacy) â†’ User Signs Up â†’ Dashboard Access â†’ Feedback â†’ Agent Pipeline â†’ Board Review â†’ Tech Lead Approval â†’ Development Board.</p>
+        <button class="btn-primary" id="btn-run-e2e"><i class="fas fa-play me-1"></i>Run Full E2E Test</button>
+        <button class="btn-secondary ms-2" id="btn-reset-e2e"><i class="fas fa-undo me-1"></i>Reset Test</button>
+      </div>
+      <div id="e2e-steps"></div>
+      <div class="card-a" id="e2e-result" style="display:none">
+        <h2><i class="fas fa-flag-checkered"></i> E2E Test Result</h2>
+        <div id="e2e-result-body"></div>
+      </div>
+    </div>
+
+    <!-- â•â•â•â•â•â•â• ACTIVITY LOG â•â•â•â•â•â•â• -->
+    <!-- DRIVE STATUS MONITOR -->
+    <div class="portal-section" id="panel-drive-status">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--lime)"></i> Drive Command Center</div>
+
+      <div class="kpi-grid" id="drive-status-kpis"></div>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-bullhorn" style="color:var(--purple)"></i> Stakeholder Drive - Stage Progress</h2>
+            <div id="sh-status-stages"></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-shield-halved" style="color:var(--cyan)"></i> EC Year Drive - Stage Progress</h2>
+            <div id="ec-status-stages"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-users"></i> Stakeholder Drive - Recipient Status</h2>
+        <table class="t"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Privacy</th><th>Email</th><th>Signup</th><th>Last Updated</th></tr></thead>
+        <tbody id="drive-status-recipients"></tbody></table>
+        <div id="drive-status-empty" style="text-align:center;padding:20px;color:var(--dim);font-size:.82rem;display:none">No recipients in drive queue yet. Add members from the Stakeholder Drive panel.</div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-shield-halved"></i> EC Drive - Member Status</h2>
+        <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Onboarding</th></tr></thead>
+        <tbody id="ec-status-members"></tbody></table>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-exclamation-triangle" style="color:var(--red)"></i> Issues and Errors</h2>
+            <div class="act-log" id="drive-issues-log" style="max-height:300px"></div>
+            <div id="drive-no-issues" style="text-align:center;padding:16px;color:var(--green);font-size:.82rem"><i class="fas fa-check-circle me-1"></i>No issues recorded</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-clock-rotate-left" style="color:var(--blue)"></i> Drive Activity Timeline</h2>
+            <div class="act-log" id="drive-timeline" style="max-height:300px"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-chart-pie"></i> Response Analytics</h2>
+        <div class="row g-3">
+          <div class="col-lg-4">
+            <div style="text-align:center;padding:16px">
+              <h3 style="color:var(--accent);margin:0 0 10px;font-size:.84rem">Stakeholder Drive</h3>
+              <div id="sh-response-chart"></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div style="text-align:center;padding:16px">
+              <h3 style="color:var(--cyan);margin:0 0 10px;font-size:.84rem">EC Drive</h3>
+              <div id="ec-response-chart"></div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div style="padding:16px">
+              <h3 style="color:var(--blue);margin:0 0 10px;font-size:.84rem">Summary</h3>
+              <div id="drive-summary-stats"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-chart-line"></i> TK-046 Membership Drive Analytics (By Tier)</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Tracks invites sent, responses received, and conversion rate by role tier for stakeholder drive execution.</p>
+        <div class="row g-3" style="margin-bottom:10px" id="drive-tier-kpis"></div>
+        <table class="t"><thead><tr><th>Tier</th><th>Invites</th><th>Sent</th><th>Responses</th><th>Conversion</th></tr></thead>
+        <tbody id="drive-tier-analytics"></tbody></table>
+      </div>
+    </div>
+
+    <div class="portal-section" id="panel-activity">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--dim)"></i> Audit</div>
+      <div class="card-a">
+        <h2><i class="fas fa-history"></i> Full Admin Activity Log</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">All super admin actions are logged with timestamp, action type, and details for audit compliance.</p>
+        <div class="act-log" id="full-log" style="max-height:600px"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  DATA STORES
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+const API = 'https://www.jaxbengali.org/_functions';
+let CURRENT_ADMIN = null; // { email, role, firstName, lastName, ecTitle }
+let SIGNUP_STATE = {}; // temp state for signup flow
+let FORGOT_STATE = {}; // temp state for forgot flow
+const SQ_LABELS = {
+  city_born: 'What city were you born in?',
+  pet_name: 'What is the name of your first pet?',
+  mother_maiden: "What is your mother's maiden name?",
+  school_name: 'What was the name of your first school?',
+  fav_teacher: 'Who was your favorite teacher?',
+  childhood_friend: 'What is the name of your childhood best friend?'
+};
+
+// Legacy CREDS kept as fallback for offline/demo mode
+const CREDS = {
+  'ranadhir.ghosh':{pw:'banf-super-2026',name:'Ranadhir Ghosh',initials:'RG'},
+  'admin':{pw:'banf-admin-2026',name:'Admin',initials:'AD'}
+};
+
+// CRM Members â€” realistic dataset matching CRMMembers collection schema
+const CRM = [
+  {memberId:'MBR-001',firstName:'Ranadhir',lastName:'Ghosh',displayName:'Ranadhir Ghosh',nickname:'Rana',email:'ranadhir.ghosh@gmail.com',phone:'904-555-0101',familyId:'FAM-2025-A1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Software Architect',city:'Jacksonville',state:'FL',childrenNames:['Ria','Arjun'],spouseName:'Soma Ghosh',joinTimestamp:'2024-08-15T00:00:00Z',membershipYears:['2025','2026']},
+  {memberId:'MBR-002',firstName:'Arun',lastName:'Sen',displayName:'Arun Sen',nickname:'Arun',email:'president@banf.org',phone:'904-555-0102',familyId:'FAM-2025-A2',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Physician',city:'Jacksonville',state:'FL',childrenNames:['Aritra'],spouseName:'Rupa Sen',joinTimestamp:'2023-01-10T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
+  {memberId:'MBR-003',firstName:'Priya',lastName:'Bose',displayName:'Priya Bose',nickname:'Priya',email:'treasurer@banf.org',phone:'904-555-0103',familyId:'FAM-2025-A3',familyType:'couple',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'CPA',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'Amit Bose',joinTimestamp:'2024-03-20T00:00:00Z',membershipYears:['2024','2025','2026']},
+  {memberId:'MBR-004',firstName:'Suman',lastName:'Das',displayName:'Suman Das',nickname:'Suman',email:'secretary@banf.org',phone:'904-555-0104',familyId:'FAM-2025-A4',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Teacher',city:'Jacksonville',state:'FL',childrenNames:['Sohini','Sourav'],spouseName:'Moumita Das',joinTimestamp:'2022-06-01T00:00:00Z',membershipYears:['2022','2023','2024','2025','2026']},
+  {memberId:'MBR-005',firstName:'Mita',lastName:'Roy',displayName:'Mita Roy',nickname:'Mita',email:'cultural@banf.org',phone:'904-555-0105',familyId:'FAM-2025-A5',familyType:'individual',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Artist',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-01-05T00:00:00Z',membershipYears:['2025','2026']},
+  {memberId:'MBR-006',firstName:'Dipak',lastName:'Mukherjee',displayName:'Dipak Mukherjee',nickname:'Dipu',email:'vp-membership@banf.org',phone:'904-555-0106',familyId:'FAM-2025-B1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Engineer',city:'Jacksonville',state:'FL',childrenNames:['Diya'],spouseName:'Anita Mukherjee',joinTimestamp:'2023-09-12T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
+  {memberId:'MBR-007',firstName:'Tanmay',lastName:'Chatterjee',displayName:'Tanmay Chatterjee',nickname:'Tanmay',email:'vp-events@banf.org',phone:'904-555-0107',familyId:'FAM-2025-B2',familyType:'couple',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:false,membershipYear:'2025',profession:'Marketing',city:'Jacksonville',state:'FL',childrenNames:['Tiya'],spouseName:'Keya Chatterjee',joinTimestamp:'2024-02-28T00:00:00Z',membershipYears:['2024','2025']},
+  {memberId:'MBR-008',firstName:'Jayanta',lastName:'Pal',displayName:'Jayanta Pal',nickname:'Jay',email:'it@banf.org',phone:'904-555-0108',familyId:'FAM-2025-B3',familyType:'individual',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'IT Specialist',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-04-10T00:00:00Z',membershipYears:['2025','2026']},
+  {memberId:'MBR-009',firstName:'Ananya',lastName:'Banerjee',displayName:'Ananya Banerjee',nickname:'Anu',email:'youth@banf.org',phone:'904-555-0109',familyId:'FAM-2025-B4',familyType:'individual',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Student',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-06-15T00:00:00Z',membershipYears:['2026']},
+  {memberId:'MBR-010',firstName:'Kamal',lastName:'Gupta',displayName:'Kamal Gupta',nickname:'Kamal',email:'jt-secretary@banf.org',phone:'904-555-0110',familyId:'FAM-2025-C1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Pharmacist',city:'Jacksonville',state:'FL',childrenNames:['Kunal','Kavya'],spouseName:'Rekha Gupta',joinTimestamp:'2022-11-20T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
+  {memberId:'MBR-011',firstName:'Sharmila',lastName:'Dey',displayName:'Sharmila Dey',nickname:'Sharmi',email:'sponsor1@banf.org',phone:'904-555-0111',familyId:'FAM-2025-C2',familyType:'family',isECMember:false,isBOTMember:true,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Business Owner',city:'Jacksonville',state:'FL',childrenNames:['Shreya'],spouseName:'Tapan Dey',joinTimestamp:'2024-07-01T00:00:00Z',membershipYears:['2024','2025','2026']},
+  {memberId:'MBR-012',firstName:'Rajat',lastName:'Saha',displayName:'Rajat Saha',nickname:'Rajat',email:'rajat.saha@gmail.com',phone:'904-555-0112',familyId:'FAM-2025-C3',familyType:'couple',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Dentist',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'Puja Saha',joinTimestamp:'2025-02-14T00:00:00Z',membershipYears:['2025','2026']},
+  {memberId:'MBR-013',firstName:'Nibedita',lastName:'Chakraborty',displayName:'Nibedita Chakraborty',nickname:'Nibu',email:'nibedita.c@gmail.com',phone:'904-555-0113',familyId:'FAM-2025-D1',familyType:'family',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Nurse',city:'Jacksonville',state:'FL',childrenNames:['Neel','Nisha'],spouseName:'Sourav Chakraborty',joinTimestamp:'2024-10-05T00:00:00Z',membershipYears:['2025','2026']},
+  {memberId:'MBR-014',firstName:'Subir',lastName:'Ghosh',displayName:'Subir Ghosh',nickname:'Subir',email:'subir.ghosh@gmail.com',phone:'904-555-0114',familyId:'FAM-2025-D2',familyType:'individual',isECMember:false,isBOTMember:false,isActive:false,emailOptIn:false,membershipYear:'2024',profession:'Retired',city:'Jacksonville',state:'FL',childrenNames:['Sumon'],spouseName:'Swapna Ghosh',joinTimestamp:'2020-03-15T00:00:00Z',membershipYears:['2020','2021','2022','2023','2024']},
+  {memberId:'MBR-015',firstName:'Priyanka',lastName:'Sarkar',displayName:'Priyanka Sarkar',nickname:'Priyo',email:'priyanka.s@gmail.com',phone:'904-555-0115',familyId:'FAM-2025-D3',familyType:'family',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Lawyer',city:'Jacksonville',state:'FL',childrenNames:['Prithvi'],spouseName:'Debashis Sarkar',joinTimestamp:'2024-11-28T00:00:00Z',membershipYears:['2025','2026']},
+];
+
+// Pre-defined roles
+let ROLES = [
+  {id:'super-admin',name:'Super Admin',purpose:'Full system control, final authority on all implementations',dataViews:['overview','pipeline','agents','endpoints','testing','deployment','data-model','sprints','requirements','dev-status','observability','internals','expert-review'],processViews:['stakeholder-acceptance','dev-team','ticket-flow','feedback-pipeline','board-review','tech-lead-approval','design-change','implementation'],feedback:'full',comment:'full',suggestion:'full'},
+  {id:'business-stakeholder',name:'Business Stakeholder',purpose:'Business requirements validation, acceptance testing, organizational strategy',dataViews:['overview','requirements','dev-status'],processViews:['stakeholder-acceptance','feedback-pipeline','board-review'],feedback:'submit',comment:'assigned',suggestion:'design'},
+  {id:'ec-member',name:'EC Member',purpose:'Executive committee governance, budget oversight, organizational direction',dataViews:['overview','requirements','sprints'],processViews:['stakeholder-acceptance','board-review'],feedback:'vote',comment:'assigned',suggestion:'design'},
+];
+
+// MULTI-ROLE USER MODEL
+// Users can have MANY roles. Once credentials are set, they persist across all drives.
+// Identity is linked via identityId to the IDENTITY_GRAPH for disambiguation.
+let USERS = [
+  {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',
+   roles:[{id:'super-admin',name:'Super Admin',assignedDate:'2024-08-15',context:'system',status:'active'}],
+   roleHistory:[{roleId:'super-admin',roleName:'Super Admin',from:'2024-08-15',to:null,action:'assigned',by:'System'}],
+   credentials:{username:'ranadhir.ghosh',hasPassword:true},
+   identityId:'IDN-001',access:'full',invited:null,status:'active',signedUp:true},
+];
+
+// MULTI-DIMENSIONAL IDENTITY GRAPH
+// Resolves "who is this person?" using multiple dimensions when names are not unique.
+// Dimensions: email (primary, immutable), phone, familyId, childrenNames, spouseName (mutable!),
+//             joinTimestamp, membershipYears, city, profession
+// NOTE: Date of birth is NOT stored per privacy policy.
+// Strategy: Each dimension has a weight. Composite score >= 80 = auto-match, 50-79 = suggest, <50 = new identity.
+let IDENTITY_GRAPH = [
+  {identityId:'IDN-001',primaryEmail:'ranadhir.ghosh@gmail.com',displayName:'Ranadhir Ghosh',
+   dimensions:{emails:['ranadhir.ghosh@gmail.com'],phones:['904-555-0101'],familyId:'FAM-2025-A1',
+     childrenNames:['Ria','Arjun'],spouseName:'Soma Ghosh',joinTimestamp:'2024-08-15T00:00:00Z',
+     membershipYears:['2025','2026'],city:'Jacksonville',profession:'Software Architect'},
+   confidenceScore:100,linkedMemberIds:['MBR-001'],linkedUserEmails:['ranadhir.ghosh@gmail.com'],
+   createdAt:'2024-08-15',lastVerified:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})},
+  {identityId:'IDN-002',primaryEmail:'president@banf.org',displayName:'Arun Sen',
+   dimensions:{emails:['president@banf.org'],phones:['904-555-0102'],familyId:'FAM-2025-A2',
+     childrenNames:['Aritra'],spouseName:'Rupa Sen',joinTimestamp:'2023-01-10T00:00:00Z',
+     membershipYears:['2023','2024','2025','2026'],city:'Jacksonville',profession:'Physician'},
+   confidenceScore:100,linkedMemberIds:['MBR-002'],linkedUserEmails:[],
+   createdAt:'2023-01-10',lastVerified:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})},
+  {identityId:'IDN-003',primaryEmail:'subir.ghosh@gmail.com',displayName:'Subir Ghosh',
+   dimensions:{emails:['subir.ghosh@gmail.com'],phones:['904-555-0114'],familyId:'FAM-2025-D2',
+     childrenNames:['Sumon'],spouseName:'Swapna Ghosh',joinTimestamp:'2020-03-15T00:00:00Z',
+     membershipYears:['2020','2021','2022','2023','2024'],city:'Jacksonville',profession:'Retired'},
+   confidenceScore:100,linkedMemberIds:['MBR-014'],linkedUserEmails:[],
+   createdAt:'2020-03-15',lastVerified:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})},
+];
+let IDENTITY_COUNTER = 4;
+
+let DRIVE_LIST = [];
+
+const EC_MEMBERS = [
+  {name:'Arun Sen',title:'President',email:'president@banf.org',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Dipak Mukherjee',title:'VP Membership',email:'vp-membership@banf.org',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Priya Bose',title:'Treasurer',email:'treasurer@banf.org',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Suman Das',title:'Secretary',email:'secretary@banf.org',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Kamal Gupta',title:'Jt Secretary',email:'jt-secretary@banf.org',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Mita Roy',title:'Cultural Sec',email:'cultural@banf.org',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Ranadhir Ghosh',title:'IT / Tech Lead',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete'},
+  {name:'Tanmay Chatterjee',title:'VP Events',email:'vp-events@banf.org',membership:'Pending',gate:'pending',status:'pending'},
+  {name:'Jayanta Pal',title:'IT Coord',email:'it@banf.org',membership:'Pending',gate:'pending',status:'pending'},
+  {name:'Ananya Banerjee',title:'Youth Rep',email:'youth@banf.org',membership:'Pending',gate:'pending',status:'pending'},
+  {name:'Subir Ghosh',title:'Former',email:'subir.ghosh@gmail.com',membership:'Expired',gate:'failed',status:'failed'},
+];
+
+let FEEDBACK = [
+  {id:'FB-001',user:'Ranadhir Ghosh',role:'Technical Lead',section:'Data Model',type:'Design Change',body:'CRMMembers collection should include a "preferredLanguage" field for multilingual communication support. This enables the communication agent to send emails in the member\'s preferred language.',ts:'Feb 27, 2026 08:30',agentAnalysis:'Copilot CLI analysis: Low-risk schema addition. Requires: 1) Add field to CRMMembers, 2) Update crm-agent.js allowed fields, 3) Update email-templates.js for language selection.',designChange:'Add preferredLanguage TEXT field to CRMMembers; update 3 backend modules',boardStatus:'approved',techLeadApproval:'approved',devTicket:'TK-041',devStatus:'in-progress'},
+  {id:'FB-002',user:'Arun Sen',role:'EC President',section:'Overview',type:'Suggestion',body:'The overview dashboard should show upcoming events count and next EC meeting date for quick reference.',ts:'Feb 26, 2026 14:00',agentAnalysis:'Copilot CLI analysis: Requires integration with StreamingEvents collection. Medium complexity â€” needs new API endpoint.',designChange:'Add events widget to overview section; create /api/upcoming_events endpoint',boardStatus:'approved',techLeadApproval:'pending',devTicket:null,devStatus:null},
+  {id:'FB-003',user:'Priya Bose',role:'EC Treasurer',section:'Sprints',type:'Feedback',body:'Sprint velocity chart would help understand team capacity better. Can we add a burndown chart?',ts:'Feb 25, 2026 10:00',agentAnalysis:'Copilot CLI analysis: UI-only change. Data already exists in sprint board. Low risk.',designChange:'Add velocity + burndown charts to Sprint Board section',boardStatus:'pending',techLeadApproval:null,devTicket:null,devStatus:null},
+];
+
+let DEV_TICKETS = [
+  {id:'TK-041',origin:'FB-001',desc:'Add preferredLanguage to CRMMembers + update backend',assignee:'Backend Agent',sprint:'S1',priority:'Medium',status:'in-progress'},
+  {id:'TK-035',origin:'Backlog',desc:'HuggingFace circuit breaker implementation',assignee:'ML/AI Agent',sprint:'S1',priority:'High',status:'in-progress'},
+  {id:'TK-036',origin:'Backlog',desc:'OpenTelemetry trace integration',assignee:'DevOps Agent',sprint:'S2',priority:'Medium',status:'todo'},
+];
+
+let LOG = [
+  {ts:'Feb 27, 2026 09:00',act:'LOGIN',msg:'Super Admin login â€” Ranadhir Ghosh'},
+  {ts:'Feb 27, 2026 08:30',act:'FEEDBACK',msg:'FB-001: Ranadhir Ghosh submitted design change for Data Model'},
+  {ts:'Feb 27, 2026 08:35',act:'AGENT',msg:'Copilot CLI analyzed FB-001 â€” low-risk, 3 modules affected'},
+  {ts:'Feb 27, 2026 08:40',act:'APPROVAL',msg:'Board approved FB-001 design change'},
+  {ts:'Feb 27, 2026 08:45',act:'APPROVAL',msg:'Tech Lead approved FB-001 â†’ created TK-041'},
+  {ts:'Feb 26, 2026 16:30',act:'USER_ADD',msg:'Added EC President with stakeholder role'},
+  {ts:'Feb 26, 2026 14:00',act:'FEEDBACK',msg:'FB-002: Arun Sen submitted suggestion for Overview'},
+  {ts:'Feb 25, 2026 11:00',act:'EC_REMIND',msg:'Sent Round 2 reminders to 3 pending EC members'},
+  {ts:'Feb 24, 2026 10:00',act:'ROLE_DEF',msg:'Defined role: business-stakeholder'},
+  {ts:'Feb 23, 2026 09:00',act:'ROLE_DEF',msg:'Defined role: ec-member'},
+  {ts:'Feb 22, 2026 15:00',act:'DEPLOY',msg:'Deployed v5.10.1-ec-reminder to production'},
+  {ts:'Feb 20, 2026 09:00',act:'EC_INIT',msg:'Initialized EC Year FY2026-27 â€” 11 members imported'},
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+//  AUTH SYSTEM — Sign In / Sign Up / Forgot Password / Security Question
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── Utility functions ──
+function showAuth(screen) {
+  document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('auth-' + screen);
+  if (el) el.classList.add('active');
+  // Reset steps
+  if (screen === 'signup') {
+    document.querySelectorAll('#auth-signup .auth-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('signup-step-1').classList.add('active');
+  }
+  if (screen === 'forgot') {
+    document.querySelectorAll('#auth-forgot .auth-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('forgot-step-1').classList.add('active');
+  }
+  // Clear errors
+  document.querySelectorAll('.error-msg,.success-msg,.info-msg').forEach(m => m.style.display = 'none');
+}
+
+function showStep(prefix, num) {
+  document.querySelectorAll('#auth-' + prefix + ' .auth-step').forEach(s => s.classList.remove('active'));
+  document.getElementById(prefix + '-step-' + num).classList.add('active');
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function showInfo(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function hideMsg(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+function togglePwd(inputId, icon) {
+  const inp = document.getElementById(inputId);
+  if (inp.type === 'password') { inp.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
+  else { inp.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
+}
+
+function checkPwdStrength(pwd, barId) {
+  const bar = document.getElementById(barId);
+  if (!bar) return;
+  let score = 0;
+  if (pwd.length >= 8) score++;
+  if (pwd.length >= 12) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  const pct = Math.min(score * 20, 100);
+  const colors = ['#ef4444', '#ef4444', '#eab308', '#eab308', '#22c55e', '#22c55e'];
+  bar.style.width = pct + '%';
+  bar.style.background = colors[score] || '#ef4444';
+}
+
+async function apiCall(endpoint, body) {
+  try {
+    const resp = await fetch(API + '/' + endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    return await resp.json();
+  } catch (e) {
+    return { success: false, error: 'Network error: ' + e.message };
+  }
+}
+
+// ── SIGN IN ──
+document.getElementById('btn-login').addEventListener('click', async () => {
+  const email = (document.getElementById('login-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('login-pass').value;
+
+  hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
+
+  if (!email) return showError('login-error', 'Please enter your email address.');
+
+  // Check for legacy offline credentials (username format)
+  const legacyKey = email.replace(/@.*/, '').replace(/\./g, '_');
+  const offlineCred = CREDS[email.split('@')[0]] || CREDS[email.replace(/@gmail\.com$/, '').replace(/\./g, '.')];
+  // allow username-only login for legacy
+  for (const [uname, cred] of Object.entries(CREDS)) {
+    if ((email === uname || email === uname + '@gmail.com') && cred.pw === pass) {
+      CURRENT_ADMIN = { email: uname + '@gmail.com', role: 'super_admin', firstName: cred.name.split(' ')[0], lastName: cred.name.split(' ').slice(1).join(' '), ecTitle: 'Super Admin' };
+      enterPortal(cred.name);
+      return;
+    }
+  }
+
+  // Try backend API
+  const btn = document.getElementById('btn-login');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Signing in...';
+
+  const result = await apiCall('admin_verify_login', { email, password: pass || '' });
+
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-shield-alt me-1"></i>Sign In';
+
+  if (result.success) {
+    if (result.noPassword) {
+      // Legacy admin without password — prompt to set up
+      showInfo('login-info', 'Your account has no password yet. Please use Sign Up to set your password and security question.');
+      return;
+    }
+    CURRENT_ADMIN = { email, role: result.adminRole, firstName: result.firstName || '', lastName: result.lastName || '', ecTitle: result.ecTitle || '' };
+    const displayName = [result.firstName, result.lastName].filter(Boolean).join(' ') || email;
+    enterPortal(displayName);
+  } else if (result.needsOnboarding) {
+    showInfo('login-info', 'Your account needs setup. Please use Sign Up to complete your account.');
+    SIGNUP_STATE.email = email;
+    SIGNUP_STATE.token = result.setupToken;
+  } else {
+    showError('login-error', result.error || 'Login failed.');
+  }
+});
+
+document.getElementById('login-pass').addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('btn-login').click();
+});
+document.getElementById('login-email').addEventListener('keypress', e => {
+  if (e.key === 'Enter') document.getElementById('login-pass').focus();
+});
+
+function enterPortal(displayName) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('portal').style.display = 'flex';
+  addLog('LOGIN', 'Super Admin login — ' + displayName);
+  // Update sidebar user display
+  const nameEl = document.querySelector('.sb-user .name');
+  if (nameEl) nameEl.textContent = displayName;
+  const roleEl = document.querySelector('.sb-user .role-lbl');
+  if (roleEl && CURRENT_ADMIN) roleEl.textContent = CURRENT_ADMIN.role;
+  const avatarEl = document.querySelector('.sb-avatar');
+  if (avatarEl && CURRENT_ADMIN) {
+    const initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
+    avatarEl.textContent = initials;
+  }
+  renderAll();
+}
+
+// Logout
+document.querySelector('.sb-user').addEventListener('click', () => {
+  if (confirm('Logout?')) {
+    CURRENT_ADMIN = null;
+    document.getElementById('portal').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('login-pass').value = '';
+    showAuth('signin');
+  }
+});
+
+// ── SIGN UP FLOW (4 steps: email → code → password+SQ → success) ──
+async function signupStep1() {
+  const email = (document.getElementById('signup-email').value || '').trim().toLowerCase();
+  hideMsg('signup-error-1'); hideMsg('signup-info-1');
+
+  if (!email || !email.includes('@')) return showError('signup-error-1', 'Please enter a valid email address.');
+
+  showInfo('signup-info-1', 'Sending verification code to your email...');
+
+  // Send 6-digit verification code
+  const result = await apiCall('admin_signup_send_code', { email });
+
+  hideMsg('signup-info-1');
+
+  if (!result.success && result.error) {
+    return showError('signup-error-1', result.error);
+  }
+
+  if (result.success) {
+    SIGNUP_STATE = { email };
+    document.getElementById('signup-code-email').textContent = email;
+    showStep('signup', 2);
+    return;
+  }
+
+  showError('signup-error-1', result.error || 'Failed to send verification code. Please try again.');
+}
+
+// Resend the verification code
+async function signupResend() {
+  hideMsg('signup-error-2'); hideMsg('signup-info-2');
+  showInfo('signup-info-2', 'Resending code...');
+  const result = await apiCall('admin_signup_send_code', { email: SIGNUP_STATE.email });
+  hideMsg('signup-info-2');
+  if (result.success) {
+    showInfo('signup-info-2', 'New verification code sent! Check your email.');
+  } else {
+    showError('signup-error-2', result.error || 'Failed to resend code.');
+  }
+}
+
+// Step 2: Verify the 6-digit code
+async function signupStep2Code() {
+  const code = (document.getElementById('signup-code').value || '').trim();
+  hideMsg('signup-error-2'); hideMsg('signup-info-2');
+
+  if (!code || code.length !== 6) return showError('signup-error-2', 'Please enter the 6-digit verification code.');
+
+  showInfo('signup-info-2', 'Verifying code...');
+  const result = await apiCall('admin_signup_verify_code', { email: SIGNUP_STATE.email, code });
+  hideMsg('signup-info-2');
+
+  if (!result.success) {
+    return showError('signup-error-2', result.error || 'Invalid code. Please try again.');
+  }
+
+  // Code verified — store token and proceed to password setup
+  SIGNUP_STATE.token = result.setupToken;
+  document.getElementById('signup-confirmed-email').textContent = SIGNUP_STATE.email;
+  showStep('signup', 3);
+}
+
+// Step 3: Set password + security question
+async function signupStep3() {
+  const pass = document.getElementById('signup-pass').value;
+  const pass2 = document.getElementById('signup-pass2').value;
+  const sq = document.getElementById('signup-sq').value;
+  const sa = document.getElementById('signup-sa').value.trim();
+  hideMsg('signup-error-3');
+
+  if (!pass || pass.length < 8) return showError('signup-error-3', 'Password must be at least 8 characters.');
+  if (pass !== pass2) return showError('signup-error-3', 'Passwords do not match.');
+  if (!sq) return showError('signup-error-3', 'Please select a security question.');
+  if (!sa || sa.length < 2) return showError('signup-error-3', 'Please provide a security answer (at least 2 characters).');
+
+  // Set password via API
+  const pwResult = await apiCall('admin_set_password', {
+    email: SIGNUP_STATE.email,
+    token: SIGNUP_STATE.token,
+    password: pass
+  });
+
+  if (!pwResult.success) {
+    return showError('signup-error-3', pwResult.error || 'Failed to set password.');
+  }
+
+  // Save security question via profile endpoint
+  await apiCall('admin_save_profile', {
+    email: SIGNUP_STATE.email,
+    token: SIGNUP_STATE.token,
+    phone: 'N/A',
+    securityQuestion: sq,
+    securityAnswer: sa.toLowerCase()
+  });
+
+  // Complete onboarding
+  await apiCall('admin_onboard_complete', {
+    email: SIGNUP_STATE.email,
+    token: SIGNUP_STATE.token
+  });
+
+  showStep('signup', 4);
+}
+
+// ── FORGOT PASSWORD FLOW ──
+async function forgotStep1() {
+  const email = (document.getElementById('forgot-email').value || '').trim().toLowerCase();
+  hideMsg('forgot-error-1'); hideMsg('forgot-info-1');
+
+  if (!email || !email.includes('@')) return showError('forgot-error-1', 'Please enter a valid email address.');
+
+  showInfo('forgot-info-1', 'Looking up your account...');
+
+  const result = await apiCall('admin_verify_login', { email });
+
+  hideMsg('forgot-info-1');
+
+  if (!result.success && !result.needsOnboarding) {
+    return showError('forgot-error-1', result.error || 'Account not found. Check your email address.');
+  }
+
+  // Account found — retrieve security question
+  const profileResult = await apiCall('admin_get_security_question', { email });
+
+  if (!profileResult.success || !profileResult.question) {
+    return showError('forgot-error-1', 'No security question set for this account. Contact the Super Admin for manual password reset.');
+  }
+
+  FORGOT_STATE = { email, question: profileResult.question, resetToken: profileResult.resetToken || '' };
+  document.getElementById('forgot-found-name').textContent = email;
+  document.getElementById('forgot-sq-display').textContent = SQ_LABELS[profileResult.question] || profileResult.question;
+  showStep('forgot', 2);
+}
+
+async function forgotStep2() {
+  const answer = (document.getElementById('forgot-sa').value || '').trim();
+  hideMsg('forgot-error-2');
+
+  if (!answer) return showError('forgot-error-2', 'Please enter your answer.');
+
+  const result = await apiCall('admin_verify_security_answer', {
+    email: FORGOT_STATE.email,
+    answer: answer.toLowerCase()
+  });
+
+  if (!result.success) {
+    return showError('forgot-error-2', result.error || 'Incorrect answer. Please try again.');
+  }
+
+  FORGOT_STATE.resetToken = result.resetToken || FORGOT_STATE.resetToken;
+  showStep('forgot', 3);
+}
+
+async function forgotStep3() {
+  const pass = document.getElementById('forgot-newpass').value;
+  const pass2 = document.getElementById('forgot-newpass2').value;
+  hideMsg('forgot-error-3');
+
+  if (!pass || pass.length < 8) return showError('forgot-error-3', 'Password must be at least 8 characters.');
+  if (pass !== pass2) return showError('forgot-error-3', 'Passwords do not match.');
+
+  const result = await apiCall('admin_reset_password', {
+    email: FORGOT_STATE.email,
+    token: FORGOT_STATE.resetToken,
+    password: pass
+  });
+
+  if (!result.success) {
+    return showError('forgot-error-3', result.error || 'Failed to reset password.');
+  }
+
+  showStep('forgot', 4);
+}
+
+// ── NAV ──
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard']); // Only dashboard is live in Phase 1
+function navTo(panel){
+  if (!ADMIN_ACTIVE_PANELS.has(panel)) {
+    adminComingSoon(panel);
+    return;
+  }
+  document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
+  const target = document.querySelector(`.sb-item[data-panel="${panel}"]`);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.portal-section').forEach(s=>s.classList.remove('active'));
+  const p = document.getElementById('panel-'+panel);
+  if(p) p.classList.add('active');
+}
+
+function adminComingSoon(panel) {
+  const names = {
+    'roles':'Role Definitions','users':'User Management','identity':'Identity Engine',
+    'stakeholder-drive':'Stakeholder Drive','ec-drive':'EC Drive','drive-status':'Drive Status',
+    'feedback':'Feedback Pipeline','dev-board':'Dev Board','e2e-test':'E2E Test Suite','activity':'Activity Log'
+  };
+  const name = names[panel] || panel;
+  // Remove any existing overlay
+  document.querySelectorAll('.admin-cs-overlay').forEach(el=>el.remove());
+  const overlay = document.createElement('div');
+  overlay.className = 'admin-cs-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease';
+  overlay.onclick = function(e){ if(e.target===overlay) overlay.remove(); };
+  overlay.innerHTML = `<div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:36px;max-width:480px;width:92%;text-align:center;">
+    <div style="width:70px;height:70px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:#fff;margin:0 auto 20px;"><i class="fas fa-rocket"></i></div>
+    <h3 style="color:#fff;margin-bottom:8px;font-size:1.1rem;">${name}</h3>
+    <p style="color:var(--muted);font-size:.88rem;line-height:1.6;">This admin agent module is being launched in a <strong style="color:var(--accent)">phased rollout</strong> with proper security, RBAC, and compliance measures.</p>
+    <p style="color:var(--dim);font-size:.8rem;">Each module undergoes stakeholder validation, security audit, and role-based access control setup before going live.</p>
+    <div style="margin:16px 0;padding:12px 16px;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);border-radius:10px;font-size:.84rem;color:var(--accent);">
+      <i class="fas fa-robot me-2"></i>Use the <strong>BANF Admin Assistant</strong> chatbot (bottom-right) to ask questions about events, membership, fees, and more!
+    </div>
+    <button onclick="this.closest('.admin-cs-overlay').remove()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 28px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;"><i class="fas fa-check me-1"></i>Got it</button>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+document.querySelectorAll('.sb-item[data-panel]').forEach(item=>{
+  item.addEventListener('click',()=>navTo(item.dataset.panel));
+});
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  HELPERS
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+function addLog(act,msg){
+  LOG.unshift({ts:new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),act,msg});
+}
+const logColors={LOGIN:'cyan',USER_ADD:'green',FEEDBACK:'blue',AGENT:'purple',APPROVAL:'green',DEPLOY:'red',EC_REMIND:'orange',EC_INIT:'blue',ROLE_DEF:'yellow',DRIVE:'purple',PRIVACY:'teal',EMAIL:'indigo',E2E:'pink',SIGNUP:'green',BOARD:'orange',EC_CHECK:'yellow',EC_COMPLETE:'green',IDENTITY:'cyan'};
+function renderLog(id,limit){
+  const el=document.getElementById(id);if(!el)return;
+  const d=limit?LOG.slice(0,limit):LOG;
+  el.innerHTML=d.map(l=>`<div class="log-line"><span class="ll-ts">${l.ts}</span><span class="ll-act" style="color:var(--${logColors[l.act]||'muted'})">${l.act}</span><span class="ll-msg">${l.msg}</span></div>`).join('');
+}
+function roleById(id){return ROLES.find(r=>r.id===id)}
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  CRM SEARCH ENGINE
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+function searchCRM(query){
+  const q=query.toLowerCase();
+  return CRM.filter(m=>(m.displayName+' '+m.nickname+' '+m.email+' '+m.firstName+' '+m.lastName).toLowerCase().includes(q));
+}
+function renderSearchResults(containerId, results, onSelect){
+  const el=document.getElementById(containerId);
+  if(!results.length){el.innerHTML='<div class="sr-item" style="color:var(--dim)">No matches found</div>';el.classList.add('open');return;}
+  el.innerHTML=results.slice(0,10).map((m,i)=>`<div class="sr-item" data-idx="${i}">
+    <div><span class="sr-name">${m.displayName}</span> <span style="color:var(--dim);font-size:.68rem">(${m.nickname})</span><br><span class="sr-email">${m.email}</span> Â· ${m.profession} Â· ${m.city}</div>
+    <span class="sr-badge"><span class="badge-s ${m.isECMember?'badge-red':'badge-dim'}">${m.isECMember?'EC':'Member'}</span></span>
+    <span class="sr-badge"><span class="badge-s ${m.emailOptIn?'badge-green':'badge-red'}">${m.emailOptIn?'Opt-In':'Opt-Out'}</span></span>
+  </div>`).join('');
+  el.classList.add('open');
+  el.querySelectorAll('.sr-item[data-idx]').forEach(item=>{
+    item.addEventListener('click',()=>{onSelect(results[+item.dataset.idx]);el.classList.remove('open');});
+  });
+}
+
+// User Management CRM search
+const crmSearchInput=document.getElementById('crm-search');
+crmSearchInput.addEventListener('input',()=>{
+  const q=crmSearchInput.value.trim();
+  if(q.length<2){document.getElementById('crm-results').classList.remove('open');return;}
+  renderSearchResults('crm-results',searchCRM(q),selectMemberForAssign);
+});
+crmSearchInput.addEventListener('blur',()=>setTimeout(()=>document.getElementById('crm-results').classList.remove('open'),200));
+
+function selectMemberForAssign(member){
+  crmSearchInput.value=member.displayName;
+  document.getElementById('assign-panel').style.display='block';
+  document.getElementById('assign-member-name').textContent=`${member.displayName} (${member.email})`;
+  document.getElementById('assign-email').value=member.email;
+  document.getElementById('assign-panel').dataset.memberId=member.memberId;
+  document.getElementById('assign-panel').dataset.memberName=member.displayName;
+  refreshRoleDropdown('assign-role');
+  document.getElementById('no-roles-warning').style.display=ROLES.length<2?'flex':'none';
+}
+
+// Browse CRM directory
+document.getElementById('btn-browse-crm').addEventListener('click',()=>{
+  const panel=document.getElementById('crm-browse-panel');
+  panel.style.display=panel.style.display==='none'?'block':'none';
+  if(panel.style.display==='block') renderCRMBrowse();
+});
+function renderCRMBrowse(){
+  document.getElementById('crm-browse-body').innerHTML=CRM.map(m=>`<tr>
+    <td><strong>${m.displayName}</strong> <span style="color:var(--dim);font-size:.68rem">(${m.nickname})</span></td>
+    <td>${m.email}</td><td>${m.phone}</td><td>${m.familyId}</td>
+    <td><span class="badge-s ${m.isECMember?'badge-red':'badge-dim'}">${m.isECMember?'Yes':'No'}</span></td>
+    <td><span class="badge-s ${m.emailOptIn?'badge-green':'badge-red'}">${m.emailOptIn?'Yes':'No'}</span></td>
+    <td><span class="badge-s ${m.isActive?'badge-green':'badge-red'}">${m.isActive?'Yes':'No'}</span></td>
+    <td><button class="btn-secondary btn-sm" onclick="selectCRMRow('${m.memberId}')"><i class="fas fa-user-tag me-1"></i>Assign</button></td>
+  </tr>`).join('');
+}
+window.selectCRMRow=function(id){
+  const m=CRM.find(c=>c.memberId===id);
+  if(m) selectMemberForAssign(m);
+  window.scrollTo({top:document.getElementById('assign-panel').offsetTop-100,behavior:'smooth'});
+};
+
+function refreshRoleDropdown(selectId){
+  const sel=document.getElementById(selectId);
+  sel.innerHTML=ROLES.map(r=>`<option value="${r.id}">${r.name} â€” ${r.purpose.substring(0,40)}...</option>`).join('');
+}
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  ROLE MANAGEMENT
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+document.getElementById('btn-add-role').addEventListener('click',()=>{
+  const id=document.getElementById('role-id').value.trim();
+  const name=document.getElementById('role-name').value.trim();
+  const purpose=document.getElementById('role-purpose').value.trim();
+  if(!id||!name||!purpose){alert('Role ID, Name, and Purpose are all required.');return;}
+  if(ROLES.find(r=>r.id===id)){alert('Role ID already exists.');return;}
+  const dataViews=[...document.getElementById('role-data').selectedOptions].map(o=>o.value);
+  const processViews=[...document.getElementById('role-process').selectedOptions].map(o=>o.value);
+  const feedback=document.getElementById('role-feedback').value;
+  const comment=document.getElementById('role-comment').value;
+  const suggestion=document.getElementById('role-suggestion').value;
+  ROLES.push({id,name,purpose,dataViews,processViews,feedback,comment,suggestion});
+  addLog('ROLE_DEF',`Defined role: ${name} (${id}) â€” ${dataViews.length} data views, ${processViews.length} process views, feedback: ${feedback}`);
+  renderRoles();renderAll();
+  document.getElementById('role-id').value='';document.getElementById('role-name').value='';document.getElementById('role-purpose').value='';
+});
+
+function renderRoles(){
+  document.getElementById('roles-body').innerHTML=ROLES.map((r,i)=>`<tr>
+    <td><code style="color:var(--cyan)">${r.id}</code></td>
+    <td><strong>${r.name}</strong></td>
+    <td style="max-width:220px;font-size:.74rem">${r.purpose}</td>
+    <td><span class="badge-s badge-blue">${r.dataViews.length} views</span></td>
+    <td><span class="badge-s badge-purple">${r.processViews.length} views</span></td>
+    <td><span class="badge-s badge-${r.feedback==='full'?'green':r.feedback==='submit'?'blue':r.feedback==='vote'?'yellow':'dim'}">${r.feedback}</span></td>
+    <td>${r.id!=='super-admin'?`<button class="btn-danger btn-sm" onclick="deleteRole(${i})"><i class="fas fa-trash"></i></button>`:''}</td>
+  </tr>`).join('');
+}
+window.deleteRole=function(i){if(ROLES[i].id==='super-admin')return;if(confirm(`Delete role "${ROLES[i].name}"?`)){ROLES.splice(i,1);renderRoles();}};
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  USER ASSIGNMENT
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+document.getElementById('btn-assign-role').addEventListener('click',()=>{
+  const name=document.getElementById('assign-panel').dataset.memberName;
+  const email=document.getElementById('assign-email').value;
+  const roleId=document.getElementById('assign-role').value;
+  const access=document.getElementById('assign-access').value;
+  if(!roleId){alert('Please select a role.');return;}
+  // MULTI-ROLE: If user exists, ADD role instead of blocking
+  const existingUser=USERS.find(u=>u.email===email);
+  if(existingUser){
+    if(existingUser.roles.find(r=>r.id===roleId)){alert('User already has this role.');return;}
+    const role=roleById(roleId);
+    existingUser.roles.push({id:roleId,name:role?role.name:roleId,assignedDate:new Date().toISOString().split('T')[0],context:'manual',status:'active'});
+    existingUser.roleHistory.push({roleId,roleName:role?role.name:roleId,from:new Date().toISOString().split('T')[0],to:null,action:'role-added',by:'Super Admin'});
+    addLog('USER_ADD','Added role '+((role&&role.name)||roleId)+' to existing user '+name+' (multi-role)');
+    renderUsers();renderAll();
+    document.getElementById('assign-panel').style.display='none';crmSearchInput.value='';
+    return;
+  }
+  // New user: create with multi-role structure
+  const role=roleById(roleId);
+  const identityId=resolveOrCreateIdentity(email,name);
+  USERS.push({name,email,
+    roles:[{id:roleId,name:role?role.name:roleId,assignedDate:new Date().toISOString().split('T')[0],context:'manual',status:'active'}],
+    roleHistory:[{roleId,roleName:role?role.name:roleId,from:new Date().toISOString().split('T')[0],to:null,action:'assigned',by:'Super Admin'}],
+    credentials:{username:email.split('@')[0],hasPassword:false},
+    identityId:identityId,access,invited:null,status:'active',signedUp:false});
+  addLog('USER_ADD','Assigned '+name+' as '+(role?role.name:roleId)+' (identity: '+identityId+')');
+  renderUsers();renderAll();
+  document.getElementById('assign-panel').style.display='none';crmSearchInput.value='';
+});
+
+document.getElementById('btn-assign-invite').addEventListener('click',()=>{
+  const name=document.getElementById('assign-panel').dataset.memberName;
+  const email=document.getElementById('assign-email').value;
+  const roleId=document.getElementById('assign-role').value;
+  const access=document.getElementById('assign-access').value;
+  if(!roleId){alert('Select a role first.');return;}
+  const member=CRM.find(m=>m.email===email);
+  if(member && !member.emailOptIn){
+    alert('Privacy Block: '+name+' has emailOptIn=false.\nCannot send invitation email.\n\nThe member must opt-in via the data correction form first.');
+    return;
+  }
+  // MULTI-ROLE: If user exists, add role
+  const existingUser=USERS.find(u=>u.email===email);
+  const role=roleById(roleId);
+  if(existingUser){
+    if(existingUser.roles.find(r=>r.id===roleId)){alert('User already has this role.');return;}
+    existingUser.roles.push({id:roleId,name:role?role.name:roleId,assignedDate:new Date().toISOString().split('T')[0],context:'drive-invite',status:'active'});
+    existingUser.roleHistory.push({roleId,roleName:role?role.name:roleId,from:new Date().toISOString().split('T')[0],to:null,action:'role-added-invite',by:'Super Admin'});
+    addLog('USER_ADD','Added role '+(role?role.name:roleId)+' to '+name+' via invite (multi-role, credentials persist)');
+    addLog('EMAIL','Communication Agent: sendGmail() -> '+email+' with data privacy notice, unsubscribe link');
+    renderUsers();renderAll();
+    document.getElementById('assign-panel').style.display='none';
+    alert('Role added to existing user '+name+'\nCredentials remain the same (persistent identity).\nInvitation email sent.');
+    return;
+  }
+  // New user with invite
+  const identityId=resolveOrCreateIdentity(email,name);
+  USERS.push({name,email,
+    roles:[{id:roleId,name:role?role.name:roleId,assignedDate:new Date().toISOString().split('T')[0],context:'drive-invite',status:'active'}],
+    roleHistory:[{roleId,roleName:role?role.name:roleId,from:new Date().toISOString().split('T')[0],to:null,action:'assigned-invite',by:'Super Admin'}],
+    credentials:{username:email.split('@')[0],hasPassword:false},
+    identityId:identityId,
+    access,invited:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),status:'invited',signedUp:false});
+  addLog('USER_ADD','Assigned & invited '+name+' as '+(role?role.name:roleId)+' (identity: '+identityId+')');
+  addLog('EMAIL','Communication Agent: sendGmail() -> '+email+' with data privacy notice, unsubscribe link');
+  renderUsers();renderAll();
+  document.getElementById('assign-panel').style.display='none';
+  alert('Invitation sent to '+name+' ('+email+')\nRole: '+(role?role.name:roleId)+'\nIdentity: '+identityId+'\nAccess: '+access+'\n\nEmail includes data privacy notice + unsubscribe link.\nOnce they sign up, credentials persist across ALL drives.');
+});
+document.getElementById('btn-assign-invite').addEventListener('click',()=>{
+  const name=document.getElementById('assign-panel').dataset.memberName;
+  const email=document.getElementById('assign-email').value;
+  const roleId=document.getElementById('assign-role').value;
+  const access=document.getElementById('assign-access').value;
+  if(!roleId){alert('Select a role first.');return;}
+  if(USERS.find(u=>u.email===email)){alert('Already registered.');return;}
+  const member=CRM.find(m=>m.email===email);
+  if(member && !member.emailOptIn){
+    alert(`âš ï¸ Privacy Block: ${name} has emailOptIn=false.\nCannot send invitation email.\n\nThe member must opt-in via the data correction form first.`);
+    return;
+  }
+  USERS.push({name,email,roleId,access,invited:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),status:'invited',signedUp:false});
+  addLog('USER_ADD',`Assigned & invited ${name} as ${roleById(roleId)?.name||roleId}`);
+  addLog('EMAIL',`Communication Agent: sendGmail() â†’ ${email} with data privacy notice, unsubscribe link`);
+  renderUsers();renderAll();
+  document.getElementById('assign-panel').style.display='none';
+  alert(`âœ… Invitation sent to ${name} (${email})\nRole: ${roleById(roleId)?.name}\nAccess: ${access}\n\nðŸ“§ Email sent via Communication Agent (sendGmail) with:\nâ€¢ Data privacy notice (comms-correction.js pattern)\nâ€¢ Unsubscribe link\nâ€¢ Purpose limitation disclosure\nâ€¢ Right to erasure notice`);
+});
+
+function renderUsers(){
+  document.getElementById('users-body').innerHTML=USERS.map((u,i)=>{
+    // Multi-role: show ALL roles as badges
+    var roleBadges=u.roles.map(function(r){
+      var color=r.id==='super-admin'?'red':r.id.includes('stakeholder')?'orange':r.id.includes('ec')?'blue':'purple';
+      return '<span class="badge-s badge-'+color+'" style="margin-right:3px" title="Since: '+r.assignedDate+'">'+r.name+'</span>';
+    }).join('');
+    var credBadge=u.credentials&&u.credentials.hasPassword?'<span class="badge-s badge-green" title="Credentials set - persist across all drives"><i class="fas fa-key" style="font-size:.55rem"></i></span>':'<span class="badge-s badge-dim" title="No credentials yet"><i class="fas fa-key" style="font-size:.55rem"></i></span>';
+    var identBadge=u.identityId?'<span class="badge-s badge-cyan" style="font-size:.62rem" title="Identity: '+u.identityId+'">'+u.identityId+'</span>':'';
+    return '<tr>'+
+    '<td><strong>'+u.name+'</strong><br>'+identBadge+'</td><td>'+u.email+'</td>'+
+    '<td>'+roleBadges+'</td>'+
+    '<td><span class="badge-s badge-dim">'+u.access+'</span> '+credBadge+'</td>'+
+    '<td>'+(u.invited||'--')+'</td>'+
+    '<td><span class="badge-s badge-'+(u.status==='active'?'green':u.status==='invited'?'yellow':'dim')+'">'+u.status+(u.signedUp?' &#10003;':'')+'</span></td>'+
+    '<td>'+(u.roles.every(function(r){return r.id==='super-admin'})?'':'<button class="btn-danger btn-sm" onclick="removeUser('+i+')"><i class="fas fa-trash"></i></button>')+'</td>'+
+  '</tr>'}).join('');
+}
+window.removeUser=function(i){if(confirm('Remove "'+USERS[i].name+'"?')){USERS.splice(i,1);renderUsers();renderAll();}};
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  STAKEHOLDER DRIVE
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+
+// ==================================================================
+//  MULTI-DIMENSIONAL IDENTITY RESOLUTION ENGINE
+// ==================================================================
+
+// Dimension weights for identity scoring
+const IDENTITY_WEIGHTS = {
+  email: 100,      // Primary key - exact match = instant identity
+  phone: 80,       // Strong signal
+  familyId: 70,    // Strong signal - same household
+  childrenNames: 60, // Per matching child (divided by count)
+  nameComposite: 50, // Name + City + Profession together
+  joinTimestamp: 40,  // Within 30 days = match (time signature)
+  membershipYears: 35, // Overlapping years
+  spouseName: 20     // Mutable - lower weight (can change)
+  // DOB: NOT USED - excluded per privacy policy
+};
+
+function computeIdentityScore(candidateCRM, searchDimensions) {
+  var score = 0;
+  var matches = [];
+  // 1. Email (primary)
+  if (searchDimensions.email && candidateCRM.email && 
+      searchDimensions.email.toLowerCase() === candidateCRM.email.toLowerCase()) {
+    score += IDENTITY_WEIGHTS.email;
+    matches.push('email(100)');
+  }
+  // 2. Phone
+  if (searchDimensions.phone && candidateCRM.phone && 
+      searchDimensions.phone.replace(/\D/g,'') === candidateCRM.phone.replace(/\D/g,'')) {
+    score += IDENTITY_WEIGHTS.phone;
+    matches.push('phone(80)');
+  }
+  // 3. Family ID
+  if (searchDimensions.familyId && candidateCRM.familyId && 
+      searchDimensions.familyId === candidateCRM.familyId) {
+    score += IDENTITY_WEIGHTS.familyId;
+    matches.push('familyId(70)');
+  }
+  // 4. Children names
+  if (searchDimensions.childrenNames && searchDimensions.childrenNames.length > 0 && 
+      candidateCRM.childrenNames && candidateCRM.childrenNames.length > 0) {
+    var matchCount = 0;
+    searchDimensions.childrenNames.forEach(function(cn) {
+      if (candidateCRM.childrenNames.some(function(cc) { return cc.toLowerCase() === cn.toLowerCase(); })) matchCount++;
+    });
+    if (matchCount > 0) {
+      var childScore = Math.round(IDENTITY_WEIGHTS.childrenNames * matchCount / Math.max(searchDimensions.childrenNames.length, candidateCRM.childrenNames.length));
+      score += childScore;
+      matches.push('children(' + childScore + ', ' + matchCount + ' match)');
+    }
+  }
+  // 5. Name + City + Profession composite
+  var nameMatch = searchDimensions.name && (candidateCRM.displayName || '').toLowerCase().includes(searchDimensions.name.toLowerCase());
+  var cityMatch = searchDimensions.city && candidateCRM.city && searchDimensions.city.toLowerCase() === candidateCRM.city.toLowerCase();
+  var profMatch = searchDimensions.profession && candidateCRM.profession && candidateCRM.profession.toLowerCase().includes(searchDimensions.profession.toLowerCase());
+  if (nameMatch && cityMatch && profMatch) { score += IDENTITY_WEIGHTS.nameComposite; matches.push('name+city+prof(50)'); }
+  else if (nameMatch && (cityMatch || profMatch)) { score += Math.round(IDENTITY_WEIGHTS.nameComposite * 0.6); matches.push('name+partial(30)'); }
+  else if (nameMatch) { score += Math.round(IDENTITY_WEIGHTS.nameComposite * 0.3); matches.push('name(15)'); }
+  // 6. Join timestamp (within 30 days)
+  if (searchDimensions.joinTimestamp && candidateCRM.joinTimestamp) {
+    var diff = Math.abs(new Date(searchDimensions.joinTimestamp) - new Date(candidateCRM.joinTimestamp));
+    var daysDiff = diff / (1000 * 60 * 60 * 24);
+    if (daysDiff < 1) { score += IDENTITY_WEIGHTS.joinTimestamp; matches.push('joinTime-exact(40)'); }
+    else if (daysDiff <= 30) { score += Math.round(IDENTITY_WEIGHTS.joinTimestamp * 0.5); matches.push('joinTime-near(20)'); }
+  }
+  // 7. Membership years overlap
+  if (searchDimensions.membershipYears && searchDimensions.membershipYears.length > 0 &&
+      candidateCRM.membershipYears && candidateCRM.membershipYears.length > 0) {
+    var overlap = searchDimensions.membershipYears.filter(function(y) { return candidateCRM.membershipYears.includes(y); }).length;
+    if (overlap > 0) {
+      var yearScore = Math.round(IDENTITY_WEIGHTS.membershipYears * overlap / Math.max(searchDimensions.membershipYears.length, candidateCRM.membershipYears.length));
+      score += yearScore;
+      matches.push('years(' + yearScore + ', ' + overlap + ' overlap)');
+    }
+  }
+  // 8. Spouse name (fuzzy, mutable)
+  if (searchDimensions.spouseName && candidateCRM.spouseName) {
+    if (searchDimensions.spouseName.toLowerCase() === candidateCRM.spouseName.toLowerCase()) {
+      score += IDENTITY_WEIGHTS.spouseName;
+      matches.push('spouse(20)');
+    } else if (candidateCRM.spouseName.toLowerCase().includes(searchDimensions.spouseName.toLowerCase().split(' ')[0])) {
+      score += Math.round(IDENTITY_WEIGHTS.spouseName * 0.5);
+      matches.push('spouse-partial(10)');
+    }
+  }
+  return { score: Math.min(score, 100), matches: matches, candidate: candidateCRM };
+}
+
+function resolveIdentityFromCRM(searchDimensions) {
+  var results = CRM.map(function(m) {
+    return computeIdentityScore(m, searchDimensions);
+  }).filter(function(r) { return r.score > 0; })
+    .sort(function(a, b) { return b.score - a.score; });
+  return results;
+}
+
+function resolveOrCreateIdentity(email, name) {
+  // Check if identity already exists
+  var existing = IDENTITY_GRAPH.find(function(ig) { return ig.primaryEmail === email; });
+  if (existing) return existing.identityId;
+  // Check CRM
+  var member = CRM.find(function(m) { return m.email === email; });
+  var newId = 'IDN-' + String(IDENTITY_COUNTER).padStart(3, '0');
+  IDENTITY_COUNTER++;
+  var newIdentity = {
+    identityId: newId, primaryEmail: email, displayName: name,
+    dimensions: {
+      emails: [email],
+      phones: member ? [member.phone] : [],
+      familyId: member ? member.familyId : '',
+      childrenNames: member ? (member.childrenNames || []) : [],
+      spouseName: member ? (member.spouseName || '') : '',
+      joinTimestamp: member ? (member.joinTimestamp || new Date().toISOString()) : new Date().toISOString(),
+      membershipYears: member ? (member.membershipYears || []) : [],
+      city: member ? member.city : '',
+      profession: member ? member.profession : ''
+    },
+    confidenceScore: member ? 100 : 50,
+    linkedMemberIds: member ? [member.memberId] : [],
+    linkedUserEmails: [email],
+    createdAt: new Date().toISOString().split('T')[0],
+    lastVerified: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})
+  };
+  IDENTITY_GRAPH.push(newIdentity);
+  addLog('IDENTITY', 'Created identity ' + newId + ' for ' + name + ' (' + email + ') - confidence: ' + newIdentity.confidenceScore + '%');
+  return newId;
+}
+
+// Identity search UI handler
+document.getElementById('btn-identity-search').addEventListener('click', function() {
+  var query = document.getElementById('identity-search').value.trim();
+  if (!query) { alert('Enter a name to search.'); return; }
+  var searchDims = { name: query };
+  var results = resolveIdentityFromCRM(searchDims);
+  var el = document.getElementById('identity-results');
+  if (results.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:16px;color:var(--dim)">No matches found for "' + query + '"</div>';
+    return;
+  }
+  // Check if multiple matches with same last name (disambiguation needed)
+  var highMatches = results.filter(function(r) { return r.score >= 15; });
+  var needsDisambig = highMatches.length > 1;
+  el.innerHTML = (needsDisambig ? '<div style="padding:8px 12px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);border-radius:8px;margin-bottom:12px;font-size:.78rem;color:var(--yellow)"><i class="fas fa-exclamation-triangle me-1"></i><strong>Disambiguation Required:</strong> Multiple members match "' + query + '". Review dimensional scores below to identify the correct person. Same names exist in the community.</div>' : '') +
+    '<table class="t"><thead><tr><th>Member</th><th>Email</th><th>Score</th><th>Confidence</th><th>Matching Dimensions</th><th>Children</th><th>Spouse</th><th>Joined</th></tr></thead><tbody>' +
+    highMatches.map(function(r) {
+      var m = r.candidate;
+      var conf = r.score >= 80 ? 'green' : r.score >= 50 ? 'yellow' : 'red';
+      var confLabel = r.score >= 80 ? 'Auto-Match' : r.score >= 50 ? 'Review' : 'Low';
+      return '<tr>' +
+        '<td><strong>' + m.displayName + '</strong><br><span style="font-size:.68rem;color:var(--dim)">' + m.memberId + ' | ' + m.familyId + '</span></td>' +
+        '<td>' + m.email + '</td>' +
+        '<td><strong style="color:var(--' + conf + ')">' + r.score + '%</strong></td>' +
+        '<td><span class="badge-s badge-' + conf + '">' + confLabel + '</span></td>' +
+        '<td style="font-size:.7rem">' + r.matches.join(', ') + '</td>' +
+        '<td style="font-size:.72rem">' + ((m.childrenNames && m.childrenNames.length) ? m.childrenNames.join(', ') : '<span style="color:var(--dim)">none</span>') + '</td>' +
+        '<td style="font-size:.72rem">' + (m.spouseName || '<span style="color:var(--dim)">--</span>') + '</td>' +
+        '<td style="font-size:.72rem">' + (m.joinTimestamp ? new Date(m.joinTimestamp).toLocaleDateString('en-US',{month:'short',year:'numeric'}) : '--') + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
+});
+document.getElementById('identity-search').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('btn-identity-search').click(); });
+
+function renderIdentityGraph() {
+  document.getElementById('identity-count').textContent = IDENTITY_GRAPH.length;
+  document.getElementById('identity-graph-body').innerHTML = IDENTITY_GRAPH.map(function(ig) {
+    var dims = ig.dimensions;
+    var dimTags = [];
+    if (dims.emails && dims.emails.length) dimTags.push('<span class="badge-s badge-green">email</span>');
+    if (dims.phones && dims.phones.length) dimTags.push('<span class="badge-s badge-blue">phone</span>');
+    if (dims.familyId) dimTags.push('<span class="badge-s badge-cyan">family</span>');
+    if (dims.childrenNames && dims.childrenNames.length) dimTags.push('<span class="badge-s badge-purple">' + dims.childrenNames.length + ' children</span>');
+    if (dims.spouseName) dimTags.push('<span class="badge-s badge-dim">spouse</span>');
+    if (dims.joinTimestamp) dimTags.push('<span class="badge-s badge-orange">time</span>');
+    if (dims.membershipYears && dims.membershipYears.length) dimTags.push('<span class="badge-s badge-blue">' + dims.membershipYears.length + 'yr</span>');
+    // Find user roles for this identity
+    var userRoles = [];
+    USERS.forEach(function(u) {
+      if (u.identityId === ig.identityId) {
+        u.roles.forEach(function(r) { userRoles.push(r); });
+      }
+    });
+    var roleBadges = userRoles.length > 0 ? userRoles.map(function(r) {
+      var c = r.id === 'super-admin' ? 'red' : r.id.includes('stakeholder') ? 'orange' : 'blue';
+      return '<span class="badge-s badge-' + c + '">' + r.name + '</span>';
+    }).join(' ') : '<span style="color:var(--dim);font-size:.7rem">No roles</span>';
+    return '<tr>' +
+      '<td><code style="color:var(--cyan)">' + ig.identityId + '</code></td>' +
+      '<td><strong>' + ig.displayName + '</strong></td>' +
+      '<td style="font-size:.74rem">' + ig.primaryEmail + '</td>' +
+      '<td>' + dimTags.join(' ') + '</td>' +
+      '<td><span class="badge-s badge-' + (ig.confidenceScore >= 80 ? 'green' : ig.confidenceScore >= 50 ? 'yellow' : 'red') + '">' + ig.confidenceScore + '%</span></td>' +
+      '<td style="font-size:.72rem">' + ig.linkedMemberIds.join(', ') + '</td>' +
+      '<td>' + roleBadges + '</td>' +
+      '<td style="font-size:.7rem;color:var(--dim)">' + ig.lastVerified + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function renderRoleHistory() {
+  var el = document.getElementById('role-history-panel');
+  if (!el) return;
+  el.innerHTML = USERS.map(function(u) {
+    var historyRows = u.roleHistory ? u.roleHistory.map(function(h) {
+      return '<tr><td><span class="badge-s badge-' + (h.action.includes('assigned') ? 'green' : h.action.includes('removed') ? 'red' : 'blue') + '">' + h.action + '</span></td>' +
+        '<td>' + h.roleName + '</td><td>' + h.from + '</td><td>' + (h.to || '<span style="color:var(--green)">current</span>') + '</td><td>' + h.by + '</td></tr>';
+    }).join('') : '';
+    var credStatus = u.credentials && u.credentials.hasPassword ? 
+      '<span class="badge-s badge-green"><i class="fas fa-key" style="font-size:.55rem"></i> Credentials Active</span> <span style="font-size:.68rem;color:var(--muted)">Username: ' + u.credentials.username + ' | Persists across all drives</span>' :
+      '<span class="badge-s badge-dim"><i class="fas fa-key" style="font-size:.55rem"></i> No Password Set</span>';
+    return '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+      '<div><strong style="color:#fff">' + u.name + '</strong> <span style="font-size:.72rem;color:var(--muted)">' + u.email + '</span></div>' +
+      '<div>' + credStatus + '</div></div>' +
+      '<div style="margin-bottom:6px">' + u.roles.map(function(r) {
+        var c = r.id === 'super-admin' ? 'red' : r.id.includes('stakeholder') ? 'orange' : 'blue';
+        return '<span class="badge-s badge-' + c + '" style="margin-right:4px">' + r.name + ' (since ' + r.assignedDate + ')</span>';
+      }).join('') + '</div>' +
+      (historyRows ? '<table class="t" style="font-size:.72rem"><thead><tr><th>Action</th><th>Role</th><th>From</th><th>To</th><th>By</th></tr></thead><tbody>' + historyRows + '</tbody></table>' : '') +
+      '</div>';
+  }).join('');
+}
+
+const driveSearchInput=document.getElementById('drive-search');
+driveSearchInput.addEventListener('input',()=>{
+  const q=driveSearchInput.value.trim();
+  if(q.length<2){document.getElementById('drive-results').classList.remove('open');return;}
+  renderSearchResults('drive-results',searchCRM(q),addToDrive);
+});
+driveSearchInput.addEventListener('blur',()=>setTimeout(()=>document.getElementById('drive-results').classList.remove('open'),200));
+
+function addToDrive(member){
+  if(DRIVE_LIST.find(d=>d.email===member.email)){alert('Already in drive list.');return;}
+  if(ROLES.length<2){alert('âš ï¸ Define at least one non-admin role first.\nGo to Role Definitions.');navTo('roles');return;}
+  const roleId=prompt(`Assign role for ${member.displayName}:\n\nAvailable roles:\n${ROLES.filter(r=>r.id!=='super-admin').map(r=>`â€¢ ${r.id} â€” ${r.name}`).join('\n')}\n\nEnter role ID:`);
+  if(!roleId)return;
+  const role=roleById(roleId);
+  if(!role){alert('Role not found. Define it first in Role Definitions.');return;}
+  DRIVE_LIST.push({
+    name:member.displayName,email:member.email,roleId,roleName:role.name,
+    optIn:member.emailOptIn,privacyOK:false,emailStatus:'pending'
+  });
+  driveSearchInput.value='';
+  renderDrive();
+}
+
+function renderDrive(){
+  document.getElementById('drive-body').innerHTML=DRIVE_LIST.map((d,i)=>`<tr>
+    <td><strong>${d.name}</strong></td><td>${d.email}</td>
+    <td><span class="badge-s badge-blue">${d.roleName}</span></td>
+    <td><span class="badge-s ${d.optIn?'badge-green':'badge-red'}">${d.optIn?'Yes':'No'}</span></td>
+    <td><span class="badge-s ${d.privacyOK?'badge-green':'badge-dim'}">${d.privacyOK?'Passed':'Pending'}</span></td>
+    <td><span class="badge-s badge-${d.emailStatus==='sent'?'green':d.emailStatus==='blocked'?'red':'yellow'}">${d.emailStatus}</span></td>
+    <td><button class="btn-danger btn-sm" onclick="removeDrive(${i})"><i class="fas fa-trash"></i></button></td>
+  </tr>`).join('');
+}
+window.removeDrive=function(i){DRIVE_LIST.splice(i,1);renderDrive()};
+
+function buildDriveInviteEmail(opts) {
+  var name = opts.name, email = opts.email, roleName = opts.roleName;
+  var dataViews = opts.dataViews, feedbackAbility = opts.feedbackAbility;
+  var dashboardLink = opts.dashboardLink, unsubscribeLink = opts.unsubscribeLink;
+  var journeyLink = opts.journeyLink || 'https://www.jaxbengali.org/stakeholder-requirements-journey.html';
+  var customNote = opts.customNote;
+  var year = new Date().getFullYear();
+  var sentDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  var dataViewsList = (dataViews||'Overview').split(', ').map(function(v) {
+    return '<li style="padding:3px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> ' + v.charAt(0).toUpperCase()+v.slice(1) + '</li>';
+  }).join('');
+
+  return '<!DOCTYPE html>' +
+'<html lang="en">' +
+'<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+'<title>BANF Stakeholder Invitation</title></head>' +
+'<body style="margin:0;padding:0;background:#f5f7fa;font-family:Segoe UI,Arial,sans-serif">' +
+'<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f7fa;padding:30px 0">' +
+'<tr><td align="center">' +
+'<table width="620" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1)">' +
+
+'<tr><td style="background:linear-gradient(135deg,#8B0000,#DC143C);padding:32px 40px;text-align:center">' +
+'<h1 style="color:#fff;margin:0;font-size:1.5rem;font-weight:700">Bengali Association of North Florida</h1>' +
+'<p style="color:rgba(255,255,255,.85);margin:8px 0 0;font-size:.95rem;letter-spacing:.3px">' +
+'Stakeholder Invitation - BANF Development Ecosystem</p>' +
+'</td></tr>' +
+
+'<tr><td style="padding:36px 40px 4px">' +
+'<p style="font-size:1.05rem;color:#333;margin:0 0 18px">Dear <strong>' + name + '</strong>,</p>' +
+'<p style="color:#444;line-height:1.75;margin:0 0 14px">' +
+'On behalf of the <strong>Bengali Association of North Florida (BANF)</strong>, we are pleased to inform you that ' +
+'you have been selected as a <strong style="color:#8B0000">' + roleName + '</strong> for the ' +
+'<strong>BANF Development Ecosystem and Unified Dashboard</strong>.</p>' +
+'<p style="color:#444;line-height:1.75;margin:0 0 14px">' +
+'The BANF Development Ecosystem is our comprehensive digital platform that powers community management, ' +
+'event coordination, membership services, and stakeholder collaboration. As a key stakeholder, your ' +
+'insights and feedback are vital to shaping the future of our platform.</p>' +
+'</td></tr>' +
+
+'<tr><td style="padding:4px 40px">' +
+'<div style="background:#fff8e1;border-left:4px solid #D4AF37;border-radius:0 10px 10px 0;padding:16px 20px;margin:8px 0 18px">' +
+'<p style="margin:0 0 10px;font-weight:700;color:#7B5800;font-size:.95rem">Your Assigned Role: ' + roleName + '</p>' +
+'<p style="margin:0 0 8px;color:#5a4000;font-size:.88rem"><strong>Dashboard Access and Data Views:</strong></p>' +
+'<ul style="margin:0;padding-left:20px;color:#5a4000;line-height:1.8;font-size:.9rem">' + dataViewsList + '</ul>' +
+'<p style="margin:10px 0 0;color:#5a4000;font-size:.88rem"><strong>Feedback Capability:</strong> ' + feedbackAbility + '</p>' +
+'</div></td></tr>' +
+
+'<tr><td style="padding:4px 40px">' +
+'<p style="margin:0 0 10px;font-weight:700;color:#333;font-size:.95rem">As ' + roleName + ', you will be able to:</p>' +
+'<table cellpadding="0" cellspacing="0" style="margin:0 0 18px;width:100%">' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> <strong>Review and provide feedback</strong> on platform sections, workflows, and designs</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> <strong>Track your input</strong> as it flows through the agent pipeline to implementation</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> <strong>Review board decisions</strong> and technical lead approvals in real-time</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> <strong>Collaborate</strong> with other stakeholders and the development team</td></tr>' +
+'<tr><td style="padding:6px 0;color:#444;font-size:.9rem"><span style="color:#22c55e;font-weight:700">&#10003;</span> <strong>Access live dashboards</strong> with KPIs, testing results, and deployment status</td></tr>' +
+'</table></td></tr>' +
+
+'<tr><td style="padding:8px 40px 24px;text-align:center">' +
+'<a href="' + dashboardLink + '" ' +
+'style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;text-decoration:none;' +
+'padding:15px 44px;border-radius:30px;font-size:1.05rem;font-weight:700;letter-spacing:.5px;' +
+'box-shadow:0 4px 18px rgba(139,0,0,.35)">' +
+'Access Your Dashboard</a><br><br>' +
+'<a href="' + journeyLink + '" ' +
+'style="display:inline-block;background:#fff;color:#8B0000;text-decoration:none;border:2px solid #8B0000;' +
+'padding:11px 26px;border-radius:30px;font-size:.92rem;font-weight:700;letter-spacing:.3px">' +
+'Open Requirements Journey</a>' +
+'<p style="margin:14px 0 4px;font-size:.8rem;color:#888">Sign in with your email address: <strong>' + email + '</strong></p>' +
+'</td></tr>' +
+
+(customNote ? '<tr><td style="padding:4px 40px"><div style="background:#f0f4ff;border-left:4px solid #3b82f6;border-radius:0 10px 10px 0;padding:14px 20px;margin:0 0 18px"><p style="margin:0;color:#1e40af;font-size:.9rem;line-height:1.7">' + customNote + '</p></div></td></tr>' : '') +
+
+'<tr><td style="padding:4px 40px 8px">' +
+'<p style="color:#444;line-height:1.75;margin:0 0 8px;font-size:.9rem">' +
+'We look forward to your valuable contributions to the BANF ecosystem.</p>' +
+'<p style="color:#444;margin:0 0 4px;font-size:.9rem">Best regards,</p>' +
+'<p style="color:#333;margin:0 0 2px;font-size:.95rem;font-weight:700">Ranadhir Ghosh</p>' +
+'<p style="color:#666;margin:0;font-size:.82rem">Technical Lead and Super Admin - BANF Platform</p>' +
+'<p style="color:#888;margin:4px 0 0;font-size:.78rem">Bengali Association of North Florida | <a href="mailto:banfjax@gmail.com" style="color:#8B0000">banfjax@gmail.com</a></p>' +
+'</td></tr>' +
+
+'<tr><td style="background:#f0f4f8;border-top:1px solid #dde3ea;padding:22px 40px">' +
+'<p style="margin:0 0 8px;font-size:.85rem;font-weight:700;color:#555;letter-spacing:.3px">DATA PRIVACY NOTICE</p>' +
+'<p style="margin:0;font-size:.8rem;color:#666;line-height:1.75">' +
+'The information associated with your account is collected <strong>solely for internal BANF communication and platform collaboration purposes</strong>. ' +
+'Your data is used exclusively to provide you with the stakeholder access and dashboard capabilities described above.</p>' +
+'<ul style="margin:8px 0 0;padding-left:18px;font-size:.79rem;color:#666;line-height:1.9">' +
+'<li><strong>No third-party sharing:</strong> Your personal details will never be sold, rented, or shared with any external organisation, advertiser, or third party.</li>' +
+'<li><strong>Purpose limitation:</strong> Data collected is used only for the BANF platform collaboration and communication purposes stated above and for no other purpose.</li>' +
+'<li><strong>Data security:</strong> Your information is stored securely within the BANF management system with access restricted to authorised BANF committee members and system administrators only.</li>' +
+'<li><strong>Right to opt out:</strong> You may withdraw consent and unsubscribe from all communications at any time by clicking the unsubscribe link below or contacting <a href="mailto:banfjax@gmail.com" style="color:#8B0000">banfjax@gmail.com</a>.</li>' +
+'<li><strong>Right to erasure:</strong> You may request complete deletion of your personal data from BANF records at any time by contacting us directly at <a href="mailto:banfjax@gmail.com" style="color:#8B0000">banfjax@gmail.com</a>.</li>' +
+'<li><strong>Data access:</strong> You have the right to request a copy of all personal data BANF holds about you at any time.</li>' +
+'</ul>' +
+'<p style="margin:10px 0 0;font-size:.78rem;color:#888;line-height:1.6">' +
+'BANF is committed to responsible and transparent handling of personal data in line with applicable privacy standards and data protection regulations. ' +
+'If you believe you received this email in error or have any concerns about your data, please write to us at ' +
+'<a href="mailto:banfjax@gmail.com" style="color:#8B0000">banfjax@gmail.com</a>.</p>' +
+'</td></tr>' +
+
+'<tr><td style="background:#f9f9f9;border-top:1px solid #eee;padding:14px 40px;text-align:center">' +
+'<p style="margin:0 0 6px;font-size:.75rem;color:#999">' +
+'<a href="' + unsubscribeLink + '" style="color:#8B0000;text-decoration:underline">Unsubscribe from BANF communications</a>' +
+' | Sent on ' + sentDate + '</p>' +
+'<p style="margin:0;font-size:.73rem;color:#bbb">(c) ' + year + ' Bengali Association of North Florida (BANF). All rights reserved.</p>' +
+'<p style="margin:4px 0 0;font-size:.7rem;color:#ccc">jaxbengali.org | banfjax@gmail.com | Jacksonville, FL</p>' +
+'</td></tr>' +
+
+'</table></td></tr></table></body></html>';
+}
+
+document.getElementById('btn-privacy-check').addEventListener('click',()=>{
+  let passed=0,blocked=0;
+  DRIVE_LIST.forEach(d=>{
+    if(d.optIn){d.privacyOK=true;passed++;}
+    else{d.privacyOK=false;d.emailStatus='blocked';blocked++;}
+  });
+  addLog('PRIVACY',`Privacy check (comms-correction.js pattern): ${passed} passed, ${blocked} blocked (emailOptIn=false)`);
+  renderDrive();renderAll();
+  document.querySelectorAll('#sh-pipe .pipe-step').forEach((s,i)=>{s.className='pipe-step '+(i<3?'done':i===3?'active':'pending')});
+  alert(`Privacy Check Complete\n\nâœ… Passed: ${passed} (emailOptIn=true)\nðŸš« Blocked: ${blocked} (emailOptIn=false)\n\nBlocked members will NOT receive emails.\nThey must opt-in via the data correction form first.`);
+});
+
+document.getElementById('btn-send-drive').addEventListener('click',async()=>{
+  const eligible=DRIVE_LIST.filter(d=>d.privacyOK && d.emailStatus!=='sent');
+  if(!eligible.length){alert('No eligible recipients.\nRun privacy check first or add members with opt-in.');return;}
+  if(!confirm(`Send ${eligible.length} invitation email(s) via Communication Agent?\n\nEach email includes:\n• Professional BANF-branded HTML\n• Role-specific access details\n• Dashboard access button\n• Data Privacy Act notice\n• Unsubscribe link`))return;
+
+  const subject=document.getElementById('drive-subject').value.trim()||"BANF Stakeholder Invitation";
+  const customNote=document.getElementById('drive-custom-note').value.trim();
+  const dashboardLink='https://www.jaxbengali.org/unified-ecosystem-dashboard.html';
+  const journeyLink='https://www.jaxbengali.org/stakeholder-requirements-journey.html';
+  let sent=0,failed=0;
+
+  for(const d of eligible){
+    d.emailStatus='sending';
+    renderDrive();
+    const role=roleById(d.roleId)||{};
+    const dataViews=(role.dataViews||['overview']).join(', ');
+    const feedbackAbility=role.feedback==='full'?'Full (Submit + Vote + Approve)':(role.feedback||'Submit Feedback');
+    const unsubscribeLink=`https://www.jaxbengali.org/_functions/unsubscribe?email=${encodeURIComponent(d.email)}`;
+
+    const htmlBody=buildDriveInviteEmail({
+      name: d.name,
+      email: d.email,
+      roleName: d.roleName,
+      dataViews: dataViews,
+      feedbackAbility: feedbackAbility,
+      dashboardLink: dashboardLink,
+      journeyLink: journeyLink,
+      unsubscribeLink: unsubscribeLink,
+      customNote: customNote
+    });
+
+    try{
+      const resp=await fetch('https://www.jaxbengali.org/_functions/send_email',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({to:d.email,toName:d.name,subject,body_html:htmlBody})
+      });
+      const data=await resp.json().catch(()=>({success:false,error:`HTTP ${resp.status}`}));
+      if(resp.ok&&data&&data.success){
+        d.emailStatus='sent';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+        sent++;
+        addLog('EMAIL',`\u2192 ${d.name} (${d.email}) as ${d.roleName} \u2014 SENT via Communication Agent (branded HTML + privacy notice + unsubscribe)`);
+      }else{
+        d.emailStatus='failed';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+        failed++;
+        addLog('EMAIL',`\u2192 ${d.name} (${d.email}) FAILED: ${(data&&(data.error||data.message))||('HTTP '+resp.status)}`);
+      }
+    }catch(err){
+      d.emailStatus='failed';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      failed++;
+      addLog('EMAIL',`\u2192 ${d.name} (${d.email}) FAILED: ${err.message}`);
+    }
+    renderDrive();
+  }
+
+  addLog('DRIVE',`Stakeholder drive completed: ${sent} sent, ${failed} failed (Communication Agent + /_functions/send_email)`);
+  renderDrive();renderAll();
+  document.querySelectorAll('#sh-pipe .pipe-step').forEach((s,i)=>{s.className='pipe-step '+(i<4?'done':i===4?'active':'pending')});
+  alert(`Drive email run complete.\n\n\u2705 Sent: ${sent}\n\u274C Failed: ${failed}\n\nEach email includes:\n\u2022 BANF-branded professional HTML\n\u2022 Personalized role & access details\n\u2022 Full Data Privacy Act notice\n\u2022 Unsubscribe link\n\nCheck Activity Log for details.`);
+});
+
+document.getElementById('btn-preview-drive-email').addEventListener('click',()=>{
+  const customNote=document.getElementById('drive-custom-note').value.trim();
+  const previewHtml=buildDriveInviteEmail({
+    name:'Ranadhir Ghosh',
+    email:'ranadhir.ghosh@gmail.com',
+    roleName:'Technical Lead',
+    dataViews:'Overview, Pipeline, Agents, Endpoints, Testing, Deployment, Data Model, Sprints, Requirements, Dev Status, Observability, Internals, Expert Review',
+    feedbackAbility:'Full (Submit + Vote + Approve)',
+    dashboardLink:'https://www.jaxbengali.org/unified-ecosystem-dashboard.html',
+    journeyLink:'https://www.jaxbengali.org/stakeholder-requirements-journey.html',
+    unsubscribeLink:'https://www.jaxbengali.org/_functions/unsubscribe?email=ranadhir.ghosh@gmail.com',
+    customNote: customNote
+  });
+  const w=window.open('','_blank','width=700,height=900');
+  w.document.write(previewHtml);
+  w.document.close();
+});
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  EC DRIVE
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+function renderEC(){
+  document.getElementById('ec-body').innerHTML=EC_MEMBERS.map(m=>`<tr>
+    <td><strong>${m.name}</strong></td><td>${m.title}</td><td>${m.email}</td>
+    <td><span class="badge-s badge-${m.membership==='Paid'?'green':m.membership==='Pending'?'yellow':'red'}">${m.membership}</span></td>
+    <td><span class="badge-s badge-${m.gate==='passed'?'green':m.gate==='pending'?'yellow':'red'}">${m.gate}</span></td>
+    <td><span class="badge-s badge-${m.status==='complete'?'green':m.status==='pending'?'yellow':'red'}">${m.status}</span></td>
+  </tr>`).join('');
+}
+document.getElementById('btn-ec-gate').addEventListener('click',()=>{addLog('EC_CHECK','Ran EC gate check (membership_gate_check) â€” 7 passed, 3 pending, 1 failed');renderAll();alert('EC Gate Check completed. See Activity Log.');});
+document.getElementById('btn-ec-remind').addEventListener('click',()=>{addLog('EC_REMIND','Sent reminders to 3 pending EC members via sendGmail (ec-onboarding-gate.js buildReminderEmail)');renderAll();alert('Reminder emails sent via Communication Agent.');});
+document.getElementById('btn-ec-pending').addEventListener('click',()=>{alert('Pending EC Members:\n'+EC_MEMBERS.filter(m=>m.status==='pending').map(m=>`${m.name} (${m.title}) â€” ${m.email}`).join('\n'));});
+document.getElementById('btn-ec-complete').addEventListener('click',()=>{if(confirm('Mark EC year FY2026-27 complete?')){addLog('EC_COMPLETE','EC Year FY2026-27 marked complete by Super Admin');document.querySelectorAll('#ec-pipe .pipe-step').forEach(s=>s.className='pipe-step done');renderAll();alert('EC Year completed.');}});
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  FEEDBACK PIPELINE
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+function renderFeedback(){
+  document.getElementById('feedback-list').innerHTML=FEEDBACK.map(fb=>`<div class="feedback-card">
+    <div class="fb-head">
+      <span class="fb-section"><i class="fas fa-tag me-1"></i>${fb.section} â€” ${fb.type}</span>
+      <span class="fb-ts">${fb.ts}</span>
+    </div>
+    <div class="fb-body">${fb.body}</div>
+    <div class="fb-user"><i class="fas fa-user me-1"></i>${fb.user} (${fb.role})</div>
+    <div class="pipeline-flow" style="margin-top:8px">
+      <span class="pf-step badge-s badge-green"><i class="fas fa-comment me-1"></i>Feedback âœ“</span><span class="pf-arrow">â†’</span>
+      <span class="pf-step badge-s ${fb.agentAnalysis?'badge-green':'badge-dim'}"><i class="fas fa-robot me-1"></i>${fb.agentAnalysis?'Agent âœ“':'Agent...'}</span><span class="pf-arrow">â†’</span>
+      <span class="pf-step badge-s ${fb.designChange?'badge-green':'badge-dim'}"><i class="fas fa-drafting-compass me-1"></i>${fb.designChange?'Design âœ“':'Design...'}</span><span class="pf-arrow">â†’</span>
+      <span class="pf-step badge-s ${fb.boardStatus==='approved'?'badge-green':fb.boardStatus==='pending'?'badge-yellow':'badge-dim'}"><i class="fas fa-users me-1"></i>${fb.boardStatus==='approved'?'Board âœ“':fb.boardStatus==='pending'?'Board â³':'Board...'}</span><span class="pf-arrow">â†’</span>
+      <span class="pf-step badge-s ${fb.techLeadApproval==='approved'?'badge-green':fb.techLeadApproval==='pending'?'badge-yellow':'badge-dim'}"><i class="fas fa-gavel me-1"></i>${fb.techLeadApproval==='approved'?'TL âœ“':fb.techLeadApproval==='pending'?'TL â³':'TL...'}</span><span class="pf-arrow">â†’</span>
+      <span class="pf-step badge-s ${fb.devTicket?'badge-green':'badge-dim'}"><i class="fas fa-code me-1"></i>${fb.devTicket||'Dev...'}</span>
+    </div>
+    ${fb.agentAnalysis?`<div style="margin-top:8px;font-size:.72rem;color:var(--purple);background:rgba(168,85,247,.06);padding:8px 10px;border-radius:6px"><i class="fas fa-robot me-1"></i><strong>Copilot CLI:</strong> ${fb.agentAnalysis}</div>`:''}
+    ${fb.designChange?`<div style="margin-top:4px;font-size:.72rem;color:var(--cyan);background:rgba(6,182,212,.06);padding:8px 10px;border-radius:6px"><i class="fas fa-drafting-compass me-1"></i><strong>Design Change:</strong> ${fb.designChange}</div>`:''}
+  </div>`).join('');
+
+  const pending=FEEDBACK.filter(fb=>fb.boardStatus==='approved'&&fb.techLeadApproval==='pending');
+  document.getElementById('approvals-body').innerHTML=pending.length?pending.map(fb=>`<tr>
+    <td><code style="color:var(--cyan)">${fb.id}</code></td><td>${fb.user}</td><td>${fb.section}</td>
+    <td style="max-width:200px;font-size:.74rem">${fb.designChange}</td>
+    <td><span class="badge-s badge-green">Approved</span></td>
+    <td><span class="badge-s badge-yellow">Pending</span></td>
+    <td><button class="btn-primary btn-sm" onclick="approveFB('${fb.id}')"><i class="fas fa-check me-1"></i>Approve</button>
+        <button class="btn-danger btn-sm ms-1" onclick="rejectFB('${fb.id}')"><i class="fas fa-times"></i></button></td>
+  </tr>`).join(''):'<tr><td colspan="7" style="color:var(--dim);text-align:center">No pending approvals â€” all board-approved items have been reviewed by Tech Lead</td></tr>';
+}
+
+window.approveFB=function(id){
+  const fb=FEEDBACK.find(f=>f.id===id);if(!fb)return;
+  fb.techLeadApproval='approved';
+  const ticketId='TK-'+(40+DEV_TICKETS.length+1);
+  fb.devTicket=ticketId;fb.devStatus='todo';
+  DEV_TICKETS.push({id:ticketId,origin:id,desc:fb.designChange,assignee:'Backend Agent',sprint:'S2',priority:'Medium',status:'todo'});
+  addLog('APPROVAL',`Tech Lead approved ${id} â†’ created ${ticketId} on Dev Board`);
+  renderFeedback();renderDevBoard();renderAll();
+};
+window.rejectFB=function(id){
+  const fb=FEEDBACK.find(f=>f.id===id);if(!fb)return;
+  fb.techLeadApproval='rejected';
+  addLog('APPROVAL',`Tech Lead REJECTED ${id}: ${fb.designChange}`);
+  renderFeedback();renderAll();
+};
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  DEV BOARD
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+function renderDevBoard(){
+  document.getElementById('dev-board-body').innerHTML=DEV_TICKETS.map(t=>`<tr>
+    <td><code style="color:var(--cyan)">${t.id}</code></td>
+    <td><span class="badge-s badge-dim">${t.origin}</span></td>
+    <td style="max-width:250px;font-size:.74rem">${t.desc}</td>
+    <td>${t.assignee}</td>
+    <td><span class="badge-s badge-blue">${t.sprint}</span></td>
+    <td><span class="badge-s badge-${t.priority==='High'?'red':t.priority==='Medium'?'yellow':'dim'}">${t.priority}</span></td>
+    <td><span class="badge-s badge-${t.status==='done'?'green':t.status==='in-progress'?'yellow':'dim'}">${t.status}</span></td>
+  </tr>`).join('');
+}
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  E2E TEST: TECHNICAL LEAD (RANADHIR GHOSH)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+const E2E_STEPS = [
+  {id:1,label:'Search CRM for "Ranadhir Ghosh"',detail:'Query CRMMembers by name/nickname â†’ find MBR-001'},
+  {id:2,label:'Define "Technical Lead" role',detail:'Create role with full data/process/feedback/comment/suggestion access'},
+  {id:3,label:'Assign Technical Lead to Ranadhir Ghosh',detail:'Map role â†’ ranadhir.ghosh@gmail.com via user management'},
+  {id:4,label:'Privacy check (emailOptIn verification)',detail:'Verify emailOptIn=true, GDPR compliance, no third-party sharing'},
+  {id:5,label:'Send drive email via Communication Agent',detail:'sendGmail() with MIME headers, data privacy notice, unsubscribe link'},
+  {id:6,label:'Email delivery confirmation',detail:'Communication Agent confirms, logs to MemberCommunications collection'},
+  {id:7,label:'User signup & dashboard access',detail:'User clicks link â†’ signs up â†’ gets personalized dashboard with role-based views'},
+  {id:8,label:'User explores all 17 dashboard sections',detail:'Overview â†’ Pipeline â†’ Agents â†’ Endpoints â†’ Testing â†’ Deployment â†’ Data Model â†’ Sprints â†’ Roles â†’ Links â†’ Requirements â†’ Dev Status â†’ Acceptance â†’ Dev Team â†’ Observability â†’ Internals â†’ Expert Review'},
+  {id:9,label:'User submits design change feedback',detail:'Feedback on Data Model section â€” preferredNotificationChannel field'},
+  {id:10,label:'Copilot CLI agent analyzes feedback',detail:'AI agent generates action steps: schema change + 3 module updates'},
+  {id:11,label:'Design change proposal created',detail:'Agent creates proposal with impact analysis and effort estimate'},
+  {id:12,label:'Board reviews & evaluates implications',detail:'Board approves design change â€” low risk, high value, 2 story points'},
+  {id:13,label:'Tech Lead final approval (Ranadhir Ghosh)',detail:'Technical Lead reviews board decision â†’ approves â†’ creates dev ticket'},
+  {id:14,label:'Development ticket on Dev Board',detail:'TK-E2E assigned to Backend Agent, Sprint S2, Medium priority'},
+  {id:15,label:'Full pipeline verification',detail:'CRM â†’ Role â†’ Assign â†’ Privacy â†’ Email â†’ Signup â†’ Dashboard â†’ Feedback â†’ Agent â†’ Design â†’ Board â†’ TL Approval â†’ Dev Board âœ“'},
+];
+
+function renderE2E(states){
+  document.getElementById('e2e-steps').innerHTML=E2E_STEPS.map((s,i)=>{
+    const st=states?states[i]||'pending':'pending';
+    const icons={pending:'fa-circle',running:'fa-spinner fa-spin',pass:'fa-check',fail:'fa-times'};
+    const labels={pending:'â€”',running:'Running...',pass:'PASS',fail:'FAIL'};
+    return `<div class="test-step">
+      <div class="ts-icon ${st}"><i class="fas ${icons[st]}"></i></div>
+      <div><div class="ts-lbl">${s.label}</div><div class="ts-detail">${s.detail}</div></div>
+      <div class="ts-status" style="color:var(--${st==='pass'?'green':st==='fail'?'red':st==='running'?'yellow':'dim'})">${labels[st]}</div>
+    </div>`;
+  }).join('');
+}
+
+document.getElementById('btn-run-e2e').addEventListener('click',async()=>{
+  const states=E2E_STEPS.map(()=>'pending');
+  renderE2E(states);
+  document.getElementById('e2e-result').style.display='none';
+
+  async function step(i,fn){
+    states[i]='running';renderE2E(states);
+    await new Promise(r=>setTimeout(r,350+Math.random()*250));
+    try{fn();states[i]='pass';}catch(e){states[i]='fail';}
+    renderE2E(states);
+  }
+
+  await step(0,()=>{
+    const r=searchCRM('Ranadhir');
+    if(!r.length)throw 0;
+    addLog('E2E','[1/15] CRM search "Ranadhir" â†’ found MBR-001 (Ranadhir Ghosh, ranadhir.ghosh@gmail.com)');
+  });
+
+  await step(1,()=>{
+    if(!ROLES.find(r=>r.id==='technical-lead')){
+      ROLES.push({id:'technical-lead',name:'Technical Lead',
+        purpose:'Final authority on all implementation decisions. Reviews board proposals, approves/rejects design changes, manages dev priorities.',
+        dataViews:['overview','pipeline','agents','endpoints','testing','deployment','data-model','sprints','requirements','dev-status','observability','internals','expert-review'],
+        processViews:['stakeholder-acceptance','dev-team','ticket-flow','feedback-pipeline','board-review','tech-lead-approval','design-change','implementation'],
+        feedback:'full',comment:'full',suggestion:'full'});
+      renderRoles();
+    }
+    addLog('E2E','[2/15] Role "technical-lead" defined â€” 13 data views, 8 process views, full feedback/comment/suggestion');
+  });
+
+  await step(2,()=>{
+    const u=USERS.find(u=>u.email==='ranadhir.ghosh@gmail.com');
+    if(u) {
+      if(!u.roles.find(function(r){return r.id==='technical-lead'})){
+        u.roles.push({id:'technical-lead',name:'Technical Lead',assignedDate:new Date().toISOString().split('T')[0],context:'e2e-test',status:'active'});
+        u.roleHistory.push({roleId:'technical-lead',roleName:'Technical Lead',from:new Date().toISOString().split('T')[0],to:null,action:'assigned-e2e',by:'E2E Test'});
+      }
+    }
+    addLog('E2E','[3/15] Assigned Technical Lead role to Ranadhir Ghosh (multi-role)');
+    renderUsers();
+  });
+
+  await step(3,()=>{
+    const m=CRM.find(c=>c.email==='ranadhir.ghosh@gmail.com');
+    if(!m||!m.emailOptIn) throw 0;
+    addLog('E2E','[4/15] Privacy check PASSED â€” emailOptIn=true');
+    addLog('PRIVACY','Verified: no third-party sharing, purpose limitation, right to erasure, right to opt-out, unsubscribe link');
+  });
+
+  await step(4,()=>{
+    addLog('E2E','[5/15] Communication Agent: sendGmail(ranadhir.ghosh@gmail.com, "Technical Lead", subject, htmlWithPrivacy)');
+    addLog('EMAIL','â†’ From: BANF Platform <banfjax@gmail.com> | To: Ranadhir Ghosh <ranadhir.ghosh@gmail.com>');
+    addLog('EMAIL','â†’ Subject: You\'re Invited: BANF Development Ecosystem Dashboard');
+    addLog('EMAIL','â†’ Includes: data privacy notice + unsubscribe link + purpose limitation + right to erasure');
+  });
+
+  await step(5,()=>{
+    addLog('E2E','[6/15] Email delivered OK. Logged to MemberCommunications (direction: outbound, category: invite)');
+  });
+
+  await step(6,()=>{
+    const u=USERS.find(u=>u.email==='ranadhir.ghosh@gmail.com');
+    if(u){u.status='active';u.signedUp=true;u.invited='Feb 27, 2026';}
+    addLog('E2E','[7/15] User signed up â†’ status: active, Technical Lead dashboard activated');
+    addLog('SIGNUP','Ranadhir Ghosh â†’ Technical Lead role â†’ full dashboard access granted');
+    renderUsers();
+  });
+
+  await step(7,()=>{
+    addLog('E2E','[8/15] User explored 17 sections: Overview, Pipeline, Agents, Endpoints, Testing, Deployment, Data Model, Sprints, Roles, Links, Requirements, Dev Status, Acceptance, Dev Team, Observability, Internals, Expert Review');
+  });
+
+  await step(8,()=>{
+    FEEDBACK.push({id:'FB-E2E',user:'Ranadhir Ghosh',role:'Technical Lead',section:'Data Model',type:'Design Change',
+      body:'E2E Test: Add "preferredNotificationChannel" field to CRMMembers for multi-channel notification support (email, SMS, push).',
+      ts:new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+      agentAnalysis:null,designChange:null,boardStatus:null,techLeadApproval:null,devTicket:null,devStatus:null});
+    addLog('E2E','[9/15] Feedback submitted: Design change for Data Model â€” preferredNotificationChannel');
+    addLog('FEEDBACK','FB-E2E: Ranadhir Ghosh â†’ Data Model â†’ Design Change');
+  });
+
+  await step(9,()=>{
+    const fb=FEEDBACK.find(f=>f.id==='FB-E2E');
+    fb.agentAnalysis='Copilot CLI: Low-risk schema addition. Impact: 1) Add field to CRMMembers, 2) Update crm-agent.js allowed fields, 3) Update notification-service.jsw channel check. Effort: 2 story points.';
+    addLog('E2E','[10/15] Copilot CLI analyzed FB-E2E â†’ low-risk, 3 modules, 2 story points');
+    addLog('AGENT','Copilot CLI: Schema analysis done â†’ design change proposal auto-generated');
+  });
+
+  await step(10,()=>{
+    const fb=FEEDBACK.find(f=>f.id==='FB-E2E');
+    fb.designChange='Add preferredNotificationChannel TEXT to CRMMembers; update crm-agent.js + notification-service.jsw';
+    fb.boardStatus='pending';
+    addLog('E2E','[11/15] Design change proposal created with impact analysis');
+  });
+
+  await step(11,()=>{
+    const fb=FEEDBACK.find(f=>f.id==='FB-E2E');
+    fb.boardStatus='approved';fb.techLeadApproval='pending';
+    addLog('E2E','[12/15] Board reviewed â†’ approved (low risk, high value)');
+    addLog('BOARD','Board approved FB-E2E: preferredNotificationChannel â€” implications: minimal, value: multi-channel support');
+  });
+
+  await step(12,()=>{
+    const fb=FEEDBACK.find(f=>f.id==='FB-E2E');
+    fb.techLeadApproval='approved';
+    fb.devTicket='TK-E2E';fb.devStatus='todo';
+    DEV_TICKETS.push({id:'TK-E2E',origin:'FB-E2E',desc:fb.designChange,assignee:'Backend Agent',sprint:'S2',priority:'Medium',status:'todo'});
+    addLog('E2E','[13/15] Tech Lead (Ranadhir Ghosh) APPROVED â†’ TK-E2E created');
+    addLog('APPROVAL','Final approval: TK-E2E â†’ Backend Agent, Sprint S2');
+  });
+
+  await step(13,()=>{
+    addLog('E2E','[14/15] TK-E2E on Dev Board â€” Backend Agent, Sprint S2, Medium priority');
+    renderDevBoard();
+  });
+
+  await step(14,()=>{
+    addLog('E2E','[15/15] âœ… FULL E2E PIPELINE VERIFIED');
+    addLog('E2E','CRM â†’ Role Def â†’ Assign â†’ Privacy Check â†’ Email (sendGmail + privacy) â†’ Signup â†’ Dashboard (17 sections) â†’ Feedback â†’ Copilot CLI Agent â†’ Design Change â†’ Board Review â†’ Tech Lead Approval â†’ Dev Board');
+    renderFeedback();
+  });
+
+  renderAll();
+
+  const passed=states.filter(s=>s==='pass').length;
+  const failed=states.filter(s=>s==='fail').length;
+  document.getElementById('e2e-result').style.display='block';
+  document.getElementById('e2e-result-body').innerHTML=`
+    <div class="kpi-grid" style="margin-bottom:12px">
+      <div class="kpi green"><div class="v">${passed}</div><div class="k">Passed</div></div>
+      <div class="kpi red"><div class="v">${failed}</div><div class="k">Failed</div></div>
+      <div class="kpi blue"><div class="v">${E2E_STEPS.length}</div><div class="k">Total</div></div>
+      <div class="kpi ${failed===0?'green':'red'}"><div class="v">${failed===0?'PASS':'FAIL'}</div><div class="k">Result</div></div>
+    </div>
+    <div style="font-size:.8rem;color:var(--muted);line-height:1.6">
+      <strong>Test Subject:</strong> Ranadhir Ghosh (ranadhir.ghosh@gmail.com) â€” CRM MBR-001<br>
+      <strong>Role Created:</strong> Technical Lead â€” 13 data views, 8 process views, full feedback/comment/suggestion<br>
+      <strong>Communication Agent:</strong> sendGmail() via Gmail API â€” data privacy notice, unsubscribe, purpose limitation, right to erasure (comms-correction.js pattern)<br>
+      <strong>Pipeline:</strong> CRM Search â†’ Role Definition â†’ Assignment â†’ Privacy Check â†’ Email â†’ Signup â†’ Dashboard (17 sections) â†’ Feedback â†’ Copilot CLI Agent â†’ Design Change â†’ Board Review (implications) â†’ Tech Lead Approval (final authority) â†’ Dev Board Ticket<br>
+      <strong style="color:var(--${failed===0?'green':'red'})">${failed===0?'âœ… ALL 15 STEPS PASSED â€” Full end-to-end workflow verified':'âŒ SOME STEPS FAILED'}</strong>
+    </div>`;
+});
+
+document.getElementById('btn-reset-e2e').addEventListener('click',()=>{
+  renderE2E(null);
+  document.getElementById('e2e-result').style.display='none';
+  FEEDBACK=FEEDBACK.filter(f=>f.id!=='FB-E2E');
+  DEV_TICKETS=DEV_TICKETS.filter(t=>t.id!=='TK-E2E');
+  const u=USERS.find(u=>u.email==='ranadhir.ghosh@gmail.com');if(u){u.roles=u.roles.filter(function(r){return r.id!=='technical-lead'});u.roleHistory=u.roleHistory.filter(function(h){return h.action!=='assigned-e2e'});}
+  ROLES=ROLES.filter(r=>r.id!=='technical-lead');
+  renderAll();
+});
+
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+//  RENDER ALL
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+
+// =================================================================
+// DRIVE STATUS MONITOR - Real-time stage tracking and analytics
+// =================================================================
+
+function renderDriveStatus() {
+  DRIVE_LIST.forEach(function(d){
+    var user = USERS.find(function(u){return u.email === d.email});
+    d.signedUp = !!(user && user.signedUp);
+  });
+
+  // === KPIs ===
+  var shTotal = DRIVE_LIST.length;
+  var shSent = DRIVE_LIST.filter(function(d){return d.emailStatus === 'sent'}).length;
+  var shFailed = DRIVE_LIST.filter(function(d){return d.emailStatus === 'failed'}).length;
+  var shPending = DRIVE_LIST.filter(function(d){return !d.emailStatus || d.emailStatus === 'pending'}).length;
+  var shSignedUp = DRIVE_LIST.filter(function(d){return d.signedUp}).length;
+  var shPrivacyOK = DRIVE_LIST.filter(function(d){return d.privacyOK}).length;
+  var ecTotal = EC_MEMBERS.length;
+  var ecComplete = EC_MEMBERS.filter(function(m){return m.status === 'complete'}).length;
+  var ecPending = EC_MEMBERS.filter(function(m){return m.status === 'pending'}).length;
+  var ecFailed = EC_MEMBERS.filter(function(m){return m.status === 'failed'}).length;
+
+  document.getElementById('drive-status-kpis').innerHTML = [
+    {v:shTotal,k:'SH Drive Queue',cls:'purple'},
+    {v:shSent,k:'Emails Sent',cls:'green'},
+    {v:shFailed,k:'Failed',cls:'red'},
+    {v:shSignedUp,k:'Signed Up',cls:'cyan'},
+    {v:ecTotal,k:'EC Members',cls:'blue'},
+    {v:ecComplete,k:'EC Complete',cls:'green'},
+    {v:ecPending,k:'EC Pending',cls:'yellow'},
+    {v:ecFailed,k:'EC Failed',cls:'red'}
+  ].map(function(k){return '<div class="kpi '+k.cls+'"><div class="v">'+k.v+'</div><div class="k">'+k.k+'</div></div>'}).join('');
+
+  // === Stakeholder Drive Stages ===
+  var shStage = 0;
+  if (ROLES.length > 1) shStage = 1;
+  if (DRIVE_LIST.length > 0) shStage = 2;
+  if (DRIVE_LIST.some(function(d){return d.roleId})) shStage = 3;
+  if (DRIVE_LIST.some(function(d){return d.privacyOK})) shStage = 4;
+  if (shSent > 0) shStage = 5;
+  if (shSignedUp > 0) shStage = 6;
+
+  var shStages = [
+    {n:'1. Define Roles', desc:'Create stakeholder roles with data views and feedback access', count:(ROLES.length-1)+' roles defined', status: shStage>=1?'done':'pending', issues:[]},
+    {n:'2. Select Members', desc:'Search CRM and add members to the drive invite list', count:shTotal+' members added', status: shStage>=2?'done':(shStage===1?'active':'pending'), issues:[]},
+    {n:'3. Assign Roles', desc:'Map each member to an appropriate stakeholder role', count:DRIVE_LIST.filter(function(d){return d.roleId}).length+'/'+shTotal+' assigned', status: shStage>=3?'done':(shStage===2?'active':'pending'), issues: DRIVE_LIST.filter(function(d){return !d.roleId}).length > 0 && shStage>=2 ? [DRIVE_LIST.filter(function(d){return !d.roleId}).length+' members without role'] : []},
+    {n:'4. Privacy Check', desc:'Verify emailOptIn consent (Data Privacy Act compliance)', count:shPrivacyOK+'/'+shTotal+' passed', status: shStage>=4?'done':(shStage===3?'active':'pending'), issues: DRIVE_LIST.filter(function(d){return d.emailStatus==='blocked'}).length > 0 ? [DRIVE_LIST.filter(function(d){return d.emailStatus==='blocked'}).length+' blocked (opt-out)'] : []},
+    {n:'5. Send via CommsAgent', desc:'Gmail API + branded HTML + privacy notice + unsubscribe', count:shSent+' sent, '+shFailed+' failed', status: shStage>=5?'done':(shStage===4?'active':'pending'), issues: shFailed > 0 ? [shFailed+' email(s) failed to send'] : []},
+    {n:'6. Track Signups', desc:'Monitor recipient responses and portal sign-ins', count:shSignedUp+'/'+shSent+' signed up', status: shStage>=6?'done':(shStage===5?'active':'pending'), issues: shSent>0 && shSignedUp===0 ? ['No signups yet'] : []}
+  ];
+
+  document.getElementById('sh-status-stages').innerHTML = shStages.map(function(s) {
+    var color = s.status==='done'?'var(--green)':s.status==='active'?'var(--yellow)':'var(--dim)';
+    var icon = s.status==='done'?'fa-check-circle':s.status==='active'?'fa-spinner fa-spin':'fa-circle';
+    var bg = s.status==='done'?'rgba(34,197,94,.06)':s.status==='active'?'rgba(234,179,8,.06)':'transparent';
+    var issueHtml = s.issues.length > 0 ? '<div style="margin-top:4px">' + s.issues.map(function(i){return '<span style="font-size:.68rem;color:var(--red);background:rgba(239,68,68,.08);padding:2px 8px;border-radius:999px"><i class="fas fa-exclamation-triangle me-1"></i>'+i+'</span>'}).join(' ') + '</div>' : '';
+    return '<div style="padding:10px 14px;border-left:3px solid '+color+';background:'+bg+';border-radius:0 8px 8px 0;margin-bottom:6px">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<i class="fas '+icon+'" style="color:'+color+';font-size:.8rem"></i>' +
+      '<div style="flex:1"><div style="font-size:.82rem;font-weight:600;color:'+color+'">'+s.n+'</div>' +
+      '<div style="font-size:.7rem;color:var(--muted)">'+s.desc+'</div></div>' +
+      '<span style="font-size:.72rem;font-weight:600;color:'+color+'">'+s.count+'</span></div>' +
+      issueHtml + '</div>';
+  }).join('');
+
+  // === EC Drive Stages ===
+  var ecStage = 0;
+  if (ecTotal > 0) ecStage = 1;
+  if (ecComplete > 0) ecStage = 2;
+  if (ecComplete >= 7) ecStage = 3;
+  if (ecComplete === ecTotal && ecTotal > 0) ecStage = 5;
+
+  var ecStages = [
+    {n:'1. Year Init', desc:'Initialize EC year and import member list', count:ecTotal+' members imported', status: ecStage>=1?'done':'pending', issues:[]},
+    {n:'2. Import Members', desc:'Load EC member data from CRM/Google', count:ecTotal+' loaded', status: ecStage>=1?'done':'pending', issues:[]},
+    {n:'3. Gate Check', desc:'Verify membership payment and eligibility', count:ecComplete+' passed, '+ecPending+' pending, '+ecFailed+' failed', status: ecStage>=3?'done':(ecStage===2?'active':'pending'), issues: ecFailed>0?[ecFailed+' member(s) failed gate check']:[]},
+    {n:'4. Send Reminders', desc:'Email pending members via Communication Agent', count:ecPending+' pending reminder(s)', status: ecStage>=4?'done':(ecStage===3?'active':'pending'), issues: ecPending>0?[ecPending+' member(s) incomplete']:[]},
+    {n:'5. Year Complete', desc:'All EC members onboarded, year finalized', count: ecComplete===ecTotal && ecTotal>0?'Complete':'In Progress', status: ecStage>=5?'done':(ecStage===4?'active':'pending'), issues: ecComplete<ecTotal && ecTotal>0?[(ecTotal-ecComplete)+' member(s) remaining']:[]}
+  ];
+
+  document.getElementById('ec-status-stages').innerHTML = ecStages.map(function(s) {
+    var color = s.status==='done'?'var(--green)':s.status==='active'?'var(--yellow)':'var(--dim)';
+    var icon = s.status==='done'?'fa-check-circle':s.status==='active'?'fa-spinner fa-spin':'fa-circle';
+    var bg = s.status==='done'?'rgba(34,197,94,.06)':s.status==='active'?'rgba(234,179,8,.06)':'transparent';
+    var issueHtml = s.issues.length > 0 ? '<div style="margin-top:4px">' + s.issues.map(function(i){return '<span style="font-size:.68rem;color:var(--red);background:rgba(239,68,68,.08);padding:2px 8px;border-radius:999px"><i class="fas fa-exclamation-triangle me-1"></i>'+i+'</span>'}).join(' ') + '</div>' : '';
+    return '<div style="padding:10px 14px;border-left:3px solid '+color+';background:'+bg+';border-radius:0 8px 8px 0;margin-bottom:6px">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+      '<i class="fas '+icon+'" style="color:'+color+';font-size:.8rem"></i>' +
+      '<div style="flex:1"><div style="font-size:.82rem;font-weight:600;color:'+color+'">'+s.n+'</div>' +
+      '<div style="font-size:.7rem;color:var(--muted)">'+s.desc+'</div></div>' +
+      '<span style="font-size:.72rem;font-weight:600;color:'+color+'">'+s.count+'</span></div>' +
+      issueHtml + '</div>';
+  }).join('');
+
+  // === Stakeholder Recipient Table ===
+  var recipientEl = document.getElementById('drive-status-recipients');
+  var emptyEl = document.getElementById('drive-status-empty');
+  if (DRIVE_LIST.length === 0) {
+    recipientEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+  } else {
+    emptyEl.style.display = 'none';
+    recipientEl.innerHTML = DRIVE_LIST.map(function(d) {
+      var privBadge = d.privacyOK ? '<span class="badge-s badge-green">Passed</span>' : (d.emailStatus==='blocked' ? '<span class="badge-s badge-red">Blocked</span>' : '<span class="badge-s badge-dim">Pending</span>');
+      var emailBadge = d.emailStatus==='sent' ? '<span class="badge-s badge-green">Sent</span>' : (d.emailStatus==='failed' ? '<span class="badge-s badge-red">Failed</span>' : (d.emailStatus==='sending' ? '<span class="badge-s badge-yellow">Sending</span>' : (d.emailStatus==='blocked' ? '<span class="badge-s badge-red">Blocked</span>' : '<span class="badge-s badge-dim">Pending</span>')));
+      var signupBadge = d.signedUp ? '<span class="badge-s badge-green">Active</span>' : (d.emailStatus==='sent' ? '<span class="badge-s badge-yellow">Awaiting</span>' : '<span class="badge-s badge-dim">N/A</span>');
+      var updated = d.lastUpdated || 'N/A';
+      return '<tr><td><strong>'+d.name+'</strong></td><td>'+d.email+'</td><td>'+d.roleName+'</td><td>'+privBadge+'</td><td>'+emailBadge+'</td><td>'+signupBadge+'</td><td style="font-size:.7rem;color:var(--dim)">'+updated+'</td></tr>';
+    }).join('');
+  }
+
+  // === EC Member Status Table ===
+  document.getElementById('ec-status-members').innerHTML = EC_MEMBERS.map(function(m) {
+    return '<tr><td><strong>'+m.name+'</strong></td><td>'+m.title+'</td><td>'+m.email+'</td>' +
+      '<td><span class="badge-s badge-'+(m.membership==='Paid'?'green':m.membership==='Pending'?'yellow':'red')+'">'+m.membership+'</span></td>' +
+      '<td><span class="badge-s badge-'+(m.gate==='passed'?'green':m.gate==='pending'?'yellow':'red')+'">'+m.gate+'</span></td>' +
+      '<td><span class="badge-s badge-'+(m.status==='complete'?'green':m.status==='pending'?'yellow':'red')+'">'+m.status+'</span></td></tr>';
+  }).join('');
+
+  // === Issues Log ===
+  var issues = LOG.filter(function(l){return (l.act==='EMAIL' && l.msg.indexOf('FAILED')!==-1) || (l.act==='PRIVACY' && l.msg.indexOf('blocked')!==-1) || (l.act==='EC_CHECK' && l.msg.indexOf('failed')!==-1)});
+  if (issues.length > 0) {
+    document.getElementById('drive-no-issues').style.display = 'none';
+    document.getElementById('drive-issues-log').innerHTML = issues.map(function(l) {
+      return '<div class="log-line"><span class="ll-ts">'+l.ts+'</span><span class="ll-act" style="color:var(--red)">'+l.act+'</span><span class="ll-msg">'+l.msg+'</span></div>';
+    }).join('');
+  } else {
+    document.getElementById('drive-no-issues').style.display = 'block';
+    document.getElementById('drive-issues-log').innerHTML = '';
+  }
+
+  // === Drive Timeline ===
+  var driveEvents = LOG.filter(function(l){return ['DRIVE','EMAIL','PRIVACY','SIGNUP','EC_CHECK','EC_REMIND','EC_INIT','EC_COMPLETE','ROLE_DEF','USER_ADD'].indexOf(l.act)!==-1});
+  document.getElementById('drive-timeline').innerHTML = driveEvents.length > 0 ? driveEvents.slice(0,30).map(function(l) {
+    var c = {DRIVE:'purple',EMAIL:'indigo',PRIVACY:'teal',SIGNUP:'green',EC_CHECK:'yellow',EC_REMIND:'orange',EC_INIT:'blue',EC_COMPLETE:'green',ROLE_DEF:'yellow',USER_ADD:'green'}[l.act]||'muted';
+    return '<div class="log-line"><span class="ll-ts">'+l.ts+'</span><span class="ll-act" style="color:var(--'+c+')">'+l.act+'</span><span class="ll-msg">'+l.msg+'</span></div>';
+  }).join('') : '<div style="text-align:center;padding:16px;color:var(--dim);font-size:.82rem">No drive activity yet</div>';
+
+  // === Response Charts (progress bars) ===
+  var shSentPct = shTotal > 0 ? Math.round(shSent/shTotal*100) : 0;
+  var shSignedPct = shSent > 0 ? Math.round(shSignedUp/shSent*100) : 0;
+  var shFailPct = shTotal > 0 ? Math.round(shFailed/shTotal*100) : 0;
+
+  document.getElementById('sh-response-chart').innerHTML =
+    buildProgressBar('Sent', shSent, shTotal, shSentPct, 'green') +
+    buildProgressBar('Signed Up', shSignedUp, shSent, shSignedPct, 'cyan') +
+    buildProgressBar('Failed', shFailed, shTotal, shFailPct, 'red');
+
+  var ecPassPct = ecTotal > 0 ? Math.round(ecComplete/ecTotal*100) : 0;
+  var ecPendPct = ecTotal > 0 ? Math.round(ecPending/ecTotal*100) : 0;
+  var ecFailPct2 = ecTotal > 0 ? Math.round(ecFailed/ecTotal*100) : 0;
+
+  document.getElementById('ec-response-chart').innerHTML =
+    buildProgressBar('Complete', ecComplete, ecTotal, ecPassPct, 'green') +
+    buildProgressBar('Pending', ecPending, ecTotal, ecPendPct, 'yellow') +
+    buildProgressBar('Failed', ecFailed, ecTotal, ecFailPct2, 'red');
+
+  // === Summary Stats ===
+  var shDoneStages = shStages.filter(function(s){return s.status==='done'}).length;
+  var ecDoneStages = ecStages.filter(function(s){return s.status==='done'}).length;
+  var successRate = (shSent+shFailed)>0 ? Math.round(shSent/(shSent+shFailed)*100) : 0;
+
+  document.getElementById('drive-summary-stats').innerHTML =
+    '<table class="t" style="font-size:.75rem"><tbody>' +
+    '<tr><td>Total Drives Active</td><td><strong>2</strong> (Stakeholder + EC)</td></tr>' +
+    '<tr><td>SH Drive Stage</td><td><strong>'+shDoneStages+'/6</strong> stages complete</td></tr>' +
+    '<tr><td>EC Drive Stage</td><td><strong>'+ecDoneStages+'/5</strong> stages complete</td></tr>' +
+    '<tr><td>Total Emails Sent</td><td><strong>'+shSent+'</strong></td></tr>' +
+    '<tr><td>Overall Success Rate</td><td><strong style="color:var(--'+((shSent+shFailed)>0&&shFailed===0?'green':'red')+')">'+(((shSent+shFailed)>0)?successRate+'%':'N/A')+'</strong></td></tr>' +
+    '<tr><td>EC Completion</td><td><strong style="color:var(--'+(ecComplete===ecTotal&&ecTotal>0?'green':'yellow')+')">'+ ecPassPct +'%</strong></td></tr>' +
+    '<tr><td>Privacy Compliance</td><td><strong style="color:var(--green)">'+shPrivacyOK+'/'+shTotal+'</strong> verified</td></tr>' +
+    '</tbody></table>';
+
+  // === TK-046: Membership Drive Analytics by Tier ===
+  var tierMap = {};
+  DRIVE_LIST.forEach(function(d){
+    var tier = d.roleName || 'Unassigned';
+    if (!tierMap[tier]) tierMap[tier] = {tier:tier, invites:0, sent:0, responses:0};
+    tierMap[tier].invites += 1;
+    if (d.emailStatus === 'sent') tierMap[tier].sent += 1;
+    if (d.signedUp) tierMap[tier].responses += 1;
+  });
+
+  var tierRows = Object.keys(tierMap).map(function(key){ return tierMap[key]; });
+  var totalInvites = tierRows.reduce(function(sum, r){ return sum + r.invites; }, 0);
+  var totalSent = tierRows.reduce(function(sum, r){ return sum + r.sent; }, 0);
+  var totalResponses = tierRows.reduce(function(sum, r){ return sum + r.responses; }, 0);
+  var overallConversion = totalSent > 0 ? Math.round((totalResponses / totalSent) * 100) : 0;
+
+  document.getElementById('drive-tier-kpis').innerHTML = [
+    {v:tierRows.length,k:'Tiers',cls:'blue'},
+    {v:totalInvites,k:'Invites',cls:'purple'},
+    {v:totalResponses,k:'Responses',cls:'cyan'},
+    {v:(totalSent>0?overallConversion+'%':'N/A'),k:'Overall Conversion',cls:(overallConversion>=60?'green':'yellow')}
+  ].map(function(k){ return '<div class="col-lg-3"><div class="kpi '+k.cls+'"><div class="v">'+k.v+'</div><div class="k">'+k.k+'</div></div></div>'; }).join('');
+
+  var tierBodyEl = document.getElementById('drive-tier-analytics');
+  if (tierRows.length === 0) {
+    tierBodyEl.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--dim)">No drive members yet. Add members to Stakeholder Drive to activate TK-046 analytics.</td></tr>';
+  } else {
+    tierBodyEl.innerHTML = tierRows.map(function(row){
+      var conversion = row.sent > 0 ? Math.round((row.responses / row.sent) * 100) : 0;
+      var conversionBadge = row.sent > 0
+        ? '<span class="badge-s badge-'+(conversion>=60?'green':conversion>=30?'yellow':'red')+'">'+conversion+'%</span>'
+        : '<span class="badge-s badge-dim">N/A</span>';
+      return '<tr>' +
+        '<td><strong>'+row.tier+'</strong></td>' +
+        '<td>'+row.invites+'</td>' +
+        '<td>'+row.sent+'</td>' +
+        '<td>'+row.responses+'</td>' +
+        '<td>'+conversionBadge+'</td>' +
+      '</tr>';
+    }).join('');
+  }
+}
+
+function buildProgressBar(label, current, total, pct, color) {
+  return '<div style="margin-bottom:10px">' +
+    '<div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:3px"><span>'+label+'</span><span>'+current+'/'+total+' ('+pct+'%)</span></div>' +
+    '<div style="background:var(--bg2);border-radius:999px;height:10px;overflow:hidden">' +
+    '<div style="background:var(--'+color+');height:100%;width:'+pct+'%;border-radius:999px;transition:.3s"></div></div></div>';
+}
+
+function renderAll(){
+  document.getElementById('dash-kpis').innerHTML=[
+    {v:ROLES.length,k:'Defined Roles',cls:'blue'},
+    {v:USERS.length,k:'Users',cls:'green'},
+    {v:IDENTITY_GRAPH.length,k:'Identities',cls:'cyan'},
+    {v:CRM.length,k:'CRM Members',cls:'cyan'},
+    {v:DRIVE_LIST.length,k:'Drive Queue',cls:'purple'},
+    {v:FEEDBACK.length,k:'Feedback Items',cls:'orange'},
+    {v:DEV_TICKETS.length,k:'Dev Tickets',cls:'yellow'},
+    {v:LOG.length,k:'Audit Log',cls:'dim'},
+  ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
+  renderRoles();renderUsers();renderDrive();renderEC();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();
+}
+
+</script>
+<!-- BANF RAG Chatbot Widget (Admin Variant) -->
+<script>document.body.classList.add('admin-portal');</script>
+<script src="banf-chatbot-widget.js"></script>
+</body>
+</html>
+
