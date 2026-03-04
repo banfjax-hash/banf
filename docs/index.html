@@ -2327,23 +2327,19 @@
                 // ── Sponsorship Tiers ──
                 // Static sponsorship tiers - do not override from API
                 // Platinum: $5,000, Diamond: $4,000, Gold: $3,000, Silver: $2,000, Bronze: $1,000
-                // For details contact: https://www.jaxbengali.org/
+                // For details contact: mailto:sponsorship@jaxbengali.org
 
                 // ── Payment Info ──
                 if (d.siteContent) {
                     const c = d.siteContent;
                     const card = document.getElementById('payment-card');
-                    if (card && (c.paymentZelle || c.paymentSquareUrl)) {
+                    if (card && c.paymentZelle) {
                         card.innerHTML = `
                             <h4 class="mb-4 text-center" style="color: var(--banf-deep-red);"><i class="fas fa-credit-card me-2"></i>Payment Information</h4>
-                            <div class="row text-center">
+                            <div class="row text-center justify-content-center">
                                 <div class="col-md-6 mb-3">
                                     <h6><i class="fas fa-university me-2" style="color: #6d1ed4;"></i>Zelle</h6>
-                                    <p class="mb-0" style="font-family: monospace;">${esc(c.paymentZelle || '')}</p>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <h6><i class="fas fa-shopping-cart me-2" style="color: var(--banf-orange);"></i>Square Store</h6>
-                                    <a href="${esc(c.paymentSquareUrl || '#')}" target="_blank" class="btn btn-sm" style="background: var(--gradient-primary); color: white;">${esc(c.paymentSquareLabel || 'Pay Online')}</a>
+                                    <p class="mb-0" style="font-family: monospace; font-size: 1.1rem;">${esc(c.paymentZelle || '')}</p>
                                 </div>
                             </div>
                             <hr>
