@@ -1,0 +1,4 @@
+// finance.jsw — stub
+export async function processPayment(data) {
+    return { success: false, message: 'Payment processing not available.' };
+}

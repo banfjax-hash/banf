@@ -1,0 +1,4 @@
+// events.jsw — stub
+export async function getUpcomingEvents() {
+    return [];
+}

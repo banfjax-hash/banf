@@ -1,0 +1,9 @@
+// backend/admin.jsw
+// Stub — all admin functionality is handled via http-functions.js endpoints.
+// This file exists to satisfy legacy imports that the Wix build resolver may cache.
+
+export async function getDashboardStats() { return null; }
+export async function isAdmin() { return false; }
+export async function getAdminAuditLog() { return []; }
+export async function logAdminAction() { return null; }
+export async function getSystemHealth() { return { ok: true }; }

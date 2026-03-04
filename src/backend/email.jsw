@@ -1,0 +1,4 @@
+// email.jsw — stub (email is handled by HTTP functions)
+export async function submitContactForm({ name, email, subject, message }) {
+    return { success: true, message: 'Message received.' };
+}

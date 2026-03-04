@@ -1,0 +1,4 @@
+// site-stats.jsw — stub
+export async function getSiteStats() {
+    return {};
+}
