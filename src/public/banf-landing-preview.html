@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANF - Bengali Association of North Florida | Preview</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --banf-deep-red: #8B0000;
+            --banf-orange: #ff6b35;
+            --banf-golden: #f7931e;
+            --banf-green: #006A4E;
+            --gradient-primary: linear-gradient(135deg, #8B0000 0%, #ff6b35 50%, #f7931e 100%);
+            --gradient-hero: linear-gradient(135deg, rgba(139,0,0,0.9) 0%, rgba(255,107,53,0.85) 50%, rgba(247,147,30,0.8) 100%);
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .bengali-text {
+            font-family: 'Noto Sans Bengali', 'Poppins', sans-serif;
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-link {
+            color: #333 !important;
+            font-weight: 500;
+            padding: 8px 15px !important;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--banf-deep-red) !important;
+        }
+        
+        .btn-join {
+            background: var(--gradient-primary);
+            color: white !important;
+            border-radius: 25px;
+            padding: 10px 25px !important;
+            font-weight: 600;
+        }
+        
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            min-height: 100vh;
+            background: url('https://static.wixstatic.com/media/c62f94_9e58db92918340338d8902f14016a55f~mv2.jpg') center center;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-hero);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .hero-logo {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .hero-logo img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+        
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .hero-tagline {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+        
+        .hero-established {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .hero-buttons .btn {
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            margin: 5px 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-hero-primary {
+            background: white;
+            color: var(--banf-deep-red);
+        }
+        
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+        
+        .btn-hero-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-hero-secondary:hover {
+            background: white;
+            color: var(--banf-deep-red);
+        }
+        
+        /* ===== SECTION STYLES ===== */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--banf-deep-red);
+            margin-bottom: 15px;
+        }
+        
+        /* ===== PRESIDENT'S MESSAGE ===== */
+        .president-welcome {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+        
+        .president-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .president-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .president-header h4 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .president-body {
+            padding: 40px;
+            line-height: 1.9;
+            text-align: justify;
+        }
+        
+        .president-body p {
+            margin-bottom: 20px;
+            color: #444;
+        }
+        
+        .president-body .lead {
+            font-size: 1.2rem;
+            color: var(--banf-deep-red);
+        }
+        
+        .president-body .alert {
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .poem-section {
+            background: linear-gradient(135deg, #f8f9fa, #fff);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--banf-golden);
+            margin: 25px 0;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .lang-toggle .btn {
+            margin: 0 5px;
+        }
+        
+        .lang-toggle .btn.active {
+            background: white;
+            color: var(--banf-deep-red);
+        }
+        
+        /* ===== EC CARDS ===== */
+        .ec-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .ec-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(139,0,0,0.15);
+        }
+        
+        .ec-avatar-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--banf-orange);
+            margin-bottom: 15px;
+        }
+        
+        .ec-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 15px;
+            border: 4px solid var(--banf-orange);
+        }
+        
+        .ec-position {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ec-card h6 {
+            font-weight: 600;
+            color: #333;
+            margin-top: 10px;
+        }
+        
+        .ec-short-bio {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        
+        .ec-view-profile {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--banf-deep-red);
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .ec-view-profile:hover {
+            color: var(--banf-orange);
+        }
+        
+        /* ===== STATS ===== */
+        .stats-section {
+            background: var(--gradient-primary);
+            padding: 60px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* ===== EVENTS ===== */
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+        
+        /* ===== MEMBERSHIP ===== */
+        .membership-section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 80px 0;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        .pricing-card.featured {
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(139,0,0,0.3);
+        }
+        
+        .pricing-header {
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+        
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .pricing-body {
+            padding: 30px;
+        }
+        
+        .pricing-feature {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: #555;
+        }
+        
+        .pricing-feature i {
+            color: var(--banf-green);
+            margin-right: 10px;
+        }
+        
+        .pricing-footer {
+            padding: 20px 30px 30px;
+        }
+        
+        /* ===== SPONSORSHIP ===== */
+        .sponsorship-tier-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 30px 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .sponsorship-tier-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .tier-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+        }
+        
+        .tier-benefit {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.85rem;
+            padding: 8px 0;
+            text-align: left;
+        }
+        
+        /* ===== PAYMENT CARD ===== */
+        .payment-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+        }
+        
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        /* ===== CONTACT ===== */
+        .contact-section {
+            background: #f8f9fa;
+        }
+        
+        .contact-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #f7931e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--banf-orange);
+            padding-left: 5px;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--banf-orange);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            margin-top: 40px;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .section-header h2 { font-size: 2rem; }
+            .stat-number { font-size: 2.5rem; }
+            .pricing-card.featured { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-om me-2"></i>BANF
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#president">President's Message</a></li>
+                <li class="nav-item"><a class="nav-link" href="#leadership">Leadership</a></li>
+                <li class="nav-item"><a class="nav-link" href="#events">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="#membership">Membership</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                <li class="nav-item ms-2">
+                    <a class="nav-link btn-join" href="#membership">Join Now</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <div class="hero-logo">
+            <img src="https://static.wixstatic.com/media/c62f94_e8b7a6b7e4834f4db1f1a5d02e7a9a3c~mv2.png" alt="BANF Logo">
+        </div>
+        <h1 class="hero-title">BANF</h1>
+        <p class="hero-tagline bengali-text">বাঙালি এসোসিয়েশন অফ নর্থ ফ্লোরিডা</p>
+        <p class="hero-established">
+            <i class="fas fa-map-marker-alt me-2"></i>Jacksonville, Florida
+            <span class="mx-3">|</span>
+            <i class="fas fa-calendar me-2"></i>Est. 2008
+        </p>
+        <div class="hero-buttons">
+            <a href="#membership" class="btn btn-hero-primary btn-lg">
+                <i class="fas fa-users me-2"></i>Join Our Community
+            </a>
+            <a href="#events" class="btn btn-hero-secondary btn-lg">
+                <i class="fas fa-calendar-alt me-2"></i>Upcoming Events
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">17+</div>
+                    <div class="stat-label">Years of Heritage</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">300+</div>
+                    <div class="stat-label">Member Families</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Annual Events</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Community Members</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- President's Welcome Message -->
+<section id="president" style="background: #f0f4f8;">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="bengali-text">সভাপতির বার্তা</h2>
+            <p class="text-muted mt-3">President's Welcome Message</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="president-welcome">
+                    <div class="president-header">
+                        <img src="https://static.wixstatic.com/media/c62f94_rana_ghosh.jpg" alt="Dr. Ranadhir Ghosh" onerror="this.style.display='none'">
+                        <h4><i class="fas fa-crown me-2"></i>Dr. Ranadhir Ghosh</h4>
+                        <p class="mb-0 opacity-90">President, BANF 2025-26</p>
+                        <!-- Language Toggle -->
+                        <div class="lang-toggle mt-3">
+                            <button class="btn btn-light btn-sm active" onclick="showMessage('bengali')">
+                                <i class="fas fa-language me-1"></i>বাংলা
+                            </button>
+                            <button class="btn btn-outline-light btn-sm" onclick="showMessage('english')">
+                                <i class="fas fa-globe me-1"></i>English
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Bengali Message -->
+                    <div class="president-body bengali-text" id="msg-bengali">
+                        <p class="lead fw-bold" style="color:#2c3e50;">প্রিয় BANF পরিবার,</p>
+                        
+                        <p>BANF শুধু একটি সংগঠন নয়—এটি আমাদের সবার স্বপ্ন, পরিশ্রম ও সাংস্কৃতিক বন্ধনের প্রতিফলন। আমরা প্রত্যেকে ভিন্ন ভিন্ন জায়গা থেকে এসেছি—কেউ নতুন, কেউ বহু বছর ধরে এখানে আছেন। কেউ ভিসায়, কেউ গ্রিন কার্ড বা সিটিজেনশিপ পেয়েছেন; কেউ ভাড়ায় থাকেন, কেউ নিজেদের বাড়িতে। আমরা ভৌগোলিকভাবে যেখানেই থাকি না কেন, আমাদের একে অপরের প্রতি ভালোবাসা ও শ্রদ্ধা একইভাবে গভীর।</p>
+
+                        <p>আমাদের যাত্রার শুরু হয়েছিল কিছু মানুষের হাত ধরে—যারা শূন্য থেকে চিন্তা-ভাবনা করে এই ক্লাবের প্রাণ প্রতিষ্ঠা করেছিলেন। তাঁদের অক্লান্ত পরিশ্রম, দৃঢ় মনোবল এবং দায়িত্ববোধ আজ আমাদের পথ দেখায়। বছরের পর বছর যারা ধীরে ধীরে এই ক্লাবকে উন্নতির শিখরে পৌঁছে দিয়েছেন, এবং যারা কোনো অফিসিয়াল পদ ছাড়াও স্বতঃস্ফূর্তভাবে সাহায্যের হাত বাড়িয়েছেন—তাঁদের প্রতি আমার আন্তরিক কৃতজ্ঞতা।</p>
+
+                        <div class="alert" style="background:linear-gradient(135deg,#e8f5e8,#f0f8f0);border-left:5px solid #28a745;border-radius:10px;padding:20px;margin:25px 0;">
+                            <p class="mb-0 fw-bold" style="color:#155724;">আমাদের মূল বিশ্বাস—BANF-এর সদস্যদের মধ্যে সংযোগ, সমন্বয় এবং সহমর্মিতা বজায় রাখা ও বৃদ্ধি করা।</p>
+                        </div>
+
+                        <p>আমরা একে অপরের কাছে যতটা, ততটাই কাছের আমরা সমগ্র কমিউনিটির কাছেও হতে চাই। একটি ফুল যেমন প্রস্ফুটিত হওয়ার উদ্দেশ্য পূর্ণ করে, তেমনি আমাদেরও সময়ে সময়ে লক্ষ্য পুনর্নির্ধারণ করতে হয়, যাতে আমাদের কমিউনিটি আরও শক্তিশালী হয়।</p>
+
+                        <p>এখনই সময়—আরও বড় স্বপ্ন দেখার, এবং আমাদের সংস্কৃতি ও মূল্যবোধকে ভবিষ্যৎ প্রজন্মের হাতে সঠিকভাবে তুলে দেওয়ার। আমরা চাই তারা শৃঙ্খলা, সততা এবং সহানুভূতির পাঠ গ্রহণ করুক। আমরা চাই, আমাদের আচরণ ও দৃষ্টান্ত তাদের অনুপ্রেরণা জোগাক। কারণ আমরা প্রত্যেকে আমাদের সংস্কৃতির দূত, এবং আমাদের কর্মকাণ্ড শুধু আমাদের জন্য নয়, সমগ্র কমিউনিটির জন্য বার্তা বহন করে।</p>
+
+                        <p>আমাদের মিশন শুধু BANF-এর ভেতরে সীমাবদ্ধ নয়—এটি স্থানীয় কমিউনিটি, অন্যান্য ক্লাব এবং নতুন প্রজন্মের সাথে সংযোগ স্থাপনেও সমান গুরুত্বপূর্ণ। আমাদের লক্ষ্য হবে অনুপ্রেরণাদাতা, কার্যসম্পাদক ও প্রশাসক—তিনটি ভূমিকায় একসাথে কাজ করা, BANF-এর চার্টার অনুযায়ী প্রতিটি আকাঙ্ক্ষা পূরণের জন্য।</p>
+
+                        <div class="alert" style="background:linear-gradient(135deg,#fff3cd,#fef9e7);border-left:5px solid #ffc107;border-radius:10px;padding:20px;margin:25px 0;">
+                            <p class="mb-0 fw-bold" style="color:#856404;">আমরা বিশ্বাস করি—"যা আছে, তাকে তার স্বাভাবিক রূপেই থাকতে দাও"—আমাদের কাজ হবে যোগ করা, চাপিয়ে দেওয়া নয়। উন্নয়ন আসুক সহমর্মিতা ও সহযোগিতার মাধ্যমে, বিরোধ নয়।</p>
+                        </div>
+
+                        <p>শেষ করার আগে, আমার প্রিয় একটি গানের কয়েকটি লাইন শেয়ার করছি, যা আমাদের BANF-এর স্বপ্ন ও যাত্রার সুরের সাথে মিলে যায়—</p>
+
+                        <div class="poem-section">
+                            <p class="mb-2">তব চরণ নিম্নে উৎসবময়ী শ্যামধরনী সরসা</p>
+                            <p class="mb-2">ঊর্ধ্বে চাহো অগণিত মণি রঞ্জিত নভঃ নীলাঞ্চলা,</p>
+                            <p class="mb-3">সৌম্য মধুর দিব্যাঙ্গনা শান্ত-কুশল-দরশা॥</p>
+                            <p class="mb-2">দূরে হের চন্দ্রকিরণ উদ্ভাসিত গঙ্গা,</p>
+                            <p class="mb-2">নৃত্য পুলক গীতি মুখর কলুষ হরতরঙ্গা,</p>
+                            <p class="mb-2">ধায় মত্ত হরষে সাগর পদ পরশে,</p>
+                            <p class="mb-0">কূলে কূলে করি পরিবেশন মঙ্গলময় বরষা॥</p>
+                        </div>
+
+                        <p>এ গান শুধু সঙ্গীত নয়—এটি আমাদের ঐক্যের, আনন্দের এবং ভবিষ্যতের পথে এগিয়ে চলার প্রতীক।</p>
+
+                        <p>আমরা একসাথে পথ চলতে চাই, হাতে হাত রেখে, লক্ষ্য এক রেখে—BANF-কে শুধু একটি সংগঠন নয়, একটি পরিবার হিসেবে গড়ে তুলতে।</p>
+
+                        <div class="text-end mt-4 pt-3" style="border-top:2px solid #dee2e6;">
+                            <p class="mb-1 fw-bold" style="color:#2c3e50;">— ডঃ রণধীর ঘোষ</p>
+                            <p class="mb-0 text-muted">সভাপতি, BANF</p>
+                        </div>
+                    </div>
+                    
+                    <!-- English Message -->
+                    <div class="president-body" id="msg-english" style="display:none;">
+                        <p class="lead fw-bold" style="color:#2c3e50;">Dear BANF Family,</p>
+                        
+                        <p>BANF is not just an organization—it is a reflection of all our dreams, hard work, and cultural bonds. Each of us has come from different places—some are new, some have been here for many years. Some are on visas, some have green cards or citizenship; some rent, some own their homes. No matter where we are geographically, our love and respect for each other remains equally deep.</p>
+
+                        <p>Our journey began with the hands of a few individuals—who built the soul of this club from nothing through their thoughts and vision. Their tireless efforts, strong determination, and sense of responsibility guide us today. My heartfelt gratitude goes to those who, year after year, have gradually brought this club to its peak, and to those who have spontaneously extended their helping hands without holding any official position.</p>
+
+                        <div class="alert" style="background:linear-gradient(135deg,#e8f5e8,#f0f8f0);border-left:5px solid #28a745;border-radius:10px;padding:20px;margin:25px 0;">
+                            <p class="mb-0 fw-bold" style="color:#155724;">Our core belief—to maintain and strengthen the connection, coordination, and compassion among BANF members.</p>
+                        </div>
+
+                        <p>Just as we want to be close to each other, we also want to be equally close to the entire community. Just as a flower fulfills its purpose by blooming, we too must redefine our goals from time to time so that our community becomes stronger.</p>
+
+                        <p>Now is the time—to dream bigger, and to properly pass on our culture and values to future generations. We want them to learn lessons of discipline, honesty, and empathy. We want our behavior and examples to inspire them. Because each of us is an ambassador of our culture, and our actions carry a message not just for ourselves, but for the entire community.</p>
+
+                        <p>Our mission is not limited to within BANF—it is equally important to establish connections with the local community, other clubs, and the new generation. Our goal will be to work together in three roles—as inspirers, executors, and administrators—to fulfill every aspiration according to BANF's charter.</p>
+
+                        <div class="alert" style="background:linear-gradient(135deg,#fff3cd,#fef9e7);border-left:5px solid #ffc107;border-radius:10px;padding:20px;margin:25px 0;">
+                            <p class="mb-0 fw-bold" style="color:#856404;">We believe—"Let what exists remain in its natural form"—our job is to add, not to impose. Let development come through compassion and cooperation, not conflict.</p>
+                        </div>
+
+                        <p>Before I conclude, let me share a few lines from one of my favorite songs, which resonates with the dreams and journey of our BANF—</p>
+
+                        <div class="poem-section">
+                            <p class="mb-2"><em>At your feet lies the festive, verdant, flowing Earth,</em></p>
+                            <p class="mb-2"><em>Above, gaze upon the countless jewel-adorned blue sky,</em></p>
+                            <p class="mb-3"><em>The gentle, sweet divine maiden, bestowing peace and welfare.</em></p>
+                            <p class="mb-2"><em>In the distance, behold the Ganga illuminated by moonlight,</em></p>
+                            <p class="mb-2"><em>Dancing with joy, melodious, purifying its waves,</em></p>
+                            <p class="mb-2"><em>Rushing with intoxicated delight to touch the ocean's feet,</em></p>
+                            <p class="mb-0"><em>Distributing auspicious blessings from shore to shore.</em></p>
+                        </div>
+
+                        <p>This song is not just music—it is a symbol of our unity, joy, and moving forward on the path to the future.</p>
+
+                        <p>We want to walk together, hand in hand, with one goal—to build BANF not just as an organization, but as a family.</p>
+
+                        <div class="text-end mt-4 pt-3" style="border-top:2px solid #dee2e6;">
+                            <p class="mb-1 fw-bold" style="color:#2c3e50;">— Dr. Ranadhir Ghosh</p>
+                            <p class="mb-0 text-muted">President, BANF</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Executive Committee Section -->
+<section id="leadership">
+    <div class="container">
+        <div class="section-header">
+            <h2>Executive Committee</h2>
+            <p class="text-muted mt-3">2025-26 Leadership | 8 Positions</p>
+        </div>
+        
+        <div class="row">
+            <!-- President - Dr. Ranadhir Ghosh -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_rana_ghosh.jpg" alt="Dr. Ranadhir Ghosh" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">RG</div>
+                    <span class="ec-position mb-2">President</span>
+                    <h6 class="mt-2">Dr. Ranadhir Ghosh</h6>
+                    <small class="text-muted">Strategic Planning</small>
+                    <p class="ec-short-bio">Leading BANF with vision and dedication to community growth.</p>
+                </div>
+            </div>
+            
+            <!-- Vice President - Partha Mukhopadhyay -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_partha.jpg" alt="Partha Mukhopadhyay" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">PM</div>
+                    <span class="ec-position mb-2">Vice President</span>
+                    <h6 class="mt-2">Partha Mukhopadhyay</h6>
+                    <small class="text-muted">Deputy Executive</small>
+                    <p class="ec-short-bio">Supporting BANF leadership and community initiatives.</p>
+                </div>
+            </div>
+            
+            <!-- Treasurer - Amit Chandak -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_amit_chandak.jpg" alt="Amit Chandak" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">AC</div>
+                    <span class="ec-position mb-2">Treasurer</span>
+                    <h6 class="mt-2">Amit Chandak</h6>
+                    <small class="text-muted">Financial Management</small>
+                    <p class="ec-short-bio">Managing BANF finances with transparency and accountability.</p>
+                </div>
+            </div>
+            
+            <!-- General Secretary - Rajanya Ghosh -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_rajanya.jpg" alt="Rajanya Ghosh" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">RG</div>
+                    <span class="ec-position mb-2">General Secretary</span>
+                    <h6 class="mt-2">Rajanya Ghosh</h6>
+                    <small class="text-muted">Administration & Coordination</small>
+                    <p class="ec-short-bio">Classical dancer & hospitality leader with 15 years in Bharatanatyam & Kathak.</p>
+                </div>
+            </div>
+            
+            <!-- Cultural Secretary - Dr. Moumita Ghosh -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_moumita.jpg" alt="Dr. Moumita Ghosh" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">MG</div>
+                    <span class="ec-position mb-2">Cultural Secretary</span>
+                    <h6 class="mt-2">Dr. Moumita Ghosh</h6>
+                    <small class="text-muted">Cultural Programming</small>
+                    <p class="ec-short-bio">Curating vibrant cultural experiences for the community.</p>
+                </div>
+            </div>
+            
+            <!-- Food Coordinator - Banty Dutta -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_banty.jpg" alt="Banty Dutta" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">BD</div>
+                    <span class="ec-position mb-2">Food Coordinator</span>
+                    <h6 class="mt-2">Banty Dutta</h6>
+                    <small class="text-muted">Food & Catering</small>
+                    <p class="ec-short-bio">Ensuring delicious Bengali cuisine at every BANF event.</p>
+                </div>
+            </div>
+            
+            <!-- Event Coordinator - Dr. Sumanta Ghosh -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_sumanta.jpg" alt="Dr. Sumanta Ghosh" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">SG</div>
+                    <span class="ec-position mb-2">Event Coordinator</span>
+                    <h6 class="mt-2">Dr. Sumanta Ghosh</h6>
+                    <small class="text-muted">Event Planning & Logistics</small>
+                    <p class="ec-short-bio">Orchestrating memorable events and community gatherings.</p>
+                </div>
+            </div>
+            
+            <!-- Puja Coordinator - Rwiti Choudhury -->
+            <div class="col-lg-3 col-md-4 col-6 mb-4">
+                <div class="ec-card text-center">
+                    <img src="https://static.wixstatic.com/media/c62f94_rwiti.jpg" alt="Rwiti Choudhury" class="ec-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="ec-avatar" style="display:none;">RC</div>
+                    <span class="ec-position mb-2">Puja Coordinator</span>
+                    <h6 class="mt-2">Rwiti Choudhury</h6>
+                    <small class="text-muted">Puja Coordination</small>
+                    <p class="ec-short-bio">Organizing spiritual celebrations with devotion and care.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events -->
+<section id="events" style="background: #f0f4f8;">
+    <div class="container">
+        <div class="section-header">
+            <h2>2025 Event Calendar</h2>
+            <p class="text-muted mt-3">Upcoming celebrations and cultural programs</p>
+        </div>
+        
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-8 text-center">
+                <img src="https://static.wixstatic.com/media/c62f94_6f4f1564e4dd4551926fe6cbe715a244~mv2.jpg" alt="2025 Event List" class="img-fluid rounded shadow" style="max-width: 100%;">
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="event-card">
+                    <i class="fas fa-om fa-3x mb-3" style="color:var(--banf-orange);"></i>
+                    <h5>Durga Puja 2025</h5>
+                    <p class="text-muted">Multi-day festival with traditional rituals, cultural programs, and community feast.</p>
+                    <span class="badge bg-primary">October 2025</span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="event-card">
+                    <i class="fas fa-book-open fa-3x mb-3" style="color:#ffc107;"></i>
+                    <h5>Saraswati Puja</h5>
+                    <p class="text-muted">Celebration of Goddess Saraswati with Hate Khori for children.</p>
+                    <span class="badge bg-warning text-dark">February 2025</span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="event-card">
+                    <i class="fas fa-sun fa-3x mb-3" style="color:#28a745;"></i>
+                    <h5>Pohela Boishakh</h5>
+                    <p class="text-muted">Bengali New Year 1432 celebration with cultural programs.</p>
+                    <span class="badge bg-success">April 2025</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Membership Section -->
+<section id="membership" class="membership-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="text-white">Membership & Sponsorship</h2>
+            <p class="text-white-50 mt-3">Join our community or support our mission • 2025-2026 Season</p>
+        </div>
+        
+        <!-- Membership Plans -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-12 text-center mb-4">
+                <h3 class="text-white"><i class="fas fa-users me-2"></i>Membership Plans</h3>
+                <p class="text-white-50">Choose the plan that best fits your family</p>
+            </div>
+            
+            <!-- Individual -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card">
+                    <div class="pricing-header" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                        <h4><i class="fas fa-user me-2"></i>Individual</h4>
+                        <p class="mb-2 opacity-75">Single Adult Member</p>
+                        <div class="pricing-price">$50<span>/year</span></div>
+                    </div>
+                    <div class="pricing-body">
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Access to all BANF events</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Voting rights in elections</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>BANF newsletter subscription</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Jagriti magazine copy</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Discounted event tickets</div>
+                    </div>
+                    <div class="pricing-footer">
+                        <a href="#payment-info" class="btn btn-outline-secondary w-100 btn-lg">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Family (Featured) -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card featured">
+                    <div class="pricing-header" style="background: var(--gradient-primary);">
+                        <span class="badge bg-warning text-dark mb-2"><i class="fas fa-star me-1"></i>Most Popular</span>
+                        <h4><i class="fas fa-users me-2"></i>Family</h4>
+                        <p class="mb-2 opacity-75">Up to 4 Family Members</p>
+                        <div class="pricing-price">$100<span>/year</span></div>
+                    </div>
+                    <div class="pricing-body">
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>All Individual benefits</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>2 adults + 2 children (under 18)</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Kids activity participation</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Priority event registration</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Family photo in directory</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Cultural program eligibility</div>
+                    </div>
+                    <div class="pricing-footer">
+                        <a href="#payment-info" class="btn w-100 btn-lg" style="background: var(--gradient-primary); color: white;">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Senior -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card">
+                    <div class="pricing-header" style="background: linear-gradient(135deg, #006A4E 0%, #00856F 100%);">
+                        <h4><i class="fas fa-heart me-2"></i>Senior</h4>
+                        <p class="mb-2 opacity-75">Age 65+ (Individual)</p>
+                        <div class="pricing-price">$35<span>/year</span></div>
+                    </div>
+                    <div class="pricing-body">
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>All Individual benefits</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Discounted membership fee</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Special seating at events</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Transportation assistance</div>
+                        <div class="pricing-feature"><i class="fas fa-check-circle"></i>Senior community meetups</div>
+                    </div>
+                    <div class="pricing-footer">
+                        <a href="#payment-info" class="btn btn-outline-success w-100 btn-lg">Select Plan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sponsorship Tiers -->
+        <div class="row mb-5">
+            <div class="col-12 text-center mb-4">
+                <h3 class="text-white"><i class="fas fa-handshake me-2"></i>Become a Sponsor</h3>
+                <p class="text-white-50">Support BANF and gain visibility in the Bengali community</p>
+            </div>
+            
+            <!-- Platinum -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="sponsorship-tier-card">
+                    <div class="tier-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-gem text-white"></i>
+                    </div>
+                    <h5 class="text-white mb-2">Platinum</h5>
+                    <div class="pricing-price text-warning mb-3">$2,500<span class="text-white-50">/year</span></div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Logo on all event banners</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Full-page Jagriti ad</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>VIP seating (10 seats)</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Social media promotion</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Website logo + link</div>
+                    <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                </div>
+            </div>
+            
+            <!-- Gold -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="sponsorship-tier-card">
+                    <div class="tier-icon" style="background: linear-gradient(135deg, #f7931e 0%, #f5af19 100%);">
+                        <i class="fas fa-medal text-white"></i>
+                    </div>
+                    <h5 class="text-white mb-2">Gold</h5>
+                    <div class="pricing-price text-warning mb-3">$1,000<span class="text-white-50">/year</span></div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Logo on main banner</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Half-page Jagriti ad</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>VIP seating (6 seats)</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Social media mention</div>
+                    <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                </div>
+            </div>
+            
+            <!-- Silver -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="sponsorship-tier-card">
+                    <div class="tier-icon" style="background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);">
+                        <i class="fas fa-award text-white"></i>
+                    </div>
+                    <h5 class="text-white mb-2">Silver</h5>
+                    <div class="pricing-price text-warning mb-3">$500<span class="text-white-50">/year</span></div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Logo on event banner</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Quarter-page Jagriti ad</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Reserved seating (4 seats)</div>
+                    <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                </div>
+            </div>
+            
+            <!-- Bronze -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="sponsorship-tier-card">
+                    <div class="tier-icon" style="background: linear-gradient(135deg, #cd7f32 0%, #b8860b 100%);">
+                        <i class="fas fa-trophy text-white"></i>
+                    </div>
+                    <h5 class="text-white mb-2">Bronze</h5>
+                    <div class="pricing-price text-warning mb-3">$250<span class="text-white-50">/year</span></div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Name on event banner</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Business card ad in Jagriti</div>
+                    <div class="tier-benefit"><i class="fas fa-check me-2 text-success"></i>Reserved seating (2 seats)</div>
+                    <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light mt-3 w-100">Contact Us</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Payment Info -->
+        <div class="row justify-content-center" id="payment-info">
+            <div class="col-lg-8">
+                <div class="payment-card">
+                    <h4 class="mb-4 text-center" style="color: var(--banf-deep-red);">
+                        <i class="fas fa-credit-card me-2"></i>Payment Information
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="payment-method">
+                                <i class="fas fa-university fa-2x me-3" style="color: #6d1ed4;"></i>
+                                <div>
+                                    <h6 class="mb-1">Pay with Zelle</h6>
+                                    <p class="mb-0 small text-muted">Instant transfer from your bank</p>
+                                </div>
+                            </div>
+                            <div class="alert alert-info">
+                                <p class="mb-1"><strong>Send to:</strong></p>
+                                <p class="mb-1" style="font-family: monospace; font-size: 1.1rem;">treasurer@jaxbengali.org</p>
+                                <p class="mb-0 small">Include your name and membership type</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="payment-method">
+                                <i class="fas fa-shopping-cart fa-2x me-3" style="color: var(--banf-orange);"></i>
+                                <div>
+                                    <h6 class="mb-1">Pay Online</h6>
+                                    <p class="mb-0 small text-muted">Credit/Debit card via Square</p>
+                                </div>
+                            </div>
+                            <a href="https://squareup.com/store/bengali-association-of-north-florida" target="_blank" class="btn w-100 btn-lg mb-3" style="background: var(--gradient-primary); color: white;">
+                                <i class="fas fa-external-link-alt me-2"></i>Pay via Square
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3">
+                            <i class="fas fa-calendar-check fa-2x mb-2" style="color: var(--banf-green);"></i>
+                            <h6>Membership Year</h6>
+                            <p class="small text-muted mb-0">January - December 2026</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <i class="fas fa-file-alt fa-2x mb-2" style="color: var(--banf-orange);"></i>
+                            <h6>Tax Deductible</h6>
+                            <p class="small text-muted mb-0">BANF is a 501(c)(3) organization</p>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <i class="fas fa-envelope fa-2x mb-2" style="color: var(--banf-deep-red);"></i>
+                            <h6>Questions?</h6>
+                            <p class="small text-muted mb-0"><a href="mailto:membership@jaxbengali.org">membership@jaxbengali.org</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Contact Us</h2>
+            <p class="text-muted mt-3">Get in touch with BANF</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h5>Email</h5>
+                    <p class="text-muted">info@jaxbengali.org</p>
+                    <a href="mailto:info@jaxbengali.org" class="btn btn-outline-primary">Send Email</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h5>Website</h5>
+                    <p class="text-muted">www.jaxbengali.org</p>
+                    <a href="https://www.jaxbengali.org" target="_blank" class="btn btn-outline-primary">Visit Site</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="contact-card">
+                    <div class="contact-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <h5>Facebook</h5>
+                    <p class="text-muted">@BengaliAssociationNorthFlorida</p>
+                    <a href="https://www.facebook.com/BengaliAssociationNorthFlorida" target="_blank" class="btn btn-outline-primary">Follow Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <h3 class="footer-brand mb-3">
+                    <i class="fas fa-om me-2"></i>BANF
+                </h3>
+                <p class="text-white-50">Bengali Association of North Florida - Preserving and promoting Bengali culture in Jacksonville since 2008.</p>
+                <div class="social-icons mt-3">
+                    <a href="https://www.facebook.com/BengaliAssociationNorthFlorida" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/banf_jacksonville" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@banfjacksonville" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="mailto:info@jaxbengali.org"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h6 class="text-white mb-3">Quick Links</h6>
+                <div class="footer-links">
+                    <a href="#president">President's Message</a>
+                    <a href="#leadership">Leadership</a>
+                    <a href="#events">Events</a>
+                    <a href="#membership">Membership</a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h6 class="text-white mb-3">Resources</h6>
+                <div class="footer-links">
+                    <a href="#">Photo Gallery</a>
+                    <a href="#">Video Archive</a>
+                    <a href="#">Jagriti Magazine</a>
+                    <a href="#">Community News</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 mb-4">
+                <h6 class="text-white mb-3">Contact Info</h6>
+                <p class="text-white-50 mb-2"><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, Florida</p>
+                <p class="text-white-50 mb-2"><i class="fas fa-envelope me-2"></i>info@jaxbengali.org</p>
+                <p class="text-white-50 mb-2"><i class="fas fa-globe me-2"></i>www.jaxbengali.org</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom text-center">
+            <p class="text-white-50 mb-0">
+                © 2025 Bengali Association of North Florida. All rights reserved. | 501(c)(3) Non-Profit Organization
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Language Toggle for President's Message
+function showMessage(lang) {
+    const bengaliMsg = document.getElementById('msg-bengali');
+    const englishMsg = document.getElementById('msg-english');
+    const btns = document.querySelectorAll('.lang-toggle .btn');
+    
+    if (lang === 'bengali') {
+        bengaliMsg.style.display = 'block';
+        englishMsg.style.display = 'none';
+        btns[0].classList.add('active');
+        btns[0].classList.remove('btn-outline-light');
+        btns[0].classList.add('btn-light');
+        btns[1].classList.remove('active', 'btn-light');
+        btns[1].classList.add('btn-outline-light');
+    } else {
+        bengaliMsg.style.display = 'none';
+        englishMsg.style.display = 'block';
+        btns[1].classList.add('active');
+        btns[1].classList.remove('btn-outline-light');
+        btns[1].classList.add('btn-light');
+        btns[0].classList.remove('active', 'btn-light');
+        btns[0].classList.add('btn-outline-light');
+    }
+}
+
+// Smooth Scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+
+// Navbar background on scroll
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar-custom');
+    if (window.scrollY > 50) {
+        navbar.style.boxShadow = '0 2px 30px rgba(0,0,0,0.15)';
+    } else {
+        navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF Archive Document Mapping</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root { --banf:#8B0000; }
+  body { background:#f7f3f3; font-family:'Segoe UI',system-ui,sans-serif; }
+  .top-bar { background:var(--banf); color:#fff; padding:10px 24px; display:flex; align-items:center; gap:14px; }
+  .top-bar h1 { font-size:1.2rem; font-weight:700; margin:0; }
+
+  .ctrl-bar { background:#fff; border-bottom:1px solid #e0c0c0; padding:10px 20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .btn-banf { background:var(--banf); color:#fff; border:none; }
+  .btn-banf:hover { background:#a00000; color:#fff; }
+
+  .stat-card { background:#fff; border-radius:10px; padding:16px 20px; box-shadow:0 2px 6px rgba(0,0,0,.07); }
+  .stat-card .val { font-size:1.8rem; font-weight:800; }
+  .stat-card .lbl { font-size:.78rem; color:#777; text-transform:uppercase; letter-spacing:.5px; }
+
+  .tbl-wrap { background:#fff; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.07); overflow:hidden; }
+  table { font-size:.82rem; }
+  table th { background:#fdf0f0; color:#8B0000; font-weight:700; white-space:nowrap; position:sticky; top:0; z-index:10; }
+  table tbody tr:hover { background:#fdf7f7; }
+  .row-editing td { background:#fffde7!important; }
+
+  /* Status badges */
+  .badge-auto { background:#e2e8f0; color:#334155; }
+  .badge-verified { background:#d1fae5; color:#065f46; }
+  .badge-corrected { background:#dbeafe; color:#1e40af; }
+  .badge-rejected { background:#fee2e2; color:#991b1b; }
+  .badge-pending { background:#fef9c3; color:#78350f; }
+
+  /* Confidence dots */
+  .conf-high::before   { content:'●'; color:#16a34a; }
+  .conf-medium::before { content:'●'; color:#f59e0b; }
+  .conf-low::before    { content:'●'; color:#dc3545; }
+
+  .cat-events     { border-left:4px solid #8b5cf6; }
+  .cat-financial  { border-left:4px solid #0ea5e9; }
+  .cat-membership { border-left:4px solid #16a34a; }
+  .cat-governance { border-left:4px solid #f59e0b; }
+  .cat-communication { border-left:4px solid #ec4899; }
+  .cat-vendor     { border-left:4px solid #6b7280; }
+  .cat-analysis   { border-left:4px solid #64748b; }
+  .cat-other      { border-left:4px solid #cbd5e1; }
+
+  .edit-btn { background:none; border:1px solid #ccc; border-radius:5px; padding:2px 8px; font-size:.75rem; cursor:pointer; }
+  .edit-btn:hover { background:#8B0000; color:#fff; border-color:#8B0000; }
+  .save-btn { background:#16a34a; color:#fff; border:none; border-radius:5px; padding:2px 8px; font-size:.75rem; cursor:pointer; }
+  .cancel-btn { background:#6c757d; color:#fff; border:none; border-radius:5px; padding:2px 8px; font-size:.75rem; cursor:pointer; }
+  .del-btn { background:none; border:1px solid #fca5a5; border-radius:5px; padding:2px 6px; font-size:.75rem; cursor:pointer; color:#dc3545; }
+  .del-btn:hover { background:#dc3545; color:#fff; border-color:#dc3545; }
+  .open-file-btn { background:none; border:none; padding:0 2px; color:#1a73e8; cursor:pointer; font-size:.72rem; vertical-align:middle; }
+  .open-file-btn:hover { color:#1557b0; text-decoration:underline; }
+  .conf-bar-wrap { display:flex; align-items:center; gap:5px; }
+  .conf-bar-track { background:#e2e8f0; border-radius:4px; width:52px; height:7px; overflow:hidden; flex-shrink:0; }
+  .conf-bar { height:100%; border-radius:4px; transition:width .3s; }
+  .conf-high .conf-bar { background:#16a34a; }
+  .conf-medium .conf-bar { background:#f59e0b; }
+  .conf-low .conf-bar { background:#dc3545; }
+  .learned-tag { font-size:.62rem; background:#dbeafe; color:#1e40af; border-radius:10px; padding:1px 6px; margin-left:3px; }
+  /* Add Doc Modal */
+  .add-doc-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9999; overflow-y:auto; }
+  .add-doc-modal.show { display:flex; align-items:flex-start; justify-content:center; padding:40px 20px; }
+  .modal-box { background:#fff; border-radius:12px; padding:28px; width:100%; max-width:680px; box-shadow:0 20px 60px rgba(0,0,0,.3); }
+  .modal-box h5 { color:var(--banf); font-weight:700; margin-bottom:16px; }
+  .field-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  /* Field detail expand */
+  .field-detail { background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 14px; margin-top:4px; }
+  .field-row { display:flex; align-items:center; gap:8px; padding:3px 0; border-bottom:1px solid #f0f0f0; }
+  .field-row:last-child { border:none; }
+  .field-label { width:140px; font-size:.72rem; color:#64748b; font-weight:600; flex-shrink:0; }
+  .field-val { font-size:.78rem; color:#1e293b; flex:1; }
+  .field-conf-pill { font-size:.65rem; padding:1px 6px; border-radius:10px; flex-shrink:0; }
+
+  .editable-select { font-size:.78rem; border:1px solid #aaa; border-radius:4px; padding:2px 4px; }
+  .editable-input  { font-size:.78rem; border:1px solid #aaa; border-radius:4px; padding:2px 4px; width:100%; }
+
+  .filter-pill { background:#fdf0f0; border:1px solid #e0c0c0; border-radius:20px; padding:3px 12px; font-size:.78rem; cursor:pointer; }
+  .filter-pill.active { background:var(--banf); color:#fff; border-color:var(--banf); }
+
+  #log-panel { background:#111; color:#4ade80; font-family:monospace; font-size:.75rem; border-radius:8px; padding:10px 14px; max-height:140px; overflow-y:auto; display:none; margin:0 20px 16px; }
+  #log-panel.show { display:block; }
+
+  .pending-import-row { background:#fffde7!important; }
+  .pending-import-row td .badge { background:#fef3c7; color:#78350f; }
+
+  /* Data source badges */
+  .src-catalogue { background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; }
+  .src-gdrive    { background:#e8f0fe; color:#1a73e8; border:1px solid #c5d4f6; }
+  .src-gmail     { background:#fce8e6; color:#d93025; border:1px solid #f5c6c1; }
+
+  /* Scan progress badges */
+  .scan-ok   { color:#16a34a; font-weight:700; }
+  .scan-err  { color:#dc3545; font-weight:700; }
+  .scan-skip { color:#6b7280; }
+  #scan-summary { background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:10px 16px; display:none; margin:8px 20px 0; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <i class="fas fa-archive"></i>
+  <h1>Archive Document Mapping</h1>
+  <span id="coll-status-badge" class="badge ms-3" style="font-size:.72rem;background:rgba(255,255,255,.15);cursor:pointer" onclick="checkCollectionStatus()" title="Click to check WixData collection status">
+    <i class="fas fa-circle-notch fa-spin me-1"></i>Checking collection…
+  </span>
+  <a href="https://www.jaxbengali.org/_functions/admin_portal" class="btn btn-sm ms-auto" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)">
+    <i class="fas fa-arrow-left me-1"></i>Admin Portal
+  </a>
+</div>
+
+<!-- Control bar -->
+<div class="ctrl-bar">
+  <div>
+    <label class="small fw-semibold text-muted me-2">Accounting Year:</label>
+    <select id="year-sel" class="form-select form-select-sm d-inline-block" style="width:auto;font-weight:700" onchange="onYearChange()">
+      <option value="">All Years</option>
+      <option value="FY2020-21">FY2020-21</option>
+      <option value="FY2021-22">FY2021-22</option>
+      <option value="FY2022-23">FY2022-23</option>
+      <option value="FY2023-24">FY2023-24</option>
+      <option value="FY2024-25" selected>FY2024-25</option>
+      <option value="FY2025-26">FY2025-26</option>
+      <option value="FY2026-27">FY2026-27</option>
+    </select>
+  </div>
+  <div class="ms-2">
+    <label class="small fw-semibold text-muted me-2">Source:</label>
+    <select id="mode-sel" class="form-select form-select-sm d-inline-block" style="width:auto">
+      <option value="catalog">Catalogue (live classify)</option>
+      <option value="db">WixData (saved)</option>
+    </select>
+  </div>
+  <button class="btn btn-banf btn-sm ms-2" onclick="loadData()"><i class="fas fa-search me-1"></i>Load</button>
+  <button class="btn btn-warning btn-sm ms-1" onclick="runMapping()"><i class="fas fa-bolt me-1"></i>Run Mapping → Save to Wix</button>
+  <div class="vr mx-2"></div>
+  <div class="d-flex align-items-center gap-2 flex-wrap">
+    <span class="small fw-semibold text-muted">Sources:</span>
+    <div class="form-check form-check-inline mb-0">
+      <input class="form-check-input" type="checkbox" id="src-cat" checked>
+      <label class="form-check-label small" for="src-cat"><i class="fas fa-folder me-1" style="color:#475569"></i>Catalogue</label>
+    </div>
+    <div class="form-check form-check-inline mb-0">
+      <input class="form-check-input" type="checkbox" id="src-gdrive" checked>
+      <label class="form-check-label small" for="src-gdrive"><i class="fab fa-google-drive me-1" style="color:#4285F4"></i>Drive</label>
+    </div>
+    <div class="form-check form-check-inline mb-0">
+      <input class="form-check-input" type="checkbox" id="src-gmail" checked>
+      <label class="form-check-label small" for="src-gmail"><i class="fas fa-envelope me-1" style="color:#EA4335"></i>Gmail</label>
+    </div>
+    <button class="btn btn-sm ms-1" id="full-scan-btn" style="background:#1a73e8;color:#fff" onclick="runFullScan()"><i class="fas fa-satellite-dish me-1"></i>Full Scan (All Sources)</button>
+  </div>
+  <button class="btn btn-outline-secondary btn-sm ms-auto" onclick="exportCSV()"><i class="fas fa-file-csv me-1"></i>Export CSV</button>
+  <button class="btn btn-sm ms-1" id="pdf-report-btn" style="background:#8B0000;color:#fff" onclick="openPdfReport()" title="Generate printable PDF report for current year">
+    <i class="fas fa-file-pdf me-1"></i>PDF Report
+  </button>
+  <button class="btn btn-sm ms-1" id="setup-btn" style="background:#374151;color:#fff" onclick="runSetup()" title="Create / initialize the ArchiveDocuments WixData collection">
+    <i class="fas fa-database me-1"></i>Setup Collection
+  </button>
+  <button class="btn btn-outline-secondary btn-sm ms-1" onclick="document.getElementById('log-panel').classList.toggle('show')"><i class="fas fa-terminal me-1"></i>Log</button>
+</div>
+
+<!-- Log panel -->
+<div id="log-panel"></div>
+
+<!-- Scan summary -->
+<div id="scan-summary"></div>
+
+<!-- Summary stats -->
+<div class="container-fluid px-4 pt-3 pb-2" id="stats-area" style="display:none">
+  <div class="row g-3 mb-3">
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="stat-card text-center">
+        <div class="val text-banf" id="st-total" style="color:var(--banf)">—</div>
+        <div class="lbl">Total Documents</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="stat-card text-center">
+        <div class="val text-success" id="st-verified">—</div>
+        <div class="lbl">Verified</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="stat-card text-center">
+        <div class="val text-warning" id="st-auto">—</div>
+        <div class="lbl">Auto-Mapped</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="stat-card text-center">
+        <div class="val text-info" id="st-pending">—</div>
+        <div class="lbl">Pending Import</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="stat-card text-center">
+        <div class="val" id="st-high" style="color:#16a34a">—</div>
+        <div class="lbl">High Confidence</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3 col-lg-2">
+      <div class="stat-card text-center">
+        <div class="val text-danger" id="st-low">—</div>
+        <div class="lbl">Low Confidence</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category breakdown -->
+  <div class="row g-2 mb-3" id="cat-pills"></div>
+
+  <!-- Collection breakdown -->
+  <div class="row g-2 mb-2" id="col-pills"></div>
+
+  <!-- Source breakdown -->
+  <div class="row g-2 mb-2" id="src-pills"></div>
+
+  <!-- Filters -->
+  <div class="d-flex gap-2 align-items-center flex-wrap mt-1">
+    <span class="small fw-semibold text-muted">Filter:</span>
+    <input type="text" id="search-box" class="form-control form-control-sm" placeholder="Search filename…" style="max-width:220px" oninput="renderTable()">
+    <select id="flt-cat" class="form-select form-select-sm" style="width:auto" onchange="renderTable()">
+      <option value="">All Categories</option>
+      <option>Events</option><option>Financial</option><option>Membership</option>
+      <option>Governance</option><option>Communication</option><option>Vendor</option><option>Analysis</option><option>Other</option>
+    </select>
+    <select id="flt-col" class="form-select form-select-sm" style="width:auto" onchange="renderTable()">
+      <option value="">All Collections</option>
+      <option>Events</option><option>FinancialEntries</option><option>MembershipRegistrations</option>
+      <option>Members</option><option>AdminRoles</option><option>KnowledgeBase</option><option>Vendors</option>
+    </select>
+    <select id="flt-status" class="form-select form-select-sm" style="width:auto" onchange="renderTable()">
+      <option value="">All Status</option>
+      <option>auto-mapped</option><option>verified</option><option>corrected</option><option>rejected</option><option>pending-import</option>
+    </select>
+    <select id="flt-conf" class="form-select form-select-sm" style="width:auto" onchange="renderTable()">
+      <option value="">All Confidence</option>
+      <option>high</option><option>medium</option><option>low</option>
+    </select>
+    <select id="flt-source" class="form-select form-select-sm" style="width:auto" onchange="renderTable()">
+      <option value="">All Sources</option>
+      <option value="catalogue">Catalogue</option>
+      <option value="gdrive">Google Drive</option>
+      <option value="gmail">Gmail</option>
+    </select>
+  </div>
+</div>
+
+<!-- Table -->
+<div class="px-4 pb-4" id="table-area" style="display:none">
+  <div class="tbl-wrap">
+    <div class="table-responsive" style="max-height:600px;overflow-y:auto">
+      <table class="table table-hover mb-0" id="main-table">
+        <thead>
+          <tr>
+            <th style="width:26px">#</th>
+            <th>Document <span class="fw-normal text-muted" style="font-size:.7rem">(click 🔗 to open)</span></th>
+            <th>Year</th>
+            <th>Category / Sub</th>
+            <th>Target Collection</th>
+            <th style="width:100px">Confidence</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th style="width:120px">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbl-body"></tbody>
+      </table>
+    </div>
+    <div class="px-3 py-2 border-top d-flex align-items-center gap-3">
+      <span class="small text-muted" id="row-count">0 rows shown</span>
+      <button class="btn btn-sm btn-outline-success" onclick="batchVerifyVisible()"><i class="fas fa-check-double me-1"></i>Verify All Visible</button>
+      <button class="btn btn-sm ms-auto" style="background:var(--banf);color:#fff" onclick="showAddModal()"><i class="fas fa-plus me-1"></i>Add Document</button>
+    </div>
+  </div>
+</div>
+
+<div id="loading-spinner" class="text-center py-5" style="display:none">
+  <div class="spinner-border" style="color:var(--banf)" role="status"></div>
+  <div class="mt-2 text-muted small">Loading documents…</div>
+</div>
+
+<div id="empty-msg" class="text-center py-5" style="display:none">
+  <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
+  <div class="text-muted">No documents found. Select a year and click <strong>Load</strong>.</div>
+</div>
+
+<script>
+const API      = 'https://www.jaxbengali.org/_functions';
+const YEAR_SEL = () => document.getElementById('year-sel').value;
+const MODE_SEL = () => document.getElementById('mode-sel').value;
+
+function getHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'x-admin-email': localStorage.getItem('banfAdminEmail') || '',
+    'x-admin-token': localStorage.getItem('banfAdminToken') || '',
+  };
+}
+
+let allDocs = [];      // flat list currently loaded
+let editState = {};    // rowKey → { editing:bool, draft:{} }
+let expandState = {};  // rowKey → bool (field detail open)
+
+// ── Logging ──────────────────────────────────────────────────────────────────
+function log(msg, type='info') {
+  const box = document.getElementById('log-panel');
+  box.classList.add('show');
+  const color = type==='error'?'#f87171':type==='success'?'#4ade80':'#9fdbfe';
+  box.innerHTML += `<div style="color:${color}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
+// ── Data loading ─────────────────────────────────────────────────────────────
+async function loadData() {
+  showSpinner(true);
+  const yr   = YEAR_SEL();
+  const mode = MODE_SEL();
+  log(`Loading ${yr||'all years'} from ${mode}…`);
+
+  try {
+    let docs = [];
+    if (mode === 'catalog') {
+      const url  = `${API}/archive_catalog` + (yr ? `?year=${yr}` : '');
+      const resp = await fetch(url, { headers: getHeaders() });
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.message);
+      docs = (data.docs||[]).map(d => ({ ...d, mappingStatus: d.mappingStatus || 'auto-mapped', _source:'catalog' }));
+      log(`Catalogue: ${docs.length} documents`, 'success');
+      renderStats(data.stats, docs);
+    } else {
+      const url  = `${API}/archive_map_report` + (yr ? `?year=${yr}&limit=500` : '?limit=500');
+      const resp = await fetch(url, { headers: getHeaders() });
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.message);
+      const inDB = (data.items||[]).map(d => ({ ...d, _source:'db' }));
+      const pending = (data.pendingImport||[]).map(d => ({ ...d, mappingStatus:'pending-import', _source:'pending' }));
+      docs = [...inDB, ...pending];
+      log(`WixData: ${inDB.length} saved + ${pending.length} pending import`, 'success');
+      renderStats(data.stats, docs);
+    }
+    allDocs = docs;
+    renderTable();
+    showArea(true);
+  } catch(e) {
+    log(`Error: ${e.message}`, 'error');
+    alert('Load failed: ' + e.message);
+  }
+  showSpinner(false);
+}
+
+async function runMapping() {
+  const yr = YEAR_SEL();
+  if (!confirm(`Run archive mapping and save to WixData for ${yr||'ALL years'}?\nThis will upsert documents to ArchiveDocuments collection.`)) return;
+
+  log(`Running mapping → save for ${yr||'all years'}…`);
+  document.getElementById('log-panel').classList.add('show');
+
+  try {
+    const resp = await fetch(`${API}/archive_map`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ year: yr||undefined, overwriteExisting: false })
+    });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message||'Mapping failed');
+
+    const r = data.results;
+    log(`Mapping complete: ${r.saved} new | ${r.updated} updated | ${r.skipped} skipped | ${r.errors.length} errors`, 'success');
+    if (r.errors.length) r.errors.forEach(e => log(`  ERROR: ${e.file} — ${e.error}`, 'error'));
+
+    // Auto-switch to DB view and reload
+    document.getElementById('mode-sel').value = 'db';
+    await loadData();
+  } catch(e) {
+    log(`Run mapping failed: ${e.message}`, 'error');
+    alert('Mapping failed: ' + e.message);
+  }
+}
+
+function onYearChange() {
+  allDocs = [];
+  editState = {};
+  showArea(false);
+  document.getElementById('scan-summary').style.display = 'none';
+}
+
+// ── Source badge helper ───────────────────────────────────────────────────────
+function sourceBadge(src) {
+  const s = src || 'catalogue';
+  const labels = { catalogue:'<i class="fas fa-folder me-1"></i>Catalogue', gdrive:'<i class="fab fa-google-drive me-1"></i>Drive', gmail:'<i class="fas fa-envelope me-1"></i>Gmail' };
+  const cls    = { catalogue:'src-catalogue', gdrive:'src-gdrive', gmail:'src-gmail' };
+  return `<span class="badge ${cls[s]||'src-catalogue'}" style="font-size:.7rem">${labels[s]||s}</span>`;
+}
+
+// ── Full Scan (all data sources) ─────────────────────────────────────────────
+async function runFullScan() {
+  const yr      = YEAR_SEL();
+  const sources = [];
+  if (document.getElementById('src-cat').checked)    sources.push('catalogue');
+  if (document.getElementById('src-gdrive').checked) sources.push('gdrive');
+  if (document.getElementById('src-gmail').checked)  sources.push('gmail');
+  if (!sources.length) return alert('Select at least one data source.');
+
+  if (!confirm(`Run Full Scan (${sources.join(', ')}) for ${yr||'ALL years'}?\n\nThis will scan Google Drive and Gmail in real-time and save all found documents to WixData.`)) return;
+
+  const btn = document.getElementById('full-scan-btn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Scanning…'; }
+  log(`Starting full scan for ${yr||'all years'} from: ${sources.join(', ')}…`);
+  document.getElementById('log-panel').classList.add('show');
+  const sumEl = document.getElementById('scan-summary');
+  sumEl.style.display = 'none';
+
+  try {
+    const resp = await fetch(`${API}/archive_full_scan`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ year: yr || undefined, sources, overwriteExisting: false })
+    });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message || 'Full scan failed');
+
+    const sl = data.scanLog || {};
+
+    // Build per-source log lines
+    const srcDetails = [];
+    if (sl.catalogue) {
+      const ok = sl.catalogue.status === 'ok';
+      log(`📁 Catalogue: ${sl.catalogue.count} documents — ${sl.catalogue.status}`, ok?'success':'error');
+      srcDetails.push(`<span class="me-3"><i class="fas fa-folder me-1" style="color:#475569"></i><strong>${sl.catalogue.count}</strong> from Catalogue</span>`);
+    }
+    if (sl.gdrive) {
+      const ok = sl.gdrive.status === 'ok';
+      log(`☁️ Google Drive: ${sl.gdrive.count} docs for ${yr||'all years'} (${sl.gdrive.totalInDrive||0} total found) — ${sl.gdrive.status}`, ok?'success':'error');
+      if (!ok) log(`   Drive error: ${sl.gdrive.error||''}`, 'error');
+      srcDetails.push(`<span class="me-3"><i class="fab fa-google-drive me-1" style="color:#1a73e8"></i><strong>${sl.gdrive.count}</strong> from Google Drive</span>`);
+    }
+    if (sl.gmail) {
+      const ok = sl.gmail.status === 'ok';
+      log(`📧 Gmail: ${sl.gmail.count} emails (${sl.gmail.totalMessages||0} messages scanned) — ${sl.gmail.status}`, ok?'success':'error');
+      if (!ok) log(`   Gmail error: ${sl.gmail.error||''}`, 'error');
+      srcDetails.push(`<span class="me-3"><i class="fas fa-envelope me-1" style="color:#d93025"></i><strong>${sl.gmail.count}</strong> from Gmail</span>`);
+    }
+
+    const r = data.results;
+    log(`✅ Scan complete: ${r.saved} new | ${r.updated} updated | ${r.skipped} skipped | ${r.errors?.length||0} errors — Total: ${data.totalDocs} docs`, 'success');
+    if (r.errors?.length) r.errors.slice(0, 5).forEach(e => log(`  ⚠️ ${e.file} — ${e.error}`, 'error'));
+
+    // Show summary bar
+    sumEl.innerHTML = `<div class="d-flex align-items-center flex-wrap gap-2">
+      <strong class="text-success me-2"><i class="fas fa-check-circle me-1"></i>Full Scan Complete</strong>
+      ${srcDetails.join('')}
+      <span class="ms-2 text-muted small">${r.saved} new · ${r.updated} updated · ${r.skipped} skipped · ${data.totalDocs} total</span>
+    </div>`;
+    sumEl.style.display = '';
+
+    // Auto-switch to WixData view and reload
+    document.getElementById('mode-sel').value = 'db';
+    await loadData();
+  } catch(e) {
+    log(`Full scan failed: ${e.message}`, 'error');
+    alert('Full scan failed: ' + e.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-satellite-dish me-1"></i>Full Scan (All Sources)'; }
+  }
+}
+
+// ── Stats rendering ───────────────────────────────────────────────────────────
+function renderStats(stats, docs) {
+  document.getElementById('stats-area').style.display = '';
+  document.getElementById('st-total').textContent     = docs.length;
+  document.getElementById('st-verified').textContent  = docs.filter(d=>d.mappingStatus==='verified').length;
+  document.getElementById('st-auto').textContent      = docs.filter(d=>d.mappingStatus==='auto-mapped').length;
+  document.getElementById('st-pending').textContent   = docs.filter(d=>d.mappingStatus==='pending-import').length;
+  document.getElementById('st-high').textContent      = docs.filter(d=>d.confidence==='high').length;
+  document.getElementById('st-low').textContent       = docs.filter(d=>d.confidence==='low').length;
+
+  // Category pills
+  const byCat = countBy(docs, 'category');
+  const catColors = { Events:'#8b5cf6', Financial:'#0ea5e9', Membership:'#16a34a', Governance:'#f59e0b', Communication:'#ec4899', Vendor:'#6b7280', Analysis:'#64748b', Other:'#cbd5e1' };
+  document.getElementById('cat-pills').innerHTML = Object.entries(byCat).map(([k,v]) =>
+    `<div class="col-auto"><span class="badge rounded-pill" style="background:${catColors[k]||'#888'};font-size:.78rem;padding:5px 12px">${k} <strong>${v}</strong></span></div>`).join('');
+
+  // Collection pills
+  const byCol = countBy(docs, 'targetCollection');
+  document.getElementById('col-pills').innerHTML = Object.entries(byCol).map(([k,v]) =>
+    `<div class="col-auto"><span class="badge rounded-pill bg-secondary" style="font-size:.74rem;padding:4px 10px;opacity:.85">${k}: ${v}</span></div>`).join('');
+
+  // Source pills
+  const bySrc = countBy(docs, 'source');
+  const srcClr = { catalogue:'#475569', gdrive:'#1a73e8', gmail:'#d93025' };
+  const srcIco = { catalogue:'fa-folder', gdrive:'fa-google-drive fab', gmail:'fa-envelope fas' };
+  document.getElementById('src-pills').innerHTML = Object.entries(bySrc).map(([k,v]) =>
+    `<div class="col-auto"><span class="badge rounded-pill" style="background:${srcClr[k]||'#888'};color:#fff;font-size:.74rem;padding:4px 10px"><i class="${(srcIco[k]||'fas fa-file')} me-1"></i>${k}: <strong>${v}</strong></span></div>`).join('');
+}
+
+// ── Table rendering ───────────────────────────────────────────────────────────
+function renderTable() {
+  const search  = document.getElementById('search-box').value.toLowerCase();
+  const fltCat  = document.getElementById('flt-cat').value;
+  const fltCol  = document.getElementById('flt-col').value;
+  const fltSt   = document.getElementById('flt-status').value;
+  const fltConf = document.getElementById('flt-conf').value;
+
+  let filtered = allDocs.filter(d => {
+    if (search && !d.filename.toLowerCase().includes(search) && !(d.originalPath||'').toLowerCase().includes(search)) return false;
+    if (fltCat  && d.category         !== fltCat)  return false;
+    if (fltCol  && d.targetCollection !== fltCol)  return false;
+    if (fltSt   && d.mappingStatus    !== fltSt)   return false;
+      if (fltConf && d.confidence !== fltConf) return false;
+    const fltSrc = (document.getElementById('flt-source')?.value) || '';
+    if (fltSrc  && (d.source||'catalogue') !== fltSrc) return false;
+    return true;
+  });
+
+  const rowKey = d => d.docKey || d.originalPath;
+
+  document.getElementById('tbl-body').innerHTML = filtered.map((d, i) => {
+    const key       = rowKey(d);
+    const isEditing = editState[key]?.editing;
+    const draft     = editState[key]?.draft || d;
+    const isPending = d.mappingStatus === 'pending-import';
+    const catClass  = 'cat-' + (d.category||'other').toLowerCase();
+    const stBadge   = statusBadge(d.mappingStatus);
+    const conf      = d.confidence || 'low';
+    const confPct   = conf==='high'?88:conf==='medium'?55:22;
+    const confColor = conf==='high'?'#16a34a':conf==='medium'?'#f59e0b':'#dc3545';
+    const isExpanded= expandState[key];
+    const learnedTag= d.mappingStatus==='corrected'?'<span class="learned-tag" title="Learned correction">🎓 learned</span>':'';
+    const openBtn   = openFileBtn(d);
+    const srcBadge  = sourceBadge(d.source);
+
+    if (isEditing) {
+      const confBar = `<div class="conf-bar-wrap"><div class="conf-bar-track"><div class="conf-bar" style="width:${confPct}%;background:${confColor}"></div></div><span class="small" style="color:${confColor}">${conf}</span></div>`;
+      return `<tr class="row-editing ${catClass}" id="row-${i}">
+        <td class="text-muted">${i+1}</td>
+        <td>
+          ${fileTypeIcon(d.fileType)} <strong>${esc(d.filename)}</strong>
+          <div class="text-muted" style="font-size:.68rem;margin-top:2px">${srcBadge} ${openBtn}</div>
+          <div style="margin-top:6px">
+            <div class="fw-semibold" style="font-size:.7rem;color:#64748b;margin-bottom:4px">FIELD MAPPING</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 12px">
+              <div><label style="font-size:.7rem;color:#64748b">Accounting Year</label>
+                <select class="editable-select w-100" id="edit-year-${i}">${yearOptions(draft.accountingYear)}</select></div>
+              <div><label style="font-size:.7rem;color:#64748b">Category</label>
+                <select class="editable-select w-100" id="edit-cat-${i}" onchange="syncCollection(${i}, this.value, '${i}')">${catOptions(draft.category)}</select></div>
+              <div><label style="font-size:.7rem;color:#64748b">Sub-Category</label>
+                <input class="editable-input" id="edit-sub-${i}" value="${esc(draft.subCategory||'')}"></div>
+              <div><label style="font-size:.7rem;color:#64748b">Target Collection</label>
+                <select class="editable-select w-100" id="edit-col-${i}">${colOptions(draft.targetCollection)}</select></div>
+              <div class="" style="grid-column:1/-1"><label style="font-size:.7rem;color:#64748b">Notes (reason for correction)</label>
+                <input class="editable-input" id="edit-notes-${i}" value="${esc(draft.notes||'')}"></div>
+            </div>
+          </div>
+        </td>
+        <td>${esc(d.accountingYear||'')}</td>
+        <td><span class="badge" style="background:${catColor(d.category)};color:#fff;font-size:.7rem">${esc(d.category||'')}</span></td>
+        <td><code style="font-size:.72rem">${esc(d.targetCollection||'')}</code></td>
+        <td>${confBar}</td>
+        <td>${stBadge}</td>
+        <td></td>
+        <td nowrap>
+          <button class="save-btn me-1" onclick="saveRow('${esc(key)}', ${i}, 'correct')">💾 Save &amp; Learn</button><br>
+          <button class="save-btn me-1" style="background:#1a73e8;margin-top:3px" onclick="saveRow('${esc(key)}', ${i}, 'verify')">✓ Verify</button>
+          <button class="cancel-btn" style="margin-top:3px" onclick="cancelEdit('${esc(key)}', ${i})">✕</button>
+        </td>
+      </tr>`;
+    }
+
+    const confBar = `<div class="conf-bar-wrap"><div class="conf-bar-track"><div class="conf-bar" style="width:${confPct}%;background:${confColor}"></div></div><span class="small" style="font-size:.68rem;color:${confColor}">${confPct}%</span></div>`;
+
+    const expandPanel = isExpanded ? `
+      <tr class="${catClass}" id="expand-${i}">
+        <td colspan="9" style="padding:0 12px 12px 32px">
+          <div class="field-detail">
+            <div style="font-size:.72rem;font-weight:700;color:#475569;margin-bottom:6px">FIELD MAPPING DETAIL — ${esc(d.filename)}</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:2px 16px">
+              ${fieldDetailRows(d)}
+            </div>
+          </div>
+        </td>
+      </tr>` : '';
+
+    return `<tr class="${catClass}${isPending?' pending-import-row':''}" id="row-${i}">
+      <td class="text-muted small">${i+1}</td>
+      <td>
+        <div style="display:flex;align-items:flex-start;gap:6px">
+          <span style="margin-top:2px">${fileTypeIcon(d.fileType)}</span>
+          <div style="flex:1;min-width:0">
+            <strong style="font-size:.84rem">${esc(d.filename)}</strong>
+            ${learnedTag}
+            <div style="margin-top:2px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+              ${srcBadge}
+              ${openBtn}
+              <button class="open-file-btn" onclick="toggleExpand('${esc(key)}', ${i})" title="Toggle field detail">
+                <i class="fas fa-${isExpanded?'chevron-up':'layer-group'} me-1"></i>${isExpanded?'Hide':'Fields'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td style="white-space:nowrap">${esc(d.accountingYear||'—')}</td>
+      <td>
+        <span class="badge" style="background:${catColor(d.category)};color:#fff;font-size:.72rem">${esc(d.category||'')}</span>
+        <div class="text-muted" style="font-size:.68rem;margin-top:2px">${esc(d.subCategory||'')}</div>
+      </td>
+      <td><code style="font-size:.72rem">${esc(d.targetCollection||'')}</code></td>
+      <td>${confBar}</td>
+      <td>${stBadge}${isPending?'<div style="font-size:.62rem;color:#78350f">→ Run Mapping</div>':''}</td>
+      <td class="small text-muted" style="max-width:130px;white-space:normal">${esc(d.notes||'')}</td>
+      <td nowrap>
+        <button class="edit-btn" onclick="startEdit('${esc(key)}', ${i})" title="Edit &amp; correct mapping"><i class="fas fa-pen"></i></button>
+        ${d.mappingStatus !== 'verified' ? `<button class="save-btn ms-1" onclick="quickVerify('${esc(key)}', ${i})" title="Mark verified"><i class="fas fa-check"></i></button>` : ''}
+        <button class="del-btn ms-1" onclick="deleteDoc('${esc(key)}', '${esc(d.filename)}')" title="Delete this mapping"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>${expandPanel}`;
+  }).join('');
+
+  document.getElementById('row-count').textContent = `${filtered.length} of ${allDocs.length} documents`;
+  window._filteredDocs = filtered;
+}
+
+// ── Edit / expand helpers ────────────────────────────────────────────────────
+let expandState = {};
+
+function startEdit(key, idx) {
+  editState[key] = { editing: true, draft: { ...allDocs.find(d=>(d.docKey||d.originalPath)===key) } };
+  renderTable();
+  const el = document.getElementById('row-' + idx);
+  if (el) el.scrollIntoView({ block:'nearest' });
+}
+function cancelEdit(key, idx) {
+  delete editState[key];
+  renderTable();
+}
+function toggleExpand(key, idx) {
+  expandState[key] = !expandState[key];
+  renderTable();
+}
+
+// Build open-file button based on doc source
+function openOriginalFile(d) {
+  const src = d.source || 'catalogue';
+  if (src === 'gdrive' && d.driveLink) { window.open(d.driveLink, '_blank'); return; }
+  if (src === 'gmail' && d.originalPath) { window.open(d.originalPath, '_blank'); return; }
+  // Catalogue: copy path to clipboard
+  navigator.clipboard?.writeText(d.originalPath || d.filename)
+    .then(() => log('Path copied to clipboard', 'success'))
+    .catch(() => prompt('File path (Ctrl+C to copy):', d.originalPath || d.filename));
+}
+
+function openFileBtn(d) {
+  const src = d.source || 'catalogue';
+  if (src === 'gdrive' && d.driveLink)
+    return `<a href="${esc(d.driveLink)}" target="_blank" class="open-file-btn" title="Open in Google Drive"><i class="fab fa-google-drive me-1"></i>Open in Drive</a>`;
+  if (src === 'gmail' && d.originalPath)
+    return `<a href="${esc(d.originalPath)}" target="_blank" class="open-file-btn" title="Open Gmail search"><i class="fas fa-envelope me-1"></i>Open in Gmail</a>`;
+  // Catalogue path
+  const path = d.originalPath || '';
+  return path ? `<button class="open-file-btn" onclick="navigator.clipboard?.writeText('${esc(path)}').then(()=>log('Path copied','success'))" title="${esc(path)}"><i class="fas fa-copy me-1"></i>Copy Path</button>` : '';
+}
+
+function fileTypeIcon(ft) {
+  const t = (ft||'').toLowerCase();
+  if (t==='pdf') return '<i class="fas fa-file-pdf" style="color:#dc3545"></i>';
+  if (t==='xlsx'||t==='xls') return '<i class="fas fa-file-excel" style="color:#16a34a"></i>';
+  if (t==='docx'||t==='doc') return '<i class="fas fa-file-word" style="color:#1a73e8"></i>';
+  if (t==='pptx'||t==='ppt') return '<i class="fas fa-file-powerpoint" style="color:#f59e0b"></i>';
+  if (t==='csv') return '<i class="fas fa-file-csv" style="color:#475569"></i>';
+  if (t==='html'||t==='htm') return '<i class="fas fa-globe" style="color:#8b5cf6"></i>';
+  if (t==='txt') return '<i class="fas fa-file-alt" style="color:#64748b"></i>';
+  return '<i class="fas fa-file" style="color:#94a3b8"></i>';
+}
+
+function fieldDetailRows(d) {
+  const fields = [
+    ['Filename',   d.filename,          'high'],
+    ['File Type',  d.fileType,          'high'],
+    ['Acc. Year',  d.accountingYear,    'high'],
+    ['Category',   d.category,          d.confidence||'low'],
+    ['Sub-Cat',    d.subCategory,       d.confidence||'low'],
+    ['Collection', d.targetCollection,  d.confidence||'low'],
+    ['Source',     d.source,            'high'],
+    ['Src Folder', d.sourceFolder,      'high'],
+    ['File Size',  d.fileSize,          'high'],
+    ['Dr. File ID',d.driveFileId||'—',  'high'],
+    ['Modified',   d.modifiedTime ? new Date(d.modifiedTime).toLocaleDateString() : '—', 'high'],
+    ['Email Date', d.emailDate||'—',    'high'],
+    ['From',       d.emailFrom||'—',    'high'],
+    ['Subject',    d.emailSubject||'—', 'high'],
+    ['Verified By',d.verifiedBy||'—',   'high'],
+    ['Notes',      d.notes||'—',        'high'],
+  ];
+  const confColor = c => c==='high'?'#d1fae5':c==='medium'?'#fef3c7':'#fee2e2';
+  const confTxt   = c => c==='high'?'#065f46':c==='medium'?'#78350f':'#991b1b';
+  return fields.map(([label, val, conf]) =>
+    `<div class="field-row">
+      <span class="field-label">${label}</span>
+      <span class="field-val" title="${esc(String(val||''))}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px">${esc(String(val||'—'))}</span>
+      <span class="field-conf-pill" style="background:${confColor(conf)};color:${confTxt(conf)}">${conf}</span>
+    </div>`
+  ).join('');
+}
+
+async function saveRow(key, idx, action) {
+  const el = id => document.getElementById(id + '-' + idx);
+  const newCat = el('edit-cat')?.value;
+  const oldDoc = allDocs.find(d=>(d.docKey||d.originalPath)===key);
+  const corrected = action==='correct' && oldDoc && (
+    newCat !== oldDoc.category ||
+    el('edit-col')?.value !== oldDoc.targetCollection ||
+    el('edit-sub')?.value !== oldDoc.subCategory
+  );
+  const body = {
+    docKey:          key,
+    accountingYear:  el('edit-year')?.value,
+    category:        newCat,
+    subCategory:     el('edit-sub')?.value,
+    targetCollection:el('edit-col')?.value,
+    notes:           el('edit-notes')?.value,
+    action,
+    learnFromCorrection: corrected,  // signal backend to save learning example
+    adminEmail: localStorage.getItem('banfAdminEmail') || 'admin',
+  };
+  try {
+    log(`Saving: ${key} → action=${action}${corrected?' (+ learning example)':''}`);
+    const resp = await fetch(`${API}/archive_map_update`, { method:'POST', headers:getHeaders(), body:JSON.stringify(body) });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message);
+    const docIdx = allDocs.findIndex(d=>(d.docKey||d.originalPath)===key);
+    if (docIdx >= 0) {
+      allDocs[docIdx] = { ...allDocs[docIdx], ...body, mappingStatus: action==='verify'?'verified':(action==='correct'?'corrected':allDocs[docIdx].mappingStatus), _source:'db' };
+    }
+    delete editState[key];
+    if (corrected) log(`🎓 Correction saved as learning example. Future files like "${oldDoc?.filename}" will map to ${newCat}.`, 'success');
+    else log(`Saved ${key}`, 'success');
+    renderTable();
+  } catch(e) {
+    log(`Save failed: ${e.message}`, 'error');
+    alert('Save failed: ' + e.message);
+  }
+}
+
+// ── Delete document ───────────────────────────────────────────────────────────
+async function deleteDoc(key, filename) {
+  if (!confirm(`Delete mapping for:\n"${filename}"?\n\nThis removes the entry from ArchiveDocuments. The original file is NOT deleted.`)) return;
+  try {
+    log(`Deleting: ${key}…`);
+    const resp = await fetch(`${API}/archive_doc_delete`, {
+      method: 'POST', headers: getHeaders(),
+      body: JSON.stringify({ docKey: key, adminEmail: localStorage.getItem('banfAdminEmail')||'admin' })
+    });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message);
+    allDocs = allDocs.filter(d=>(d.docKey||d.originalPath)!==key);
+    delete editState[key]; delete expandState[key];
+    log(`Deleted: ${key}`, 'success');
+    renderStats(null, allDocs); renderTable();
+  } catch(e) { log(`Delete failed: ${e.message}`, 'error'); alert('Delete failed: ' + e.message); }
+}
+
+// ── Add document modal ────────────────────────────────────────────────────────
+function showAddModal() {
+  const yr = YEAR_SEL() || 'FY2024-25';
+  document.getElementById('add-doc-modal').classList.add('show');
+  document.getElementById('add-year').value = yr;
+}
+function closeAddModal() { document.getElementById('add-doc-modal').classList.remove('show'); }
+async function submitAddDoc() {
+  const g = id => document.getElementById(id)?.value?.trim() || '';
+  const filename = g('add-filename');
+  if (!filename) { alert('Filename is required'); return; }
+  const body = {
+    filename,
+    originalPath:     g('add-path'),
+    fileType:         g('add-filetype'),
+    source:           g('add-source'),
+    accountingYear:   g('add-year'),
+    category:         g('add-cat'),
+    subCategory:      g('add-sub'),
+    targetCollection: g('add-col'),
+    notes:            g('add-notes'),
+    adminEmail: localStorage.getItem('banfAdminEmail') || 'admin',
+  };
+  try {
+    log(`Adding document: ${filename}…`);
+    const resp = await fetch(`${API}/archive_doc_add`, {
+      method: 'POST', headers: getHeaders(), body: JSON.stringify(body)
+    });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message);
+    allDocs.unshift(data.doc || { ...body, mappingStatus:'corrected', confidence:'high', docKey: data.docKey || filename });
+    log(`Added: ${filename}`, 'success');
+    closeAddModal();
+    renderStats(null, allDocs); renderTable();
+  } catch(e) { log(`Add failed: ${e.message}`, 'error'); alert('Add failed: ' + e.message); }
+}
+
+async function quickVerify(key, idx) {
+  await patchStatus(key, 'verify');
+}
+async function quickReject(key, idx) {
+  if (!confirm('Mark this document as rejected?')) return;
+  await patchStatus(key, 'reject');
+}
+async function patchStatus(key, action) {
+  try {
+    const resp = await fetch(`${API}/archive_map_update`, {
+      method:'POST', headers:getHeaders(),
+      body: JSON.stringify({ docKey:key, action, adminEmail:localStorage.getItem('banfAdminEmail')||'admin' })
+    });
+    const data = await resp.json();
+    if (!data.success) throw new Error(data.message);
+    const docIdx = allDocs.findIndex(d=>(d.docKey||d.originalPath)===key);
+    if (docIdx >= 0) allDocs[docIdx].mappingStatus = action==='verify'?'verified':'rejected';
+    log(`${action}: ${key}`, 'success');
+    renderTable();
+  } catch(e) { log('Patch failed: ' + e.message, 'error'); }
+}
+
+async function batchVerifyVisible() {
+  const visible  = (window._filteredDocs||[]).filter(d=>d.mappingStatus!=='verified');
+  if (!visible.length) { alert('No unverified documents visible.'); return; }
+  if (!confirm(`Mark ${visible.length} visible documents as verified?`)) return;
+  let ok=0, err=0;
+  for (const d of visible) {
+    try {
+      const resp = await fetch(`${API}/archive_map_update`, {
+        method:'POST', headers:getHeaders(),
+        body: JSON.stringify({ docKey:d.docKey||d.originalPath, action:'verify', adminEmail:localStorage.getItem('banfAdminEmail')||'admin' })
+      });
+      const data = await resp.json();
+      if (data.success) { d.mappingStatus='verified'; ok++; }
+      else err++;
+    } catch(_) { err++; }
+  }
+  log(`Batch verify: ${ok} verified, ${err} errors`, ok&&!err?'success':'info');
+  renderTable();
+}
+
+// ── Collection auto-suggest ───────────────────────────────────────────────────
+function syncCollection(idx, category, sfxOrId) {
+  const catToCol = { Events:'Events', Financial:'FinancialEntries', Membership:'MembershipRegistrations', Governance:'AdminRoles', Communication:'KnowledgeBase', Vendor:'Vendors', Analysis:'KnowledgeBase', Other:'KnowledgeBase' };
+  // sfxOrId can be an element ID directly (add modal) or a suffix to append to 'edit-col-'
+  const id = (typeof sfxOrId === 'string' && document.getElementById(sfxOrId)) ? sfxOrId : 'edit-col-' + sfxOrId;
+  const colSel = document.getElementById(id);
+  if (colSel) colSel.value = catToCol[category] || 'KnowledgeBase';
+}
+
+// ── Export CSV ────────────────────────────────────────────────────────────────
+function exportCSV() {
+  const docs = window._filteredDocs || allDocs;
+  const hdr = 'Filename,OriginalPath,FileType,Category,SubCategory,AccountingYear,TargetCollection,Confidence,Status,Notes,SourceFolder,FileSize';
+  const rows = docs.map(d => [
+    d.filename, d.originalPath, d.fileType, d.category, d.subCategory,
+    d.accountingYear, d.targetCollection, d.confidence, d.mappingStatus,
+    (d.notes||'').replace(/,/g,'|'), d.sourceFolder, d.fileSize
+  ].map(v=>`"${(v||'').toString().replace(/"/g,'""')}"`).join(','));
+  const csv  = [hdr, ...rows].join('\n');
+  const yr   = YEAR_SEL() || 'all';
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a'); a.href=url; a.download=`BANF_Archive_Mapping_${yr}.csv`; a.click();
+  URL.revokeObjectURL(url);
+  log(`CSV exported: ${rows.length} rows`, 'success');
+}
+
+// ── PDF Report ────────────────────────────────────────────────────────────────
+function openPdfReport() {
+  const yr = YEAR_SEL() || 'FY2024-25';
+  const url = `${API}/archive_scan_report?year=${encodeURIComponent(yr)}`;
+  window.open(url, '_blank');
+  log(`Opening PDF report for ${yr} in new tab…`, 'success');
+}
+// ── Collection Setup ─────────────────────────────────────────────────────────
+async function checkCollectionStatus() {
+  const badge = document.getElementById('coll-status-badge');
+  badge.innerHTML = '<i class="fas fa-circle-notch fa-spin me-1"></i>Checking…';
+  badge.style.background = 'rgba(255,255,255,.15)';
+  try {
+    const r = await fetch(`${API}/archive_setup`, { headers: getHeaders() });
+    const d = await r.json();
+    if (d.success && d.ready) {
+      badge.innerHTML = `<i class="fas fa-check-circle me-1"></i>DB Ready (${d.recordCount||0} records)`;
+      badge.style.background = 'rgba(22,163,74,.6)';
+      log(`Collection ready: ${d.recordCount||0} records in ArchiveDocuments`, 'success');
+    } else {
+      badge.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>DB Not Created';
+      badge.style.background = 'rgba(220,53,69,.6)';
+      log('Collection not ready. Click "Setup Collection" to create it.', 'error');
+    }
+  } catch(e) {
+    badge.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>Status Unknown';
+    badge.style.background = 'rgba(100,116,139,.5)';
+  }
+}
+
+async function runSetup() {
+  const btn = document.getElementById('setup-btn');
+  if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Setting up…'; }
+  log('Creating ArchiveDocuments WixData collection…');
+  document.getElementById('log-panel').classList.add('show');
+  try {
+    const resp = await fetch(`${API}/archive_setup`, {
+      method: 'POST', headers: getHeaders(), body: '{}'
+    });
+    const d = await resp.json();
+    if (d.success && d.ready) {
+      log(`✅ ${d.message}`, 'success');
+      (d.steps||[]).forEach(s => log(`  [${s.step}] ${s.status}: ${s.message||s.error||''}`, s.status==='ok'?'success':'error'));
+      await checkCollectionStatus();
+      // Auto-trigger full scan after successful setup
+      if (confirm('Collection is ready! Run Full Scan for ' + (YEAR_SEL()||'FY2024-25') + ' now?')) {
+        await runFullScan();
+      }
+    } else {
+      log(`❌ Setup failed: ${d.message}`, 'error');
+      (d.steps||[]).forEach(s => log(`  [${s.step}] ${s.status}: ${s.message||s.error||''}`, s.status==='error'?'error':'info'));
+    }
+  } catch(e) {
+    log(`Setup error: ${e.message}`, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-database me-1"></i>Setup Collection'; }
+  }
+}
+// ── UI helpers ────────────────────────────────────────────────────────────────
+function showSpinner(v) {
+  document.getElementById('loading-spinner').style.display = v?'':'none';
+  if (v) { document.getElementById('stats-area').style.display='none'; document.getElementById('table-area').style.display='none'; }
+}
+function showArea(v) {
+  document.getElementById('table-area').style.display = v?'':'none';
+  document.getElementById('empty-msg').style.display  = (!v && !allDocs.length) ? '' : 'none';
+}
+
+function catColor(cat) {
+  return {Events:'#8b5cf6',Financial:'#0ea5e9',Membership:'#16a34a',Governance:'#f59e0b',Communication:'#ec4899',Vendor:'#6b7280',Analysis:'#64748b'}[cat]||'#888';
+}
+
+function statusBadge(s) {
+  const map = { 'auto-mapped':'badge-auto', verified:'badge-verified', corrected:'badge-corrected', rejected:'badge-rejected', 'pending-import':'badge-pending' };
+  const label = { 'auto-mapped':'Auto-Mapped', verified:'✓ Verified', corrected:'Corrected', rejected:'✗ Rejected', 'pending-import':'Pending Import' };
+  return `<span class="badge ${map[s]||'badge-auto'}" style="font-size:.7rem">${label[s]||s}</span>`;
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function countBy(arr, key) { return arr.reduce((a,i)=>{ const v=i[key]||'unknown'; a[v]=(a[v]||0)+1; return a; }, {}); }
+
+function yearOptions(sel) {
+  return ['FY2020-21','FY2021-22','FY2022-23','FY2023-24','FY2024-25','FY2025-26','FY2026-27','unknown'].map(y =>
+    `<option value="${y}" ${y===sel?'selected':''}>${y}</option>`).join('');
+}
+function catOptions(sel) {
+  return ['Events','Financial','Membership','Governance','Communication','Vendor','Analysis','Other'].map(c =>
+    `<option value="${c}" ${c===sel?'selected':''}>${c}</option>`).join('');
+}
+function colOptions(sel) {
+  return ['Events','FinancialEntries','MembershipRegistrations','Members','AdminRoles','KnowledgeBase','Vendors'].map(c =>
+    `<option value="${c}" ${c===sel?'selected':''}>${c}</option>`).join('');
+}
+
+// ── Auto-load on page open ────────────────────────────────────────────────────
+(function init() {
+  // Default: catalog view for FY2024-25
+  document.getElementById('year-sel').value = 'FY2024-25';
+  document.getElementById('mode-sel').value = 'catalog';
+  loadData();
+  // Check WixData collection status on page load
+  checkCollectionStatus();
+})();
+</script>
+
+<!-- Add Document Modal -->
+<div class="add-doc-modal" id="add-doc-modal" onclick="if(event.target===this)closeAddModal()">
+  <div class="modal-box">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add Document Mapping</h5>
+      <button class="btn btn-sm btn-outline-secondary" onclick="closeAddModal()">✕ Close</button>
+    </div>
+    <div class="field-grid">
+      <div>
+        <label class="form-label small fw-semibold">Filename <span class="text-danger">*</span></label>
+        <input id="add-filename" class="form-control form-control-sm" placeholder="e.g. BANF_Budget_FY2024-25.xlsx">
+      </div>
+      <div>
+        <label class="form-label small fw-semibold">File Type</label>
+        <select id="add-filetype" class="form-select form-select-sm">
+          <option value="pdf">PDF</option><option value="xlsx">XLSX</option><option value="docx">DOCX</option>
+          <option value="pptx">PPTX</option><option value="csv">CSV</option><option value="txt">TXT</option><option value="html">HTML</option>
+        </select>
+      </div>
+      <div style="grid-column:1/-1">
+        <label class="form-label small fw-semibold">Original Path / URL</label>
+        <input id="add-path" class="form-control form-control-sm" placeholder="Drive link, Gmail URL, or local path">
+      </div>
+      <div>
+        <label class="form-label small fw-semibold">Data Source</label>
+        <select id="add-source" class="form-select form-select-sm">
+          <option value="catalogue">Catalogue</option>
+          <option value="gdrive">Google Drive</option>
+          <option value="gmail">Gmail</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label small fw-semibold">Accounting Year</label>
+        <select id="add-year" class="form-select form-select-sm">
+          <option>FY2020-21</option><option>FY2021-22</option><option>FY2022-23</option>
+          <option>FY2023-24</option><option selected>FY2024-25</option><option>FY2025-26</option><option>FY2026-27</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label small fw-semibold">Category</label>
+        <select id="add-cat" class="form-select form-select-sm" onchange="syncCollection(null, this.value, 'add-col')">
+          <option>Events</option><option>Financial</option><option>Membership</option>
+          <option>Governance</option><option>Communication</option><option>Vendor</option><option>Analysis</option><option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label small fw-semibold">Sub-Category</label>
+        <input id="add-sub" class="form-control form-control-sm" placeholder="e.g. Bosonto Utsob 2025">
+      </div>
+      <div>
+        <label class="form-label small fw-semibold">Target Collection</label>
+        <select id="add-col" class="form-select form-select-sm">
+          <option>Events</option><option>FinancialEntries</option><option>MembershipRegistrations</option>
+          <option>Members</option><option>AdminRoles</option><option>KnowledgeBase</option><option>Vendors</option>
+        </select>
+      </div>
+      <div style="grid-column:1/-1">
+        <label class="form-label small fw-semibold">Notes</label>
+        <input id="add-notes" class="form-control form-control-sm" placeholder="Optional context or reason">
+      </div>
+    </div>
+    <div class="mt-3 d-flex gap-2 justify-content-end">
+      <button class="btn btn-sm btn-outline-secondary" onclick="closeAddModal()">Cancel</button>
+      <button class="btn btn-sm" style="background:var(--banf);color:#fff" onclick="submitAddDoc()"><i class="fas fa-save me-1"></i>Save Mapping</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BANF - Stakeholder Requirements Journey</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --g: #006A4E; --gl: #00856F; --red: #DC143C; --or: #FF6B35;
+      --bg: #f4f6fa; --card: #fff; --mu: #64748b; --ln: #e5e8ee;
+      --ok: #16a34a; --warn: #f59e0b; --danger: #dc2626; --info: #2563eb;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: var(--bg); color: #1e293b; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; font-size: 14px; }
+
+    /* Header */
+    .hdr { background: linear-gradient(135deg, var(--g), var(--gl)); color: #fff; position: sticky; top: 0; z-index: 200; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
+    .hdr .in { max-width: 1400px; margin: 0 auto; padding: .7rem 1.2rem; display: flex; flex-wrap: wrap; gap: .6rem; justify-content: space-between; align-items: center; }
+    .hdr h1 { font-size: 1.1rem; margin: 0; font-weight: 700; }
+    .hdr .sub { opacity: .8; font-size: .75rem; }
+    .hdr a { color: #fff; font-size: .72rem; text-decoration: none; padding: .3rem .6rem; border: 1px solid rgba(255,255,255,.3); border-radius: 5px; }
+    .hdr a:hover { background: rgba(255,255,255,.15); }
+
+    /* Identity Bar */
+    .id-bar { background: #fff; border-bottom: 1px solid var(--ln); box-shadow: 0 2px 6px rgba(0,0,0,.03); }
+    .id-bar .in { max-width: 1400px; margin: 0 auto; padding: .6rem 1.2rem; display: flex; flex-wrap: wrap; gap: .6rem; justify-content: space-between; align-items: center; }
+    .id-name { font-size: 1rem; font-weight: 700; }
+    .id-name .rl { color: var(--g); }
+    .id-meta { font-size: .73rem; color: var(--mu); }
+    .sel { font-size: .8rem; padding: .25rem .5rem; border-radius: 5px; border: 1px solid var(--ln); background: #f9fafb; }
+
+    /* Wrap */
+    .wrap { max-width: 1400px; margin: 0 auto; padding: 1rem 1.2rem; }
+
+    /* Tabs */
+    .tab-bar { display: flex; gap: 2px; background: #e2e8f0; border-radius: 10px; padding: 3px; margin-bottom: 1rem; flex-wrap: wrap; }
+    .tab-btn { padding: .45rem .9rem; border: none; background: transparent; border-radius: 8px; font-size: .78rem; font-weight: 600; color: var(--mu); cursor: pointer; white-space: nowrap; }
+    .tab-btn.active { background: #fff; color: var(--g); box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Cards */
+    .cp { background: var(--card); border: 1px solid var(--ln); border-radius: 12px; padding: 1rem; box-shadow: 0 2px 8px rgba(14,23,38,.03); margin-bottom: .85rem; }
+    .cp h2 { font-size: .88rem; font-weight: 700; margin: 0 0 .7rem; display: flex; align-items: center; gap: .4rem; }
+    .cp h2 .cnt { font-size: .65rem; background: var(--g); color: #fff; border-radius: 999px; padding: .1rem .45rem; }
+
+    /* KPI */
+    .kpi-g { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: .6rem; margin-bottom: .85rem; }
+    .kpi { background: var(--card); border: 1px solid var(--ln); border-radius: 10px; padding: .7rem .8rem; text-align: center; }
+    .kpi .v { font-size: 1.4rem; font-weight: 800; line-height: 1.1; }
+    .kpi .l { font-size: .67rem; color: var(--mu); margin-top: .15rem; }
+    .kpi.gr .v { color: var(--ok); } .kpi.rd .v { color: var(--danger); } .kpi.or .v { color: var(--warn); } .kpi.bl .v { color: var(--info); }
+
+    /* Pipeline Lanes */
+    .lanes { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; }
+    .lane { border-radius: 10px; padding: .6rem; border: 2px solid transparent; }
+    .lane.s0 { background: #f0f4ff; border-color: #bfdbfe; }
+    .lane.s1 { background: #eef2ff; border-color: #c7d2fe; }
+    .lane.s2 { background: #fef9ee; border-color: #fde68a; }
+    .lane.s3 { background: #f5f3ff; border-color: #ddd6fe; }
+    .lane.s4 { background: #ecfdf5; border-color: #86efac; }
+    .lane h4 { font-size: .65rem; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; margin: 0 0 .3rem; opacity: .7; }
+    .lane .ct { font-size: 1.2rem; font-weight: 800; }
+    .lane .ids { font-size: .63rem; color: var(--mu); margin-top: .15rem; word-break: break-word; }
+    @media (max-width: 768px) { .lanes { grid-template-columns: 1fr; } }
+
+    /* Chips */
+    .ch { display: inline-block; font-size: .6rem; font-weight: 600; padding: .12rem .42rem; border-radius: 999px; vertical-align: middle; }
+    .ch-gr { background: #d1fae5; color: #065f46; } .ch-bl { background: #dbeafe; color: #1d4ed8; }
+    .ch-or { background: #fef3c7; color: #92400e; } .ch-pu { background: #ede9fe; color: #6d28d9; }
+    .ch-rd { background: #fee2e2; color: #991b1b; } .ch-gy { background: #f1f5f9; color: #475569; }
+    .ch-tl { background: #ccfbf1; color: #115e59; }
+
+    /* Category Badge */
+    .cat-badge { font-size: .6rem; padding: .1rem .35rem; border-radius: 4px; font-weight: 600; margin-left: .3rem; }
+    .cat-admin { background: #ede9fe; color: #6d28d9; }
+    .cat-member { background: #dbeafe; color: #1d4ed8; }
+    .cat-public { background: #d1fae5; color: #065f46; }
+    .cat-infra { background: #f1f5f9; color: #475569; }
+
+    /* Table */
+    .rt { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .rt th { font-size: .63rem; text-transform: uppercase; letter-spacing: .5px; color: var(--mu); font-weight: 600; padding: .4rem .5rem; border-bottom: 2px solid var(--ln); white-space: nowrap; }
+    .rt td { font-size: .76rem; padding: .55rem .5rem; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+    .rt tr:last-child td { border-bottom: none; }
+    .pb { height: 5px; border-radius: 3px; background: #e2e8f0; overflow: hidden; }
+    .pb .f { height: 100%; border-radius: 3px; }
+
+    /* Approval Card */
+    .ac { border: 1px solid var(--ln); border-radius: 9px; padding: .7rem; margin-bottom: .5rem; display: flex; gap: .6rem; }
+    .ac:hover { border-color: var(--g); }
+    .ac .ic { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: .8rem; flex-shrink: 0; }
+    .ac .ic.pe { background: #fef3c7; color: #b45309; }
+    .ac .ic.ap { background: #d1fae5; color: #065f46; }
+    .ac .ic.st { background: #fee2e2; color: #991b1b; }
+    .ac .bd { flex: 1; min-width: 0; }
+    .ac .tl { font-size: .78rem; font-weight: 600; }
+    .ac .mt { font-size: .68rem; color: var(--mu); margin-top: .15rem; }
+
+    /* Blocker / Timeline */
+    .bl-r { display: flex; gap: .5rem; padding: .55rem 0; border-bottom: 1px solid #f1f5f9; }
+    .bl-r:last-child { border-bottom: none; }
+    .bl-i { width: 28px; height: 28px; border-radius: 7px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: .7rem; flex-shrink: 0; }
+    .tl-i { display: flex; gap: .5rem; padding: .4rem 0; border-bottom: 1px solid #f8fafc; }
+    .tl-i:last-child { border-bottom: none; }
+    .tl-d { width: 7px; height: 7px; border-radius: 50%; background: var(--info); margin-top: .3rem; flex-shrink: 0; }
+
+    /* User Journey Card */
+    .uj { border: 1px solid var(--ln); border-radius: 10px; padding: .85rem; margin-bottom: .7rem; background: #fafbfc; }
+    .uj .name { font-weight: 700; font-size: .88rem; }
+    .uj .role-tag { font-size: .65rem; padding: .1rem .4rem; border-radius: 4px; font-weight: 600; }
+    .uj .steps { margin-top: .5rem; padding-left: 0; list-style: none; counter-reset: step; }
+    .uj .steps li { font-size: .75rem; padding: .25rem 0; padding-left: 1.6rem; position: relative; border-left: 2px solid #e2e8f0; margin-left: .5rem; }
+    .uj .steps li::before { counter-increment: step; content: counter(step); position: absolute; left: -11px; top: .2rem; width: 20px; height: 20px; border-radius: 50%; background: var(--g); color: #fff; font-size: .6rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+    .sn { color: var(--mu); font-size: .7rem; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+    @media (max-width: 992px) { .two-col { grid-template-columns: 1fr; } }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .85rem; }
+    @media (max-width: 1100px) { .three-col { grid-template-columns: 1fr; } }
+    .filter-row { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .7rem; }
+    .filter-btn { font-size: .68rem; padding: .2rem .55rem; border: 1px solid var(--ln); border-radius: 5px; background: #fff; cursor: pointer; font-weight: 500; }
+    .filter-btn.active { background: var(--g); color: #fff; border-color: var(--g); }
+
+    /* Clickable rows */
+    .clickable { cursor: pointer; transition: background .15s; }
+    .clickable:hover { background: #f0fdf4 !important; }
+
+    /* Detail Overlay */
+    .br-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 500; display: none; opacity: 0; transition: opacity .25s; }
+    .br-overlay.open { display: block; opacity: 1; }
+    .br-panel { position: fixed; top: 0; right: 0; width: min(860px, 95vw); height: 100vh; background: #fff; z-index: 510; box-shadow: -8px 0 30px rgba(0,0,0,.18); overflow-y: auto; transform: translateX(100%); transition: transform .3s ease; }
+    .br-overlay.open .br-panel { transform: translateX(0); }
+    .br-hdr { position: sticky; top: 0; z-index: 10; background: linear-gradient(135deg, var(--g), var(--gl)); color: #fff; padding: .8rem 1.2rem; display: flex; justify-content: space-between; align-items: flex-start; }
+    .br-hdr h3 { margin: 0; font-size: 1rem; }
+    .br-hdr .br-close { background: none; border: none; color: #fff; font-size: 1.3rem; cursor: pointer; padding: .2rem .5rem; border-radius: 6px; }
+    .br-hdr .br-close:hover { background: rgba(255,255,255,.2); }
+    .br-body { padding: 1rem 1.2rem; }
+
+    /* Detail Sections */
+    .br-sec { margin-bottom: 1.2rem; }
+    .br-sec-title { font-size: .82rem; font-weight: 700; color: var(--g); margin-bottom: .5rem; display: flex; align-items: center; gap: .4rem; border-bottom: 2px solid #ecfdf5; padding-bottom: .3rem; }
+    .br-purpose { font-size: .82rem; line-height: 1.5; color: #334155; background: #f8fafc; border-left: 3px solid var(--g); padding: .6rem .8rem; border-radius: 0 6px 6px 0; }
+    .br-rules { list-style: none; padding: 0; margin: 0; }
+    .br-rules li { font-size: .78rem; padding: .35rem 0 .35rem 1.2rem; position: relative; border-bottom: 1px solid #f8fafc; }
+    .br-rules li::before { content: '✓'; position: absolute; left: 0; color: var(--ok); font-weight: 700; }
+    .br-coll-card { background: #f8fafc; border: 1px solid var(--ln); border-radius: 8px; padding: .6rem .8rem; margin-bottom: .4rem; }
+    .br-coll-name { font-weight: 700; font-size: .78rem; color: #1e293b; }
+    .br-coll-fields { font-size: .7rem; color: var(--mu); margin-top: .2rem; font-family: 'Consolas', monospace; }
+    .br-ep-tbl { width: 100%; font-size: .72rem; border-collapse: collapse; }
+    .br-ep-tbl th { background: #f1f5f9; font-weight: 600; text-transform: uppercase; font-size: .6rem; letter-spacing: .5px; padding: .35rem .5rem; text-align: left; }
+    .br-ep-tbl td { padding: .3rem .5rem; border-bottom: 1px solid #f8fafc; }
+    .br-ep-tbl .method { font-weight: 700; font-size: .65rem; padding: .1rem .3rem; border-radius: 3px; }
+    .br-ep-tbl .get { background: #dbeafe; color: #1d4ed8; }
+    .br-ep-tbl .post { background: #d1fae5; color: #065f46; }
+    .br-example { background: #1e293b; color: #e2e8f0; border-radius: 8px; padding: .7rem .9rem; font-family: 'Consolas', monospace; font-size: .72rem; line-height: 1.5; overflow-x: auto; white-space: pre-wrap; }
+    .br-example .comment { color: #64748b; }
+    .br-tmpl-row { display: flex; gap: .4rem; align-items: center; padding: .3rem 0; font-size: .76rem; border-bottom: 1px solid #f8fafc; }
+    .br-tmpl-key { font-weight: 600; min-width: 120px; color: #475569; }
+    .br-criteria { list-style: none; padding: 0; }
+    .br-criteria li { font-size: .76rem; padding: .3rem 0 .3rem 1.4rem; position: relative; }
+    .br-criteria li::before { content: '☐'; position: absolute; left: 0; color: var(--info); }
+    .br-deps { display: flex; gap: .3rem; flex-wrap: wrap; }
+    .br-dep-chip { font-size: .68rem; padding: .15rem .45rem; border-radius: 5px; background: #ede9fe; color: #6d28d9; cursor: pointer; font-weight: 600; }
+    .br-dep-chip:hover { background: #6d28d9; color: #fff; }
+
+    /* Comment System */
+    .br-comment-sec { border-top: 2px solid var(--ln); margin-top: 1.2rem; padding-top: 1rem; }
+    .br-comment-form { background: #f8fafc; border: 1px solid var(--ln); border-radius: 10px; padding: .8rem; margin-bottom: .8rem; }
+    .br-cf-row { display: flex; gap: .5rem; margin-bottom: .5rem; flex-wrap: wrap; }
+    .br-cf-sel, .br-cf-input { font-size: .78rem; padding: .35rem .5rem; border: 1px solid var(--ln); border-radius: 6px; background: #fff; }
+    .br-cf-input { flex: 1; min-width: 200px; }
+    .br-cf-textarea { width: 100%; min-height: 60px; font-size: .78rem; padding: .4rem .6rem; border: 1px solid var(--ln); border-radius: 6px; resize: vertical; font-family: inherit; }
+    .br-cf-btn { background: var(--g); color: #fff; border: none; padding: .4rem .9rem; border-radius: 6px; font-size: .76rem; font-weight: 600; cursor: pointer; }
+    .br-cf-btn:hover { background: var(--gl); }
+    .br-comment-item { border: 1px solid var(--ln); border-radius: 8px; padding: .6rem .8rem; margin-bottom: .4rem; }
+    .br-comment-item.change-request { border-left: 3px solid var(--or); }
+    .br-comment-item.question { border-left: 3px solid var(--info); }
+    .br-comment-item.approval { border-left: 3px solid var(--ok); }
+    .br-comment-item.feedback { border-left: 3px solid #8b5cf6; }
+    .br-ci-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: .3rem; }
+    .br-ci-author { font-weight: 700; font-size: .76rem; }
+    .br-ci-meta { font-size: .65rem; color: var(--mu); }
+    .br-ci-type { font-size: .6rem; padding: .1rem .35rem; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
+    .br-ci-type.change-request { background: #fef3c7; color: #92400e; }
+    .br-ci-type.question { background: #dbeafe; color: #1d4ed8; }
+    .br-ci-type.approval { background: #d1fae5; color: #065f46; }
+    .br-ci-type.feedback { background: #ede9fe; color: #6d28d9; }
+    .br-ci-text { font-size: .78rem; color: #334155; }
+    .br-ci-status { font-size: .65rem; padding: .1rem .3rem; border-radius: 3px; font-weight: 600; }
+
+    /* Change Management */
+    .br-cm-flow { display: flex; gap: .3rem; align-items: center; flex-wrap: wrap; margin: .4rem 0; }
+    .br-cm-step { font-size: .65rem; padding: .2rem .5rem; border-radius: 5px; font-weight: 600; }
+    .br-cm-step.active { box-shadow: 0 0 0 2px var(--g); }
+    .br-cm-step.done { background: #d1fae5; color: #065f46; }
+    .br-cm-step.current { background: #fef3c7; color: #92400e; }
+    .br-cm-step.pending { background: #f1f5f9; color: #94a3b8; }
+    .br-cm-arrow { color: #cbd5e1; font-size: .7rem; }
+
+    /* Queue Tab */
+    .queue-badge { background: var(--or); color: #fff; font-size: .6rem; padding: .1rem .35rem; border-radius: 999px; margin-left: .3rem; }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="in">
+    <div>
+      <h1><i class="fas fa-route me-2"></i>BANF — Stakeholder Requirements Journey</h1>
+      <div class="sub">Bengali Association of North Florida — Comprehensive Web Platform — 196+ Endpoints — FY 2026-27</div>
+    </div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+      <a href="member-portal.html"><i class="fas fa-user me-1"></i>Member</a>
+      <a href="unified-ecosystem-dashboard.html"><i class="fas fa-chart-line me-1"></i>Dashboard</a>
+      <a href="admin-portal.html"><i class="fas fa-shield-halved me-1"></i>Admin</a>
+      <a href="crm-admin.html"><i class="fas fa-address-book me-1"></i>CRM</a>
+    </div>
+  </div>
+</header>
+
+<div class="id-bar">
+  <div class="in">
+    <div>
+      <div class="id-name">Welcome, <span id="shName" class="rl">—</span></div>
+      <div class="id-meta" id="shMeta">Select your identity to see pending approvals and personalised view</div>
+    </div>
+    <select id="shPick" class="sel"><option value="">— Select Stakeholder —</option></select>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- Tab Navigation -->
+  <div class="tab-bar" id="tabBar">
+    <button class="tab-btn active" data-tab="overview">Overview & Pipeline</button>
+    <button class="tab-btn" data-tab="admin">Admin Requirements</button>
+    <button class="tab-btn" data-tab="member">Member Requirements</button>
+    <button class="tab-btn" data-tab="infra">Infrastructure & Platform</button>
+    <button class="tab-btn" data-tab="journeys">User Journeys</button>
+    <button class="tab-btn" data-tab="blockers">Blockers & Timeline</button>
+    <button class="tab-btn" data-tab="queue">Approval Queue <span class="queue-badge" id="queueTabBadge" style="display:none">0</span></button>
+  </div>
+
+  <!-- ═══════ TAB 1: OVERVIEW ═══════ -->
+  <div class="tab-panel active" id="tab-overview">
+    <div class="kpi-g" id="kpiStrip"></div>
+    <div class="cp" style="padding:.7rem .85rem">
+      <h2><i class="fas fa-stream" style="color:var(--g)"></i> Pipeline Snapshot — Requirement → Live</h2>
+      <div class="lanes" id="pipeLanes"></div>
+    </div>
+    <div class="cp" id="pendPanel">
+      <h2><i class="fas fa-bell" style="color:var(--or)"></i> Pending Your Approval <span class="cnt" id="pendCnt">0</span></h2>
+      <div id="pendList"></div>
+    </div>
+    <div class="cp">
+      <h2><i class="fas fa-clipboard-list" style="color:var(--info)"></i> All Requirements — End-to-End <span class="cnt" id="totalCnt">0</span></h2>
+      <div class="filter-row" id="catFilter"></div>
+      <div style="overflow-x:auto;"><table class="rt"><thead><tr>
+        <th style="min-width:200px">Requirement</th><th>Category</th><th>Owner</th><th>Stage</th><th style="min-width:110px">Progress</th><th>ETA</th><th>Risk</th><th>Approval</th>
+      </tr></thead><tbody id="reqTb"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ═══════ TAB 2: ADMIN REQUIREMENTS ═══════ -->
+  <div class="tab-panel" id="tab-admin">
+    <div class="cp">
+      <h2><i class="fas fa-shield-halved" style="color:#6d28d9"></i> Admin & EC Workflows — Complete Business Requirements</h2>
+      <p class="sn">Every admin-facing feature of the BANF platform, grouped by functional domain. All items below have been implemented and approved by Technical Admin unless marked otherwise.</p>
+    </div>
+    <div id="adminReqSections"></div>
+  </div>
+
+  <!-- ═══════ TAB 3: MEMBER REQUIREMENTS ═══════ -->
+  <div class="tab-panel" id="tab-member">
+    <div class="cp">
+      <h2><i class="fas fa-users" style="color:var(--info)"></i> Member-Facing Workflows — Complete Business Requirements</h2>
+      <p class="sn">All features accessible through the Member Portal, public landing page, and self-service workflows.</p>
+    </div>
+    <div id="memberReqSections"></div>
+  </div>
+
+  <!-- ═══════ TAB 4: INFRA REQUIREMENTS ═══════ -->
+  <div class="tab-panel" id="tab-infra">
+    <div class="cp">
+      <h2><i class="fas fa-server" style="color:var(--mu)"></i> Platform Infrastructure & Integration Requirements</h2>
+      <p class="sn">Core technical platform, AI/ML capabilities, data integrations, and security foundations.</p>
+    </div>
+    <div id="infraReqSections"></div>
+  </div>
+
+  <!-- ═══════ TAB 5: USER JOURNEYS ═══════ -->
+  <div class="tab-panel" id="tab-journeys">
+    <div class="cp">
+      <h2><i class="fas fa-person-walking" style="color:var(--g)"></i> User Journeys — Real Stakeholder Interaction Flows</h2>
+      <p class="sn">Based on actual EC members, volunteers, and members from the BANF FY2026-27 roster.</p>
+    </div>
+    <div id="journeyCards"></div>
+  </div>
+
+  <!-- ═══════ TAB 6: BLOCKERS ═══════ -->
+  <div class="tab-panel" id="tab-blockers">
+    <div class="two-col">
+      <div class="cp"><h2><i class="fas fa-exclamation-triangle" style="color:var(--danger)"></i> Stuck / Blockers <span class="cnt" id="blkCnt">0</span></h2><div id="blkList"></div></div>
+      <div class="cp"><h2><i class="fas fa-clock-rotate-left" style="color:var(--info)"></i> Recent Transitions</h2><div id="tlList"></div></div>
+    </div>
+  </div>
+
+  <!-- ═══════ TAB 7: APPROVAL QUEUE ═══════ -->
+  <div class="tab-panel" id="tab-queue">
+    <div class="cp">
+      <h2><i class="fas fa-inbox" style="color:var(--or)"></i> Stakeholder Approval Queue <span class="cnt" id="queueCnt">0</span></h2>
+      <p class="sn">All comments marked as <strong>Change Request</strong> enter this queue for stakeholder review and change management processing.</p>
+    </div>
+    <div id="queueList"></div>
+  </div>
+
+</div>
+
+<!-- ═══════ DETAIL SLIDE-OUT PANEL ═══════ -->
+<div class="br-overlay" id="brOverlay">
+  <div class="br-panel" id="brPanel">
+    <div class="br-hdr">
+      <div><h3 id="brDetailTitle">—</h3><div style="font-size:.72rem;opacity:.85;margin-top:.2rem" id="brDetailSub"></div></div>
+      <button class="br-close" onclick="closeBRDetail()" title="Close">✕</button>
+    </div>
+    <div class="br-body" id="brDetailBody"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   STAKEHOLDERS (real EC committee FY2026-27)
+   ═══════════════════════════════════════════════════ */
+const STAKEHOLDERS = [
+  { id:'president',  name:'Ranadhir Ghosh',         role:'President & Super Admin',       email:'ranadhir.ghosh@gmail.com',   domains:['policy','budget','final-acceptance','membership-drive'] },
+  { id:'vp',         name:'Moumita Ghosh',           role:'Vice President',                email:'banfjax@gmail.com',          domains:['operations','events','cultural','community'] },
+  { id:'secretary',  name:'Partha Mukhopadhyay',     role:'Secretary',                     email:'partha.bhdm@gmail.com',      domains:['compliance','communications','minutes','archive'] },
+  { id:'jt_sec',     name:'Rajanya Ghosh',           role:'Joint Secretary',               email:'rajanya.ghosh@gmail.com',    domains:['membership','volunteer','community'] },
+  { id:'cultural',   name:'Sumanta Ghosh',           role:'Cultural Secretary',            email:'sumanta.ghosh@gmail.com',    domains:['events','cultural','magazine','radio'] },
+  { id:'treasurer',  name:'Amit Chandak',            role:'Treasurer',                     email:'amit.chandak@gmail.com',     domains:['budget','payments','finance','reconciliation','vendors','sponsors'] },
+  { id:'ec1',        name:'Rwiti Chowdhury',         role:'EC Member',                     email:'rwiti.chowdhury@gmail.com',  domains:['events','volunteer','community','feedback'] },
+  { id:'ec2',        name:'Soumyajit Dutta',         role:'EC Member',                     email:'soumyajit.dutta@gmail.com',  domains:['events','youth','sports','community'] },
+  { id:'tech_admin', name:'Technical Admin',          role:'Technical Admin',               email:'techadmin@banf.org',         domains:['platform','devops','architecture','security','ai'] }
+];
+
+const STAGES = [
+  { key:'requirement', label:'Requirement',          icon:'fa-file-lines',   cls:'s0' },
+  { key:'approval',    label:'Stakeholder Approval', icon:'fa-stamp',        cls:'s1' },
+  { key:'tech',        label:'Tech Validation',      icon:'fa-microchip',    cls:'s2' },
+  { key:'devops',      label:'DevOps / Deploy',      icon:'fa-rocket',       cls:'s3' },
+  { key:'live',        label:'Live Production',      icon:'fa-check-double', cls:'s4' }
+];
+
+/* ═══════════════════════════════════════════════════
+   COMPREHENSIVE BUSINESS REQUIREMENTS (48 items)
+   ═══════════════════════════════════════════════════ */
+const R = [
+  // ── INFRASTRUCTURE & PLATFORM (live) ──
+  { id:'BR-001', title:'Wix Velo HTTP Functions Framework', cat:'infra', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2025-11-15', needsApprovalFrom:[], stuck:null, desc:'196+ REST endpoints on Wix Velo, CORS, JSON responses, health monitoring, modular route registry.' },
+  { id:'BR-002', title:'RBAC — Role-Based Access Control', cat:'infra', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2025-12-01', needsApprovalFrom:[], stuck:null, desc:'4-tier roles (super_admin, admin, ec_member, member), permission matrix, feature delegation per EC member.' },
+  { id:'BR-003', title:'Gmail API Integration (OAuth2)', cat:'infra', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2025-12-10', needsApprovalFrom:[], stuck:null, desc:'OAuth2 refresh-token flow, branded HTML email sending, inbox sync for RSVP/Zelle scanning.' },
+  { id:'BR-004', title:'Google Drive Integration', cat:'infra', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2025-12-15', needsApprovalFrom:[], stuck:null, desc:'Drive file browser, search, CSV sync, BANF folder auto-discovery, archive document linking.' },
+  { id:'BR-005', title:'DB-Driven Email Template System', cat:'infra', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-22', needsApprovalFrom:[], stuck:null, desc:'{{variable}} templates, conditional blocks, admin CRUD, template preview, 5 default templates seeded.' },
+  { id:'BR-006', title:'RAG Knowledge Base & AI Agents', cat:'infra', owner:'AI Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-15', needsApprovalFrom:[], stuck:null, desc:'Vector-search RAG engine, document upload, 6 AI agent profiles, LLM-powered Q&A, member chatbot.' },
+  { id:'BR-007', title:'Unified Ecosystem Dashboard', cat:'infra', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-20', needsApprovalFrom:[], stuck:null, desc:'17 quick-links, system health KPIs, cross-portal navigation hub, GitHub Pages + Wix.' },
+
+  // ── ADMIN: IDENTITY & ONBOARDING ──
+  { id:'BR-010', title:'EC Onboarding Gate & Password Setup', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-08', needsApprovalFrom:[], stuck:null, desc:'One-time token setup, HMAC-SHA256 password hashing, profile completion wizard, onboarding gate chain.' },
+  { id:'BR-011', title:'Admin Portal — Super Admin Console', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-01', needsApprovalFrom:[], stuck:null, desc:'Role management, email builder, drive invitation control, system diagnostics, bootstrap seeding.' },
+  { id:'BR-012', title:'Multi-Role Identity & Login Workflow', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-05', needsApprovalFrom:[], stuck:null, desc:'Email+password login, session management, role-based portal routing, forgot-password flow.' },
+  { id:'BR-013', title:'EC Year Status & Membership Gate', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-10', needsApprovalFrom:[], stuck:null, desc:'Fiscal year EC readiness tracking, enforced sequence: SuperAdmin → President → Drive → Members.' },
+
+  // ── ADMIN: MEMBER MANAGEMENT ──
+  { id:'BR-020', title:'CRM Admin — Member Search, View, Edit', cat:'admin', owner:'CRM Engineering', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-25', needsApprovalFrom:[], stuck:null, desc:'Full CRM: search, filter by status/tier/role, inline edit, member report, deactivation, export.' },
+  { id:'BR-021', title:'Family Unit Management', cat:'admin', owner:'CRM Engineering', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-28', needsApprovalFrom:[], stuck:null, desc:'Create/edit family groups, add/remove adults and children, family history audit trail.' },
+  { id:'BR-022', title:'Family Profile Correction Automation', cat:'admin', owner:'CRM Engineering', stage:'devops', progress:78, eta:'Mar 06', risk:'Medium', approvedBy:'Technical Admin', approvedDate:'2026-02-24', needsApprovalFrom:['president'], stuck:'Deployment window conflict with migration freeze', desc:'Fuzzy-match family linkage, Levenshtein + evidence-graph, bulk correction campaigns.' },
+  { id:'BR-023', title:'Membership Drive Engine', cat:'admin', owner:'Membership Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-20', needsApprovalFrom:[], stuck:null, desc:'6 categories × 4 tiers, invite codes, AI tier recommendation, registration flow, Zelle/PayPal payment, welcome emails.' },
+  { id:'BR-024', title:'Member Signup & Authentication', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-15', needsApprovalFrom:[], stuck:null, desc:'Email verification code, password setup, secret Q&A, session management, forgot-password, sign-out.' },
+  { id:'BR-025', title:'Membership Drive Analytics', cat:'admin', owner:'Data & Insights', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-18', needsApprovalFrom:[], stuck:null, desc:'KPI panel with tier breakdown, invite vs response analytics, drive status monitoring.' },
+  { id:'BR-026', title:'Communication Consent & GDPR', cat:'admin', owner:'Compliance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-14', needsApprovalFrom:[], stuck:null, desc:'Opt-in form, consent tracking, unsubscribe flow, data correction campaign, GDPR compliance.' },
+
+  // ── ADMIN: EVENTS & EVITE ──
+  { id:'BR-030', title:'Event Creation & Management', cat:'admin', owner:'Events Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-08', needsApprovalFrom:[], stuck:null, desc:'Create events, set keywords for Gmail scanning, manage 17 FY2026-27 events calendar.' },
+  { id:'BR-031', title:'Evite Invitation System', cat:'admin', owner:'Events Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-10', needsApprovalFrom:[], stuck:null, desc:'Branded HTML invitations via Gmail, per-recipient tracking, open/click tracking, reminder sends.' },
+  { id:'BR-032', title:'RSVP Tracking & Attendance', cat:'admin', owner:'Events Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-10', needsApprovalFrom:[], stuck:null, desc:'Gmail RSVP scanning with LLM parsing, family grouping, dietary breakdown, attendance worksheet.' },
+
+  // ── ADMIN: FINANCE ──
+  { id:'BR-040', title:'Budget Creation & Tracking', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-08', needsApprovalFrom:[], stuck:null, desc:'Income/expense ledger by year, 6 income + 12 expense categories, vendor linkage, FY summaries.' },
+  { id:'BR-041', title:'Vendor Registry (15 categories)', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-08', needsApprovalFrom:[], stuck:null, desc:'CRUD vendors: venue, catering, decoration, photography, videography, sound, printing, apparel, tech, spiritual, transport, security, entertainment, media, misc.' },
+  { id:'BR-042', title:'Sponsor Management', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-08', needsApprovalFrom:[], stuck:null, desc:'Sponsor registry with tiers, amounts, benefits, year tracking, contact management.' },
+  { id:'BR-043', title:'Ad / Advertisement Management', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-08', needsApprovalFrom:[], stuck:null, desc:'Advertisement tracking: title, status, added-by, linked to sponsors/vendors.' },
+  { id:'BR-044', title:'Reconciliation Engine', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-10', needsApprovalFrom:[], stuck:null, desc:'Auto-match ledger entries to Gmail emails and Drive files (±45 days), reconciliation rate reports.' },
+  { id:'BR-045', title:'Zelle Payment Processing', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-12', needsApprovalFrom:[], stuck:null, desc:'Gmail scan for Zelle notifications, auto-match to members, verify/reject, payment history.' },
+  { id:'BR-046', title:'Payment Verification & Recording', cat:'admin', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-22', needsApprovalFrom:[], stuck:null, desc:'Manual payment recording, verification workflow, payment status tracking, Square integration.' },
+
+  // ── ADMIN: SURVEY & FEEDBACK ──
+  { id:'BR-050', title:'Survey Engine (6 question types)', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-12', needsApprovalFrom:[], stuck:null, desc:'Text, rating 1-5, rating 1-10, NPS 0-10, yes/no, multiple choice. Anonymous token-hash responses.' },
+  { id:'BR-051', title:'Survey Distribution & Analysis', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-12', needsApprovalFrom:[], stuck:null, desc:'Email distribution via Gmail with unique tokens, LLM sentiment analysis, escalation detection, aggregated reports.' },
+  { id:'BR-052', title:'Automated Feedback-to-Ticket Routing', cat:'admin', owner:'Automation Team', stage:'tech', progress:52, eta:'Mar 12', risk:'Medium', approvedBy:null, approvedDate:null, needsApprovalFrom:['secretary','tech_admin'], stuck:'Schema extension pending design board vote', desc:'Route survey/complaint feedback into actionable tickets with auto-assignment and SLA tracking.' },
+
+  // ── ADMIN: COMMUNICATIONS ──
+  { id:'BR-055', title:'Email Automation & Auto-Response', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-16', needsApprovalFrom:[], stuck:null, desc:'Gmail inbox scan, AI auto-response drafting, admin approval queue, sent email archive.' },
+  { id:'BR-056', title:'Complaint Management', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-05', needsApprovalFrom:[], stuck:null, desc:'Complaint intake, tracking, assignment, escalation to president, status updates.' },
+  { id:'BR-057', title:'Announcement Management', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-03', needsApprovalFrom:[], stuck:null, desc:'Create/edit announcements with priority levels, date scheduling, member-portal display.' },
+  { id:'BR-058', title:'Stakeholder SLA Breach Alerts', cat:'admin', owner:'DevOps', stage:'approval', progress:24, eta:'Mar 18', risk:'High', approvedBy:null, approvedDate:null, needsApprovalFrom:['president','secretary'], stuck:'Alert threshold policy not finalized', desc:'Monitor and alert when stakeholder action items exceed defined SLA windows.' },
+
+  // ── ADMIN: MEDIA & CULTURE ──
+  { id:'BR-060', title:'Community Radio Control', cat:'admin', owner:'Cultural Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-04', needsApprovalFrom:[], stuck:null, desc:'Radio stream start/stop, next/previous, schedule management, now-playing display.' },
+  { id:'BR-061', title:'Magazine (Jagriti) Management', cat:'admin', owner:'Cultural Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-06', needsApprovalFrom:[], stuck:null, desc:'Magazine issue listing, content management, view tracking, member submission workflow.' },
+  { id:'BR-062', title:'Volunteer & Award Management', cat:'admin', owner:'Operations Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-05', needsApprovalFrom:[], stuck:null, desc:'Volunteer registration, hours tracking, event assignment, award creation and nomination.' },
+  { id:'BR-063', title:'Archive & Document Management', cat:'admin', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-08', needsApprovalFrom:[], stuck:null, desc:'Google Drive archive scan, document catalog, category mapping, full-scan reporting.' },
+
+  // ── MEMBER-FACING ──
+  { id:'BR-070', title:'Member Dashboard & Profile', cat:'member', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-01', needsApprovalFrom:[], stuck:null, desc:'Personalised dashboard: membership status, upcoming events, dues balance, active surveys, profile edit.' },
+  { id:'BR-071', title:'Family Member View', cat:'member', owner:'CRM Engineering', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-28', needsApprovalFrom:[], stuck:null, desc:'View family unit (adults + children), linked to CRM family groups.' },
+  { id:'BR-072', title:'Events & RSVP Submission', cat:'member', owner:'Events Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-10', needsApprovalFrom:[], stuck:null, desc:'Browse upcoming events, RSVP with headcount and dietary preferences, confirmation receipt.' },
+  { id:'BR-073', title:'Survey Participation', cat:'member', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-12', needsApprovalFrom:[], stuck:null, desc:'Complete anonymous surveys via unique token links, multiple question types.' },
+  { id:'BR-074', title:'Complaint & Query Submission', cat:'member', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-05', needsApprovalFrom:[], stuck:null, desc:'Submit complaints/queries, track status, view responses from admin team.' },
+  { id:'BR-075', title:'Magazine Submission & Radio Requests', cat:'member', owner:'Cultural Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-06', needsApprovalFrom:[], stuck:null, desc:'Submit stories/articles for Jagriti magazine, request songs on BANF community radio.' },
+  { id:'BR-076', title:'AI Chatbot (RAG-powered)', cat:'member', owner:'AI Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-18', needsApprovalFrom:[], stuck:null, desc:'Context-aware AI chatbot for BANF queries, powered by RAG knowledge base and member context.' },
+  { id:'BR-077', title:'Payment History & Receipts', cat:'member', owner:'Finance Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-22', needsApprovalFrom:[], stuck:null, desc:'View payment history, download receipts, check balance and dues status.' },
+  { id:'BR-078', title:'Member Directory Search', cat:'member', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-03', needsApprovalFrom:[], stuck:null, desc:'Search community member directory with privacy-respecting profile display.' },
+
+  // ── PUBLIC ──
+  { id:'BR-080', title:'Public Landing Page', cat:'public', owner:'Platform Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-01-05', needsApprovalFrom:[], stuck:null, desc:'Hero, stats, events, radio player, membership plans, EC display, budget summary, contact form, sponsor tiers.' },
+  { id:'BR-081', title:'Public RSVP Form', cat:'public', owner:'Events Team', stage:'live', progress:100, eta:'Done', risk:'Low', approvedBy:'Technical Admin', approvedDate:'2026-02-10', needsApprovalFrom:[], stuck:null, desc:'Token-based public RSVP form served as standalone HTML for event invitations.' },
+
+  // ── PLANNED / IN-PROGRESS ──
+  { id:'BR-090', title:'Finance Dashboard — Budget vs Actual Reporting', cat:'admin', owner:'Finance Team', stage:'approval', progress:15, eta:'Mar 25', risk:'Medium', approvedBy:null, approvedDate:null, needsApprovalFrom:['treasurer','president'], stuck:null, desc:'Visual budget-vs-actual dashboard, variance alerts, category drill-down, multi-year comparison.' },
+  { id:'BR-091', title:'Career Guidance Portal', cat:'member', owner:'Community Team', stage:'requirement', progress:8, eta:'Apr 2026', risk:'Low', approvedBy:null, approvedDate:null, needsApprovalFrom:['vp','jt_sec'], stuck:null, desc:'Career sessions, mentorship matching, job board, registration & attendance tracking.' },
+  { id:'BR-092', title:'Meeting Minutes Digital Archive', cat:'admin', owner:'Secretary', stage:'requirement', progress:5, eta:'Apr 2026', risk:'Low', approvedBy:null, approvedDate:null, needsApprovalFrom:['secretary','president'], stuck:null, desc:'Digital meeting minutes storage, search, version history, auto-action-item extraction.' }
+];
+
+/* ═══════════════════════════════════════════════════
+   ADMIN DOMAIN SECTIONS (for tab 2)
+   ═══════════════════════════════════════════════════ */
+const ADMIN_SECTIONS = [
+  { title:'Identity, Onboarding & Access', icon:'fa-id-badge', ids:['BR-010','BR-011','BR-012','BR-013'] },
+  { title:'Member & Family Management', icon:'fa-users-gear', ids:['BR-020','BR-021','BR-022','BR-023','BR-024','BR-025','BR-026'] },
+  { title:'Events, Evite & RSVP', icon:'fa-calendar-check', ids:['BR-030','BR-031','BR-032'] },
+  { title:'Finance, Budget & Payments', icon:'fa-indian-rupee-sign', ids:['BR-040','BR-041','BR-042','BR-043','BR-044','BR-045','BR-046','BR-090'] },
+  { title:'Survey, Feedback & Complaints', icon:'fa-comment-dots', ids:['BR-050','BR-051','BR-052','BR-055','BR-056','BR-057','BR-058'] },
+  { title:'Media, Culture & Archive', icon:'fa-photo-film', ids:['BR-060','BR-061','BR-062','BR-063','BR-092'] }
+];
+
+const MEMBER_SECTIONS = [
+  { title:'Dashboard & Profile', icon:'fa-gauge-high', ids:['BR-070','BR-071'] },
+  { title:'Events & Community', icon:'fa-calendar-star', ids:['BR-072','BR-073','BR-074','BR-078'] },
+  { title:'Media & AI', icon:'fa-wand-magic-sparkles', ids:['BR-075','BR-076'] },
+  { title:'Finance & Career', icon:'fa-wallet', ids:['BR-077','BR-091'] }
+];
+
+const INFRA_SECTIONS = [
+  { title:'Core Platform', icon:'fa-server', ids:['BR-001','BR-002','BR-003','BR-004'] },
+  { title:'Templates, AI & Dashboard', icon:'fa-robot', ids:['BR-005','BR-006','BR-007'] },
+  { title:'Public Interfaces', icon:'fa-globe', ids:['BR-080','BR-081'] }
+];
+
+/* ═══════════════════════════════════════════════════
+   USER JOURNEYS (real EC members + personas)
+   ═══════════════════════════════════════════════════ */
+const JOURNEYS = [
+  {
+    name: 'Ranadhir Ghosh', role: 'President & Super Admin', roleCls: 'cat-admin',
+    email: 'ranadhir.ghosh@gmail.com',
+    scenario: 'Launch the FY2026-27 membership drive and monitor EC onboarding completion.',
+    steps: [
+      'Log in to Admin Portal with email + password (BR-012)',
+      'Check EC Onboarding Dashboard — verify all 8 EC members completed onboarding (BR-013)',
+      'Approve membership drive configuration: 6 categories × 4 tiers (BR-023)',
+      'Send drive invitations to 500+ community contacts via Gmail API (BR-023, BR-003)',
+      'Monitor drive status dashboard — registrations, payments, pending (BR-025)',
+      'Review and approve Zelle payments matched by the system (BR-045)',
+      'Send reminders to non-responders using email builder (BR-055)',
+      'Review final drive analytics by tier breakdown on Unified Dashboard (BR-025, BR-007)'
+    ]
+  },
+  {
+    name: 'Amit Chandak', role: 'Treasurer', roleCls: 'cat-admin',
+    email: 'amit.chandak@gmail.com',
+    scenario: 'Manage FY budget, track all income/expense, and run year-end reconciliation.',
+    steps: [
+      'Log in to CRM Admin via EC onboarding credentials (BR-010)',
+      'Create FY2026-27 budget ledger with income categories (membership, events, sponsors) (BR-040)',
+      'Register 23 vendors across 15 categories (venue, catering, decoration, etc.) (BR-041)',
+      'Record sponsor agreements: Gold, Silver, Bronze tiers with benefits (BR-042)',
+      'Track advertisement placements for Durga Puja program booklet (BR-043)',
+      'Record incoming Zelle payments auto-scanned from Gmail (BR-045)',
+      'Run reconciliation engine — match ledger entries to Gmail/Drive evidence (BR-044)',
+      'Generate reconciliation report: income vs expense, reconciled vs unreconciled (BR-044)',
+      'Export financial summary for EC board presentation (BR-040)'
+    ]
+  },
+  {
+    name: 'Sumanta Ghosh', role: 'Cultural Secretary', roleCls: 'cat-admin',
+    email: 'sumanta.ghosh@gmail.com',
+    scenario: 'Organize Bosonto Utsob event — from creation to attendance reporting.',
+    steps: [
+      'Log in to Admin Portal, navigate to Event Management (BR-011)',
+      'Create "Bosonto Utsob" event for Mar 7, 2026 with venue details (BR-030)',
+      'Send branded HTML invitations to all 500+ members via Evite system (BR-031)',
+      'Monitor invitation delivery: opened, clicked, not-opened (BR-031)',
+      'Run Gmail RSVP scan — LLM parses email replies into structured RSVPs (BR-032)',
+      'Review attendance worksheet: family groups, dietary breakdown (veg/nonVeg) (BR-032)',
+      'Manage radio playlist for event day celebrations (BR-060)',
+      'Collect magazine submissions for Bosonto Utsob special edition (BR-061)',
+      'Send post-event feedback survey with NPS + text questions (BR-050, BR-051)'
+    ]
+  },
+  {
+    name: 'Partha Mukhopadhyay', role: 'Secretary', roleCls: 'cat-admin',
+    email: 'partha.bhdm@gmail.com',
+    scenario: 'Ensure communication compliance and manage the consent correction drive.',
+    steps: [
+      'Log in to Admin Portal, check compliance dashboard (BR-011)',
+      'Launch communication consent correction campaign to all members (BR-026)',
+      'Monitor form submission rate and consent status (BR-026)',
+      'Review email automation queue — approve AI-drafted responses (BR-055)',
+      'Handle escalated complaints forwarded by the system (BR-056)',
+      'Archive meeting minutes from EC board call (BR-057, BR-063)',
+      'Generate compliance report for all member communications (BR-026)'
+    ]
+  },
+  {
+    name: 'Rwiti Chowdhury', role: 'EC Member — Volunteer Coordinator', roleCls: 'cat-admin',
+    email: 'rwiti.chowdhury@gmail.com',
+    scenario: 'Recruit volunteers for Durga Puja and manage post-event feedback.',
+    steps: [
+      'Log in to CRM Admin with assigned features (BR-002, BR-010)',
+      'Search member directory for active members in Jacksonville area (BR-020)',
+      'Add volunteer registrations for Durga Puja setup crew (BR-062)',
+      'Track volunteer hours and shift assignments (BR-062)',
+      'Create post-event feedback survey for all attendees (BR-050)',
+      'Distribute survey via email with anonymous tokens (BR-051)',
+      'Review survey results: sentiment scores, escalation flags (BR-051)',
+      'Nominate Volunteer of the Year award based on hours + feedback (BR-062)'
+    ]
+  },
+  {
+    name: 'Ananya Das', role: 'General Member (Family)', roleCls: 'cat-member',
+    email: 'ananya.das@example.com',
+    scenario: 'New family joining BANF — from registration to first event RSVP.',
+    steps: [
+      'Visit BANF landing page, browse membership plans (BR-080)',
+      'Click "Join" — enter family details, select M2 Premium Early Bird (BR-023)',
+      'Receive registration confirmation email with Zelle payment instructions (BR-003)',
+      'Complete Zelle payment which is auto-detected and matched (BR-045)',
+      'Receive welcome email with Member Portal link (BR-005)',
+      'Log in to Member Portal, view dashboard and family profile (BR-070, BR-071)',
+      'RSVP for Bosonto Utsob — 2 adults, 1 child, vegetarian (BR-072)',
+      'Submit a magazine article about Bengali New Year traditions (BR-075)',
+      'Complete anonymous community feedback survey (BR-073)',
+      'Ask AI chatbot about upcoming cultural events (BR-076)'
+    ]
+  },
+  {
+    name: 'Soumyajit Dutta', role: 'EC Member — Youth & Sports', roleCls: 'cat-admin',
+    email: 'soumyajit.dutta@gmail.com',
+    scenario: 'Plan Kids Summer Sports Training and track youth participation.',
+    steps: [
+      'Log in to Admin Portal with EC credentials (BR-012)',
+      'Create "Kids Summer Sports Training" event for Jun-Jul 2026 (BR-030)',
+      'Filter CRM members by family units with children ages 5-15 (BR-020, BR-021)',
+      'Send targeted invitations to families with children (BR-031)',
+      'Monitor RSVPs and child headcount by age group (BR-032)',
+      'Register volunteer coaches and assign shifts (BR-062)',
+      'Track event expenses: venue rental, equipment, refreshments (BR-040)',
+      'Send post-event parent feedback survey (BR-050)',
+      'Report participation stats on Unified Dashboard (BR-007)'
+    ]
+  },
+  {
+    name: 'Rajanya Ghosh', role: 'Joint Secretary — Membership', roleCls: 'cat-admin',
+    email: 'rajanya.ghosh@gmail.com',
+    scenario: 'Handle membership renewals and community engagement outreach.',
+    steps: [
+      'Log in to CRM Admin, review membership universe (BR-020)',
+      'Identify lapsed members from previous FY (BR-023)',
+      'Send personalised renewal reminder emails (BR-055)',
+      'Process membership upgrades (M1 → M2 Premium) (BR-023)',
+      'Update family records — new child added to existing family (BR-021)',
+      'Coordinate volunteer signups for community outreach events (BR-062)',
+      'Review member directory for engagement opportunities (BR-078)'
+    ]
+  }
+];
+
+const TRANSITIONS = [
+  { when:'Today 09:45',     text:'BR-022 entered DevOps gate after tech validation pass.' },
+  { when:'Today 08:20',     text:'BR-025 tier analytics final acceptance — live.' },
+  { when:'Yesterday 17:30', text:'BR-052 schema risk note added, decision request sent.' },
+  { when:'Yesterday 14:10', text:'BR-058 moved to approval review with high-risk tag.' },
+  { when:'Feb 25, 2026',    text:'BR-005 email template system deployed to production.' },
+  { when:'Feb 22, 2026',    text:'BR-007 unified dashboard published with 17 links.' },
+  { when:'Feb 20, 2026',    text:'Requirements Journey CTA added across all admin email templates.' },
+  { when:'Feb 18, 2026',    text:'BR-076 AI chatbot deployed to member portal.' },
+  { when:'Feb 15, 2026',    text:'BR-006 RAG knowledge base seeded with 6 agent profiles.' },
+  { when:'Feb 12, 2026',    text:'BR-050/BR-051 survey engine + Zelle payment processing live.' },
+  { when:'Feb 10, 2026',    text:'BR-031/BR-032 evite + RSVP system go-live.' }
+];
+
+/* ═══════════════════════════════════════════════════
+   DETAILED BUSINESS REQUIREMENT SPECIFICATIONS
+   All data sourced from actual BANF codebase
+   ═══════════════════════════════════════════════════ */
+const BD = {
+'BR-001': {
+  purpose: 'Central HTTP API gateway for the entire BANF platform, built on Wix Velo HTTP Functions. Provides 196+ REST endpoints across 9 module groups with standardised CORS, JSON response formatting, health monitoring, and modular route registry.',
+  rules: ['All endpoints follow Wix convention: get_<name> → GET /<name>, post_<name> → POST /<name>','CORS enabled with Access-Control-Allow-Origin: * on all routes','Every response wrapped in {success, data, error, timestamp} envelope','Version header: X-BANF-Version: 5.10.1-ec-reminder','OPTIONS preflight handled for all POST routes','9 module groups: legacy, admin, member, rag, computerAgent, testSuite, crm, landing, ecGate'],
+  collections: [],
+  endpoints: [{m:'GET',r:'/health',d:'System health check — returns version, module count, endpoint count'},{m:'GET',r:'/version',d:'API version string'},{m:'GET',r:'/routes',d:'List all registered route names'}],
+  example: '// GET /_functions/health\n{\n  "ok": true,\n  "version": "5.10.1-ec-reminder",\n  "modules": 9,\n  "endpoints": 196,\n  "timestamp": "2026-02-28T14:30:00Z"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/http-functions.js'},{k:'Architecture',v:'Wix Velo HTTP Functions (serverless)'},{k:'Base URL',v:'https://www.jaxbengali.org/_functions/'},{k:'Module Pattern',v:'Each module exports routes → aggregated in main http-functions.js'}],
+  criteria: ['All 196+ endpoints respond with correct JSON envelope','CORS headers present on every response','Health endpoint returns accurate module/endpoint count','No 500 errors on valid inputs','Version matches deployed build tag'],
+  deps: []
+},
+'BR-002': {
+  purpose: 'Multi-tier role-based access control system enforcing permissions across all admin and member endpoints. Guards every protected route with checkPermission() middleware checking the AdminRoles and Members collections.',
+  rules: ['5 roles: super_admin, admin, ec_member, member, guest','30+ granular permissions mapped to roles (e.g., admin:manage_members, member:view_own)','checkPermission(requiredPerm) middleware on every protected endpoint','AdminRoles collection stores EC member role assignments','Members collection stores general member role grants','5-minute role cache to reduce database queries','Default super_admin: banfjax@gmail.com (Moumita Ghosh — VP)','PRESIDENT_EMAIL: ranadhir.ghosh@gmail.com given super_admin'],
+  collections: [{n:'AdminRoles',f:'email, role, permissions[], displayName, assignedBy, assignedAt, isActive'},{n:'Members',f:'email, role, firstName, lastName, isActive, loginEnabled'}],
+  endpoints: [{m:'GET',r:'/admin_roles',d:'List all EC members with role assignments'},{m:'POST',r:'/admin_role_assign',d:'Assign role to an EC member'},{m:'POST',r:'/admin_role_revoke',d:'Revoke role from an EC member'},{m:'GET',r:'/admin_permissions',d:'Get full permission matrix'}],
+  example: '// Permission check in endpoint handler\nconst perm = await checkPermission(request, "admin:manage_members");\nif (!perm.ok) return forbidden(perm.reason);\n\n// AdminRoles record\n{\n  "email": "amit.chandak@gmail.com",\n  "role": "admin",\n  "permissions": ["admin:view","admin:manage_payments","admin:manage_vendors"],\n  "displayName": "Amit Chandak",\n  "assignedBy": "ranadhir.ghosh@gmail.com"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/rbac.js + admin-api.js'},{k:'Auth Pattern',v:'Email-based lookup → role → permission check'},{k:'Cache TTL',v:'5 minutes (300,000 ms)'},{k:'Role Hierarchy',v:'super_admin > admin > ec_member > member > guest'}],
+  criteria: ['Unauthorized requests return 403 with clear reason','Role assignments persist in AdminRoles collection','Permission cache invalidates after 5 minutes','super_admin can access all endpoints','guest role blocked from all admin endpoints'],
+  deps: ['BR-010','BR-012']
+},
+'BR-003': {
+  purpose: 'OAuth2-based Gmail API integration providing email sending, inbox scanning, and auto-response capabilities. Uses shared credentials stored in GoogleTokens collection with automatic token refresh.',
+  rules: ['Shared OAuth2 credentials pattern — single GoogleTokens record refreshed on expiry','Dual credential: primary token + playground fallback','10 intent categories for email classification: event_inquiry, membership, payment, complaint, sponsorship, volunteer, career, publication, general, unknown','Inbox scan fetches recent emails and stores in InboxMessages collection','Auto-response drafting via LLM (Llama-3.1-8B) with RAG context','Branded HTML email sending with BANF templates','Gmail API scopes: gmail.send, gmail.readonly, gmail.modify'],
+  collections: [{n:'GoogleTokens',f:'accessToken, refreshToken, clientId, clientSecret, expiresAt, updatedAt'},{n:'InboxMessages',f:'gmailId, from, to, subject, body, date, labels[], isRead, parsedAt'},{n:'SentEmails',f:'to, subject, body, sentAt, templateUsed, triggeredBy'}],
+  endpoints: [{m:'POST',r:'/send_email',d:'Send branded HTML email via Gmail API'},{m:'GET',r:'/inbox_scan',d:'Scan Gmail inbox and store to InboxMessages'},{m:'POST',r:'/email_classify',d:'Classify email intent using keyword rules'},{m:'POST',r:'/email_auto_response',d:'Generate AI response using RAG + LLM'}],
+  example: '// classifyEmailIntent(subject, body)\n// Input: subject="Durga Puja 2026 inquiry", body="When is Durga Puja?"\n{\n  "intent": "event_inquiry",\n  "category": "events",\n  "confidence": 0.92\n}\n\n// Token refresh flow\nGET GoogleTokens → check expiresAt → refresh if expired\n→ POST https://oauth2.googleapis.com/token\n→ update GoogleTokens with new accessToken + expiresAt',
+  templateMap: [{k:'Source File',v:'src/backend/gmail-auth.js + email-automation.js'},{k:'OAuth Provider',v:'Google Cloud Console'},{k:'Token Store',v:'GoogleTokens Wix Data collection'},{k:'Fallback',v:'OAuth2 Playground token as backup credential'}],
+  criteria: ['Tokens auto-refresh before expiry','Email sends include BANF branded HTML footer','Inbox scan stores all new messages to InboxMessages','Intent classification covers all 10 categories','Failed sends retry once before logging error'],
+  deps: ['BR-005','BR-055']
+},
+'BR-004': {
+  purpose: 'Google Drive integration for file browsing, search, CSV sync, and archive document linking. Uses the same OAuth2 credentials as Gmail to access the BANF shared drive.',
+  rules: ['Auto-discovers BANF folder in Google Drive','File listing with type/size/date metadata','CSV file sync to Wix Data collections','DriveSync collection tracks synced files','Search by filename, type, and folder path','Archive document linking for financial reconciliation evidence'],
+  collections: [{n:'DriveSync',f:'fileId, fileName, mimeType, parentFolder, syncedAt, fileSize, webViewLink'}],
+  endpoints: [{m:'GET',r:'/gdrive_list',d:'List files in a Drive folder'},{m:'GET',r:'/gdrive_search',d:'Search Drive by filename pattern'},{m:'POST',r:'/gdrive_sync_csv',d:'Download CSV from Drive and import to Wix Data'},{m:'GET',r:'/gdrive_file_meta',d:'Get metadata for a specific file'},{m:'GET',r:'/gdrive_folders',d:'List top-level folders'},{m:'POST',r:'/gdrive_scan',d:'Full scan and sync to DriveSync collection'}],
+  example: '// GET /_functions/gdrive_list?folderId=BANF_ROOT\n{\n  "files": [\n    {"id": "abc123", "name": "FY2025-Budget.xlsx", "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "size": 45678, "modifiedTime": "2025-12-15T10:30:00Z"},\n    {"id": "def456", "name": "Durga-Puja-2025-Photos/", "mimeType": "application/vnd.google-apps.folder"}\n  ]\n}',
+  templateMap: [{k:'Source File',v:'src/backend/gdrive-sync.js'},{k:'Auth',v:'Shared OAuth2 via GoogleTokens (same as Gmail)'},{k:'Root Folder',v:'Auto-discovered "BANF" folder in Drive'},{k:'Sync Pattern',v:'DriveSync collection as local file registry'}],
+  criteria: ['BANF folder auto-discovered on first access','File listing returns accurate metadata','CSV sync correctly imports data to target collection','DriveSync collection stays in sync with Drive','Search returns results within 3 seconds'],
+  deps: ['BR-003']
+},
+'BR-005': {
+  purpose: 'Database-driven email template system with {{variable}} interpolation and {{#if}} conditional blocks. Provides admin CRUD, template preview, and 5 default seed templates for common workflows.',
+  rules: ['Templates stored in EmailTemplates Wix Data collection','{{varName}} syntax for variable interpolation','{{#if varName}}...{{/if}} for conditional blocks','5 seed templates: role_welcome, member_welcome, event_invite, payment_receipt, membership_renewal','20+ template variables available: {{firstName}}, {{lastName}}, {{eventName}}, {{eventDate}}, {{amount}}, {{regCode}}, {{membershipTier}}, {{zelleEmail}}, etc.','Admin can create/edit/delete/preview templates','Templates used by all email-sending features (Gmail, Evite, Survey, etc.)'],
+  collections: [{n:'EmailTemplates',f:'templateId, name, subject, htmlBody, textBody, variables[], category, isActive, createdBy, createdAt, updatedAt'}],
+  endpoints: [{m:'GET',r:'/email_templates',d:'List all templates'},{m:'GET',r:'/email_template?id=',d:'Get single template'},{m:'POST',r:'/email_template_create',d:'Create new template'},{m:'POST',r:'/email_template_update',d:'Update existing template'},{m:'POST',r:'/email_template_delete',d:'Delete template'},{m:'POST',r:'/email_template_preview',d:'Render template with sample data'}],
+  example: '// EmailTemplates seed record\n{\n  "templateId": "role_welcome",\n  "name": "EC Role Welcome",\n  "subject": "Welcome to BANF EC — {{role}}",\n  "htmlBody": "<h2>Welcome {{firstName}}!</h2><p>You have been assigned the role of <strong>{{role}}</strong>...</p>{{#if isPresident}}<p>As President, you have super admin access.</p>{{/if}}",\n  "variables": ["firstName","lastName","role","isPresident"],\n  "category": "onboarding"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/email-templates.js'},{k:'Interpolation',v:'{{varName}} — replaced at send time'},{k:'Conditionals',v:'{{#if varName}}...{{/if}}'},{k:'Template Categories',v:'onboarding, events, payments, membership, notifications'}],
+  criteria: ['All 5 seed templates render correctly with sample data','Variable interpolation handles missing vars gracefully (empty string)','Conditional blocks evaluate to truthy/falsy correctly','Admin CRUD persists to EmailTemplates collection','Preview endpoint returns rendered HTML without sending'],
+  deps: ['BR-003']
+},
+'BR-006': {
+  purpose: 'AI-powered knowledge base with retrieval-augmented generation (RAG) using Mistral-7B-Instruct-v0.3 for general queries and Llama-3.1-8B-Instruct for specialised tasks. Provides context-aware Q&A with 4 sensitivity levels and 25+ knowledge chunks.',
+  rules: ['Dual LLM: Mistral-7B for RAG Q&A, Llama-3.1-8B for surveys/evites/membership','4 sensitivity levels: public, member, admin, super_admin','Knowledge chunks tagged with sensitivity — query filtered by user role','25+ pre-loaded knowledge chunks covering BANF operations','7 knowledge categories: general, events, membership, finance, governance, culture, technical','6 AI agent profiles: General, Events, Membership, Finance, Cultural, Technical','11 RAG endpoints for knowledge management and Q&A'],
+  collections: [{n:'KnowledgeBase',f:'chunkId, title, content, category, sensitivity, embedding[], tags[], source, addedBy, addedAt'},{n:'AgentProfiles',f:'agentId, name, systemPrompt, category, model, temperature, maxTokens, isActive'}],
+  endpoints: [{m:'POST',r:'/rag_query',d:'Query knowledge base with RAG context'},{m:'POST',r:'/rag_upload',d:'Add new knowledge chunk'},{m:'GET',r:'/rag_chunks',d:'List all knowledge chunks'},{m:'POST',r:'/rag_update',d:'Update a knowledge chunk'},{m:'POST',r:'/rag_delete',d:'Delete a knowledge chunk'},{m:'GET',r:'/rag_agents',d:'List agent profiles'},{m:'POST',r:'/rag_agent_create',d:'Create agent profile'},{m:'GET',r:'/rag_categories',d:'List knowledge categories'},{m:'POST',r:'/rag_embed',d:'Generate embedding for a chunk'},{m:'POST',r:'/rag_search',d:'Vector similarity search'},{m:'GET',r:'/rag_stats',d:'Knowledge base statistics'}],
+  example: '// POST /_functions/rag_query\n// Body: {"query": "When is Durga Puja 2026?", "userRole": "member"}\n{\n  "answer": "Durga Puja 2026 will be held on October 24-25, 2026 at the BANF community center...",\n  "sources": ["Events Calendar FY2026-27", "Durga Puja Planning Doc"],\n  "confidence": 0.89,\n  "agentUsed": "Events Agent",\n  "model": "mistralai/Mistral-7B-Instruct-v0.3"\n}',
+  templateMap: [{k:'Source Files',v:'src/backend/rag-engine.js + agent-orchestrator.js'},{k:'LLM Provider',v:'Hugging Face Inference API'},{k:'Models',v:'Mistral-7B-Instruct-v0.3 (RAG), Llama-3.1-8B-Instruct (tasks)'},{k:'Embedding',v:'Vector similarity search on knowledge chunks'}],
+  criteria: ['RAG queries return answers with source citations','Sensitivity filtering prevents data leakage across roles','Knowledge CRUD fully operational','Agent profiles configurable per category','Response time under 5 seconds for RAG queries'],
+  deps: ['BR-002']
+},
+'BR-007': {
+  purpose: 'Unified ecosystem navigation dashboard providing 17 quick-links to all BANF portals, system health KPIs, and cross-portal navigation. Hosted on GitHub Pages with real-time Wix API data.',
+  rules: ['17 quick-navigation links to all portals and tools','System health KPIs pulled from /health endpoint','Cross-portal navigation: Admin, Member, CRM, Survey, Evite, Finance, etc.','Responsive design with mobile support','Hosted on GitHub Pages: www.jaxbengali.org/'],
+  collections: [],
+  endpoints: [{m:'GET',r:'/health',d:'System health for dashboard KPIs'},{m:'GET',r:'/version',d:'Current API version display'}],
+  example: '// Dashboard shows:\n// ┌─────────────┬──────────────┬──────────────┐\n// │ Admin Portal│ Member Portal│ CRM Admin    │\n// │ Survey Mgmt │ Evite System │ Finance Mgr  │\n// │ Email Mgmt  │ Drive Browser│ RAG Console  │\n// │ Radio/Media │ Requirements │ Landing Page │\n// │ Membership  │ Archive Scan │ EC Onboarding│\n// │ Diagnostics │ Test Suite   │              │\n// └─────────────┴──────────────┴──────────────┘',
+  templateMap: [{k:'Source',v:'src/public/unified-ecosystem-dashboard.html'},{k:'Hosting',v:'GitHub Pages — www.jaxbengali.org/'},{k:'Data Source',v:'Real-time fetch from Wix HTTP Functions API'},{k:'Navigation',v:'17 quick-links with icons and descriptions'}],
+  criteria: ['All 17 links resolve to correct portals','Health KPIs display current values','Mobile responsive layout','Page loads under 2 seconds','No broken links'],
+  deps: ['BR-001']
+},
+'BR-010': {
+  purpose: 'One-time EC member onboarding flow with secure password setup, profile completion, and role activation. Enforces a 3-step gate chain: SuperAdmin → President → Members, tracked via ECYearStatus collection for FY2026-27.',
+  rules: ['ECYearStatus collection tracks fiscal year readiness','CURRENT_FY = FY2026-27','3-step gate chain: SuperAdmin activates → President approves → Members enabled','PRESIDENT_EMAIL = ranadhir.ghosh@gmail.com','Each EC member onboards once per fiscal year','Onboarding generates initial password + requires password change on first login','Profile completion wizard: name, phone, role confirmation','7 EC onboarding endpoints'],
+  collections: [{n:'ECYearStatus',f:'year, status (pending|super_admin_done|president_done|members_enabled), superAdminEmail, presidentEmail, activatedAt, memberCount, notes'},{n:'AdminRoles',f:'email, role, permissions[], displayName, onboardedAt, password (hashed)'}],
+  endpoints: [{m:'POST',r:'/ec_gate_activate',d:'SuperAdmin activates FY gate'},{m:'POST',r:'/ec_gate_president_approve',d:'President approves after own onboarding'},{m:'POST',r:'/ec_gate_enable_members',d:'Enable member onboarding'},{m:'GET',r:'/ec_gate_status',d:'Get current FY gate status'},{m:'POST',r:'/ec_onboard',d:'EC member completes onboarding'},{m:'GET',r:'/ec_onboard_status',d:'Check EC member onboarding status'},{m:'POST',r:'/ec_password_setup',d:'Set password during onboarding'}],
+  example: '// ECYearStatus record for FY2026-27\n{\n  "year": "FY2026-27",\n  "status": "members_enabled",\n  "superAdminEmail": "banfjax@gmail.com",\n  "presidentEmail": "ranadhir.ghosh@gmail.com",\n  "activatedAt": "2026-01-02T10:00:00Z",\n  "memberCount": 8,\n  "notes": "All 8 EC members onboarded successfully"\n}\n\n// Gate chain: \n// Step 1: SuperAdmin (banfjax@gmail.com) → activates FY\n// Step 2: President (ranadhir.ghosh@gmail.com) → approves\n// Step 3: Enable all EC member onboarding',
+  templateMap: [{k:'Source File',v:'src/backend/ec-onboarding-gate.js'},{k:'Password',v:'HMAC-SHA256 hashing with unique salt per user'},{k:'Session',v:'Token-based session after password setup'},{k:'FY',v:'FY2026-27 (April 2026 – March 2027)'}],
+  criteria: ['Gate chain enforces strict sequence (SuperAdmin → President → Members)','EC members cannot onboard before gate is enabled','Password is securely hashed with HMAC-SHA256','Profile completion required before portal access','ECYearStatus accurately reflects gate state'],
+  deps: ['BR-002','BR-012']
+},
+'BR-011': {
+  purpose: 'Super admin console providing role management, email builder, drive invitation control, system diagnostics, and bootstrap seeding. Central administrative interface for platform governance.',
+  rules: ['Accessible only to super_admin and admin roles','Role assignment/revocation for EC members','Email builder for manual email composition','Drive invitation control panel','System diagnostics: health check, collection stats, endpoint listing','Bootstrap seeding: initial data population for collections'],
+  collections: [{n:'AdminRoles',f:'(see BR-002)'}],
+  endpoints: [{m:'GET',r:'/admin_dashboard',d:'Admin dashboard data'},{m:'POST',r:'/admin_bootstrap',d:'Seed initial data'},{m:'GET',r:'/admin_diagnostics',d:'System health diagnostics'},{m:'POST',r:'/admin_email_send',d:'Send email from admin console'}],
+  example: '// GET /_functions/admin_diagnostics\n{\n  "apiVersion": "5.10.1-ec-reminder",\n  "collections": { "total": 42, "populated": 38, "empty": 4 },\n  "endpoints": 196,\n  "lastDeploy": "2026-02-28",\n  "health": "operational"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/admin-api.js'},{k:'UI',v:'src/public/admin-portal.html'},{k:'Access',v:'super_admin role required for all operations'},{k:'Pattern',v:'Single-page app with tabbed admin sections'}],
+  criteria: ['Only super_admin can access admin console','Role changes persist immediately','Email builder sends via Gmail API','Diagnostics return accurate system state','Bootstrap seeding is idempotent'],
+  deps: ['BR-002','BR-003','BR-010']
+},
+'BR-012': {
+  purpose: 'Email+password authentication with role-based portal routing. Supports login, session management, forgot-password via secret Q&A, and automatic redirection to the appropriate portal based on user role.',
+  rules: ['Email + password authentication','djb2-style hash with base64 encoding and unique salt','Session token format: ST-{timestamp36}-{20-char random}','Role-based redirect: super_admin/admin → Admin Portal, member → Member Portal','Forgot password via secret question/answer','Session expiry handling','Login attempt rate limiting'],
+  collections: [{n:'AdminRoles',f:'email, password (hashed), salt, secretQuestion, secretAnswerHash'},{n:'Members',f:'email, password (hashed), salt, loginEnabled'}],
+  endpoints: [{m:'POST',r:'/signin',d:'Email+password login → session token'},{m:'POST',r:'/forgot_password',d:'Secret question verification'},{m:'POST',r:'/reset_password',d:'Set new password via temp token'},{m:'POST',r:'/signup_set_secret_qa',d:'Set secret Q&A at first login'}],
+  example: '// POST /_functions/signin\n// Body: {"email":"ranadhir.ghosh@gmail.com","password":"***"}\n{\n  "success": true,\n  "token": "ST-lk3f2a-A7bC9dEfGhJkLmNpQrSt",\n  "role": "super_admin",\n  "redirect": "/admin-portal.html",\n  "displayName": "Ranadhir Ghosh"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-member-signup.js'},{k:'Hash',v:'djb2-style + base64, salt: BANF-SECRET-2025'},{k:'Session',v:'ST-{timestamp36}-{20-char} tokens'},{k:'Password',v:'Salt stored per-user in AdminRoles/Members'}],
+  criteria: ['Valid credentials return session token','Invalid credentials return 401','Session tokens expire after inactivity','Forgot-password flow works via secret Q&A','Role-based routing sends users to correct portal'],
+  deps: ['BR-002','BR-010']
+},
+'BR-013': {
+  purpose: 'Fiscal year EC readiness tracking with enforced onboarding sequence. Ensures SuperAdmin completes setup before President, and President before general members, for each new fiscal year.',
+  rules: ['Tracks EC readiness per fiscal year in ECYearStatus','Enforced sequence: SuperAdmin → President → Drive → Members','Status progression: pending → super_admin_done → president_done → members_enabled','Cannot skip steps in the chain','Each FY starts fresh with pending status'],
+  collections: [{n:'ECYearStatus',f:'year, status, superAdminEmail, presidentEmail, activatedAt, notes'}],
+  endpoints: [{m:'GET',r:'/ec_gate_status',d:'Current FY gate status'},{m:'POST',r:'/ec_gate_activate',d:'Advance gate to next step'}],
+  example: '// Gate status progression for FY2026-27:\n// 1. Jan 2: SuperAdmin activates → status: "super_admin_done"\n// 2. Jan 5: President onboards  → status: "president_done"\n// 3. Jan 8: Members enabled     → status: "members_enabled"\n// 4. All 8 EC members can now onboard',
+  templateMap: [{k:'Source File',v:'src/backend/ec-onboarding-gate.js'},{k:'FY',v:'FY2026-27 (current)'},{k:'Pattern',v:'Sequential gate with database state tracking'},{k:'Enforcement',v:'API rejects out-of-order operations'}],
+  criteria: ['Gate sequence is strictly enforced','Out-of-order requests rejected with clear error','ECYearStatus accurately reflects current state','New FY can be initialized','Historical FY data preserved'],
+  deps: ['BR-010']
+},
+'BR-020': {
+  purpose: 'Full CRM system for member search, view, edit, and reporting. Manages 6 interconnected collections: CRMMembers, FamilyGroups, FamilyHistory, OrgRoles, Awards, and VolunteerRecords with 26 API endpoints.',
+  rules: ['CRMMembers stores individual member records linked to FamilyGroups via familyId','FamilyGroups identified by FAM-{year}-{5-char} ID format','FamilyHistory provides full audit trail of all family changes','OrgRoles tracks organizational role assignments','Awards records member recognition and nominations','VolunteerRecords logs volunteer hours and event assignments','26 CRM API endpoints covering all CRUD operations','Search by name, email, familyId, membership status/tier'],
+  collections: [{n:'CRMMembers',f:'memberId (MBR-xxx), email, alternateEmail, firstName, lastName, displayName, familyId, phone, membershipType, membershipYear, isActive, role, joinedAt'},{n:'FamilyGroups',f:'familyId (FAM-xxx), displayName, primarySurname, membershipType, membershipYear, membershipStatus, familyType, notes, isActive'},{n:'FamilyHistory',f:'familyId, oldFamilyId, changeType, changedMemberId, changedMemberName, changeReason, changedAt, changedBy, previousData, newFamilyId'},{n:'OrgRoles',f:'memberId, role, department, startDate, endDate, assignedBy'},{n:'Awards',f:'memberId, awardName, year, category, nominatedBy, approvedBy'},{n:'VolunteerRecords',f:'memberId, eventName, hours, role, date, supervisor'}],
+  endpoints: [{m:'GET',r:'/crm_members',d:'List/search CRM members with filters'},{m:'GET',r:'/crm_member?id=',d:'Get single member full profile'},{m:'POST',r:'/crm_member_update',d:'Update member fields'},{m:'GET',r:'/crm_families',d:'List family groups'},{m:'GET',r:'/crm_family?id=',d:'Get family with members'},{m:'POST',r:'/crm_family_create',d:'Create new family unit'},{m:'POST',r:'/crm_family_update',d:'Update family details'},{m:'GET',r:'/crm_dashboard',d:'CRM dashboard summary KPIs'}],
+  example: '// GET /_functions/crm_family?id=FAM-2026-A3BC5\n{\n  "family": {\n    "familyId": "FAM-2026-A3BC5",\n    "displayName": "Ghosh Family",\n    "primarySurname": "Ghosh",\n    "membershipType": "m2_eb",\n    "familyType": "family",\n    "membershipStatus": "active"\n  },\n  "adults": [\n    {"memberId":"MBR-LK3F2A-B7C9","firstName":"Ranadhir","lastName":"Ghosh","email":"ranadhir.ghosh@gmail.com","role":"super_admin"},\n    {"memberId":"MBR-LK3F2B-C8D0","firstName":"Moumita","lastName":"Ghosh","email":"banfjax@gmail.com"}\n  ],\n  "minors": []\n}',
+  templateMap: [{k:'Source File',v:'src/backend/crm-agent.js + crm-api.js'},{k:'ID Gen',v:'FAM-{year}-{5-char} for families, MBR-{ts36}-{4-char} for members'},{k:'Audit',v:'All changes logged in FamilyHistory collection'},{k:'Search',v:'By name, email, familyId, membershipType, status'}],
+  criteria: ['Member search returns accurate results across all filter combinations','Family view shows all adults + minors correctly','All CRUD changes are audit-logged in FamilyHistory','Dashboard KPIs match actual data counts','Export includes all active member records'],
+  deps: ['BR-002','BR-021']
+},
+'BR-021': {
+  purpose: 'Create and edit family groups with full audit trail. Implements 8 business rules governing when family IDs change, how adults and minors are managed, and ensures all modifications are logged to FamilyHistory.',
+  rules: ['Family unit = unique familyId (FAM-{year}-{suffix})','4 family types: family, couple, individual, student','Two adults together → one family ID','Info change (name/email/phone) → NO new family ID','Adult LEAVES family → new family ID for remaining adults','Adult JOINS family with 2 existing adults → new family ID','Minors added/removed freely → NO new family ID','All changes logged in FamilyHistory with changeType, reason, changedBy'],
+  collections: [{n:'FamilyGroups',f:'familyId, displayName, primarySurname, membershipType, membershipYear, membershipStatus, familyType, notes, isActive'},{n:'CRMMembers',f:'memberId, familyId, firstName, lastName, email, phone'},{n:'FamilyHistory',f:'familyId, oldFamilyId, changeType, changedMemberId, changedMemberName, changeReason, changedAt, changedBy, previousData, newFamilyId'}],
+  endpoints: [{m:'POST',r:'/crm_family_create',d:'Create new family (auto-generates FAM ID)'},{m:'POST',r:'/crm_add_adult',d:'Add adult to family (may trigger new ID)'},{m:'POST',r:'/crm_remove_adult',d:'Remove adult from family (triggers new ID for remaining)'},{m:'POST',r:'/crm_add_minor',d:'Add minor to family (no ID change)'},{m:'POST',r:'/crm_remove_minor',d:'Remove minor from family (no ID change)'}],
+  example: '// createFamily example\nPOST /_functions/crm_family_create\n{\n  "adults": [\n    {"firstName":"Ranadhir","lastName":"Ghosh","email":"ranadhir.ghosh@gmail.com"},\n    {"firstName":"Moumita","lastName":"Ghosh","email":"banfjax@gmail.com"}\n  ],\n  "minors": [],\n  "familyType": "couple",\n  "membershipType": "m2_eb",\n  "membershipYear": "FY2026-27",\n  "createdBy": "admin@banf.org"\n}\n→ { "familyId": "FAM-2026-A3BC5", "membersCreated": 2 }',
+  templateMap: [{k:'Source File',v:'src/backend/crm-agent.js'},{k:'Functions',v:'createFamily(), addAdultToFamily(), removeAdultFromFamily(), addMinorToFamily()'},{k:'Audit',v:'FamilyHistory — change logged with previousData snapshot'},{k:'ID Gen',v:'generateFamilyId(year) → FAM-{year}-{5-char random}'}],
+  criteria: ['Creating 2-adult family generates single familyId','Info updates do NOT change familyId','Adult removal generates new familyId for remaining','Minor additions do NOT change familyId','All operations create FamilyHistory audit entries'],
+  deps: ['BR-020']
+},
+'BR-022': {
+  purpose: 'Fuzzy-match family linkage correction using Levenshtein distance and evidence-graph analysis. Runs bulk correction campaigns to identify and fix duplicate or mislinked family records.',
+  rules: ['Levenshtein distance for name matching','Evidence graph: email match, phone match, address match','Bulk correction campaign mode','Admin review required for automatic suggestions','Deployment window conflict with migration freeze (current blocker)'],
+  collections: [{n:'CRMMembers',f:'(see BR-020)'},{n:'FamilyGroups',f:'(see BR-020)'},{n:'FamilyHistory',f:'(see BR-021)'}],
+  endpoints: [{m:'POST',r:'/crm_family_correct',d:'Run fuzzy-match correction on member records'}],
+  example: '// Fuzzy match example:\n// Input: "Ranadhir Gosh" (typo)\n// Match: "Ranadhir Ghosh" (Levenshtein distance: 1)\n// Evidence: email match (ranadhir.ghosh@gmail.com) → high confidence\n// Suggestion: Link to FAM-2026-A3BC5',
+  templateMap: [{k:'Source File',v:'src/backend/crm-agent.js (correction module)'},{k:'Algorithm',v:'Levenshtein distance + evidence graph scoring'},{k:'Mode',v:'Bulk campaign with admin review'},{k:'Status',v:'DevOps — 78% complete, deployment window conflict'}],
+  criteria: ['Fuzzy matching identifies duplicates with >85% confidence','Admin review screen shows suggestions with evidence scores','Accepted corrections update FamilyGroups and CRMMembers','Rejected corrections are logged for audit','Campaign progress tracked in real-time'],
+  deps: ['BR-020','BR-021']
+},
+'BR-023': {
+  purpose: 'Full membership drive engine supporting 7 membership categories × 4 household tiers with exact pricing, invite codes, AI tier recommendation, registration flow, and payment processing for FY2026-27.',
+  rules: ['7 categories: M2 Premium Early Bird ($375-$145), M2 Premium ($410-$165), M1 Regular ($280-$100), Cultural Special ($180-$75), DP Special-1 ($210-$95), DP Special-2 ($150-$65), M3/M4 add-on','4 household tiers: Family (2 adults + children), Couple (2 adults), Individual (1 adult), Student (18-25)','17 events in FY2026-27 calendar: Bosonto Utsob, Noboborsho, Sports Day, Spondon, Durga Puja (2 days), Lakshmi Puja, Bijoya, Kali Puja, Winter Picnic, Saraswati Puja, and more','Invite code format: BANF-{8 chars from ABCDEFGHJKLMNPQRSTUVWXYZ23456789}','AI-powered tier recommendation using membership advisor LLM','Zelle payment: banfjax@gmail.com (BANF Jacksonville)','TEST_MODE = true → emails redirect to PRESIDENT_EMAIL','19 API endpoints for full drive management'],
+  collections: [{n:'MembershipConfig',f:'year, status, categories[], events[], eventAccess{}, createdBy, parsedAt, notes'},{n:'MembershipUniverse',f:'email, firstName, lastName, phone, isActive, isDemo, source, addedBy, addedAt'},{n:'MembershipDrive',f:'year, mode, status, configId, launchedBy, launchedAt, totalTargets, sentCount, errorCount, completedAt, notes'},{n:'MembershipRegistrations',f:'firstName, lastName, email, phone, categoryId, categoryName, householdType, membershipYear, amount, adultCount, childCount, childNames[], spouseName, city, registrationCode, status, paymentMethod, familyId, registeredAt'}],
+  endpoints: [{m:'GET',r:'/membership_tiers',d:'Get all categories with pricing'},{m:'POST',r:'/membership_recommend',d:'AI tier advisor'},{m:'POST',r:'/membership_register',d:'Submit registration'},{m:'GET',r:'/membership_status',d:'Check registration status'},{m:'POST',r:'/membership_confirm_payment',d:'Confirm Zelle payment'},{m:'GET',r:'/membership_registrations',d:'List all registrations'},{m:'POST',r:'/membership_parse_config',d:'Parse drive configuration'},{m:'POST',r:'/membership_config_save',d:'Save drive config'},{m:'GET',r:'/membership_config',d:'Get current config'},{m:'GET',r:'/membership_universe',d:'Get membership universe'},{m:'POST',r:'/membership_drive_init',d:'Launch membership drive'},{m:'GET',r:'/membership_drive_status',d:'Drive run status'},{m:'POST',r:'/membership_drive_notify',d:'Send drive notifications'},{m:'POST',r:'/membership_drive_control',d:'Pause/resume/stop drive'}],
+  example: '// Membership Pricing Matrix FY2026-27:\n// ─────────────────────────────────────────────\n// Category          │Family│Couple│Individual│Student\n// M2 Premium EB     │ $375 │ $290 │   $215   │ $145\n// M2 Premium        │ $410 │ $330 │   $240   │ $165\n// M1 Regular        │ $280 │ $255 │   $140   │ $100\n// Cultural Special  │ $180 │ $140 │   $100   │  $75\n// DP Special-1      │ $210 │ $175 │   $130   │  $95\n// DP Special-2      │ $150 │ $125 │    $90   │  $65\n// ─────────────────────────────────────────────\n// Zelle: banfjax@gmail.com (BANF Jacksonville)',
+  templateMap: [{k:'Source File',v:'src/backend/membership-drive.js (1,518 lines)'},{k:'Payment',v:'Zelle → banfjax@gmail.com; memo: "BANF {regCode}"'},{k:'Invite Code',v:'BANF-{8-char alphanumeric}'},{k:'AI Advisor',v:'Llama-3.1-8B recommends tier based on family size + budget'}],
+  criteria: ['All 7 categories × 4 tiers display correct pricing','Registration creates record with correct amount','AI advisor returns relevant tier recommendation','Invite codes are unique and properly formatted','Payment confirmation updates registration status','Drive emails sent to all universe contacts'],
+  deps: ['BR-003','BR-005','BR-020']
+},
+'BR-024': {
+  purpose: 'Member registration, authentication, and password management. Implements a 9-step signup workflow with registration code generation, Zelle payment instructions, and secure password setup with secret Q&A.',
+  rules: ['9-step workflow: initiate → check existing → gen code → save pending → poll status → payment confirmed → complete → signin → set secret Q&A','Registration code: BANF-{TYPE}-{INITIALS}{YYYYMMDD}-{RAND4} (e.g., BANF-NM-RG20250623-X7K2)','TYPE codes: NM = New Member, RN = Renewal, EC = EC Member','Password: djb2 hash + base64, salt: BANF-SECRET-2025','Session token: ST-{timestamp36}-{20-char random}','Registration expires after 7 days','Membership amount: $50 per family','BANF_ZELLE_EMAIL = banfjax@gmail.com'],
+  collections: [{n:'MemberRegistrations',f:'regCode, firstName, lastName, email, phone, membershipType, workflowType (NM|RN|EC), status (pending_payment|completed), amount (50), createdAt, expiresAt, paymentConfirmed, paymentConfirmedAt, paymentConfirmedBy, secretQuestion, secretAnswerHash'},{n:'CRMMembers',f:'(checked for existing accounts)'}],
+  endpoints: [{m:'POST',r:'/signup_initiate',d:'Start registration → check existing → gen reg code'},{m:'GET',r:'/signup_status',d:'Poll payment status'},{m:'POST',r:'/signup_complete',d:'After payment → create member record'},{m:'POST',r:'/signin',d:'Email+password → session token'},{m:'POST',r:'/signup_resend_code',d:'Resend reg code / Zelle instructions'},{m:'POST',r:'/forgot_password',d:'Secret question verification flow'},{m:'POST',r:'/reset_password',d:'Set new password'},{m:'POST',r:'/signup_set_secret_qa',d:'Set secret Q&A at first login'},{m:'POST',r:'/payment_confirm_agent',d:'Called by email agent when Zelle email seen'}],
+  example: '// Zelle payment instructions returned to user:\n{\n  "zelleEmail": "banfjax@gmail.com",\n  "amount": 50,\n  "regCode": "BANF-NM-RG20260623-X7K2",\n  "memo": "BANF BANF-NM-RG20260623-X7K2",\n  "instructions": [\n    "Open your bank app",\n    "Go to Zelle Send Money",\n    "Enter: banfjax@gmail.com",\n    "Amount: $50",\n    "Memo: BANF BANF-NM-RG20260623-X7K2"\n  ],\n  "zelleDeepLink": "zelle://send?recipient=banfjax@gmail.com&amount=50"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-member-signup.js (865 lines)'},{k:'Payment',v:'Zelle → banfjax@gmail.com, $50/family'},{k:'Password Hash',v:'djb2 + base64 with per-user salt'},{k:'Reg Code',v:'BANF-{NM|RN|EC}-{Initials}{Date}-{4-char}'}],
+  criteria: ['Duplicate email check prevents double registration','Registration code is unique and follows format','Zelle instructions display correct email and amount','Payment confirmation updates status to completed','Expired registrations (>7 days) are rejected','Password securely hashed with unique salt'],
+  deps: ['BR-003','BR-020','BR-023']
+},
+'BR-025': {
+  purpose: 'KPI dashboard panel with tier breakdown, invite vs response analytics, and drive status monitoring for the membership campaign.',
+  rules: ['Real-time registration counts by category and household tier','Invite sent vs responded vs pending breakdown','Payment status tracking: pending, confirmed, expired','Drive launch/pause/complete status','Conversion rate calculation'],
+  collections: [{n:'MembershipRegistrations',f:'(see BR-023)'},{n:'MembershipDrive',f:'(see BR-023)'}],
+  endpoints: [{m:'GET',r:'/membership_drive_status',d:'Drive run status with KPIs'},{m:'GET',r:'/membership_registrations',d:'All registrations for analytics'},{m:'GET',r:'/membership_history',d:'Historical drive data'}],
+  example: '// Drive Status Dashboard KPIs:\n// Total Targets: 523 | Sent: 498 | Responded: 187\n// Registered: 142 | Paid: 118 | Pending: 24\n// M2 Premium EB: 45 | M2 Premium: 28 | M1 Regular: 35\n// Cultural: 20 | DP1: 8 | DP2: 6\n// Revenue: $24,850 of $45,000 target',
+  templateMap: [{k:'Source File',v:'src/backend/membership-drive.js'},{k:'Data',v:'Aggregated from MembershipRegistrations + MembershipDrive'},{k:'UI',v:'Integrated into admin portal membership tab'},{k:'Refresh',v:'Real-time on each API call'}],
+  criteria: ['KPI counts match actual registration records','Tier breakdown is accurate','Payment status correctly categorized','Drive status reflects actual campaign state','Historical comparison shows YoY trends'],
+  deps: ['BR-023']
+},
+'BR-026': {
+  purpose: 'Staged email campaign for member communication consent correction and GDPR compliance. Super-admin activates the campaign which progresses through 3 stages: SuperAdmin → EC Members → General Members.',
+  rules: ['3 stages: Stage 1 (SuperAdmin only), Stage 2 (all EC members), Stage 3 (CRM members not covered)','Token-based verification: CCT-{timestamp36}-{8-char random}','Collects: first name, last name, phone, preferred email, kids (name+age), other adults, email opt-in','Skip rule: if correctedOn == today, skip (already verified)','PRESIDENT_EMAIL = ranadhir.ghosh@gmail.com','BANF_EMAIL = banfjax@gmail.com','COMMS_LAUNCHED = true (campaign officially launched)','TEST_MODE = false (live emails to actual recipients)'],
+  collections: [{n:'CommsCorrectionTokens',f:'token, email, stage, sentAt, correctedOn, isDeclined, correctionData'}],
+  endpoints: [{m:'POST',r:'/comms_correction_launch',d:'Launch correction campaign'},{m:'GET',r:'/comms_correction_status',d:'Campaign progress'},{m:'GET',r:'/comms_form_data',d:'Pre-fill form data for member'},{m:'POST',r:'/comms_correction_submit',d:'Submit corrections'},{m:'POST',r:'/comms_correction_decline',d:'Decline modification'},{m:'GET',r:'/comms_dashboard_data',d:'Admin campaign dashboard'}],
+  example: '// Token generation:\n// generateToken() → "CCT-lk3f2a-A7bC9dEf"\n\n// Campaign stages:\n// Stage 1: ranadhir.ghosh@gmail.com (SuperAdmin test)\n// Stage 2: All 8 EC members (partha.bhdm@, rajanya.ghosh@, ...)\n// Stage 3: All CRMMembers not in stages 1-2\n\n// Correction form collects:\n// { firstName, lastName, phone, preferredEmail,\n//   kids: [{name, age}], otherAdults: [{name, relationship}],\n//   emailOptIn: true/false }',
+  templateMap: [{k:'Source File',v:'src/backend/comms-correction.js (1,817 lines)'},{k:'Campaign',v:'Staged rollout: SuperAdmin → EC → Members'},{k:'Token',v:'CCT-{ts36}-{8-char} sent via email link'},{k:'GDPR',v:'Opt-in tracking, decline option, data correction rights'}],
+  criteria: ['Stages progress in order (1→2→3)','Tokens are single-use and expire after correction','Skip rule prevents duplicate corrections','Decline option properly logged','Dashboard shows accurate correction rates per stage'],
+  deps: ['BR-003','BR-020']
+},
+'BR-030': {
+  purpose: 'Event creation and management system. Allows admins to create events with venue details and register keywords for Gmail scanning. Manages the full FY2026-27 calendar of 17 events.',
+  rules: ['Events stored in Events collection with date, title, location, description','Keyword registration for Gmail RSVP scanning','17 events in FY2026-27: Bosonto Utsob (Mar 7), Noboborsho (Apr 14), Kids Summer Sports (Jun-Jul), Summer Workshops (Jun-Jul), Sports Day (Jul), Spondon (Aug), Mahalaya (Oct 17), Durga Puja Day 1-2 (Oct 24-25), Lakshmi Puja (Oct 24), Bijoya Sonmiloni (Oct 25), Artist Program (Oct 24-25), Kali Puja (Nov 14), Natok+Dinner (Nov 14), Winter Picnic (Jan), Saraswati Puja (Feb 27)'],
+  collections: [{n:'Events',f:'eventId, title, eventDate, location, description, keywords[], status, createdBy, createdAt'}],
+  endpoints: [{m:'POST',r:'/evite_create_event',d:'Register event with keywords'},{m:'GET',r:'/evite_events',d:'List all tracked events'}],
+  example: '// POST /_functions/evite_create_event\n{\n  "title": "Bosonto Utsob 2026",\n  "eventDate": "2026-03-07",\n  "location": "BANF Community Center, Jacksonville FL",\n  "description": "Spring festival celebrating Bengali New Year",\n  "keywords": ["bosonto", "utsob", "spring"]\n}\n\n// FY2026-27 Calendar: 17 events from Mar 2026 to Feb 2027',
+  templateMap: [{k:'Source File',v:'src/backend/banf-evite-report.js (1,570 lines)'},{k:'Keywords',v:'Used for Gmail RSVP scanning (BR-032)'},{k:'Calendar',v:'17 events for FY2026-27'},{k:'Pattern',v:'Event → Invite → Scan → Report'}],
+  criteria: ['Events created with all required fields','Keywords registered for scanning','Event list returns all FY events in date order','Event dates are accurate per BANF calendar','Duplicate event detection prevents double-creation'],
+  deps: []
+},
+'BR-031': {
+  purpose: 'Branded HTML invitation system via Gmail API. Sends event-specific invitations to all members or targeted groups with per-recipient tracking.',
+  rules: ['Branded HTML email invitations using BANF templates','Per-recipient delivery tracking','Send to full membership universe or targeted subsets','Invite status: sent, opened, clicked, not-opened','Reminder sends for non-responders','Gmail API for sending (shared OAuth2 credentials)'],
+  collections: [{n:'EviteRSVPs',f:'(tracks invite delivery + responses)'},{n:'Events',f:'(event details for invitation content)'}],
+  endpoints: [{m:'POST',r:'/evite_send_invites',d:'Send invitations for an event'},{m:'GET',r:'/evite_invite_status',d:'Check invite delivery status'}],
+  example: '// POST /_functions/evite_send_invites\n// Body: {"eventId":"bosonto-2026","targetGroup":"all"}\n{\n  "sent": 498,\n  "failed": 3,\n  "skipped": 22,\n  "eventTitle": "Bosonto Utsob 2026",\n  "sentAt": "2026-02-15T10:00:00Z"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-evite-report.js'},{k:'Email',v:'Branded HTML via Gmail API (BR-003)'},{k:'Templates',v:'Event-specific templates (BR-005)'},{k:'Tracking',v:'Per-recipient delivery and open tracking'}],
+  criteria: ['Invitations sent to all targeted recipients','Branded HTML formatting renders correctly','Delivery status tracked per recipient','Failed sends logged with error details','Reminder sends only go to non-responders'],
+  deps: ['BR-003','BR-005','BR-030']
+},
+'BR-032': {
+  purpose: 'Gmail RSVP scanning with LLM-powered email parsing. Scans InboxMessages for event-related replies, uses Llama-3.1-8B to extract structured RSVP data (headcount, dietary preferences), and generates attendance worksheets.',
+  rules: ['Scans InboxMessages for event keyword matches','LLM parsing (Llama-3.1-8B-Instruct) extracts: rsvp (yes/no/maybe), adult count, kid count, veg count, nonVeg count, notes','CRM intelligence: findMemberByEmail → findMemberByName fallback → getFamilyGroup','Family-level dedup: one RSVP per family per event','Adult threshold: family/couple → 2, individual/student → 1','Attendance worksheet with dietary breakdown'],
+  collections: [{n:'EviteRSVPs',f:'eventId, familyId, from (email), gmailId, subject, rsvp, adults, kids, vegCount, nonVegCount, notes, parsedAt'},{n:'EventRSVPs',f:'eventId, email, guestCount, notes, rsvpAt (member self-service)'},{n:'InboxMessages',f:'(source emails for scanning)'}],
+  endpoints: [{m:'POST',r:'/evite_scan',d:'Scan inbox for event RSVPs'},{m:'GET',r:'/evite_attendance_report?eventId=',d:'Full attendance worksheet'},{m:'POST',r:'/evite_parse_single',d:'LLM parse single email (debug)'},{m:'POST',r:'/evite_rsvp_override',d:'Manual admin RSVP edit'},{m:'GET',r:'/evite_rsvps',d:'List RSVPs for event'},{m:'GET',r:'/evite_rsvp_form_data',d:'Public RSVP form data'},{m:'POST',r:'/evite_rsvp_submit',d:'Submit RSVP from public form'}],
+  example: '// LLM RSVP parsing example:\n// Input email: "We will come to Bosonto! 2 adults and 1 kid. All veg please."\n// LLM Output:\n{\n  "rsvp": "yes",\n  "adults": 2,\n  "kids": 1,\n  "vegCount": 3,\n  "nonVegCount": 0,\n  "notes": "All vegetarian"\n}\n\n// Attendance worksheet for Bosonto Utsob:\n// Families: 45 | Adults: 87 | Kids: 32 | Total: 119\n// Veg: 52 | Non-Veg: 67 | Dietary notes: 8',
+  templateMap: [{k:'Source File',v:'src/backend/banf-evite-report.js'},{k:'LLM',v:'meta-llama/Llama-3.1-8B-Instruct via Hugging Face'},{k:'CRM Link',v:'findMemberByEmail() → getFamilyGroup() for family dedup'},{k:'Output',v:'EviteRSVPs collection + attendance worksheet API'}],
+  criteria: ['LLM correctly parses RSVP intent (yes/no/maybe)','Headcount extracted accurately','Dietary preferences captured','Family dedup prevents double-counting','Attendance worksheet totals are correct','Manual override allows admin corrections'],
+  deps: ['BR-003','BR-020','BR-030']
+},
+'BR-040': {
+  purpose: 'Income/expense ledger by accounting year with 6 income and 12 expense categories. Records financial entries with vendor linkage and supports multi-year tracking from 2020 to 2025+.',
+  rules: ['Accounting year: January 1 — December 31','6 income categories: membership, event_ticket, sponsorship, donation, advertisement, other_income','12 expense categories: venue, catering, decoration, photography, printing, sound_music, apparel, prasad, admin, bank_fee, transport, other_expense','Entry types: income or expense','Currency: USD','Vendor linkage via vendorId','Evidence tracking: email, drive, both, none','Reconciliation flag per entry'],
+  collections: [{n:'FinancialEntries',f:'entryId (FE-xxx), year, entryDate, type (income|expense), category, description, amount, currency (USD), vendorId, vendorName, paymentMethod, referenceNo, notes, source (manual), eventName, reconciled, reconciledAt, reconciledBy, evidenceType, evidenceEmailIds, evidenceDriveIds, evidenceNotes, addedBy, addedAt'}],
+  endpoints: [{m:'GET',r:'/ledger?year=&type=&category=',d:'Query ledger with filters'},{m:'GET',r:'/ledger_entry?entryId=',d:'Get single entry'},{m:'POST',r:'/ledger_entry_create',d:'Create financial entry'},{m:'POST',r:'/ledger_entry_update',d:'Update entry'},{m:'GET',r:'/ledger_years',d:'List available years'}],
+  example: '// POST /_functions/ledger_entry_create\n{\n  "year": 2025,\n  "entryDate": "2025-10-24",\n  "type": "expense",\n  "category": "catering",\n  "description": "Durga Puja Day 1 catering — 150 plates",\n  "amount": 2250.00,\n  "vendorId": "VND-A3B5C",\n  "vendorName": "Spice Kitchen Catering",\n  "paymentMethod": "check",\n  "eventName": "Durga Puja 2025"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-finance-api.js (1,102 lines)'},{k:'Accounting Year',v:'January 1 – December 31'},{k:'Categories',v:'6 income + 12 expense = 18 total'},{k:'Permission',v:'admin:manage_payments required for create/update'}],
+  criteria: ['Entries categorized correctly by income/expense type','Year filter returns only matching entries','Amount stored as numerical value in USD','Vendor linkage resolves correctly','Entry creation requires admin:manage_payments permission'],
+  deps: ['BR-002','BR-041']
+},
+'BR-041': {
+  purpose: 'Vendor registry with 15 categories covering all BANF operational vendor types. Provides CRUD operations with contact management, tax ID tracking, and tagging.',
+  rules: ['15 vendor categories: venue, catering, decoration, photography, videography, sound_music, printing, apparel, technology, spiritual, transportation, security, entertainment, media, miscellaneous','Vendor ID format: VND-{random}','Contact management: primary + alternate phone/email','Tax ID tracking for 990 compliance','Tag-based grouping','State default: FL (Florida)'],
+  collections: [{n:'Vendors',f:'vendorId (VND-xxx), name, category, profile, address, city, state (FL), zip, contactName, contactTitle, phone, altPhone, email, altEmail, website, taxId, tags[], notes, isActive, addedBy, addedAt'}],
+  endpoints: [{m:'GET',r:'/vendors',d:'List all vendors (admin:view)'},{m:'GET',r:'/vendor?vendorId=',d:'Get single vendor'},{m:'POST',r:'/vendor_create',d:'Create vendor (admin:manage_vendors)'},{m:'POST',r:'/vendor_update',d:'Update vendor'},{m:'GET',r:'/vendor_categories',d:'List 15 categories (public)'}],
+  example: '// GET /_functions/vendor_categories\n[\n  "venue", "catering", "decoration", "photography",\n  "videography", "sound_music", "printing", "apparel",\n  "technology", "spiritual", "transportation",\n  "security", "entertainment", "media", "miscellaneous"\n]\n\n// Vendor record:\n{\n  "vendorId": "VND-A3B5C",\n  "name": "Spice Kitchen Catering",\n  "category": "catering",\n  "city": "Jacksonville",\n  "state": "FL",\n  "contactName": "Amit Shah",\n  "phone": "(904) 555-0123",\n  "email": "info@spicekitchen.com"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-finance-api.js'},{k:'ID Format',v:'VND-{random alphanumeric}'},{k:'Permission',v:'admin:manage_vendors for create/update, admin:view for read'},{k:'Default State',v:'FL (Florida)'}],
+  criteria: ['All 15 categories available','Vendor CRUD persists correctly','Contact info stored with primary + alternate','Tax ID field available for compliance','Deactivated vendors excluded from active lists'],
+  deps: ['BR-002']
+},
+'BR-042': {
+  purpose: 'Sponsor registry with tiered benefits (Title $1000+, Gold $500, Silver $250, Bronze $100). Tracks sponsor agreements, amounts, benefits, and renewal years.',
+  rules: ['Sponsor tiers: Title ($1,000+), Gold ($500), Silver ($250), Bronze ($100)','Year-based tracking for renewals','Benefits defined per tier','Contact management','Linked to SponsorshipTiers landing page collection'],
+  collections: [{n:'SponsorshipTiers',f:'slug, name, price, period, icon, iconGradient, benefits[], ctaLink, order, active'}],
+  endpoints: [{m:'GET',r:'/landing_data',d:'Public sponsor tier display (part of landing data)'}],
+  example: '// Sponsorship tiers:\n// Title Sponsor: $1,000+ — Logo on all materials, stage mention,\n//   VIP seating, full-page ad, social media features\n// Gold Sponsor: $500 — Logo on banner, half-page ad,\n//   social media mention\n// Silver Sponsor: $250 — Logo on program, quarter-page ad\n// Bronze Sponsor: $100 — Name listing in program',
+  templateMap: [{k:'Source File',v:'src/backend/landing-collections.js'},{k:'Display',v:'Public landing page sponsor section'},{k:'Tiers',v:'Title ($1000+), Gold ($500), Silver ($250), Bronze ($100)'},{k:'Collection',v:'SponsorshipTiers in Wix Data'}],
+  criteria: ['All 4 tiers display with correct pricing','Benefits listed per tier','Sponsors linked to landing page display','Year tracking for renewals','Contact info maintained for each sponsor'],
+  deps: ['BR-080']
+},
+'BR-043': {
+  purpose: 'Advertisement tracking for event program booklets and digital channels. Links ads to sponsors/vendors with status tracking.',
+  rules: ['Ad records linked to sponsors or vendors','Status tracking: draft, active, completed','Placement types: program booklet, digital, social media','Year and event association'],
+  collections: [{n:'FinancialEntries',f:'(ads tracked as advertisement income category)'}],
+  endpoints: [{m:'POST',r:'/ledger_entry_create',d:'Record ad revenue as income entry'}],
+  example: '// Ad revenue recorded as income:\n{\n  "type": "income",\n  "category": "advertisement",\n  "description": "Durga Puja 2025 program booklet — full page ad",\n  "amount": 500.00,\n  "vendorName": "Bengal Grocery Store",\n  "eventName": "Durga Puja 2025"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-finance-api.js'},{k:'Category',v:'advertisement (one of 6 income categories)'},{k:'Linkage',v:'Associated with vendor/sponsor + event'},{k:'Tracking',v:'Via FinancialEntries ledger'}],
+  criteria: ['Ad revenue correctly categorized as advertisement income','Linked to correct sponsor/vendor','Event association tracked','Revenue amounts recorded accurately'],
+  deps: ['BR-040','BR-041']
+},
+'BR-044': {
+  purpose: 'Automated reconciliation engine that matches ledger entries to Gmail emails and Google Drive files within a ±45-day window. Produces reconciliation rate reports per year.',
+  rules: ['Matches FinancialEntries to evidence within ±45 days of entryDate','Email evidence: searches InboxMessages + SentEmails for vendor name / amount / description','Drive evidence: searches DriveSync for matching filenames/folders','Evidence types: both (email+drive), email, drive, none','reconciled = true if any evidence found','Auto-sets reconciledBy = "auto:reconcile-engine"','Returns stats: total, newlyReconciled, alreadyReconciled, unmatched, emailEvidence, driveEvidence, bothEvidence'],
+  collections: [{n:'ReconciliationReports',f:'year, runAt, stats{}, reconciledBy'},{n:'FinancialEntries',f:'(updated with reconciliation data)'},{n:'InboxMessages',f:'(searched for email evidence)'},{n:'SentEmails',f:'(searched for email evidence)'},{n:'DriveSync',f:'(searched for drive evidence)'}],
+  endpoints: [{m:'POST',r:'/reconcile',d:'Run reconciliation for a year'},{m:'POST',r:'/reconcile_all',d:'Reconcile all years'}],
+  example: '// POST /_functions/reconcile\n// Body: {"year": 2025, "forceRerun": false}\n{\n  "year": 2025,\n  "stats": {\n    "total": 142,\n    "newlyReconciled": 23,\n    "alreadyReconciled": 98,\n    "unmatched": 21,\n    "emailEvidence": 45,\n    "driveEvidence": 38,\n    "bothEvidence": 38,\n    "reconciliationRate": "85.2%"\n  }\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-finance-api.js'},{k:'Window',v:'±45 days from entry date'},{k:'Sources',v:'InboxMessages, SentEmails, DriveSync'},{k:'Permission',v:'admin:manage_payments required'}],
+  criteria: ['Reconciliation matches within 45-day window','Email evidence correctly identified by vendor/amount keywords','Drive evidence matched by filename patterns','Evidence types correctly categorized','Reconciliation rate report is accurate','Force rerun option works correctly'],
+  deps: ['BR-003','BR-004','BR-040']
+},
+'BR-045': {
+  purpose: 'Gmail scanning for Zelle payment notifications. Auto-matches incoming Zelle payments to member registrations and provides verify/reject workflow.',
+  rules: ['Scans Gmail for Zelle notification emails','Auto-matches to MembershipRegistrations by amount + reg code in memo','Verify/reject workflow for treasurer review','Payment history maintained','Zelle recipient: banfjax@gmail.com (BANF Jacksonville)'],
+  collections: [{n:'MembershipRegistrations',f:'(payment status updated)'},{n:'InboxMessages',f:'(Zelle notification emails)'}],
+  endpoints: [{m:'GET',r:'/membership_test_pay',d:'Test payment matching'},{m:'POST',r:'/membership_confirm_payment',d:'Confirm Zelle payment'}],
+  example: '// Zelle payment detection flow:\n// 1. Gmail receives: "You received $375 from Ranadhir Ghosh"\n// 2. System scans: amount=$375, memo contains "BANF-NM-RG20260623"\n// 3. Match found: MembershipRegistrations.regCode = "BANF-NM-RG20260623-X7K2"\n// 4. Auto-link: paymentConfirmed=true, status="completed"\n// 5. Treasurer reviews and approves in dashboard',
+  templateMap: [{k:'Source File',v:'src/backend/membership-drive.js + banf-member-signup.js'},{k:'Payment',v:'Zelle → banfjax@gmail.com'},{k:'Matching',v:'Amount + reg code memo → MembershipRegistrations'},{k:'Review',v:'Treasurer verify/reject workflow'}],
+  criteria: ['Zelle emails correctly identified in Gmail scan','Amount matching is accurate','Reg code extraction from memo works','Payment confirmation updates registration status','Treasurer can verify/reject matches'],
+  deps: ['BR-003','BR-023','BR-024']
+},
+'BR-046': {
+  purpose: 'Manual payment recording, verification workflow, and payment status tracking. Supports multiple payment methods and integrates with the financial ledger.',
+  rules: ['Manual payment entry by admin','Verification workflow: pending → verified → completed','Multiple payment methods: Zelle, check, cash, Square','Payment linked to member registration','Recorded in FinancialEntries as income'],
+  collections: [{n:'FinancialEntries',f:'(payment recorded as income entry)'},{n:'Payments',f:'email, amount, paymentMethod, status, verifiedAt, verifiedBy'}],
+  endpoints: [{m:'POST',r:'/ledger_entry_create',d:'Record payment as income'},{m:'GET',r:'/member_payments',d:'Member payment history'}],
+  example: '// Manual payment recording:\n{\n  "type": "income",\n  "category": "membership",\n  "description": "FY2026-27 M2 Premium EB — Ghosh Family",\n  "amount": 375.00,\n  "paymentMethod": "zelle",\n  "referenceNo": "BANF-NM-RG20260623-X7K2"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/banf-finance-api.js'},{k:'Methods',v:'Zelle, check, cash, Square'},{k:'Workflow',v:'pending → verified → completed'},{k:'Permission',v:'admin:manage_payments'}],
+  criteria: ['Manual entries recorded correctly','Multiple payment methods supported','Verification workflow enforced','Payment linked to member record','Shows in member payment history'],
+  deps: ['BR-040']
+},
+'BR-050': {
+  purpose: 'Anonymous survey engine supporting 7 question types with token-hash anonymity model. Ensures admin can track who responded but cannot correlate specific responses to individuals.',
+  rules: ['7 question/answer types: rating_1_5, rating_1_10, nps, yes_no, multiple_choice, text, number','Each recipient gets a 1-time token in email link','Token hash stored in SurveyRecipients (tracks who responded)','SurveyResponses stores ONLY anonymous UUID (anon_{random}_{timestamp36}) — NO member ID/email','Admin can see WHO has/hasn\'t responded but CANNOT correlate response to person','Question structure: questionId, questionText, answerType, options[], required, order','5 collections for full survey lifecycle'],
+  collections: [{n:'BanfSurveys',f:'surveyId, title, description, questions[], status, createdBy, createdAt, closedAt'},{n:'SurveyRecipients',f:'surveyId, email, tokenHash, sentAt, respondedAt, hasResponded'},{n:'SurveyResponses',f:'surveyId, anonId (anon_xxx), answers{}, submittedAt (NO email, NO member ID)'},{n:'SurveyAggregates',f:'surveyId, aggregatedResults{}, processedAt, totalResponses'},{n:'SurveyEscalations',f:'surveyId, anonId, content, sentiment, escalateReason, status (pending_review|reviewed), escalatedAt'}],
+  endpoints: [{m:'POST',r:'/survey_create',d:'Create new survey with questions'},{m:'POST',r:'/survey_send',d:'Distribute to recipients via email'},{m:'GET',r:'/survey_form_data',d:'Get survey for respondent (via token)'},{m:'POST',r:'/survey_submit',d:'Submit anonymous response'},{m:'POST',r:'/survey_process',d:'LLM aggregate + sentiment analysis'},{m:'GET',r:'/survey_report',d:'Get aggregated results'},{m:'GET',r:'/survey_escalations',d:'View escalated responses'},{m:'POST',r:'/survey_resolve_escalation',d:'Mark escalation as reviewed'},{m:'POST',r:'/survey_close',d:'Close survey'}],
+  example: '// Survey question structure:\n{\n  "questionId": "q_1",\n  "questionText": "How satisfied are you with BANF events?",\n  "answerType": "rating_1_5",\n  "required": true,\n  "order": 1\n}\n\n// Token generation:\n// makeToken(surveyId, email, salt)\n// → simpleHash(surveyId + email + salt + Date.now())\n// hashToken(token) → "th_" + simpleHash(token + "banf_survey_2026")\n// makeAnonId() → "anon_a7b3c_lk3f2a"',
+  templateMap: [{k:'Source File',v:'src/backend/banf-survey.js (1,458 lines)'},{k:'Form URL',v:'https://www.jaxbengali.org/survey.html'},{k:'Anonymity',v:'Token-hash model — admin sees who, not what'},{k:'LLM',v:'Llama-3.1-8B for sentiment analysis'}],
+  criteria: ['All 7 question types render correctly','Anonymity model prevents response-to-person correlation','Token is single-use — resubmission blocked','Admin dashboard shows response rate without revealing responses','Survey form accessible via token link'],
+  deps: ['BR-003','BR-005']
+},
+'BR-051': {
+  purpose: 'Email distribution of surveys with unique tokens, plus LLM-powered sentiment analysis and escalation detection. Processes text responses through Llama-3.1-8B for sentiment scoring and escalation flagging.',
+  rules: ['Survey emails sent via Gmail with unique token per recipient','LLM sentiment analysis: -1.0 to 1.0 score with label','Escalation triggers: named individual accusations, abusive language, defamatory statements','Escalation flow: store anonymised → email president (ranadhir.ghosh@gmail.com) → pending_review','Sentiment output: { sentiment, sentimentLabel, escalate, escalateReason, themes[], normalized }','Aggregation produces per-question statistics'],
+  collections: [{n:'SurveyRecipients',f:'(see BR-050)'},{n:'SurveyAggregates',f:'(see BR-050)'},{n:'SurveyEscalations',f:'(see BR-050)'}],
+  endpoints: [{m:'POST',r:'/survey_send',d:'Send survey to recipients'},{m:'POST',r:'/survey_process',d:'Run LLM analysis on responses'},{m:'GET',r:'/survey_report',d:'Aggregated results with sentiment'},{m:'GET',r:'/survey_escalations',d:'View flagged responses'}],
+  example: '// LLM sentiment analysis output:\n{\n  "sentiment": 0.72,\n  "sentimentLabel": "positive",\n  "escalate": false,\n  "themes": ["events", "community", "food quality"],\n  "normalized": 0.86\n}\n\n// Escalation example:\n{\n  "sentiment": -0.85,\n  "sentimentLabel": "very negative",\n  "escalate": true,\n  "escalateReason": "Contains accusation against named individual",\n  "themes": ["complaint", "governance"]\n}\n// → Email sent to ranadhir.ghosh@gmail.com\n// → SurveyEscalations status: "pending_review"',
+  templateMap: [{k:'Source File',v:'src/backend/banf-survey.js'},{k:'LLM Model',v:'meta-llama/Llama-3.1-8B-Instruct'},{k:'Escalation',v:'President notified via email for flagged content'},{k:'Anonymity',v:'Escalations stored with anonId — no member identity'}],
+  criteria: ['Sentiment scores accurate for positive/negative text','Escalation triggers correctly identify concerning content','President receives escalation emails','Aggregated report shows per-question statistics','Escalation resolution workflow functional'],
+  deps: ['BR-003','BR-050']
+},
+'BR-052': {
+  purpose: 'Route survey and complaint feedback into actionable tickets with auto-assignment and SLA tracking. (In Progress — 52% complete, schema extension pending design board vote)',
+  rules: ['Auto-create ticket from survey feedback or complaint','Assignment based on content category','SLA tracking with escalation on breach','Schema extension pending approval','Blocked: design board vote needed'],
+  collections: [],
+  endpoints: [],
+  example: '// Planned workflow:\n// Survey feedback → classify content → create ticket\n// → auto-assign to relevant EC member\n// → SLA timer starts → escalate if breached\n\n// Status: 52% complete\n// Blocker: Schema extension pending design board vote',
+  templateMap: [{k:'Status',v:'52% — Tech Validation phase'},{k:'Blocker',v:'Schema extension pending design board vote'},{k:'Approvals Needed',v:'Secretary + Technical Admin'}],
+  criteria: ['Tickets auto-created from feedback','Category-based assignment works','SLA timer functional','Escalation on breach','Dashboard shows all active tickets'],
+  deps: ['BR-050','BR-056']
+},
+'BR-055': {
+  purpose: 'Gmail inbox scanning with AI auto-response drafting. Implements a 6-stage pipeline: New Gmail → Classify Intent → Queue → Route to Agent → RAG Context → LLM Response → Auto-Send or Queue for Review.',
+  rules: ['Pipeline: New Gmail → Classify → Queue → Route → RAG + LLM → Send/Review','9 agent types: event_inquiry, membership, payment, complaint, sponsorship, volunteer, career, publication, general','Keyword-based intent classification with confidence score','Priority classification: urgent, high, normal, low','LLM parameters: Llama-3.1-8B, max_tokens: 400, temperature: 0.3','Admin approval queue for review before send','Sponsorship rates: Title $1000+, Gold $500, Silver $250, Bronze $100','Payment info: Zelle banfjax@gmail.com, Venmo @banfjax, check','Complaint commitment: logged, 7-day review'],
+  collections: [{n:'InboxMessages',f:'(source emails)'},{n:'EmailQueue',f:'(pending responses)'},{n:'AutoResponses',f:'(sent auto-responses)'}],
+  endpoints: [{m:'POST',r:'/email_classify',d:'Classify email intent'},{m:'POST',r:'/email_auto_response',d:'Generate AI response'},{m:'GET',r:'/inbox_scan',d:'Scan Gmail inbox'}],
+  example: '// Email classification:\n// Input: subject="Durga Puja sponsorship", body="We want to sponsor..."\n{\n  "intent": "sponsorship",\n  "category": "finance",\n  "confidence": 0.94,\n  "priority": "high",\n  "agentType": "sponsorship"\n}\n\n// Agent response (sponsorship):\n"Thank you for your interest in sponsoring BANF events!\\n\\n"\n"Our sponsorship tiers for FY2026-27:\\n"\n"• Title Sponsor: $1,000+ — Logo on all materials...\\n"\n"• Gold Sponsor: $500 — Logo on banner...\\n"',
+  templateMap: [{k:'Source File',v:'src/backend/email-automation.js (482 lines)'},{k:'LLM',v:'Llama-3.1-8B-Instruct, temp: 0.3, max_tokens: 400'},{k:'Pipeline',v:'Classify → Queue → Route → RAG → LLM → Send/Review'},{k:'Agents',v:'9 specialised agent types with custom system prompts'}],
+  criteria: ['Intent classification covers all 9 categories','AI responses are contextually appropriate','Admin review queue shows pending responses','Sent responses archived in AutoResponses','Priority classification is accurate'],
+  deps: ['BR-003','BR-005','BR-006']
+},
+'BR-056': {
+  purpose: 'Complaint intake, tracking, assignment, and escalation system. Members submit complaints which are tracked with priority levels and escalated to president when needed.',
+  rules: ['Complaint submission via member portal','Status tracking: open, in_progress, resolved, closed','Priority levels: normal, high, urgent','Escalation to president for high/urgent complaints','Category-based routing'],
+  collections: [{n:'Complaints',f:'subject, description, category, submittedEmail, status, priority, submittedAt, assignedTo, resolvedAt'}],
+  endpoints: [{m:'POST',r:'/member_complaint_submit',d:'Submit complaint'},{m:'GET',r:'/member_complaints',d:'View member\'s complaints'}],
+  example: '// POST /_functions/member_complaint_submit\n{\n  "subject": "Event parking issue",\n  "description": "Insufficient parking at Bosonto Utsob venue",\n  "category": "general"\n}\n→ { "status": "open", "priority": "normal" }',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js'},{k:'Permission',v:'member:submit_complaint'},{k:'Escalation',v:'High/urgent → president email notification'},{k:'SLA',v:'7-day review commitment'}],
+  criteria: ['Complaints recorded with all required fields','Status updates tracked','Priority-based escalation works','Members can view their complaint status','Admin can assign and resolve complaints'],
+  deps: ['BR-002']
+},
+'BR-057': {
+  purpose: 'Announcement creation and management with priority levels, date scheduling, and member portal display.',
+  rules: ['Create announcements with title, content, priority','Priority levels for display ordering','Date scheduling for timed announcements','Display on member portal dashboard','Admin-only creation and management'],
+  collections: [],
+  endpoints: [],
+  example: '// Announcement example:\n{\n  "title": "Bosonto Utsob Registration Open!",\n  "content": "Register your family for Bosonto Utsob by Feb 28...",\n  "priority": "high",\n  "publishDate": "2026-02-15",\n  "expiryDate": "2026-03-07"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/admin-api.js'},{k:'Display',v:'Member Portal dashboard'},{k:'Permission',v:'admin:manage (admin role required)'},{k:'Scheduling',v:'Publish date + expiry date'}],
+  criteria: ['Announcements display on member portal','Priority ordering works','Scheduled publish/expiry respected','Admin CRUD operations functional'],
+  deps: ['BR-002','BR-011']
+},
+'BR-058': {
+  purpose: 'Monitor and alert when stakeholder action items exceed defined SLA windows. (In Progress — 24% complete, alert threshold policy not finalised)',
+  rules: ['Track action item timestamps','Define SLA windows per action type','Alert via email when SLA breached','Dashboard showing SLA compliance','Blocked: alert threshold policy not finalised'],
+  collections: [],
+  endpoints: [],
+  example: '// Planned SLA monitoring:\n// Action: "Approve budget" assigned to President\n// SLA: 7 business days\n// Day 8: Alert sent to president + secretary\n// Day 14: Escalation to VP\n\n// Status: 24% complete\n// Blocker: Alert threshold policy not finalised',
+  templateMap: [{k:'Status',v:'24% — Stakeholder Approval phase'},{k:'Blocker',v:'Alert threshold policy not finalised'},{k:'Approvals Needed',v:'President + Secretary'}],
+  criteria: ['SLA timers track action items','Alerts sent on breach','Dashboard shows compliance rates','Escalation chain functional','Configurable SLA windows per action type'],
+  deps: ['BR-002','BR-003']
+},
+'BR-060': {
+  purpose: 'Community radio stream management with start/stop controls, playlist management, next/previous navigation, schedule management, and now-playing display.',
+  rules: ['Stream start/stop controls','Playlist management with song queue','Next/previous track navigation','Schedule: day/time-based programming','Now-playing display on member portal and landing page'],
+  collections: [],
+  endpoints: [],
+  example: '// Radio player state:\n{\n  "isPlaying": true,\n  "currentTrack": "Amar Shonar Bangla — Rabindranath Tagore",\n  "nextTrack": "Ei Path Jodi Na Shesh Hoy",\n  "schedule": "Bengali Classics — Saturday 6PM EST"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/admin-api.js (radio module)'},{k:'Display',v:'Landing page + member portal'},{k:'Controls',v:'Admin: start, stop, next, previous, schedule'},{k:'UI',v:'Embedded audio player widget'}],
+  criteria: ['Stream starts and stops reliably','Playlist navigation works','Schedule displays correctly','Now-playing updates in real-time','Admin controls accessible'],
+  deps: []
+},
+'BR-061': {
+  purpose: 'Jagriti magazine issue listing, content management, view tracking, and member submission workflow.',
+  rules: ['Issue listing with date and edition','Content management per issue','Member article/story submissions','View/download tracking','Admin approval workflow for submissions'],
+  collections: [],
+  endpoints: [],
+  example: '// Magazine issue:\n{\n  "title": "Jagriti — Bosonto Bishesh 2026",\n  "edition": "Spring Special",\n  "publishDate": "2026-03-01",\n  "articles": 12,\n  "submissions": 8,\n  "views": 234\n}',
+  templateMap: [{k:'Source File',v:'src/backend/admin-api.js (magazine module)'},{k:'Name',v:'Jagriti — BANF literary magazine'},{k:'Submissions',v:'Members submit via portal'},{k:'Approval',v:'Cultural Secretary reviews submissions'}],
+  criteria: ['Issues listed with correct metadata','Member submissions stored','Admin approval workflow functional','View tracking accurate','PDF/digital format supported'],
+  deps: []
+},
+'BR-062': {
+  purpose: 'Volunteer registration, hours tracking, event assignment, award creation and nomination management.',
+  rules: ['Volunteer registration per event','Hours tracking with supervisor sign-off','Event-based assignment','Award categories: Volunteer of the Year, Community Service, etc.','Nomination + approval workflow'],
+  collections: [{n:'VolunteerRecords',f:'memberId, eventName, hours, role, date, supervisor'},{n:'Awards',f:'memberId, awardName, year, category, nominatedBy, approvedBy'}],
+  endpoints: [{m:'POST',r:'/crm_add_volunteer',d:'Add volunteer record'},{m:'POST',r:'/crm_add_award',d:'Add award/nomination'}],
+  example: '// Volunteer record:\n{\n  "memberId": "MBR-LK3F2A-B7C9",\n  "eventName": "Durga Puja 2025",\n  "hours": 12,\n  "role": "Decoration Lead",\n  "date": "2025-10-24",\n  "supervisor": "Rwiti Chowdhury"\n}\n\n// Award:\n{\n  "awardName": "Volunteer of the Year 2025",\n  "category": "community_service",\n  "nominatedBy": "rwiti.chowdhury@gmail.com"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/crm-agent.js (volunteer + awards module)'},{k:'Tracking',v:'Hours per event with supervisor'},{k:'Awards',v:'Nomination → approval workflow'},{k:'Collections',v:'VolunteerRecords + Awards in Wix Data'}],
+  criteria: ['Volunteer hours recorded accurately','Event assignment works','Award nominations tracked','Approval workflow functional','Reports show total hours per member'],
+  deps: ['BR-020']
+},
+'BR-063': {
+  purpose: 'Google Drive archive scanning, document catalogue, category mapping, and full-scan reporting. Maps historical BANF documents to target collections using keyword-based categorisation.',
+  rules: ['Scans Google Drive for archive documents','Keyword-based category mapping: Events (durgapuja, holi, kalipuja, etc.), Financial (budget, tax-990), Membership, Governance (gbm, ec transition), Communication, Vendor','Sub-category to target collection mapping','Accounting year: April–March (FY{start}-{end})','ArchiveDocuments collection stores mappings','Confidence scoring for category matches','Admin verification and correction workflow'],
+  collections: [{n:'ArchiveDocuments',f:'filename, originalPath, fileType, category, subCategory, accountingYear, calendarYear, targetCollection, mappingStatus, confidence, notes, verifiedBy, verifiedAt, sourceFolder, fileSize'}],
+  endpoints: [{m:'GET',r:'/archive_catalog',d:'Full document catalogue'},{m:'POST',r:'/archive_map',d:'Run mapping for a year'},{m:'GET',r:'/archive_map_report',d:'Fetch saved mappings'},{m:'POST',r:'/archive_map_update',d:'Admin corrects a mapping'},{m:'GET',r:'/gdrive_archive_scan',d:'Scan Drive for archive docs'},{m:'GET',r:'/gmail_archive_scan',d:'Scan Gmail for archive emails'},{m:'POST',r:'/archive_full_scan',d:'Full scan: Drive + Gmail + catalogue'},{m:'POST',r:'/archive_setup',d:'Provision collection'},{m:'GET',r:'/archive_setup',d:'Check collection status'},{m:'POST',r:'/archive_doc_delete',d:'Delete document record'},{m:'POST',r:'/archive_doc_add',d:'Add document record'}],
+  example: '// Archive mapping example:\n// File: "Durga-Puja-2024-Budget.xlsx"\n// → category: "Financial", subCategory: "Durga Puja"\n// → targetCollection: "Events", accountingYear: "FY2024-25"\n// → confidence: 0.92\n\n// Category keywords:\n// Events: durgapuja, holi, kalipuja, mahalaya, nabo borsho, sports\n// Financial: financial summary, budget, tax-990, payment receipt\n// Membership: membership, sponsorship, family_universe\n// Governance: gbm, ec transition, legal, grant',
+  templateMap: [{k:'Source File',v:'src/backend/archive-mapper.js (1,296 lines)'},{k:'FY Convention',v:'April–March: FY{startYear}-{endYear}'},{k:'Scan Sources',v:'Google Drive + Gmail + local catalogue'},{k:'Verification',v:'Admin review with confidence scoring'}],
+  criteria: ['Archive scan discovers all BANF Drive documents','Category mapping accuracy >85%','Admin can verify/correct mappings','Full scan combines Drive + Gmail + catalogue','ArchiveDocuments collection maintained'],
+  deps: ['BR-003','BR-004']
+},
+'BR-070': {
+  purpose: 'Personalised member dashboard displaying membership status, upcoming events, dues balance, active surveys, and profile editing. Central hub for member self-service.',
+  rules: ['Dashboard shows: membership status, next event, balance, surveys','Profile view and edit (protected fields cannot be changed)','Protected fields: _id, email, role, isActive, internalNotes, adminFlags, membershipStatus','Member can update: firstName, lastName, phone, address, preferences'],
+  collections: [{n:'Members',f:'email, firstName, lastName, phone, role, membershipStatus, isActive, loginEnabled'},{n:'Payments',f:'email, amount, paymentMethod, status, date'}],
+  endpoints: [{m:'GET',r:'/member_profile',d:'Get member profile (member:view_own)'},{m:'POST',r:'/member_profile_update',d:'Update profile (member:update_own)'}],
+  example: '// GET /_functions/member_profile\n// Auth: session token\n{\n  "email": "ananya.das@example.com",\n  "firstName": "Ananya",\n  "lastName": "Das",\n  "membershipStatus": "active",\n  "membershipType": "m2_eb",\n  "familyId": "FAM-2026-C5D7E",\n  "upcomingEvents": 3,\n  "activeSurveys": 1,\n  "balance": 0\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js (299 lines)'},{k:'UI',v:'src/public/member-portal.html'},{k:'Permission',v:'member:view_own, member:update_own'},{k:'Protected Fields',v:'email, role, isActive, membershipStatus (admin-only)'}],
+  criteria: ['Dashboard displays accurate membership data','Profile edit respects protected fields','Payment balance calculated correctly','Upcoming events shown in date order','Active surveys linked'],
+  deps: ['BR-002','BR-012']
+},
+'BR-071': {
+  purpose: 'View family unit with all adults and children, linked to CRM family groups. Members can see their family structure but cannot modify it (admin-only).',
+  rules: ['Display family unit from FamilyGroups collection','Show all adults and minors','Read-only for members (admin manages families)','Linked via familyId in member profile'],
+  collections: [{n:'FamilyGroups',f:'(see BR-020)'},{n:'CRMMembers',f:'(see BR-020)'}],
+  endpoints: [{m:'GET',r:'/member_profile',d:'Profile includes familyId → family lookup'}],
+  example: '// Family view for member:\n{\n  "familyName": "Das Family",\n  "type": "family",\n  "adults": ["Ananya Das", "Rahul Das"],\n  "children": ["Aarav Das (age 8)", "Priya Das (age 5)"],\n  "membershipType": "M2 Premium Early Bird",\n  "membershipYear": "FY2026-27"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js'},{k:'Data',v:'FamilyGroups + CRMMembers via familyId'},{k:'Access',v:'member:view_own (read-only)'},{k:'Edit',v:'Admin-only via CRM portal (BR-021)'}],
+  criteria: ['Family unit displays correctly','All adults and minors shown','Membership type displayed','Read-only for members','Admin edit link available for admin users'],
+  deps: ['BR-020','BR-021','BR-070']
+},
+'BR-072': {
+  purpose: 'Browse upcoming events and submit RSVP with headcount, guest details, and dietary preferences. Members receive confirmation receipt.',
+  rules: ['Display events where eventDate >= today','RSVP submission: eventId, guestCount, dietary notes','Confirmation receipt generated','RSVP stored in EventRSVPs collection','One RSVP per member per event (update if resubmitted)'],
+  collections: [{n:'Events',f:'eventId, title, eventDate, location, description'},{n:'EventRSVPs',f:'eventId, email, guestCount, notes, rsvpAt'}],
+  endpoints: [{m:'GET',r:'/member_events',d:'Upcoming events list (member:view_events)'},{m:'POST',r:'/member_rsvp',d:'Submit RSVP (member:rsvp)'}],
+  example: '// POST /_functions/member_rsvp\n{\n  "eventId": "bosonto-2026",\n  "guestCount": 4,\n  "notes": "2 adults, 2 children. 1 vegetarian."\n}\n→ {\n  "success": true,\n  "eventTitle": "Bosonto Utsob 2026",\n  "confirmationId": "RSVP-2026-A3B5",\n  "guestCount": 4\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js'},{k:'Permission',v:'member:view_events, member:rsvp'},{k:'Dedup',v:'One RSVP per email per event'},{k:'Confirmation',v:'Returns confirmation ID'}],
+  criteria: ['Only future events displayed','RSVP stored with correct details','Duplicate RSVP updates existing record','Confirmation receipt returned','Guest count tracked accurately'],
+  deps: ['BR-030','BR-070']
+},
+'BR-073': {
+  purpose: 'Complete anonymous surveys via unique token links. Multiple question types supported (rating, NPS, text, yes/no, multiple choice).',
+  rules: ['Token-based access to survey form','Anonymous submission (see BR-050 anonymity model)','All 7 question types supported','Single submission per token','Form URL: https://www.jaxbengali.org/survey.html'],
+  collections: [{n:'SurveyResponses',f:'surveyId, anonId, answers{}, submittedAt'}],
+  endpoints: [{m:'GET',r:'/survey_form_data',d:'Get survey questions via token'},{m:'POST',r:'/survey_submit',d:'Submit anonymous response'}],
+  example: '// Survey form accessed via token link:\n// https://www.jaxbengali.org/survey.html?token=abc123\n// → Loads survey questions\n// → User submits answers\n// → Stored with anonId only (no email/name)',
+  templateMap: [{k:'Source File',v:'src/backend/banf-survey.js'},{k:'Form',v:'survey.html on GitHub Pages'},{k:'Anonymity',v:'anon_{random}_{ts36} — no PII stored'},{k:'Token',v:'Single-use, email-specific'}],
+  criteria: ['Token link loads correct survey','All question types render','Submission is anonymous','Single use enforced','Form accessible from any device'],
+  deps: ['BR-050']
+},
+'BR-074': {
+  purpose: 'Submit complaints and queries through the member portal, track status, and view responses from admin team.',
+  rules: ['Submit with subject + description + category','Default status: open, priority: normal','Members can view their own complaints','Admin can assign, respond, and close','Status flow: open → in_progress → resolved → closed'],
+  collections: [{n:'Complaints',f:'subject, description, category, submittedEmail, status, priority, submittedAt'}],
+  endpoints: [{m:'POST',r:'/member_complaint_submit',d:'Submit complaint (member:submit_complaint)'},{m:'GET',r:'/member_complaints',d:'View own complaints'}],
+  example: '// Member submits complaint:\n{\n  "subject": "Event venue too far",\n  "description": "The Bosonto Utsob venue was 45 minutes away from most members",\n  "category": "general"\n}\n→ { "status": "open", "submittedAt": "2026-03-08T14:30:00Z" }',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js'},{k:'Permission',v:'member:submit_complaint'},{k:'Workflow',v:'open → in_progress → resolved → closed'},{k:'Escalation',v:'High priority → president notification'}],
+  criteria: ['Complaints submitted with all fields','Members can track status','Admin can assign and respond','Escalation works for high priority','Status updates visible to member'],
+  deps: ['BR-002','BR-070']
+},
+'BR-075': {
+  purpose: 'Submit stories/articles for Jagriti magazine and request songs on BANF community radio.',
+  rules: ['Magazine submission: title, content, author, category','Radio song request: song name, artist, occasion','Cultural Secretary reviews magazine submissions','Radio requests added to playlist queue'],
+  collections: [],
+  endpoints: [{m:'POST',r:'/member_chat',d:'Can submit requests via AI chatbot'}],
+  example: '// Magazine submission:\n{\n  "type": "magazine_submission",\n  "title": "Remembering Satyajit Ray",\n  "content": "An essay on the legacy of...",\n  "author": "Ananya Das",\n  "category": "essay"\n}\n\n// Radio request:\n{\n  "type": "radio_request",\n  "song": "Purano Shei Diner Kotha",\n  "artist": "Rabindranath Tagore",\n  "occasion": "Bosonto Utsob"\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js + admin-api.js'},{k:'Magazine',v:'Jagriti — BANF literary magazine'},{k:'Radio',v:'BANF Community Radio'},{k:'Review',v:'Cultural Secretary (sumanta.ghosh@gmail.com)'}],
+  criteria: ['Magazine submissions stored','Radio requests queued','Submission confirmation sent to member','Cultural Secretary notified','Content moderation applied'],
+  deps: ['BR-060','BR-061','BR-070']
+},
+'BR-076': {
+  purpose: 'Context-aware AI chatbot powered by RAG knowledge base and member context. Provides single-turn and multi-turn conversation about BANF operations.',
+  rules: ['Single-turn: { message, agentType } → { reply, agentName, intent, ragSources }','Multi-turn: { messages[] } with conversation history','Uses orchestrateConversation from agent-orchestrator','RAG context filtered by member role/sensitivity','Covers all BANF topics: events, membership, finance, culture'],
+  collections: [{n:'KnowledgeBase',f:'(RAG context source)'},{n:'AgentProfiles',f:'(agent configurations)'}],
+  endpoints: [{m:'POST',r:'/member_chat',d:'Single-turn chat (member:chat)'},{m:'POST',r:'/member_chat_context',d:'Multi-turn with history (member:chat)'}],
+  example: '// POST /_functions/member_chat\n// Body: {"message": "When is the next event?"}\n{\n  "reply": "The next BANF event is Bosonto Utsob on March 7, 2026, at the BANF Community Center in Jacksonville, FL.",\n  "agentName": "Events Agent",\n  "intent": "event_inquiry",\n  "ragSources": ["Events Calendar FY2026-27"]\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js + agent-orchestrator.js'},{k:'LLM',v:'Mistral-7B for RAG queries'},{k:'Conversation',v:'Single + multi-turn supported'},{k:'Permission',v:'member:chat'}],
+  criteria: ['Chatbot answers correctly from RAG context','Source citations included','Multi-turn maintains context','Role-based knowledge filtering','Response time under 5 seconds'],
+  deps: ['BR-006','BR-070']
+},
+'BR-077': {
+  purpose: 'View payment history, download receipts, and check balance/dues status.',
+  rules: ['Payment list filtered by member email','Receipt generation for confirmed payments','Balance calculation: dues - payments','Status display: pending, confirmed, overdue'],
+  collections: [{n:'Payments',f:'email, amount, paymentMethod, status, date, receiptId'}],
+  endpoints: [{m:'GET',r:'/member_payments',d:'Payment history (member:view_own)'}],
+  example: '// GET /_functions/member_payments\n{\n  "payments": [\n    {"date": "2026-01-15", "amount": 375, "method": "zelle", "status": "confirmed", "description": "FY2026-27 M2 Premium EB"}\n  ],\n  "balance": 0,\n  "membershipPaid": true\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js'},{k:'Permission',v:'member:view_own'},{k:'Data',v:'Payments collection filtered by email'},{k:'Receipt',v:'Generated from payment record'}],
+  criteria: ['Payment history shows all transactions','Balance calculated correctly','Receipt downloadable','Status accurately reflects payment state'],
+  deps: ['BR-040','BR-070']
+},
+'BR-078': {
+  purpose: 'Search community member directory with privacy-respecting profile display. Shows name and basic info while hiding sensitive details.',
+  rules: ['Search by name','Display: name, family, membership type','Hidden: email, phone, address (privacy)','Available to all logged-in members'],
+  collections: [{n:'Members',f:'(filtered view — no sensitive fields)'}],
+  endpoints: [{m:'GET',r:'/member_directory',d:'Directory search (member:view_own)'}],
+  example: '// GET /_functions/member_directory?search=Ghosh\n{\n  "members": [\n    {"displayName": "Ranadhir Ghosh", "familyType": "couple", "membershipType": "M2 Premium EB"},\n    {"displayName": "Rajanya Ghosh", "familyType": "family", "membershipType": "M2 Premium"}\n  ]\n}',
+  templateMap: [{k:'Source File',v:'src/backend/member-api.js'},{k:'Permission',v:'member:view_own'},{k:'Privacy',v:'No email, phone, or address in results'},{k:'Search',v:'Name-based search with partial matching'}],
+  criteria: ['Search returns relevant results','Sensitive fields excluded','Partial name matching works','Only active members shown'],
+  deps: ['BR-002','BR-070']
+},
+'BR-080': {
+  purpose: 'Public landing page served via a hybrid data pattern: queries CRM collections first, falls back to seed data if collections don\'t exist yet. Returns all landing page data in a single read-only API call.',
+  rules: ['Single endpoint: GET /landing_data returns all data','Hybrid pattern: CRM collection → fallback to seed data','6 landing page collections: MembershipPlans, SponsorshipTiers, ECMembers, SiteStats, BudgetSummary, SiteContent','Public and read-only — strips _owner, _updatedDate, _createdDate, _id','Seed endpoint: GET /landing_seed?secret=banf2024seed','Security: landing_data is public, landing_seed requires secret'],
+  collections: [{n:'MembershipPlans',f:'slug, name, subtitle, price, period, icon, isFeatured, badgeText, headerColor, features[], ctaText, ctaLink, order, active'},{n:'SponsorshipTiers',f:'slug, name, price, period, icon, iconGradient, benefits[], ctaLink, order, active'},{n:'ECMembers',f:'name, position, department, bio, photoUrl, initials, term, order, active'},{n:'SiteStats',f:'key, value, label, order, active'},{n:'BudgetSummary',f:'fiscalYear, totalBudget, membershipTarget, sponsorTarget, notes, isCurrent'},{n:'SiteContent',f:'key, value, active (key-value pairs: paymentZelle, taxNotice, footerTagline, etc.)'}],
+  endpoints: [{m:'GET',r:'/landing_data',d:'All landing page data (public, read-only)'},{m:'GET',r:'/landing_seed?secret=banf2024seed',d:'Populate seed data (secret required)'},{m:'GET',r:'/landing_test',d:'Test endpoint'}],
+  example: '// GET /_functions/landing_data\n{\n  "success": true,\n  "data": {\n    "stats": [{"key":"members","value":"200+","label":"Active Members"}],\n    "ecMembers": [{"name":"Ranadhir Ghosh","position":"President","initials":"RG"}],\n    "membershipPlans": [{"name":"M2 Premium EB","price":375,"features":["17 events","All-access"]}],\n    "sponsorshipTiers": [{"name":"Title Sponsor","price":1000}],\n    "budget": {"fiscalYear":"FY2026-27","totalBudget":45000},\n    "siteContent": {"paymentZelle":"banfjax@gmail.com"},\n    "events": [{"title":"Bosonto Utsob","date":"2026-03-07"}]\n  }\n}',
+  templateMap: [{k:'Source Files',v:'src/backend/landing-api.js (309 lines) + landing-collections.js (287 lines)'},{k:'Pattern',v:'Hybrid: CRM first → seed fallback'},{k:'Security',v:'landing_data = public; landing_seed requires secret'},{k:'Hosting',v:'Wix site + GitHub Pages frontend'}],
+  criteria: ['landing_data returns all 6 data sections','Response strips internal fields','Seed data populates all collections','Hybrid fallback works when collections empty','Response time under 3 seconds'],
+  deps: []
+},
+'BR-081': {
+  purpose: 'Token-based public RSVP form served as standalone HTML. Allows event invitees to RSVP without logging in, using a unique token from their invitation email.',
+  rules: ['Standalone HTML form on GitHub Pages','Token-based access (no login required)','RSVP: headcount, dietary preferences, notes','Submits to evite_rsvp_submit endpoint','Form URL: www.jaxbengali.org/rsvp.html'],
+  collections: [{n:'EviteRSVPs',f:'(RSVP stored here)'}],
+  endpoints: [{m:'GET',r:'/evite_rsvp_form_data',d:'Get event details for form'},{m:'POST',r:'/evite_rsvp_submit',d:'Submit RSVP'}],
+  example: '// Public RSVP form:\n// https://www.jaxbengali.org/rsvp.html?token=xyz&event=bosonto-2026\n// → Loads event details\n// → User enters: attending=yes, adults=2, kids=1, veg=2, nonveg=1\n// → Submits to /evite_rsvp_submit\n// → Confirmation displayed',
+  templateMap: [{k:'Source File',v:'src/backend/banf-evite-report.js'},{k:'Form',v:'rsvp.html on GitHub Pages'},{k:'Token',v:'From invitation email'},{k:'Endpoint',v:'/evite_rsvp_form_data + /evite_rsvp_submit'}],
+  criteria: ['Form loads with event details','RSVP submitted without login','Token validated against event','Confirmation shown on submit','Dietary preferences captured'],
+  deps: ['BR-030','BR-031']
+},
+'BR-090': {
+  purpose: 'Visual budget-vs-actual dashboard with variance alerts, category drill-down, and multi-year comparison. (In Progress — 15% complete, awaiting Treasurer and President approval)',
+  rules: ['Budget vs actual comparison per category','Variance alerts when actual exceeds budget threshold','Category drill-down to individual entries','Multi-year comparison (2020-2026)','Pending approval from Treasurer and President'],
+  collections: [{n:'FinancialEntries',f:'(see BR-040)'},{n:'BudgetSummary',f:'(see BR-080)'}],
+  endpoints: [],
+  example: '// Planned dashboard:\n// Budget: $45,000 | Actual: $38,500 | Variance: -$6,500\n// ═══════════════════════════════════════\n// Category       │ Budget  │ Actual  │ Var\n// Membership     │ $25,000 │ $24,850 │ -$150\n// Sponsorship    │ $10,000 │  $7,500 │ -$2,500 ⚠️\n// Events         │  $5,000 │  $3,150 │ -$1,850\n// ═══════════════════════════════════════\n// Status: 15% — Approval phase',
+  templateMap: [{k:'Status',v:'15% — Stakeholder Approval phase'},{k:'Approvals Needed',v:'Treasurer (Amit Chandak) + President (Ranadhir Ghosh)'},{k:'Data Source',v:'FinancialEntries + BudgetSummary collections'}],
+  criteria: ['Budget vs actual accurately calculated','Variance alerts trigger at threshold','Category drill-down shows entries','Multi-year comparison functional','Dashboard renders correctly'],
+  deps: ['BR-040']
+},
+'BR-091': {
+  purpose: 'Career guidance portal with sessions, mentorship matching, job board, and attendance tracking. (Planned — 8% complete)',
+  rules: ['Career session scheduling','Mentor-mentee matching','Community job board','Registration and attendance tracking','Planned for future implementation'],
+  collections: [],
+  endpoints: [],
+  example: '// Planned features:\n// Career sessions: monthly webinars with industry professionals\n// Mentorship: match based on industry/experience\n// Job board: community members post opportunities\n// Status: 8% — Requirements phase',
+  templateMap: [{k:'Status',v:'8% — Requirements phase'},{k:'Approvals Needed',v:'VP (Moumita Ghosh) + Joint Secretary (Rajanya Ghosh)'},{k:'Target',v:'April 2026'}],
+  criteria: ['Session scheduling works','Mentorship matching algorithm','Job board CRUD','Attendance tracking','Notification system for sessions'],
+  deps: []
+},
+'BR-092': {
+  purpose: 'Digital meeting minutes storage with search, version history, and auto-action-item extraction. (Planned — 5% complete)',
+  rules: ['Digital storage of EC meeting minutes','Full-text search across minutes','Version history for amendments','Auto-extraction of action items using LLM','Planned for future implementation'],
+  collections: [],
+  endpoints: [],
+  example: '// Planned features:\n// Upload meeting minutes (PDF/text)\n// LLM extracts action items automatically\n// Search across all historical minutes\n// Version control for amendments\n// Status: 5% — Requirements phase',
+  templateMap: [{k:'Status',v:'5% — Requirements phase'},{k:'Approvals Needed',v:'Secretary (Partha Mukhopadhyay) + President (Ranadhir Ghosh)'},{k:'Target',v:'April 2026'}],
+  criteria: ['Minutes uploaded and stored','Search returns relevant results','Action items auto-extracted','Version history maintained','Secretary can edit and amend'],
+  deps: ['BR-006','BR-063']
+}
+};
+
+/* ═══════════════════════════════════════════════════
+   COMMENT & CHANGE MANAGEMENT SYSTEM (localStorage)
+   ═══════════════════════════════════════════════════ */
+const COMMENT_KEY = 'banf_br_comments';
+const CM_STEPS = ['Submitted','Under Review','Approved','Development','Testing','Deployed'];
+const CM_STEPS_REJECTED = ['Submitted','Under Review','Rejected'];
+
+function loadComments() { try { return JSON.parse(localStorage.getItem(COMMENT_KEY) || '[]'); } catch { return []; } }
+function saveComments(c) { localStorage.setItem(COMMENT_KEY, JSON.stringify(c)); }
+
+function submitComment(brId) {
+  const t = document.getElementById('cf-text-'+brId);
+  const tp = document.getElementById('cf-type-'+brId);
+  if (!t || !t.value.trim()) { alert('Please enter a comment.'); return; }
+  if (!curSH) { alert('Please select your identity (stakeholder) first.'); return; }
+  const comments = loadComments();
+  const c = {
+    id: 'CMT-' + Date.now().toString(36),
+    brId: brId,
+    author: curSH.name,
+    authorRole: curSH.role,
+    authorId: curSH.id,
+    text: t.value.trim(),
+    type: tp ? tp.value : 'feedback',
+    status: tp && tp.value === 'approval' ? 'approved' : 'pending',
+    cmStep: tp && tp.value === 'change-request' ? 0 : -1,
+    createdAt: new Date().toISOString()
+  };
+  comments.unshift(c);
+  saveComments(comments);
+  t.value = '';
+  renderBRComments(brId);
+  renderQueueTab();
+  updateQueueBadge();
+}
+
+function advanceCMStep(commentId) {
+  const comments = loadComments();
+  const c = comments.find(x => x.id === commentId);
+  if (c && c.cmStep >= 0 && c.cmStep < CM_STEPS.length - 1) {
+    c.cmStep++;
+    if (c.cmStep === 2) c.status = 'approved';
+    if (c.cmStep === CM_STEPS.length - 1) c.status = 'deployed';
+    saveComments(comments);
+    renderBRComments(c.brId);
+    renderQueueTab();
+  }
+}
+
+function rejectCMStep(commentId) {
+  const comments = loadComments();
+  const c = comments.find(x => x.id === commentId);
+  if (c && c.cmStep >= 0) {
+    c.cmStep = -2; // rejected
+    c.status = 'rejected';
+    saveComments(comments);
+    renderBRComments(c.brId);
+    renderQueueTab();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDERING ENGINE
+   ═══════════════════════════════════════════════════ */
+let curSH = null;
+let catFilterActive = 'all';
+
+function init() {
+  // Stakeholder picker
+  const pick = document.getElementById('shPick');
+  STAKEHOLDERS.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = `${s.name} — ${s.role}`; pick.appendChild(o); });
+  const urlSh = new URLSearchParams(location.search).get('stakeholder');
+  if (urlSh && STAKEHOLDERS.find(s => s.id === urlSh)) pick.value = urlSh;
+  pick.addEventListener('change', () => { curSH = STAKEHOLDERS.find(s => s.id === pick.value) || null; renderAll(); });
+  curSH = STAKEHOLDERS.find(s => s.id === pick.value) || null;
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Close overlay on background click
+  document.getElementById('brOverlay').addEventListener('click', e => { if (e.target.id === 'brOverlay') closeBRDetail(); });
+  // Escape key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBRDetail(); });
+
+  renderAll();
+}
+
+function renderAll() {
+  renderIdentity(); renderKpis(); renderPipeline(); renderPending();
+  renderCatFilter(); renderReqTable(); renderBlockers(); renderTimeline();
+  renderDomainSections('adminReqSections', ADMIN_SECTIONS);
+  renderDomainSections('memberReqSections', MEMBER_SECTIONS);
+  renderDomainSections('infraReqSections', INFRA_SECTIONS);
+  renderJourneys(); renderQueueTab(); updateQueueBadge();
+}
+
+function renderIdentity() {
+  const n = document.getElementById('shName'), m = document.getElementById('shMeta');
+  if (curSH) { n.textContent = curSH.name; m.textContent = `Role: ${curSH.role}  •  Domains: ${curSH.domains.join(', ')}  •  ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`; }
+  else { n.textContent = '—'; m.textContent = 'Select your identity to see pending approvals and personalised view'; }
+}
+
+function renderKpis() {
+  const t = R.length, lv = R.filter(r=>r.stage==='live').length, sk = R.filter(r=>r.stuck).length, hi = R.filter(r=>r.risk==='High').length;
+  const avg = Math.round(R.reduce((a,r)=>a+r.progress,0)/t);
+  const pe = curSH ? R.filter(r => r.needsApprovalFrom.includes(curSH.id)).length : R.filter(r => r.needsApprovalFrom.length > 0).length;
+  const comments = loadComments();
+  const crCount = comments.filter(c => c.type === 'change-request' && c.status === 'pending').length;
+  const endpts = '196+';
+  const cards = [
+    {v:t,l:'Requirements',c:''},{v:lv,l:'Live in Prod',c:'gr'},{v:pe,l:curSH?'Needs Your Approval':'Pending Approvals',c:pe>0?'or':'gr'},
+    {v:sk,l:'Stuck/Blocked',c:sk>0?'rd':'gr'},{v:hi,l:'High Risk',c:hi>0?'rd':'gr'},{v:avg+'%',l:'Overall Progress',c:'bl'},{v:endpts,l:'API Endpoints',c:'bl'},
+    {v:crCount,l:'Change Requests',c:crCount>0?'or':'gr'}
+  ];
+  document.getElementById('kpiStrip').innerHTML = cards.map(c=>`<div class="kpi ${c.c}"><div class="v">${c.v}</div><div class="l">${c.l}</div></div>`).join('');
+}
+
+function renderPipeline() {
+  document.getElementById('pipeLanes').innerHTML = STAGES.map(s => {
+    const items = R.filter(r => r.stage === s.key);
+    return `<div class="lane ${s.cls}"><h4><i class="fas ${s.icon} me-1"></i>${s.label}</h4><div class="ct">${items.length}</div><div class="ids">${items.map(r=>`<span style="cursor:pointer;text-decoration:underline" onclick="openBRDetail('${r.id}')">${r.id}</span>`).join(', ')||'—'}</div></div>`;
+  }).join('');
+}
+
+function stageChip(s) {
+  const m = {requirement:['Req','ch-gy'],approval:['Approval','ch-bl'],tech:['Tech','ch-or'],devops:['DevOps','ch-pu'],live:['Live','ch-gr']};
+  const [l,c] = m[s]||['?','ch-gy']; return `<span class="ch ${c}">${l}</span>`;
+}
+function riskChip(r) { return `<span class="ch ${r==='High'?'ch-rd':r==='Medium'?'ch-or':'ch-gr'}">${r}</span>`; }
+function catBadge(c) { const m = {admin:['Admin','cat-admin'],member:['Member','cat-member'],public:['Public','cat-public'],infra:['Infra','cat-infra']}; const [l,cl]=m[c]||['?','cat-infra']; return `<span class="cat-badge ${cl}">${l}</span>`; }
+
+function renderPending() {
+  const items = curSH ? R.filter(r => r.needsApprovalFrom.includes(curSH.id)) : R.filter(r => r.needsApprovalFrom.length > 0);
+  document.getElementById('pendCnt').textContent = items.length;
+  if (!items.length) { document.getElementById('pendList').innerHTML = '<div class="sn" style="padding:.4rem 0">No approvals pending. All clear!</div>'; return; }
+  document.getElementById('pendList').innerHTML = items.map(r => {
+    const icCls = r.stuck ? 'st' : 'pe', icFa = r.stuck ? 'fa-ban' : 'fa-hourglass-half';
+    const from = r.needsApprovalFrom.map(id => { const s = STAKEHOLDERS.find(x=>x.id===id); return s?s.role:id; }).join(', ');
+    return `<div class="ac" style="cursor:pointer" onclick="openBRDetail('${r.id}')"><div class="ic ${icCls}"><i class="fas ${icFa}"></i></div><div class="bd"><div class="tl">${r.id} — ${r.title} ${stageChip(r.stage)} ${riskChip(r.risk)}</div><div class="mt">Owner: ${r.owner} • ETA: ${r.eta} • From: <strong>${from}</strong>${r.stuck?`<br><i class="fas fa-exclamation-circle" style="color:var(--danger)"></i> <strong style="color:var(--danger)">Stuck:</strong> ${r.stuck}`:''}</div></div></div>`;
+  }).join('');
+}
+
+function renderCatFilter() {
+  const cats = ['all','admin','member','infra','public'];
+  document.getElementById('catFilter').innerHTML = cats.map(c => `<button class="filter-btn${catFilterActive===c?' active':''}" data-cat="${c}">${c==='all'?'All':c.charAt(0).toUpperCase()+c.slice(1)} (${c==='all'?R.length:R.filter(r=>r.cat===c).length})</button>`).join('');
+  document.querySelectorAll('#catFilter .filter-btn').forEach(b => b.addEventListener('click', () => { catFilterActive = b.dataset.cat; renderCatFilter(); renderReqTable(); }));
+}
+
+function renderReqTable() {
+  const filtered = catFilterActive === 'all' ? R : R.filter(r => r.cat === catFilterActive);
+  document.getElementById('totalCnt').textContent = filtered.length;
+  document.getElementById('reqTb').innerHTML = filtered.map(r => {
+    const fc = r.progress===100?'#16a34a':r.progress>=70?'#2563eb':r.progress>=40?'#f59e0b':'#ef4444';
+    const appr = r.approvedBy
+      ? `<span class="ch ch-gr"><i class="fas fa-check me-1"></i>Approved</span><br><span style="font-size:.6rem;color:var(--mu)">by ${r.approvedBy}<br>${r.approvedDate}</span>`
+      : r.needsApprovalFrom.length > 0
+        ? `<span class="ch ch-or"><i class="fas fa-clock me-1"></i>Pending</span><br><span style="font-size:.6rem;color:var(--mu)">from ${r.needsApprovalFrom.map(id=>{const s=STAKEHOLDERS.find(x=>x.id===id);return s?s.role:id;}).join(', ')}</span>`
+        : '<span class="ch ch-gy">N/A</span>';
+    const cmtCount = loadComments().filter(c => c.brId === r.id).length;
+    const cmtBadge = cmtCount > 0 ? ` <span style="font-size:.6rem;background:#ede9fe;color:#6d28d9;padding:1px 5px;border-radius:99px">${cmtCount} 💬</span>` : '';
+    return `<tr class="clickable" onclick="openBRDetail('${r.id}')"${r.stuck?' style="background:#fef2f2;cursor:pointer"':''}>
+      <td><div style="font-weight:600">${r.id} — ${r.title}${cmtBadge}</div><div class="sn">${r.desc}</div>${r.stuck?`<div style="font-size:.65rem;color:var(--danger);margin-top:.15rem"><i class="fas fa-exclamation-circle me-1"></i>${r.stuck}</div>`:''}</td>
+      <td>${catBadge(r.cat)}</td><td style="font-size:.72rem">${r.owner}</td><td>${stageChip(r.stage)}</td>
+      <td><div class="pb"><div class="f" style="width:${r.progress}%;background:${fc}"></div></div><div class="sn" style="margin-top:.15rem">${r.progress}%</div></td>
+      <td style="font-size:.72rem">${r.eta}</td><td>${riskChip(r.risk)}</td><td>${appr}</td></tr>`;
+  }).join('');
+}
+
+function renderDomainSections(containerId, sections) {
+  document.getElementById(containerId).innerHTML = sections.map(sec => {
+    const items = sec.ids.map(id => R.find(r => r.id === id)).filter(Boolean);
+    const liveCount = items.filter(i => i.stage === 'live').length;
+    return `<div class="cp">
+      <h2><i class="fas ${sec.icon}" style="color:var(--g)"></i> ${sec.title} <span class="cnt">${liveCount}/${items.length} live</span></h2>
+      <table class="rt"><thead><tr><th style="min-width:180px">ID — Requirement</th><th>Description</th><th>Stage</th><th style="min-width:90px">Progress</th><th>Approval</th></tr></thead>
+      <tbody>${items.map(r => {
+        const fc = r.progress===100?'#16a34a':r.progress>=70?'#2563eb':r.progress>=40?'#f59e0b':'#ef4444';
+        const appr = r.approvedBy ? `<span class="ch ch-gr">Approved</span><br><span style="font-size:.58rem;color:var(--mu)">by ${r.approvedBy}</span>` : r.needsApprovalFrom.length ? `<span class="ch ch-or">Pending</span>` : '';
+        return `<tr class="clickable" onclick="openBRDetail('${r.id}')"${r.stuck?' style="background:#fef2f2"':''}><td style="font-weight:600;font-size:.75rem">${r.id} — ${r.title}</td><td style="font-size:.72rem">${r.desc}</td><td>${stageChip(r.stage)}</td><td><div class="pb"><div class="f" style="width:${r.progress}%;background:${fc}"></div></div><div class="sn">${r.progress}%</div></td><td>${appr}</td></tr>`;
+      }).join('')}</tbody></table>
+    </div>`;
+  }).join('');
+}
+
+function renderJourneys() {
+  document.getElementById('journeyCards').innerHTML = JOURNEYS.map(j => `
+    <div class="uj">
+      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap">
+        <span class="name">${j.name}</span>
+        <span class="role-tag ${j.roleCls}">${j.role}</span>
+        <span class="sn">${j.email}</span>
+      </div>
+      <div style="font-size:.78rem;color:#374151;margin-top:.35rem"><strong>Scenario:</strong> ${j.scenario}</div>
+      <ol class="steps">${j.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    </div>
+  `).join('');
+}
+
+function renderBlockers() {
+  const stuck = R.filter(r => r.stuck);
+  document.getElementById('blkCnt').textContent = stuck.length;
+  document.getElementById('blkList').innerHTML = stuck.length === 0
+    ? '<div class="sn">No blockers — all requirements flowing.</div>'
+    : stuck.map(r => `<div class="bl-r" style="cursor:pointer" onclick="openBRDetail('${r.id}')"><div class="bl-i"><i class="fas fa-hand"></i></div><div style="flex:1"><div style="font-size:.78rem;font-weight:600">${r.id} — ${r.title}</div><div class="sn">${stageChip(r.stage)} ${riskChip(r.risk)}<br><i class="fas fa-ban me-1" style="color:var(--danger)"></i>${r.stuck}<br>Owner: ${r.owner} • ETA: ${r.eta}</div></div></div>`).join('');
+}
+
+function renderTimeline() {
+  document.getElementById('tlList').innerHTML = TRANSITIONS.map(t => `<div class="tl-i"><div class="tl-d"></div><div><div style="font-size:.75rem">${t.text}</div><div style="font-size:.65rem;color:var(--mu)">${t.when}</div></div></div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════
+   DETAIL PANEL — Open / Close / Render
+   ═══════════════════════════════════════════════════ */
+
+function openBRDetail(brId) {
+  const r = R.find(x => x.id === brId);
+  if (!r) return;
+  const d = BD[brId];
+  document.getElementById('brDetailTitle').textContent = `${r.id} — ${r.title}`;
+  document.getElementById('brDetailSub').innerHTML = `${catBadge(r.cat)} ${stageChip(r.stage)} ${riskChip(r.risk)} &nbsp; Owner: ${r.owner} &nbsp; ETA: ${r.eta}`;
+
+  let html = '';
+
+  // ── 1. PURPOSE ──
+  html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-bullseye"></i> Purpose & Objective</div>`;
+  html += d ? `<div class="br-purpose">${d.purpose}</div>` : `<div class="br-purpose">${r.desc}</div>`;
+  html += `</div>`;
+
+  // ── 2. PROGRESS & APPROVAL STATUS ──
+  const fc = r.progress===100?'#16a34a':r.progress>=70?'#2563eb':r.progress>=40?'#f59e0b':'#ef4444';
+  html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-chart-line"></i> Progress & Approval</div>`;
+  html += `<div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:.4rem">`;
+  html += `<div style="flex:1;min-width:150px"><div class="pb" style="height:8px"><div class="f" style="width:${r.progress}%;background:${fc}"></div></div><div style="font-size:.72rem;color:var(--mu);margin-top:.2rem">${r.progress}% complete</div></div>`;
+  if (r.approvedBy) html += `<div><span class="ch ch-gr"><i class="fas fa-check me-1"></i>Approved by ${r.approvedBy}</span><br><span style="font-size:.65rem;color:var(--mu)">${r.approvedDate}</span></div>`;
+  else if (r.needsApprovalFrom.length) html += `<div><span class="ch ch-or"><i class="fas fa-clock me-1"></i>Pending Approval</span><br><span style="font-size:.65rem;color:var(--mu)">from: ${r.needsApprovalFrom.map(id=>{const s=STAKEHOLDERS.find(x=>x.id===id);return s?s.name+' ('+s.role+')':id;}).join(', ')}</span></div>`;
+  html += `</div>`;
+  if (r.stuck) html += `<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:.4rem .6rem;font-size:.76rem;color:#991b1b;margin-top:.3rem"><i class="fas fa-exclamation-circle me-1"></i><strong>Blocker:</strong> ${r.stuck}</div>`;
+  html += `</div>`;
+
+  if (d) {
+    // ── 3. BUSINESS RULES ──
+    if (d.rules && d.rules.length) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-list-check"></i> Business Rules</div><ul class="br-rules">`;
+      d.rules.forEach(rule => html += `<li>${rule}</li>`);
+      html += `</ul></div>`;
+    }
+
+    // ── 4. DATA MODEL ──
+    if (d.collections && d.collections.length) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-database"></i> Data Model — Collections</div>`;
+      d.collections.forEach(c => {
+        html += `<div class="br-coll-card"><div class="br-coll-name"><i class="fas fa-table me-1" style="color:var(--info)"></i>${c.n}</div><div class="br-coll-fields">${c.f}</div></div>`;
+      });
+      html += `</div>`;
+    }
+
+    // ── 5. API ENDPOINTS ──
+    if (d.endpoints && d.endpoints.length) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-plug"></i> API Endpoints</div>`;
+      html += `<table class="br-ep-tbl"><thead><tr><th>Method</th><th>Route</th><th>Description</th></tr></thead><tbody>`;
+      d.endpoints.forEach(ep => {
+        const cls = ep.m === 'GET' ? 'get' : 'post';
+        html += `<tr><td><span class="method ${cls}">${ep.m}</span></td><td style="font-family:Consolas,monospace;font-size:.7rem">/_functions${ep.r}</td><td>${ep.d}</td></tr>`;
+      });
+      html += `</tbody></table></div>`;
+    }
+
+    // ── 6. SAMPLE EXAMPLE ──
+    if (d.example) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-code"></i> Sample Example</div>`;
+      html += `<div class="br-example">${escHtml(d.example)}</div></div>`;
+    }
+
+    // ── 7. TEMPLATE MAPPING ──
+    if (d.templateMap && d.templateMap.length) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-map"></i> Template & Architecture Mapping</div>`;
+      d.templateMap.forEach(tm => {
+        html += `<div class="br-tmpl-row"><span class="br-tmpl-key">${tm.k}:</span><span>${tm.v}</span></div>`;
+      });
+      html += `</div>`;
+    }
+
+    // ── 8. ACCEPTANCE CRITERIA ──
+    if (d.criteria && d.criteria.length) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-clipboard-check"></i> Acceptance Criteria</div><ul class="br-criteria">`;
+      d.criteria.forEach(ac => html += `<li>${ac}</li>`);
+      html += `</ul></div>`;
+    }
+
+    // ── 9. DEPENDENCIES ──
+    if (d.deps && d.deps.length) {
+      html += `<div class="br-sec"><div class="br-sec-title"><i class="fas fa-link"></i> Dependencies</div><div class="br-deps">`;
+      d.deps.forEach(dep => {
+        const dr = R.find(x => x.id === dep);
+        html += `<span class="br-dep-chip" onclick="event.stopPropagation();openBRDetail('${dep}')" title="${dr?dr.title:dep}">${dep}</span>`;
+      });
+      html += `</div></div>`;
+    }
+  }
+
+  // ── 10. COMMENT & CHANGE MANAGEMENT SECTION ──
+  html += `<div class="br-comment-sec">`;
+  html += `<div class="br-sec-title"><i class="fas fa-comments"></i> Stakeholder Comments & Change Requests</div>`;
+  // Comment form
+  html += `<div class="br-comment-form">`;
+  html += `<div class="br-cf-row">`;
+  html += `<select class="br-cf-sel" id="cf-type-${brId}"><option value="feedback">💬 Feedback</option><option value="question">❓ Question</option><option value="change-request">🔄 Change Request</option><option value="approval">✅ Approval</option></select>`;
+  html += `<span style="font-size:.72rem;color:var(--mu);align-self:center">${curSH ? 'Commenting as: <strong>'+curSH.name+'</strong>' : '<em>Select stakeholder identity first</em>'}</span>`;
+  html += `</div>`;
+  html += `<textarea class="br-cf-textarea" id="cf-text-${brId}" placeholder="Enter your comment, question, or change request..."></textarea>`;
+  html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:.4rem">`;
+  html += `<span style="font-size:.65rem;color:var(--mu)">Change requests enter the stakeholder approval queue for review and change management processing.</span>`;
+  html += `<button class="br-cf-btn" onclick="submitComment('${brId}')"><i class="fas fa-paper-plane me-1"></i>Submit</button>`;
+  html += `</div></div>`;
+  // Existing comments
+  html += `<div id="br-comments-${brId}"></div>`;
+  html += `</div>`;
+
+  document.getElementById('brDetailBody').innerHTML = html;
+  renderBRComments(brId);
+
+  // Show overlay
+  document.getElementById('brOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBRDetail() {
+  document.getElementById('brOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  // Re-render to update comment badges
+  renderReqTable();
+  renderKpis();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\/\/(.*)/g,'<span class="comment">//$1</span>');
+}
+
+function renderBRComments(brId) {
+  const container = document.getElementById('br-comments-' + brId);
+  if (!container) return;
+  const comments = loadComments().filter(c => c.brId === brId);
+  if (!comments.length) { container.innerHTML = '<div class="sn" style="margin-top:.5rem">No comments yet. Be the first to provide feedback.</div>'; return; }
+  container.innerHTML = comments.map(c => {
+    const timeAgo = getTimeAgo(c.createdAt);
+    let statusHtml = '';
+    if (c.type === 'change-request') {
+      statusHtml = renderCMFlow(c);
+    } else {
+      const stClass = c.status === 'approved' ? 'ch-gr' : c.status === 'rejected' ? 'ch-rd' : 'ch-or';
+      statusHtml = `<span class="ch ${stClass}" style="font-size:.6rem">${c.status}</span>`;
+    }
+    return `<div class="br-comment-item ${c.type}">
+      <div class="br-ci-hdr">
+        <div><span class="br-ci-author">${c.author}</span> <span style="font-size:.65rem;color:var(--mu)">${c.authorRole}</span></div>
+        <div style="display:flex;gap:.3rem;align-items:center"><span class="br-ci-type ${c.type}">${c.type.replace('-',' ')}</span> ${statusHtml}</div>
+      </div>
+      <div class="br-ci-text">${c.text}</div>
+      <div class="br-ci-meta">${timeAgo}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderCMFlow(c) {
+  if (c.cmStep === -2) {
+    // Rejected
+    return CM_STEPS_REJECTED.map((s,i) => {
+      const cls = i < 2 ? 'done' : 'current';
+      return `<span class="br-cm-step ${cls}">${i===2?'❌ ':''} ${s}</span>${i<2?'<span class="br-cm-arrow">→</span>':''}`;
+    }).join('');
+  }
+  let html = '<div class="br-cm-flow">';
+  CM_STEPS.forEach((s,i) => {
+    const cls = i < c.cmStep ? 'done' : i === c.cmStep ? 'current' : 'pending';
+    html += `<span class="br-cm-step ${cls}">${i < c.cmStep ? '✓ ' : i === c.cmStep ? '● ' : ''}${s}</span>`;
+    if (i < CM_STEPS.length - 1) html += '<span class="br-cm-arrow">→</span>';
+  });
+  // Advance/reject buttons for non-completed items
+  if (c.cmStep >= 0 && c.cmStep < CM_STEPS.length - 1) {
+    html += `<button class="br-cf-btn" style="font-size:.6rem;padding:.2rem .5rem;margin-left:.3rem" onclick="event.stopPropagation();advanceCMStep('${c.id}')"><i class="fas fa-forward me-1"></i>Advance</button>`;
+    html += `<button style="font-size:.6rem;padding:.2rem .5rem;border:1px solid var(--danger);color:var(--danger);background:#fff;border-radius:4px;cursor:pointer;margin-left:.2rem" onclick="event.stopPropagation();rejectCMStep('${c.id}')"><i class="fas fa-times me-1"></i>Reject</button>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function getTimeAgo(iso) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(diff/60000);
+  if (m < 1) return 'Just now';
+  if (m < 60) return m + ' min ago';
+  const h = Math.floor(m/60);
+  if (h < 24) return h + ' hour' + (h>1?'s':'') + ' ago';
+  const d = Math.floor(h/24);
+  return d + ' day' + (d>1?'s':'') + ' ago';
+}
+
+/* ═══════════════════════════════════════════════════
+   APPROVAL QUEUE TAB
+   ═══════════════════════════════════════════════════ */
+
+function updateQueueBadge() {
+  const comments = loadComments();
+  const crCount = comments.filter(c => c.type === 'change-request' && c.cmStep >= 0 && c.cmStep < CM_STEPS.length - 1).length;
+  const badge = document.getElementById('queueTabBadge');
+  if (badge) {
+    badge.textContent = crCount;
+    badge.style.display = crCount > 0 ? 'inline' : 'none';
+  }
+}
+
+function renderQueueTab() {
+  const comments = loadComments();
+  const changeRequests = comments.filter(c => c.type === 'change-request');
+  document.getElementById('queueCnt').textContent = changeRequests.length;
+  const container = document.getElementById('queueList');
+  if (!changeRequests.length) {
+    container.innerHTML = '<div class="cp"><div class="sn">No change requests submitted yet. Change requests from stakeholder comments will appear here.</div></div>';
+    return;
+  }
+
+  // Group: active (pending review), approved (in dev/test/deploy), completed, rejected
+  const active = changeRequests.filter(c => c.cmStep >= 0 && c.cmStep < 2);
+  const approved = changeRequests.filter(c => c.cmStep >= 2 && c.cmStep < CM_STEPS.length - 1);
+  const completed = changeRequests.filter(c => c.cmStep === CM_STEPS.length - 1);
+  const rejected = changeRequests.filter(c => c.cmStep === -2);
+
+  let html = '';
+
+  if (active.length) {
+    html += `<div class="cp"><h2><i class="fas fa-hourglass-half" style="color:var(--or)"></i> Pending Review <span class="cnt">${active.length}</span></h2>`;
+    html += renderQueueItems(active);
+    html += `</div>`;
+  }
+  if (approved.length) {
+    html += `<div class="cp"><h2><i class="fas fa-code-branch" style="color:var(--info)"></i> In Development Pipeline <span class="cnt">${approved.length}</span></h2>`;
+    html += renderQueueItems(approved);
+    html += `</div>`;
+  }
+  if (completed.length) {
+    html += `<div class="cp"><h2><i class="fas fa-check-double" style="color:var(--ok)"></i> Deployed <span class="cnt">${completed.length}</span></h2>`;
+    html += renderQueueItems(completed);
+    html += `</div>`;
+  }
+  if (rejected.length) {
+    html += `<div class="cp"><h2><i class="fas fa-times-circle" style="color:var(--danger)"></i> Rejected <span class="cnt">${rejected.length}</span></h2>`;
+    html += renderQueueItems(rejected);
+    html += `</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function renderQueueItems(items) {
+  return items.map(c => {
+    const r = R.find(x => x.id === c.brId);
+    const brTitle = r ? `${r.id} — ${r.title}` : c.brId;
+    const timeAgo = getTimeAgo(c.createdAt);
+    return `<div class="br-comment-item change-request" style="cursor:pointer" onclick="openBRDetail('${c.brId}')">
+      <div class="br-ci-hdr">
+        <div><span class="br-ci-author">${c.author}</span> <span style="font-size:.65rem;color:var(--mu)">${c.authorRole}</span> → <strong style="font-size:.76rem">${brTitle}</strong></div>
+        <div>${timeAgo}</div>
+      </div>
+      <div class="br-ci-text">${c.text}</div>
+      <div style="margin-top:.4rem">${renderCMFlow(c)}</div>
+    </div>`;
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>

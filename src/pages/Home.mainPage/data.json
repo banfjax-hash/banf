@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "title": "Home",
+  "pageUriSEO": "",
+  "indexable": true,
+  "pageSecurity": {
+    "requireLogin": false
+  },
+  "seo": {
+    "title": "BANF Jacksonville - Bengali Association of North Florida",
+    "description": "Official website of the Bengali Association of North Florida (BANF). Events, membership, and community news for the Jacksonville Bengali community.",
+    "noIndex": false
+  }
+}

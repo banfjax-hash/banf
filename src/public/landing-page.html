@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANF - Bengali Association of North Florida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Bangladesh Flag Colors */
+        :root {
+            --green: #006A4E;
+            --red: #F42A41;
+            --gold: #FFD700;
+            --dark: #1a1a2e;
+            --light: #ffffff;
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, var(--green) 0%, #004d3a 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .bengali-welcome {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .english-welcome {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: var(--red);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #d62235;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--green);
+        }
+        
+        /* STATS SECTION */
+        .stats {
+            background: white;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* QUICK ACCESS */
+        .quick-access {
+            padding: 60px 20px;
+            background: #f9f9f9;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 40px;
+        }
+        
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .quick-item {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .quick-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,106,78,0.2);
+        }
+        
+        .quick-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .quick-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* EVENTS SECTION */
+        .events {
+            padding: 60px 20px;
+            background: white;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .event-card {
+            background: #f9f9f9;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .event-image {
+            height: 180px;
+            background: linear-gradient(135deg, var(--green), var(--red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .event-content {
+            padding: 20px;
+        }
+        
+        .event-date {
+            color: var(--red);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .event-location {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* RADIO SECTION */
+        .radio {
+            background: var(--dark);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .radio-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .radio-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+        }
+        
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .now-playing {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+        
+        .radio-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .radio-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .play-btn {
+            background: var(--green);
+            color: white;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0,106,78,0.5);
+        }
+        
+        /* MEMBERSHIP SECTION */
+        .membership {
+            background: linear-gradient(135deg, var(--green) 0%, #004d3a 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .membership-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+        
+        .membership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto 30px;
+        }
+        
+        .membership-card {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .membership-type {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .membership-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        
+        .membership-price span {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+        
+        /* CONTACT SECTION */
+        .contact {
+            padding: 60px 20px;
+            background: #f9f9f9;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #005540;
+        }
+        
+        /* FOOTER */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background: var(--green);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            opacity: 0.5;
+            font-size: 0.9rem;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .bengali-welcome {
+                font-size: 2.5rem;
+            }
+            
+            .english-welcome {
+                font-size: 1.8rem;
+            }
+            
+            .stats {
+                gap: 30px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+            
+            .quick-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="bengali-welcome">স্বাগতম</div>
+            <h1 class="english-welcome">Welcome to BANF</h1>
+            <p class="tagline">Bengali Association of North Florida - Preserving Bengali culture since 1988</p>
+            <div class="hero-buttons">
+                <a href="/register" class="btn btn-primary">Join Our Community</a>
+                <a href="/events" class="btn btn-secondary">Explore Events</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- STATS SECTION -->
+    <section class="stats">
+        <div class="stat-item">
+            <div class="stat-number" id="memberCount">500+</div>
+            <div class="stat-label">Active Members</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="eventCount">50+</div>
+            <div class="stat-label">Events Yearly</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">35+</div>
+            <div class="stat-label">Years Strong</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="volunteerCount">100+</div>
+            <div class="stat-label">Volunteers</div>
+        </div>
+    </section>
+    
+    <!-- QUICK ACCESS -->
+    <section class="quick-access">
+        <h2 class="section-title">Quick Access</h2>
+        <div class="quick-grid">
+            <a href="/events" class="quick-item">
+                <div class="quick-icon">📅</div>
+                <div class="quick-label">Events</div>
+            </a>
+            <a href="/members" class="quick-item">
+                <div class="quick-icon">👥</div>
+                <div class="quick-label">Members</div>
+            </a>
+            <a href="/radio" class="quick-item">
+                <div class="quick-icon">📻</div>
+                <div class="quick-label">Radio</div>
+            </a>
+            <a href="/magazine" class="quick-item">
+                <div class="quick-icon">📖</div>
+                <div class="quick-label">Magazine</div>
+            </a>
+            <a href="/gallery" class="quick-item">
+                <div class="quick-icon">🖼️</div>
+                <div class="quick-label">Gallery</div>
+            </a>
+            <a href="/volunteer" class="quick-item">
+                <div class="quick-icon">🤝</div>
+                <div class="quick-label">Volunteer</div>
+            </a>
+        </div>
+    </section>
+    
+    <!-- EVENTS SECTION -->
+    <section class="events">
+        <h2 class="section-title">Upcoming Events</h2>
+        <div class="events-grid" id="eventsGrid">
+            <div class="event-card">
+                <div class="event-image">🎉</div>
+                <div class="event-content">
+                    <div class="event-date">March 15, 2026</div>
+                    <div class="event-title">Pohela Boishakh Celebration</div>
+                    <div class="event-location">📍 Jacksonville Community Center</div>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image">🎭</div>
+                <div class="event-content">
+                    <div class="event-date">April 20, 2026</div>
+                    <div class="event-title">Rabindra Jayanti</div>
+                    <div class="event-location">📍 BANF Hall</div>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-image">🪔</div>
+                <div class="event-content">
+                    <div class="event-date">October 2026</div>
+                    <div class="event-title">Durga Puja Festival</div>
+                    <div class="event-location">📍 Jacksonville Convention Center</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- RADIO SECTION -->
+    <section class="radio">
+        <h2 class="radio-title">📻 BANF Radio</h2>
+        <div class="radio-status">
+            <div class="live-dot"></div>
+            <span id="radioStatus">LIVE</span>
+        </div>
+        <p class="now-playing">🎵 Now Playing: <span id="nowPlaying">Bengali Music Hour</span></p>
+        <div class="radio-controls">
+            <button class="radio-btn play-btn" id="playBtn" onclick="playRadio()">▶</button>
+            <button class="radio-btn" style="background:#333;color:white;" id="stopBtn" onclick="stopRadio()">⏹</button>
+        </div>
+        <audio id="radioPlayer" style="display:none;">
+            <source src="https://stream.banfradio.com/live" type="audio/mpeg">
+        </audio>
+    </section>
+    
+    <!-- MEMBERSHIP SECTION -->
+    <section class="membership">
+        <h2 class="membership-title">Join the BANF Family</h2>
+        <div class="membership-grid">
+            <div class="membership-card">
+                <div class="membership-type">Individual</div>
+                <div class="membership-price">$50<span>/year</span></div>
+            </div>
+            <div class="membership-card">
+                <div class="membership-type">Family</div>
+                <div class="membership-price">$75<span>/year</span></div>
+            </div>
+            <div class="membership-card">
+                <div class="membership-type">Lifetime</div>
+                <div class="membership-price">$500<span>one-time</span></div>
+            </div>
+        </div>
+        <a href="/register" class="btn btn-primary">Become a Member</a>
+    </section>
+    
+    <!-- CONTACT SECTION -->
+    <section class="contact">
+        <h2 class="section-title">Quick Contact</h2>
+        <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="contactName" required placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label>Your Email</label>
+                <input type="email" id="contactEmail" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" id="contactSubject" placeholder="What's this about?">
+            </div>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="contactMessage" required placeholder="Your message..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">🇧🇩 BANF</div>
+            <div class="footer-links">
+                <a href="/about">About Us</a>
+                <a href="/events">Events</a>
+                <a href="/members">Members</a>
+                <a href="/contact">Contact</a>
+                <a href="/privacy">Privacy Policy</a>
+            </div>
+            <div class="footer-social">
+                <div class="social-icon" onclick="window.open('https://facebook.com/banfjax')">📘</div>
+                <div class="social-icon" onclick="window.open('https://youtube.com/banfjax')">📺</div>
+                <div class="social-icon" onclick="window.open('mailto:info@jaxbengali.org')">✉️</div>
+            </div>
+            <p class="copyright">© 2026 Bengali Association of North Florida. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Radio Player Functions
+        const radioPlayer = document.getElementById('radioPlayer');
+        
+        function playRadio() {
+            radioPlayer.play();
+            document.getElementById('playBtn').style.background = '#F42A41';
+        }
+        
+        function stopRadio() {
+            radioPlayer.pause();
+            radioPlayer.currentTime = 0;
+            document.getElementById('playBtn').style.background = '#006A4E';
+        }
+        
+        // Contact Form Submission
+        function submitContact(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('contactName').value,
+                email: document.getElementById('contactEmail').value,
+                subject: document.getElementById('contactSubject').value,
+                message: document.getElementById('contactMessage').value
+            };
+            
+            // Send to backend (when connected)
+            console.log('Contact form submitted:', formData);
+            alert('Thank you for your message! We will get back to you soon.');
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+        }
+        
+        // Communication with Wix parent (if embedded in iframe)
+        function sendToWix(action, data) {
+            if (window.parent !== window) {
+                window.parent.postMessage({ action, data }, '*');
+            }
+        }
+        
+        // Listen for messages from Wix
+        window.addEventListener('message', function(event) {
+            if (event.data.action === 'updateStats') {
+                if (event.data.members) {
+                    document.getElementById('memberCount').textContent = event.data.members + '+';
+                }
+                if (event.data.events) {
+                    document.getElementById('eventCount').textContent = event.data.events + '+';
+                }
+            }
+            
+            if (event.data.action === 'updateEvents') {
+                renderEvents(event.data.events);
+            }
+        });
+        
+        // Render dynamic events
+        function renderEvents(events) {
+            const grid = document.getElementById('eventsGrid');
+            if (!events || !events.length) return;
+            
+            grid.innerHTML = events.map(event => `
+                <div class="event-card">
+                    <div class="event-image">${event.icon || '🎉'}</div>
+                    <div class="event-content">
+                        <div class="event-date">${event.date}</div>
+                        <div class="event-title">${event.title}</div>
+                        <div class="event-location">📍 ${event.location}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Initialize - notify Wix that page is ready
+        window.onload = function() {
+            sendToWix('pageReady', { page: 'landing' });
+        };
+    </script>
+</body>
+</html>
