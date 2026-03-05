@@ -186,73 +186,73 @@ export async function buildRAGContext(query, opts = {}) {
 export async function seedDefaultKnowledge() {
     const defaults = [
         {
-            title: 'BANF Organization Overview',
-            content: 'BANF (Bengali Association of Northeast Florida) is a community organization serving Bengali-speaking families in the Jacksonville, Florida area. We organize cultural events, Durga Puja, Saraswati Puja, picnics, and community gatherings. Membership is open to all Bengali families.',
+            title: 'BANF Organization Overview 2026',
+            content: 'BANF (Bengali Association of North Florida) is a 501(c)(3) nonprofit community organization serving Bengali families in Jacksonville, FL. Founded 2008. 416 members, 105 families, 17 annual events. Website: jaxbengali.org | Email: banfjax@gmail.com | Phone: (904) 712-2265 | Facebook: facebook.com/banfofficial | Instagram: instagram.com/banf_jax | YouTube: youtube.com/@banfjacksonville. EC 2026-2028: President Dr. Ranadhir Ghosh, VP Partha Mukhopadhyay, Treasurer Amit Chandak, Gen. Secretary Rajanya Ghosh.',
             category: 'organization',
-            tags: 'about,banf,organization,overview',
+            tags: 'about,banf,organization,overview,2026,jacksonville,florida',
             sourceType: 'seed'
         },
         {
-            title: 'Membership Information and Dues',
-            content: 'Annual membership dues are $50 per family. Membership includes access to all BANF events at member pricing, voting rights, and community newsletter. To join, pay dues and complete the membership form. Contact banfjax@gmail.com for questions.',
+            title: 'BANF Membership Fees 2026-27 — Official',
+            content: 'BANF 2026-27 Membership Fees (SOURCE: membership_fees.jpg official chart):\n\nM2 Premium Early Bird (until May 31, 2026 — covers ALL 17 events):\n  Family: $375 | Couple: $330 | Individual: $205 | Student: $145\n\nM2 Premium (after May 31, 2026 — covers ALL 17 events):\n  Family: $410 | Couple: $365 | Individual: $230 | Student: $165\n\nM1 Regular (covers 11 events):\n  Family: $280 | Couple: $255 | Individual: $140 | Student: $100\n\nSpecial Passes:\n  Culture Pass: Family $200 | Couple $175 | Individual $100 | Student $75\n  Durga Puja Celebration: Family $210 | Couple $175 | Individual $110 | Student $80\n  Durga Puja Core: Family $150 | Couple $125 | Individual $80 | Student $60\n\nPayment: Zelle to banfjax@gmail.com OR squareup.com/store/bengali-association-of-north-florida.',
             category: 'membership',
-            tags: 'membership,dues,join,register,pay',
+            tags: 'membership,fees,dues,join,early bird,M2,M1,couple,family,individual,student,2026,2027',
             sourceType: 'seed'
         },
         {
-            title: 'Event Registration Process',
-            content: 'To register for BANF events, visit the events page on our website or email banfjax@gmail.com with your name, family size, and the event name. Payment can be made via Zelle, Venmo, or check. Members receive discounted pricing. RSVPs are required by the deadline.',
+            title: 'BANF Events Calendar 2026-27 — Official',
+            content: 'BANF 2026-27 Annual Events (17 total — SOURCE: membership_events.jpg):\n1. Bosonto Utsob — March 7, 2026 (Cultural)\n2. Noboborsho — April 25, 2026 (Cultural)\n3. Kids Summer Sports Training — Jun–Jul 2026 (Educational)\n4. Summer Workshops Kids — Jun–Jul 2026 (Educational)\n5. Summer Workshops General — Jun–Jul 2026 (Educational)\n6. Sports Day — July 2026 (Social)\n7. Spondon — August 2026 (Cultural)\n8. Mahalaya — October 17, 2026 (Religious)\n9. Durga Puja Day 1 & 2 + Lunch — October 24–25, 2026 (Religious)\n10. Lakshmi Puja — October 25, 2026 (Religious)\n11. Bijoya Sonmiloni — October 25, 2026 (Social)\n12. Artist Program Day 1 + Dinner — October 24, 2026 (Cultural)\n13. Artist Program Day 2 + Dinner — October 25, 2026 (Cultural)\n14. Kali Puja + Lunch — November 7, 2026 (Religious)\n15. Natok (Drama) + Dinner — November 7, 2026 (Cultural)\n16. Winter Picnic — January 2027 (Social)\n17. Saraswati Puja — February 27, 2027 (Religious)',
             category: 'events',
-            tags: 'event,register,rsvp,ticket,attend',
+            tags: 'events,calendar,bosonto,noboborsho,durga puja,kali puja,saraswati,sports,cultural,2026,2027',
             sourceType: 'seed'
         },
         {
-            title: 'Contact and Communication',
-            content: 'Email: banfjax@gmail.com. For urgent matters, contact the Executive Committee. General inquiries are responded to within 2-3 business days. For complaints or suggestions, use the feedback form on our website.',
-            category: 'contact',
-            tags: 'contact,email,phone,reach,communicate',
-            sourceType: 'seed'
-        },
-        {
-            title: 'Durga Puja Information',
-            content: 'BANF celebrates Durga Puja annually, typically in October. This is our biggest event of the year. It includes traditional puja ceremonies, cultural programs, food, and community gathering. Registration is required. Members get priority registration.',
+            title: 'Bosonto Utsob 2026 — Spring Festival',
+            content: 'Bosonto Utsob (Spring Festival) 2026 is on March 7, 2026. Cultural event featuring performances, youth programs, spring-themed activities, traditional Bengali spring cuisine. M2 Premium membership (Early Bird and Regular) covers this event. RSVP: banfjax@gmail.com.',
             category: 'events',
-            tags: 'durga puja,puja,festival,october,cultural',
+            tags: 'bosonto,boshonto,spring festival,march 7,2026,M2,cultural',
+            sourceType: 'seed'
+        },
+        {
+            title: 'Durga Puja 2026 — Flagship Event',
+            content: 'Durga Puja 2026: October 24–25, 2026. BANF\'s flagship annual event. Traditional puja ceremonies, cultural programs, Bengali cuisine, Dhak, Sindur Khela. Multiple passes available: M2 full membership, Durga Puja Celebration Pass (Family $210, Couple $175, Individual $110, Student $80), Durga Puja Core Pass (Family $150, Couple $125, Individual $80, Student $60). Email banfjax@gmail.com for RSVPs.',
+            category: 'events',
+            tags: 'durga puja,puja,festival,october,cultural,dhak,sindur khela,2026',
+            sourceType: 'seed'
+        },
+        {
+            title: 'EC Team 2026-2028',
+            content: 'BANF Executive Committee 2026-2028 (elected at GBM February 22, 2026): President: Dr. Ranadhir Ghosh | Vice President: Partha Mukhopadhyay | Treasurer: Amit Chandak | General Secretary: Rajanya Ghosh | Cultural Secretary: Dr. Moumita Ghosh | Food Coordinator: Banty Dutta | Event Coordinator: Dr. Sumanta Ghosh | Puja Coordinator: Rwiti Choudhury. Contact: banfjax@gmail.com.',
+            category: 'governance',
+            tags: 'EC,executive committee,president,ranadhir ghosh,partha,amit,rajanya,moumita,banty,sumanta,rwiti,2026',
             sourceType: 'seed'
         },
         {
             title: 'Payment Methods Accepted',
-            content: 'BANF accepts payments via Zelle (banfjax@gmail.com), Venmo (@banfjax), personal check made out to BANF, and cash at events. Online credit card payments are not currently available. Always include your name and purpose (e.g., "Durga Puja registration, Khan family")',
+            content: 'BANF accepts payments via: (1) Zelle to banfjax@gmail.com — preferred method. (2) Square online store: squareup.com/store/bengali-association-of-north-florida. (3) Check made out to BANF. Always include your name, family size, and membership tier (e.g., "M2-EB Family, Ghosh family"). BANF is 501(c)(3) — dues may be tax-deductible.',
             category: 'payment',
-            tags: 'payment,zelle,venmo,check,cash,pay,dues',
+            tags: 'payment,zelle,square,check,pay,dues,membership,register',
             sourceType: 'seed'
         },
         {
-            title: 'Sponsorship Opportunities',
-            content: 'BANF offers sponsorship tiers: Title Sponsor ($1000+), Gold Sponsor ($500), Silver Sponsor ($250), Bronze Sponsor ($100). Benefits include logo placement in event programs, social media recognition, and booth space at major events. Email banfjax@gmail.com for sponsorship packages.',
+            title: 'Contact and Communication',
+            content: 'BANF Contact: Email: banfjax@gmail.com | Phone: (904) 712-2265 | Website: jaxbengali.org | Facebook: facebook.com/banfofficial | Instagram: instagram.com/banf_jax | YouTube: youtube.com/@banfjacksonville. General inquiries responded to within 2-3 business days.',
+            category: 'contact',
+            tags: 'contact,email,phone,reach,communicate,banfjax',
+            sourceType: 'seed'
+        },
+        {
+            title: 'BANF Programs — Bengali School, Radio, Jagriti, Tagore',
+            content: 'BANF Programs: (1) Bengali Language School — ACTFL-aligned, K–5, Sat/Sun sessions, certificate awarded. (2) Jagriti Annual Magazine — Bengali literary/cultural e-magazine, member submissions welcome. (3) BANF Radio — 24/7 online Bengali music streaming (Rabindra Sangit, folk, film songs). (4) Tagore Worldwide Project — cultural diplomacy spreading Tagore\'s works globally. (5) Young Venture Builder — youth entrepreneurship program at banf-young-venture-builder.lovable.app.',
+            category: 'programs',
+            tags: 'bengali school,ACTFL,K-5,jagriti,magazine,radio,tagore,young venture builder,programs,education',
+            sourceType: 'seed'
+        },
+        {
+            title: 'Sponsorship Opportunities 2026-27',
+            content: 'BANF Sponsorship Tiers: Title Sponsor ($1,000+) — logo on all materials, social media feature, booth at Durga Puja. Gold Sponsor ($500) — logo in event programs, social media posts. Silver Sponsor ($250) — name in event programs, social media mention. Bronze Sponsor ($100) — name in Jagriti magazine. Current sponsors include Aha Curry, Gulani Vision, Rod Realty, Synergy, Tikka Bowls, Merrill Lynch. Email banfjax@gmail.com to sponsor.',
             category: 'sponsorship',
-            tags: 'sponsor,sponsorship,donate,advertise,business',
-            sourceType: 'seed'
-        },
-        {
-            title: 'Volunteer and Career Help',
-            content: 'BANF connects community members seeking jobs or career help with experienced professionals. We organize career guidance sessions, resume reviews, and networking events. Contact banfjax@gmail.com to sign up as a mentor or mentee.',
-            category: 'career',
-            tags: 'career,job,volunteer,help,mentor,professional,resume',
-            sourceType: 'seed'
-        },
-        {
-            title: 'Complaint and Feedback Process',
-            content: 'BANF takes all complaints seriously. Submit complaints to banfjax@gmail.com with Subject: COMPLAINT. The EC (Executive Committee) reviews all complaints within 7 days. Anonymous complaints are also accepted. All complaints are logged and tracked for resolution.',
-            category: 'complaint',
-            tags: 'complaint,feedback,issue,problem,resolution,grievance',
-            sourceType: 'seed'
-        },
-        {
-            title: 'Newsletter and E-Magazine',
-            content: 'BANF publishes a quarterly e-magazine and monthly newsletter. Members can submit articles, photos, and community updates. Contact the media team at banfjax@gmail.com with Subject: MAGAZINE. Past issues are available on our website.',
-            category: 'publication',
-            tags: 'newsletter,magazine,publication,article,submit',
+            tags: 'sponsor,sponsorship,donate,advertise,business,gold,silver,bronze,title',
             sourceType: 'seed'
         }
     ];

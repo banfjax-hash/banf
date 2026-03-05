@@ -79,13 +79,13 @@
                 {
                     code: 'M2-EB',  name: 'M2 Premium (Early Bird)',
                     note: 'Available until May 31, 2026 — includes ALL 17 events',
-                    family: 375, couple: 290, individual: 215, student: 145,
+                    family: 375, couple: 330, individual: 205, student: 145,
                     events: 'All 17 events, voting rights, Jagriti magazine, member portal'
                 },
                 {
                     code: 'M2',     name: 'M2 Premium',
                     note: 'After May 31, 2026 — full annual membership',
-                    family: 410, couple: 330, individual: 240, student: 175,
+                    family: 410, couple: 365, individual: 230, student: 165,
                     events: 'All 17 events, voting rights, Jagriti magazine, member portal'
                 },
                 {
@@ -106,7 +106,7 @@
 
         // [EVT-001..005] Events — 2026-27 calendar (17 events)
         events: [
-            { name: 'Bosonto Utsob (Spring Festival)',      date: 'March 22, 2026',    type: 'Cultural',     m2Only: true  },
+            { name: 'Bosonto Utsob (Spring Festival)',      date: 'March 7, 2026',     type: 'Cultural',     m2Only: true  },
             { name: 'Nabo Borsho / Pohela Boishakh',        date: 'April 25, 2026',    type: 'Cultural',     m2Only: false },
             { name: 'Kids Summer Sports Training',          date: 'Jun–Jul 2026',      type: 'Educational',  m2Only: false },
             { name: 'Summer Workshops — Kids',              date: 'Jun–Jul 2026',      type: 'Educational',  m2Only: false },
@@ -124,7 +124,7 @@
             { name: 'Winter Picnic',                       date: 'January 2027',      type: 'Social',       m2Only: false },
             { name: 'Saraswati Puja',                      date: 'February 27, 2027', type: 'Religious',    m2Only: true  }
         ],
-        upcomingHighlight: 'Bosonto Utsob — March 22, 2026. Features youth programs, cultural performances, traditional spring activities. Contact banfjax@gmail.com to RSVP.',
+        upcomingHighlight: 'Bosonto Utsob — March 7, 2026. Features youth programs, cultural performances, traditional spring activities. Contact banfjax@gmail.com to RSVP.',
 
         // [PRG-001..003] Programs
         programs: [
