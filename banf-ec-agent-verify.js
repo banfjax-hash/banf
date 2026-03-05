@@ -677,6 +677,29 @@ test('audit-drives: ADMIN_DRIVES data model declared', () => {
   return html.includes('var ADMIN_DRIVES = []');
 });
 
+test('audit-drives: AD_DRIVE_LAUNCHED flag declared', () => {
+  return html.includes('var AD_DRIVE_LAUNCHED = false');
+});
+
+test('audit-drives: autoLaunchECOnboardingDrive function exists', () => {
+  return html.includes('function autoLaunchECOnboardingDrive()');
+});
+
+test('audit-drives: auto-launch on first visit (no prior drives)', () => {
+  return html.includes('if (!AD_DRIVE_LAUNCHED && ADMIN_DRIVES.length === 0)') && html.includes('autoLaunchECOnboardingDrive()');
+});
+
+test('audit-drives: auto-launch runs all 9 steps', () => {
+  return html.includes('for (var stepIdx = 1; stepIdx <= 9; stepIdx++)');
+});
+
+test('audit-drives: EC_MEMBERS has exactly 8 members', () => {
+  const match = html.match(/const EC_MEMBERS\s*=\s*\[([\s\S]*?)\];/);
+  if (!match) return false;
+  const members = match[1].match(/\{name:/g);
+  return members && members.length === 8;
+});
+
 test('audit-drives: driveAudit logging function exists', () => {
   return html.includes('function driveAudit(drive, action, detail)');
 });

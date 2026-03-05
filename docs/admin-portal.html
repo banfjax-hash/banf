@@ -1753,9 +1753,6 @@ const EC_MEMBERS = [
   {name:'Mita Roy',title:'Cultural Sec',email:'cultural@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:false,signupDate:null},
   {name:'Ranadhir Ghosh',title:'IT / Tech Lead',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-15'},
   {name:'Tanmay Chatterjee',title:'VP Events',email:'vp-events@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
-  {name:'Jayanta Pal',title:'IT Coord',email:'it@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
-  {name:'Ananya Banerjee',title:'Youth Rep',email:'youth@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
-  {name:'Subir Ghosh',title:'Former',email:'subir.ghosh@gmail.com',membership:'Expired',gate:'failed',status:'failed',signedUp:false,signupDate:null},
 ];
 
 // EC Onboarding Drive Task List — visible to Stakeholder / Super Admin
@@ -5557,9 +5554,46 @@ var EC_ONBOARD_STEPS = [
   { id:9, name:'Finalize & Generate Report', desc:'Mark drive complete, generate summary report, update global audit log', icon:'fa-check-double' }
 ];
 
+var AD_DRIVE_LAUNCHED = false;
+
 function initAuditDrives() {
   renderAuditDrives();
   document.getElementById('btn-launch-ec-onboarding').onclick = launchECOnboardingDrive;
+  // Auto-launch EC Onboarding Drive on first visit by super admin
+  if (!AD_DRIVE_LAUNCHED && ADMIN_DRIVES.length === 0) {
+    AD_DRIVE_LAUNCHED = true;
+    autoLaunchECOnboardingDrive();
+  }
+}
+
+// Auto-launch: runs the complete EC Onboarding Drive (all 9 steps) without confirmation
+function autoLaunchECOnboardingDrive() {
+  var drive = {
+    id: 'DRV-' + String(AD_NEXT_ID++).padStart(3,'0'),
+    name: 'EC Member Onboarding \u2014 FY2026-28',
+    type: 'ec-onboarding',
+    status: 'in-progress',
+    launchedBy: CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Super Admin',
+    launchedAt: new Date(),
+    completedAt: null,
+    steps: EC_ONBOARD_STEPS.map(function(s){
+      return { id:s.id, name:s.name, desc:s.desc, icon:s.icon, status:'pending', startedAt:null, completedAt:null, detail:'', logs:[], memberProgress:[] };
+    }),
+    auditLog: [],
+    members: [],
+    summary: { total:0, gatePass:0, gateFail:0, gatePending:0, invited:0, signedUp:0, verified:0 }
+  };
+  ADMIN_DRIVES.push(drive);
+  driveAudit(drive, 'DRIVE_LAUNCH', 'Auto-launched EC Member Onboarding Drive \u2014 FY2026-28 (8 EC members)');
+  addLog('DRIVE', 'Super Admin auto-launched EC Onboarding Drive: ' + drive.id + ' with 8 EC members');
+  // Execute all 9 steps sequentially
+  for (var stepIdx = 1; stepIdx <= 9; stepIdx++) {
+    executeStep(drive, stepIdx);
+  }
+  AD_ACTIVE_DRIVE = drive;
+  renderAuditDrives();
+  openAuditDriveDetail(drive.id);
+  showToast('EC Onboarding Drive completed! All 9 steps executed for 8 EC members.', 'var(--green)');
 }
 
 function launchECOnboardingDrive() {
