@@ -1252,6 +1252,13 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       return;
     }
     CURRENT_ADMIN = { email, role: result.adminRole, roles: [result.adminRole || 'super-admin'], firstName: result.firstName || '', lastName: result.lastName || '', ecTitle: result.ecTitle || '' };
+    // Persist session so page refresh / navigation retains login
+    sessionStorage.setItem('banf_admin_session', JSON.stringify({
+      email: email, name: [result.firstName, result.lastName].filter(Boolean).join(' ') || email,
+      firstName: result.firstName || '', lastName: result.lastName || '',
+      roles: CURRENT_ADMIN.roles, effectiveRole: CURRENT_ADMIN.roles[0],
+      ecTitle: result.ecTitle || '', loginTime: new Date().toISOString(), source: 'admin-portal'
+    }));
     const displayName = [result.firstName, result.lastName].filter(Boolean).join(' ') || email;
     enterPortal(displayName);
   } else if (result.needsOnboarding) {

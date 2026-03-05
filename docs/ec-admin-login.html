@@ -554,7 +554,7 @@ async function signupStep1() {
   hideMsg('signup-info-1');
 
   if (result.success) {
-    SIGNUP_STATE = { email, token: result.setupToken };
+    SIGNUP_STATE = { email, token: result.setupToken, firstName: result.firstName || '', lastName: result.lastName || '', ecTitle: result.ecTitle || '' };
     var welcomeName = [result.firstName, result.lastName].filter(Boolean).join(' ') || email.split('@')[0];
     var el1 = document.getElementById('signup-welcome-name');
     if (el1) el1.textContent = welcomeName + (result.ecTitle ? ' (' + result.ecTitle + ')' : '');
@@ -562,8 +562,9 @@ async function signupStep1() {
     showStep('signup', 2);
   } else {
     // Offline fallback
-    SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token' };
-    var user = AUTH_DB[email];
+    var dbUser = AUTH_DB[email];
+    SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token', firstName: dbUser ? dbUser.firstName : '', lastName: dbUser ? dbUser.lastName : '', ecTitle: dbUser ? dbUser.ecTitle : '' };
+    var user = dbUser;
     var nameStr = user ? user.name : email.split('@')[0];
     var el2 = document.getElementById('signup-welcome-name');
     if (el2) el2.textContent = nameStr;
@@ -593,7 +594,8 @@ async function signupStep2Submit() {
       user.securityA = sa.toLowerCase();
     }
     _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
-    showStep('signup', 3);
+    // AUTO-LOGIN: enter portal directly after signup — no second sign-in needed
+    enterPortal(user || { name: SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: ['ec-member'], ecTitle: SIGNUP_STATE.ecTitle || '' }, SIGNUP_STATE.email);
     return;
   }
 
@@ -603,10 +605,16 @@ async function signupStep2Submit() {
   await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token });
   _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
 
-  // Fire congratulations email (fire-and-forget)
-  apiCall('ec_signup_congratulations', { email: SIGNUP_STATE.email, firstName: '', lastName: '' }).catch(function(){});
+  // Update AUTH_DB so offline sign-in also works with the new password
+  var dbUser = AUTH_DB[SIGNUP_STATE.email];
+  if (dbUser) { dbUser.offlinePw = pass; dbUser.securityQ = sq; dbUser.securityA = sa.toLowerCase(); }
 
-  showStep('signup', 3);
+  // Fire congratulations email (keepalive so it survives page navigation)
+  try { fetch(API + '/ec_signup_congratulations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: SIGNUP_STATE.email, firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '' }), keepalive: true }).catch(function(){}); } catch(e) {}
+
+  // AUTO-LOGIN: enter portal directly after signup — no second sign-in needed
+  var user = dbUser || { name: [SIGNUP_STATE.firstName, SIGNUP_STATE.lastName].filter(Boolean).join(' ') || SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: ['ec-member'], ecTitle: SIGNUP_STATE.ecTitle || '' };
+  enterPortal(user, SIGNUP_STATE.email);
 }
 
 // ── FORGOT PASSWORD FLOW ──
