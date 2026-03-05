@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ═══════════════════════════════════════════════════════════════
  *  AGENT ORCHESTRATOR
  *  Manages agent profiles, routes requests to specialist agents,
@@ -12,7 +12,7 @@ import { buildRAGContext } from 'backend/rag-engine';
 import { classifyEmailIntent } from 'backend/email-automation';
 
 const SA = { suppressAuth: true };
-const HF_API_TOKEN = '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';
+const HF_API_TOKEN = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN';
 
 // ─────────────────────────────────────────
 // COMMUNICATION AGENT EMAIL GUARDRAIL

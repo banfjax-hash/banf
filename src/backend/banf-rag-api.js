@@ -23,10 +23,20 @@ import { checkPermission } from 'backend/rbac';
 import wixData from 'wix-data';
 import { fetch } from 'wix-fetch';
 
-// ─── HuggingFace LLM config ────────────────────────────────
-const HF_TOKEN   = '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';
+// ── HuggingFace LLM config ────────────────────────────────
+// Token removed from source.  Store it in Wix > Content Management >
+// SiteConfig collection with key = "HF_API_TOKEN" and value = hf_...
+// (generate a new read-only Inference token at huggingface.co/settings/tokens)
 const HF_LLM_URL = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
 const HF_LLM_MDL = 'mistralai/Mistral-7B-Instruct-v0.3';
+
+async function getHFToken() {
+    try {
+        const r = await wixData.query('SiteConfig').eq('key', 'HF_API_TOKEN').limit(1).find({ suppressAuth: true });
+        if (r.items.length && r.items[0].value) return r.items[0].value;
+    } catch (_) {}
+    return null;
+}
 
 // ─── Helper ────────────────────────────────────────────────
 function cors(data, status = 200) {
@@ -240,7 +250,7 @@ export async function post_rag_ask(request) {
 
         const llmRes = await fetch(HF_LLM_URL, {
             method: 'POST',
-            headers: { 'Authorization': `Bearer ${HF_TOKEN}`, 'Content-Type': 'application/json' },
+            headers: { 'Authorization': `Bearer ${await getHFToken()}`, 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 model: HF_LLM_MDL,
                 messages: [

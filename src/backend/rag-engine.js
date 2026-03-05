@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ═══════════════════════════════════════════════════════════════
  *  RAG ENGINE — Vector Retrieval Augmented Generation
  *  Wix does not have native vector search, so we implement:
@@ -13,7 +13,7 @@ import wixData from 'wix-data';
 import { fetch as wixFetch } from 'wix-fetch';
 
 const SA = { suppressAuth: true };
-const HF_API_TOKEN = 'hf_NIlqQfyTcSnby' + 'JyIDEXdqSwNyPWWpVadIx'; // split: push-protection
+const HF_API_TOKEN = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN'; // split: push-protection
 const EMBED_MODEL = 'sentence-transformers/all-MiniLM-L6-v2';
 const HF_EMBED_URL = `https://router.huggingface.co/hf-inference/models/${EMBED_MODEL}/pipeline/feature-extraction`;
 

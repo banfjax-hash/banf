@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ===============================================================
  *  BANF SURVEY MODULE   -   v1.0
  * ===============================================================
@@ -35,7 +35,7 @@ import { collections as wixCollections } from 'wix-data.v2';
 import { fetch as wixFetch } from 'wix-fetch';
 
 const SA = { suppressAuth: true };
-const HF_API_TOKEN = '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';
+const HF_API_TOKEN = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN';
 const HF_MODEL = 'meta-llama/Llama-3.1-8B-Instruct';
 const HF_URL = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
 const BANF_EMAIL = 'banfjax@gmail.com';

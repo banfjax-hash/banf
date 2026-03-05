@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ═══════════════════════════════════════════════════════════════
  *  EMAIL AUTOMATION PIPELINE
  *  Flow: New Gmail → Classify Intent → Queue → Route to Agent →
@@ -11,7 +11,7 @@ import { fetch as wixFetch } from 'wix-fetch';
 import { buildRAGContext } from 'backend/rag-engine';
 
 const SA = { suppressAuth: true };
-const HF_API_TOKEN = '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';
+const HF_API_TOKEN = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN';
 const BANF_EMAIL = 'banfjax@gmail.com';
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';

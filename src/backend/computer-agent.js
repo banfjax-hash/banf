@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ═══════════════════════════════════════════════════════════════
  *  COMPUTER USER AGENT — Automated website interaction agent
  *  Uses HTTP requests to crawl pages/endpoints.
@@ -13,7 +13,7 @@ import wixData from 'wix-data';
 import { fetch as wixFetch } from 'wix-fetch';
 
 const SA = { suppressAuth: true };
-const HF_TOKEN = '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';
+const HF_TOKEN = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN';
 const HF_LLM   = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
 
 // ─── Helpers ──────────────────────────────────────────────────

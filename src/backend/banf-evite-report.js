@@ -24,9 +24,20 @@ import wixData from 'wix-data';
 import { fetch as wixFetch } from 'wix-fetch';
 
 const SA = { suppressAuth: true };
-const HF_API_TOKEN = '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';
+
+// Token removed from source.  Store it in Wix > Content Management >
+// SiteConfig collection with key = "HF_API_TOKEN" and value = hf_...
+// (generate a new read-only Inference token at huggingface.co/settings/tokens)
 const HF_MODEL = 'meta-llama/Llama-3.1-8B-Instruct';
 const HF_URL = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
+
+async function getHFToken() {
+    try {
+        const r = await wixData.query('SiteConfig').eq('key', 'HF_API_TOKEN').limit(1).find(SA);
+        if (r.items.length && r.items[0].value) return r.items[0].value;
+    } catch (_) {}
+    return null;
+}
 
 // ─────────────────────────────────────────────────────────────
 // Gmail OAuth — direct API access (same credentials as email-automation.js)
@@ -401,7 +412,7 @@ Extract the RSVP information and return ONLY the JSON object.`;
         const resp = await wixFetch(HF_URL, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${HF_API_TOKEN}`,
+                'Authorization': `Bearer ${await getHFToken()}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({

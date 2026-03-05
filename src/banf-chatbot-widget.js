@@ -25,8 +25,11 @@
     /* ═══════════════════════════════════════════════════════════════════
      *  0.  LLM CONFIG  — HuggingFace featherless-ai router
      * ═══════════════════════════════════════════════════════════════════*/
-    const HF_TOKEN   = 'hf_NIlqQfyTcSnby' + 'JyIDEXdqSwNyPWWpVadIx'; // split: GH push-protection bypass
-    const HF_URL     = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
+    // Token removed — all LLM calls are proxied through the Wix backend.
+    // The actual HuggingFace API token lives only in the private SiteConfig
+    // Wix collection (key = HF_API_TOKEN).  See src/backend/banf-chat-proxy.js.
+    const HF_TOKEN   = null;  // unused — no client-side token
+    const HF_URL     = 'https://www.jaxbengali.org/_functions/chat_llm'; // Wix backend proxy
     const HF_MODEL   = 'meta-llama/Llama-3.1-8B-Instruct';
     const LLM_MAX_TOKENS  = 450;
     const LLM_TEMPERATURE = 0.6;
@@ -457,7 +460,7 @@ RULES:
             const res = await fetch(HF_URL, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${HF_TOKEN}`,
+                    // No Authorization header — token is held server-side by the proxy
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({

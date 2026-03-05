@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BANF Wix HTTP Functions — v5.12.0 EC-Separated
  * ==================================================
  * All endpoints use wixData directly. NO .jsw imports.
@@ -3347,7 +3347,7 @@ const HF_API_URL = 'https://router.huggingface.co/v1/chat/completions';
 const HF_MODEL = 'meta-llama/Llama-3.1-8B-Instruct';
 
 // Try to get HF token from Wix Secrets Manager, fallback to embedded token
-const HF_TOKEN_FALLBACK = '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';
+const HF_TOKEN_FALLBACK = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN';
 async function getHFToken() {
     try {
         const { getSecret } = await import('wix-secrets-backend');
@@ -6843,3 +6843,10 @@ export {
     get_whatsapp_announcements,
     options_whatsapp_announcements
 };
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  Chatbot LLM Proxy v1.0                                      ║
+// ║  POST /_functions/chat_llm — proxies HF Inference API        ║
+// ║  Token stored in SiteConfig collection (key=HF_API_TOKEN)    ║
+// ╚══════════════════════════════════════════════════════════════╝
+export { post_chat_llm, options_chat_llm } from 'backend/banf-chat-proxy';

@@ -35,7 +35,7 @@ const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.go
 const GOOGLE_CLIENT_SECRET = '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';
 const GOOGLE_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
 
-const HF_API_TOKEN = 'hf_VRPVFikGfnqfroBKRvbWfESqCYlvUid';
+const HF_API_TOKEN = 'REVOKED_SEE_SITECONFIG_HF_API_TOKEN';
 const HF_URL = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
 const HF_MODEL = 'meta-llama/Llama-3.1-8B-Instruct';
 
