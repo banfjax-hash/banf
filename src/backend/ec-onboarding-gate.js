@@ -580,17 +580,20 @@ async function sendGmail(to, toName, subject, html) {
         actualSubject = `[TEST → ${to}] ${subject}`;
     }
     const token = await getGmailToken();
-    // Base64-encode the HTML body per RFC 2045 §6.8, wrapped at 76 chars per line
-    const bodyB64 = btoa(unescape(encodeURIComponent(html))).match(/.{1,76}/g).join('\r\n');
+    // HTML body must be ASCII-safe (all non-ASCII replaced with HTML entities above).
+    // Use quoted-printable so the body survives all mail servers without further encoding tricks.
     const raw = [
         `From: ${BANF_ORG} <${BANF_EMAIL}>`,
         `To: ${actualName} <${actualTo}>`,
         `Subject: ${mimeEncodeHeader(actualSubject)}`,
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
-        'Content-Transfer-Encoding: base64',
+        'Content-Transfer-Encoding: quoted-printable',
         '',
-        bodyB64
+        html
+            .replace(/([^\x00-\x7E])/g, c => '=' + c.charCodeAt(0).toString(16).toUpperCase().padStart(2,'0'))
+            .replace(/=\?/g, '=3F')
+            .match(/.{1,76}/g).join('=\r\n')
     ].join('\r\n');
     const encoded = btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const r = await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
@@ -621,7 +624,7 @@ function buildReminderEmail(ecMember, steps) {
 <head><meta charset="UTF-8"></head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
     <div style="background: linear-gradient(135deg, #8B0000, #DC143C); padding: 20px; border-radius: 8px 8px 0 0;">
-        <h1 style="color: #fff; margin: 0; font-size: 24px;">🔔 EC Onboarding Reminder</h1>
+        <h1 style="color: #fff; margin: 0; font-size: 24px;">&#x1F514; EC Onboarding Reminder</h1>
         <p style="color: rgba(255,255,255,0.8); margin: 8px 0 0 0;">Bengali Association of North Florida</p>
     </div>
     
@@ -636,7 +639,7 @@ function buildReminderEmail(ecMember, steps) {
         </ul>
         
         <div style="text-align: center; margin: 25px 0;">
-            <a href="${signupUrl}" style="display: inline-block; background: linear-gradient(135deg, #8B0000, #DC143C); color: #fff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">Complete Onboarding Now →</a>
+            <a href="${signupUrl}" style="display: inline-block; background: linear-gradient(135deg, #8B0000, #DC143C); color: #fff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">Complete Onboarding Now &#x2192;</a>
             <a href="${JOURNEY_URL}" style="display: inline-block; background: #fff; color: #8B0000; border: 2px solid #8B0000; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-left: 10px;">Open Requirements Journey</a>
         </div>
         
@@ -795,7 +798,7 @@ function buildCongratsEmail(member, role) {
   <div style="max-width:620px;margin:30px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
     <div style="background:linear-gradient(135deg,#006A4E,#00856F);padding:32px 40px;text-align:center;">
       <h1 style="color:#fff;margin:0;font-size:26px;font-weight:700;">&#x1F389; Welcome to BANF, ${name}!</h1>
-      <p style="color:rgba(255,255,255,0.9);margin:8px 0 0;font-size:16px;">${roleTitle} — FY 2026-2028</p>
+      <p style="color:rgba(255,255,255,0.9);margin:8px 0 0;font-size:16px;">${roleTitle} &mdash; FY 2026-2028</p>
     </div>
     <div style="padding:32px 40px;">
       <p style="font-size:16px;color:#333;">Congratulations on completing your signup! You are now officially onboarded as an Executive Committee member of the Bengali Association of North Florida.</p>
@@ -829,11 +832,11 @@ function buildCongratsEmail(member, role) {
           <li>Sign in at <a href="${MEMBER_LOGIN_URL}" style="color:#006A4E;">member-login.html</a> with your email + password</li>
           <li>Verify your role is displayed correctly in the member portal</li>
           <li>Check that your name appears in <strong>My Profile</strong></li>
-          <li>Navigate to <strong>Family Members</strong> — add/edit/remove a test member</li>
+          <li>Navigate to <strong>Family Members</strong> &mdash; add/edit/remove a test member</li>
           <li>Open the <a href="${EC_ADMIN_URL}" style="color:#DC143C;">EC Admin Portal</a> and verify access to EC features</li>
           <li>Check EC onboarding progress shows your status as complete</li>
           <li>Test the <a href="${JOURNEY_URL}" style="color:#006A4E;">Stakeholder Requirements Journey</a></li>
-          <li>Try the BANF chatbot widget — ask about membership fees and upcoming events</li>
+          <li>Try the BANF chatbot widget &mdash; ask about membership fees and upcoming events</li>
         </ol>
       </div>
 
@@ -877,7 +880,7 @@ export async function post_ec_signup_congratulations(request) {
 
         // Also notify the President
         const presHtml = `<div style="font-family:Arial,sans-serif;padding:24px;">
-            <h2 style="color:#006A4E;">EC Member Signup Complete ✅</h2>
+            <h2 style="color:#006A4E;">EC Member Signup Complete &#x2705;</h2>
             <p><strong>${name}</strong> (${roleTitle}) has completed their EC signup for FY2026-28.</p>
             <p>Email: ${email}</p>
             <p>Time: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} ET</p>
@@ -923,16 +926,16 @@ function buildInviteEmail(member) {
       <p style="font-size:15px;color:#444;line-height:1.7;">You have been selected as <strong>${role}</strong> of the Bengali Association of North Florida (BANF) for the fiscal year 2026-2028. Please complete your EC onboarding to activate your access to the member and admin portals.</p>
 
       <div style="text-align:center;margin:30px 0;">
-        <a href="${loginUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;padding:15px 36px;text-decoration:none;border-radius:8px;font-weight:bold;font-size:16px;">Complete EC Signup →</a>
+        <a href="${loginUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;padding:15px 36px;text-decoration:none;border-radius:8px;font-weight:bold;font-size:16px;">Complete EC Signup &#x2192;</a>
       </div>
 
       <div style="background:#f9f9f9;border-radius:8px;padding:16px 20px;margin:20px 0;">
         <h3 style="margin:0 0 10px;font-size:15px;color:#333;">What you'll need to do:</h3>
         <ol style="margin:0;padding-left:20px;font-size:14px;color:#555;line-height:1.8;">
-          <li>Click the button above — it opens the Sign Up form with your email pre-filled</li>
+          <li>Click the button above &mdash; it opens the Sign Up form with your email pre-filled</li>
           <li>Click <strong>"Begin Signup"</strong> to verify your email: <strong>${member.email || 'your email'}</strong></li>
           <li>Set your password and choose a security question</li>
-          <li>Your account will be created instantly — no verification code needed!</li>
+          <li>Your account will be created instantly &mdash; no verification code needed!</li>
           <li>Test the member portal at <a href="${MEMBER_LOGIN_URL}" style="color:#8B0000;">member-login.html</a></li>
           <li>You'll receive a congratulation email once signup is complete</li>
         </ol>
@@ -976,19 +979,22 @@ export async function post_ec_send_all_invitations(request) {
                 // Always send to actual email (ignore TEST_MODE)
                 const token = await getGmailToken();
                 const subject = `BANF EC Onboarding Invitation - ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
-                // Base64-encode body per RFC 2045 §6.8, wrapped at 76 chars per line
-                const invBodyB64 = btoa(unescape(encodeURIComponent(html))).match(/.{1,76}/g).join('\r\n');
-                const raw = [
+                // HTML body is ASCII-safe (all non-ASCII replaced with HTML entities).
+                // Use quoted-printable to encode any stray non-ASCII bytes.
+                const invRaw = [
                     `From: ${BANF_ORG} <${BANF_EMAIL}>`,
                     `To: ${name} <${member.email}>`,
                     `Subject: ${mimeEncodeHeader(subject)}`,
                     'MIME-Version: 1.0',
                     'Content-Type: text/html; charset=UTF-8',
-                    'Content-Transfer-Encoding: base64',
+                    'Content-Transfer-Encoding: quoted-printable',
                     '',
-                    invBodyB64
+                    html
+                        .replace(/([^\x00-\x7E])/g, c => '=' + c.charCodeAt(0).toString(16).toUpperCase().padStart(2,'0'))
+                        .replace(/=\?/g, '=3F')
+                        .match(/.{1,76}/g).join('=\r\n')
                 ].join('\r\n');
-                const encoded = btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                const encoded = btoa(unescape(encodeURIComponent(invRaw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                 await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
