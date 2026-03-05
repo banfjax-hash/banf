@@ -1476,6 +1476,16 @@
                 document.getElementById('userName').appendChild(badge);
             }
 
+            // Show EC Admin Portal link for EC members
+            if (member.isECMember) {
+                var ecLink = document.createElement('a');
+                ecLink.href = 'admin-portal.html';
+                ecLink.style.cssText = 'display:inline-block;margin-left:0.5rem;font-size:0.7rem;color:#006A4E;font-weight:600;text-decoration:none;';
+                ecLink.innerHTML = '<i class="fas fa-shield-alt" style="margin-right:3px"></i>EC Admin';
+                ecLink.title = 'Open EC Admin Portal';
+                document.getElementById('userName').appendChild(ecLink);
+            }
+
             // Show membership type in dashboard stat
             const membershipStat = document.querySelector('.stat-info h3');
             if (membershipStat && member.membershipType) {

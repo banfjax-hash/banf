@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>BANF - Super Admin Portal v2</title>
+<title>BANF Admin Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <style>
@@ -151,8 +151,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 <div class="login-overlay" id="login-screen">
   <div class="login-box">
     <div class="logo">B</div>
-    <h1>BANF Super Admin Portal</h1>
-    <div class="sub">Authorized access only — Executive Committee &amp; Super Administrator</div>
+    <h1 id="login-title">BANF Admin Portal</h1>
+    <div class="sub" id="login-subtitle">Authorized access — Executive Committee &amp; Administrators</div>
 
     <!-- ══ SCREEN 1: SIGN IN ══ -->
     <div class="auth-screen active" id="auth-signin">
@@ -175,7 +175,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <!-- ══ SCREEN 2: SIGN UP (Multi-Step) ══ -->
     <div class="auth-screen" id="auth-signup">
       <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
-      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Super Admin Sign Up</h1>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Admin Sign Up</h1>
 
       <!-- Step 1: Email — direct validation -->
       <div class="auth-step active" id="signup-step-1">
@@ -1273,8 +1273,12 @@ document.getElementById('login-email').addEventListener('keypress', e => {
 function enterPortal(displayName) {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('portal').style.display = 'flex';
-  var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || ['super-admin'];
-  var roleLabel = roles.includes('super-admin') ? 'Super Admin' : roles.includes('business-stakeholder') ? 'Stakeholder' : 'EC Admin';
+  var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || ['ec-member'];
+  var isSA = roles.some(function(r){ return r === 'super-admin' || r === 'super_admin'; });
+  var isSH = roles.some(function(r){ return r === 'business-stakeholder' || r === 'business_stakeholder'; });
+  var roleLabel = isSA ? 'Super Admin' : isSH ? 'Stakeholder' : 'EC Admin';
+  // Update page title dynamically based on role
+  document.title = isSA ? 'BANF Super Admin Portal' : isSH ? 'BANF Stakeholder Portal' : 'BANF EC Admin Portal';
   addLog('LOGIN', roleLabel + ' login — ' + displayName);
   // Update sidebar user display
   const nameEl = document.querySelector('.sb-user .name');

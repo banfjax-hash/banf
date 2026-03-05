@@ -165,14 +165,13 @@ select{appearance:auto}
       <div class="auth-step" id="signup-step-3">
         <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
         <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Account Created Successfully!</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your EC admin account is ready. A congratulations email has been sent with testing details.</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your EC account is ready. A congratulations email has been sent with your portal links.</div>
         <div style="background:var(--bg2);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.78rem;color:var(--text);text-align:left">
-          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Please verify these portals:</div>
-          <div style="margin:4px 0"><a href="https://banfjax-hash.github.io/banf/member-login.html" target="_blank" style="color:var(--accent)"><i class="fas fa-user me-1"></i>Member Login Portal</a></div>
-          <div style="margin:4px 0"><a href="https://banfjax-hash.github.io/banf/admin-portal.html" target="_blank" style="color:var(--red)"><i class="fas fa-shield-alt me-1"></i>EC Admin Portal</a></div>
+          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Your portals are ready:</div>
+          <div style="margin:4px 0"><a href="https://banfjax-hash.github.io/banf/member-login.html" target="_blank" style="color:var(--accent)"><i class="fas fa-user me-1"></i>Member Portal (sign in here)</a></div>
           <div style="margin:4px 0"><a href="https://www.jaxbengali.org" target="_blank" style="color:var(--green)"><i class="fas fa-globe me-1"></i>BANF Main Website</a></div>
         </div>
-        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Sign In Now</button>
       </div>
     </div>
 
@@ -478,7 +477,9 @@ function enterPortal(user, email) {
     memberId: 'EC-' + user.ecTitle.replace(/\s/g, ''), isECMember: true, role: user.ecTitle,
     memberSince: '2024'
   }));
-  window.location.href = 'admin-portal.html';
+  // Route based on role: super-admin/admin → admin portal; ec-member → member portal
+  var isSuperOrAdmin = user.roles && (user.roles.includes('super-admin') || user.roles.includes('admin'));
+  window.location.href = isSuperOrAdmin ? 'admin-portal.html' : 'member-portal.html';
 }
 
 // ── SIGN IN ──
@@ -793,7 +794,9 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const session = JSON.parse(existing);
       if (session.email && session.roles) {
-        window.location.href = 'admin-portal.html';
+        // Route based on role: super-admin/admin → admin portal, ec-member → member portal
+        var isSuperOrAdmin = session.roles.includes('super-admin') || session.roles.includes('admin');
+        window.location.href = isSuperOrAdmin ? 'admin-portal.html' : 'member-portal.html';
         return;
       }
     } catch (e) {}
