@@ -15,7 +15,7 @@ const HF_API_TOKEN = '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';
 const BANF_EMAIL = 'banfjax@gmail.com';
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';
-const GOOGLE_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
+const GOOGLE_REFRESH_TOKEN = '1//043SvrPmUfXwUCgYIARAAGAQSNwF-L9IrmO-MD0-4ult4fEofYmx_TDhjylHHdxZ-N3Yqo_-2lIhsmvyiYqhuJJGrZ3JAyZAgLuk';
 
 // ─────────────────────────────────────────
 // INTENT CLASSIFICATION (keyword-first, LLM fallback)

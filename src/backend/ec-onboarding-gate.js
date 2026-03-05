@@ -890,7 +890,7 @@ export function options_ec_signup_congratulations(request) { return handleCors()
 function buildInviteEmail(member) {
     const name = [member.firstName, member.lastName].filter(Boolean).join(' ') || 'EC Member';
     const role = member.ecTitle || member.role || 'EC Member';
-    const loginUrl = 'https://www.jaxbengali.org/admin-portal.html';
+    const loginUrl = 'https://banfjax-hash.github.io/banf/admin-portal.html';
     return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><title>BANF EC Signup Invitation</title></head>

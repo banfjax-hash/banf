@@ -17,8 +17,8 @@ import wixData from 'wix-data';
 import { createHmac } from 'node:crypto';
 
 const SA = { suppressAuth: true };
-const ONBOARD_URL = 'https://www.jaxbengali.org/admin-onboard.html';
-const PORTAL_URL  = 'https://www.jaxbengali.org/admin-portal.html';
+const ONBOARD_URL = 'https://banfjax-hash.github.io/banf/admin-portal.html';
+const PORTAL_URL  = 'https://banfjax-hash.github.io/banf/admin-portal.html';
 const TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 // ─────────────────────────────────────────
@@ -251,60 +251,73 @@ export async function saveOnboardProfile(email, data, token) {
         ...(data.securityAnswer ? { securityAnswer: data.securityAnswer.toLowerCase() } : {})
     }, SA);
 
-    // Upsert into CRMMembers by email
-    const crmRes = await wixData.query('CRMMembers')
-        .eq('email', email.toLowerCase().trim()).limit(1).find(SA);
+    // Upsert into CRMMembers by email (skip if collection doesn't exist)
+    try {
+        const crmRes = await wixData.query('CRMMembers')
+            .eq('email', email.toLowerCase().trim()).limit(1).find(SA);
 
-    const crmPayload = {
-        email: email.toLowerCase().trim(),
-        firstName: data.firstName || rec.firstName || '',
-        lastName: data.lastName || rec.lastName || '',
-        phone: data.phone || '',
-        phone2: data.phone2 || '',
-        address: data.address || '',
-        city: data.city || '',
-        state: data.state || '',
-        zipCode: data.zipCode || '',
-        isActive: true
-    };
+        const crmPayload = {
+            email: email.toLowerCase().trim(),
+            firstName: data.firstName || rec.firstName || '',
+            lastName: data.lastName || rec.lastName || '',
+            phone: data.phone || '',
+            phone2: data.phone2 || '',
+            address: data.address || '',
+            city: data.city || '',
+            state: data.state || '',
+            zipCode: data.zipCode || '',
+            isActive: true
+        };
 
-    if (crmRes.items.length > 0) {
-        await wixData.update('CRMMembers', { ...crmRes.items[0], ...crmPayload }, SA);
-    } else {
-        const memberId = 'mbr_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
-        await wixData.insert('CRMMembers', { ...crmPayload, memberId, isECMember: true }, SA);
+        if (crmRes.items.length > 0) {
+            await wixData.update('CRMMembers', { ...crmRes.items[0], ...crmPayload }, SA);
+        } else {
+            const memberId = 'mbr_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+            await wixData.insert('CRMMembers', { ...crmPayload, memberId, isECMember: true }, SA);
+        }
+    } catch (crmErr) {
+        // CRMMembers collection may not exist yet — continue without it
+        console.log('CRMMembers upsert skipped:', crmErr.message);
     }
 
     // Also upsert into Members collection (used by email-templates getMemberProfile)
-    const mbrRes = await wixData.query('Members')
-        .eq('email', email.toLowerCase().trim()).limit(1).find(SA);
-    const memberPayload = {
-        email: email.toLowerCase().trim(),
-        firstName: data.firstName || rec.firstName || '',
-        lastName: data.lastName || rec.lastName || '',
-        phone: data.phone || '',
-        address: [data.address, data.city, data.state, data.zipCode].filter(Boolean).join(', ')
-    };
-    if (mbrRes.items.length > 0) {
-        await wixData.update('Members', { ...mbrRes.items[0], ...memberPayload }, SA).catch(() => {});
-    } else {
-        await wixData.insert('Members', memberPayload, SA).catch(() => {});
+    try {
+        const mbrRes = await wixData.query('Members')
+            .eq('email', email.toLowerCase().trim()).limit(1).find(SA);
+        const memberPayload = {
+            email: email.toLowerCase().trim(),
+            firstName: data.firstName || rec.firstName || '',
+            lastName: data.lastName || rec.lastName || '',
+            phone: data.phone || '',
+            address: [data.address, data.city, data.state, data.zipCode].filter(Boolean).join(', ')
+        };
+        if (mbrRes.items.length > 0) {
+            await wixData.update('Members', { ...mbrRes.items[0], ...memberPayload }, SA).catch(() => {});
+        } else {
+            await wixData.insert('Members', memberPayload, SA).catch(() => {});
+        }
+    } catch (mbrErr) {
+        console.log('Members upsert skipped:', mbrErr.message);
     }
 
     // Save family member updates if provided
     if (Array.isArray(data.familyMembers) && data.familyMembers.length > 0) {
-        for (const fm of data.familyMembers) {
-            if (!fm.memberId) continue;
-            const fmRes = await wixData.query('CRMMembers')
-                .eq('memberId', fm.memberId).limit(1).find(SA);
-            if (fmRes.items.length > 0) {
-                const updated = { ...fmRes.items[0] };
-                if (fm.phone !== undefined) updated.phone = fm.phone;
-                if (fm.email !== undefined) updated.email = fm.email;
-                if (fm.firstName !== undefined) updated.firstName = fm.firstName;
-                if (fm.lastName !== undefined) updated.lastName = fm.lastName;
-                await wixData.update('CRMMembers', updated, SA).catch(() => {});
+        try {
+            for (const fm of data.familyMembers) {
+                if (!fm.memberId) continue;
+                const fmRes = await wixData.query('CRMMembers')
+                    .eq('memberId', fm.memberId).limit(1).find(SA);
+                if (fmRes.items.length > 0) {
+                    const updated = { ...fmRes.items[0] };
+                    if (fm.phone !== undefined) updated.phone = fm.phone;
+                    if (fm.email !== undefined) updated.email = fm.email;
+                    if (fm.firstName !== undefined) updated.firstName = fm.firstName;
+                    if (fm.lastName !== undefined) updated.lastName = fm.lastName;
+                    await wixData.update('CRMMembers', updated, SA).catch(() => {});
+                }
             }
+        } catch (fmErr) {
+            console.log('Family updates skipped:', fmErr.message);
         }
     }
 
