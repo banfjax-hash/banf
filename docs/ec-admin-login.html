@@ -292,28 +292,28 @@ const SQ_LABELS = {
   childhood_friend: 'What is the name of your childhood best friend?'
 };
 
-// ── EC MEMBER CREDENTIAL DATABASE ──
-// This page handles EC members ONLY (not super-admin or business-stakeholder).
+// ── UNIFIED CREDENTIAL DATABASE ──
+// All known admin/EC/stakeholder users. Same credentials work across all portals.
+// This page's enterPortal() gates for EC roles (admin / ec-member) specifically.
 // Super Admin login → admin-login.html | Stakeholder login → stakeholder-login.html
 // ─── EC ROLE HIERARCHY ───────────────────────────────────────────────────────
 // admin         → President, VP, Treasurer, General Secretary
-//                 Full operational: members, payments, CRM, email, agents
 // ec-member     → Coordinators: Cultural, Food, Event, Puja
-//                 Feature-specific: events, view reports, approve responses
 // ─────────────────────────────────────────────────────────────────────────────
 const AUTH_DB = {
-  // ─── REAL BANF EC ROSTER FY2026-27 (confirmed 2025-06-15) ───────────────
-  // WARNING: Do NOT use docs/admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
+  // ─── REAL BANF ROSTER FY2026-27 (confirmed 2025-06-15) ──────────────────
+  // WARNING: Do NOT use admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
 
-  // ── ADMIN — President & Senior EC Officers ───────────────────────────────
+  // ── MULTI-ROLE: President / Super Admin / Stakeholder / EC Admin ─────────
   'ranadhir.ghosh@gmail.com': {
     name: 'Dr. Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
-    roles: ['admin'], ecTitle: 'President',
+    roles: ['super-admin', 'business-stakeholder', 'admin'],
+    ecTitle: 'President',
     offlinePw: 'banf-super-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
 
-  // ── ADMIN — Other Senior EC Officers ─────────────────────────────────────
+  // ── ADMIN — Senior EC Officers ───────────────────────────────────────────
   'mukhopadhyay.partha@gmail.com': {
     name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
     roles: ['admin'], ecTitle: 'Vice President',
@@ -356,6 +356,20 @@ const AUTH_DB = {
     name: 'Rwiti Chowdhury', firstName: 'Rwiti', lastName: 'Chowdhury',
     roles: ['ec-member'], ecTitle: 'Puja Coordinator',
     offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+
+  // ── BUSINESS STAKEHOLDERS (shared credentials — same password works here) ──
+  'sponsor1@banf.org': {
+    name: 'BANF Test Sponsor', firstName: 'Test', lastName: 'Sponsor',
+    roles: ['business-stakeholder'], ecTitle: 'Business Sponsor (Test)',
+    offlinePw: 'banf-sh-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'banfjax@gmail.com': {
+    name: 'BANF Jacksonville', firstName: 'BANF', lastName: 'Admin',
+    roles: ['business-stakeholder'], ecTitle: 'Business Stakeholder / BANF Official',
+    offlinePw: 'banf-sh-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   }
 };
@@ -451,21 +465,32 @@ function resolveEmail(input) {
 }
 
 // ── ENTER PORTAL ──
-// All EC members (admin + ec-member) go to admin-portal.html (the EC Admin Portal).
-// admin-portal.html uses data-roles attributes to gate features by role.
-// Member portal is accessible from within admin-portal via sidebar link.
+// Role gate: this page is for EC members (admin / ec-member roles).
+// All user roles are PRESERVED in session so portal switching works.
+// admin-portal.html uses data-roles + effectiveRole to show EC Admin view.
 function enterPortal(user, email) {
-  // Force EC-level roles only — never super-admin from this page
-  var ecRoles = (user.roles || []).map(function(r) {
-    return (r === 'super-admin' || r === 'super_admin') ? 'admin' : r;
-  });
-  const session = {
+  var allRoles = user.roles || [];
+  // Gate: must have admin or ec-member role to enter via EC Admin login
+  var hasEC = allRoles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member'; });
+  if (!hasEC) {
+    if (allRoles.includes('business-stakeholder')) {
+      showError('login-error', '\u26D4 This portal is for EC members. Stakeholders please use the Stakeholder portal.');
+      var errEl = document.getElementById('login-error');
+      if (errEl) errEl.innerHTML += '<br><a href="stakeholder-login.html" style="color:var(--orange);font-weight:700">\u2192 Go to Stakeholder Login</a>';
+    } else {
+      showError('login-error', '\u26D4 This portal is for EC members only. Contact the Super Admin for access.');
+    }
+    return;
+  }
+  // Set EC-specific effectiveRole while preserving ALL user roles for portal switching
+  var effectiveRole = allRoles.includes('admin') ? 'admin' : 'ec-member';
+  var session = {
     email: email,
     name: user.name,
     firstName: user.firstName,
     lastName: user.lastName,
-    roles: ecRoles,
-    effectiveRole: ecRoles[0] || 'ec-member',
+    roles: allRoles,
+    effectiveRole: effectiveRole,
     ecTitle: user.ecTitle || '',
     loginTime: new Date().toISOString(),
     source: 'ec-admin-login'
@@ -478,7 +503,6 @@ function enterPortal(user, email) {
     memberId: 'EC-' + (user.ecTitle || '').replace(/\s/g, ''), isECMember: true, role: user.ecTitle,
     memberSince: '2024'
   }));
-  // ALL EC members go to admin-portal.html (the EC Admin Portal)
   window.location.href = 'admin-portal.html';
 }
 

@@ -22,6 +22,8 @@
             --gradient-primary: linear-gradient(135deg, #FF6B35, #DC143C);
             --gradient-green: linear-gradient(135deg, #006A4E, #00856F);
             --gradient-member: linear-gradient(135deg, #006A4E, #00856F);
+            --glass-bg: rgba(255,255,255,0.72);
+            --glass-border: rgba(255,255,255,0.35);
         }
         
         * {
@@ -30,20 +32,20 @@
         }
         
         body {
-            background: #f5f7fa;
+            background: linear-gradient(160deg, #eef2f7 0%, #f5f7fa 40%, #ecfdf5 100%);
             margin: 0;
             padding: 0;
         }
         
         /* ========== HEADER ========== */
         .portal-header {
-            background: var(--gradient-green);
+            background: linear-gradient(135deg, #064e3b 0%, #006A4E 40%, #00856F 100%);
             color: #fff;
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 30px rgba(0,106,78,0.3);
         }
         
         .portal-header .container {
@@ -116,8 +118,10 @@
         /* ========== SIDEBAR ========== */
         .sidebar {
             width: 280px;
-            background: #fff;
-            border-right: 1px solid #e0e0e0;
+            background: rgba(255,255,255,.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(0,106,78,.08);
             padding: 1.5rem 0;
             position: sticky;
             top: 80px;
@@ -160,6 +164,7 @@
         .nav-item.active {
             background: var(--gradient-green);
             color: #fff;
+            box-shadow: 0 4px 14px rgba(0,106,78,.35);
         }
         
         .nav-item i {
@@ -210,7 +215,10 @@
         }
         
         .stat-card {
-            background: #fff;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -234,6 +242,22 @@
             justify-content: center;
             font-size: 1.5rem;
             color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
         }
         
         .stat-icon.green { background: var(--gradient-green); }
@@ -262,18 +286,20 @@
         }
         
         .feature-card {
-            background: #fff;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            transition: all 0.35s cubic-bezier(.4,0,.2,1);
+            border: 1px solid var(--glass-border);
         }
         
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-            border-color: var(--banf-green);
+            box-shadow: 0 12px 30px rgba(0,106,78,0.15);
+            border-color: rgba(0,106,78,.35);
         }
         
         .feature-icon {
@@ -345,7 +371,10 @@
         
         /* ========== TABLES ========== */
         .data-table {
-            background: #fff;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -389,7 +418,10 @@
         
         /* ========== FORMS ========== */
         .form-card {
-            background: #fff;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -568,6 +600,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        @keyframes subtleGlow {
+            0%, 100% { box-shadow: 0 4px 30px rgba(0,106,78,0.3); }
+            50% { box-shadow: 0 4px 40px rgba(0,133,111,0.4); }
+        }
+        
+        .portal-header {
+            animation: subtleGlow 6s ease-in-out infinite;
+        }
+        
         .content-section.active {
             animation: fadeIn 0.4s ease;
         }
@@ -633,6 +674,77 @@
             font-weight: 600;
             cursor: pointer;
         }
+
+        /* ═══ PORTAL SWITCHER BAR ═══ */
+        .member-portal-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #064e3b, #065f46);
+            border-bottom: 1px solid rgba(255,255,255,.12);
+        }
+        .member-portal-bar .mpb-label {
+            font-size: .7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,.5);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .member-portal-bar .mpb-separator {
+            width: 1px;
+            height: 18px;
+            background: rgba(255,255,255,.15);
+            margin: 0 4px;
+        }
+        .member-portal-bar .mpb-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .mpb-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: .7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .25s ease;
+            border: 1px solid;
+            text-decoration: none;
+        }
+        .mpb-pill:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.2);
+        }
+        .mpb-pill.pill-member {
+            color: #fff;
+            border-color: rgba(255,255,255,.4);
+            background: rgba(255,255,255,.15);
+            font-weight: 800;
+            box-shadow: 0 0 8px rgba(255,255,255,.1);
+        }
+        .mpb-pill.pill-ec {
+            color: #93c5fd;
+            border-color: rgba(147,197,253,.3);
+            background: rgba(59,130,246,.08);
+        }
+        .mpb-pill.pill-stakeholder {
+            color: #d8b4fe;
+            border-color: rgba(216,180,254,.3);
+            background: rgba(168,85,247,.08);
+        }
+        .mpb-pill.pill-superadmin {
+            color: #fdba74;
+            border-color: rgba(253,186,116,.3);
+            background: rgba(249,115,22,.08);
+        }
     </style>
 </head>
 <body>
@@ -657,6 +769,9 @@
             </div>
         </div>
     </header>
+
+    <!-- Portal Switcher Bar -->
+    <div class="member-portal-bar" id="member-portal-bar" style="display:none"></div>
     
     <div class="portal-container">
         <!-- Sidebar Navigation -->
@@ -1439,6 +1554,47 @@
             }
         }
         
+        // ========== PORTAL SWITCHER BAR ==========
+        function buildMemberPortalBar(member) {
+            var bar = document.getElementById('member-portal-bar');
+            if (!bar) return;
+            
+            // Gather roles from admin session (if user logged into admin portals before or has roles)
+            var adminSession = null;
+            try { adminSession = JSON.parse(sessionStorage.getItem('banf_admin_session')); } catch(e) {}
+            
+            var roles = [];
+            if (adminSession && Array.isArray(adminSession.roles)) {
+                roles = adminSession.roles;
+            }
+            // Also infer from member data
+            if (member && member.isECMember && roles.indexOf('admin') === -1 && roles.indexOf('ec-member') === -1) {
+                roles.push('ec-member');
+            }
+            
+            // Always build the bar — Member pill is always shown as active
+            var pills = [];
+            pills.push('<span class="mpb-pill pill-member"><i class="fas fa-user"></i> Member Portal</span>');
+            
+            if (roles.indexOf('admin') !== -1 || roles.indexOf('ec-member') !== -1 || (member && member.isECMember)) {
+                pills.push('<a href="admin-portal.html" class="mpb-pill pill-ec"><i class="fas fa-shield-alt"></i> EC Admin</a>');
+            }
+            if (roles.indexOf('business-stakeholder') !== -1) {
+                pills.push('<a href="admin-portal.html" class="mpb-pill pill-stakeholder"><i class="fas fa-chart-line"></i> Stakeholder</a>');
+            }
+            if (roles.indexOf('super-admin') !== -1) {
+                pills.push('<a href="admin-portal.html" class="mpb-pill pill-superadmin"><i class="fas fa-crown"></i> Super Admin</a>');
+            }
+            
+            // Only show bar if user has additional portal access
+            if (pills.length <= 1) { bar.style.display = 'none'; return; }
+            
+            bar.innerHTML = '<span class="mpb-label"><i class="fas fa-exchange-alt"></i> PORTALS</span>' +
+                            '<span class="mpb-separator"></span>' +
+                            '<div class="mpb-pills">' + pills.join('') + '</div>';
+            bar.style.display = 'flex';
+        }
+        
         // ========== MEMBER DATA ==========
         function loadMemberData() {
             // Check for stored member data
@@ -1475,6 +1631,9 @@
                 badge.textContent = 'EC Member';
                 document.getElementById('userName').appendChild(badge);
             }
+
+            // Build portal switcher bar based on session roles
+            buildMemberPortalBar(member);
 
             // Show EC Admin Portal link for EC members
             if (member.isECMember) {

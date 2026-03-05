@@ -143,6 +143,70 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 .privacy-banner i{margin-top:2px}
 
 @media(max-width:900px){.sidebar{width:52px}.sidebar .sb-group,.sidebar .sb-brand small,.sidebar .sb-user .name,.sidebar .sb-user .role-lbl,.sb-item span{display:none}.sb-item{padding:10px;justify-content:center}.sb-item i{width:auto}.main-content{margin-left:52px;padding:12px}}
+
+/* ═══ PORTAL NAVIGATION BAR ═══ */
+.portal-top-bar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:12px 20px;margin:-20px -28px 20px;
+  background:linear-gradient(135deg,rgba(15,23,42,.95),rgba(30,41,59,.85));
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:50;
+}
+.portal-top-bar .ptb-label{
+  font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--dim);
+  display:flex;align-items:center;gap:6px;
+}
+.portal-top-bar .ptb-pills{display:flex;gap:6px;flex-wrap:wrap}
+.ptb-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 14px;border-radius:999px;font-size:.72rem;font-weight:600;
+  cursor:pointer;transition:all .25s ease;border:1px solid;text-decoration:none;
+  position:relative;overflow:hidden;
+}
+.ptb-pill::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;border-radius:999px}
+.ptb-pill:hover{transform:translateY(-1px);filter:brightness(1.2)}
+.ptb-pill:hover::before{opacity:.08;background:currentColor}
+.ptb-pill.pill-member{color:#22c55e;border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.ptb-pill.pill-ec{color:#3b82f6;border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.ptb-pill.pill-stakeholder{color:#a855f7;border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.06)}
+.ptb-pill.pill-superadmin{color:#f97316;border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.06)}
+.ptb-pill.ptb-active{
+  box-shadow:0 0 12px rgba(255,255,255,.08),0 0 4px currentColor;
+  font-weight:800;border-width:2px;
+  animation:ptb-glow 2s ease-in-out infinite alternate;
+}
+@keyframes ptb-glow{0%{box-shadow:0 0 8px rgba(255,255,255,.05),0 0 3px currentColor}100%{box-shadow:0 0 14px rgba(255,255,255,.1),0 0 6px currentColor}}
+.ptb-separator{width:1px;height:20px;background:var(--line2);margin:0 4px}
+
+/* ═══ FUTURISTIC ENHANCEMENTS ═══ */
+.sb-brand h2{
+  background:linear-gradient(135deg,#f97316,#fb923c,#fbbf24);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:brand-shift 4s ease-in-out infinite alternate;
+}
+@keyframes brand-shift{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(15deg)}}
+.role-identity{transition:all .4s ease}
+.card-a{transition:border-color .3s,box-shadow .3s}
+.card-a:hover{border-color:rgba(249,115,22,.18);box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.sb-item{transition:all .2s ease}
+.sb-item.active{position:relative}
+.sb-item.active::after{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:60%;border-radius:0 3px 3px 0;
+  background:var(--accent);box-shadow:0 0 8px var(--accent);
+}
+
+/* ═══ ROLE-SPECIFIC THEME VARS ═══ */
+body.theme-ec{--role-accent:#3b82f6;--role-accent2:#60a5fa;--role-glow:rgba(59,130,246,.15)}
+body.theme-stakeholder{--role-accent:#a855f7;--role-accent2:#c084fc;--role-glow:rgba(168,85,247,.15)}
+body.theme-superadmin{--role-accent:#f97316;--role-accent2:#fb923c;--role-glow:rgba(249,115,22,.15)}
+
+/* When role theme active, tint certain elements */
+body[class*="theme-"] .portal-top-bar{border-bottom-color:var(--role-accent,var(--line))}
+body[class*="theme-"] .sb-item.active{border-left-color:var(--role-accent,var(--accent))}
+body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--accent));box-shadow:0 0 8px var(--role-accent,var(--accent))}
+
 </style>
 </head>
 <body>
@@ -345,6 +409,10 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
   <div class="main-content">
 
     <!-- â•â•â•â•â•â•â• DASHBOARD PANEL â•â•â•â•â•â•â• -->
+    <!-- PERSISTENT PORTAL NAVIGATION BAR -->
+    <div class="portal-top-bar" id="portal-top-bar" style="display:none">
+    </div>
+
     <div class="portal-section active" id="panel-dashboard">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Control Center</div>
       <div class="kpi-grid" id="dash-kpis"></div>
@@ -379,16 +447,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
           <a href="https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html" target="_blank" class="btn-secondary"><i class="fas fa-route me-1"></i>Requirements Journey</a>
           <a href="https://www.jaxbengali.org" target="_blank" class="btn-secondary"><i class="fas fa-globe me-1"></i>Live Site</a>
         </div>
-        <!-- Super Admin Quick Links: Portal Switcher -->
+        <!-- Dynamic Portal Switcher — visible to ALL authenticated users -->
         <div id="portal-switcher" style="margin-top:14px;padding:14px;background:rgba(249,115,22,.04);border:1px solid var(--line);border-radius:10px;display:none">
-          <div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:10px"><i class="fas fa-exchange-alt me-1"></i>Portal Quick Links</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <a href="member-login.html" target="_blank" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-user me-1"></i>Member Portal</a>
-            <a href="#" onclick="switchView('ec-member');return false" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-users-cog me-1"></i>EC Admin View</a>
-            <a href="#" onclick="switchView('business-stakeholder');return false" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-bullhorn me-1"></i>Stakeholder View</a>
-            <a href="#" onclick="switchView('super-admin');return false" class="btn-secondary" style="font-size:.78rem"><i class="fas fa-shield-alt me-1"></i>Full Super Admin</a>
-          </div>
-          <div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-info-circle me-1"></i>Switch views to preview each role's portal experience. Same credentials, different feature visibility.</div>
+          <!-- Populated dynamically by updatePortalSwitcher() -->
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.78rem;color:var(--muted);">
           <i class="fas fa-info-circle me-1" style="color:var(--accent)"></i>
@@ -1285,10 +1346,34 @@ function enterPortal(displayName) {
   var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || ['ec-member'];
   var isSA = roles.some(function(r){ return r === 'super-admin' || r === 'super_admin'; });
   var isSH = roles.some(function(r){ return r === 'business-stakeholder' || r === 'business_stakeholder'; });
-  var roleLabel = isSA ? 'Super Admin' : isSH ? 'Stakeholder' : 'EC Admin';
-  // Update page title dynamically based on role
-  document.title = isSA ? 'BANF Super Admin Portal' : isSH ? 'BANF Stakeholder Portal' : 'BANF EC Admin Portal';
+  var isEC = roles.some(function(r){ return r === 'admin' || r === 'ec-member' || r === 'ec_member'; });
+  // Determine initial view from login source
+  var session = null;
+  try { session = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}'); } catch(e) {}
+  var src = (session && session.source) || '';
+  var effectiveRole = (session && session.effectiveRole) || roles[0];
+  // Set initial view based on login source
+  if (src === 'ec-admin-login') {
+    CURRENT_VIEW = 'admin';
+    effectiveRole = roles.includes('admin') ? 'admin' : 'ec-member';
+  } else if (src === 'stakeholder-login') {
+    CURRENT_VIEW = 'business-stakeholder';
+    effectiveRole = 'business-stakeholder';
+  } else if (src === 'admin-login') {
+    CURRENT_VIEW = 'super-admin';
+    effectiveRole = 'super-admin';
+  } else {
+    CURRENT_VIEW = isSA ? 'super-admin' : isSH ? 'business-stakeholder' : 'admin';
+  }
+  var roleLabel = CURRENT_VIEW === 'super-admin' ? 'Super Admin' : CURRENT_VIEW === 'business-stakeholder' ? 'Stakeholder' : 'EC Admin';
+  // Update page title dynamically based on effective view
+  document.title = CURRENT_VIEW === 'super-admin' ? 'BANF Super Admin Portal' : CURRENT_VIEW === 'business-stakeholder' ? 'BANF Stakeholder Portal' : 'BANF EC Admin Portal';
   addLog('LOGIN', roleLabel + ' login — ' + displayName);
+  // Apply role theme class
+  document.body.classList.remove('theme-ec','theme-stakeholder','theme-superadmin');
+  if (CURRENT_VIEW === 'admin' || CURRENT_VIEW === 'ec-member') document.body.classList.add('theme-ec');
+  else if (CURRENT_VIEW === 'business-stakeholder') document.body.classList.add('theme-stakeholder');
+  else if (CURRENT_VIEW === 'super-admin') document.body.classList.add('theme-superadmin');
   // Update sidebar user display
   const nameEl = document.querySelector('.sb-user .name');
   if (nameEl) nameEl.textContent = displayName;
@@ -1297,8 +1382,10 @@ function enterPortal(displayName) {
     const initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
     avatarEl.textContent = initials;
   }
-  // Apply role-based sidebar visibility
-  applyRoleVisibility(roles);
+  // Apply role-based sidebar visibility using the effective view role
+  applyRoleVisibility([effectiveRole]);
+  // Build portal navigation bar and switcher
+  buildPortalTopBar();
   renderAll();
 }
 
@@ -1306,9 +1393,13 @@ function enterPortal(displayName) {
 document.querySelector('.sb-user').addEventListener('click', () => {
   if (confirm('Logout?')) {
     CURRENT_ADMIN = null;
+    CURRENT_VIEW = null;
     sessionStorage.removeItem('banf_admin_session');
+    document.body.classList.remove('theme-ec','theme-stakeholder','theme-superadmin');
     document.getElementById('portal').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
+    var topBar = document.getElementById('portal-top-bar');
+    if (topBar) topBar.style.display = 'none';
     document.getElementById('login-pass').value = '';
     showAuth('signin');
   }
@@ -1334,27 +1425,91 @@ document.querySelector('.sb-user').addEventListener('click', () => {
   } catch (e) { console.warn('Session parse error:', e); }
 })();
 
-// ═══ SUPER ADMIN VIEW SWITCHER ═══
-// Allows super-admin to preview the portal as different roles
+// ═══ PORTAL VIEW SWITCHER — Available to ALL authenticated users ═══
+// Each user can switch between portal views matching their roles.
+// e.g. ranadhir (super-admin + stakeholder + admin) sees all 3 views + member portal.
+var CURRENT_VIEW = null; // tracks which view is active: 'ec-member','business-stakeholder','super-admin'
+
 function switchView(roleId) {
   if (!CURRENT_ADMIN) return;
+  CURRENT_VIEW = roleId;
   applyRoleVisibility([roleId]);
+  // Apply role-specific body theme class
+  document.body.classList.remove('theme-ec','theme-stakeholder','theme-superadmin');
+  if (roleId === 'ec-member' || roleId === 'admin') document.body.classList.add('theme-ec');
+  else if (roleId === 'business-stakeholder') document.body.classList.add('theme-stakeholder');
+  else if (roleId === 'super-admin') document.body.classList.add('theme-superadmin');
   // Show toast
   var t = document.createElement('div');
-  var rn = roleId === 'super-admin' ? 'Super Admin (Full Access)' : roleId === 'business-stakeholder' ? 'Stakeholder View' : 'EC Admin View';
-  t.style.cssText = 'position:fixed;top:20px;right:20px;background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:12px 20px;z-index:99999;font-size:.82rem;color:var(--accent);box-shadow:0 8px 30px rgba(0,0,0,.3)';
+  var rn = roleId === 'super-admin' ? 'Super Admin Portal' : roleId === 'business-stakeholder' ? 'Stakeholder Portal' : 'EC Admin Portal';
+  var tc = roleId === 'super-admin' ? '#f97316' : roleId === 'business-stakeholder' ? '#a855f7' : '#3b82f6';
+  t.style.cssText = 'position:fixed;top:20px;right:20px;background:rgba(17,24,39,.95);backdrop-filter:blur(12px);border:1px solid ' + tc + ';border-radius:12px;padding:14px 22px;z-index:99999;font-size:.82rem;color:' + tc + ';box-shadow:0 8px 30px rgba(0,0,0,.4);animation:fadeIn .3s ease';
   t.innerHTML = '<i class="fas fa-exchange-alt me-1"></i>Switched to <strong>' + rn + '</strong>';
   document.body.appendChild(t);
   setTimeout(function(){t.remove()},2500);
+  // Rebuild portal top bar to update active pill
+  buildPortalTopBar();
+  updatePortalSwitcher();
   // Return to dashboard
   navTo('dashboard');
 }
 
-// Show portal switcher only for super-admin
+// ═══ DYNAMIC PORTAL SWITCHER (Dashboard Cards) ═══
+// Visible to ALL authenticated users. Shows only portals matching their roles.
 function updatePortalSwitcher() {
   var el = document.getElementById('portal-switcher');
-  if (!el) return;
-  el.style.display = (CURRENT_ADMIN && CURRENT_ADMIN.roles && CURRENT_ADMIN.roles.includes('super-admin')) ? 'block' : 'none';
+  if (!el || !CURRENT_ADMIN || !CURRENT_ADMIN.roles) return;
+  var roles = CURRENT_ADMIN.roles;
+  var hasEC = roles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member'; });
+  var hasSH = roles.some(function(r) { return r === 'business-stakeholder' || r === 'business_stakeholder'; });
+  var hasSA = roles.some(function(r) { return r === 'super-admin' || r === 'super_admin'; });
+  // Always show — every authenticated user has at least 1 role + member portal
+  el.style.display = 'block';
+  var btns = [];
+  btns.push('<a href="member-portal.html" class="btn-secondary" style="font-size:.78rem;border-color:rgba(34,197,94,.3);color:#22c55e"><i class="fas fa-user me-1"></i>Member Portal</a>');
+  if (hasEC) btns.push('<a href="#" onclick="switchView(\'admin\');return false" class="btn-secondary" style="font-size:.78rem;border-color:rgba(59,130,246,.3);color:#3b82f6"><i class="fas fa-users-cog me-1"></i>EC Admin</a>');
+  if (hasSH) btns.push('<a href="#" onclick="switchView(\'business-stakeholder\');return false" class="btn-secondary" style="font-size:.78rem;border-color:rgba(168,85,247,.3);color:#a855f7"><i class="fas fa-bullhorn me-1"></i>Stakeholder</a>');
+  if (hasSA) btns.push('<a href="#" onclick="switchView(\'super-admin\');return false" class="btn-secondary" style="font-size:.78rem;border-color:rgba(249,115,22,.3);color:#f97316"><i class="fas fa-shield-alt me-1"></i>Super Admin</a>');
+  el.innerHTML = '<div style="font-size:.82rem;font-weight:700;color:var(--accent);margin-bottom:10px"><i class="fas fa-exchange-alt me-1"></i>Switch Portal View</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">' + btns.join('') + '</div>' +
+    '<div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-info-circle me-1"></i>Same credentials, different portal experience. Switch between your authorized roles.</div>';
+}
+
+// ═══ PERSISTENT PORTAL TOP BAR ═══
+// Builds the sticky top navigation with role pills
+function buildPortalTopBar() {
+  var bar = document.getElementById('portal-top-bar');
+  if (!bar || !CURRENT_ADMIN || !CURRENT_ADMIN.roles) return;
+  bar.style.display = 'flex';
+  var roles = CURRENT_ADMIN.roles;
+  var hasEC = roles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member'; });
+  var hasSH = roles.some(function(r) { return r === 'business-stakeholder' || r === 'business_stakeholder'; });
+  var hasSA = roles.some(function(r) { return r === 'super-admin' || r === 'super_admin'; });
+  // Determine which view is currently active
+  var activeView = CURRENT_VIEW;
+  if (!activeView) {
+    var session = null;
+    try { session = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}'); } catch(e) {}
+    var src = (session && session.source) || '';
+    if (src === 'ec-admin-login') activeView = 'ec';
+    else if (src === 'stakeholder-login') activeView = 'stakeholder';
+    else if (src === 'admin-login') activeView = 'super-admin';
+    else activeView = hasSA ? 'super-admin' : hasEC ? 'ec' : 'stakeholder';
+  } else {
+    if (activeView === 'admin' || activeView === 'ec-member') activeView = 'ec';
+    else if (activeView === 'business-stakeholder') activeView = 'stakeholder';
+  }
+  var pills = [];
+  pills.push('<a href="member-portal.html" class="ptb-pill pill-member"><i class="fas fa-user"></i> Member</a>');
+  if (hasEC) pills.push('<a href="#" onclick="switchView(\'admin\');return false" class="ptb-pill pill-ec' + (activeView === 'ec' ? ' ptb-active' : '') + '"><i class="fas fa-users-cog"></i> EC Admin</a>');
+  if (hasSH) pills.push('<a href="#" onclick="switchView(\'business-stakeholder\');return false" class="ptb-pill pill-stakeholder' + (activeView === 'stakeholder' ? ' ptb-active' : '') + '"><i class="fas fa-bullhorn"></i> Stakeholder</a>');
+  if (hasSA) pills.push('<a href="#" onclick="switchView(\'super-admin\');return false" class="ptb-pill pill-superadmin' + (activeView === 'super-admin' ? ' ptb-active' : '') + '"><i class="fas fa-shield-alt"></i> Super Admin</a>');
+  var totalPortals = (hasEC ? 1 : 0) + (hasSH ? 1 : 0) + (hasSA ? 1 : 0) + 1; // +1 for member
+  bar.innerHTML =
+    '<div class="ptb-label"><i class="fas fa-th-large"></i> PORTALS</div>' +
+    '<div class="ptb-separator"></div>' +
+    '<div class="ptb-pills">' + pills.join('') + '</div>' +
+    (totalPortals > 1 ? '<div style="margin-left:auto;font-size:.65rem;color:var(--dim)">' + totalPortals + ' portals available</div>' : '');
 }
 
 // ── SIGN UP FLOW (4 steps: email → code → password+SQ → success) ──

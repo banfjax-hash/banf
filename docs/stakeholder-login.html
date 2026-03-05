@@ -250,10 +250,66 @@ const SQ_LABELS = {
   childhood_friend: 'What is the name of your childhood best friend?'
 };
 
-// ── STAKEHOLDER CREDENTIAL DATABASE ──
-// Business stakeholders and sponsors only.
+// ── UNIFIED CREDENTIAL DATABASE ──
+// All known admin/EC/stakeholder users. Same credentials work across all portals.
+// This page's enterPortal() gates for business-stakeholder role specifically.
 // EC Members → ec-admin-login.html, Super Admin → admin-login.html
 const AUTH_DB = {
+  // ── MULTI-ROLE: President / Super Admin / Stakeholder / EC Admin ─────────
+  'ranadhir.ghosh@gmail.com': {
+    name: 'Dr. Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
+    roles: ['super-admin', 'business-stakeholder', 'admin'],
+    ecTitle: 'President',
+    offlinePw: 'banf-super-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+
+  // ── ADMIN — Senior EC Officers ───────────────────────────────────────────
+  'mukhopadhyay.partha@gmail.com': {
+    name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
+    roles: ['admin'], ecTitle: 'Vice President',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'amit.chandak@gmail.com': {
+    name: 'Amit Chandak', firstName: 'Amit', lastName: 'Chandak',
+    roles: ['admin'], ecTitle: 'Treasurer',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'rajanya.ghosh@gmail.com': {
+    name: 'Rajanya Ghosh', firstName: 'Rajanya', lastName: 'Ghosh',
+    roles: ['admin'], ecTitle: 'General Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+
+  // ── EC MEMBER — Coordinators ─────────────────────────────────────────────
+  'moumita.mukherje@gmail.com': {
+    name: 'Dr. Moumita Ghosh', firstName: 'Moumita', lastName: 'Ghosh',
+    roles: ['ec-member'], ecTitle: 'Cultural Secretary',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'duttasoumyajit86@gmail.com': {
+    name: 'Soumyajit Dutta', firstName: 'Soumyajit', lastName: 'Dutta',
+    roles: ['ec-member'], ecTitle: 'Food Coordinator',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'sumo475@gmail.com': {
+    name: 'Dr. Sumanta Ghosh', firstName: 'Sumanta', lastName: 'Ghosh',
+    roles: ['ec-member'], ecTitle: 'Event Coordinator',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'rwitichoudhury@gmail.com': {
+    name: 'Rwiti Chowdhury', firstName: 'Rwiti', lastName: 'Chowdhury',
+    roles: ['ec-member'], ecTitle: 'Puja Coordinator',
+    offlinePw: 'banf-ec-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+
   // ── BUSINESS STAKEHOLDERS ─────────────────────────────────────────────────
   'sponsor1@banf.org': {
     name: 'BANF Test Sponsor', firstName: 'Test', lastName: 'Sponsor',
@@ -357,11 +413,13 @@ function resolveEmail(input) {
 }
 
 // ── ENTER PORTAL ──
-// Role gate: this portal is for BUSINESS STAKEHOLDERS ONLY.
+// Role gate: this portal is for BUSINESS STAKEHOLDERS.
+// All user roles are PRESERVED in session so portal switching works.
 // EC members → ec-admin-login.html, Super Admin → admin-login.html
 function enterPortal(user, email) {
-  if (!user.roles.includes('business-stakeholder')) {
-    if (user.roles.includes('super-admin')) {
+  var allRoles = user.roles || [];
+  if (!allRoles.includes('business-stakeholder')) {
+    if (allRoles.some(function(r) { return r === 'super-admin' || r === 'super_admin'; })) {
       showError('login-error',
         '\u26D4 This portal is for Business Stakeholders only. Super Admin please use the Super Admin portal.');
       var errEl = document.getElementById('login-error');
@@ -370,7 +428,7 @@ function enterPortal(user, email) {
           '<br><a href="admin-login.html" style="color:var(--red);font-weight:700">' +
           '\u2192 Go to Super Admin Login</a>';
       }
-    } else {
+    } else if (allRoles.some(function(r) { return r === 'admin' || r === 'ec-member'; })) {
       showError('login-error',
         '\u26D4 This portal is for Business Stakeholders only. EC members please use the EC Admin portal.');
       var errEl = document.getElementById('login-error');
@@ -379,6 +437,8 @@ function enterPortal(user, email) {
           '<br><a href="ec-admin-login.html" style="color:var(--blue);font-weight:700">' +
           '\u2192 Go to EC Admin Login</a>';
       }
+    } else {
+      showError('login-error', '\u26D4 This portal is for Business Stakeholders only. Contact the Super Admin for access.');
     }
     return;
   }
@@ -387,7 +447,7 @@ function enterPortal(user, email) {
     name: user.name,
     firstName: user.firstName,
     lastName: user.lastName,
-    roles: user.roles,
+    roles: allRoles,
     effectiveRole: 'business-stakeholder',
     ecTitle: user.ecTitle || 'Business Stakeholder',
     loginTime: new Date().toISOString(),
