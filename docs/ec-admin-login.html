@@ -95,6 +95,7 @@ select{appearance:auto}
       <div class="info-msg" id="login-info"></div>
       <div class="auth-links">
         <a onclick="showAuth('forgot')"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+        <a onclick="showAuth('forgot-username')"><i class="fas fa-user-question me-1"></i>Forgot Email?</a>
         <a onclick="showAuth('signup')"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
       </div>
       <div style="margin-top:14px;font-size:.7rem;color:var(--dim);text-align:center">
@@ -102,11 +103,13 @@ select{appearance:auto}
       </div>
 
       <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Test Account</div>
-        <div>EC Admin: <code>ranadhir.ghosh@gmail.com</code> / <code>banf-ec-2026</code></div>
-        <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">Any EC member email with their password will work.</div>
-        <div class="ec-member-list">
-          <strong>EC Emails:</strong> ranadhir.ghosh@gmail.com, mukhopadhyay.partha@gmail.com, amit.chandak@gmail.com, rajanya.ghosh@gmail.com, moumita.mukherje@gmail.com, duttasoumyajit86@gmail.com, sumo475@gmail.com, rwitichoudhury@gmail.com
+        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Default Offline Passwords (before first signup)</div>
+        <div style="margin-top:2px"><span style="color:var(--red);font-size:.68rem">Super Admin:</span> <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
+        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">EC Admin (VP/Treasurer/Sec):</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
+        <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">EC Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
+        <div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>After first signup, use your chosen password.</div>
+        <div class="ec-member-list" style="margin-top:6px">
+          <strong>Real EC Emails:</strong> ranadhir.ghosh@gmail.com · mukhopadhyay.partha@gmail.com · amit.chandak@gmail.com · rajanya.ghosh@gmail.com · moumita.mukherje@gmail.com · duttasoumyajit86@gmail.com · sumo475@gmail.com · rwitichoudhury@gmail.com
         </div>
       </div>
     </div>
@@ -228,6 +231,43 @@ select{appearance:auto}
         <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
       </div>
     </div>
+
+    <!-- ══ FORGOT EMAIL / USERNAME ══ -->
+    <div class="auth-screen" id="auth-forgot-username">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:4px"><i class="fas fa-user-question me-1"></i>Forgot Your EC Email?</h1>
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px">Enter your full name as registered and we'll find your account.</div>
+
+      <!-- Step 1: Name lookup -->
+      <div class="auth-step active" id="fu-step-1">
+        <div class="field-label">Your Full Name (first + last)</div>
+        <input type="text" id="fu-name" placeholder="e.g. Partha Mukhopadhyay">
+        <button class="btn-login" onclick="fuStep1()"><i class="fas fa-search"></i>Find My Account</button>
+        <div class="error-msg" id="fu-error-1"></div>
+        <div class="info-msg" id="fu-info-1"></div>
+      </div>
+
+      <!-- Step 2: Verify code sent to found email -->
+      <div class="auth-step" id="fu-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found! A verification code was sent to <strong id="fu-masked-email"></strong></div>
+        <div class="field-label">Enter 6-Digit Code</div>
+        <input type="text" id="fu-code" placeholder="Enter code" maxlength="6" style="text-align:center;letter-spacing:6px;font-size:1.2rem;font-weight:700">
+        <button class="btn-login" onclick="fuStep2()"><i class="fas fa-check-circle"></i>Verify & Reveal Email</button>
+        <div class="error-msg" id="fu-error-2"></div>
+        <div class="info-msg" id="fu-info-2"></div>
+        <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">Code expires in 10 min. <a href="#" onclick="fuResend();return false" style="color:var(--accent)">Resend</a></div>
+      </div>
+
+      <!-- Step 3: Show full email -->
+      <div class="auth-step" id="fu-step-3">
+        <div style="font-size:1.5rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-envelope-open-text"></i></div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:6px;text-align:center">Email Address Found!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px;text-align:center">Your BANF EC Admin email is:</div>
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;font-size:1rem;font-weight:700;color:var(--accent)" id="fu-revealed-email"></div>
+        <div style="margin-top:12px;font-size:.75rem;color:var(--dim);text-align:center">Use this email to sign in. Same credentials work across EC Admin and Member portals.</div>
+        <button class="btn-login" style="margin-top:14px" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+      </div>
+    </div>
   </div>
 
   <div class="bottom-links">
@@ -346,6 +386,10 @@ function showAuth(screen) {
   if (screen === 'forgot') {
     document.querySelectorAll('#auth-forgot .auth-step').forEach(s => s.classList.remove('active'));
     document.getElementById('forgot-step-1').classList.add('active');
+  }
+  if (screen === 'forgot-username') {
+    document.querySelectorAll('#auth-forgot-username .auth-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('fu-step-1').classList.add('active');
   }
   document.querySelectorAll('.error-msg,.success-msg,.info-msg').forEach(m => m.style.display = 'none');
 }
@@ -574,6 +618,8 @@ async function signupStep3() {
       user.securityQ = sq;
       user.securityA = sa.toLowerCase();
     }
+    // Persist to localStorage so member-login.html can verify same credentials
+    _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
     showStep('signup', 4);
     return;
   }
@@ -582,6 +628,8 @@ async function signupStep3() {
   if (!pwResult.success) return showError('signup-error-3', pwResult.error || 'Failed to set password.');
   await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() });
   await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token });
+  // Persist to localStorage for cross-portal credential sharing
+  _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
   showStep('signup', 4);
 }
 
@@ -656,13 +704,110 @@ async function forgotStep3() {
 
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
+    // Persist updated password to localStorage so all portals see the change
+    _saveCredsToLocalStorage(
+      FORGOT_STATE.email, pass,
+      FORGOT_STATE.user.securityQ || '',
+      FORGOT_STATE.user.securityA || ''
+    );
     showStep('forgot', 4);
     return;
   }
 
   const result = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: FORGOT_STATE.resetToken, password: pass });
   if (!result.success) return showError('forgot-error-3', result.error || 'Failed to reset password.');
+  // Persist to localStorage for cross-portal access
+  _saveCredsToLocalStorage(FORGOT_STATE.email, pass, '', '');
   showStep('forgot', 4);
+}
+
+// ── CREDENTIAL PERSISTENCE (cross-portal shared auth) ──
+// Saves EC credentials to localStorage keyed by email so member-login.html
+// can verify the same password without needing the Wix backend.
+function _saveCredsToLocalStorage(email, password, sq, sa) {
+  const key = 'banf_ec_creds_' + email.toLowerCase();
+  localStorage.setItem(key, JSON.stringify({
+    email: email.toLowerCase(),
+    password,            // plaintext offline — same auth model as offlinePw
+    securityQ: sq,
+    securityA: sa,
+    savedAt: new Date().toISOString()
+  }));
+}
+
+// ── FORGOT USERNAME — Find EC email by name ──
+let FU_STATE = {};
+
+// Helper: show a step inside the forgot-username screen
+function fuShowStep(num) {
+  document.querySelectorAll('#auth-forgot-username .auth-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('fu-step-' + num).classList.add('active');
+}
+
+async function fuStep1() {
+  const nameInput = (document.getElementById('fu-name').value || '').trim().toLowerCase();
+  hideMsg('fu-error-1'); hideMsg('fu-info-1');
+  if (!nameInput || nameInput.length < 3) return showError('fu-error-1', 'Please enter your first and last name.');
+
+  // Search AUTH_DB for a name match
+  const match = Object.entries(AUTH_DB).find(([email, user]) => {
+    const fullName = (user.firstName + ' ' + user.lastName).toLowerCase();
+    const reversed = (user.lastName + ' ' + user.firstName).toLowerCase();
+    return fullName.includes(nameInput) || reversed.includes(nameInput) ||
+           user.name.toLowerCase().includes(nameInput);
+  });
+
+  if (!match) {
+    return showError('fu-error-1', 'No EC account found for that name. Check spelling or contact Super Admin (banfjax@gmail.com).');
+  }
+
+  const [email, user] = match;
+  FU_STATE = { email, user, offlineMode: true };
+
+  // Mask the email: pa***@gmail.com
+  const [localPart, domain] = email.split('@');
+  const masked = localPart.slice(0,2) + '***@' + domain;
+  document.getElementById('fu-masked-email').textContent = masked;
+
+  showInfo('fu-info-1', 'Sending verification code...');
+  const result = await apiCall('admin_signup_send_code', { email });
+  hideMsg('fu-info-1');
+
+  if (!result.success) {
+    FU_STATE.offlineMode = true;
+    showInfo('fu-info-1', 'Offline mode: use code 123456');
+    setTimeout(() => fuShowStep(2), 1500);
+  } else {
+    FU_STATE.offlineMode = false;
+    fuShowStep(2);
+  }
+}
+
+async function fuResend() {
+  hideMsg('fu-error-2'); hideMsg('fu-info-2');
+  showInfo('fu-info-2', 'Resending code...');
+  const result = await apiCall('admin_signup_send_code', { email: FU_STATE.email });
+  hideMsg('fu-info-2');
+  if (result.success) showInfo('fu-info-2', 'New code sent!');
+  else showInfo('fu-info-2', 'Offline mode: use code 123456');
+}
+
+async function fuStep2() {
+  const code = (document.getElementById('fu-code').value || '').trim();
+  hideMsg('fu-error-2'); hideMsg('fu-info-2');
+  if (!code || code.length !== 6) return showError('fu-error-2', 'Enter the 6-digit code.');
+
+  if (FU_STATE.offlineMode) {
+    if (code !== '123456') return showError('fu-error-2', 'Invalid code. Use 123456 for offline mode.');
+  } else {
+    showInfo('fu-info-2', 'Verifying...');
+    const result = await apiCall('admin_signup_verify_code', { email: FU_STATE.email, code });
+    hideMsg('fu-info-2');
+    if (!result.success) return showError('fu-error-2', result.error || 'Invalid code.');
+  }
+
+  document.getElementById('fu-revealed-email').textContent = FU_STATE.email;
+  fuShowStep(3);
 }
 
 // ── AUTO-LOGIN CHECK + URL PARAM HANDLER ──

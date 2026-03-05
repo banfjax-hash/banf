@@ -427,13 +427,31 @@ function resolveEmail(input) {
 function getEffectiveRole(roles) {
   if (roles.includes('super-admin')) return 'super-admin';
   if (roles.includes('business-stakeholder')) return 'business-stakeholder';
+  if (roles.includes('admin')) return 'admin';
   if (roles.includes('ec-member')) return 'ec-member';
   return roles[0] || 'ec-member';
 }
 
 // ── ENTER PORTAL ──
+// Role gate: this portal (admin-login.html → admin-portal.html) is for
+//   super-admin and business-stakeholder ONLY.
+//   EC members (admin / ec-member roles) must use ec-admin-login.html.
 function enterPortal(user, email) {
   const effectiveRole = getEffectiveRole(user.roles);
+  const hasAccess = user.roles.includes('super-admin') || user.roles.includes('business-stakeholder');
+  if (!hasAccess) {
+    showError('login-error',
+      '\u26D4 This portal is for Super Admins and Business Stakeholders only. ' +
+      'EC Admin members please use the EC Admin portal instead.');
+    // Add a clickable link dynamically
+    const errEl = document.getElementById('login-error');
+    if (errEl) {
+      errEl.innerHTML +=
+        '<br><a href="ec-admin-login.html" style="color:var(--accent);font-weight:700">' +
+        '\u2192 Go to EC Admin Login</a>';
+    }
+    return;
+  }
   const session = {
     email: email,
     name: user.name,

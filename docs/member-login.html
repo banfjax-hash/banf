@@ -115,7 +115,20 @@
                 <label class="form-label small fw-semibold">Email Address</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-envelope text-muted"></i></span>
-                    <input type="email" class="form-control" id="login-email" placeholder="your@email.com" required autofocus>
+                    <input type="email" class="form-control" id="login-email" placeholder="your@email.com" required autofocus oninput="detectEcEmail(this.value)">
+                </div>
+            </div>
+            <!-- Password field: shown only for EC members who have an account -->
+            <div class="mb-3" id="pw-field" style="display:none">
+                <label class="form-label small fw-semibold">Password <span id="pw-hint" style="font-size:.75rem;color:#006A4E;font-weight:400"></span></label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock text-muted"></i></span>
+                    <input type="password" class="form-control" id="login-pass" placeholder="Your EC Admin password" autocomplete="current-password">
+                    <button class="btn btn-outline-secondary" type="button" onclick="toggleMemberPwd(this)"><i class="fas fa-eye"></i></button>
+                </div>
+                <div style="margin-top:4px;font-size:.72rem;color:#666">
+                    <i class="fas fa-info-circle me-1"></i>Same password you set on the <a href="ec-admin-login.html" style="color:#006A4E">EC Admin portal</a>.
+                    <a href="ec-admin-login.html" style="color:#DC143C;margin-left:8px">Forgot password? →</a>
                 </div>
             </div>
             <button type="submit" class="btn btn-banf w-100" id="btn-login">
@@ -132,10 +145,10 @@
         </div>
 
         <div class="test-credentials">
-            <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Test Accounts</div>
-            <div>Test Member: <code>test.member@banf.org</code></div>
-            <div>EC Member: <code>president@banf.org</code></div>
-            <div style="margin-top:0.3rem;font-size:0.72rem;color:#999;">Members drive has not started yet. EC members who signed up can log in.</div>
+            <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Access Info</div>
+            <div style="color:#555;font-size:.72rem">EC members who completed signup: use your EC email + the password you set.</div>
+            <div style="margin-top:4px;color:#555;font-size:.72rem">Not signed up yet? Use the <a href="ec-admin-login.html" style="color:#006A4E">EC Admin portal</a> to create your account first.</div>
+            <div style="margin-top:4px;font-size:.68rem;color:#999">Members drive not started yet &mdash; only EC members can log in at this time.</div>
         </div>
     </div>
 
@@ -144,75 +157,50 @@
     </div>
 
     <script>
-        const API = 'https://banfwix.wixsite.com/banf1/_functions';
+        const API = 'https://www.jaxbengali.org/_functions';
 
-        // ── Registered EC Members (signed up) ──
-        // Members drive has not started — only EC members who signed up can log in
-        const REGISTERED_MEMBERS = {
-            // EC Members
-            'ranadhir.ghosh@gmail.com': {
-                name: 'Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
-                email: 'ranadhir.ghosh@gmail.com', phone: '904-555-0101',
-                membershipType: 'Family', memberId: 'MBR-001', isECMember: true,
-                role: 'President', memberSince: '2024'
-            },
-            'president@banf.org': {
-                name: 'Arun Sen', firstName: 'Arun', lastName: 'Sen',
-                email: 'president@banf.org', phone: '904-555-0102',
-                membershipType: 'Family', memberId: 'MBR-002', isECMember: true,
-                role: 'President', memberSince: '2023'
-            },
-            'treasurer@banf.org': {
-                name: 'Priya Bose', firstName: 'Priya', lastName: 'Bose',
-                email: 'treasurer@banf.org', phone: '904-555-0103',
-                membershipType: 'Couple', memberId: 'MBR-003', isECMember: true,
-                role: 'Treasurer', memberSince: '2024'
-            },
-            'secretary@banf.org': {
-                name: 'Suman Das', firstName: 'Suman', lastName: 'Das',
-                email: 'secretary@banf.org', phone: '904-555-0104',
-                membershipType: 'Family', memberId: 'MBR-004', isECMember: true,
-                role: 'Secretary', memberSince: '2022'
-            },
-            'cultural@banf.org': {
-                name: 'Mita Roy', firstName: 'Mita', lastName: 'Roy',
-                email: 'cultural@banf.org', phone: '904-555-0105',
-                membershipType: 'Individual', memberId: 'MBR-005', isECMember: true,
-                role: 'Cultural Secretary', memberSince: '2025'
-            },
-            'vp-membership@banf.org': {
-                name: 'Dipak Mukherjee', firstName: 'Dipak', lastName: 'Mukherjee',
-                email: 'vp-membership@banf.org', phone: '904-555-0106',
-                membershipType: 'Family', memberId: 'MBR-006', isECMember: true,
-                role: 'VP Membership', memberSince: '2023'
-            },
-            'vp-events@banf.org': {
-                name: 'Tanmay Chatterjee', firstName: 'Tanmay', lastName: 'Chatterjee',
-                email: 'vp-events@banf.org', phone: '904-555-0107',
-                membershipType: 'Couple', memberId: 'MBR-007', isECMember: true,
-                role: 'VP Events', memberSince: '2024'
-            },
-            'it@banf.org': {
-                name: 'Jayanta Pal', firstName: 'Jayanta', lastName: 'Pal',
-                email: 'it@banf.org', phone: '904-555-0108',
-                membershipType: 'Individual', memberId: 'MBR-008', isECMember: false,
-                role: 'IT Lead', memberSince: '2025'
-            },
-            'jt-secretary@banf.org': {
-                name: 'Kamal Gupta', firstName: 'Kamal', lastName: 'Gupta',
-                email: 'jt-secretary@banf.org', phone: '904-555-0110',
-                membershipType: 'Family', memberId: 'MBR-010', isECMember: true,
-                role: 'Jt. Secretary', memberSince: '2022'
-            },
-
-            // ── Test Member (for verification) ──
-            'test.member@banf.org': {
-                name: 'Test Member', firstName: 'Test', lastName: 'Member',
-                email: 'test.member@banf.org', phone: '904-555-9999',
-                membershipType: 'Family', memberId: 'MBR-TEST-001', isECMember: false,
-                role: '', memberSince: '2026'
-            }
+        // ── Real BANF EC Roster FY2026-27 (confirmed 2025-06-15) ──
+        // Passwords are NOT stored here — checked against localStorage (set during EC signup)
+        const EC_ROSTER = {
+          'ranadhir.ghosh@gmail.com':      { name:'Dr. Ranadhir Ghosh', firstName:'Ranadhir', lastName:'Ghosh', role:'IT / Tech Lead', roles:['super-admin'], ecTitle:'IT / Tech Lead (Super Admin)', memberSince:'2024' },
+          'mukhopadhyay.partha@gmail.com': { name:'Partha Mukhopadhyay', firstName:'Partha', lastName:'Mukhopadhyay', role:'Vice President', roles:['admin'], ecTitle:'Vice President', memberSince:'2025' },
+          'amit.chandak@gmail.com':        { name:'Amit Chandak', firstName:'Amit', lastName:'Chandak', role:'Treasurer', roles:['admin'], ecTitle:'Treasurer', memberSince:'2025' },
+          'rajanya.ghosh@gmail.com':       { name:'Rajanya Ghosh', firstName:'Rajanya', lastName:'Ghosh', role:'General Secretary', roles:['admin'], ecTitle:'General Secretary', memberSince:'2025' },
+          'moumita.mukherje@gmail.com':    { name:'Dr. Moumita Ghosh', firstName:'Moumita', lastName:'Ghosh', role:'Cultural Secretary', roles:['ec-member'], ecTitle:'Cultural Secretary', memberSince:'2025' },
+          'duttasoumyajit86@gmail.com':    { name:'Soumyajit Dutta', firstName:'Soumyajit', lastName:'Dutta', role:'Food Coordinator', roles:['ec-member'], ecTitle:'Food Coordinator', memberSince:'2025' },
+          'sumo475@gmail.com':             { name:'Dr. Sumanta Ghosh', firstName:'Sumanta', lastName:'Ghosh', role:'Event Coordinator', roles:['ec-member'], ecTitle:'Event Coordinator', memberSince:'2025' },
+          'rwitichoudhury@gmail.com':      { name:'Rwiti Chowdhury', firstName:'Rwiti', lastName:'Chowdhury', role:'Puja Coordinator', roles:['ec-member'], ecTitle:'Puja Coordinator', memberSince:'2025' }
         };
+
+        // Offline default passwords (used only if no localStorage entry exists yet, i.e. before first signup)
+        function getDefaultPw(email) {
+          return email === 'ranadhir.ghosh@gmail.com' ? 'banf-super-2026' : 'banf-ec-2026';
+        }
+
+        // Detect EC email and show/hide password field dynamically
+        function detectEcEmail(email) {
+          const e = (email || '').trim().toLowerCase();
+          const pwField = document.getElementById('pw-field');
+          const pwHint = document.getElementById('pw-hint');
+          if (EC_ROSTER[e]) {
+            pwField.style.display = 'block';
+            const creds = _loadCredsFromLocalStorage(e);
+            pwHint.textContent = creds ? '(account set up ✔)' : '(default: ' + getDefaultPw(e) + ')';
+          } else {
+            pwField.style.display = 'none';
+          }
+        }
+
+        function toggleMemberPwd(btn) {
+          const inp = document.getElementById('login-pass');
+          inp.type = inp.type === 'password' ? 'text' : 'password';
+          btn.querySelector('i').classList.toggle('fa-eye');
+          btn.querySelector('i').classList.toggle('fa-eye-slash');
+        }
+
+        function _loadCredsFromLocalStorage(email) {
+          try { return JSON.parse(localStorage.getItem('banf_ec_creds_' + email.toLowerCase())); } catch(e) { return null; }
+        }
 
         // Fetch with timeout helper
         function fetchWithTimeout(url, options, timeoutMs = 4000) {
@@ -224,7 +212,9 @@
 
         async function doLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const email = (document.getElementById('login-email').value || '').trim().toLowerCase();
+            const passInput = document.getElementById('login-pass');
+            const pass = passInput ? passInput.value : '';
             const btn = document.getElementById('btn-login');
             const errEl = document.getElementById('login-err');
             errEl.style.display = 'none';
@@ -235,19 +225,71 @@
                 return;
             }
 
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in…';
+            // 0. If already logged in from EC Admin portal, bridge to member portal seamlessly
+            try {
+                const existing = sessionStorage.getItem('banf_admin_session');
+                if (existing) {
+                    const sess = JSON.parse(existing);
+                    if (sess.email && sess.email.toLowerCase() === email) {
+                        sessionStorage.setItem('banf_member_data', JSON.stringify({
+                            name: sess.name, firstName: sess.firstName, lastName: sess.lastName,
+                            email: sess.email, phone: '', membershipType: 'EC Member',
+                            memberId: 'EC-' + (sess.ecTitle || '').replace(/\s/g,''),
+                            isECMember: true, role: sess.ecTitle, memberSince: '2025'
+                        }));
+                        window.location.href = 'member-portal.html';
+                        return;
+                    }
+                }
+            } catch(ex) {}
 
-            // 1. Check local registered members first (fast path)
-            if (REGISTERED_MEMBERS[email]) {
-                const member = REGISTERED_MEMBERS[email];
-                sessionStorage.setItem('banf_member_data', JSON.stringify(member));
+            // 1. EC Member path — always requires password
+            if (EC_ROSTER[email]) {
+                const ecMember = EC_ROSTER[email];
+
+                if (!pass) {
+                    errEl.innerHTML = 'Please enter your EC Admin password. ' +
+                        '<a href="ec-admin-login.html" style="color:#006A4E">Not signed up yet? → Sign up first</a>';
+                    errEl.style.display = 'block';
+                    document.getElementById('pw-field').style.display = 'block';
+                    return;
+                }
+
+                // Check localStorage (set during EC signup), then fall back to default
+                const storedCreds = _loadCredsFromLocalStorage(email);
+                const expectedPw = storedCreds ? storedCreds.password : getDefaultPw(email);
+
+                if (pass !== expectedPw) {
+                    errEl.textContent = 'Incorrect password. ' +
+                        (storedCreds ? 'Use the password you set during EC signup.' :
+                         'Default is ' + getDefaultPw(email) + '. Or complete signup to set your own.');
+                    errEl.style.display = 'block';
+                    return;
+                }
+
+                // Password matches — create member session
+                const memberData = {
+                    name: ecMember.name, firstName: ecMember.firstName, lastName: ecMember.lastName,
+                    email: email, phone: '', membershipType: 'EC Member',
+                    memberId: 'EC-' + ecMember.ecTitle.replace(/\s/g,''),
+                    isECMember: true, role: ecMember.ecTitle, memberSince: ecMember.memberSince
+                };
+                sessionStorage.setItem('banf_member_data', JSON.stringify(memberData));
+                // Also set admin session so EC features stay accessible from member portal
+                sessionStorage.setItem('banf_admin_session', JSON.stringify({
+                    email, name: ecMember.name, firstName: ecMember.firstName, lastName: ecMember.lastName,
+                    roles: ecMember.roles, effectiveRole: ecMember.roles[0],
+                    ecTitle: ecMember.ecTitle, loginTime: new Date().toISOString(), source: 'member-login'
+                }));
                 localStorage.setItem('banf_member_email', email);
                 window.location.href = 'member-portal.html';
                 return;
             }
 
-            // 2. Try live Wix API (with 4s timeout)
+            // 2. Non-EC member path — try live Wix API (email-only, no password yet)
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in…';
+
             try {
                 const res = await fetchWithTimeout(`${API}/member_profile`, {
                     headers: { 'x-user-email': email }
@@ -257,15 +299,12 @@
                 if (data.success && data.profile) {
                     const member = {
                         name: `${data.profile.firstName || ''} ${data.profile.lastName || ''}`.trim() || email,
-                        firstName: data.profile.firstName || '',
-                        lastName: data.profile.lastName || '',
-                        email: email,
-                        phone: data.profile.phone || '',
+                        firstName: data.profile.firstName || '', lastName: data.profile.lastName || '',
+                        email, phone: data.profile.phone || '',
                         membershipType: data.profile.membershipType || 'Member',
                         memberId: data.profile.memberId || '',
                         isECMember: data.profile.isECMember || false,
-                        role: data.profile.role || '',
-                        memberSince: data.profile.memberSince || ''
+                        role: data.profile.role || '', memberSince: data.profile.memberSince || ''
                     };
                     sessionStorage.setItem('banf_member_data', JSON.stringify(member));
                     localStorage.setItem('banf_member_email', email);
@@ -273,17 +312,15 @@
                     return;
                 }
 
-                // API returned no match
                 showLoginError(errEl,
                     'Member not found. The members drive has not started yet. ' +
-                    'Currently only EC members who have signed up can log in. ' +
-                    'You can also try Demo Mode to explore the portal.');
+                    'EC members: enter your EC email and password above. ' +
+                    'Or try Demo Mode to explore the portal.');
             } catch (err) {
-                // Network error / timeout
                 console.warn('API unreachable:', err.message);
                 showLoginError(errEl,
-                    'Member not found. Currently only registered EC members can log in. ' +
-                    'Please use a valid EC email or try Demo Mode.');
+                    'Currently only registered EC members can log in. ' +
+                    'Please enter your EC email and password, or try Demo Mode.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
@@ -306,12 +343,26 @@
             window.location.href = 'member-portal.html';
         }
 
-        // Auto-fill from localStorage if returning
+        // Auto-fill email; detect EC member; auto-login if EC admin session active
         document.addEventListener('DOMContentLoaded', function() {
             const savedEmail = localStorage.getItem('banf_member_email');
             if (savedEmail) {
                 document.getElementById('login-email').value = savedEmail;
+                detectEcEmail(savedEmail);
             }
+            // If already logged in as EC admin, redirect immediately
+            try {
+                const sess = JSON.parse(sessionStorage.getItem('banf_admin_session') || 'null');
+                if (sess && sess.email && sess.roles) {
+                    sessionStorage.setItem('banf_member_data', JSON.stringify({
+                        name: sess.name, firstName: sess.firstName, lastName: sess.lastName,
+                        email: sess.email, phone: '', membershipType: 'EC Member',
+                        memberId: 'EC-' + (sess.ecTitle || '').replace(/\s/g,''),
+                        isECMember: true, role: sess.ecTitle, memberSince: '2025'
+                    }));
+                    window.location.href = 'member-portal.html';
+                }
+            } catch(e) {}
         });
     </script>
 </body>

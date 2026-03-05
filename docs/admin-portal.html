@@ -866,9 +866,14 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // ═══ ROLE-BASED ACCESS CONTROL (RBAC) ═══
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
-  'super-admin': ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
-  'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
-  'ec-member': ['dashboard','ec-drive','drive-status']
+  // super-admin: full system access
+  'super-admin':          ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  // admin: senior EC officers (VP, Treasurer, General Secretary) — full operational, no system config
+  'admin':                ['dashboard','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
+  // ec-member: coordinators — limited to drives + reports
+  'ec-member':            ['dashboard','ec-drive','drive-status'],
+  // business-stakeholder: sponsors + community partners
+  'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback']
 };
 
 function getVisiblePanels(roles) {
