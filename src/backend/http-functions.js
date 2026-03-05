@@ -1,5 +1,5 @@
 /**
- * BANF Wix HTTP Functions — v5.10.0
+ * BANF Wix HTTP Functions — v5.12.0 EC-Separated
  * ==================================================
  * All endpoints use wixData directly. NO .jsw imports.
  *
@@ -279,8 +279,10 @@ import {
     get_membership_gate_check,  options_membership_gate_check,
     post_ec_send_reminder,      options_ec_send_reminder,
     get_ec_pending_members,     options_ec_pending_members,
-    post_ec_send_all_invitations, options_ec_send_all_invitations,
-    post_ec_signup_congratulations, options_ec_signup_congratulations
+    post_ec_send_all_invitations as _ecSendInvitations,
+    options_ec_send_all_invitations as _ecSendInvitationsOpts,
+    post_ec_signup_congratulations as _ecSignupCongrats,
+    options_ec_signup_congratulations as _ecSignupCongratsOpts
 } from 'backend/ec-onboarding-gate';
 
 // ── Bosonto Utsob 2026 — Live Email Pipeline ──────────────────
@@ -521,8 +523,8 @@ export {
     get_membership_gate_check,  options_membership_gate_check,
     post_ec_send_reminder,      options_ec_send_reminder,
     get_ec_pending_members,     options_ec_pending_members,
-    post_ec_send_all_invitations, options_ec_send_all_invitations,
-    post_ec_signup_congratulations, options_ec_signup_congratulations,
+    // NOTE: ec_send_all_invitations & ec_signup_congratulations are exported
+    // as standalone wrapper functions below (Wix re-export limitation)
     // Member Signup / Signin v5.10.1
     post_signup_initiate,       options_signup_initiate,
     get_signup_status,          options_signup_status,
@@ -537,6 +539,12 @@ export {
     post_signout,               options_signout,
     get_validate_session,       options_validate_session
 };
+
+// ── Standalone wrappers for EC endpoints (Wix doesn't always pick up re-exports) ──
+export async function post_ec_send_all_invitations(request)   { return _ecSendInvitations(request); }
+export function options_ec_send_all_invitations(request)      { return _ecSendInvitationsOpts(request); }
+export async function post_ec_signup_congratulations(request) { return _ecSignupCongrats(request); }
+export function options_ec_signup_congratulations(request)    { return _ecSignupCongratsOpts(request); }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
 import wixData from 'wix-data';
