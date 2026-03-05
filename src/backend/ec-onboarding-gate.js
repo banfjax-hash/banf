@@ -37,7 +37,7 @@ const CURRENT_FY = 'FY2026-27';
 const BANF_EMAIL = 'banfjax@gmail.com';
 const BANF_ORG = 'Bengali Association of North Florida (BANF)';
 const PRESIDENT_EMAIL = 'ranadhir.ghosh@gmail.com';
-const TEST_MODE = true; // When true, emails go to PRESIDENT_EMAIL only
+const TEST_MODE = false; // Emails sent directly to EC members (live mode)
 
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';
@@ -45,6 +45,9 @@ const GOOGLE_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5
 
 const ONBOARD_URL = 'https://www.jaxbengali.org/_functions/admin_portal';
 const JOURNEY_URL = 'https://www.jaxbengali.org/stakeholder-requirements-journey.html';
+const MEMBER_PORTAL_URL = 'https://www.jaxbengali.org/member-portal.html';
+const MEMBER_LOGIN_URL  = 'https://www.jaxbengali.org/member-login.html';
+const EC_ADMIN_URL      = 'https://www.jaxbengali.org/admin-portal.html';
 
 // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function jsonOk(data) {
@@ -759,3 +762,229 @@ export async function get_ec_pending_members(request) {
     }
 }
 export function options_ec_pending_members(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  POST /ec_signup_congratulations                             ║
+// ║  Called after EC member completes signup.                    ║
+// ║  Sends congratulation email with prod URLs + test checklist  ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+function buildCongratsEmail(member, role) {
+    const name = member.firstName || member.name || 'EC Member';
+    const roleTitle = role || member.ecTitle || member.role || 'EC Member';
+    return `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Welcome to BANF!</title></head>
+<body style="margin:0;padding:0;background:#f5f7fa;font-family:'Poppins',Arial,sans-serif;">
+  <div style="max-width:620px;margin:30px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+    <div style="background:linear-gradient(135deg,#006A4E,#00856F);padding:32px 40px;text-align:center;">
+      <h1 style="color:#fff;margin:0;font-size:26px;font-weight:700;">&#x1F389; Welcome to BANF, ${name}!</h1>
+      <p style="color:rgba(255,255,255,0.9);margin:8px 0 0;font-size:16px;">${roleTitle} — FY 2026-2028</p>
+    </div>
+    <div style="padding:32px 40px;">
+      <p style="font-size:16px;color:#333;">Congratulations on completing your signup! You are now officially onboarded as an Executive Committee member of the Bengali Association of North Florida.</p>
+
+      <div style="background:#f0faf6;border-left:4px solid #006A4E;padding:16px 20px;border-radius:6px;margin:24px 0;">
+        <h3 style="margin:0 0 12px;color:#006A4E;font-size:16px;">&#x1F517; Production Links</h3>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="padding:6px 0;font-size:14px;color:#555;width:140px;">&#x1F30D; Website</td>
+            <td><a href="https://www.jaxbengali.org" style="color:#006A4E;font-weight:600;">www.jaxbengali.org</a></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;font-size:14px;color:#555;">&#x1F464; Member Login</td>
+            <td><a href="${MEMBER_LOGIN_URL}" style="color:#006A4E;font-weight:600;">member-login.html</a></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;font-size:14px;color:#555;">&#x1F6E1; EC Admin Portal</td>
+            <td><a href="${EC_ADMIN_URL}" style="color:#DC143C;font-weight:600;">admin-portal.html</a></td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;font-size:14px;color:#555;">&#x1F4CA; Requirements</td>
+            <td><a href="${JOURNEY_URL}" style="color:#006A4E;font-weight:600;">Stakeholder Journey</a></td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="background:#fff8f0;border-left:4px solid #FF6B35;padding:16px 20px;border-radius:6px;margin:24px 0;">
+        <h3 style="margin:0 0 12px;color:#FF6B35;font-size:16px;">&#x2705; Testing Checklist</h3>
+        <p style="margin:0 0 8px;font-size:13px;color:#666;">Please verify the following on the production site:</p>
+        <ol style="margin:0;padding-left:20px;font-size:14px;color:#444;line-height:1.8;">
+          <li>Sign in at <a href="${MEMBER_LOGIN_URL}" style="color:#006A4E;">member-login.html</a> with your email + password</li>
+          <li>Verify your role is displayed correctly in the member portal</li>
+          <li>Check that your name appears in <strong>My Profile</strong></li>
+          <li>Navigate to <strong>Family Members</strong> — add/edit/remove a test member</li>
+          <li>Open the <a href="${EC_ADMIN_URL}" style="color:#DC143C;">EC Admin Portal</a> and verify access to EC features</li>
+          <li>Check EC onboarding progress shows your status as complete</li>
+          <li>Test the <a href="${JOURNEY_URL}" style="color:#006A4E;">Stakeholder Requirements Journey</a></li>
+          <li>Try the BANF chatbot widget — ask about membership fees and upcoming events</li>
+        </ol>
+      </div>
+
+      <div style="background:#f5f5f5;border-radius:8px;padding:16px 20px;margin:24px 0;">
+        <h3 style="margin:0 0 8px;color:#333;font-size:15px;">&#x1F4CB; Your Role &amp; Responsibilities</h3>
+        <p style="margin:0;font-size:14px;color:#555;">As <strong>${roleTitle}</strong>, you have access to role-specific features in both the member portal and EC admin portal. If anything doesn't look right or you can't access a feature you should have, please reply to this email or contact <a href="mailto:banfjax@gmail.com" style="color:#006A4E;">banfjax@gmail.com</a>.</p>
+      </div>
+
+      <p style="font-size:14px;color:#888;margin-top:24px;">The FY2026-28 membership drive will begin once all EC members are onboarded. Thank you for your prompt action!</p>
+      <p style="font-size:15px;color:#333;margin-top:16px;">Best regards,<br><strong style="color:#006A4E;">BANF Super Admin</strong></p>
+    </div>
+    <div style="background:#333;color:#888;padding:14px;text-align:center;font-size:12px;">
+      Bengali Association of North Florida &bull; <a href="https://www.jaxbengali.org" style="color:#aaa;">jaxbengali.org</a> &bull; banfjax@gmail.com
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+export async function post_ec_signup_congratulations(request) {
+    try {
+        const body = await parseBody(request);
+        const { email, firstName, lastName, role } = body;
+        if (!email) return jsonErr('email required', 400);
+
+        // Find the EC member record  
+        const res = await wixData.query('AdminRoles')
+            .eq('email', email.toLowerCase().trim())
+            .limit(1)
+            .find(SA)
+            .catch(() => ({ items: [] }));
+
+        const member = res.items[0] || { email, firstName, lastName };
+        const roleTitle = role || member.ecTitle || member.role || 'EC Member';
+
+        // Send congratulations to the member
+        const html = buildCongratsEmail({ ...member, firstName: firstName || member.firstName, lastName: lastName || member.lastName }, roleTitle);
+        const name = [firstName || member.firstName, lastName || member.lastName].filter(Boolean).join(' ') || email;
+
+        await sendGmail(email, name, `Welcome to BANF EC, ${firstName || name}! Your signup is complete 🎉`, html);
+
+        // Also notify the President
+        const presHtml = `<div style="font-family:Arial,sans-serif;padding:24px;">
+            <h2 style="color:#006A4E;">EC Member Signup Complete ✅</h2>
+            <p><strong>${name}</strong> (${roleTitle}) has completed their EC signup for FY2026-28.</p>
+            <p>Email: ${email}</p>
+            <p>Time: ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })} ET</p>
+            <p>Check EC progress: <a href="${ONBOARD_URL}">Admin Portal</a></p>
+        </div>`;
+        await sendGmail(PRESIDENT_EMAIL, 'Dr. Ranadhir Ghosh', `EC Signup Alert: ${name} just signed up`, presHtml).catch(() => {});
+
+        // Mark congratulations sent in AdminRoles
+        if (res.items[0]) {
+            await wixData.update('AdminRoles', { ...res.items[0], congratsSent: true, congratsSentAt: new Date() }, SA).catch(() => {});
+        }
+
+        return jsonOk({ message: `Congratulations email sent to ${email}`, name, role: roleTitle });
+    } catch (e) {
+        return jsonErr('Congratulations send failed: ' + e.message, 500);
+    }
+}
+export function options_ec_signup_congratulations(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  POST /ec_send_all_invitations                               ║
+// ║  Send signup invitation to all pending EC members directly   ║
+// ║  (bypasses TEST_MODE — always sends to actual members)       ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+function buildInviteEmail(member) {
+    const name = [member.firstName, member.lastName].filter(Boolean).join(' ') || 'EC Member';
+    const role = member.ecTitle || member.role || 'EC Member';
+    const loginUrl = 'https://www.jaxbengali.org/admin-portal.html';
+    return `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>BANF EC Signup Invitation</title></head>
+<body style="margin:0;padding:0;background:#f5f7fa;font-family:'Poppins',Arial,sans-serif;">
+  <div style="max-width:620px;margin:30px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+    <div style="background:linear-gradient(135deg,#8B0000,#DC143C);padding:32px 40px;text-align:center;">
+      <h1 style="color:#fff;margin:0;font-size:24px;font-weight:700;">BANF EC Onboarding Invitation</h1>
+      <p style="color:rgba(255,255,255,0.9);margin:8px 0 0;font-size:15px;">FY 2026-2028 &bull; Executive Committee</p>
+    </div>
+    <div style="padding:32px 40px;">
+      <p style="font-size:16px;color:#333;">Dear <strong>${name}</strong>,</p>
+      <p style="font-size:15px;color:#444;line-height:1.7;">You have been selected as <strong>${role}</strong> of the Bengali Association of North Florida (BANF) for the fiscal year 2026-2028. Please complete your EC onboarding to activate your access to the member and admin portals.</p>
+
+      <div style="text-align:center;margin:30px 0;">
+        <a href="${loginUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;padding:15px 36px;text-decoration:none;border-radius:8px;font-weight:bold;font-size:16px;">Complete EC Signup →</a>
+      </div>
+
+      <div style="background:#f9f9f9;border-radius:8px;padding:16px 20px;margin:20px 0;">
+        <h3 style="margin:0 0 10px;font-size:15px;color:#333;">What you'll need to do:</h3>
+        <ol style="margin:0;padding-left:20px;font-size:14px;color:#555;line-height:1.8;">
+          <li>Click the button above to open the EC Admin Portal</li>
+          <li>Set your password using your registered email: <strong>${member.email || 'your email'}</strong></li>
+          <li>Complete your EC profile (name, phone, role confirmation)</li>
+          <li>Test the member portal at <a href="${MEMBER_LOGIN_URL}" style="color:#8B0000;">member-login.html</a></li>
+          <li>You'll receive a congratulation email once signup is complete</li>
+        </ol>
+      </div>
+
+      <p style="font-size:14px;color:#666;">The FY2026-28 membership drive will launch once all 8 EC members complete onboarding. Please act promptly!</p>
+      <p style="font-size:15px;">Best regards,<br><strong style="color:#8B0000;">BANF Super Admin</strong></p>
+    </div>
+    <div style="background:#333;color:#888;padding:14px;text-align:center;font-size:12px;">
+      Bengali Association of North Florida &bull; <a href="https://www.jaxbengali.org" style="color:#aaa;">jaxbengali.org</a> &bull; banfjax@gmail.com
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+export async function post_ec_send_all_invitations(request) {
+    try {
+        const perm = await checkPermission(request, 'admin:manage_roles');
+        if (!perm.allowed) return jsonErr('Forbidden — super_admin only', 403);
+
+        const ecRes = await wixData.query('AdminRoles')
+            .eq('isActive', true)
+            .find(SA);
+
+        const pending = ecRes.items.filter(m =>
+            m.role !== 'super_admin' &&
+            (!m.passwordSet || !m.onboardingComplete) &&
+            !m.congratsSent
+        );
+
+        if (pending.length === 0) {
+            return jsonOk({ message: 'All EC members are already onboarded or invited!', sent: 0 });
+        }
+
+        const results = [];
+        for (const member of pending) {
+            const name = [member.firstName, member.lastName].filter(Boolean).join(' ') || member.email;
+            try {
+                const html = buildInviteEmail(member);
+                // Always send to actual email (ignore TEST_MODE)
+                const token = await getGmailToken();
+                const subject = `BANF EC Onboarding Invitation — ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
+                const raw = [
+                    `From: ${BANF_ORG} <${BANF_EMAIL}>`,
+                    `To: ${name} <${member.email}>`,
+                    `Subject: ${subject}`,
+                    'MIME-Version: 1.0',
+                    'Content-Type: text/html; charset=UTF-8',
+                    '',
+                    html
+                ].join('\r\n');
+                const encoded = btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+                await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ raw: encoded })
+                });
+                await wixData.update('AdminRoles', { ...member, invitationSent: true, invitationSentAt: new Date() }, SA);
+                results.push({ email: member.email, name, status: 'sent' });
+            } catch (err) {
+                results.push({ email: member.email, name, status: 'failed', error: err.message });
+            }
+        }
+
+        const sent = results.filter(r => r.status === 'sent').length;
+        const failed = results.filter(r => r.status === 'failed').length;
+
+        return jsonOk({ message: `Sent ${sent} invitation(s)${failed > 0 ? `, ${failed} failed` : ''}`, sent, failed, results });
+    } catch (e) {
+        return jsonErr('Send invitations failed: ' + e.message, 500);
+    }
+}
+export function options_ec_send_all_invitations(request) { return handleCors(); }
