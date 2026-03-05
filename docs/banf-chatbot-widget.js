@@ -37,229 +37,369 @@
     const MAX_HISTORY = 6; // keep last 3 user+assistant pairs
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  1.  KNOWLEDGE GRAPH  — comprehensive BANF context
+     *  1.  KNOWLEDGE GRAPH — three sensitivity tiers
+     *      PUBLIC (0) : member portal + anyone
+     *      MEMBER (1) : auth members — EC roster detail, community stats
+     *      ADMIN  (2) : EC admin portal — operations, drive, finance overview
      * ═══════════════════════════════════════════════════════════════════*/
-    const KB = {
-        organization: {
-            name: 'Bengali Association of North Florida (BANF)',
-            bengali: 'উত্তর ফ্লোরিডা বাঙালী সংঘ',
-            founded: 2008,
-            location: 'Jacksonville, North Florida',
-            mission: 'Preserving Bengali culture, traditions, and heritage in Jacksonville — Building bridges between generations through community, celebration, and service.',
-            website: 'https://www.jaxbengali.org',
-            email: 'membership@jaxbengali.org',
-            sponsorshipEmail: 'sponsorship@jaxbengali.org',
-            facebook: 'https://facebook.com/banfofficial',
-            instagram: 'https://instagram.com/banf_jax',
-            youtube: 'https://youtube.com/@banfjacksonville',
-            linkedin: 'https://linkedin.com/company/banf-jacksonville',
-            paymentSquare: 'https://squareup.com/store/bengali-association-of-north-florida',
-            stats: { families: '80+', eventsYearly: '17', yearsFounded: '17+' }
+
+    // ── TIER 0: PUBLIC ────────────────────────────────────────────────
+    const KB_PUBLIC = {
+        // [ORG-001..004] Organization
+        org: {
+            name:     'Bengali Association of North Florida (BANF)',
+            bengali:  'উত্তর ফ্লোরিডা বাঙালী সংঘ',
+            altName:  'JAX Bengali',
+            founded:  2008,
+            type:     '501(c)(3) nonprofit — tax-deductible',
+            location: 'Jacksonville, North Florida (Duval County), FL 32256',
+            mission:  'Preserve Bengali language, arts, and traditions; connect Bengali families across North Florida; engage youth; support social welfare; promote civic participation.',
+            website:  'https://www.jaxbengali.org',
+            email:    'banfjax@gmail.com',
+            phone:    '(904) 712-2265',
+            social: {
+                facebook:  'facebook.com/banfofficial',
+                instagram: 'instagram.com/banf_jax',
+                youtube:   'youtube.com/@banfjacksonville',
+                linkedin:  'linkedin.com/company/banf-jacksonville'
+            },
+            payment: {
+                zelle:  'Zelle to banfjax@gmail.com or (904) 712-2265',
+                square: 'squareup.com/store/bengali-association-of-north-florida',
+                check:  'Payable to: Bengali Association of North Florida (BANF)'
+            },
+            stats: { persons: 416, families: 105, eventsYearly: 17, founded: 2008 }
         },
 
-        membershipFees: {
+        // [MBR-001, MBR-004] Membership Fees — 2026-27 (AUTHORITATIVE)
+        membership: {
             season: '2026-2027',
             earlyBirdDeadline: 'May 31, 2026',
-            categories: [
+            tiers: [
                 {
-                    name: 'Earlybird Premium',
-                    events: 'All 17 events',
-                    note: 'Available until May 31, 2026',
-                    family: 375, couple: 330, individual: 205, student: 145
+                    code: 'M2-EB',  name: 'M2 Premium (Early Bird)',
+                    note: 'Available until May 31, 2026 — includes ALL 17 events',
+                    family: 375, couple: 290, individual: 215, student: 145,
+                    events: 'All 17 events, voting rights, Jagriti magazine, member portal'
                 },
                 {
-                    name: 'Premium',
-                    events: 'All 17 events',
-                    note: 'Full access to every event',
-                    family: 410, couple: 365, individual: 230, student: 165
+                    code: 'M2',     name: 'M2 Premium',
+                    note: 'After May 31, 2026 — full annual membership',
+                    family: 410, couple: 330, individual: 240, student: 175,
+                    events: 'All 17 events, voting rights, Jagriti magazine, member portal'
                 },
                 {
-                    name: 'Regular',
-                    events: '11 events (pay discounted rate for other events)',
-                    note: 'Covers 11 events, discounted rate for remaining 6',
-                    family: 280, couple: 255, individual: 140, student: 100
-                },
-                {
-                    name: 'Culture Special Pass',
-                    events: '4 cultural events',
-                    note: 'Covers cultural events only',
-                    family: 200, couple: 175, individual: 100, student: 75
-                },
-                {
-                    name: 'Durga Puja Celebration Pass',
-                    events: '5 events (Puja + Artist performances both days)',
-                    note: 'Covers Durga Puja and artist performances for both days',
-                    family: 210, couple: 175, individual: 110, student: 80
-                },
-                {
-                    name: 'Durga Puja Core Pass',
-                    events: '3 Puja events (No artist programs)',
-                    note: 'Covers Durga Puja events only — no artist performances',
-                    family: 150, couple: 125, individual: 80, student: 60
+                    code: 'M1',     name: 'M1 Regular',
+                    note: 'Covers 11 events; discounted entry for remaining 6',
+                    family: 280, couple: 255, individual: 140, student: 100,
+                    events: '11 events (excludes Bosonto Utsob, Spandan, Saraswati Puja Gala, Mahalaya Sandhya, Kali Puja Gala, Cultural Gala)'
                 }
+            ],
+            specialPasses: [
+                { name: 'Culture Special Pass',      covers: '4 cultural events',  family: 200, couple: 175, individual: 100, student: 75  },
+                { name: 'Durga Puja Celebration',    covers: '5 events (puja + artist both days)',  family: 210, couple: 175, individual: 110, student: 80  },
+                { name: 'Durga Puja Core',           covers: '3 puja events (no artist programs)', family: 150, couple: 125, individual: 80,  student: 60  }
+            ],
+            howToJoin: 'Pay via Zelle (banfjax@gmail.com) or Square online, then email banfjax@gmail.com with your name, family size, and plan.',
+            benefits: 'All plans include: voting rights at GBM, Jagriti magazine copy, member portal access, community directory listing, cultural program participation, Bengali language school access, BANF Radio.'
+        },
+
+        // [EVT-001..005] Events — 2026-27 calendar (17 events)
+        events: [
+            { name: 'Bosonto Utsob (Spring Festival)',      date: 'March 22, 2026',    type: 'Cultural',     m2Only: true  },
+            { name: 'Nabo Borsho / Pohela Boishakh',        date: 'April 25, 2026',    type: 'Cultural',     m2Only: false },
+            { name: 'Kids Summer Sports Training',          date: 'Jun–Jul 2026',      type: 'Educational',  m2Only: false },
+            { name: 'Summer Workshops — Kids',              date: 'Jun–Jul 2026',      type: 'Educational',  m2Only: false },
+            { name: 'Summer Workshops — General',           date: 'Jun–Jul 2026',      type: 'Educational',  m2Only: false },
+            { name: 'Sports Day',                           date: 'July 2026',         type: 'Social',       m2Only: false },
+            { name: 'Spandan (Cultural Show)',              date: 'August 2026',       type: 'Cultural',     m2Only: true  },
+            { name: 'Mahalaya Sandhya',                    date: 'October 17, 2026',  type: 'Religious',    m2Only: true  },
+            { name: 'Durga Puja Day 1 & 2 + Lunch',       date: 'Oct 24–25, 2026',   type: 'Religious',    m2Only: false },
+            { name: 'Lakshmi Puja',                        date: 'October 25, 2026',  type: 'Religious',    m2Only: false },
+            { name: 'Bijoya Sonmiloni',                    date: 'October 25, 2026',  type: 'Social',       m2Only: false },
+            { name: 'Artist Program Day 1 + Dinner',       date: 'October 24, 2026',  type: 'Cultural',     m2Only: false },
+            { name: 'Artist Program Day 2 + Dinner',       date: 'October 25, 2026',  type: 'Cultural',     m2Only: false },
+            { name: 'Kali Puja + Lunch',                   date: 'November 7, 2026',  type: 'Religious',    m2Only: false },
+            { name: 'Natok (Drama) + Dinner',              date: 'November 7, 2026',  type: 'Cultural',     m2Only: false },
+            { name: 'Winter Picnic',                       date: 'January 2027',      type: 'Social',       m2Only: false },
+            { name: 'Saraswati Puja',                      date: 'February 27, 2027', type: 'Religious',    m2Only: true  }
+        ],
+        upcomingHighlight: 'Bosonto Utsob — March 22, 2026. Features youth programs, cultural performances, traditional spring activities. Contact banfjax@gmail.com to RSVP.',
+
+        // [PRG-001..003] Programs
+        programs: [
+            {
+                name: 'Bengali Language School',
+                desc: 'ACTFL-aligned Bengali language program for K–5 children teaching all 4 skills (listening, speaking, reading, writing). Weekly Sat/Sun sessions. Certificate awarded on completion. Heritage and non-heritage learners welcome. Florida Seal of Biliteracy eligible pathway.'
+            },
+            {
+                name: 'Jagriti — Annual Literary Magazine',
+                desc: 'BANF\'s annual Bengali literary and cultural e-magazine. Members submit poetry, short stories, essays, artwork. 2024-25 issue has 46 contributions, 22 advertisements. Submit to banfjax@gmail.com with subject "MAGAZINE".'
+            },
+            {
+                name: 'BANF Radio',
+                desc: 'Online Bengali music streaming — Rabindra Sangit, Bangla film songs, folk music (Baul, Kirtan), contemporary Bengali music. Accessible via the member portal at jaxbengali.org. Song requests available.'
+            },
+            {
+                name: 'Tagore Worldwide Project',
+                desc: 'Cultural diplomacy initiative spreading Rabindranath Tagore\'s works globally. Outreach to governments and universities in India, Bangladesh, USA, Canada, Europe, Australia.'
+            },
+            {
+                name: 'Young Venture Builder Program',
+                desc: 'Youth entrepreneurship and development program. Registration at banf-young-venture-builder.lovable.app.'
+            }
+        ],
+
+        // [FIN-003] Sponsorship
+        sponsorship: {
+            tiers: [
+                { name: 'Title Sponsor',  amount: '$1,000+', benefits: 'Logo on all materials, social media feature, booth at Durga Puja' },
+                { name: 'Gold Sponsor',   amount: '$500',    benefits: 'Logo in event programs, social media posts, recognition at events' },
+                { name: 'Silver Sponsor', amount: '$250',    benefits: 'Name in event programs, social media mention' },
+                { name: 'Bronze Sponsor', amount: '$100',    benefits: 'Name in Jagriti magazine' }
+            ],
+            contact: 'banfjax@gmail.com',
+            currentSponsors: 'Aha Curry, Gulani Vision, Rod Realty, Synergy, Tikka Bowls, Merrill Lynch and 6 others'
+        },
+
+        // [GOV-001] Current EC (PUBLIC subset — roles + names only)
+        ec2026: {
+            term: '2026–2028',
+            electedAt: 'GBM February 22, 2026',
+            members: [
+                { name: 'Dr. Ranadhir Ghosh',   role: 'President / IT Lead'     },
+                { name: 'Partha Mukhopadhyay',  role: 'Vice President'           },
+                { name: 'Amit Chandak',         role: 'Treasurer'                },
+                { name: 'Rajanya Ghosh',        role: 'General Secretary'        },
+                { name: 'Dr. Moumita Ghosh',    role: 'Cultural Secretary'       },
+                { name: 'Banty Dutta',          role: 'Food Coordinator'         },
+                { name: 'Dr. Sumanta Ghosh',    role: 'Event Coordinator'        },
+                { name: 'Rwiti Choudhury',      role: 'Puja Coordinator'         }
             ]
         },
 
-        events: [
-            { name: 'Bosonto Utsob', date: 'March 7, 2026', type: 'Cultural' },
-            { name: 'Noboborsho', date: 'April 25, 2026', type: 'Cultural' },
-            { name: 'Kids Summer Sports Training', date: 'Jun-Jul 2026', type: 'Educational' },
-            { name: 'Summer Workshops - Kids', date: 'Jun-Jul 2026', type: 'Educational' },
-            { name: 'Summer Workshops - General', date: 'Jun-Jul 2026', type: 'Educational' },
-            { name: 'Sports Day', date: 'July 2026', type: 'Social' },
-            { name: 'Spondon', date: 'August 2026', type: 'Cultural' },
-            { name: 'Mohaloya', date: 'October 17, 2026', type: 'Religious' },
-            { name: 'Durga Puja Day 1 & 2 + Lunch', date: 'October 24-25, 2026', type: 'Religious' },
-            { name: 'Lakshmi Puja', date: 'October 25, 2026', type: 'Religious' },
-            { name: 'Bijoya Sonmiloni', date: 'October 25, 2026', type: 'Social' },
-            { name: 'Artist Program - Day 1 + Dinner', date: 'October 24, 2026', type: 'Cultural' },
-            { name: 'Artist Program - Day 2 + Dinner', date: 'October 25, 2026', type: 'Cultural' },
-            { name: 'Kali Puja + Lunch', date: 'November 7, 2026', type: 'Religious' },
-            { name: 'Natok (Drama) + Dinner', date: 'November 7, 2026', type: 'Cultural' },
-            { name: 'Winter Picnic', date: 'January 2027', type: 'Social' },
-            { name: 'Saraswati Puja', date: 'February 27, 2027', type: 'Religious' }
-        ],
+        // Member portal feature list
+        memberPortal: [
+            { name: 'Dashboard',            status: 'Live',     desc: 'Overview, stats, quick access to all features' },
+            { name: 'BANF AI Assistant',    status: 'Live',     desc: 'This LLM chatbot — events, fees, contacts, EC info' },
+            { name: 'Profile & Family',     status: 'Phase 2',  desc: 'Update personal info, manage family members' },
+            { name: 'Payments & Receipts',  status: 'Phase 2',  desc: 'Payment history, download receipts, pay membership' },
+            { name: 'Events & RSVP',        status: 'Phase 2',  desc: 'Browse events, register, manage RSVPs' },
+            { name: 'Member Directory',     status: 'Phase 3',  desc: 'Search members by name or profession' },
+            { name: 'Surveys & Polls',      status: 'Phase 3',  desc: 'Community polls and feedback on BANF initiatives' },
+            { name: 'Song Requests',        status: 'Phase 3',  desc: 'Request Bengali songs on BANF Radio' },
+            { name: 'Meeting Minutes',      status: 'Phase 3',  desc: 'EC meeting summaries and decisions' },
+            { name: 'Budget Reports',       status: 'Phase 4',  desc: 'Financial transparency reports' },
+            { name: 'Magazine Submissions', status: 'Phase 4',  desc: 'Submit poems, stories, articles for Jagriti' }
+        ]
+    };
 
-        ecTeam: [
-            { name: 'Dr. Ranadhir Ghosh',  role: 'President / IT Lead',    email: 'ranadhir.ghosh@gmail.com'   },
-            { name: 'Partha Mukhopadhyay', role: 'Vice President',          email: 'mukhopadhyay.partha@gmail.com' },
-            { name: 'Amit Chandak',        role: 'Treasurer',               email: 'amit.chandak@gmail.com'     },
-            { name: 'Rajanya Ghosh',       role: 'General Secretary',       email: 'rajanya.ghosh@gmail.com'    },
-            { name: 'Dr. Moumita Ghosh',   role: 'Cultural Secretary',      email: 'moumita.mukherje@gmail.com' },
-            { name: 'Soumyajit Dutta',     role: 'Food Coordinator',        email: 'duttasoumyajit86@gmail.com' },
-            { name: 'Dr. Sumanta Ghosh',   role: 'Event Coordinator',       email: 'sumo475@gmail.com'          },
-            { name: 'Rwiti Chowdhury',     role: 'Puja Coordinator',        email: 'rwitichoudhury@gmail.com'   },
+    // ── TIER 1: MEMBER  (adds community stats, EC email contacts) ─────
+    const KB_MEMBER = {
+        communityStats: {
+            totalPersons: 416,
+            families: 105,
+            activeMembers: 243,
+            membershipRecordsAllYears: 886,
+            topFamilies: 'Roy (17), Ghosh (15), Dutta (10), Das (7), Pal (5), Mukherjee (5)',
+            note: 'Community spans 2008–present. Strongest enrollment 2022–2026.'
+        },
+        ecContacts: [
+            { name: 'Dr. Ranadhir Ghosh',   role: 'President',         email: 'ranadhir.ghosh@gmail.com'      },
+            { name: 'Partha Mukhopadhyay',  role: 'Vice President',    email: 'mukhopadhyay.partha@gmail.com' },
+            { name: 'Amit Chandak',         role: 'Treasurer',         email: 'amit.chandak@gmail.com'        },
+            { name: 'Rajanya Ghosh',        role: 'Gen. Secretary',    email: 'rajanya.ghosh@gmail.com'       },
+            { name: 'Dr. Moumita Ghosh',    role: 'Cultural Sec.',     email: 'moumita.mukherje@gmail.com'    },
+            { name: 'Banty Dutta',          role: 'Food Coordinator',  email: 'duttasoumyajit86@gmail.com'    },
+            { name: 'Dr. Sumanta Ghosh',    role: 'Event Coordinator', email: 'sumo475@gmail.com'             },
+            { name: 'Rwiti Choudhury',      role: 'Puja Coordinator',  email: 'rwitichoudhury@gmail.com'      }
         ],
+        previousEC: {
+            term: '2024–2026',
+            president: 'Suvankar Pal', vp: ['Anita Mandal', 'Tanay Bhaduri'],
+            secretary: 'Partha Mukhopadhyay', treasurer: 'Sreya Ghosh'
+        },
+        gbm2026: {
+            date: 'February 22, 2026', time: '3pm–6pm EST',
+            result: 'New EC 2026–2028 elected. Dr. Ranadhir Ghosh as President.',
+            note: 'Annual governance meeting — highest decision-making body'
+        }
+    };
 
-        memberPortalFeatures: [
-            { name: 'Dashboard',              status: 'Live',        phase: 1, desc: 'Overview, stats, quick access to all features' },
-            { name: 'BANF AI Assistant',      status: 'Live',        phase: 1, desc: 'This chatbot — events, fees, contacts, EC info' },
-            { name: 'Profile & Family',       status: 'Phase 2',     phase: 2, desc: 'Update personal info, manage family members' },
-            { name: 'Payments & Receipts',    status: 'Phase 2',     phase: 2, desc: 'Payment history, download receipts, pay membership' },
-            { name: 'Events & RSVP',          status: 'Phase 2',     phase: 2, desc: 'Browse events, register, manage RSVPs' },
-            { name: 'Surveys & Polls',        status: 'Phase 3',     phase: 3, desc: 'Community polls and feedback on BANF initiatives' },
-            { name: 'Member Directory',       status: 'Phase 3',     phase: 3, desc: 'Search members by name, city, or profession' },
-            { name: 'Meeting Minutes',        status: 'Phase 3',     phase: 3, desc: 'EC meeting summaries, decisions, action items' },
-            { name: 'Song Requests',          status: 'Phase 3',     phase: 3, desc: 'Request Bengali songs on BANF Radio' },
-            { name: 'Budget Reports',         status: 'Phase 4',     phase: 4, desc: 'Financial transparency reports and annual summaries' },
-            { name: 'Magazine Submissions',   status: 'Phase 4',     phase: 4, desc: 'Submit poems, stories, articles for Jagriti e-mag' },
-        ],
-
-        adminPortalFeatures: [
-            { name: 'Dashboard',              status: 'Live',     roles: ['all'],            desc: 'KPIs, activity log, quick actions, chatbot' },
-            { name: 'Role Definitions',       status: 'Phase 2',  roles: ['super-admin'],    desc: 'Define roles with data views, feedback capabilities' },
-            { name: 'User Management',        status: 'Phase 2',  roles: ['super-admin','admin'], desc: 'CRM search, assign roles, manage identities' },
-            { name: 'Identity Engine',        status: 'Phase 3',  roles: ['super-admin'],    desc: 'Multi-dimensional identity resolution (no DOB policy)' },
-            { name: 'Stakeholder Drive',      status: 'Phase 2',  roles: ['super-admin','admin','business-stakeholder'], desc: 'Invite sponsors + community partners' },
-            { name: 'EC Drive',               status: 'Phase 2',  roles: ['super-admin','admin'], desc: 'EC year onboarding drive — signup reminders with 24hr links' },
-            { name: 'Drive Status',           status: 'Phase 2',  roles: ['super-admin','admin','ec-member'], desc: 'Live dashboard of all drive metrics' },
-            { name: 'Feedback Pipeline',      status: 'Phase 3',  roles: ['super-admin','admin','business-stakeholder'], desc: 'Feedback → agent → design change → board → tech lead → dev' },
-            { name: 'Dev Board',              status: 'Phase 3',  roles: ['super-admin'],    desc: 'Approved changes from feedback pipeline for dev team' },
-            { name: 'E2E Test Suite',         status: 'Phase 4',  roles: ['super-admin'],    desc: 'Full end-to-end test of the entire workflow' },
-            { name: 'Activity Log',           status: 'Phase 3',  roles: ['super-admin','admin'], desc: 'All admin actions with timestamp for audit compliance' },
-        ],
-
-        ecDriveStatus: {
+    // ── TIER 2: ADMIN  (adds EC drive, portal panels, ops context) ────
+    const KB_ADMIN = {
+        ecDrive: {
             fiscalYear: 'FY2026-27',
-            totalMembers: 8,
-            signedUp: 1,       // Ranadhir Ghosh signed up 2026-02-15
-            notSignedUp: 7,    // remaining 7 pending as of March 4 2026
-            reminderSentTo: ['Partha Mukhopadhyay'], // VP — sent March 4 2026
+            total: 8,
+            signedUp: 1,     // Dr. Ranadhir Ghosh — Feb 15, 2026
+            pending: 7,
+            lastReminderTo: 'Partha Mukhopadhyay (VP) — March 4, 2026',
+            signupUrl: 'https://www.jaxbengali.org/ec-signup.html'
         },
-
-        loginPortals: {
-            ecAdmin:     'https://banfjax-hash.github.io/banf/ec-admin-login.html',
-            memberLogin: 'https://banfjax-hash.github.io/banf/member-login.html',
-            mainSite:    'https://www.jaxbengali.org',
+        roles: [
+            { role: 'super-admin',         access: 'Full platform — all panels, settings, data, analytics' },
+            { role: 'admin',               access: 'Operational — members, events, email campaigns, CRM' },
+            { role: 'ec-member',           access: 'Drive status, feedback, limited CRM views' },
+            { role: 'business-stakeholder',access: 'Stakeholder drive, feedback pipeline, sponsorship portal' },
+            { role: 'member',              access: 'Member portal — profile, events, radio, directory' }
+        ],
+        adminPanels: [
+            { name: 'Dashboard',          status: 'Live',     roles: 'all',                          desc: 'KPIs, activity feed, quick actions' },
+            { name: 'User Management',    status: 'Phase 2',  roles: 'super-admin, admin',            desc: 'CRM search, role assignment, identity management' },
+            { name: 'Role Definitions',   status: 'Phase 2',  roles: 'super-admin',                  desc: 'Define roles, data-view capabilities, permissions' },
+            { name: 'EC Drive',           status: 'Phase 2',  roles: 'super-admin, admin',            desc: 'EC year onboarding — 24hr signup links, reminders' },
+            { name: 'Stakeholder Drive',  status: 'Phase 2',  roles: 'super-admin, admin, business-stakeholder', desc: 'Sponsor + community partner invitations' },
+            { name: 'Drive Status',       status: 'Phase 2',  roles: 'super-admin, admin, ec-member', desc: 'Live dashboard of all drive metrics' },
+            { name: 'Feedback Pipeline',  status: 'Phase 3',  roles: 'super-admin, admin, business-stakeholder', desc: 'Feedback → design change → board → tech → dev' },
+            { name: 'Identity Engine',    status: 'Phase 3',  roles: 'super-admin',                  desc: 'Multi-dimensional identity resolution (no DOB policy)' },
+            { name: 'Dev Board',          status: 'Phase 3',  roles: 'super-admin',                  desc: 'Approved items from feedback pipeline for dev team' },
+            { name: 'Activity Log',       status: 'Phase 3',  roles: 'super-admin, admin',            desc: 'All admin actions with timestamp for audit compliance' },
+            { name: 'E2E Test Suite',     status: 'Phase 4',  roles: 'super-admin',                  desc: 'End-to-end test of entire workflow' }
+        ],
+        portals: {
+            main:        'https://www.jaxbengali.org',
+            memberPortal:'https://www.jaxbengali.org/member-portal.html',
+            adminPortal: 'https://www.jaxbengali.org/admin-portal.html',
+            ecSignup:    'https://www.jaxbengali.org/ec-signup.html',
+            ecLogin:     'https://banfjax-hash.github.io/banf/ec-admin-login.html',
+            memberLogin: 'https://banfjax-hash.github.io/banf/member-login.html'
         },
-
-        footerNote: 'Early bird discount available to all members till 31st May, 2026. Celebrate our culture, strengthen our community, and preserve our heritage! Join us to keep our Bengali roots alive, to connect, and to celebrate together!'
+        financeOverview: {
+            note: 'ADMIN ONLY — not for general queries',
+            revenue2526: '$23,885 from membership fees (80 paid members, 2025-26)',
+            totalTransactions: 1085,
+            revenueTarget2627: '80+ active families',
+            eventBudget2526: '$30,500+ total event allocation'
+        }
     };
 
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  2.  SYSTEM PROMPTS  — different knowledge + persona per portal
+     *  2.  SYSTEM PROMPTS — tiered RAG knowledge per portal type
+     *      Member portal: PUBLIC + MEMBER tiers
+     *      Admin portal:  PUBLIC + MEMBER + ADMIN tiers
      * ═══════════════════════════════════════════════════════════════════*/
 
-    function buildKGText() {
-        const org = KB.organization;
-        const fees = KB.membershipFees;
+    function buildPublicKG() {
+        const o = KB_PUBLIC.org;
+        const m = KB_PUBLIC.membership;
         let s = '';
-        s += `ORGANIZATION: ${org.name} (${org.bengali}). Founded ${org.founded} in ${org.location}. Mission: ${org.mission}. Website: ${org.website}. Stats: ${org.stats.families} families, ${org.stats.eventsYearly} events/year.\n`;
-        s += `CONTACTS: Membership: ${org.email} | Sponsorship: ${org.sponsorshipEmail} | Facebook: ${org.facebook} | Instagram: ${org.instagram} | YouTube: ${org.youtube} | LinkedIn: ${org.linkedin} | Payment: ${org.paymentSquare}\n`;
-        s += `\nMEMBERSHIP FEES (${fees.season}): Early bird deadline ${fees.earlyBirdDeadline}.\n`;
-        fees.categories.forEach(c => {
-            s += `  ${c.name}: Family $${c.family} | Couple $${c.couple} | Individual $${c.individual} | Student $${c.student}. Covers: ${c.events}.\n`;
+        // Org
+        s += `## ORGANIZATION\n`;
+        s += `Name: ${o.name} (${o.bengali}) | Also known as: ${o.altName}\n`;
+        s += `Founded: ${o.founded} | Type: ${o.type} | Location: ${o.location}\n`;
+        s += `Mission: ${o.mission}\n`;
+        s += `Website: ${o.website} | Email: ${o.email} | Phone: ${o.phone}\n`;
+        s += `Social: Facebook: ${o.social.facebook} | Instagram: ${o.social.instagram} | YouTube: ${o.social.youtube}\n`;
+        s += `Payment: ${o.payment.zelle} | Square: ${o.payment.square}\n`;
+        s += `Community size: ${o.stats.persons} persons, ${o.stats.families} families\n\n`;
+        // Membership
+        s += `## MEMBERSHIP FEES — ${m.season} (Early Bird deadline: ${m.earlyBirdDeadline})\n`;
+        m.tiers.forEach(t => {
+            s += `${t.name} (${t.code}): Family $${t.family} | Couple $${t.couple} | Individual $${t.individual} | Student $${t.student}\n`;
+            s += `  → Covers: ${t.events}\n  → ${t.note}\n`;
         });
-        s += `\nEVENTS (${fees.season}) — 17 total:\n`;
-        KB.events.forEach((e, i) => { s += `  ${i + 1}. ${e.name} — ${e.date} (${e.type})\n`; });
-        s += `\nEC TEAM (FY2026-27) — 8 members:\n`;
-        KB.ecTeam.forEach(m => { s += `  • ${m.name}, ${m.role}\n`; });
-        s += `\nSPONSORSHIP TIERS: ${KB.sponsorshipTiers.map(t => t.name + ' ' + t.amount).join(' | ')}\n`;
-        s += `RADIO: ${KB.radioInfo}\n`;
+        s += `Special passes:\n`;
+        m.specialPasses.forEach(p => {
+            s += `  ${p.name}: Family $${p.family} | Couple $${p.couple} | Ind $${p.individual} | Student $${p.student} (${p.covers})\n`;
+        });
+        s += `How to join: ${m.howToJoin}\nBenefits (all plans): ${m.benefits}\n\n`;
+        // Events
+        s += `## 2026-27 EVENTS (17 total)\nHighlight: ${KB_PUBLIC.upcomingHighlight}\n`;
+        KB_PUBLIC.events.forEach((e, i) => {
+            s += `${i + 1}. ${e.name} — ${e.date} [${e.type}]${e.m2Only ? ' (M2 Premium only)' : ''}\n`;
+        });
+        s += `\n`;
+        // Programs
+        s += `## PROGRAMS\n`;
+        KB_PUBLIC.programs.forEach(p => { s += `• ${p.name}: ${p.desc}\n`; });
+        s += `\n`;
+        // Sponsorship
+        const sp = KB_PUBLIC.sponsorship;
+        s += `## SPONSORSHIP\n`;
+        sp.tiers.forEach(t => { s += `${t.name} (${t.amount}): ${t.benefits}\n`; });
+        s += `Contact: ${sp.contact} | Current sponsors include: ${sp.currentSponsors}\n\n`;
+        // EC roster (public — names + roles)
+        s += `## EC LEADERSHIP — ${KB_PUBLIC.ec2026.term} (elected ${KB_PUBLIC.ec2026.electedAt})\n`;
+        KB_PUBLIC.ec2026.members.forEach(m => { s += `• ${m.name} — ${m.role}\n`; });
+        s += `\n`;
+        return s;
+    }
+
+    function buildMemberKG() {
+        let s = buildPublicKG();
+        const mk = KB_MEMBER;
+        s += `## COMMUNITY STATISTICS\n`;
+        s += `Total persons in DB: ${mk.communityStats.totalPersons} | Families: ${mk.communityStats.families}\n`;
+        s += `Active members: ${mk.communityStats.activeMembers} | Membership records all years: ${mk.communityStats.membershipRecordsAllYears}\n`;
+        s += `Top family surnames: ${mk.communityStats.topFamilies}\n\n`;
+        s += `## EC CONTACT DETAILS\n`;
+        mk.ecContacts.forEach(c => { s += `• ${c.name} (${c.role}): ${c.email}\n`; });
+        s += `\n## GBM 2026: ${mk.gbm2026.date} — ${mk.gbm2026.result}\n`;
+        return s;
+    }
+
+    function buildAdminKG() {
+        let s = buildMemberKG();
+        const ak = KB_ADMIN;
+        s += `\n## EC DRIVE STATUS (FY2026-27)\n`;
+        s += `Total EC seats: ${ak.ecDrive.total} | Signed up: ${ak.ecDrive.signedUp} | Pending: ${ak.ecDrive.pending}\n`;
+        s += `Last reminder sent to: ${ak.ecDrive.lastReminderTo}\nSignup URL: ${ak.ecDrive.signupUrl}\n\n`;
+        s += `## ADMIN PORTAL PANELS\n`;
+        ak.adminPanels.forEach(p => { s += `• ${p.name} [${p.status}] (${p.roles}): ${p.desc}\n`; });
+        s += `\n## ROLES & ACCESS\n`;
+        ak.roles.forEach(r => { s += `• ${r.role}: ${r.access}\n`; });
+        s += `\n## PORTAL LINKS\n`;
+        Object.entries(ak.portals).forEach(([k, v]) => { s += `${k}: ${v}\n`; });
+        s += `\n## FINANCE OVERVIEW (admin only)\n`;
+        s += `2025-26 membership revenue: ${ak.financeOverview.revenue2526}\n`;
+        s += `Event budget 2025-26: ${ak.financeOverview.eventBudget2526} | Total transactions: ${ak.financeOverview.totalTransactions}\n`;
         return s;
     }
 
     function getMemberSystemPrompt() {
-        const sessionData = (() => { try { return JSON.parse(sessionStorage.getItem('banf_member_data') || '{}'); } catch { return {}; } })();
-        const userName = sessionData.name || sessionData.firstName || '';
-        let userCtx = userName ? `\nCURRENT USER: ${userName} is logged in as a BANF member.` : '';
+        const sd = (() => { try { return JSON.parse(sessionStorage.getItem('banf_member_data') || '{}'); } catch { return {}; } })();
+        const uName = sd.name || sd.firstName || '';
+        const uCtx  = uName ? `\nLOGGED-IN MEMBER: ${uName}` : '';
 
-        return `You are "BANF Assistant" — the AI-powered community chatbot for the Bengali Association of North Florida (BANF) Member Portal.
+        return `You are "BANF Assistant" — the AI-powered community chatbot for the Bengali Association of North Florida Member Portal.
 
-PERSONA: Warm, helpful, knowledgeable about BANF community. Respond in a friendly, concise style. Use occasional Bengali greetings (Namaskar, Dhanyabad) naturally. Keep responses under 200 words unless listing many items.
+PERSONA: Warm, helpful, knowledgeable. Use occasional Bengali greetings (Namaskar, Dhanyabad) naturally. Keep responses under 220 words unless listing events or fees. Use **bold** for key terms.
+${uCtx}
 
-KNOWLEDGE BASE:
-${buildKGText()}
+KNOWLEDGE BASE (Public + Member tier):
+${buildMemberKG()}
 MEMBER PORTAL FEATURES:
-${KB.memberPortalFeatures.map(f => `  ${f.name} [${f.status}]: ${f.desc}`).join('\n')}
-${userCtx}
+${KB_PUBLIC.memberPortal.map(f => `• ${f.name} [${f.status}]: ${f.desc}`).join('\n')}
 
-STRICT RULES:
-1. ONLY answer questions about BANF — events, membership fees, community info, the member portal, EC team, contacts, payment, radio, sponsorship, magazine.
-2. If asked about passwords, credentials, API keys, database internals, other members' private data — refuse politely.
-3. For features marked "Phase 2/3/4" — explain they are coming soon and will launch in phases.
-4. If you don't know something specific, direct them to membership@jaxbengali.org.
-5. Do NOT make up event dates, fees, or names. Use only the knowledge base above.
-6. Format your responses in readable plain text with occasional bold **text** for emphasis.`;
+RULES:
+1. Answer ONLY about BANF — events, fees, programs, EC team, contacts, payment, radio, sponsorship, Jagriti, Bengali school, portals.
+2. Refuse politely if asked about passwords, API keys, private member data, or other members' personal info.
+3. Features marked Phase 2/3/4 are coming soon — explain they are in development.
+4. Unknown specifics → direct to banfjax@gmail.com.
+5. Never invent fees, dates, or names. Use only the knowledge base above.`;
     }
 
     function getAdminSystemPrompt() {
-        const sessionData = (() => { try { return JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}'); } catch { return {}; } })();
-        const adminName = sessionData.name || sessionData.firstName || '';
-        const adminRole = sessionData.effectiveRole || sessionData.roles && sessionData.roles[0] || 'EC Admin';
-        let adminCtx = adminName ? `\nCURRENT ADMIN: ${adminName} logged in with role ${adminRole}.` : '';
+        const sd = (() => { try { return JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}'); } catch { return {}; } })();
+        const aName = sd.name || sd.firstName || '';
+        const aRole = sd.effectiveRole || (Array.isArray(sd.roles) ? sd.roles[0] : '') || 'EC Admin';
+        const aCtx  = aName ? `\nLOGGED-IN ADMIN: ${aName} (role: ${aRole})` : '';
 
         return `You are "BANF Admin Assistant" — the AI-powered operations chatbot for the BANF EC Admin Portal.
 
-PERSONA: Professional, precise, knowledgeable about BANF operations, EC processes, and the admin platform. Keep responses under 200 words unless listing items. Use clear structure.
+PERSONA: Professional, precise, operational focus. Keep responses under 220 words unless listing panels or rosters. Use clear structure.
+${aCtx}
 
-KNOWLEDGE BASE:
-${buildKGText()}
-ADMIN PORTAL PANELS:
-${KB.adminPortalFeatures.map(f => `  ${f.name} [${f.status}] (accessible to: ${f.roles.join(', ')}): ${f.desc}`).join('\n')}
+KNOWLEDGE BASE (Public + Member + Admin tier):
+${buildAdminKG()}
 
-EC DRIVE STATUS (as of March 4, 2026):
-  Fiscal Year: ${KB.ecDriveStatus.fiscalYear}
-  Total EC Members: ${KB.ecDriveStatus.totalMembers}
-  Signed Up: ${KB.ecDriveStatus.signedUp} (Dr. Ranadhir Ghosh — signed up Feb 15, 2026)
-  Pending Signup: ${KB.ecDriveStatus.notSignedUp} members
-  Reminder sent to: ${KB.ecDriveStatus.reminderSentTo.join(', ')} on March 4, 2026
-
-PORTAL LINKS:
-  EC Admin Login: ${KB.loginPortals.ecAdmin}
-  Member Login: ${KB.loginPortals.memberLogin}
-  Main Site: ${KB.loginPortals.mainSite}
-
-ROLES: super-admin (full access) | admin (VP/Treasurer/GenSec — operational) | ec-member (Coordinators — drives + status) | business-stakeholder (sponsors + partners)
-${adminCtx}
-
-STRICT RULES:
-1. Answer questions about BANF, EC processes, the admin portal, drives, roles, and onboarding.
-2. NEVER reveal passwords, API tokens, database schemas, or private member data.
-3. For coming-soon features — explain the phased rollout.
-4. For EC drive questions — refer to the status above.
-5. Do NOT make up data. Use only the knowledge base above.`;
+RULES:
+1. Answer questions about BANF operations, EC processes, admin portal, EC drive, roles, onboarding, finance overview.
+2. NEVER reveal API tokens, database schemas, passwords, or individual payment records.
+3. Coming-soon panels → reference Phase status and planned capabilities.
+4. For EC drive questions → use the drive status section above.
+5. Never invent data. Use only the knowledge base above.`;
     }
 
 
@@ -363,6 +503,8 @@ STRICT RULES:
 
     function kbAnswer(query) {
         const q = query.toLowerCase().trim();
+        const org = KB_PUBLIC.org;
+        const mbr = KB_PUBLIC.membership;
 
         // ── Blacklist check ──
         if (isBlacklisted(query)) {
@@ -374,56 +516,60 @@ STRICT RULES:
 
         // ── Greetings ──
         if (/^(hi|hello|hey|namaste|namaskar|shubho)\b/.test(q)) {
-            return '🙏 Namaskar! Welcome to BANF — the Bengali Association of North Florida. How can I help you? Ask me about events, membership plans, fees, or our community!';
+            return '🙏 Namaskar! Welcome to BANF — the Bengali Association of North Florida. How can I help you? Ask me about events, membership plans, fees, EC team, or our community programs!';
         }
 
         // ── About BANF ──
-        if (/about\s*banf|what\s*is\s*banf|tell\s*me\s*about|who\s*is\s*banf|organization/.test(q)) {
-            return `🏛️ **${KB.organization.name}** (${KB.organization.bengali})\n\nFounded in ${KB.organization.founded} in ${KB.organization.location}.\n\n${KB.organization.mission}\n\n📊 ${KB.organization.stats.families} active families • ${KB.organization.stats.eventsYearly} events/year • ${KB.organization.stats.yearsFounded} years of heritage.`;
+        if (/about\s*banf|what\s*is\s*banf|tell\s*me\s*about|who\s*is\s*banf|organization|founded/.test(q)) {
+            return `🏛️ **${org.name}** (${org.bengali})\n\nFounded in ${org.founded} in ${org.location}.\n${org.type}\n\n${org.mission}\n\n📊 ${org.stats.persons} persons · ${org.stats.families} families · ${org.stats.eventsYearly} events/year.`;
         }
 
         // ── Membership Fees ──
-        if (/fee|price|cost|membership\s*(plan|tier|rate|price|category)|how\s*much|premium|earlybird|early\s*bird|regular\s*member|special\s*pass|culture\s*pass|puja\s*(pass|celebration|core)|student\s*fee|family\s*fee|couple\s*fee|individual\s*fee/.test(q)) {
-            let resp = `💰 **BANF Membership Fees — ${KB.membershipFees.season}**\n\n⏰ Early Bird Deadline: ${KB.membershipFees.earlyBirdDeadline}\n\n`;
-
-            // Check if asking about a specific category
-            for (const cat of KB.membershipFees.categories) {
-                const catKey = cat.name.toLowerCase();
-                if (q.includes(catKey) || (q.includes('earlybird') && catKey.includes('earlybird')) || (q.includes('early bird') && catKey.includes('earlybird'))) {
-                    return `💰 **${cat.name}** (${KB.membershipFees.season})\n• Family: $${cat.family}\n• Couple: $${cat.couple}\n• Individual: $${cat.individual}\n• Student: $${cat.student}\n\n📋 ${cat.events}\n📌 ${cat.note}`;
+        if (/fee|price|cost|membership\s*(plan|tier|rate|price|category)|how\s*much|premium|earlybird|early\s*bird|regular\s*member|special\s*pass|culture\s*pass|puja\s*(pass|celebration|core)|student|family\s*fee|couple\s*fee|individual/.test(q)) {
+            // Specific tier query
+            for (const t of mbr.tiers) {
+                const tk = t.name.toLowerCase();
+                if (q.includes('early bird') || q.includes('earlybird') || q.includes('m2-eb')) {
+                    if (tk.includes('early')) return `💰 **${t.name}**\n• Family: $${t.family} | Couple: $${t.couple} | Individual: $${t.individual} | Student: $${t.student}\n📋 ${t.events}\n📌 ${t.note}`;
+                }
+                if ((q.includes('regular') || q.includes('m1')) && tk.includes('regular')) {
+                    return `💰 **${t.name}**\n• Family: $${t.family} | Couple: $${t.couple} | Individual: $${t.individual} | Student: $${t.student}\n📋 ${t.events}\n📌 ${t.note}`;
                 }
             }
-
-            // General fee overview
-            KB.membershipFees.categories.forEach(cat => {
-                resp += `**${cat.name}:** Family $${cat.family} | Couple $${cat.couple} | Individual $${cat.individual} | Student $${cat.student}\n`;
+            // Full fee table
+            let resp = `💰 **BANF Membership Fees — ${mbr.season}**\n⏰ Early Bird deadline: **${mbr.earlyBirdDeadline}**\n\n`;
+            mbr.tiers.forEach(t => {
+                resp += `**${t.name}:** Family $${t.family} | Couple $${t.couple} | Individual $${t.individual} | Student $${t.student}\n`;
             });
-            resp += `\n💡 ${KB.footerNote}`;
+            resp += `\n**Special Passes:**\n`;
+            mbr.specialPasses.forEach(p => {
+                resp += `• ${p.name}: Fam $${p.family} | Couple $${p.couple} | Ind $${p.individual} | Student $${p.student} (${p.covers})\n`;
+            });
+            resp += `\n💡 ${mbr.benefits}`;
             return resp;
         }
 
         // ── Events ──
-        if (/event|program|calendar|what.?s\s*happening|upcoming|schedule|when\s*is|next\s*event|bosonto|noboborsho|durga|puja|kali|saraswati|picnic|sports|spondon|natok|drama|bijoya|lakshmi|mohaloya/.test(q)) {
-            // Check for a specific event
-            for (const ev of KB.events) {
-                if (q.includes(ev.name.toLowerCase()) || ev.name.toLowerCase().split(' ').some(w => w.length > 3 && q.includes(w))) {
-                    return `📅 **${ev.name}**\n📆 Date: ${ev.date}\n🏷️ Type: ${ev.type}`;
+        if (/event|program|calendar|what.?s\s*happening|upcoming|schedule|when\s*is|next\s*event|bosonto|nabo\s*borsho|pohela|durga|puja|kali|saraswati|picnic|sports|spandan|spondon|natok|drama|bijoya|lakshmi|mahaloya|mohaloya/.test(q)) {
+            const evts = KB_PUBLIC.events;
+            for (const ev of evts) {
+                const ek = ev.name.toLowerCase();
+                if (q.includes(ek) || ek.split(/\s+/).some(w => w.length > 4 && q.includes(w))) {
+                    return `📅 **${ev.name}**\n📆 Date: ${ev.date}\n🏷️ Type: ${ev.type}${ev.m2Only ? '\n⭐ M2 Premium plan only' : ''}`;
                 }
             }
-
-            // List all events
-            let resp = `📅 **BANF Events — ${KB.membershipFees.season}**\n\n`;
-            KB.events.forEach((ev, i) => {
-                resp += `${i + 1}. **${ev.name}** — ${ev.date} (${ev.type})\n`;
+            let resp = `📅 **BANF Events — ${mbr.season}** (17 events)\n\n🌟 **Upcoming:** ${KB_PUBLIC.upcomingHighlight}\n\n`;
+            evts.forEach((ev, i) => {
+                resp += `${i + 1}. **${ev.name}** — ${ev.date} [${ev.type}]${ev.m2Only ? ' ⭐' : ''}\n`;
             });
-            resp += `\nTotal: 17 events across cultural, religious, educational, and social categories.`;
+            resp += `\n⭐ = M2 Premium plan only`;
             return resp;
         }
 
         // ── EC Team ──
-        if (/ec\s*team|executive|committee|president|vice\s*president|treasurer|secretary|who\s*runs|leadership|board|cultural\s*secretary|communication|outreach|youth\s*coordinator/.test(q)) {
-            let resp = '👥 **BANF Executive Committee (EC) 2026-27**\n\n';
-            KB.ecTeam.forEach(m => {
+        if (/ec\s*team|executive|committee|president|vice\s*president|treasurer|secretary|who\s*runs|leadership|board|cultural\s*sec|food\s*coord|event\s*coord|puja\s*coord/.test(q)) {
+            let resp = `👥 **BANF Executive Committee ${KB_PUBLIC.ec2026.term}**\n_(${KB_PUBLIC.ec2026.electedAt})_\n\n`;
+            KB_PUBLIC.ec2026.members.forEach(m => {
                 resp += `• **${m.name}** — ${m.role}\n`;
             });
             return resp;
@@ -431,41 +577,53 @@ STRICT RULES:
 
         // ── Contact ──
         if (/contact|email|reach|phone|call|write\s*to|get\s*in\s*touch/.test(q)) {
-            return `📧 **Contact BANF**\n\n• Membership: ${KB.organization.email}\n• Sponsorship: ${KB.organization.sponsorshipEmail}\n• Facebook: ${KB.organization.facebook}\n• Instagram: ${KB.organization.instagram}\n• YouTube: ${KB.organization.youtube}\n• Payment: ${KB.organization.paymentSquare}`;
+            return `📧 **Contact BANF**\n\n• Email: ${org.email}\n• Phone: ${org.phone}\n• Facebook: ${org.social.facebook}\n• Instagram: ${org.social.instagram}\n• YouTube: ${org.social.youtube}\n• Pay (Zelle): ${org.payment.zelle}\n• Pay (Square): ${org.payment.square}`;
         }
 
         // ── Social Media ──
-        if (/facebook|instagram|youtube|linkedin|social\s*media|whatsapp|follow/.test(q)) {
-            return `📱 **BANF Social Media**\n\n• Facebook: ${KB.organization.facebook}\n• Instagram: ${KB.organization.instagram}\n• YouTube: ${KB.organization.youtube}\n• LinkedIn: ${KB.organization.linkedin}`;
+        if (/facebook|instagram|youtube|linkedin|social\s*media|follow/.test(q)) {
+            return `📱 **BANF Social Media**\n\n• Facebook: ${org.social.facebook}\n• Instagram: ${org.social.instagram}\n• YouTube: ${org.social.youtube}\n• LinkedIn: ${org.social.linkedin}`;
         }
 
         // ── Radio ──
         if (/radio|music|song|listen|stream/.test(q)) {
-            return `🎵 **BANF Radio**\n\n${KB.radioInfo}\nTune in 24/7 for Bengali music, Rabindra Sangeet, and cultural programs.`;
+            const r = KB_PUBLIC.programs.find(p => p.name === 'BANF Radio');
+            return `🎵 **BANF Radio**\n\n${r ? r.desc : 'BANF streams Bengali music 24/7 via the member portal at jaxbengali.org.'}\n\nTune in via the Member Portal at www.jaxbengali.org.`;
+        }
+
+        // ── Bengali Language School ──
+        if (/school|bengali\s*school|language|actfl|class|kids\s*learn|heritage/.test(q)) {
+            const s = KB_PUBLIC.programs.find(p => p.name.includes('Language School'));
+            return `🎓 **Bengali Language School**\n\n${s ? s.desc : 'BANF runs an ACTFL-aligned Bengali language school for K-5 children.'}`;
+        }
+
+        // ── Jagriti Magazine ──
+        if (/jagriti|magazine|e-mag|literary|publish|submit\s*article/.test(q)) {
+            const s = KB_PUBLIC.programs.find(p => p.name.includes('Jagriti'));
+            return `📖 **Jagriti Literary Magazine**\n\n${s ? s.desc : 'BANF\'s annual Bengali literary and cultural magazine.'}`;
         }
 
         // ── Sponsorship ──
         if (/sponsor|donate|support|contribute|fund|partner/.test(q)) {
-            let resp = '🤝 **Become a BANF Sponsor — ' + KB.membershipFees.season + '**\n\n';
-            KB.sponsorshipTiers.forEach(t => {
-                resp += `• **${t.name}**: ${t.amount}\n`;
-            });
-            resp += `\n📧 Contact: ${KB.organization.sponsorshipEmail}`;
+            const sp = KB_PUBLIC.sponsorship;
+            let resp = `🤝 **BANF Sponsorship Opportunities**\n\n`;
+            sp.tiers.forEach(t => { resp += `• **${t.name}** (${t.amount}): ${t.benefits}\n`; });
+            resp += `\n📧 Contact: ${sp.contact}\nCurrent sponsors: ${sp.currentSponsors}`;
             return resp;
         }
 
-        // ── Payment ──
-        if (/pay|square|how\s*to\s*(pay|join)|register|sign\s*up|become\s*a\s*member/.test(q)) {
-            return `💳 **How to Join / Pay**\n\n1. Visit our payment page: ${KB.organization.paymentSquare}\n2. Email: ${KB.organization.email}\n3. Choose from 6 membership categories (Earlybird Premium, Premium, Regular, or Special Passes)\n\n⏰ Early Bird pricing available until ${KB.membershipFees.earlyBirdDeadline}!`;
+        // ── Payment / Join ──
+        if (/pay|square|zelle|how\s*to\s*(pay|join)|register|sign\s*up|become\s*a\s*member|renew/.test(q)) {
+            return `💳 **How to Join / Pay Membership**\n\n${mbr.howToJoin}\n\n• ${org.payment.zelle}\n• Square: ${org.payment.square}\n• ${org.payment.check}\n\n⏰ Early Bird pricing until **${mbr.earlyBirdDeadline}**`;
         }
 
         // ── Website ──
         if (/website|site|url|link|homepage|portal/.test(q)) {
-            return `🌐 **BANF Website**: ${KB.organization.website}\n\nThe website includes membership plans, events calendar, EC team profiles, announcements, radio, and sponsorship information.`;
+            return `🌐 **BANF Website**: ${KB_PUBLIC.org.website}\n\nThe website includes membership plans, events calendar, EC team profiles, announcements, radio, and sponsorship information.`;
         }
 
         // ── Fallback ──
-        return '🤔 I can help with:\n• **Events** — dates, details, coverage\n• **Membership fees** — all 6 categories with prices\n• **Contact info** — email, social media\n• **EC Team** — leadership profiles\n• **Sponsorship** — tiers and contact\n• **Radio** — BANF 24/7 stream\n• **Portal features** — what\'s available now vs coming soon\n\nPlease ask about any of these topics!';
+        return '🤔 I can help with:\n• **Events** — all 17 events with dates\n• **Membership fees** — M2 Premium EB/Regular + Special Passes\n• **Contact info** — email, phone, social media, payment\n• **EC Team** — 2026-28 leadership roster\n• **Programs** — Bengali school, Radio, Jagriti magazine, Tagore project\n• **Sponsorship** — tiers and opportunities\n• **Portal features** — what\'s Live vs coming in Phase 2/3/4\n\nPlease ask about any of these!';
     }
 
 
