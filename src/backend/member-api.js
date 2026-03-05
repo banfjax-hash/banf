@@ -116,11 +116,52 @@ export async function post_member_rsvp(request) {
         // Check if already RSVP'd
         const existing = await wixData.query('EventRSVPs').eq('eventId', body.eventId).eq('email', perm.email).find(SA);
         if (existing.items.length > 0) return jsonOk({ message: 'Already RSVP\'d', rsvp: existing.items[0] });
-        const rsvp = await wixData.insert('EventRSVPs', { eventId: body.eventId, email: perm.email, guestCount: body.guestCount || 1, notes: body.notes || '', rsvpAt: new Date() }, SA);
+        // Look up member name from Members collection
+        const memberRec = await wixData.query('Members').eq('email', perm.email).find(SA).catch(() => ({ items: [] }));
+        const memberName = memberRec.items[0] ? `${memberRec.items[0].firstName || ''} ${memberRec.items[0].lastName || ''}`.trim() : perm.email;
+        const adults    = Number(body.adults)    || 1;
+        const kids      = Number(body.kids)      || 0;
+        const vegCount  = Number(body.vegCount)  || 0;
+        const nonVegCount = Number(body.nonVegCount) || adults + kids - vegCount;
+        const rsvp = await wixData.insert('EventRSVPs', {
+            eventId:        body.eventId,
+            eventName:      body.eventName    || '',
+            email:          perm.email,
+            memberName,
+            rsvpStatus:     'yes',
+            adults,
+            kids,
+            totalGuests:    adults + kids,
+            vegCount,
+            nonVegCount,
+            specialDietary: body.specialDietary || '',
+            notes:          body.notes         || '',
+            guestCount:     adults + kids,
+            rsvpAt:         new Date()
+        }, SA);
         return jsonOk({ rsvp, message: 'RSVP confirmed' });
     } catch (e) { return jsonErr(e.message, 500); }
 }
 export function options_member_rsvp(request) { return handleCors(); }
+
+// ─────────────────────────────────────────
+// ADMIN: LIST RSVPS (for QR code agent)
+// ─────────────────────────────────────────
+export async function get_event_rsvps(request) {
+    // Admins or EC coordinators can list all RSVPs for an event
+    const perm = await checkPermission(request, 'admin:view_reports');
+    if (!perm.allowed) return jsonErr('Forbidden', 403);
+    try {
+        const params = request.query || {};
+        const status = params.status || 'yes';
+        const eventName = params.event || null;
+        let query = wixData.query('EventRSVPs').eq('rsvpStatus', status).ascending('memberName').limit(200);
+        if (eventName) query = query.contains('eventName', eventName);
+        const result = await query.find(SA);
+        return jsonOk({ success: true, rsvps: result.items, total: result.totalCount });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_event_rsvps(request) { return handleCors(); }
 
 // ─────────────────────────────────────────
 // MEMBER COMPLAINTS
