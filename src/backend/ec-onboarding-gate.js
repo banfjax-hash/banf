@@ -606,6 +606,9 @@ async function sendGmail(to, toName, subject, html) {
 function buildReminderEmail(ecMember, steps) {
     const firstName = ecMember.firstName || 'EC Member';
     const ecTitle = ecMember.ecTitle || ecMember.role || 'EC Member';
+    // Construct a deep link to the signup tab with email pre-filled and 48h expiry
+    const reminderExpires = Date.now() + 48 * 60 * 60 * 1000;
+    const signupUrl = `https://banfjax-hash.github.io/banf/ec-admin-login.html?signup=true&email=${encodeURIComponent(ecMember.email || '')}&expires=${reminderExpires}`;
     const pendingSteps = [];
     if (!steps.passwordSet) pendingSteps.push('Set your password');
     if (!steps.profileComplete) pendingSteps.push('Complete your profile');
@@ -633,7 +636,7 @@ function buildReminderEmail(ecMember, steps) {
         </ul>
         
         <div style="text-align: center; margin: 25px 0;">
-            <a href="${ONBOARD_URL}" style="display: inline-block; background: linear-gradient(135deg, #8B0000, #DC143C); color: #fff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">Complete Onboarding Now →</a>
+            <a href="${signupUrl}" style="display: inline-block; background: linear-gradient(135deg, #8B0000, #DC143C); color: #fff; padding: 14px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">Complete Onboarding Now →</a>
             <a href="${JOURNEY_URL}" style="display: inline-block; background: #fff; color: #8B0000; border: 2px solid #8B0000; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; margin-left: 10px;">Open Requirements Journey</a>
         </div>
         
@@ -903,7 +906,9 @@ export function options_ec_signup_congratulations(request) { return handleCors()
 function buildInviteEmail(member) {
     const name = [member.firstName, member.lastName].filter(Boolean).join(' ') || 'EC Member';
     const role = member.ecTitle || member.role || 'EC Member';
-    const loginUrl = 'https://banfjax-hash.github.io/banf/admin-portal.html';
+    // Link directly to the Sign Up tab with email pre-filled and a 48h expiry token
+    const expires = Date.now() + 48 * 60 * 60 * 1000;
+    const loginUrl = `https://banfjax-hash.github.io/banf/ec-admin-login.html?signup=true&email=${encodeURIComponent(member.email || '')}&expires=${expires}`;
     return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><title>BANF EC Signup Invitation</title></head>
@@ -924,8 +929,8 @@ function buildInviteEmail(member) {
       <div style="background:#f9f9f9;border-radius:8px;padding:16px 20px;margin:20px 0;">
         <h3 style="margin:0 0 10px;font-size:15px;color:#333;">What you'll need to do:</h3>
         <ol style="margin:0;padding-left:20px;font-size:14px;color:#555;line-height:1.8;">
-          <li>Click the button above to open the EC Admin Portal</li>
-          <li>Click <strong>"Sign Up"</strong> and enter your email: <strong>${member.email || 'your email'}</strong></li>
+          <li>Click the button above — it opens the Sign Up form with your email pre-filled</li>
+          <li>Click <strong>"Begin Signup"</strong> to verify your email: <strong>${member.email || 'your email'}</strong></li>
           <li>Set your password and choose a security question</li>
           <li>Your account will be created instantly — no verification code needed!</li>
           <li>Test the member portal at <a href="${MEMBER_LOGIN_URL}" style="color:#8B0000;">member-login.html</a></li>
