@@ -296,3 +296,151 @@ export async function get_member_directory(request) {
     } catch (e) { return jsonErr(e.message, 500); }
 }
 export function options_member_directory(request) { return handleCors(); }
+// ─────────────────────────────────────────
+// FAMILY MEMBERS CRUD
+// Members can view/add/update/delete their own family records.
+// Family member fields: firstName, lastName, relationship, dateOfBirth,
+//   phone, email, dietaryPreference, specialDietary, medicalNotes
+// Age is calculated at query-time from dateOfBirth vs today (March 4, 2026+).
+// ─────────────────────────────────────────
+
+function calcAge(dob) {
+    if (!dob) return null;
+    const birth = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age;
+}
+
+export async function get_member_family(request) {
+    const perm = await checkPermission(request, 'member:view_own');
+    if (!perm.allowed) return jsonErr('Forbidden', 403);
+    try {
+        // Admins can query by ?member_email=xxx; members only see own
+        const targetEmail = (perm.role === 'admin' || perm.role === 'super-admin' || perm.role === 'ec-member')
+            ? ((request.query || {}).member_email || perm.email)
+            : perm.email;
+
+        const memberRes = await wixData.query('Members').eq('email', targetEmail).find(SA);
+        if (!memberRes.items.length) return jsonErr('Member not found');
+        const memberId = memberRes.items[0]._id;
+        // Get family members + calculate age
+        const familyRes = await wixData.query('FamilyMembers')
+            .eq('memberId', memberId)
+            .eq('isActive', true)
+            .ascending('relationship')
+            .find(SA);
+        const family = familyRes.items.map(f => ({
+            ...f,
+            ageAsOfToday: calcAge(f.dateOfBirth)
+        }));
+        return jsonOk({ family, memberEmail: targetEmail });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_member_family(request) { return handleCors(); }
+
+export async function post_add_family_member(request) {
+    const perm = await checkPermission(request, 'member:update_own');
+    if (!perm.allowed) return jsonErr('Forbidden', 403);
+    try {
+        const body = await parseBody(request);
+        if (!body.firstName || !body.lastName || !body.relationship)
+            return jsonErr('Required: firstName, lastName, relationship');
+
+        // Find the primary member record
+        const targetEmail = (perm.role === 'admin' || perm.role === 'super-admin')
+            ? (body.memberEmail || perm.email)
+            : perm.email;
+        const memberRes = await wixData.query('Members').eq('email', targetEmail).find(SA);
+        if (!memberRes.items.length) return jsonErr('Member not found');
+        const memberId = memberRes.items[0]._id;
+
+        // If relationship = spouse, update the primary member's spouseName field too
+        if (body.relationship === 'spouse') {
+            await wixData.update('Members', {
+                ...memberRes.items[0],
+                spouseName: `${body.firstName} ${body.lastName}`,
+                lastUpdatedAt: new Date()
+            }, SA);
+        }
+
+        const newMember = await wixData.insert('FamilyMembers', {
+            memberId,
+            memberEmail:        targetEmail,
+            firstName:          body.firstName,
+            lastName:           body.lastName,
+            relationship:       body.relationship,          // spouse | child | parent | sibling | other
+            dateOfBirth:        body.dateOfBirth || null,
+            phone:              body.phone || '',
+            email:              body.email || '',
+            dietaryPreference:  body.dietaryPreference || 'non-veg',  // veg | non-veg
+            specialDietary:     body.specialDietary || '',
+            medicalNotes:       body.medicalNotes || '',
+            isActive:           true,
+            addedAt:            new Date()
+        }, SA);
+
+        return jsonOk({ familyMember: { ...newMember, ageAsOfToday: calcAge(newMember.dateOfBirth) }, message: 'Family member added' });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_add_family_member(request) { return handleCors(); }
+
+export async function post_update_family_member(request) {
+    const perm = await checkPermission(request, 'member:update_own');
+    if (!perm.allowed) return jsonErr('Forbidden', 403);
+    try {
+        const body = await parseBody(request);
+        if (!body.familyMemberId) return jsonErr('Missing familyMemberId');
+
+        // Confirm ownership
+        const existing = await wixData.get('FamilyMembers', body.familyMemberId, SA);
+        if (!existing) return jsonErr('Family member not found');
+        if (perm.role === 'member' && existing.memberEmail !== perm.email)
+            return jsonErr('Forbidden: not your family member', 403);
+
+        const IMMUTABLE = ['_id', 'memberId', 'memberEmail', 'addedAt'];
+        IMMUTABLE.forEach(f => delete body[f]);
+
+        const updated = await wixData.update('FamilyMembers', {
+            ...existing, ...body,
+            familyMemberId: undefined,
+            lastUpdatedAt: new Date()
+        }, SA);
+
+        // Sync spouseName on primary member if relationship is spouse
+        if ((body.relationship || existing.relationship) === 'spouse') {
+            const memberRes = await wixData.query('Members').eq('email', existing.memberEmail).find(SA);
+            if (memberRes.items.length) {
+                await wixData.update('Members', {
+                    ...memberRes.items[0],
+                    spouseName: `${updated.firstName} ${updated.lastName}`,
+                    lastUpdatedAt: new Date()
+                }, SA);
+            }
+        }
+
+        return jsonOk({ familyMember: { ...updated, ageAsOfToday: calcAge(updated.dateOfBirth) }, message: 'Updated' });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_update_family_member(request) { return handleCors(); }
+
+export async function post_delete_family_member(request) {
+    const perm = await checkPermission(request, 'member:update_own');
+    if (!perm.allowed) return jsonErr('Forbidden', 403);
+    try {
+        const body = await parseBody(request);
+        if (!body.familyMemberId) return jsonErr('Missing familyMemberId');
+
+        const existing = await wixData.get('FamilyMembers', body.familyMemberId, SA);
+        if (!existing) return jsonErr('Family member not found');
+        if (perm.role === 'member' && existing.memberEmail !== perm.email)
+            return jsonErr('Forbidden', 403);
+
+        // Soft-delete: set isActive = false
+        await wixData.update('FamilyMembers', { ...existing, isActive: false, deletedAt: new Date() }, SA);
+        return jsonOk({ message: 'Family member removed' });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_delete_family_member(request) { return handleCors(); }

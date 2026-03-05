@@ -932,7 +932,10 @@
                                     <label>Phone Number</label>
                                     <input type="tel" class="form-control" id="phone" value="">
                                 </div>
-                                
+                                <div class="form-group">
+                                    <label>Spouse / Partner Name</label>
+                                    <input type="text" class="form-control" id="spouseName" placeholder="Full name of spouse or partner">
+                                </div>
                                 <div class="form-group">
                                     <label>Address</label>
                                     <textarea class="form-control" id="address" rows="3"></textarea>
@@ -994,7 +997,8 @@
                                 <th>Name</th>
                                 <th>Relationship</th>
                                 <th>Age</th>
-                                <th>Status</th>
+                                <th>Diet</th>
+                                <th>Contact</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -1529,10 +1533,92 @@
             document.body.appendChild(overlay);
         }
 
-        // ========== ACTIONS ==========
-        function openAddFamilyModal() {
-            comingSoon('Add Family Member');
+        // ========== FAMILY CRUD ==========
+        const _BAPI = 'https://www.jaxbengali.org/_functions';
+        let _editFid = null, _fData = [];
+
+        async function _aCall(ep, method, body) {
+            const md = sessionStorage.getItem('banf_member_data');
+            const u = md ? JSON.parse(md) : {};
+            const h = { 'Content-Type': 'application/json', 'x-user-email': u.email || '' };
+            const o = { method: method || 'GET', headers: h };
+            if (body !== undefined) o.body = JSON.stringify(body);
+            return (await fetch(_BAPI + ep, o)).json();
         }
+
+        async function loadFamilyMembers() {
+            const tb = document.getElementById('familyTableBody');
+            if (!tb) return;
+            tb.innerHTML = '<tr><td colspan="6" class="text-center py-3"><i class="fas fa-spinner fa-spin me-2"></i>Loading...</td></tr>';
+            try {
+                const d = await _aCall('/member_family', 'GET');
+                _fData = (d.success && d.family) ? d.family : [];
+                if (!_fData.length) {
+                    tb.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted"><i class="fas fa-users fa-2x d-block mb-2"></i>No family members yet. Click Add below.</td></tr>';
+                    return;
+                }
+                tb.innerHTML = _fData.map(f => {
+                    const age     = f.ageAsOfToday != null ? f.ageAsOfToday + ' yrs' : (f.dateOfBirth ? new Date(f.dateOfBirth).toLocaleDateString() : '&mdash;');
+                    const diet    = f.dietaryPreference === 'veg' ? '&#x1F966; Veg' : '&#x1F357; Non-Veg';
+                    const special = f.specialDietary ? '<br><small class="text-muted">' + f.specialDietary + '</small>' : '';
+                    const contact = [f.phone, f.email].filter(Boolean).join('<br>') || '&mdash;';
+                    return `<tr>
+                        <td><strong>${f.firstName} ${f.lastName}</strong></td>
+                        <td>${f.relationship || '&mdash;'}</td>
+                        <td>${age}</td>
+                        <td>${diet}${special}</td>
+                        <td><small>${contact}</small></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-success me-1" onclick="openEditFamilyModal('${f._id}')" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteFamilyMember('${f._id}','${f.firstName}')" title="Remove"><i class="fas fa-trash"></i></button>
+                        </td></tr>`;
+                }).join('');
+            } catch (e) {
+                console.error('loadFamilyMembers:', e);
+                tb.innerHTML = '<tr><td colspan="6" class="text-danger text-center py-3">Error loading. Please refresh.</td></tr>';
+            }
+        }
+
+        function openAddFamilyModal() {
+            _editFid = null;
+            document.getElementById('familyModalTitle').textContent = 'Add Family Member';
+            document.getElementById('familyMemberForm').reset();
+            new bootstrap.Modal(document.getElementById('familyMemberModal'), {}).show();
+        }
+
+        function openEditFamilyModal(id) {
+            const f = _fData.find(x => x._id === id);
+            if (!f) { alert('Not found. Please refresh.'); return; }
+            _editFid = id;
+            document.getElementById('familyModalTitle').textContent = 'Edit Family Member';
+            const map = { fm_firstName: 'firstName', fm_lastName: 'lastName', fm_relationship: 'relationship',
+                          fm_phone: 'phone', fm_email: 'email', fm_dietary: 'dietaryPreference', fm_special: 'specialDietary' };
+            Object.entries(map).forEach(([elId, fKey]) => {
+                const el = document.getElementById(elId);
+                if (el) el.value = f[fKey] || '';
+            });
+            const dob = document.getElementById('fm_dob');
+            if (dob && f.dateOfBirth) dob.value = f.dateOfBirth.slice(0, 10);
+            new bootstrap.Modal(document.getElementById('familyMemberModal'), {}).show();
+        }
+
+        async function deleteFamilyMember(id, name) {
+            if (!confirm('Remove ' + name + ' from your family list?')) return;
+            const r = await _aCall('/delete_family_member', 'POST', { familyMemberId: id });
+            if (r.success) { loadFamilyMembers(); showPortalToast(name + ' removed.', 'success'); }
+            else alert('Error: ' + (r.error || 'Could not remove'));
+        }
+
+        function showPortalToast(msg, type) {
+            const t = document.createElement('div');
+            t.className = 'position-fixed bottom-0 end-0 p-3';
+            t.style.zIndex = 9999;
+            t.innerHTML = `<div class="toast show align-items-center text-bg-${type} border-0"><div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" onclick="this.closest('.position-fixed').remove()"></button></div></div>`;
+            document.body.appendChild(t);
+            setTimeout(() => { if (t.parentNode) t.parentNode.removeChild(t); }, 4000);
+        }
+
+        // ========== ACTIONS ==========
         
         function downloadBudget(year) {
             comingSoon('Budget Reports');
@@ -1551,9 +1637,49 @@
         }
 
         // ========== FORM HANDLERS ==========
-        document.getElementById('profileForm')?.addEventListener('submit', function(e) {
+        document.getElementById('familyMemberForm')?.addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert('Profile updated successfully!');
+            const btn = e.target.querySelector('[type=submit]');
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            const payload = {
+                firstName:         document.getElementById('fm_firstName').value.trim(),
+                lastName:          document.getElementById('fm_lastName').value.trim(),
+                relationship:      document.getElementById('fm_relationship').value,
+                dateOfBirth:       document.getElementById('fm_dob').value || null,
+                phone:             document.getElementById('fm_phone').value.trim(),
+                email:             document.getElementById('fm_email').value.trim(),
+                dietaryPreference: document.getElementById('fm_dietary').value,
+                specialDietary:    document.getElementById('fm_special').value.trim()
+            };
+            if (_editFid) payload.familyMemberId = _editFid;
+            const ep = _editFid ? '/update_family_member' : '/add_family_member';
+            const r  = await _aCall(ep, 'POST', payload);
+            btn.disabled = false; btn.innerHTML = '<i class="fas fa-save me-1"></i> Save Member';
+            if (r.success) {
+                bootstrap.Modal.getInstance(document.getElementById('familyMemberModal'))?.hide();
+                await loadFamilyMembers();
+                showPortalToast(_editFid ? 'Updated!' : 'Added!', 'success');
+            } else showPortalToast('Error: ' + (r.error || 'Operation failed'), 'danger');
+        });
+
+        document.getElementById('profileForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('[type=submit]');
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            const spEl  = document.getElementById('spouseName');
+            const r = await _aCall('/member_profile_update', 'POST', {
+                firstName:  document.getElementById('firstName').value.trim(),
+                lastName:   document.getElementById('lastName').value.trim(),
+                phone:      document.getElementById('phone').value.trim(),
+                spouseName: spEl ? spEl.value.trim() : '',
+                address:    document.getElementById('address').value.trim(),
+                city:       document.getElementById('city').value.trim(),
+                state:      document.getElementById('state').value.trim(),
+                zip:        document.getElementById('zip').value.trim()
+            });
+            btn.disabled = false; btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            if (r.success) showPortalToast('Profile saved successfully!', 'success');
+            else showPortalToast('Error: ' + (r.error || 'Could not save profile'), 'danger');
         });
         
         document.getElementById('songRequestForm')?.addEventListener('submit', function(e) {
@@ -1572,6 +1698,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadMemberData();
             fetchMemberDashboard();
+            loadFamilyMembers();
             
             // Handle hash navigation
             if (window.location.hash) {
@@ -1588,6 +1715,69 @@
             }
         });
     </script>
+    <!-- Family Member Modal -->
+    <div class="modal fade" id="familyMemberModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="background:var(--gradient-green);color:#fff;">
+            <h5 class="modal-title" id="familyModalTitle">Add Family Member</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body p-4">
+            <form id="familyMemberForm" autocomplete="off">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">First Name *</label>
+                  <input type="text" class="form-control" id="fm_firstName" required>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Last Name *</label>
+                  <input type="text" class="form-control" id="fm_lastName" required>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Relationship *</label>
+                  <select class="form-control" id="fm_relationship" required>
+                    <option value="spouse">Spouse / Partner</option>
+                    <option value="child">Child</option>
+                    <option value="parent">Parent</option>
+                    <option value="sibling">Sibling</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Date of Birth</label>
+                  <input type="date" class="form-control" id="fm_dob">
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Phone</label>
+                  <input type="tel" class="form-control" id="fm_phone" placeholder="(904) 000-0000">
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Email</label>
+                  <input type="email" class="form-control" id="fm_email">
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Dietary Preference</label>
+                  <select class="form-control" id="fm_dietary">
+                    <option value="non-veg">Non-Vegetarian</option>
+                    <option value="veg">Vegetarian</option>
+                  </select>
+                </div>
+                <div class="col-sm-6">
+                  <label class="form-label fw-semibold">Special Dietary Needs</label>
+                  <input type="text" class="form-control" id="fm_special" placeholder="Allergies, restrictions...">
+                </div>
+              </div>
+              <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="feature-btn"><i class="fas fa-save me-1"></i> Save Member</button>
+                <button type="button" class="feature-btn secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- BANF RAG Chatbot Widget -->
     <script src="banf-chatbot-widget.js"></script>
 </body>
