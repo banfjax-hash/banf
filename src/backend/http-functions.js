@@ -546,6 +546,11 @@ export function options_ec_send_all_invitations(request)      { return _ecSendIn
 export async function post_ec_signup_congratulations(request) { return _ecSignupCongrats(request); }
 export function options_ec_signup_congratulations(request)    { return _ecSignupCongratsOpts(request); }
 
+// ── Deploy canary endpoint ──
+export function get_deploy_check(request) {
+    return ok({ body: JSON.stringify({ version: 'v5.12.0-ec-separated', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+}
+
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
 import wixData from 'wix-data';
 import { fetch as wixFetch } from 'wix-fetch';
