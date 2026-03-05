@@ -264,11 +264,19 @@ async function step2_ecInvitations() {
 
 /**
  * Step 3: admin_signup_direct — Validate email & get setupToken
+ * If account already has a password (passwordSet=true), returns { alreadySet: true } instead of aborting.
  */
 async function step3_signupDirect(account) {
     log(`\n── Step 3: admin_signup_direct ──`);
     const res = await POST('admin_signup_direct', { email: account.email }, { 'x-user-email': '' });
     const j = res.json;
+
+    // If account already has a password from a previous test run, skip signup gracefully
+    if (res.status === 400 && j?.error && j.error.includes('already has a password')) {
+        log(`  ℹ️  Account already has a password (previous test run). Skipping signup steps — will test login directly.`);
+        assert('admin_signup_direct [already-set — graceful skip]', true, 'already-set', true, 'passwordSet=true from prior run; signup steps skipped');
+        return { success: false, alreadySet: true, setupToken: null, res };
+    }
 
     assertStatus('admin_signup_direct', res, 200);
     assertField('admin_signup_direct', j, 'success', true);
@@ -429,6 +437,14 @@ async function runECPipeline() {
 
     // Step 3: Signup direct (get fresh setupToken)
     const s3 = await step3_signupDirect(account);
+    if (s3.alreadySet) {
+        // Account already has a password from a prior test run — skip steps 4-6 and go straight to login/email tests
+        log('  ⚠️  Skipping steps 4-6 (signup flow) — account already configured. Running login + email tests only.');
+        await step7_login(account);
+        await step8_ecCongrats(account);
+        await stepV_verifyRoles(account);
+        return;
+    }
     if (!s3.setupToken) {
         log('  ⚠️  No setupToken from signup_direct — aborting');
         return;

@@ -14,7 +14,7 @@ import { fetch as wixFetch } from 'wix-fetch';
 import { checkPermission, addAdminRole, revokeAdminRole, listAdminRoles, applyDataFilters } from 'backend/rbac';
 import { runEmailAutomationScan, approveAndSendResponse, getEmailQueueDashboard, sendDirectEmail } from 'backend/email-automation';
 import { getEmailTemplate, listEmailTemplates, saveEmailTemplate, renderTemplate, getMemberProfile, buildJourneyUrl } from 'backend/email-templates';
-import { generateAndStoreSetupToken, verifyAdminLogin, setAdminPassword, getOnboardProfile, saveOnboardProfile, markOnboardingComplete, getOnboardStatus, buildOnboardUrl, buildPortalUrl, hashPwdDebug, getAdminSecurityQuestion, verifySecurityAnswer, resetAdminPassword, generateSignupCode, verifySignupCode } from 'backend/admin-onboarding';
+import { generateAndStoreSetupToken, verifyAdminLogin, setAdminPassword, getOnboardProfile, saveOnboardProfile, markOnboardingComplete, getOnboardStatus, buildOnboardUrl, buildPortalUrl, hashPwdDebug, getAdminSecurityQuestion, verifySecurityAnswer, resetAdminPassword, forceResetAdminPassword, generateSignupCode, verifySignupCode } from 'backend/admin-onboarding';
 import { seedAgentProfiles, getAllAgentProfiles, updateAgentProfile } from 'backend/agent-orchestrator';
 import { seedDefaultKnowledge, addKnowledgeDocument, retrieveTopK, processDocumentUpload } from 'backend/rag-engine';
 import { seedAdminRoles } from 'backend/rbac';
@@ -738,6 +738,30 @@ export async function post_admin_signup_direct(request) {
     } catch (e) { return jsonErr(e.message, 500); }
 }
 export function options_admin_signup_direct(request) { return handleCors(); }
+
+// ─────────────────────────────────────────
+// SUPER ADMIN FORCE PASSWORD RESET
+// ─────────────────────────────────────────
+
+/**
+ * POST /admin_sa_force_reset
+ * Super Admin only — directly resets any admin user's password without a token.
+ * Body: { targetEmail, newPassword }
+ * Requires: x-user-email = super_admin email
+ */
+export async function post_admin_sa_force_reset(request) {
+    try {
+        const perm = await checkPermission(request, 'admin:write');
+        if (!perm.allowed || perm.role !== 'super_admin') return jsonErr('Super Admin access required', 403);
+        const body = await parseBody(request);
+        if (!body.targetEmail || !body.newPassword) return jsonErr('targetEmail and newPassword required');
+        const result = await forceResetAdminPassword(body.targetEmail, body.newPassword);
+        if (!result.success) return jsonErr(result.error || 'Reset failed', 400);
+        return jsonOk({ success: true, email: result.email, firstName: result.firstName, lastName: result.lastName,
+            message: 'Password has been force-reset. The user can now log in with the new password.' });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_admin_sa_force_reset(request) { return handleCors(); }
 
 // ─────────────────────────────────────────
 // SIGNUP EMAIL VERIFICATION (LEGACY — kept for backward compatibility)

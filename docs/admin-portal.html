@@ -293,35 +293,50 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
   <aside class="sidebar">
     <div class="sb-brand">
       <h2><i class="fas fa-shield-alt me-1"></i> BANF Admin</h2>
-      <small>Super Admin Portal v3.0 (Multi-Role Identity)</small>
+      <small id="sb-portal-subtitle">BANF Admin Portal</small>
     </div>
 
-    <div class="sb-group">Operations</div>
+    <!-- Role Identity Banner — shown after login, updated by applyRoleVisibility -->
+    <div class="role-identity" id="role-identity" style="display:none;margin:0 12px 6px;padding:10px 12px;border-radius:10px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);">
+      <div id="role-badge-type" style="font-size:.72rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#10b981"><i class="fas fa-shield-halved me-1"></i>EC Admin</div>
+      <div id="role-badge-title" style="font-size:.67rem;color:var(--muted);margin-top:3px;">—</div>
+    </div>
+
+    <!-- HOME — all roles -->
     <div class="sb-item active" data-panel="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></div>
-    <div class="sb-item" data-panel="roles"><i class="fas fa-id-badge"></i><span>Role Definitions</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
-    <div class="sb-item" data-panel="users"><i class="fas fa-users-cog"></i><span>User Management</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
-    <div class="sb-item" data-panel="identity"><i class="fas fa-fingerprint"></i><span>Identity Engine</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
 
-    <div class="sb-group">Drives</div>
-    <div class="sb-item" data-panel="stakeholder-drive"><i class="fas fa-bullhorn"></i><span>Stakeholder Drive</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
-    <div class="sb-item" data-panel="ec-drive"><i class="fas fa-shield-halved"></i><span>EC Drive</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
-    <div class="sb-item" data-panel="drive-status"><i class="fas fa-chart-line"></i><span>Drive Status</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
+    <!-- ── EC ADMIN ── ec_member, admin, super_admin -->
+    <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">EC Admin</div>
+    <div class="sb-item" data-panel="ec-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-shield-halved"></i><span>EC Drive</span></div>
+    <div class="sb-item" data-panel="drive-status" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-line"></i><span>Drive Status</span></div>
 
-    <div class="sb-group">Development</div>
-    <div class="sb-item" data-panel="feedback"><i class="fas fa-comments"></i><span>Feedback Pipeline</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
-    <div class="sb-item" data-panel="dev-board"><i class="fas fa-clipboard-list"></i><span>Dev Board</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
+    <!-- ── STAKEHOLDER ── business_stakeholder, admin, super_admin -->
+    <div class="sb-group" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin">Stakeholder</div>
+    <div class="sb-item" data-panel="stakeholder-drive" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin"><i class="fas fa-bullhorn"></i><span>Stakeholder Drive</span></div>
+    <div class="sb-item" data-panel="feedback" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin"><i class="fas fa-comments"></i><span>Feedback Pipeline</span></div>
 
-    <div class="sb-group">Testing</div>
-    <div class="sb-item" data-panel="e2e-test"><i class="fas fa-vial"></i><span>E2E Test Suite</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 4</span></div>
+    <!-- ── SYSTEM ADMIN ── super_admin only -->
+    <div class="sb-group" data-roles="super_admin,super-admin">System Admin</div>
+    <div class="sb-item" data-panel="roles" data-roles="super_admin,super-admin"><i class="fas fa-id-badge"></i><span>Role Definitions</span></div>
+    <div class="sb-item" data-panel="users" data-roles="super_admin,super-admin"><i class="fas fa-users-cog"></i><span>User Management</span></div>
+    <div class="sb-item" data-panel="identity" data-roles="super_admin,super-admin"><i class="fas fa-fingerprint"></i><span>Identity Engine</span></div>
 
-    <div class="sb-group">Audit</div>
-    <div class="sb-item" data-panel="activity"><i class="fas fa-history"></i><span>Activity Log</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
+    <!-- ── DEVELOPMENT ── super_admin only -->
+    <div class="sb-group" data-roles="super_admin,super-admin">Development</div>
+    <div class="sb-item" data-panel="dev-board" data-roles="super_admin,super-admin"><i class="fas fa-clipboard-list"></i><span>Dev Board</span></div>
+    <div class="sb-item" data-panel="e2e-test" data-roles="super_admin,super-admin"><i class="fas fa-vial"></i><span>E2E Test Suite</span></div>
+
+    <!-- ── AUDIT ── super_admin only -->
+    <div class="sb-group" data-roles="super_admin,super-admin">Audit</div>
+    <div class="sb-item" data-panel="activity" data-roles="super_admin,super-admin"><i class="fas fa-history"></i><span>Activity Log</span></div>
+
+    <!-- External links -->
     <div class="sb-item" onclick="window.open('https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html','_blank')"><i class="fas fa-atom"></i><span>Main Dashboard</span></div>
-    <div class="sb-item" onclick="window.open('https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
+    <div class="sb-item" data-roles="super_admin,super-admin,business_stakeholder,business-stakeholder" onclick="window.open('https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
 
     <div class="sb-user">
-      <div class="sb-avatar">RG</div>
-      <div><div class="name">Ranadhir Ghosh</div><div class="role-lbl">Super Admin / Tech Lead</div></div>
+      <div class="sb-avatar" id="sb-avatar">—</div>
+      <div><div class="name" id="sb-user-name">Loading...</div><div class="role-lbl" id="sb-role-lbl">—</div></div>
     </div>
   </aside>
 
@@ -460,6 +475,25 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <!-- â•â•â•â•â•â•â• USER MANAGEMENT â•â•â•â•â•â•â• -->
     <div class="portal-section" id="panel-users">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--blue)"></i> Stage 1: Setup</div>
+
+      <!-- FORCE RESET PASSWORD (Super Admin only) -->
+      <div class="card-a" style="border:1px solid var(--red);background:rgba(220,38,38,.06)">
+        <h2><i class="fas fa-key" style="color:var(--red)"></i> Force Reset User Password <span style="font-size:.7rem;font-weight:400;color:var(--red);margin-left:8px">Super Admin Only</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Use this to reset any admin or EC member's password when they cannot use the Forgot Password flow (e.g., no security question on file). Their old password is immediately replaced.</p>
+        <div class="form-row">
+          <div class="form-group" style="flex:2"><label>User Email</label>
+            <input type="email" id="force-reset-email" placeholder="user@example.com" autocomplete="off">
+          </div>
+          <div class="form-group" style="flex:2"><label>New Password (min 8 chars)</label>
+            <input type="password" id="force-reset-pass" placeholder="New password" autocomplete="new-password">
+          </div>
+          <div class="form-group" style="flex:1;display:flex;align-items:flex-end">
+            <button class="btn-primary" id="btn-force-reset" onclick="doForceResetPassword()" style="background:var(--red);margin-top:0;width:100%"><i class="fas fa-key me-1"></i>Reset</button>
+          </div>
+        </div>
+        <div id="force-reset-msg" style="font-size:.78rem;margin-top:6px;display:none"></div>
+      </div>
+
       <div class="card-a">
         <h2><i class="fas fa-search"></i> Search CRM Members</h2>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Search by name, nickname, or email to find members from the CRM system (CRMMembers collection). Select a member to assign a role.</p>
@@ -862,14 +896,17 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // ═══ ROLE-BASED ACCESS CONTROL (RBAC) ═══
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
-  // super-admin: full system access
+  // super-admin: full system access (both hyphen and underscore variants)
   'super-admin':          ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
-  // admin: senior EC officers (VP, Treasurer, General Secretary) — full operational, no system config
+  'super_admin':          ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  // admin: senior EC officers — full operational, no system config
   'admin':                ['dashboard','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
-  // ec-member: coordinators — limited to drives + reports
+  // ec-member / ec_member: coordinators — EC-focused
   'ec-member':            ['dashboard','ec-drive','drive-status'],
+  'ec_member':            ['dashboard','ec-drive','drive-status'],
   // business-stakeholder: sponsors + community partners
-  'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback']
+  'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
+  'business_stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
 };
 
 function getVisiblePanels(roles) {
@@ -881,31 +918,94 @@ function getVisiblePanels(roles) {
 }
 
 function applyRoleVisibility(roles) {
-  const visible = getVisiblePanels(roles);
-  document.querySelectorAll('.sb-item[data-panel]').forEach(function(item) {
-    var panel = item.dataset.panel;
-    item.style.display = visible.has(panel) ? '' : 'none';
+  // Normalize roles — handle both underscore (ec_member) and hyphen (ec-member) variants
+  // ROOT CAUSE FIX: API returns ec_member (underscore) but old code used ec-member (hyphen) only
+  var normRoles = new Set();
+  (roles || ['super-admin']).forEach(function(r) {
+    normRoles.add(r);
+    normRoles.add(r.replace(/_/g, '-'));  // ec_member → ec-member
+    normRoles.add(r.replace(/-/g, '_')); // ec-member → ec_member
   });
-  // Hide group headers if all child items are hidden
-  document.querySelectorAll('.sb-group').forEach(function(group) {
-    var next = group.nextElementSibling;
-    var anyVisible = false;
-    while (next && !next.classList.contains('sb-group') && !next.classList.contains('sb-user')) {
-      if (next.classList.contains('sb-item') && next.style.display !== 'none') anyVisible = true;
-      next = next.nextElementSibling;
+
+  // Show/hide sidebar items using data-roles attribute (primary method)
+  document.querySelectorAll('.sb-item[data-panel], .sb-group').forEach(function(el) {
+    var allowedRoles = el.dataset.roles;
+    if (!allowedRoles) {
+      el.style.display = ''; // no restriction — always visible (e.g. Dashboard)
+    } else {
+      var allowed = allowedRoles.split(',').map(function(r) { return r.trim(); });
+      el.style.display = allowed.some(function(r) { return normRoles.has(r); }) ? '' : 'none';
     }
-    group.style.display = anyVisible ? '' : 'none';
   });
-  // Update portal title based on role
-  var brandSmall = document.querySelector('.sb-brand small');
-  if (brandSmall && CURRENT_ADMIN) {
-    var isSuperAdmin = (CURRENT_ADMIN.roles || []).includes('super-admin');
-    var isStakeholder = (CURRENT_ADMIN.roles || []).includes('business-stakeholder');
-    var isEC = (CURRENT_ADMIN.roles || []).includes('ec-member');
-    if (isSuperAdmin) brandSmall.textContent = 'Super Admin Portal v3.0 (Full Access)';
-    else if (isStakeholder) brandSmall.textContent = 'Stakeholder Portal (Role-Based Access)';
-    else if (isEC) brandSmall.textContent = 'EC Admin Portal (Role-Based Access)';
+  // Handle external-link sidebar items (no data-panel) with data-roles
+  document.querySelectorAll('.sb-item:not([data-panel])[data-roles]').forEach(function(el) {
+    var allowed = el.dataset.roles.split(',').map(function(r) { return r.trim(); });
+    el.style.display = allowed.some(function(r) { return normRoles.has(r); }) ? '' : 'none';
+  });
+
+  var isSuperAdmin   = normRoles.has('super-admin') || normRoles.has('super_admin');
+  var isStakeholder  = normRoles.has('business-stakeholder') || normRoles.has('business_stakeholder');
+  var isEC           = normRoles.has('ec-member') || normRoles.has('ec_member');
+  var isAdmin        = normRoles.has('admin');
+
+  // ── Role Identity Banner ──────────────────────────────────────
+  var roleIdentity  = document.getElementById('role-identity');
+  var roleBadgeType = document.getElementById('role-badge-type');
+  var roleBadgeTitle= document.getElementById('role-badge-title');
+  if (roleIdentity && roleBadgeType) {
+    roleIdentity.style.display = 'block';
+    if (isSuperAdmin) {
+      roleBadgeType.innerHTML = '<i class="fas fa-shield-alt me-1"></i>Super Admin';
+      roleBadgeType.style.color = '#f97316';
+      roleIdentity.style.borderColor = 'rgba(249,115,22,.35)';
+      roleIdentity.style.background  = 'rgba(249,115,22,.08)';
+    } else if (isStakeholder) {
+      roleBadgeType.innerHTML = '<i class="fas fa-bullhorn me-1"></i>Stakeholder';
+      roleBadgeType.style.color = '#6366f1';
+      roleIdentity.style.borderColor = 'rgba(99,102,241,.35)';
+      roleIdentity.style.background  = 'rgba(99,102,241,.08)';
+    } else if (isEC || isAdmin) {
+      roleBadgeType.innerHTML = '<i class="fas fa-shield-halved me-1"></i>EC Admin';
+      roleBadgeType.style.color = '#10b981';
+      roleIdentity.style.borderColor = 'rgba(16,185,129,.35)';
+      roleIdentity.style.background  = 'rgba(16,185,129,.08)';
+    }
+    if (roleBadgeTitle && CURRENT_ADMIN) {
+      var sub = CURRENT_ADMIN.ecTitle
+        ? CURRENT_ADMIN.ecTitle + ' · FY2026-28'
+        : (isSuperAdmin ? 'Full System Access' : isStakeholder ? 'Requirements & Feedback' : '');
+      roleBadgeTitle.textContent = sub;
+    }
   }
+
+  // ── Portal subtitle ───────────────────────────────────────────
+  var brandSmall = document.getElementById('sb-portal-subtitle');
+  if (brandSmall) {
+    brandSmall.textContent = isSuperAdmin ? 'Super Admin · Full Access'
+      : isStakeholder ? 'Stakeholder Portal'
+      : (isEC || isAdmin) ? 'EC Admin Portal'
+      : 'BANF Admin Portal';
+  }
+
+  // ── Sidebar user label ────────────────────────────────────────
+  var roleLbl = document.getElementById('sb-role-lbl');
+  if (roleLbl && CURRENT_ADMIN) {
+    roleLbl.textContent = isSuperAdmin ? 'Super Admin'
+      : isStakeholder ? 'Stakeholder'
+      : CURRENT_ADMIN.ecTitle || (isAdmin ? 'Senior EC Officer' : 'EC Admin');
+  }
+
+  // ── Portal view-switcher (super admin only) ───────────────────
+  var switcher = document.getElementById('portal-switcher');
+  if (switcher) switcher.style.display = isSuperAdmin ? 'block' : 'none';
+
+  // ── Role-specific dashboard sections ─────────────────────────
+  var dsEC = document.getElementById('dash-section-ec');
+  var dsST = document.getElementById('dash-section-stakeholder');
+  var dsSA = document.getElementById('dash-section-superadmin');
+  if (dsEC) dsEC.style.display = (isEC || isAdmin || isSuperAdmin) ? '' : 'none';
+  if (dsST) dsST.style.display = (isStakeholder || isSuperAdmin) ? '' : 'none';
+  if (dsSA) dsSA.style.display = isSuperAdmin ? '' : 'none';
 }
 
 const SQ_LABELS = {
@@ -1322,23 +1422,25 @@ async function forgotStep1() {
 
   showInfo('forgot-info-1', 'Looking up your account...');
 
-  const result = await apiCall('admin_verify_login', { email });
+  // Go directly to security question lookup — do NOT call admin_verify_login here
+  // (that endpoint requires a password and would incorrectly return "Password required")
+  const profileResult = await apiCall('admin_get_security_question', { email });
 
   hideMsg('forgot-info-1');
 
-  if (!result.success && !result.needsOnboarding) {
-    return showError('forgot-error-1', result.error || 'Account not found. Check your email address.');
+  if (!profileResult.success) {
+    return showError('forgot-error-1', profileResult.error || 'Account not found. Check your email address.');
   }
 
-  // Account found — retrieve security question
-  const profileResult = await apiCall('admin_get_security_question', { email });
-
-  if (!profileResult.success || !profileResult.question) {
-    return showError('forgot-error-1', 'No security question set for this account. Contact the Super Admin for manual password reset.');
+  if (!profileResult.question) {
+    return showError('forgot-error-1',
+      'No security question is on file for this account. ' +
+      'Please contact the Super Admin at banfjax@gmail.com to reset your password.');
   }
 
   FORGOT_STATE = { email, question: profileResult.question, resetToken: profileResult.resetToken || '' };
-  document.getElementById('forgot-found-name').textContent = email;
+  document.getElementById('forgot-found-name').textContent =
+    [profileResult.firstName, profileResult.lastName].filter(Boolean).join(' ') || email;
   document.getElementById('forgot-sq-display').textContent = SQ_LABELS[profileResult.question] || profileResult.question;
   showStep('forgot', 2);
 }
@@ -1383,10 +1485,51 @@ async function forgotStep3() {
   showStep('forgot', 4);
 }
 
+// ── SUPER ADMIN: FORCE RESET USER PASSWORD ──
+async function doForceResetPassword() {
+  const email = (document.getElementById('force-reset-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('force-reset-pass').value;
+  const msgEl = document.getElementById('force-reset-msg');
+  msgEl.style.display = 'none';
+
+  if (!email || !email.includes('@')) {
+    msgEl.style.color = 'var(--red)'; msgEl.textContent = 'Please enter a valid email address.'; msgEl.style.display = 'block'; return;
+  }
+  if (!pass || pass.length < 8) {
+    msgEl.style.color = 'var(--red)'; msgEl.textContent = 'Password must be at least 8 characters.'; msgEl.style.display = 'block'; return;
+  }
+
+  const btn = document.getElementById('btn-force-reset');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Resetting...';
+
+  const result = await apiCall('admin_sa_force_reset', {
+    targetEmail: email,
+    newPassword: pass
+  });
+
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-key me-1"></i>Reset';
+
+  if (result.success) {
+    msgEl.style.color = 'var(--green)';
+    const name = [result.firstName, result.lastName].filter(Boolean).join(' ') || email;
+    msgEl.textContent = '\u2713 Password reset for ' + name + ' (' + result.email + '). They can now log in with the new password.';
+    msgEl.style.display = 'block';
+    document.getElementById('force-reset-email').value = '';
+    document.getElementById('force-reset-pass').value = '';
+    addLog('ADMIN_ACTION', 'Force-reset password for ' + email);
+  } else {
+    msgEl.style.color = 'var(--red)';
+    msgEl.textContent = result.error || 'Password reset failed.';
+    msgEl.style.display = 'block';
+  }
+}
+
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard']); // Only dashboard is live in Phase 1
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard', 'users']); // dashboard + user management active
 function navTo(panel){
-  if (!ADMIN_ACTIVE_PANELS.has(panel)) {
+  // Super admin can access all panels; others limited to ADMIN_ACTIVE_PANELS
+  const isSuper = CURRENT_ADMIN && (CURRENT_ADMIN.roles || []).some(r => r === 'super_admin' || r === 'super-admin');
+  if (!isSuper && !ADMIN_ACTIVE_PANELS.has(panel)) {
     adminComingSoon(panel);
     return;
   }

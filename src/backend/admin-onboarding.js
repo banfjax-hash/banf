@@ -484,6 +484,35 @@ export async function verifySecurityAnswer(email, answer) {
 }
 
 /**
+ * Force-reset any admin's password — SUPER ADMIN ONLY (no token required).
+ * Used by Super Admin to unblock EC members who can't use forgot-password.
+ */
+export async function forceResetAdminPassword(email, newPassword) {
+    if (!email || !newPassword) return { success: false, error: 'Email and new password required' };
+    if (newPassword.length < 8) return { success: false, error: 'Password must be at least 8 characters' };
+    const res = await wixData.query('AdminRoles')
+        .eq('email', email.toLowerCase().trim()).limit(1).find(SA);
+    if (!res.items.length) return { success: false, error: 'Account not found' };
+    const rec = res.items[0];
+
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let salt = '';
+    for (let i = 0; i < 24; i++) salt += chars[Math.floor(Math.random() * chars.length)];
+    const passwordHash = hashPwd(newPassword, salt);
+
+    await wixData.update('AdminRoles', {
+        ...rec,
+        passwordHash,
+        passwordSalt: salt,
+        passwordSet: true,
+        resetToken: null,
+        resetTokenExpiry: null
+    }, SA);
+
+    return { success: true, email: rec.email, firstName: rec.firstName || '', lastName: rec.lastName || '' };
+}
+
+/**
  * Reset admin password using a reset token.
  */
 export async function resetAdminPassword(email, token, newPassword) {
