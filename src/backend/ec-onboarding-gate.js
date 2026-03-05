@@ -41,7 +41,7 @@ const TEST_MODE = false; // Emails sent directly to EC members (live mode)
 
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';
-const GOOGLE_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
+const GOOGLE_REFRESH_TOKEN = '1//04r5fLIbQ_StLCgYIARAAGAQSNwF-L9IrJfULpkONXwCrDUdNAVWB-TekD2LgRoQtxFDv1nmVM9O2M7wBSk_SWbZI5vH6EkrqsDs';
 
 const ONBOARD_URL = 'https://banfjax-hash.github.io/banf/admin-portal.html';
 const JOURNEY_URL = 'https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html';
