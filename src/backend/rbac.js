@@ -244,7 +244,19 @@ export async function addAdminRole(email, role, addedBy, extras = {}) {
         ...(lastName ? { lastName } : {})
     };
     if (existing.items.length > 0) {
-        return await wixData.update('AdminRoles', { ...existing.items[0], ...record }, SA);
+        const old = existing.items[0];
+        // If re-activating a revoked account, clear onboarding state for fresh start
+        if (old.isActive === false) {
+            record.passwordSet = false;
+            record.passwordHash = null;
+            record.passwordSalt = null;
+            record.onboardingComplete = false;
+            record.setupToken = null;
+            record.setupTokenExpiry = null;
+            record.congratsSent = false;
+            record.invitationSent = false;
+        }
+        return await wixData.update('AdminRoles', { ...old, ...record }, SA);
     }
     return await wixData.insert('AdminRoles', record, SA);
 }
