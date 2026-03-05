@@ -697,7 +697,45 @@ export async function post_admin_verify_login(request) {
 export function options_admin_verify_login(request) { return handleCors(); }
 
 // ─────────────────────────────────────────
-// SIGNUP EMAIL VERIFICATION
+// DIRECT SIGNUP (NO EMAIL VERIFICATION CODE)
+// ─────────────────────────────────────────
+
+/**
+ * POST /admin_signup_direct
+ * Validate email exists in AdminRoles and is not yet password-set.
+ * Returns a setupToken directly — no email verification code needed.
+ * Body: { email }
+ */
+export async function post_admin_signup_direct(request) {
+    try {
+        const body = await parseBody(request);
+        if (!body.email) return jsonErr('email required');
+        const emailLc = body.email.toLowerCase().trim();
+
+        const res = await wixData.query('AdminRoles')
+            .eq('email', emailLc).limit(1).find(SA);
+        if (!res.items.length) return jsonErr('Email not found in AdminRoles. Contact the Super Admin to get access.');
+        const rec = res.items[0];
+        if (rec.passwordSet) return jsonErr('This account already has a password. Please sign in instead.');
+
+        // Generate setup token directly (skip email verification code)
+        const token = await generateAndStoreSetupToken(emailLc);
+
+        return jsonOk({
+            success: true,
+            setupToken: token,
+            firstName: rec.firstName || '',
+            lastName: rec.lastName || '',
+            ecTitle: rec.ecTitle || '',
+            role: rec.role || 'admin',
+            message: 'Email validated. Please set your password and security question.'
+        });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_admin_signup_direct(request) { return handleCors(); }
+
+// ─────────────────────────────────────────
+// SIGNUP EMAIL VERIFICATION (LEGACY — kept for backward compatibility)
 // ─────────────────────────────────────────
 
 /**

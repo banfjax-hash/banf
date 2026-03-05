@@ -83,7 +83,8 @@ import {
     post_admin_verify_security_answer, options_admin_verify_security_answer,
     post_admin_reset_password, options_admin_reset_password,
     post_admin_signup_send_code, options_admin_signup_send_code,
-    post_admin_signup_verify_code, options_admin_signup_verify_code
+    post_admin_signup_verify_code, options_admin_signup_verify_code,
+    post_admin_signup_direct, options_admin_signup_direct
 } from 'backend/admin-api';
 
 import {
@@ -360,6 +361,7 @@ export {
     post_admin_reset_password, options_admin_reset_password,
     post_admin_signup_send_code, options_admin_signup_send_code,
     post_admin_signup_verify_code, options_admin_signup_verify_code,
+    post_admin_signup_direct, options_admin_signup_direct,
     get_member_profile, options_member_profile,
     post_member_profile_update, options_member_profile_update,
     get_member_payments, options_member_payments,

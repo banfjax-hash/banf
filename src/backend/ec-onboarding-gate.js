@@ -912,8 +912,9 @@ function buildInviteEmail(member) {
         <h3 style="margin:0 0 10px;font-size:15px;color:#333;">What you'll need to do:</h3>
         <ol style="margin:0;padding-left:20px;font-size:14px;color:#555;line-height:1.8;">
           <li>Click the button above to open the EC Admin Portal</li>
-          <li>Set your password using your registered email: <strong>${member.email || 'your email'}</strong></li>
-          <li>Complete your EC profile (name, phone, role confirmation)</li>
+          <li>Click <strong>"Sign Up"</strong> and enter your email: <strong>${member.email || 'your email'}</strong></li>
+          <li>Set your password and choose a security question</li>
+          <li>Your account will be created instantly — no verification code needed!</li>
           <li>Test the member portal at <a href="${MEMBER_LOGIN_URL}" style="color:#8B0000;">member-login.html</a></li>
           <li>You'll receive a congratulation email once signup is complete</li>
         </ol>
