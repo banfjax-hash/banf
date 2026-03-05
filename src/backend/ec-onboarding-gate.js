@@ -580,20 +580,18 @@ async function sendGmail(to, toName, subject, html) {
         actualSubject = `[TEST → ${to}] ${subject}`;
     }
     const token = await getGmailToken();
-    // HTML body must be ASCII-safe (all non-ASCII replaced with HTML entities above).
-    // Use quoted-printable so the body survives all mail servers without further encoding tricks.
+    // HTML body is pure ASCII (all non-ASCII replaced with HTML entities).
+    // Use base64 CTE: avoids QP line-wrap splitting URLs at '=' signs in query strings.
+    const htmlB64 = btoa(unescape(encodeURIComponent(html))).match(/.{1,76}/g).join('\r\n');
     const raw = [
         `From: ${BANF_ORG} <${BANF_EMAIL}>`,
         `To: ${actualName} <${actualTo}>`,
         `Subject: ${mimeEncodeHeader(actualSubject)}`,
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
-        'Content-Transfer-Encoding: quoted-printable',
+        'Content-Transfer-Encoding: base64',
         '',
-        html
-            .replace(/([^\x00-\x7E])/g, c => '=' + c.charCodeAt(0).toString(16).toUpperCase().padStart(2,'0'))
-            .replace(/=\?/g, '=3F')
-            .match(/.{1,76}/g).join('=\r\n')
+        htmlB64
     ].join('\r\n');
     const encoded = btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const r = await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
@@ -979,20 +977,18 @@ export async function post_ec_send_all_invitations(request) {
                 // Always send to actual email (ignore TEST_MODE)
                 const token = await getGmailToken();
                 const subject = `BANF EC Onboarding Invitation - ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
-                // HTML body is ASCII-safe (all non-ASCII replaced with HTML entities).
-                // Use quoted-printable to encode any stray non-ASCII bytes.
+                // HTML body is pure ASCII (all non-ASCII replaced with HTML entities).
+                // Use base64 CTE: avoids QP line-wrap splitting URLs at '=' signs in query strings.
+                const invHtmlB64 = btoa(unescape(encodeURIComponent(html))).match(/.{1,76}/g).join('\r\n');
                 const invRaw = [
                     `From: ${BANF_ORG} <${BANF_EMAIL}>`,
                     `To: ${name} <${member.email}>`,
                     `Subject: ${mimeEncodeHeader(subject)}`,
                     'MIME-Version: 1.0',
                     'Content-Type: text/html; charset=UTF-8',
-                    'Content-Transfer-Encoding: quoted-printable',
+                    'Content-Transfer-Encoding: base64',
                     '',
-                    html
-                        .replace(/([^\x00-\x7E])/g, c => '=' + c.charCodeAt(0).toString(16).toUpperCase().padStart(2,'0'))
-                        .replace(/=\?/g, '=3F')
-                        .match(/.{1,76}/g).join('=\r\n')
+                    invHtmlB64
                 ].join('\r\n');
                 const encoded = btoa(unescape(encodeURIComponent(invRaw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                 await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
