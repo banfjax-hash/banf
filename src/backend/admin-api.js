@@ -509,7 +509,23 @@ export async function post_admin_role_add(request) {
         // ── Generate one-time setup token stored in AdminRoles ────────
         const setupToken = await generateAndStoreSetupToken(body.email);
 
-        // ── Fetch member profile for personalisation ──────────────────
+        // ── EC members get their own dedicated invitation email ───────
+        // EC roles (ec_member, admin with ecTitle) are operational/process roles
+        // and should NOT receive the stakeholder/super-admin welcome email.
+        if (body.role === 'ec_member' || (body.role === 'admin' && body.ecTitle)) {
+            // Don't send email here — EC invitation is sent via ec_send_all_invitations
+            // which uses the proper EC-specific buildInviteEmail() template.
+            const portalUrl = buildOnboardUrl(body.email, setupToken);
+            return jsonOk({
+                message: `EC role ${body.role} assigned to ${body.email}. Use ec_send_all_invitations to send the EC onboarding email.`,
+                emailSent: false,
+                emailSkipped: 'EC members receive invitation via ec_send_all_invitations endpoint',
+                onboardUrl: portalUrl,
+                setupToken
+            });
+        }
+
+        // ── Non-EC roles: send the stakeholder/admin welcome email ────
         const memberProfile = await getMemberProfile(body.email);
         const firstName = memberProfile?.firstName || body.firstName || body.email.split('@')[0];
         const lastName = memberProfile?.lastName || body.lastName || '';
@@ -517,26 +533,16 @@ export async function post_admin_role_add(request) {
         const phone = memberProfile?.phone || '';
         const membershipType = memberProfile?.membershipType || memberProfile?.membership_type || '';
 
-        // ── Build template variables ──────────────────────────────────
         const roleLabel = { super_admin: 'Super Admin', admin: 'Admin', ec_member: 'EC Member', member: 'Member' }[body.role] || body.role;
-        // portalUrl points to the onboarding wizard (first-time setup)
         const portalUrl = buildOnboardUrl(body.email, setupToken);
         const journeyUrl = buildJourneyUrl();
         const templateVars = {
-            firstName,
-            lastName,
-            email: body.email,
-            phone,
-            membershipType,
-            roleLabel,
-            ecTitle: body.ecTitle || extras.ecTitle || '',
-            portalUrl,
-            journeyUrl,
-            grantedBy: perm.email,
-            grantedAt: new Date().toUTCString()
+            firstName, lastName, email: body.email, phone, membershipType,
+            roleLabel, ecTitle: body.ecTitle || extras.ecTitle || '',
+            portalUrl, journeyUrl,
+            grantedBy: perm.email, grantedAt: new Date().toUTCString()
         };
 
-        // ── Load template from DB (falls back to default if not found) ─
         const tmpl = await getEmailTemplate('role_welcome');
         const subject = tmpl ? renderTemplate(tmpl.subject, templateVars)
             : `BANF: You have been granted ${roleLabel} access`;
@@ -545,15 +551,14 @@ export async function post_admin_role_add(request) {
                <p><a href="${portalUrl}">Complete your onboarding</a></p>
                <p><a href="${journeyUrl}">Open Requirements Journey</a></p>`;
 
-        // ── Send email ────────────────────────────────────────────────
         const emailResult = await sendDirectEmail(body.email, displayName, subject, welcomeHtml);
 
         return jsonOk({
             message: `Role ${body.role} assigned to ${body.email}`,
             emailSent: emailResult.success,
             emailError: emailResult.error || undefined,
-            onboardUrl: portalUrl, // the setup wizard link (for super_admin if email fails)
-            setupToken            // returned so super_admin can trigger password reset manually
+            onboardUrl: portalUrl,
+            setupToken
         });
     } catch (e) { return jsonErr(e.message, 500); }
 }

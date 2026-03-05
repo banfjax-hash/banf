@@ -278,7 +278,9 @@ import {
     get_ec_onboard_progress,    options_ec_onboard_progress,
     get_membership_gate_check,  options_membership_gate_check,
     post_ec_send_reminder,      options_ec_send_reminder,
-    get_ec_pending_members,     options_ec_pending_members
+    get_ec_pending_members,     options_ec_pending_members,
+    post_ec_send_all_invitations, options_ec_send_all_invitations,
+    post_ec_signup_congratulations, options_ec_signup_congratulations
 } from 'backend/ec-onboarding-gate';
 
 // ── Bosonto Utsob 2026 — Live Email Pipeline ──────────────────
@@ -519,6 +521,8 @@ export {
     get_membership_gate_check,  options_membership_gate_check,
     post_ec_send_reminder,      options_ec_send_reminder,
     get_ec_pending_members,     options_ec_pending_members,
+    post_ec_send_all_invitations, options_ec_send_all_invitations,
+    post_ec_signup_congratulations, options_ec_signup_congratulations,
     // Member Signup / Signin v5.10.1
     post_signup_initiate,       options_signup_initiate,
     get_signup_status,          options_signup_status,

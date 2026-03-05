@@ -43,11 +43,11 @@ const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.go
 const GOOGLE_CLIENT_SECRET = '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';
 const GOOGLE_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
 
-const ONBOARD_URL = 'https://www.jaxbengali.org/_functions/admin_portal';
-const JOURNEY_URL = 'https://www.jaxbengali.org/stakeholder-requirements-journey.html';
-const MEMBER_PORTAL_URL = 'https://www.jaxbengali.org/member-portal.html';
-const MEMBER_LOGIN_URL  = 'https://www.jaxbengali.org/member-login.html';
-const EC_ADMIN_URL      = 'https://www.jaxbengali.org/admin-portal.html';
+const ONBOARD_URL = 'https://banfjax-hash.github.io/banf/admin-portal.html';
+const JOURNEY_URL = 'https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html';
+const MEMBER_PORTAL_URL = 'https://banfjax-hash.github.io/banf/member-portal.html';
+const MEMBER_LOGIN_URL  = 'https://banfjax-hash.github.io/banf/member-login.html';
+const EC_ADMIN_URL      = 'https://banfjax-hash.github.io/banf/admin-portal.html';
 
 // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function jsonOk(data) {
