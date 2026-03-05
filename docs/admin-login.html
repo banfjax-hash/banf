@@ -324,8 +324,18 @@ const AUTH_DB = {
   },
 
   // ── BUSINESS STAKEHOLDERS ─────────────────────────────────────────────────
-  // Add real sponsor/community-partner Gmail addresses here when confirmed.
-  // Format: 'sponsor.name@gmail.com': { roles: ['business-stakeholder'], ecTitle: 'Business Sponsor', ... }
+  'sponsor1@banf.org': {
+    name: 'BANF Test Sponsor', firstName: 'Test', lastName: 'Sponsor',
+    roles: ['business-stakeholder'], ecTitle: 'Business Sponsor (Test)',
+    offlinePw: 'banf-sh-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'banfjax@gmail.com': {
+    name: 'BANF Jacksonville', firstName: 'BANF', lastName: 'Admin',
+    roles: ['business-stakeholder'], ecTitle: 'Business Stakeholder / BANF Official',
+    offlinePw: 'banf-sh-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
 };
 
 // Also allow username-based lookup (e.g. 'ranadhir.ghosh' → ranadhir.ghosh@gmail.com)
@@ -533,12 +543,9 @@ async function signupStep1() {
 
   if (!email || !email.includes('@')) return showError('signup-error-1', 'Please enter a valid email address.');
 
-  if (!AUTH_DB[email]) {
-    return showError('signup-error-1', 'This email is not in the authorized admin/EC/stakeholder list. Contact the Super Admin.');
-  }
-
   showInfo('signup-info-1', 'Validating your email...');
 
+  // Let the API decide authorization (checks AdminRoles collection)
   const result = await apiCall('admin_signup_direct', { email });
   hideMsg('signup-info-1');
 
@@ -550,9 +557,13 @@ async function signupStep1() {
     document.getElementById('signup-confirmed-email').textContent = email;
     showStep('signup', 2);
   } else {
-    SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token' };
+    // Offline fallback — only for emails known locally in AUTH_DB
     var user = AUTH_DB[email];
-    var nameStr = user ? user.name : email.split('@')[0];
+    if (!user) {
+      return showError('signup-error-1', result.error || 'This email is not in the authorized admin/EC/stakeholder list. Contact the Super Admin.');
+    }
+    SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token' };
+    var nameStr = user.name || email.split('@')[0];
     var el2 = document.getElementById('signup-welcome-name');
     if (el2) el2.textContent = nameStr;
     document.getElementById('signup-confirmed-email').textContent = email;

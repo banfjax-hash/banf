@@ -580,8 +580,8 @@ async function sendGmail(to, toName, subject, html) {
         actualSubject = `[TEST → ${to}] ${subject}`;
     }
     const token = await getGmailToken();
-    // Base64-encode the HTML body so the MIME message is ASCII-safe (RFC 2045 §6.8)
-    const bodyB64 = btoa(unescape(encodeURIComponent(html)));
+    // Base64-encode the HTML body per RFC 2045 §6.8, wrapped at 76 chars per line
+    const bodyB64 = btoa(unescape(encodeURIComponent(html))).match(/.{1,76}/g).join('\r\n');
     const raw = [
         `From: ${BANF_ORG} <${BANF_EMAIL}>`,
         `To: ${actualName} <${actualTo}>`,
@@ -976,8 +976,8 @@ export async function post_ec_send_all_invitations(request) {
                 // Always send to actual email (ignore TEST_MODE)
                 const token = await getGmailToken();
                 const subject = `BANF EC Onboarding Invitation - ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
-                // Base64-encode body so the MIME message is ASCII-safe (RFC 2045 §6.8)
-                const invBodyB64 = btoa(unescape(encodeURIComponent(html)));
+                // Base64-encode body per RFC 2045 §6.8, wrapped at 76 chars per line
+                const invBodyB64 = btoa(unescape(encodeURIComponent(html))).match(/.{1,76}/g).join('\r\n');
                 const raw = [
                     `From: ${BANF_ORG} <${BANF_EMAIL}>`,
                     `To: ${name} <${member.email}>`,
