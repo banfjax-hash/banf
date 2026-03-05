@@ -1527,11 +1527,30 @@ async function doForceResetPassword() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard', 'users']); // dashboard + user management active
+// Role-based panel access map — controls which panels each role can navigate to
+const ROLE_PANEL_ACCESS = {
+  // Super Admin: all panels
+  'super_admin':         new Set(['dashboard','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  'super-admin':         new Set(['dashboard','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  // EC Member / Admin: EC-specific panels
+  'ec_member':           new Set(['dashboard','ec-drive','drive-status']),
+  'ec-member':           new Set(['dashboard','ec-drive','drive-status']),
+  'admin':               new Set(['dashboard','ec-drive','drive-status','users']),
+  // Stakeholder: stakeholder-specific panels
+  'business_stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
+  'business-stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
+};
+
+function canAccessPanel(panel) {
+  var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || [];
+  return roles.some(function(r) {
+    var s = ROLE_PANEL_ACCESS[r];
+    return s && s.has(panel);
+  });
+}
+
 function navTo(panel){
-  // Super admin can access all panels; others limited to ADMIN_ACTIVE_PANELS
-  const isSuper = CURRENT_ADMIN && (CURRENT_ADMIN.roles || []).some(r => r === 'super_admin' || r === 'super-admin');
-  if (!isSuper && !ADMIN_ACTIVE_PANELS.has(panel)) {
+  if (!canAccessPanel(panel)) {
     adminComingSoon(panel);
     return;
   }
