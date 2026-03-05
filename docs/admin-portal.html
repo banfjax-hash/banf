@@ -369,6 +369,11 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <!-- HOME — all roles -->
     <div class="sb-item active" data-panel="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></div>
 
+    <!-- ── MY DATA ── ec_member, admin, super_admin -->
+    <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">My Data</div>
+    <div class="sb-item" data-panel="my-crm" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-address-card"></i><span>My CRM</span></div>
+    <div class="sb-item" data-panel="procurement" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span></div>
+
     <!-- ── EC ADMIN ── ec_member, admin, super_admin -->
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">EC Admin</div>
     <div class="sb-item" data-panel="ec-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-shield-halved"></i><span>EC Drive</span></div>
@@ -943,6 +948,209 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
       </div>
     </div>
 
+    <!-- ═══════ MY CRM PANEL ═══════ -->
+    <div class="portal-section" id="panel-my-crm">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> My Personal CRM Data</div>
+
+      <!-- PERSONAL INFO CARD -->
+      <div class="card-a">
+        <h2><i class="fas fa-address-card"></i> Personal Information</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Your CRM profile. Fields marked with <i class="fas fa-pen" style="color:var(--accent);font-size:.7rem"></i> are editable. Use <i class="fas fa-question-circle" style="color:var(--yellow);font-size:.7rem"></i> to raise a query on any read-only field.</p>
+        <div id="mycrm-loading" style="text-align:center;padding:20px;color:var(--muted)"><i class="fas fa-spinner fa-spin me-2"></i>Loading your CRM data...</div>
+        <div id="mycrm-personal" style="display:none">
+          <div class="form-row">
+            <div class="form-group"><label>First Name <i class="fas fa-pen" style="color:var(--accent);font-size:.65rem"></i></label><input type="text" id="mycrm-firstName" placeholder="First name"></div>
+            <div class="form-group"><label>Last Name <i class="fas fa-pen" style="color:var(--accent);font-size:.65rem"></i></label><input type="text" id="mycrm-lastName" placeholder="Last name"></div>
+            <div class="form-group"><label>Nickname <i class="fas fa-pen" style="color:var(--accent);font-size:.65rem"></i></label><input type="text" id="mycrm-nickname" placeholder="Nickname"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email <i class="fas fa-pen" style="color:var(--accent);font-size:.65rem"></i></label><input type="email" id="mycrm-email" placeholder="Email"></div>
+            <div class="form-group"><label>Phone <i class="fas fa-pen" style="color:var(--accent);font-size:.65rem"></i></label><input type="tel" id="mycrm-phone" placeholder="Phone"></div>
+            <div class="form-group"><label>EC Title <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('EC Title')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></label><input type="text" id="mycrm-ecTitle" readonly style="opacity:.7;cursor:not-allowed"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Membership Type <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Membership Type')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></label><input type="text" id="mycrm-membershipType" readonly style="opacity:.7;cursor:not-allowed"></div>
+            <div class="form-group"><label>Membership Status <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Membership Status')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></label><input type="text" id="mycrm-membershipStatus" readonly style="opacity:.7;cursor:not-allowed"></div>
+            <div class="form-group"><label>Opted In <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Opted In')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></label><input type="text" id="mycrm-optedIn" readonly style="opacity:.7;cursor:not-allowed"></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn-primary" onclick="saveMyCrmPersonal()"><i class="fas fa-save me-1"></i>Save Personal Info</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAMILY DETAILS CARD (EDITABLE) -->
+      <div class="card-a">
+        <h2><i class="fas fa-people-roof"></i> Family Details <span style="font-size:.7rem;color:var(--green);font-weight:400;margin-left:6px"><i class="fas fa-pen me-1"></i>Editable</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Manage your family members. Children's ages are auto-calculated from date of birth as of today (<span id="mycrm-today-date"></span>).</p>
+        <div id="mycrm-family-section">
+          <div class="form-row" style="margin-bottom:14px;padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--line)">
+            <div class="form-group"><label>Spouse Name</label><input type="text" id="mycrm-spouseName" placeholder="Spouse full name"></div>
+            <div class="form-group"><label>Spouse Email</label><input type="email" id="mycrm-spouseEmail" placeholder="Spouse email"></div>
+            <div class="form-group"><label>Spouse Phone</label><input type="tel" id="mycrm-spousePhone" placeholder="Phone"></div>
+          </div>
+          <div style="font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:8px"><i class="fas fa-child me-1" style="color:var(--cyan)"></i>Children</div>
+          <div id="mycrm-children-list"></div>
+          <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-secondary btn-sm" onclick="addChildRow()"><i class="fas fa-plus me-1"></i>Add Child</button>
+            <button class="btn-primary" onclick="saveMyCrmFamily()"><i class="fas fa-save me-1"></i>Save Family Details</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- YEARLY DATA TABS -->
+      <div class="card-a">
+        <h2><i class="fas fa-calendar-alt"></i> Yearly Records</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Historical data grouped by year. Select a year to view records.</p>
+        <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap" id="mycrm-year-tabs"></div>
+        <div id="mycrm-yearly-content">
+          <!-- Communication Emails -->
+          <div class="card-a" style="background:var(--bg2);margin-bottom:10px">
+            <h2 style="font-size:.84rem"><i class="fas fa-envelope" style="color:var(--blue)"></i> Communication Emails <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Communication Emails')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></h2>
+            <div id="mycrm-emails" style="font-size:.78rem;color:var(--muted)">No email records found for this year.</div>
+          </div>
+          <!-- Payment History -->
+          <div class="card-a" style="background:var(--bg2);margin-bottom:10px">
+            <h2 style="font-size:.84rem"><i class="fas fa-credit-card" style="color:var(--green)"></i> Payment History <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Payment History')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></h2>
+            <div id="mycrm-payments">
+              <table class="t"><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead><tbody id="mycrm-payments-body"></tbody></table>
+            </div>
+          </div>
+          <!-- Volunteering -->
+          <div class="card-a" style="background:var(--bg2);margin-bottom:10px">
+            <h2 style="font-size:.84rem"><i class="fas fa-hand-holding-heart" style="color:var(--pink)"></i> Volunteering <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Volunteering')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></h2>
+            <div id="mycrm-volunteering" style="font-size:.78rem;color:var(--muted)">No volunteering records.</div>
+          </div>
+          <!-- Cultural Programs -->
+          <div class="card-a" style="background:var(--bg2);margin-bottom:10px">
+            <h2 style="font-size:.84rem"><i class="fas fa-music" style="color:var(--purple)"></i> Cultural Program Participation <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Cultural Programs')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></h2>
+            <div id="mycrm-cultural">
+              <table class="t"><thead><tr><th>Event</th><th>Role</th><th>Date</th></tr></thead><tbody id="mycrm-cultural-body"></tbody></table>
+            </div>
+          </div>
+          <!-- Membership -->
+          <div class="card-a" style="background:var(--bg2)">
+            <h2 style="font-size:.84rem"><i class="fas fa-id-card" style="color:var(--cyan)"></i> Membership Details <button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem;margin-left:4px" onclick="openFieldQuery('Membership')"><i class="fas fa-question-circle" style="color:var(--yellow)"></i></button></h2>
+            <div id="mycrm-membership">
+              <table class="t"><thead><tr><th>Year</th><th>Type</th><th>Status</th><th>Paid</th><th>Joined</th></tr></thead><tbody id="mycrm-membership-body"></tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FIELD QUERY MODAL -->
+      <div id="mycrm-query-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;max-width:500px;width:92%">
+          <h2 style="font-size:.95rem;margin:0 0 6px"><i class="fas fa-question-circle me-1" style="color:var(--yellow)"></i> Query: <span id="query-field-name"></span></h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Describe what is incorrect or your question about this field. This will be routed to the appropriate officer (Treasurer &rarr; VP &rarr; President).</p>
+          <div class="form-group"><label>Category</label>
+            <select id="query-category"><option value="correction">Data Correction</option><option value="question">General Question</option><option value="dispute">Dispute/Issue</option></select>
+          </div>
+          <div class="form-group" style="margin-top:8px"><label>Your Comment / Query</label>
+            <textarea id="query-comment" rows="4" placeholder="Describe the issue..." style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:10px;border-radius:8px;width:100%;font-size:.82rem;resize:vertical"></textarea>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:8px">
+            <button class="btn-primary" onclick="submitFieldQuery()"><i class="fas fa-paper-plane me-1"></i>Submit Query</button>
+            <button class="btn-secondary" onclick="closeMyCrmQueryModal()">Cancel</button>
+          </div>
+          <div id="query-status-msg" style="font-size:.78rem;margin-top:8px;display:none"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ PROCUREMENT PANEL ═══════ -->
+    <div class="portal-section" id="panel-procurement">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--accent)"></i> Procurement &amp; Reimbursement</div>
+
+      <!-- PROCUREMENT WORKFLOW PIPELINE -->
+      <div class="card-a">
+        <h2><i class="fas fa-file-invoice-dollar"></i> Procurement Workflow</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Submit purchase requests for approval. Workflow: <strong>Submit</strong> &rarr; <strong>Treasurer Approval</strong> (24h) &rarr; <strong>VP Escalation</strong> &rarr; <strong>President Escalation</strong> &rarr; <strong>Purchase &amp; Receipt</strong> &rarr; <strong>Reimbursement</strong></p>
+        <div class="pipe" id="proc-pipeline-display">
+          <div class="pipe-step pending" id="proc-p-submit"><h6>1. Submit</h6><small>Request</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending" id="proc-p-treasurer"><h6>2. Treasurer</h6><small>Approve (24h)</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending" id="proc-p-vp"><h6>3. VP</h6><small>Escalation</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending" id="proc-p-president"><h6>4. President</h6><small>Escalation</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending" id="proc-p-purchase"><h6>5. Purchase</h6><small>Upload Receipt</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="pipe-step pending" id="proc-p-reimburse"><h6>6. Reimburse</h6><small>&le; 1 day</small></div>
+        </div>
+      </div>
+
+      <!-- NEW PROCUREMENT REQUEST -->
+      <div class="card-a">
+        <h2><i class="fas fa-cart-plus"></i> New Procurement Request</h2>
+        <div class="form-row">
+          <div class="form-group" style="flex:3"><label>Description &mdash; What needs to be purchased?</label>
+            <textarea id="proc-description" rows="3" placeholder="List all items needed, quantities, purpose..." style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:10px;border-radius:8px;width:100%;font-size:.82rem;resize:vertical"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Estimated Budget ($)</label><input type="number" id="proc-budget" placeholder="0.00" step="0.01" min="0"></div>
+          <div class="form-group"><label>Category</label>
+            <select id="proc-category"><option value="event-supplies">Event Supplies</option><option value="food-catering">Food &amp; Catering</option><option value="venue">Venue / Rental</option><option value="decorations">Decorations</option><option value="tech-equipment">Tech / Equipment</option><option value="marketing">Marketing / Print</option><option value="cultural">Cultural Program</option><option value="administrative">Administrative</option><option value="other">Other</option></select>
+          </div>
+          <div class="form-group"><label>Needed By</label><input type="date" id="proc-needed-by"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex:2"><label>Justification / Notes</label><input type="text" id="proc-notes" placeholder="Why is this purchase necessary?"></div>
+          <div class="form-group" style="flex:1;display:flex;align-items:flex-end"><button class="btn-primary" onclick="submitProcurementRequest()" style="width:100%"><i class="fas fa-paper-plane me-1"></i>Submit Request</button></div>
+        </div>
+        <div id="proc-submit-msg" style="font-size:.78rem;margin-top:6px;display:none"></div>
+      </div>
+
+      <!-- MY PROCUREMENT REQUESTS -->
+      <div class="card-a">
+        <h2><i class="fas fa-list-check"></i> My Procurement Requests</h2>
+        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+          <button class="btn-secondary btn-sm proc-filter active" data-filter="all" onclick="filterProcRequests('all',this)"><i class="fas fa-th-list me-1"></i>All</button>
+          <button class="btn-secondary btn-sm proc-filter" data-filter="pending" onclick="filterProcRequests('pending',this)"><i class="fas fa-clock me-1" style="color:var(--yellow)"></i>Pending</button>
+          <button class="btn-secondary btn-sm proc-filter" data-filter="approved" onclick="filterProcRequests('approved',this)"><i class="fas fa-check me-1" style="color:var(--green)"></i>Approved</button>
+          <button class="btn-secondary btn-sm proc-filter" data-filter="purchased" onclick="filterProcRequests('purchased',this)"><i class="fas fa-shopping-cart me-1" style="color:var(--blue)"></i>Purchased</button>
+          <button class="btn-secondary btn-sm proc-filter" data-filter="reimbursed" onclick="filterProcRequests('reimbursed',this)"><i class="fas fa-money-bill-wave me-1" style="color:var(--green)"></i>Reimbursed</button>
+          <button class="btn-secondary btn-sm proc-filter" data-filter="rejected" onclick="filterProcRequests('rejected',this)"><i class="fas fa-times me-1" style="color:var(--red)"></i>Rejected</button>
+        </div>
+        <table class="t"><thead><tr><th>ID</th><th>Description</th><th>Budget</th><th>Category</th><th>Status</th><th>Approver</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <tbody id="proc-requests-body"></tbody></table>
+        <div id="proc-empty-msg" style="text-align:center;padding:20px;color:var(--dim);font-size:.82rem;display:none"><i class="fas fa-inbox me-1"></i>No procurement requests yet. Submit your first request above.</div>
+      </div>
+
+      <!-- APPROVAL QUEUE (Treasurer/VP/President) -->
+      <div class="card-a" id="proc-approval-section" style="display:none">
+        <h2><i class="fas fa-gavel" style="color:var(--yellow)"></i> Approval Queue <span class="badge-s badge-yellow" id="proc-approval-count">0</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Requests awaiting your approval. Auto-escalation occurs after 24 hours.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Description</th><th>Budget</th><th>Submitted</th><th>Time Left</th><th>Actions</th></tr></thead>
+        <tbody id="proc-approval-body"></tbody></table>
+      </div>
+
+      <!-- REIMBURSEMENT SECTION -->
+      <div class="card-a" id="proc-reimbursement-section" style="display:none">
+        <h2><i class="fas fa-money-bill-wave" style="color:var(--green)"></i> Reimbursement Queue <span class="badge-s badge-green" id="proc-reimburse-count">0</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Approved purchases with receipts uploaded. Process reimbursement within 24 hours.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Amount</th><th>Receipt</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <tbody id="proc-reimburse-body"></tbody></table>
+      </div>
+
+      <!-- UPLOAD RECEIPT MODAL -->
+      <div id="proc-receipt-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;max-width:500px;width:92%">
+          <h2 style="font-size:.95rem;margin:0 0 10px"><i class="fas fa-receipt me-1" style="color:var(--green)"></i> Upload Receipt</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Upload the purchase receipt for request <strong id="receipt-proc-id"></strong>. This will trigger the reimbursement workflow.</p>
+          <div class="form-group"><label>Actual Amount Spent ($)</label><input type="number" id="receipt-amount" placeholder="0.00" step="0.01" min="0"></div>
+          <div class="form-group" style="margin-top:8px"><label>Receipt Image / File</label>
+            <input type="file" id="receipt-file" accept="image/*,.pdf" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px;border-radius:8px;width:100%;font-size:.82rem">
+          </div>
+          <div class="form-group" style="margin-top:8px"><label>Notes</label>
+            <input type="text" id="receipt-notes" placeholder="Any additional notes about the purchase">
+          </div>
+          <div style="margin-top:14px;display:flex;gap:8px">
+            <button class="btn-primary" onclick="submitReceipt()"><i class="fas fa-upload me-1"></i>Upload &amp; Submit</button>
+            <button class="btn-secondary" onclick="closeReceiptModal()">Cancel</button>
+          </div>
+          <div id="receipt-status-msg" style="font-size:.78rem;margin-top:8px;display:none"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -960,13 +1168,13 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
   // super-admin: full system access (both hyphen and underscore variants)
-  'super-admin':          ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
-  'super_admin':          ['dashboard','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  'super-admin':          ['dashboard','my-crm','procurement','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  'super_admin':          ['dashboard','my-crm','procurement','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
   // admin: senior EC officers — full operational, no system config
-  'admin':                ['dashboard','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
+  'admin':                ['dashboard','my-crm','procurement','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
   // ec-member / ec_member: coordinators — EC-focused
-  'ec-member':            ['dashboard','ec-drive','drive-status'],
-  'ec_member':            ['dashboard','ec-drive','drive-status'],
+  'ec-member':            ['dashboard','my-crm','procurement','ec-drive','drive-status'],
+  'ec_member':            ['dashboard','my-crm','procurement','ec-drive','drive-status'],
   // business-stakeholder: sponsors + community partners
   'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
   'business_stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
@@ -1696,14 +1904,15 @@ async function doForceResetPassword() {
 
 // ── NAV ──
 // Role-based panel access map — controls which panels each role can navigate to
-const ROLE_PANEL_ACCESS = {
+// Named NAV_PANEL_ACCESS to avoid conflict with the array-based ROLE_PANEL_ACCESS used by getVisiblePanels()
+const NAV_PANEL_ACCESS = {
   // Super Admin: all panels
-  'super_admin':         new Set(['dashboard','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
-  'super-admin':         new Set(['dashboard','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
-  // EC Member / Admin: EC-specific panels
-  'ec_member':           new Set(['dashboard','ec-drive','drive-status']),
-  'ec-member':           new Set(['dashboard','ec-drive','drive-status']),
-  'admin':               new Set(['dashboard','ec-drive','drive-status','users']),
+  'super_admin':         new Set(['dashboard','my-crm','procurement','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  'super-admin':         new Set(['dashboard','my-crm','procurement','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  // EC Member / Admin: EC-specific panels + My Data
+  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-drive','drive-status']),
+  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-drive','drive-status']),
+  'admin':               new Set(['dashboard','my-crm','procurement','ec-drive','drive-status','users']),
   // Stakeholder: stakeholder-specific panels
   'business_stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
   'business-stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
@@ -1712,7 +1921,7 @@ const ROLE_PANEL_ACCESS = {
 function canAccessPanel(panel) {
   var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || [];
   return roles.some(function(r) {
-    var s = ROLE_PANEL_ACCESS[r];
+    var s = NAV_PANEL_ACCESS[r];
     return s && s.has(panel);
   });
 }
@@ -1728,13 +1937,17 @@ function navTo(panel){
   document.querySelectorAll('.portal-section').forEach(s=>s.classList.remove('active'));
   const p = document.getElementById('panel-'+panel);
   if(p) p.classList.add('active');
+  // Lazy-load My CRM or Procurement data on first visit
+  if (panel === 'my-crm' && !MY_CRM_DATA) { loadMyCrmData(); }
+  if (panel === 'procurement') { renderProcurement(); }
 }
 
 function adminComingSoon(panel) {
   const names = {
     'roles':'Role Definitions','users':'User Management','identity':'Identity Engine',
     'stakeholder-drive':'Stakeholder Drive','ec-drive':'EC Drive','drive-status':'Drive Status',
-    'feedback':'Feedback Pipeline','dev-board':'Dev Board','e2e-test':'E2E Test Suite','activity':'Activity Log'
+    'feedback':'Feedback Pipeline','dev-board':'Dev Board','e2e-test':'E2E Test Suite','activity':'Activity Log',
+    'my-crm':'My CRM Data','procurement':'Procurement & Reimbursement'
   };
   const name = names[panel] || panel;
   // Remove any existing overlay
@@ -3220,6 +3433,696 @@ function buildProgressBar(label, current, total, pct, color) {
     '<div style="background:var(--bg2);border-radius:999px;height:10px;overflow:hidden">' +
     '<div style="background:var(--'+color+');height:100%;width:'+pct+'%;border-radius:999px;transition:.3s"></div></div></div>';
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MY CRM — Personal data view for the logged-in EC member
+// ═══════════════════════════════════════════════════════════════════════════
+var MY_CRM_DATA = null; // cached CRM record for current user
+var MY_CRM_YEAR = new Date().getFullYear(); // currently selected year tab
+
+function calculateAge(dob) {
+  if (!dob) return '';
+  var birth = new Date(dob);
+  if (isNaN(birth.getTime())) return '';
+  var today = new Date(); // current date: March 5, 2026
+  var age = today.getFullYear() - birth.getFullYear();
+  var m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+  return age;
+}
+
+function loadMyCrmData() {
+  if (!CURRENT_ADMIN) return;
+  var email = CURRENT_ADMIN.email;
+  var loadEl = document.getElementById('mycrm-loading');
+  var personalEl = document.getElementById('mycrm-personal');
+
+  // Set today's date display
+  var todayStr = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+  var dateEl = document.getElementById('mycrm-today-date');
+  if (dateEl) dateEl.textContent = todayStr;
+
+  // Find user in CRM
+  var crmRecord = CRM.find(function(c) {
+    return (c.email || '').toLowerCase() === email.toLowerCase();
+  });
+
+  if (!crmRecord) {
+    // Build a basic record from CURRENT_ADMIN session
+    crmRecord = {
+      firstName: CURRENT_ADMIN.firstName || '',
+      lastName: CURRENT_ADMIN.lastName || '',
+      nickname: '',
+      email: CURRENT_ADMIN.email || '',
+      phone: '',
+      ecTitle: CURRENT_ADMIN.ecTitle || '',
+      membershipType: 'EC Member',
+      membershipStatus: 'Active',
+      optedIn: 'Yes',
+      spouse: {},
+      children: [],
+      payments: [],
+      volunteering: [],
+      cultural: [],
+      membership: [],
+      communications: []
+    };
+  }
+
+  MY_CRM_DATA = crmRecord;
+
+  // Populate personal fields
+  document.getElementById('mycrm-firstName').value = crmRecord.firstName || CURRENT_ADMIN.firstName || '';
+  document.getElementById('mycrm-lastName').value = crmRecord.lastName || CURRENT_ADMIN.lastName || '';
+  document.getElementById('mycrm-nickname').value = crmRecord.nickname || crmRecord.nickName || '';
+  document.getElementById('mycrm-email').value = crmRecord.email || CURRENT_ADMIN.email || '';
+  document.getElementById('mycrm-phone').value = crmRecord.phone || '';
+  document.getElementById('mycrm-ecTitle').value = crmRecord.ecTitle || CURRENT_ADMIN.ecTitle || '';
+  document.getElementById('mycrm-membershipType').value = crmRecord.membershipType || crmRecord.membership_type || 'EC Member';
+  document.getElementById('mycrm-membershipStatus').value = crmRecord.membershipStatus || crmRecord.status || 'Active';
+  document.getElementById('mycrm-optedIn').value = crmRecord.optedIn !== undefined ? (crmRecord.optedIn ? 'Yes' : 'No') : 'Yes';
+
+  // Populate family
+  var spouse = crmRecord.spouse || crmRecord.family || {};
+  document.getElementById('mycrm-spouseName').value = spouse.name || spouse.spouseName || '';
+  document.getElementById('mycrm-spouseEmail').value = spouse.email || spouse.spouseEmail || '';
+  document.getElementById('mycrm-spousePhone').value = spouse.phone || spouse.spousePhone || '';
+
+  // Children
+  var children = crmRecord.children || (crmRecord.family && crmRecord.family.children) || [];
+  renderChildrenList(children);
+
+  // Year tabs
+  buildYearTabs();
+  loadYearlyData(MY_CRM_YEAR);
+
+  // Show personal section
+  if (loadEl) loadEl.style.display = 'none';
+  if (personalEl) personalEl.style.display = '';
+}
+
+function renderChildrenList(children) {
+  var container = document.getElementById('mycrm-children-list');
+  if (!container) return;
+  if (!children || children.length === 0) {
+    container.innerHTML = '<div style="font-size:.78rem;color:var(--dim);padding:8px 0">No children on record. Click "Add Child" to add.</div>';
+    return;
+  }
+  container.innerHTML = children.map(function(child, i) {
+    var dob = child.dob || child.dateOfBirth || child.birthDate || '';
+    var age = calculateAge(dob);
+    var ageDisplay = age !== '' ? age + ' years' : '<span style="color:var(--yellow)">DOB not set</span>';
+    return '<div class="form-row" style="margin-bottom:8px;padding:10px 14px;background:rgba(6,182,212,.05);border:1px solid rgba(6,182,212,.15);border-radius:8px;align-items:center">' +
+      '<div class="form-group" style="flex:2"><label>Child Name</label><input type="text" data-child-idx="'+i+'" data-field="name" value="'+(child.name || '')+'" placeholder="Full name"></div>' +
+      '<div class="form-group" style="flex:1"><label>Date of Birth</label><input type="date" data-child-idx="'+i+'" data-field="dob" value="'+(dob ? new Date(dob).toISOString().split('T')[0] : '')+'"></div>' +
+      '<div class="form-group" style="flex:1"><label>Age (auto-calc)</label><div style="padding:8px 12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;font-size:.82rem;color:var(--cyan);font-weight:600">'+ageDisplay+'</div></div>' +
+      '<div class="form-group" style="flex:0 0 auto;display:flex;align-items:flex-end"><button class="btn-danger btn-sm" onclick="removeChild('+i+')"><i class="fas fa-trash"></i></button></div>' +
+    '</div>';
+  }).join('');
+}
+
+function addChildRow() {
+  var children = getChildrenFromUI();
+  children.push({ name: '', dob: '' });
+  renderChildrenList(children);
+}
+
+function removeChild(idx) {
+  var children = getChildrenFromUI();
+  children.splice(idx, 1);
+  renderChildrenList(children);
+}
+
+function getChildrenFromUI() {
+  var children = [];
+  var names = document.querySelectorAll('[data-field="name"][data-child-idx]');
+  var dobs = document.querySelectorAll('[data-field="dob"][data-child-idx]');
+  for (var i = 0; i < names.length; i++) {
+    children.push({
+      name: names[i].value || '',
+      dob: dobs[i] ? dobs[i].value : ''
+    });
+  }
+  return children;
+}
+
+function buildYearTabs() {
+  var container = document.getElementById('mycrm-year-tabs');
+  if (!container) return;
+  var currentYear = new Date().getFullYear();
+  var years = [];
+  for (var y = currentYear; y >= currentYear - 5; y--) years.push(y);
+  container.innerHTML = years.map(function(y) {
+    return '<button class="btn-sm ' + (y === MY_CRM_YEAR ? 'btn-primary' : 'btn-secondary') + '" onclick="loadYearlyData('+y+',this)" style="min-width:60px">'+y+'</button>';
+  }).join('');
+}
+
+function loadYearlyData(year, btnEl) {
+  MY_CRM_YEAR = year;
+  // Update active tab
+  document.querySelectorAll('#mycrm-year-tabs button').forEach(function(b) {
+    b.className = b.className.replace('btn-primary','btn-secondary');
+  });
+  if (btnEl) btnEl.className = btnEl.className.replace('btn-secondary','btn-primary');
+
+  // Load data for selected year (from CRM record or simulated)
+  var data = MY_CRM_DATA || {};
+
+  // Communications
+  var emailsEl = document.getElementById('mycrm-emails');
+  var comms = (data.communications || []).filter(function(c) {
+    return c.year === year || (c.date && new Date(c.date).getFullYear() === year);
+  });
+  if (comms.length > 0) {
+    // Group by conversation/thread
+    var threads = {};
+    comms.forEach(function(c) {
+      var key = c.thread || c.subject || 'General';
+      if (!threads[key]) threads[key] = [];
+      threads[key].push(c);
+    });
+    var html = '';
+    Object.keys(threads).forEach(function(thread) {
+      html += '<div style="margin-bottom:10px;padding:8px 12px;background:var(--card);border:1px solid var(--line);border-radius:8px">';
+      html += '<div style="font-size:.78rem;font-weight:600;color:var(--blue);margin-bottom:4px"><i class="fas fa-envelope me-1"></i>' + thread + ' <span style="color:var(--dim)">(' + threads[thread].length + ' emails)</span></div>';
+      threads[thread].forEach(function(e) {
+        html += '<div style="font-size:.72rem;color:var(--muted);padding:2px 0;border-top:1px solid var(--line)">' +
+          '<span style="color:var(--text)">' + (e.date || '') + '</span> — ' + (e.subject || e.snippet || 'No subject') + '</div>';
+      });
+      html += '</div>';
+    });
+    emailsEl.innerHTML = html;
+  } else {
+    emailsEl.innerHTML = '<div style="padding:10px;color:var(--dim);font-size:.78rem"><i class="fas fa-inbox me-1"></i>No email records for ' + year + '</div>';
+  }
+
+  // Payments
+  var paymentsBody = document.getElementById('mycrm-payments-body');
+  var payments = (data.payments || []).filter(function(p) {
+    return p.year === year || (p.date && new Date(p.date).getFullYear() === year);
+  });
+  if (payments.length > 0) {
+    paymentsBody.innerHTML = payments.map(function(p) {
+      return '<tr><td>'+(p.date||'—')+'</td><td>'+(p.description||p.type||'—')+'</td><td>$'+(p.amount||0).toFixed(2)+'</td><td><span class="badge-s badge-'+(p.status==='paid'?'green':p.status==='pending'?'yellow':'dim')+'">'+(p.status||'—')+'</span></td></tr>';
+    }).join('');
+  } else {
+    paymentsBody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--dim)">No payment records for ' + year + '</td></tr>';
+  }
+
+  // Volunteering
+  var volEl = document.getElementById('mycrm-volunteering');
+  var vol = (data.volunteering || []).filter(function(v) {
+    return v.year === year || (v.date && new Date(v.date).getFullYear() === year);
+  });
+  if (vol.length > 0) {
+    volEl.innerHTML = vol.map(function(v) {
+      return '<div style="padding:6px 10px;margin-bottom:4px;background:var(--card);border:1px solid var(--line);border-radius:6px;font-size:.78rem">' +
+        '<strong style="color:var(--pink)">' + (v.event || v.activity || 'Volunteering') + '</strong> — ' +
+        '<span style="color:var(--muted)">' + (v.role || v.description || '') + '</span> · ' +
+        '<span style="color:var(--dim)">' + (v.date || year) + '</span></div>';
+    }).join('');
+  } else {
+    volEl.innerHTML = '<div style="padding:10px;color:var(--dim);font-size:.78rem"><i class="fas fa-hand-holding-heart me-1"></i>No volunteering records for ' + year + '</div>';
+  }
+
+  // Cultural Programs
+  var culturalBody = document.getElementById('mycrm-cultural-body');
+  var cultural = (data.cultural || []).filter(function(c) {
+    return c.year === year || (c.date && new Date(c.date).getFullYear() === year);
+  });
+  if (cultural.length > 0) {
+    culturalBody.innerHTML = cultural.map(function(c) {
+      return '<tr><td>'+(c.event||c.name||'—')+'</td><td>'+(c.role||c.participationType||'—')+'</td><td>'+(c.date||year)+'</td></tr>';
+    }).join('');
+  } else {
+    culturalBody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:var(--dim)">No cultural program records for ' + year + '</td></tr>';
+  }
+
+  // Membership
+  var membershipBody = document.getElementById('mycrm-membership-body');
+  var membership = (data.membership || []).filter(function(m) {
+    return m.year === year || ('' + (m.year || '')).indexOf('' + year) >= 0;
+  });
+  if (membership.length > 0) {
+    membershipBody.innerHTML = membership.map(function(m) {
+      return '<tr><td>'+(m.year||year)+'</td><td>'+(m.type||'Standard')+'</td><td><span class="badge-s badge-'+(m.status==='Active'?'green':'yellow')+'">'+(m.status||'—')+'</span></td><td>$'+(m.paid||m.amount||0)+'</td><td>'+(m.joined||m.date||'—')+'</td></tr>';
+    }).join('');
+  } else {
+    membershipBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--dim)">No membership records for ' + year + '</td></tr>';
+  }
+}
+
+function saveMyCrmPersonal() {
+  if (!CURRENT_ADMIN) return;
+  // Gather editable fields
+  var updates = {
+    firstName: document.getElementById('mycrm-firstName').value.trim(),
+    lastName: document.getElementById('mycrm-lastName').value.trim(),
+    nickname: document.getElementById('mycrm-nickname').value.trim(),
+    email: document.getElementById('mycrm-email').value.trim(),
+    phone: document.getElementById('mycrm-phone').value.trim()
+  };
+  // Update local CRM cache
+  if (MY_CRM_DATA) {
+    Object.assign(MY_CRM_DATA, updates);
+  }
+  // Update CURRENT_ADMIN
+  CURRENT_ADMIN.firstName = updates.firstName;
+  CURRENT_ADMIN.lastName = updates.lastName;
+  // Update session
+  try {
+    var sess = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}');
+    sess.firstName = updates.firstName;
+    sess.lastName = updates.lastName;
+    sess.name = updates.firstName + ' ' + updates.lastName;
+    sessionStorage.setItem('banf_admin_session', JSON.stringify(sess));
+  } catch (e) {}
+  // Log the action
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN.email, action: 'crm_personal_update', detail: 'Updated personal info: ' + updates.firstName + ' ' + updates.lastName });
+  renderLog('dash-log',8); renderLog('full-log');
+  // Toast
+  showToast('Personal information saved successfully', 'green');
+}
+
+function saveMyCrmFamily() {
+  if (!CURRENT_ADMIN) return;
+  var familyData = {
+    spouse: {
+      name: document.getElementById('mycrm-spouseName').value.trim(),
+      email: document.getElementById('mycrm-spouseEmail').value.trim(),
+      phone: document.getElementById('mycrm-spousePhone').value.trim()
+    },
+    children: getChildrenFromUI()
+  };
+  // Recalculate ages for children with DOB
+  familyData.children.forEach(function(c) {
+    if (c.dob) c.age = calculateAge(c.dob);
+  });
+  // Update local CRM
+  if (MY_CRM_DATA) {
+    MY_CRM_DATA.spouse = familyData.spouse;
+    MY_CRM_DATA.children = familyData.children;
+    MY_CRM_DATA.family = familyData.spouse; // compat
+  }
+  // Log
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN.email, action: 'crm_family_update', detail: 'Updated family: spouse=' + (familyData.spouse.name || 'N/A') + ', children=' + familyData.children.length });
+  renderLog('dash-log',8); renderLog('full-log');
+  // Re-render children to update ages
+  renderChildrenList(familyData.children);
+  showToast('Family details saved successfully', 'green');
+}
+
+// ── Field Query System (escalation pipeline: Treasurer → VP → President) ─
+var FIELD_QUERIES = []; // { id, field, category, comment, submittedBy, submittedAt, status, assignedTo, escalationLevel }
+
+function openFieldQuery(fieldName) {
+  document.getElementById('query-field-name').textContent = fieldName;
+  document.getElementById('query-category').value = 'correction';
+  document.getElementById('query-comment').value = '';
+  document.getElementById('query-status-msg').style.display = 'none';
+  document.getElementById('mycrm-query-modal').style.display = 'flex';
+}
+
+function closeMyCrmQueryModal() {
+  document.getElementById('mycrm-query-modal').style.display = 'none';
+}
+
+function submitFieldQuery() {
+  var field = document.getElementById('query-field-name').textContent;
+  var category = document.getElementById('query-category').value;
+  var comment = document.getElementById('query-comment').value.trim();
+  if (!comment) {
+    var msg = document.getElementById('query-status-msg');
+    msg.style.display = 'block'; msg.style.color = 'var(--red)';
+    msg.textContent = 'Please enter your query or comment.';
+    return;
+  }
+  // Determine initial assignment based on category
+  var assignedTo = 'Treasurer'; // default
+  var escalationLevel = 1;
+  if (category === 'dispute') { assignedTo = 'VP'; escalationLevel = 2; }
+
+  var query = {
+    id: 'QRY-' + (FIELD_QUERIES.length + 1).toString().padStart(3,'0'),
+    field: field,
+    category: category,
+    comment: comment,
+    submittedBy: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
+    submittedAt: new Date().toISOString(),
+    status: 'pending',
+    assignedTo: assignedTo,
+    escalationLevel: escalationLevel
+  };
+  FIELD_QUERIES.push(query);
+  LOG.unshift({ ts: new Date().toISOString(), who: query.submittedBy, action: 'field_query', detail: 'Query on "' + field + '" (' + category + ') → ' + assignedTo });
+  renderLog('dash-log',8); renderLog('full-log');
+
+  var msg = document.getElementById('query-status-msg');
+  msg.style.display = 'block'; msg.style.color = 'var(--green)';
+  msg.innerHTML = '<i class="fas fa-check-circle me-1"></i>Query ' + query.id + ' submitted → Assigned to <strong>' + assignedTo + '</strong>';
+  setTimeout(function() { closeMyCrmQueryModal(); }, 2000);
+}
+
+function showToast(message, color) {
+  var t = document.createElement('div');
+  var clr = color === 'green' ? '#22c55e' : color === 'red' ? '#ef4444' : color === 'blue' ? '#3b82f6' : '#f97316';
+  t.style.cssText = 'position:fixed;top:20px;right:20px;background:rgba(17,24,39,.95);backdrop-filter:blur(12px);border:1px solid ' + clr + ';border-radius:12px;padding:14px 22px;z-index:99999;font-size:.82rem;color:' + clr + ';box-shadow:0 8px 30px rgba(0,0,0,.4);animation:fadeIn .3s ease';
+  t.innerHTML = '<i class="fas fa-' + (color==='green'?'check-circle':color==='red'?'exclamation-circle':'info-circle') + ' me-1"></i>' + message;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 2500);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PROCUREMENT — Request / Approval / Purchase / Reimbursement Workflow
+// ═══════════════════════════════════════════════════════════════════════════
+var PROCUREMENT_REQUESTS = []; // stores all procurement requests
+var PROC_NEXT_ID = 1;
+
+// EC titles that correspond to approval roles
+var PROC_APPROVAL_ROLES = {
+  'Treasurer': ['Treasurer'],
+  'VP': ['Vice President', 'VP'],
+  'President': ['President']
+};
+
+function getMyProcRole() {
+  if (!CURRENT_ADMIN) return null;
+  var title = (CURRENT_ADMIN.ecTitle || '').toLowerCase();
+  if (title.indexOf('president') >= 0 && title.indexOf('vice') < 0) return 'President';
+  if (title.indexOf('vice') >= 0 || title.indexOf('vp') >= 0) return 'VP';
+  if (title.indexOf('treasurer') >= 0) return 'Treasurer';
+  // Super admin can also approve
+  if (CURRENT_ADMIN.roles && CURRENT_ADMIN.roles.some(function(r){return r==='super-admin'||r==='super_admin'})) return 'President';
+  return null;
+}
+
+function submitProcurementRequest() {
+  var desc = document.getElementById('proc-description').value.trim();
+  var budget = parseFloat(document.getElementById('proc-budget').value) || 0;
+  var category = document.getElementById('proc-category').value;
+  var neededBy = document.getElementById('proc-needed-by').value;
+  var notes = document.getElementById('proc-notes').value.trim();
+  var msgEl = document.getElementById('proc-submit-msg');
+
+  if (!desc) { msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.textContent='Please describe what needs to be purchased.'; return; }
+  if (budget <= 0) { msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.textContent='Please enter a valid estimated budget.'; return; }
+
+  var request = {
+    id: 'PROC-' + (PROC_NEXT_ID++).toString().padStart(3,'0'),
+    description: desc,
+    budget: budget,
+    actualAmount: null,
+    category: category,
+    neededBy: neededBy,
+    notes: notes,
+    submittedBy: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
+    submitterName: CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Unknown',
+    submittedAt: new Date().toISOString(),
+    status: 'pending_treasurer', // pending_treasurer → pending_vp → pending_president → approved → purchased → pending_reimbursement → reimbursed
+    currentApprover: 'Treasurer',
+    escalationLevel: 1,
+    approvalDeadline: new Date(Date.now() + 24*60*60*1000).toISOString(), // 24 hours
+    approvedBy: null,
+    approvedAt: null,
+    receiptFile: null,
+    receiptNotes: null,
+    reimbursedAt: null,
+    history: [{ ts: new Date().toISOString(), action: 'Submitted', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Procurement request created. Budget: $' + budget.toFixed(2) }]
+  };
+  PROCUREMENT_REQUESTS.push(request);
+
+  LOG.unshift({ ts: new Date().toISOString(), who: request.submittedBy, action: 'procurement_submit', detail: 'Procurement ' + request.id + ': ' + desc.substring(0,50) + '... ($' + budget.toFixed(2) + ')' });
+  renderLog('dash-log',8); renderLog('full-log');
+
+  // Clear form
+  document.getElementById('proc-description').value = '';
+  document.getElementById('proc-budget').value = '';
+  document.getElementById('proc-notes').value = '';
+  document.getElementById('proc-needed-by').value = '';
+
+  msgEl.style.display='block'; msgEl.style.color='var(--green)';
+  msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Request ' + request.id + ' submitted successfully! Awaiting Treasurer approval.';
+  setTimeout(function(){ msgEl.style.display='none'; }, 4000);
+
+  renderProcurement();
+}
+
+function renderProcurement() {
+  renderProcRequests();
+  renderProcApprovalQueue();
+  renderProcReimbursementQueue();
+  updateProcPipeline();
+  checkProcEscalations();
+}
+
+function renderProcRequests(filter) {
+  filter = filter || 'all';
+  var body = document.getElementById('proc-requests-body');
+  var emptyMsg = document.getElementById('proc-empty-msg');
+  if (!CURRENT_ADMIN) return;
+
+  var myRequests = PROCUREMENT_REQUESTS.filter(function(r) {
+    return r.submittedBy === CURRENT_ADMIN.email;
+  });
+
+  if (filter !== 'all') {
+    myRequests = myRequests.filter(function(r) {
+      if (filter === 'pending') return r.status.indexOf('pending') >= 0;
+      if (filter === 'approved') return r.status === 'approved';
+      if (filter === 'purchased') return r.status === 'purchased' || r.status === 'pending_reimbursement';
+      if (filter === 'reimbursed') return r.status === 'reimbursed';
+      if (filter === 'rejected') return r.status === 'rejected';
+      return true;
+    });
+  }
+
+  if (myRequests.length === 0) {
+    body.innerHTML = '';
+    emptyMsg.style.display = 'block';
+    emptyMsg.innerHTML = filter === 'all'
+      ? '<i class="fas fa-inbox me-1"></i>No procurement requests yet. Submit your first request above.'
+      : '<i class="fas fa-filter me-1"></i>No ' + filter + ' requests found.';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  body.innerHTML = myRequests.map(function(r) {
+    var statusBadge = getProcStatusBadge(r.status);
+    var actions = '';
+    if (r.status === 'approved') {
+      actions = '<button class="btn-sm btn-primary" onclick="openReceiptModal(\''+r.id+'\')"><i class="fas fa-receipt me-1"></i>Upload Receipt</button>';
+    } else if (r.status === 'reimbursed') {
+      actions = '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Complete</span>';
+    } else if (r.status === 'rejected') {
+      actions = '<span class="badge-s badge-red">Rejected</span>';
+    } else {
+      actions = '<span style="font-size:.72rem;color:var(--dim)">Awaiting ' + r.currentApprover + '</span>';
+    }
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td style="max-width:200px">'+r.description.substring(0,60)+(r.description.length>60?'...':'')+'</td><td>$'+r.budget.toFixed(2)+'</td><td><span class="badge-s badge-dim">'+r.category+'</span></td><td>'+statusBadge+'</td><td style="font-size:.72rem">'+(r.approvedBy||r.currentApprover)+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td>'+actions+'</td></tr>';
+  }).join('');
+}
+
+function getProcStatusBadge(status) {
+  var map = {
+    'pending_treasurer': '<span class="badge-s badge-yellow"><i class="fas fa-clock me-1"></i>Treasurer Review</span>',
+    'pending_vp': '<span class="badge-s badge-yellow"><i class="fas fa-arrow-up me-1"></i>VP Review</span>',
+    'pending_president': '<span class="badge-s badge-orange"><i class="fas fa-arrow-up me-1"></i>President Review</span>',
+    'approved': '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Approved</span>',
+    'purchased': '<span class="badge-s badge-blue"><i class="fas fa-shopping-cart me-1"></i>Purchased</span>',
+    'pending_reimbursement': '<span class="badge-s badge-purple"><i class="fas fa-money-bill me-1"></i>Reimbursement Pending</span>',
+    'reimbursed': '<span class="badge-s badge-green"><i class="fas fa-check-double me-1"></i>Reimbursed</span>',
+    'rejected': '<span class="badge-s badge-red"><i class="fas fa-times me-1"></i>Rejected</span>'
+  };
+  return map[status] || '<span class="badge-s badge-dim">'+status+'</span>';
+}
+
+function filterProcRequests(filter, btnEl) {
+  document.querySelectorAll('.proc-filter').forEach(function(b){ b.classList.remove('active'); });
+  if (btnEl) btnEl.classList.add('active');
+  renderProcRequests(filter);
+}
+
+function renderProcApprovalQueue() {
+  var section = document.getElementById('proc-approval-section');
+  var body = document.getElementById('proc-approval-body');
+  var countEl = document.getElementById('proc-approval-count');
+  var myRole = getMyProcRole();
+
+  if (!myRole) { section.style.display = 'none'; return; }
+
+  var pendingForMe = PROCUREMENT_REQUESTS.filter(function(r) {
+    return r.currentApprover === myRole && r.status.indexOf('pending') >= 0;
+  });
+
+  if (pendingForMe.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  countEl.textContent = pendingForMe.length;
+
+  body.innerHTML = pendingForMe.map(function(r) {
+    var deadline = new Date(r.approvalDeadline);
+    var now = new Date();
+    var hoursLeft = Math.max(0, Math.round((deadline - now) / (1000*60*60)));
+    var timeColor = hoursLeft < 6 ? 'var(--red)' : hoursLeft < 12 ? 'var(--yellow)' : 'var(--green)';
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td style="max-width:180px">'+r.description.substring(0,50)+'</td><td>$'+r.budget.toFixed(2)+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td style="color:'+timeColor+';font-weight:600;font-size:.78rem">'+hoursLeft+'h left</td><td style="white-space:nowrap"><button class="btn-sm btn-success" onclick="approveProcRequest(\''+r.id+'\')"><i class="fas fa-check me-1"></i>Approve</button> <button class="btn-sm btn-danger" onclick="rejectProcRequest(\''+r.id+'\')"><i class="fas fa-times me-1"></i>Reject</button></td></tr>';
+  }).join('');
+}
+
+function approveProcRequest(procId) {
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
+  if (!req) return;
+  req.status = 'approved';
+  req.approvedBy = (CURRENT_ADMIN ? CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName : 'Admin') + ' (' + req.currentApprover + ')';
+  req.approvedAt = new Date().toISOString();
+  req.history.push({ ts: new Date().toISOString(), action: 'Approved', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Approved by ' + req.currentApprover });
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_approve', detail: req.id + ' approved by ' + req.currentApprover + '. Requester can now purchase.' });
+  renderLog('dash-log',8); renderLog('full-log');
+  showToast('Request ' + procId + ' approved! Requester can now purchase.', 'green');
+  renderProcurement();
+}
+
+function rejectProcRequest(procId) {
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
+  if (!req) return;
+  req.status = 'rejected';
+  req.history.push({ ts: new Date().toISOString(), action: 'Rejected', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Rejected by ' + req.currentApprover });
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_reject', detail: req.id + ' rejected by ' + req.currentApprover });
+  renderLog('dash-log',8); renderLog('full-log');
+  showToast('Request ' + procId + ' rejected.', 'red');
+  renderProcurement();
+}
+
+function checkProcEscalations() {
+  // Auto-escalate requests that exceeded 24-hour deadline
+  var now = new Date();
+  PROCUREMENT_REQUESTS.forEach(function(req) {
+    if (req.status.indexOf('pending') < 0) return;
+    if (new Date(req.approvalDeadline) > now) return;
+
+    // Escalate!
+    if (req.currentApprover === 'Treasurer') {
+      req.currentApprover = 'VP';
+      req.status = 'pending_vp';
+      req.escalationLevel = 2;
+      req.approvalDeadline = new Date(now.getTime() + 24*60*60*1000).toISOString();
+      req.history.push({ ts: now.toISOString(), action: 'Escalated', by: 'System', detail: 'Auto-escalated to VP (Treasurer did not respond in 24h)' });
+    } else if (req.currentApprover === 'VP') {
+      req.currentApprover = 'President';
+      req.status = 'pending_president';
+      req.escalationLevel = 3;
+      req.approvalDeadline = new Date(now.getTime() + 24*60*60*1000).toISOString();
+      req.history.push({ ts: now.toISOString(), action: 'Escalated', by: 'System', detail: 'Auto-escalated to President (VP did not respond in 24h)' });
+    }
+    // President is final — no further escalation
+  });
+}
+
+// Receipt Upload
+var RECEIPT_PROC_ID = null;
+function openReceiptModal(procId) {
+  RECEIPT_PROC_ID = procId;
+  document.getElementById('receipt-proc-id').textContent = procId;
+  document.getElementById('receipt-amount').value = '';
+  document.getElementById('receipt-notes').value = '';
+  document.getElementById('receipt-file').value = '';
+  document.getElementById('receipt-status-msg').style.display = 'none';
+  document.getElementById('proc-receipt-modal').style.display = 'flex';
+}
+
+function closeReceiptModal() {
+  document.getElementById('proc-receipt-modal').style.display = 'none';
+  RECEIPT_PROC_ID = null;
+}
+
+function submitReceipt() {
+  if (!RECEIPT_PROC_ID) return;
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === RECEIPT_PROC_ID; });
+  if (!req) return;
+  var amount = parseFloat(document.getElementById('receipt-amount').value) || 0;
+  var notes = document.getElementById('receipt-notes').value.trim();
+  var fileInput = document.getElementById('receipt-file');
+  var msgEl = document.getElementById('receipt-status-msg');
+
+  if (amount <= 0) { msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.textContent='Please enter the actual amount spent.'; return; }
+  if (!fileInput.files || fileInput.files.length === 0) { msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.textContent='Please upload a receipt file.'; return; }
+
+  req.actualAmount = amount;
+  req.receiptFile = fileInput.files[0].name;
+  req.receiptNotes = notes;
+  req.status = 'pending_reimbursement';
+  req.history.push({ ts: new Date().toISOString(), action: 'Receipt Uploaded', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Receipt: ' + fileInput.files[0].name + ', Amount: $' + amount.toFixed(2) });
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_receipt', detail: req.id + ' receipt uploaded. Actual: $' + amount.toFixed(2) + '. Awaiting reimbursement.' });
+  renderLog('dash-log',8); renderLog('full-log');
+
+  msgEl.style.display='block'; msgEl.style.color='var(--green)';
+  msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Receipt uploaded! Reimbursement workflow initiated.';
+  setTimeout(function(){ closeReceiptModal(); renderProcurement(); }, 2000);
+}
+
+function renderProcReimbursementQueue() {
+  var section = document.getElementById('proc-reimbursement-section');
+  var body = document.getElementById('proc-reimburse-body');
+  var countEl = document.getElementById('proc-reimburse-count');
+  var myRole = getMyProcRole();
+
+  if (!myRole) { section.style.display = 'none'; return; }
+
+  var pendingReimburse = PROCUREMENT_REQUESTS.filter(function(r) {
+    return r.status === 'pending_reimbursement';
+  });
+
+  if (pendingReimburse.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  countEl.textContent = pendingReimburse.length;
+
+  body.innerHTML = pendingReimburse.map(function(r) {
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td>$'+(r.actualAmount||r.budget).toFixed(2)+'</td><td><i class="fas fa-file-alt me-1" style="color:var(--cyan)"></i>'+(r.receiptFile||'No file')+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td><button class="btn-sm btn-success" onclick="processReimbursement(\''+r.id+'\')"><i class="fas fa-money-bill-wave me-1"></i>Reimburse</button></td></tr>';
+  }).join('');
+}
+
+function processReimbursement(procId) {
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
+  if (!req) return;
+  req.status = 'reimbursed';
+  req.reimbursedAt = new Date().toISOString();
+  req.history.push({ ts: new Date().toISOString(), action: 'Reimbursed', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Reimbursement processed: $' + (req.actualAmount || req.budget).toFixed(2) });
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_reimbursed', detail: req.id + ' reimbursed $' + (req.actualAmount || req.budget).toFixed(2) + ' to ' + req.submitterName });
+  renderLog('dash-log',8); renderLog('full-log');
+  showToast('Reimbursement for ' + procId + ' processed successfully!', 'green');
+  renderProcurement();
+}
+
+function updateProcPipeline() {
+  // Show pipeline status for the most recent request by current user
+  if (!CURRENT_ADMIN) return;
+  var myReqs = PROCUREMENT_REQUESTS.filter(function(r) { return r.submittedBy === CURRENT_ADMIN.email; });
+  if (myReqs.length === 0) return;
+  var latest = myReqs[myReqs.length - 1];
+  var steps = {
+    'pending_treasurer': 2,
+    'pending_vp': 3,
+    'pending_president': 4,
+    'approved': 5,
+    'purchased': 5,
+    'pending_reimbursement': 5,
+    'reimbursed': 6,
+    'rejected': 0
+  };
+  var activeStep = steps[latest.status] || 1;
+  var pipeSteps = ['proc-p-submit','proc-p-treasurer','proc-p-vp','proc-p-president','proc-p-purchase','proc-p-reimburse'];
+  pipeSteps.forEach(function(id, idx) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.className = 'pipe-step ' + (idx + 1 < activeStep ? 'done' : (idx + 1 === activeStep ? 'active' : 'pending'));
+  });
+  // Mark step 1 as done if any request exists
+  var s1 = document.getElementById('proc-p-submit');
+  if (s1 && myReqs.length > 0) s1.className = 'pipe-step done';
+}
+
 
 function renderAll(){
   document.getElementById('dash-kpis').innerHTML=[
