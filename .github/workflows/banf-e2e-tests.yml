@@ -1,0 +1,89 @@
+name: BANF E2E Pipeline Tests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:           # Allow manual trigger from GitHub Actions UI
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true    # Cancel older runs if a new push arrives
+
+jobs:
+  e2e-tests:
+    name: Run E2E Pipeline Tests → www.jaxbengali.org
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Node.js is pre-installed on ubuntu-latest; no npm install needed
+      # (test agent uses only built-in modules: https, child_process, fs)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Wait for Wix deployment to propagate
+        # Give Wix CDN ~60s to propagate the new backend code
+        # before running tests against production
+        run: sleep 60
+
+      - name: Verify live deployment version
+        run: |
+          echo "Checking deployed version via canary endpoint..."
+          RESPONSE=$(curl -sf https://www.jaxbengali.org/_functions/deploy_check || echo '{"error":"unreachable"}')
+          echo "Canary response: $RESPONSE"
+          VERSION=$(echo $RESPONSE | node -e "let d=''; process.stdin.on('data',c=>d+=c); process.stdin.on('end',()=>{ try{ console.log(JSON.parse(d).version||'unknown'); }catch(e){ console.log('parse-error'); } })")
+          echo "Deployed version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Run full E2E pipeline test agent
+        run: node banf-pipeline-test-agent.js
+        env:
+          NODE_ENV: ci
+          CI: true
+        continue-on-error: false   # Fail the job if tests fail
+
+      - name: Upload test results
+        if: always()               # Always upload, even on failure
+        uses: actions/upload-artifact@v4
+        with:
+          name: banf-pipeline-test-results-${{ github.sha }}
+          path: banf-pipeline-test-results.json
+          retention-days: 30
+
+      - name: Post summary to GitHub Step Summary
+        if: always()
+        run: |
+          echo "## BANF E2E Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Deployed version:** \`${{ env.VERSION }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Target:** https://www.jaxbengali.org/" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f banf-pipeline-test-results.json ]; then
+            PASSED=$(node -e "const r=require('./banf-pipeline-test-results.json'); console.log(r.passed||0)")
+            FAILED=$(node -e "const r=require('./banf-pipeline-test-results.json'); console.log(r.failed||0)")
+            TOTAL=$(node -e "const r=require('./banf-pipeline-test-results.json'); console.log(r.total||0)")
+            RATE=$(node -e "const r=require('./banf-pipeline-test-results.json'); console.log(r.passRate||'?')")
+            echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| ✅ Passed | $PASSED / $TOTAL |" >> $GITHUB_STEP_SUMMARY
+            echo "| ❌ Failed | $FAILED |" >> $GITHUB_STEP_SUMMARY
+            echo "| 📊 Pass Rate | $RATE |" >> $GITHUB_STEP_SUMMARY
+            if [ "$FAILED" -gt "0" ]; then
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### Failed Tests" >> $GITHUB_STEP_SUMMARY
+              node -e "
+                const r = require('./banf-pipeline-test-results.json');
+                const fails = (r.results||[]).filter(t => t.status === 'FAIL');
+                fails.forEach(f => {
+                  console.log('- ❌ **[' + f.suite + ']** ' + f.test);
+                  if (f.details) console.log('  - _' + f.details + '_');
+                });
+              " >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
