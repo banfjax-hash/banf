@@ -37,7 +37,7 @@ const CURRENT_FY = 'FY2026-27';
 const BANF_EMAIL = 'banfjax@gmail.com';
 const BANF_ORG = 'Bengali Association of North Florida (BANF)';
 const PRESIDENT_EMAIL = 'ranadhir.ghosh@gmail.com';
-const TEST_MODE = false; // Emails sent directly to EC members (live mode)
+const TEST_MODE = true; // SAFE TEST MODE: all emails redirected to PRESIDENT_EMAIL only
 
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';
