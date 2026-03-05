@@ -561,16 +561,15 @@ async function signupStep1() {
     document.getElementById('signup-confirmed-email').textContent = email;
     showStep('signup', 2);
   } else {
-    // Offline fallback
+    // Offline fallback — seamless, no confusing message to the user
     var dbUser = AUTH_DB[email];
     SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token', firstName: dbUser ? dbUser.firstName : '', lastName: dbUser ? dbUser.lastName : '', ecTitle: dbUser ? dbUser.ecTitle : '' };
     var user = dbUser;
-    var nameStr = user ? user.name : email.split('@')[0];
+    var nameStr = user ? (user.name + (user.ecTitle ? ' (' + user.ecTitle + ')' : '')) : email.split('@')[0];
     var el2 = document.getElementById('signup-welcome-name');
     if (el2) el2.textContent = nameStr;
     document.getElementById('signup-confirmed-email').textContent = email;
-    showInfo('signup-info-1', 'Offline mode — setting up locally.');
-    setTimeout(function() { showStep('signup', 2); }, 800);
+    showStep('signup', 2);
   }
 }
 
