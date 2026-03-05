@@ -99,17 +99,17 @@ select{appearance:auto}
         <a onclick="showAuth('signup')"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
       </div>
       <div style="margin-top:14px;font-size:.7rem;color:var(--dim);text-align:center">
-        <i class="fas fa-lock me-1"></i>Unified BANF Auth — same credentials work across all portals
+        <i class="fas fa-lock me-1"></i>BANF EC Admin Auth System
       </div>
 
       <div class="test-creds">
         <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Default Offline Passwords (before first signup)</div>
-        <div style="margin-top:2px"><span style="color:var(--red);font-size:.68rem">Super Admin:</span> <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">EC Admin (VP/Treasurer/Sec):</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">EC Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
+        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">President:</span> <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
+        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">Senior Officers (VP/Treasurer/Sec):</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
+        <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
         <div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>After first signup, use your chosen password.</div>
         <div class="ec-member-list" style="margin-top:6px">
-          <strong>Real EC Emails:</strong> ranadhir.ghosh@gmail.com · mukhopadhyay.partha@gmail.com · amit.chandak@gmail.com · rajanya.ghosh@gmail.com · moumita.mukherje@gmail.com · duttasoumyajit86@gmail.com · sumo475@gmail.com · rwitichoudhury@gmail.com
+          <strong>EC Members:</strong> ranadhir.ghosh · mukhopadhyay.partha · amit.chandak · rajanya.ghosh · moumita.mukherje · duttasoumyajit86 · sumo475 · rwitichoudhury
         </div>
       </div>
     </div>
@@ -165,11 +165,11 @@ select{appearance:auto}
       <div class="auth-step" id="signup-step-3">
         <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
         <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Account Created Successfully!</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your EC account is ready. A congratulations email has been sent with your portal links.</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your EC Admin account is ready. You can now sign in to access the EC Admin Portal and Member Portal.</div>
         <div style="background:var(--bg2);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.78rem;color:var(--text);text-align:left">
-          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Your portals are ready:</div>
-          <div style="margin:4px 0"><a href="https://banfjax-hash.github.io/banf/member-login.html" target="_blank" style="color:var(--accent)"><i class="fas fa-user me-1"></i>Member Portal (sign in here)</a></div>
-          <div style="margin:4px 0"><a href="https://www.jaxbengali.org" target="_blank" style="color:var(--green)"><i class="fas fa-globe me-1"></i>BANF Main Website</a></div>
+          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Your portals:</div>
+          <div style="margin:4px 0"><i class="fas fa-shield-halved me-1" style="color:var(--accent)"></i><strong>EC Admin Portal</strong> &mdash; Manage EC operations, drives, email campaigns</div>
+          <div style="margin:4px 0"><i class="fas fa-user me-1" style="color:var(--green)"></i><strong>Member Portal</strong> &mdash; Access member services (linked from EC Admin Portal)</div>
         </div>
         <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Sign In Now</button>
       </div>
@@ -267,7 +267,8 @@ select{appearance:auto}
 
   <div class="bottom-links">
     <a href="landing.html"><i class="fas fa-arrow-left me-1"></i>Back to BANF Home</a>
-    <a href="member-login.html"><i class="fas fa-user me-1"></i>Member Login</a>
+    <a href="admin-login.html"><i class="fas fa-shield-alt me-1"></i>Super Admin Login</a>
+    <a href="stakeholder-login.html"><i class="fas fa-bullhorn me-1"></i>Stakeholder Login</a>
   </div>
 </div>
 
@@ -292,29 +293,27 @@ const SQ_LABELS = {
 };
 
 // ── EC MEMBER CREDENTIAL DATABASE ──
-// Only EC members (not super-admin or standalone stakeholders)
-// ─── ROLE HIERARCHY (portal-level, hyphenated) ───────────────────────────────
-// super-admin   → IT Lead / System Administrator (Ranadhir only)
-//                 Full access: roles mgmt, delete data, computer-agent, all views
-// admin         → Senior EC officers: President, VP, Treasurer, General Secretary
-//                 Full operational except system config / role management
+// This page handles EC members ONLY (not super-admin or business-stakeholder).
+// Super Admin login → admin-login.html | Stakeholder login → stakeholder-login.html
+// ─── EC ROLE HIERARCHY ───────────────────────────────────────────────────────
+// admin         → President, VP, Treasurer, General Secretary
+//                 Full operational: members, payments, CRM, email, agents
 // ec-member     → Coordinators: Cultural, Food, Event, Puja
 //                 Feature-specific: events, view reports, approve responses
-// business-stakeholder → Sponsors/community partners (managed in admin-login.html)
 // ─────────────────────────────────────────────────────────────────────────────
 const AUTH_DB = {
   // ─── REAL BANF EC ROSTER FY2026-27 (confirmed 2025-06-15) ───────────────
   // WARNING: Do NOT use docs/admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
 
-  // ── SUPER ADMIN ──────────────────────────────────────────────────────────
+  // ── ADMIN — President & Senior EC Officers ───────────────────────────────
   'ranadhir.ghosh@gmail.com': {
     name: 'Dr. Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
-    roles: ['super-admin'], ecTitle: 'IT / Tech Lead (Super Admin)',
+    roles: ['admin'], ecTitle: 'President',
     offlinePw: 'banf-super-2026',
     securityQ: 'city_born', securityA: 'kolkata'
   },
 
-  // ── ADMIN — Senior EC Officers ───────────────────────────────────────────
+  // ── ADMIN — Other Senior EC Officers ─────────────────────────────────────
   'mukhopadhyay.partha@gmail.com': {
     name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
     roles: ['admin'], ecTitle: 'Vice President',
@@ -452,19 +451,21 @@ function resolveEmail(input) {
 }
 
 // ── ENTER PORTAL ──
-// effectiveRole drives UI gating in admin-portal.html:
-//   'super-admin'         → full system access (roles mgmt, delete, computer-agent)
-//   'admin'               → full operational (members, payments, CRM, email, agents)
-//   'ec-member'           → read + approve responses + view reports
-//   'business-stakeholder'→ stakeholder drive & sponsor views only
+// All EC members (admin + ec-member) go to admin-portal.html (the EC Admin Portal).
+// admin-portal.html uses data-roles attributes to gate features by role.
+// Member portal is accessible from within admin-portal via sidebar link.
 function enterPortal(user, email) {
+  // Force EC-level roles only — never super-admin from this page
+  var ecRoles = (user.roles || []).map(function(r) {
+    return (r === 'super-admin' || r === 'super_admin') ? 'admin' : r;
+  });
   const session = {
     email: email,
     name: user.name,
     firstName: user.firstName,
     lastName: user.lastName,
-    roles: user.roles,
-    effectiveRole: user.roles[0] || 'ec-member',  // use actual role, NOT hardcoded
+    roles: ecRoles,
+    effectiveRole: ecRoles[0] || 'ec-member',
     ecTitle: user.ecTitle || '',
     loginTime: new Date().toISOString(),
     source: 'ec-admin-login'
@@ -474,12 +475,11 @@ function enterPortal(user, email) {
   sessionStorage.setItem('banf_member_data', JSON.stringify({
     name: user.name, firstName: user.firstName, lastName: user.lastName,
     email: email, phone: '', membershipType: 'EC Member',
-    memberId: 'EC-' + user.ecTitle.replace(/\s/g, ''), isECMember: true, role: user.ecTitle,
+    memberId: 'EC-' + (user.ecTitle || '').replace(/\s/g, ''), isECMember: true, role: user.ecTitle,
     memberSince: '2024'
   }));
-  // Route based on role: super-admin/admin → admin portal; ec-member → member portal
-  var isSuperOrAdmin = user.roles && (user.roles.includes('super-admin') || user.roles.includes('admin'));
-  window.location.href = isSuperOrAdmin ? 'admin-portal.html' : 'member-portal.html';
+  // ALL EC members go to admin-portal.html (the EC Admin Portal)
+  window.location.href = 'admin-portal.html';
 }
 
 // ── SIGN IN ──
@@ -801,9 +801,8 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const session = JSON.parse(existing);
       if (session.email && session.roles) {
-        // Route based on role: super-admin/admin → admin portal, ec-member → member portal
-        var isSuperOrAdmin = session.roles.includes('super-admin') || session.roles.includes('admin');
-        window.location.href = isSuperOrAdmin ? 'admin-portal.html' : 'member-portal.html';
+        // All EC members go to admin-portal.html (the EC Admin Portal)
+        window.location.href = 'admin-portal.html';
         return;
       }
     } catch (e) {}

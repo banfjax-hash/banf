@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BANF Super Admin Portal</title>
+<title>BANF Stakeholder Portal</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,16 +24,14 @@ body{background:var(--bg);min-height:100vh;display:flex;align-items:center;justi
   animation:slideUp .5s ease;
 }
 @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:#fff;margin:0 auto 1.2rem}
+.logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--orange),var(--yellow));display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:#fff;margin:0 auto 1.2rem}
 h1{font-size:1.15rem;font-weight:700;text-align:center;margin-bottom:4px}
 .sub{text-align:center;font-size:.78rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
 .role-badges{display:flex;gap:6px;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap}
 .role-badge{font-size:.65rem;padding:3px 10px;border-radius:999px;font-weight:600;border:1px solid}
-.role-badge.sa{color:var(--red);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)}
 .role-badge.sh{color:var(--orange);border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.08)}
-.role-badge.ec{color:var(--blue);border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.08)}
 input,select{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:.88rem;margin-bottom:10px;outline:none}
-input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,.12)}
+input:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,.12)}
 input::placeholder{color:var(--dim)}
 .pwd-toggle{position:relative}
 .pwd-toggle input{padding-right:40px}
@@ -41,7 +39,7 @@ input::placeholder{color:var(--dim)}
 .toggle-eye:hover{color:var(--muted)}
 .btn-login{
   width:100%;padding:12px;border:none;border-radius:10px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  background:linear-gradient(135deg,var(--orange),var(--yellow));
   color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;
   margin-top:6px;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px
 }
@@ -52,19 +50,19 @@ input::placeholder{color:var(--dim)}
 .info-msg{color:var(--blue);font-size:.78rem;margin-top:6px;display:none;text-align:center}
 .auth-links{display:flex;gap:16px;justify-content:center;margin-top:14px}
 .auth-links a{color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:none;transition:.2s}
-.auth-links a:hover{color:var(--accent)}
+.auth-links a:hover{color:var(--orange)}
 .auth-screen{display:none}
 .auth-screen.active{display:block}
 .auth-step{display:none}
 .auth-step.active{display:block}
 .back-link{font-size:.78rem;color:var(--muted);cursor:pointer;margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.back-link:hover{color:var(--accent)}
+.back-link:hover{color:var(--orange)}
 .field-label{font-size:.75rem;color:var(--muted);margin-bottom:4px;font-weight:600}
 .auth-divider{border-top:1px solid var(--line);margin:14px 0}
 .pwd-strength{height:4px;background:var(--bg2);border-radius:999px;margin:2px 0 10px;overflow:hidden}
 .pwd-strength .bar{height:100%;width:0;transition:.3s;border-radius:999px}
 .bottom-links{text-align:center;margin-top:1.5rem}
-.bottom-links a{color:rgba(255,255,255,.5);font-size:.78rem;text-decoration:none;transition:.2s}
+.bottom-links a{color:rgba(255,255,255,.5);font-size:.78rem;text-decoration:none;transition:.2s;margin:0 8px}
 .bottom-links a:hover{color:rgba(255,255,255,.8)}
 .test-creds{
   background:var(--bg2);border:1px solid var(--line);border-radius:12px;
@@ -78,10 +76,10 @@ select{appearance:auto}
 <div class="login-container">
   <div class="login-box">
     <div class="logo">B</div>
-    <h1>BANF Super Admin Portal</h1>
-    <div class="sub">Restricted access for System Super Admin only.<br>EC Members and Stakeholders have separate login portals.</div>
+    <h1>BANF Stakeholder Portal</h1>
+    <div class="sub">Business Stakeholder &amp; Sponsor access only.<br>Sign in to manage stakeholder drives, sponsorships, and feedback.</div>
     <div class="role-badges">
-      <span class="role-badge sa"><i class="fas fa-shield-alt me-1"></i>Super Admin</span>
+      <span class="role-badge sh"><i class="fas fa-bullhorn me-1"></i>Business Stakeholder</span>
     </div>
 
     <!-- ══ SIGN IN ══ -->
@@ -91,7 +89,7 @@ select{appearance:auto}
         <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
         <i class="fas fa-eye toggle-eye" onclick="togglePwd('login-pass',this)"></i>
       </div>
-      <button class="btn-login" id="btn-login"><i class="fas fa-shield-alt"></i>Sign In</button>
+      <button class="btn-login" id="btn-login"><i class="fas fa-bullhorn"></i>Sign In</button>
       <div class="error-msg" id="login-error"></div>
       <div class="success-msg" id="login-success"></div>
       <div class="info-msg" id="login-info"></div>
@@ -100,33 +98,34 @@ select{appearance:auto}
         <a onclick="showAuth('signup')"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
       </div>
       <div style="margin-top:14px;font-size:.7rem;color:var(--dim);text-align:center">
-        <i class="fas fa-lock me-1"></i>BANF Super Admin — System Administration Only
+        <i class="fas fa-lock me-1"></i>BANF Stakeholder Portal &mdash; Business Partners &amp; Sponsors
       </div>
 
       <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Super Admin Credentials</div>
-        <div>Super Admin: <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
-        <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">Only the system Super Admin can sign in here.</div>
+        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Stakeholder Test Accounts</div>
+        <div>Sponsor: <code>sponsor1@banf.org</code> / <code>banf-sh-2026</code></div>
+        <div>BANF Official: <code>banfjax@gmail.com</code> / <code>banf-sh-2026</code></div>
+        <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">Only business stakeholders and sponsors can sign in here.</div>
       </div>
       <div style="margin-top:12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center">
         <a href="ec-admin-login.html" style="color:var(--blue);font-size:.78rem;text-decoration:none"><i class="fas fa-users-cog me-1"></i>EC Admin? Login here instead</a>
-        <a href="stakeholder-login.html" style="color:var(--orange);font-size:.78rem;text-decoration:none"><i class="fas fa-bullhorn me-1"></i>Stakeholder? Login here instead</a>
+        <a href="admin-login.html" style="color:var(--red);font-size:.78rem;text-decoration:none"><i class="fas fa-shield-alt me-1"></i>Super Admin? Login here instead</a>
       </div>
     </div>
 
     <!-- ══ SIGN UP (Multi-Step) ══ -->
     <div class="auth-screen" id="auth-signup">
       <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
-      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Super Admin Sign Up</h1>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Stakeholder Sign Up</h1>
 
-      <!-- Step 1: Email — direct validation (no code needed) -->
+      <!-- Step 1: Email -->
       <div class="auth-step active" id="signup-step-1">
-        <div class="field-label">Super Admin Email</div>
+        <div class="field-label">Your Business / Sponsor Email</div>
         <input type="email" id="signup-email" placeholder="your-email@example.com" autocomplete="email">
         <button class="btn-login" onclick="signupStep1()"><i class="fas fa-user-plus me-1"></i>Begin Signup</button>
         <div class="error-msg" id="signup-error-1"></div>
         <div class="info-msg" id="signup-info-1"></div>
-        <div style="margin-top:8px;font-size:.7rem;color:var(--dim)">Only the authorized Super Admin can sign up here. No verification code needed.</div>
+        <div style="margin-top:8px;font-size:.7rem;color:var(--dim)">You must be an authorized business stakeholder or sponsor. No verification code needed.</div>
       </div>
 
       <!-- Step 2: Password + Security Question -->
@@ -165,14 +164,13 @@ select{appearance:auto}
       <div class="auth-step" id="signup-step-3">
         <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
         <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Account Created Successfully!</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your admin account is ready. A congratulations email has been sent with testing details.</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your stakeholder account is ready. You can now sign in to access the Stakeholder Portal.</div>
         <div style="background:var(--bg2);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.78rem;color:var(--text);text-align:left">
-          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Please verify these portals:</div>
-          <div style="margin:4px 0"><a href="https://banfjax-hash.github.io/banf/member-login.html" target="_blank" style="color:var(--accent)"><i class="fas fa-user me-1"></i>Member Login Portal</a></div>
-          <div style="margin:4px 0"><a href="https://banfjax-hash.github.io/banf/admin-portal.html" target="_blank" style="color:var(--red)"><i class="fas fa-shield-alt me-1"></i>EC Admin Portal</a></div>
-          <div style="margin:4px 0"><a href="https://www.jaxbengali.org" target="_blank" style="color:var(--green)"><i class="fas fa-globe me-1"></i>BANF Main Website</a></div>
+          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Your portal features:</div>
+          <div style="margin:4px 0"><i class="fas fa-bullhorn me-1" style="color:var(--orange)"></i><strong>Stakeholder Drive</strong> &mdash; Manage and submit stakeholder information</div>
+          <div style="margin:4px 0"><i class="fas fa-comments me-1" style="color:var(--green)"></i><strong>Feedback</strong> &mdash; Submit feedback and view communications</div>
         </div>
-        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Sign In Now</button>
       </div>
     </div>
 
@@ -181,16 +179,14 @@ select{appearance:auto}
       <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
       <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-key me-1"></i>Reset Password</h1>
 
-      <!-- Step 1: Find account (email or username) -->
       <div class="auth-step active" id="forgot-step-1">
-        <div class="field-label">Enter your email or username</div>
-        <input type="text" id="forgot-email" placeholder="email or username" autocomplete="email">
+        <div class="field-label">Enter your email</div>
+        <input type="text" id="forgot-email" placeholder="your-email@example.com" autocomplete="email">
         <button class="btn-login" onclick="forgotStep1()"><i class="fas fa-search"></i>Find My Account</button>
         <div class="error-msg" id="forgot-error-1"></div>
         <div class="info-msg" id="forgot-info-1"></div>
       </div>
 
-      <!-- Step 2: Security question -->
       <div class="auth-step" id="forgot-step-2">
         <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found: <strong id="forgot-found-name"></strong></div>
         <div class="field-label">Security Question</div>
@@ -201,7 +197,6 @@ select{appearance:auto}
         <div class="error-msg" id="forgot-error-2"></div>
       </div>
 
-      <!-- Step 3: New password -->
       <div class="auth-step" id="forgot-step-3">
         <div style="font-size:.82rem;color:var(--green);margin-bottom:14px"><i class="fas fa-check-circle me-1"></i>Identity verified!</div>
         <div class="field-label">New Password</div>
@@ -219,7 +214,6 @@ select{appearance:auto}
         <div class="error-msg" id="forgot-error-3"></div>
       </div>
 
-      <!-- Step 4: Success -->
       <div class="auth-step" id="forgot-step-4">
         <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
         <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Password Reset Successfully!</div>
@@ -232,15 +226,15 @@ select{appearance:auto}
   <div class="bottom-links">
     <a href="landing.html" style="margin-right:16px"><i class="fas fa-arrow-left me-1"></i>Back to BANF Home</a>
     <a href="ec-admin-login.html" style="margin-right:16px"><i class="fas fa-users-cog me-1"></i>EC Admin Login</a>
-    <a href="stakeholder-login.html"><i class="fas fa-bullhorn me-1"></i>Stakeholder Login</a>
+    <a href="admin-login.html"><i class="fas fa-shield-alt me-1"></i>Super Admin Login</a>
   </div>
 </div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-//  UNIFIED BANF AUTH SYSTEM
-//  Same credentials work across all portals.
-//  System detects role(s) and configures portal accordingly.
+//  BANF STAKEHOLDER AUTH SYSTEM
+//  Dedicated login for business stakeholders and sponsors.
+//  Separate from EC Admin and Super Admin portals.
 // ═══════════════════════════════════════════════════════════════
 
 const API = 'https://www.jaxbengali.org/_functions';
@@ -256,73 +250,10 @@ const SQ_LABELS = {
   childhood_friend: 'What is the name of your childhood best friend?'
 };
 
-// ── UNIFIED CREDENTIAL DATABASE ──
-// All known admin/EC/stakeholder users with offline passwords
-// Role hierarchy: super-admin > admin > ec-member > business-stakeholder
-//
-// super-admin         → IT Lead only (Ranadhir): full system access, role mgmt, delete data
-// admin               → Senior EC officers: full operational except system config
-// ec-member           → Coordinators: events, view reports, approve responses
-// business-stakeholder→ Sponsors/community partners: stakeholder drive & sponsor views
-//
-// REAL BANF EC ROSTER FY2026-27 (confirmed 2025-06-15)
-// WARNING: Do NOT use admin-portal.html EC_MEMBERS — those are FAKE TEST DATA
+// ── STAKEHOLDER CREDENTIAL DATABASE ──
+// Business stakeholders and sponsors only.
+// EC Members → ec-admin-login.html, Super Admin → admin-login.html
 const AUTH_DB = {
-
-  // ── SUPER ADMIN ──────────────────────────────────────────────────────────
-  'ranadhir.ghosh@gmail.com': {
-    name: 'Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
-    roles: ['super-admin'], ecTitle: 'IT / Tech Lead (Super Admin)',
-    offlinePw: 'banf-super-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-
-  // ── ADMIN — Senior EC Officers ───────────────────────────────────────────
-  'mukhopadhyay.partha@gmail.com': {
-    name: 'Partha Mukhopadhyay', firstName: 'Partha', lastName: 'Mukhopadhyay',
-    roles: ['admin'], ecTitle: 'Vice President',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-  'amit.chandak@gmail.com': {
-    name: 'Amit Chandak', firstName: 'Amit', lastName: 'Chandak',
-    roles: ['admin'], ecTitle: 'Treasurer',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-  'rajanya.ghosh@gmail.com': {
-    name: 'Rajanya Ghosh', firstName: 'Rajanya', lastName: 'Ghosh',
-    roles: ['admin'], ecTitle: 'General Secretary',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-
-  // ── EC MEMBER — Coordinators ─────────────────────────────────────────────
-  'moumita.mukherje@gmail.com': {
-    name: 'Dr. Moumita Ghosh', firstName: 'Moumita', lastName: 'Ghosh',
-    roles: ['ec-member'], ecTitle: 'Cultural Secretary',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-  'duttasoumyajit86@gmail.com': {
-    name: 'Soumyajit Dutta', firstName: 'Soumyajit', lastName: 'Dutta',
-    roles: ['ec-member'], ecTitle: 'Food Coordinator',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-  'sumo475@gmail.com': {
-    name: 'Dr. Sumanta Ghosh', firstName: 'Sumanta', lastName: 'Ghosh',
-    roles: ['ec-member'], ecTitle: 'Event Coordinator',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-  'rwitichoudhury@gmail.com': {
-    name: 'Rwiti Chowdhury', firstName: 'Rwiti', lastName: 'Chowdhury',
-    roles: ['ec-member'], ecTitle: 'Puja Coordinator',
-    offlinePw: 'banf-ec-2026',
-    securityQ: 'city_born', securityA: 'kolkata'
-  },
-
   // ── BUSINESS STAKEHOLDERS ─────────────────────────────────────────────────
   'sponsor1@banf.org': {
     name: 'BANF Test Sponsor', firstName: 'Test', lastName: 'Sponsor',
@@ -338,73 +269,72 @@ const AUTH_DB = {
   },
 };
 
-// Also allow username-based lookup (e.g. 'ranadhir.ghosh' → ranadhir.ghosh@gmail.com)
+// Username lookup
 const USERNAME_MAP = {};
-Object.keys(AUTH_DB).forEach(email => {
-  const user = AUTH_DB[email];
-  const username = email.split('@')[0].replace(/\./g, '.');
+Object.keys(AUTH_DB).forEach(function(email) {
+  var username = email.split('@')[0].replace(/\./g, '.');
   USERNAME_MAP[username] = email;
   USERNAME_MAP[username.replace(/\./g, '_')] = email;
 });
 
 // ── UTILITY FUNCTIONS ──
 function showAuth(screen) {
-  document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById('auth-' + screen);
+  document.querySelectorAll('.auth-screen').forEach(function(s) { s.classList.remove('active'); });
+  var el = document.getElementById('auth-' + screen);
   if (el) el.classList.add('active');
   if (screen === 'signup') {
-    document.querySelectorAll('#auth-signup .auth-step').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('#auth-signup .auth-step').forEach(function(s) { s.classList.remove('active'); });
     document.getElementById('signup-step-1').classList.add('active');
   }
   if (screen === 'forgot') {
-    document.querySelectorAll('#auth-forgot .auth-step').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('#auth-forgot .auth-step').forEach(function(s) { s.classList.remove('active'); });
     document.getElementById('forgot-step-1').classList.add('active');
   }
-  document.querySelectorAll('.error-msg,.success-msg,.info-msg').forEach(m => m.style.display = 'none');
+  document.querySelectorAll('.error-msg,.success-msg,.info-msg').forEach(function(m) { m.style.display = 'none'; });
 }
 
 function showStep(prefix, num) {
-  document.querySelectorAll('#auth-' + prefix + ' .auth-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('#auth-' + prefix + ' .auth-step').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById(prefix + '-step-' + num).classList.add('active');
 }
 
 function showError(id, msg) {
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   if (el) { el.textContent = msg; el.style.display = 'block'; }
 }
 function showInfo(id, msg) {
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   if (el) { el.textContent = msg; el.style.display = 'block'; }
 }
 function hideMsg(id) {
-  const el = document.getElementById(id);
+  var el = document.getElementById(id);
   if (el) el.style.display = 'none';
 }
 
 function togglePwd(inputId, icon) {
-  const inp = document.getElementById(inputId);
+  var inp = document.getElementById(inputId);
   if (inp.type === 'password') { inp.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
   else { inp.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
 }
 
 function checkPwdStrength(pwd, barId) {
-  const bar = document.getElementById(barId);
+  var bar = document.getElementById(barId);
   if (!bar) return;
-  let score = 0;
+  var score = 0;
   if (pwd.length >= 8) score++;
   if (pwd.length >= 12) score++;
   if (/[A-Z]/.test(pwd)) score++;
   if (/[0-9]/.test(pwd)) score++;
   if (/[^A-Za-z0-9]/.test(pwd)) score++;
-  const pct = Math.min(score * 20, 100);
-  const colors = ['#ef4444', '#ef4444', '#eab308', '#eab308', '#22c55e', '#22c55e'];
+  var pct = Math.min(score * 20, 100);
+  var colors = ['#ef4444', '#ef4444', '#eab308', '#eab308', '#22c55e', '#22c55e'];
   bar.style.width = pct + '%';
   bar.style.background = colors[score] || '#ef4444';
 }
 
 async function apiCall(endpoint, body) {
   try {
-    const resp = await fetch(API + '/' + endpoint, {
+    var resp = await fetch(API + '/' + endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
@@ -416,51 +346,37 @@ async function apiCall(endpoint, body) {
 }
 
 function resolveEmail(input) {
-  const lower = (input || '').trim().toLowerCase();
-  // Direct email match
+  var lower = (input || '').trim().toLowerCase();
   if (AUTH_DB[lower]) return lower;
-  // Username map
   if (USERNAME_MAP[lower]) return USERNAME_MAP[lower];
-  // Try appending common domains
   if (!lower.includes('@')) {
     if (AUTH_DB[lower + '@banf.org']) return lower + '@banf.org';
     if (AUTH_DB[lower + '@gmail.com']) return lower + '@gmail.com';
   }
-  return lower; // Return as-is for backend lookup
-}
-
-// Determine effective role for portal routing
-function getEffectiveRole(roles) {
-  if (roles.includes('super-admin')) return 'super-admin';
-  if (roles.includes('business-stakeholder')) return 'business-stakeholder';
-  if (roles.includes('admin')) return 'admin';
-  if (roles.includes('ec-member')) return 'ec-member';
-  return roles[0] || 'ec-member';
+  return lower;
 }
 
 // ── ENTER PORTAL ──
-// Role gate: this portal (admin-login.html → admin-portal.html) is for
-//   SUPER ADMIN ONLY.
-//   EC members → ec-admin-login.html, Stakeholders → stakeholder-login.html
+// Role gate: this portal is for BUSINESS STAKEHOLDERS ONLY.
+// EC members → ec-admin-login.html, Super Admin → admin-login.html
 function enterPortal(user, email) {
-  // SUPER ADMIN ONLY — redirect everyone else to their proper portal
-  if (!user.roles.includes('super-admin')) {
-    if (user.roles.includes('business-stakeholder')) {
+  if (!user.roles.includes('business-stakeholder')) {
+    if (user.roles.includes('super-admin')) {
       showError('login-error',
-        '\u26D4 This portal is for Super Admin only. Stakeholders please use the Stakeholder portal.');
+        '\u26D4 This portal is for Business Stakeholders only. Super Admin please use the Super Admin portal.');
       var errEl = document.getElementById('login-error');
       if (errEl) {
         errEl.innerHTML +=
-          '<br><a href="stakeholder-login.html" style="color:var(--orange);font-weight:700">' +
-          '\u2192 Go to Stakeholder Login</a>';
+          '<br><a href="admin-login.html" style="color:var(--red);font-weight:700">' +
+          '\u2192 Go to Super Admin Login</a>';
       }
     } else {
       showError('login-error',
-        '\u26D4 This portal is for Super Admin only. EC members please use the EC Admin portal.');
+        '\u26D4 This portal is for Business Stakeholders only. EC members please use the EC Admin portal.');
       var errEl = document.getElementById('login-error');
       if (errEl) {
         errEl.innerHTML +=
-          '<br><a href="ec-admin-login.html" style="color:var(--accent);font-weight:700">' +
+          '<br><a href="ec-admin-login.html" style="color:var(--blue);font-weight:700">' +
           '\u2192 Go to EC Admin Login</a>';
       }
     }
@@ -472,31 +388,31 @@ function enterPortal(user, email) {
     firstName: user.firstName,
     lastName: user.lastName,
     roles: user.roles,
-    effectiveRole: 'super-admin',
-    ecTitle: user.ecTitle || 'Super Admin',
+    effectiveRole: 'business-stakeholder',
+    ecTitle: user.ecTitle || 'Business Stakeholder',
     loginTime: new Date().toISOString(),
-    source: 'admin-login'
+    source: 'stakeholder-login'
   };
   sessionStorage.setItem('banf_admin_session', JSON.stringify(session));
   sessionStorage.setItem('banf_member_data', JSON.stringify({
     name: user.name, firstName: user.firstName, lastName: user.lastName,
-    email: email, phone: '', membershipType: 'Admin',
-    memberId: 'ADMIN', isECMember: true, role: 'Super Admin',
+    email: email, phone: '', membershipType: 'Stakeholder',
+    memberId: 'STAKEHOLDER', isECMember: false, role: user.ecTitle,
     memberSince: '2024'
   }));
   window.location.href = 'admin-portal.html';
 }
 
 // ── SIGN IN ──
-document.getElementById('btn-login').addEventListener('click', async () => {
-  const rawEmail = (document.getElementById('login-email').value || '').trim();
-  const pass = document.getElementById('login-pass').value;
+document.getElementById('btn-login').addEventListener('click', async function() {
+  var rawEmail = (document.getElementById('login-email').value || '').trim();
+  var pass = document.getElementById('login-pass').value;
   hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
 
   if (!rawEmail) return showError('login-error', 'Please enter your email address.');
 
-  const email = resolveEmail(rawEmail);
-  const localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
+  var email = resolveEmail(rawEmail);
+  var localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
 
   // 1. Offline credential check
   if (localUser && localUser.offlinePw === pass) {
@@ -505,85 +421,81 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   }
 
   // 2. Try backend API
-  const btn = document.getElementById('btn-login');
+  var btn = document.getElementById('btn-login');
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
 
-  const result = await apiCall('admin_verify_login', { email, password: pass || '' });
+  var result = await apiCall('admin_verify_login', { email: email, password: pass || '' });
   btn.disabled = false;
-  btn.innerHTML = '<i class="fas fa-shield-alt"></i> Sign In';
+  btn.innerHTML = '<i class="fas fa-bullhorn"></i> Sign In';
 
   if (result.success) {
     if (result.noPassword) {
       showInfo('login-info', 'Your account needs a password. Please use Sign Up to set your password and security question.');
       return;
     }
-    // Build user from API result + local role data
-    const user = localUser || {
+    var user = localUser || {
       name: [result.firstName, result.lastName].filter(Boolean).join(' ') || email,
       firstName: result.firstName || '', lastName: result.lastName || '',
-      roles: [result.adminRole || 'ec-member'], ecTitle: result.ecTitle || '',
+      roles: [result.adminRole || 'business-stakeholder'], ecTitle: result.ecTitle || '',
       offlinePw: null
     };
     enterPortal(user, email);
   } else if (localUser && !pass) {
-    // User exists locally but no password entered
     showError('login-error', 'Please enter your password.');
   } else if (localUser) {
     showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
   } else {
-    showError('login-error', result.error || 'Account not found. Only authorized admins, EC members, and stakeholders can sign in.');
+    showError('login-error', result.error || 'Account not found. Only authorized stakeholders and sponsors can sign in.');
   }
 });
 
-document.getElementById('login-pass').addEventListener('keypress', e => {
+document.getElementById('login-pass').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') document.getElementById('btn-login').click();
 });
-document.getElementById('login-email').addEventListener('keypress', e => {
+document.getElementById('login-email').addEventListener('keypress', function(e) {
   if (e.key === 'Enter') document.getElementById('login-pass').focus();
 });
 
-// ── SIGN UP FLOW (Direct — no email verification code) ──
+// ── SIGN UP FLOW ──
 async function signupStep1() {
-  const email = resolveEmail(document.getElementById('signup-email').value);
+  var email = resolveEmail(document.getElementById('signup-email').value);
   hideMsg('signup-error-1'); hideMsg('signup-info-1');
 
   if (!email || !email.includes('@')) return showError('signup-error-1', 'Please enter a valid email address.');
 
   showInfo('signup-info-1', 'Validating your email...');
 
-  // Let the API decide authorization (checks AdminRoles collection)
-  const result = await apiCall('admin_signup_direct', { email });
+  var result = await apiCall('admin_signup_direct', { email: email });
   hideMsg('signup-info-1');
 
   if (result.success) {
-    SIGNUP_STATE = { email, token: result.setupToken };
+    SIGNUP_STATE = { email: email, token: result.setupToken };
     var welcomeName = [result.firstName, result.lastName].filter(Boolean).join(' ') || email.split('@')[0];
     var el1 = document.getElementById('signup-welcome-name');
     if (el1) el1.textContent = welcomeName + (result.ecTitle ? ' (' + result.ecTitle + ')' : '');
     document.getElementById('signup-confirmed-email').textContent = email;
     showStep('signup', 2);
   } else {
-    // Offline fallback — only for emails known locally in AUTH_DB
     var user = AUTH_DB[email];
     if (!user) {
-      return showError('signup-error-1', result.error || 'This email is not in the authorized admin/EC/stakeholder list. Contact the Super Admin.');
+      return showError('signup-error-1', result.error || 'This email is not in the authorized stakeholder list. Contact the Super Admin.');
     }
-    SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token' };
+    SIGNUP_STATE = { email: email, offlineMode: true, token: 'offline-token' };
     var nameStr = user.name || email.split('@')[0];
     var el2 = document.getElementById('signup-welcome-name');
     if (el2) el2.textContent = nameStr;
     document.getElementById('signup-confirmed-email').textContent = email;
-    showInfo('signup-info-1', 'Offline mode — setting up locally.');
+    showInfo('signup-info-1', 'Offline mode \u2014 setting up locally.');
     setTimeout(function() { showStep('signup', 2); }, 800);
   }
 }
 
 async function signupStep2Submit() {
-  const pass = document.getElementById('signup-pass').value;
-  const pass2 = document.getElementById('signup-pass2').value;
-  const sq = document.getElementById('signup-sq').value;
-  const sa = document.getElementById('signup-sa').value.trim();
+  var pass = document.getElementById('signup-pass').value;
+  var pass2 = document.getElementById('signup-pass2').value;
+  var sq = document.getElementById('signup-sq').value;
+  var sa = document.getElementById('signup-sa').value.trim();
   hideMsg('signup-error-2');
 
   if (!pass || pass.length < 8) return showError('signup-error-2', 'Password must be at least 8 characters.');
@@ -592,7 +504,7 @@ async function signupStep2Submit() {
   if (!sa || sa.length < 2) return showError('signup-error-2', 'Please provide a security answer (at least 2 characters).');
 
   if (SIGNUP_STATE.offlineMode) {
-    const user = AUTH_DB[SIGNUP_STATE.email];
+    var user = AUTH_DB[SIGNUP_STATE.email];
     if (user) {
       user.offlinePw = pass;
       user.securityQ = sq;
@@ -602,29 +514,26 @@ async function signupStep2Submit() {
     return;
   }
 
-  const pwResult = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, password: pass });
+  var pwResult = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, password: pass });
   if (!pwResult.success) return showError('signup-error-2', pwResult.error || 'Failed to set password.');
   await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() });
   await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token });
-
-  // Fire congratulations email
-  apiCall('ec_signup_congratulations', { email: SIGNUP_STATE.email }).catch(function(){});
 
   showStep('signup', 3);
 }
 
 // ── FORGOT PASSWORD FLOW ──
 async function forgotStep1() {
-  const rawInput = (document.getElementById('forgot-email').value || '').trim();
+  var rawInput = (document.getElementById('forgot-email').value || '').trim();
   hideMsg('forgot-error-1'); hideMsg('forgot-info-1');
 
-  if (!rawInput) return showError('forgot-error-1', 'Please enter your email or username.');
+  if (!rawInput) return showError('forgot-error-1', 'Please enter your email.');
 
-  const email = resolveEmail(rawInput);
-  const localUser = AUTH_DB[email] || AUTH_DB[rawInput.toLowerCase()];
+  var email = resolveEmail(rawInput);
+  var localUser = AUTH_DB[email] || AUTH_DB[rawInput.toLowerCase()];
 
   if (localUser) {
-    FORGOT_STATE = { email, user: localUser };
+    FORGOT_STATE = { email: email, user: localUser };
     document.getElementById('forgot-found-name').textContent = localUser.name;
     if (localUser.securityQ) {
       document.getElementById('forgot-sq-display').textContent = SQ_LABELS[localUser.securityQ] || localUser.securityQ;
@@ -636,31 +545,30 @@ async function forgotStep1() {
   }
 
   showInfo('forgot-info-1', 'Looking up account...');
-  const result = await apiCall('admin_verify_login', { email });
+  var result = await apiCall('admin_verify_login', { email: email });
   hideMsg('forgot-info-1');
 
   if (!result.success && !result.needsOnboarding) {
-    return showError('forgot-error-1', 'Account not found. Check your email/username.');
+    return showError('forgot-error-1', 'Account not found. Check your email.');
   }
 
-  const profileResult = await apiCall('admin_get_security_question', { email });
+  var profileResult = await apiCall('admin_get_security_question', { email: email });
   if (!profileResult.success || !profileResult.question) {
     return showError('forgot-error-1', 'No security question set. Contact the Super Admin.');
   }
 
-  FORGOT_STATE = { email, resetToken: profileResult.resetToken || '' };
+  FORGOT_STATE = { email: email, resetToken: profileResult.resetToken || '' };
   document.getElementById('forgot-found-name').textContent = email;
   document.getElementById('forgot-sq-display').textContent = SQ_LABELS[profileResult.question] || profileResult.question;
   showStep('forgot', 2);
 }
 
 async function forgotStep2() {
-  const answer = (document.getElementById('forgot-sa').value || '').trim();
+  var answer = (document.getElementById('forgot-sa').value || '').trim();
   hideMsg('forgot-error-2');
 
   if (!answer) return showError('forgot-error-2', 'Please enter your answer.');
 
-  // Offline check
   if (FORGOT_STATE.user && FORGOT_STATE.user.securityA) {
     if (answer.toLowerCase() === FORGOT_STATE.user.securityA) {
       showStep('forgot', 3);
@@ -670,7 +578,7 @@ async function forgotStep2() {
     }
   }
 
-  const result = await apiCall('admin_verify_security_answer', { email: FORGOT_STATE.email, answer: answer.toLowerCase() });
+  var result = await apiCall('admin_verify_security_answer', { email: FORGOT_STATE.email, answer: answer.toLowerCase() });
   if (!result.success) return showError('forgot-error-2', result.error || 'Incorrect answer.');
 
   FORGOT_STATE.resetToken = result.resetToken || FORGOT_STATE.resetToken;
@@ -678,42 +586,37 @@ async function forgotStep2() {
 }
 
 async function forgotStep3() {
-  const pass = document.getElementById('forgot-newpass').value;
-  const pass2 = document.getElementById('forgot-newpass2').value;
+  var pass = document.getElementById('forgot-newpass').value;
+  var pass2 = document.getElementById('forgot-newpass2').value;
   hideMsg('forgot-error-3');
 
   if (!pass || pass.length < 8) return showError('forgot-error-3', 'Password must be at least 8 characters.');
   if (pass !== pass2) return showError('forgot-error-3', 'Passwords do not match.');
 
-  // Offline update
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
     showStep('forgot', 4);
     return;
   }
 
-  const result = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: FORGOT_STATE.resetToken, password: pass });
+  var result = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: FORGOT_STATE.resetToken, password: pass });
   if (!result.success) return showError('forgot-error-3', result.error || 'Failed to reset password.');
 
   showStep('forgot', 4);
 }
 
 // ── AUTO-LOGIN CHECK ──
-document.addEventListener('DOMContentLoaded', () => {
-  // If already authenticated, redirect to portal
-  const existing = sessionStorage.getItem('banf_admin_session');
+document.addEventListener('DOMContentLoaded', function() {
+  var existing = sessionStorage.getItem('banf_admin_session');
   if (existing) {
     try {
-      const session = JSON.parse(existing);
-      if (session.email && session.roles) {
+      var session = JSON.parse(existing);
+      if (session.email && session.roles && session.roles.includes('business-stakeholder')) {
         window.location.href = 'admin-portal.html';
         return;
       }
     } catch (e) {}
   }
-  // Auto-fill email from localStorage
-  const savedEmail = localStorage.getItem('banf_admin_email');
-  if (savedEmail) document.getElementById('login-email').value = savedEmail;
 });
 </script>
 </body>
