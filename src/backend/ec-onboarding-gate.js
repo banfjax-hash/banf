@@ -560,6 +560,16 @@ async function getGmailToken() {
     return d.access_token;
 }
 
+/**
+ * RFC 2047 B-encoding for non-ASCII email header values.
+ * Without this, em-dashes (—), emojis (🎉) etc. appear as junk
+ * characters in some mail clients.
+ */
+function mimeEncodeHeader(value) {
+    if (/^[\x00-\x7F]*$/.test(value)) return value; // ASCII-only, no encoding needed
+    return '=?UTF-8?B?' + btoa(unescape(encodeURIComponent(value))) + '?=';
+}
+
 async function sendGmail(to, toName, subject, html) {
     let actualTo = to;
     let actualName = toName;
@@ -573,7 +583,7 @@ async function sendGmail(to, toName, subject, html) {
     const raw = [
         `From: ${BANF_ORG} <${BANF_EMAIL}>`,
         `To: ${actualName} <${actualTo}>`,
-        `Subject: ${actualSubject}`,
+        `Subject: ${mimeEncodeHeader(actualSubject)}`,
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
         '',
@@ -857,7 +867,7 @@ export async function post_ec_signup_congratulations(request) {
         const html = buildCongratsEmail({ ...member, firstName: firstName || member.firstName, lastName: lastName || member.lastName }, roleTitle);
         const name = [firstName || member.firstName, lastName || member.lastName].filter(Boolean).join(' ') || email;
 
-        await sendGmail(email, name, `Welcome to BANF EC, ${firstName || name}! Your signup is complete 🎉`, html);
+        await sendGmail(email, name, `Welcome to BANF EC, ${firstName || name}! Your signup is complete`, html);
 
         // Also notify the President
         const presHtml = `<div style="font-family:Arial,sans-serif;padding:24px;">
@@ -874,7 +884,7 @@ export async function post_ec_signup_congratulations(request) {
             await wixData.update('AdminRoles', { ...res.items[0], congratsSent: true, congratsSentAt: new Date() }, SA).catch(() => {});
         }
 
-        return jsonOk({ message: `Congratulations email sent to ${email}`, name, role: roleTitle });
+        return jsonOk({ message: `Congratulations email sent to ${email}`, name, role: roleTitle, emailSubject: `Welcome to BANF EC, ${firstName || name}! Your signup is complete` });
     } catch (e) {
         return jsonErr('Congratulations send failed: ' + e.message, 500);
     }
@@ -957,11 +967,11 @@ export async function post_ec_send_all_invitations(request) {
                 const html = buildInviteEmail(member);
                 // Always send to actual email (ignore TEST_MODE)
                 const token = await getGmailToken();
-                const subject = `BANF EC Onboarding Invitation — ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
+                const subject = `BANF EC Onboarding Invitation - ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
                 const raw = [
                     `From: ${BANF_ORG} <${BANF_EMAIL}>`,
                     `To: ${name} <${member.email}>`,
-                    `Subject: ${subject}`,
+                    `Subject: ${mimeEncodeHeader(subject)}`,
                     'MIME-Version: 1.0',
                     'Content-Type: text/html; charset=UTF-8',
                     '',
@@ -974,7 +984,7 @@ export async function post_ec_send_all_invitations(request) {
                     body: JSON.stringify({ raw: encoded })
                 });
                 await wixData.update('AdminRoles', { ...member, invitationSent: true, invitationSentAt: new Date() }, SA);
-                results.push({ email: member.email, name, status: 'sent' });
+                results.push({ email: member.email, name, status: 'sent', emailSubject: subject });
             } catch (err) {
                 results.push({ email: member.email, name, status: 'failed', error: err.message });
             }
