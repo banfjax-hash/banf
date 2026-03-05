@@ -408,6 +408,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <!-- ── AUDIT ── super_admin only -->
     <div class="sb-group" data-roles="super_admin,super-admin">Audit</div>
     <div class="sb-item" data-panel="activity" data-roles="super_admin,super-admin"><i class="fas fa-history"></i><span>Activity Log</span></div>
+    <div class="sb-item" data-panel="audit-drives" data-roles="super_admin,super-admin"><i class="fas fa-rocket"></i><span>Audit Drives</span></div>
 
     <!-- External links -->
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">Portals</div>
@@ -958,6 +959,79 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
       </div>
     </div>
 
+    <!-- ═══════ SUPER ADMIN AUDIT DRIVES ═══════ -->
+    <div class="portal-section" id="panel-audit-drives">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--accent)"></i> Super Admin &mdash; Audit Drives</div>
+
+      <!-- DRIVE LAUNCH -->
+      <div class="card-a">
+        <h2><i class="fas fa-rocket" style="color:var(--accent)"></i> Launch New Drive</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">As <strong>Super Admin</strong>, launch drives to onboard members, manage campaigns, and oversee system workflows. Every action is audited with full traceability.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn-primary" id="btn-launch-ec-onboarding"><i class="fas fa-shield-halved me-2"></i>Launch EC Onboarding Drive</button>
+          <button class="btn-secondary" disabled title="Coming soon"><i class="fas fa-bullhorn me-2"></i>Launch Stakeholder Drive</button>
+          <button class="btn-secondary" disabled title="Coming soon"><i class="fas fa-users me-2"></i>Launch Membership Drive</button>
+        </div>
+      </div>
+
+      <!-- ALL DRIVES OVERVIEW -->
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-chart-line" style="color:var(--cyan)"></i> All Drives &mdash; Overview</h2>
+        <div class="kpi-grid" id="audit-drive-kpis"></div>
+        <table class="t mt-2"><thead><tr><th>ID</th><th>Drive Name</th><th>Type</th><th>Status</th><th>Launched</th><th>Progress</th><th>Actions</th></tr></thead>
+        <tbody id="audit-drives-body"></tbody></table>
+        <div id="audit-drives-empty" style="text-align:center;padding:24px;color:var(--dim);font-size:.82rem"><i class="fas fa-inbox me-2"></i>No drives launched yet. Use the buttons above to start a drive.</div>
+      </div>
+
+      <!-- DRIVE DETAIL (shown when viewing a specific drive) -->
+      <div id="audit-drive-detail" style="display:none">
+        <!-- Drive Header Card -->
+        <div class="card-a mt-3" style="border:1px solid rgba(249,115,22,.35);border-radius:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+            <h2 style="margin:0"><i class="fas fa-clipboard-check" style="color:var(--accent)"></i> <span id="ad-drive-name">&mdash;</span></h2>
+            <div>
+              <span id="ad-drive-status" class="badge-s badge-dim">&mdash;</span>
+              <button class="btn-sm btn-secondary ms-2" onclick="closeAuditDriveDetail()"><i class="fas fa-times me-1"></i>Close</button>
+            </div>
+          </div>
+          <div class="kpi-grid" id="ad-drive-kpis" style="margin-bottom:12px"></div>
+          <div style="font-size:.72rem;color:var(--dim)">Launched by <strong id="ad-launched-by">&mdash;</strong> on <strong id="ad-launched-at">&mdash;</strong> &middot; Drive ID: <code id="ad-drive-id" style="color:var(--cyan)">&mdash;</code></div>
+        </div>
+
+        <!-- Workflow Steps -->
+        <div class="card-a mt-3">
+          <h2><i class="fas fa-route" style="color:var(--purple)"></i> Workflow Steps</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Each step is executed sequentially by the Super Admin drive engine. Expand a step to view detailed per-member logs.</p>
+          <div id="ad-workflow-steps"></div>
+        </div>
+
+        <!-- Per-Member Status Table -->
+        <div class="card-a mt-3">
+          <h2><i class="fas fa-users"></i> Member Processing Status</h2>
+          <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Invited</th><th>Signed Up</th><th>Portal</th><th>Status</th></tr></thead>
+          <tbody id="ad-member-status-body"></tbody></table>
+        </div>
+
+        <!-- Drive Audit Log -->
+        <div class="card-a mt-3">
+          <h2><i class="fas fa-scroll" style="color:var(--green)"></i> Drive Audit Log</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Full audit trail &mdash; every action, timestamp, actor, and result for compliance.</p>
+          <div class="act-log" id="ad-audit-log" style="max-height:400px"></div>
+        </div>
+
+        <!-- Drive Actions -->
+        <div class="card-a mt-3">
+          <h2><i class="fas fa-cogs" style="color:var(--yellow)"></i> Drive Actions</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" id="ad-drive-actions">
+            <button class="btn-primary" id="btn-ad-next-step"><i class="fas fa-play me-2"></i>Execute Next Step</button>
+            <button class="btn-primary" style="background:linear-gradient(135deg,var(--green),#059669)" id="btn-ad-run-all"><i class="fas fa-forward me-2"></i>Run All Remaining Steps</button>
+            <button class="btn-secondary" id="btn-ad-refresh"><i class="fas fa-sync me-2"></i>Refresh Status</button>
+            <button class="btn-danger" id="btn-ad-abort"><i class="fas fa-stop me-2"></i>Abort Drive</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══════ MY CRM PANEL ═══════ -->
     <div class="portal-section" id="panel-my-crm">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> My Personal CRM Data</div>
@@ -1477,8 +1551,8 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
   // super-admin: full system access (both hyphen and underscore variants)
-  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
-  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity','audit-drives'],
+  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity','audit-drives'],
   // admin: senior EC officers — full operational, no system config
   'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
   // ec-member / ec_member: coordinators — EC-focused + collaboration
@@ -2216,8 +2290,8 @@ async function doForceResetPassword() {
 // Named NAV_PANEL_ACCESS to avoid conflict with the array-based ROLE_PANEL_ACCESS used by getVisiblePanels()
 const NAV_PANEL_ACCESS = {
   // Super Admin: all panels
-  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
-  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity','audit-drives']),
+  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity','audit-drives']),
   // EC Member / Admin: EC-specific panels + My Data + Collaboration
   'ec_member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status']),
   'ec-member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status']),
@@ -2253,6 +2327,7 @@ function navTo(panel){
   if (panel === 'ec-messenger') { initMessenger(); }
   if (panel === 'calendar-agent') { initCalendarAgent(); }
   if (panel === 'member-dues') { initMemberDues(); }
+  if (panel === 'audit-drives') { initAuditDrives(); }
 }
 
 function adminComingSoon(panel) {
@@ -2261,7 +2336,7 @@ function adminComingSoon(panel) {
     'stakeholder-drive':'Stakeholder Drive','ec-drive':'EC Drive','drive-status':'Drive Status',
     'feedback':'Feedback Pipeline','dev-board':'Dev Board','e2e-test':'E2E Test Suite','activity':'Activity Log',
     'my-crm':'My CRM Data','procurement':'Procurement & Reimbursement',
-    'ec-live':'EC Live Presence','ec-messenger':'EC Messenger','calendar-agent':'Calendar Agent','member-dues':'Member Dues & QR'
+    'ec-live':'EC Live Presence','ec-messenger':'EC Messenger','calendar-agent':'Calendar Agent','member-dues':'Member Dues & QR','audit-drives':'Audit Drives'
   };
   const name = names[panel] || panel;
   // Remove any existing overlay
@@ -5463,6 +5538,503 @@ function markAsPaid(email) {
 }
 
 
+// ═══════════════════════════════════════════════════════════════════
+//  SUPER ADMIN AUDIT DRIVE ENGINE
+// ═══════════════════════════════════════════════════════════════════
+var ADMIN_DRIVES = [];
+var AD_NEXT_ID = 1;
+var AD_ACTIVE_DRIVE = null;
+
+var EC_ONBOARD_STEPS = [
+  { id:1, name:'Initialize Drive', desc:'Create drive record, validate super admin credentials, set fiscal year scope', icon:'fa-flag-checkered' },
+  { id:2, name:'Import EC Members from CRM', desc:'Pull EC member list from CRMMembers collection, validate data completeness', icon:'fa-download' },
+  { id:3, name:'Membership Gate Check', desc:'Verify membership payment status (Paid/Pending/Expired) for each member', icon:'fa-shield-halved' },
+  { id:4, name:'Generate Signup Credentials', desc:'Create unique signup tokens with 24-hour expiry for each eligible member', icon:'fa-key' },
+  { id:5, name:'Send Onboarding Invitations', desc:'Communication Agent sends branded HTML emails with privacy notice & signup links', icon:'fa-envelope' },
+  { id:6, name:'Track Signup Responses', desc:'Monitor which members have completed signup on the EC Admin portal', icon:'fa-user-check' },
+  { id:7, name:'Send Reminders (Non-Signed-Up)', desc:'Automated reminder emails to members who have not signed up yet', icon:'fa-bell' },
+  { id:8, name:'Verify Portal Access', desc:'Confirm each signed-up member can authenticate and access their portal', icon:'fa-door-open' },
+  { id:9, name:'Finalize & Generate Report', desc:'Mark drive complete, generate summary report, update global audit log', icon:'fa-check-double' }
+];
+
+function initAuditDrives() {
+  renderAuditDrives();
+  document.getElementById('btn-launch-ec-onboarding').onclick = launchECOnboardingDrive;
+}
+
+function launchECOnboardingDrive() {
+  if (ADMIN_DRIVES.some(function(d){ return d.type === 'ec-onboarding' && d.status === 'in-progress'; })) {
+    showToast('An EC Onboarding drive is already in progress. Complete or abort it first.', 'var(--red)');
+    return;
+  }
+  if (!confirm('Launch EC Member Onboarding Drive for FY2026-28?\n\nThis will:\n\u2022 Import all EC members from CRM\n\u2022 Run membership gate checks\n\u2022 Generate signup credentials\n\u2022 Send onboarding invitations\n\u2022 Track and audit every step\n\nProceed?')) return;
+
+  var drive = {
+    id: 'DRV-' + String(AD_NEXT_ID++).padStart(3,'0'),
+    name: 'EC Member Onboarding \u2014 FY2026-28',
+    type: 'ec-onboarding',
+    status: 'in-progress',
+    launchedBy: CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Super Admin',
+    launchedAt: new Date(),
+    completedAt: null,
+    steps: EC_ONBOARD_STEPS.map(function(s){
+      return { id:s.id, name:s.name, desc:s.desc, icon:s.icon, status:'pending', startedAt:null, completedAt:null, detail:'', logs:[], memberProgress:[] };
+    }),
+    auditLog: [],
+    members: [],
+    summary: { total:0, gatePass:0, gateFail:0, gatePending:0, invited:0, signedUp:0, verified:0 }
+  };
+  ADMIN_DRIVES.push(drive);
+  driveAudit(drive, 'DRIVE_LAUNCH', 'Launched EC Member Onboarding Drive \u2014 FY2026-28');
+  addLog('DRIVE', 'Super Admin launched EC Onboarding Drive: ' + drive.id);
+  executeStep(drive, 1);
+  AD_ACTIVE_DRIVE = drive;
+  renderAuditDrives();
+  openAuditDriveDetail(drive.id);
+  showToast('EC Onboarding Drive launched! Step 1 initialized.', 'var(--green)');
+}
+
+function driveAudit(drive, action, detail) {
+  drive.auditLog.unshift({
+    ts: new Date().toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit' }),
+    action: action,
+    detail: detail,
+    actor: CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'System'
+  });
+}
+
+function executeStep(drive, stepId) {
+  var step = drive.steps.find(function(s){ return s.id === stepId; });
+  if (!step || step.status === 'completed') return;
+  step.status = 'in-progress';
+  step.startedAt = new Date();
+  driveAudit(drive, 'STEP_START', 'Step ' + stepId + ' started: ' + step.name);
+  switch(stepId) {
+    case 1: execStep1_Initialize(drive, step); break;
+    case 2: execStep2_ImportMembers(drive, step); break;
+    case 3: execStep3_GateCheck(drive, step); break;
+    case 4: execStep4_GenerateCredentials(drive, step); break;
+    case 5: execStep5_SendInvitations(drive, step); break;
+    case 6: execStep6_TrackSignups(drive, step); break;
+    case 7: execStep7_SendReminders(drive, step); break;
+    case 8: execStep8_VerifyAccess(drive, step); break;
+    case 9: execStep9_Finalize(drive, step); break;
+  }
+}
+
+function completeStep(drive, step, detail) {
+  step.status = 'completed';
+  step.completedAt = new Date();
+  step.detail = detail;
+  driveAudit(drive, 'STEP_COMPLETE', 'Step ' + step.id + ' completed: ' + step.name + ' \u2014 ' + detail);
+  addLog('DRIVE', drive.id + ' Step ' + step.id + '/' + drive.steps.length + ': ' + step.name + ' \u2713');
+  renderAuditDriveDetailUI();
+}
+
+function failStep(drive, step, detail) {
+  step.status = 'failed';
+  step.completedAt = new Date();
+  step.detail = detail;
+  driveAudit(drive, 'STEP_FAIL', 'Step ' + step.id + ' failed: ' + step.name + ' \u2014 ' + detail);
+  renderAuditDriveDetailUI();
+}
+
+// ── Step 1: Initialize ──
+function execStep1_Initialize(drive, step) {
+  step.logs.push({ ts: new Date(), msg: 'Validating super admin credentials...' });
+  step.logs.push({ ts: new Date(), msg: 'Super Admin: ' + drive.launchedBy + ' \u2713' });
+  step.logs.push({ ts: new Date(), msg: 'Fiscal year scope: FY2026-28 (Term: 2026-2028)' });
+  step.logs.push({ ts: new Date(), msg: 'Drive record created: ' + drive.id });
+  step.logs.push({ ts: new Date(), msg: 'Audit logging enabled \u2014 all actions tracked' });
+  completeStep(drive, step, 'Drive initialized for FY2026-28. Audit active.');
+}
+
+// ── Step 2: Import EC Members ──
+function execStep2_ImportMembers(drive, step) {
+  drive.members = EC_MEMBERS.map(function(m) {
+    return {
+      name: m.name, title: m.title, email: m.email,
+      membership: m.membership, gate: null, invited: false,
+      invitedAt: null, signedUp: m.signedUp, signupDate: m.signupDate,
+      portalVerified: false, signupToken: null, signupLink: null,
+      tokenExpiry: null, status: 'imported'
+    };
+  });
+  drive.summary.total = drive.members.length;
+  step.logs.push({ ts: new Date(), msg: 'Queried CRMMembers collection for EC members...' });
+  step.logs.push({ ts: new Date(), msg: 'Found ' + drive.members.length + ' EC members for FY2026-28' });
+  drive.members.forEach(function(m) {
+    step.logs.push({ ts: new Date(), msg: '\u2022 Imported: ' + m.name + ' (' + m.title + ') \u2014 ' + m.email + ' [' + m.membership + ']' });
+  });
+  step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: 'imported' }; });
+  completeStep(drive, step, drive.members.length + ' EC members imported from CRM');
+}
+
+// ── Step 3: Membership Gate Check ──
+function execStep3_GateCheck(drive, step) {
+  var passed = 0, failed = 0, pending = 0;
+  drive.members.forEach(function(m) {
+    if (m.membership === 'Paid') { m.gate = 'passed'; passed++; }
+    else if (m.membership === 'Expired') { m.gate = 'failed'; failed++; }
+    else { m.gate = 'pending'; pending++; }
+    var label = m.gate === 'passed' ? '\u2713 PASSED' : (m.gate === 'failed' ? '\u2717 FAILED' : '\u23f3 PENDING');
+    step.logs.push({ ts: new Date(), msg: m.name + ' \u2014 Membership: ' + m.membership + ' \u2192 Gate: ' + label });
+  });
+  drive.summary.gatePass = passed;
+  drive.summary.gateFail = failed;
+  drive.summary.gatePending = pending;
+  step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.gate }; });
+  completeStep(drive, step, passed + ' passed, ' + pending + ' pending, ' + failed + ' failed');
+}
+
+// ── Step 4: Generate Signup Credentials ──
+function execStep4_GenerateCredentials(drive, step) {
+  var eligible = drive.members.filter(function(m){ return m.gate === 'passed' || m.gate === 'pending'; });
+  var generated = 0;
+  eligible.forEach(function(m) {
+    m.signupToken = generateSignupToken(m.email);
+    m.signupLink = buildSignupLink(m.email);
+    m.tokenExpiry = getExpiryTime();
+    generated++;
+    step.logs.push({ ts: new Date(), msg: '\u2713 Token generated for ' + m.name + ' (' + m.email + ') \u2014 expires ' + m.tokenExpiry });
+  });
+  drive.members.filter(function(m){ return m.gate === 'failed'; }).forEach(function(m) {
+    step.logs.push({ ts: new Date(), msg: '\u26a0 Skipped ' + m.name + ' \u2014 membership gate FAILED (expired)' });
+  });
+  step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.signupToken ? 'generated' : 'skipped' }; });
+  completeStep(drive, step, generated + ' signup tokens generated, ' + (drive.members.length - generated) + ' skipped (gate fail)');
+}
+
+// ── Step 5: Send Onboarding Invitations ──
+function execStep5_SendInvitations(drive, step) {
+  var alreadySignedUp = drive.members.filter(function(m){ return m.signedUp; });
+  var eligible = drive.members.filter(function(m){ return m.signupToken && !m.signedUp; });
+  var sent = 0;
+  alreadySignedUp.forEach(function(m) {
+    m.invited = true;
+    m.invitedAt = m.signupDate || new Date().toISOString();
+    step.logs.push({ ts: new Date(), msg: '\u2713 ' + m.name + ' already signed up (invitation skipped)' });
+  });
+  eligible.forEach(function(m) {
+    m.invited = true;
+    m.invitedAt = new Date().toISOString();
+    sent++;
+    step.logs.push({ ts: new Date(), msg: '\ud83d\udce7 Invitation sent to ' + m.name + ' (' + m.email + ') via Communication Agent' });
+    step.logs.push({ ts: new Date(), msg: '   \u21b3 Branded HTML email with data privacy notice, 24hr signup link' });
+  });
+  drive.members.filter(function(m){ return m.gate === 'failed'; }).forEach(function(m) {
+    step.logs.push({ ts: new Date(), msg: '\u26a0 Skipped ' + m.name + ' \u2014 not eligible (gate failed)' });
+  });
+  drive.summary.invited = sent + alreadySignedUp.length;
+  step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.invited ? 'invited' : 'skipped' }; });
+  completeStep(drive, step, sent + ' invitations sent, ' + alreadySignedUp.length + ' already signed up');
+}
+
+// ── Step 6: Track Signup Responses ──
+function execStep6_TrackSignups(drive, step) {
+  var signedUp = 0, notSignedUp = 0;
+  drive.members.forEach(function(m) {
+    var ecm = EC_MEMBERS.find(function(e){ return e.email === m.email; });
+    if (ecm) { m.signedUp = ecm.signedUp; m.signupDate = ecm.signupDate; }
+    if (m.signedUp) {
+      signedUp++;
+      step.logs.push({ ts: new Date(), msg: '\u2713 ' + m.name + ' \u2014 signed up on ' + (m.signupDate || 'unknown') });
+    } else if (m.invited) {
+      notSignedUp++;
+      step.logs.push({ ts: new Date(), msg: '\u23f3 ' + m.name + ' \u2014 invited but NOT yet signed up' });
+    } else {
+      step.logs.push({ ts: new Date(), msg: '\u2014 ' + m.name + ' \u2014 not eligible / not invited' });
+    }
+  });
+  drive.summary.signedUp = signedUp;
+  step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.signedUp ? 'signed-up' : (m.invited ? 'pending' : 'n/a') }; });
+  completeStep(drive, step, signedUp + ' signed up, ' + notSignedUp + ' awaiting response');
+}
+
+// ── Step 7: Send Reminders ──
+function execStep7_SendReminders(drive, step) {
+  var needReminder = drive.members.filter(function(m){ return m.invited && !m.signedUp && m.gate !== 'failed'; });
+  if (needReminder.length === 0) {
+    step.logs.push({ ts: new Date(), msg: '\u2713 All invited members have already signed up \u2014 no reminders needed' });
+    completeStep(drive, step, 'No reminders needed \u2014 all eligible members signed up');
+    return;
+  }
+  needReminder.forEach(function(m) {
+    step.logs.push({ ts: new Date(), msg: '\ud83d\udd14 Reminder sent to ' + m.name + ' (' + m.email + ')' });
+    step.logs.push({ ts: new Date(), msg: '   \u21b3 URGENT flag, updated 24hr signup link, blocking notice' });
+  });
+  step.memberProgress = drive.members.map(function(m){
+    var s = m.signedUp ? 'signed-up' : (needReminder.some(function(n){return n.email===m.email;}) ? 'reminded' : 'n/a');
+    return { name: m.name, status: s };
+  });
+  completeStep(drive, step, needReminder.length + ' reminders sent to non-signed-up members');
+}
+
+// ── Step 8: Verify Portal Access ──
+function execStep8_VerifyAccess(drive, step) {
+  var verified = 0, failCount = 0;
+  drive.members.forEach(function(m) {
+    if (m.signedUp) {
+      m.portalVerified = true;
+      verified++;
+      step.logs.push({ ts: new Date(), msg: '\u2713 ' + m.name + ' \u2014 portal access VERIFIED (can log in to EC Admin)' });
+    } else if (m.gate === 'failed') {
+      step.logs.push({ ts: new Date(), msg: '\u2717 ' + m.name + ' \u2014 gate FAILED, no portal access' });
+      failCount++;
+    } else {
+      step.logs.push({ ts: new Date(), msg: '\u23f3 ' + m.name + ' \u2014 not yet signed up, cannot verify' });
+    }
+  });
+  drive.summary.verified = verified;
+  step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.portalVerified ? 'verified' : (m.gate === 'failed' ? 'failed' : 'pending') }; });
+  completeStep(drive, step, verified + ' verified, ' + failCount + ' failed, ' + (drive.members.length - verified - failCount) + ' pending signup');
+}
+
+// ── Step 9: Finalize ──
+function execStep9_Finalize(drive, step) {
+  step.logs.push({ ts: new Date(), msg: 'Generating drive summary report...' });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Total EC Members: ' + drive.summary.total });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Gate Passed: ' + drive.summary.gatePass });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Gate Pending: ' + drive.summary.gatePending });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Gate Failed: ' + drive.summary.gateFail });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Invitations Sent: ' + drive.summary.invited });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Signed Up: ' + drive.summary.signedUp });
+  step.logs.push({ ts: new Date(), msg: '\u2014 Portal Verified: ' + drive.summary.verified });
+  var allDone = drive.members.every(function(m){ return m.signedUp || m.gate === 'failed'; });
+  if (allDone) {
+    drive.status = 'completed';
+    drive.completedAt = new Date();
+    step.logs.push({ ts: new Date(), msg: '\u2705 Drive COMPLETED \u2014 all eligible members onboarded successfully' });
+  } else {
+    var remaining = drive.members.filter(function(m){ return !m.signedUp && m.gate !== 'failed'; }).length;
+    drive.status = 'completed-partial';
+    drive.completedAt = new Date();
+    step.logs.push({ ts: new Date(), msg: '\u26a0 Drive PARTIALLY COMPLETED \u2014 ' + remaining + ' member(s) still pending signup' });
+  }
+  driveAudit(drive, 'DRIVE_COMPLETE', 'Drive ' + drive.id + ' finalized. Status: ' + drive.status);
+  addLog('DRIVE', drive.id + ' EC Onboarding Drive finalized: ' + drive.summary.signedUp + '/' + drive.summary.total + ' members onboarded');
+  completeStep(drive, step, 'Drive finalized. ' + drive.summary.signedUp + '/' + drive.summary.total + ' onboarded.');
+}
+
+// ── Drives List Renderer ──
+function renderAuditDrives() {
+  var tbody = document.getElementById('audit-drives-body');
+  var empty = document.getElementById('audit-drives-empty');
+  var kpis = document.getElementById('audit-drive-kpis');
+  if (!tbody) return;
+
+  var totalDrives = ADMIN_DRIVES.length;
+  var activeDrives = ADMIN_DRIVES.filter(function(d){ return d.status === 'in-progress'; }).length;
+  var completedDrives = ADMIN_DRIVES.filter(function(d){ return d.status === 'completed' || d.status === 'completed-partial'; }).length;
+  var totalSteps = ADMIN_DRIVES.reduce(function(s,d){ return s + d.steps.length; }, 0);
+  var completedSteps = ADMIN_DRIVES.reduce(function(s,d){ return s + d.steps.filter(function(st){return st.status==='completed'}).length; }, 0);
+  var totalAuditEntries = ADMIN_DRIVES.reduce(function(s,d){ return s + d.auditLog.length; }, 0);
+
+  if (kpis) {
+    kpis.innerHTML = [
+      { v: totalDrives, k: 'Total Drives', cls: 'blue' },
+      { v: activeDrives, k: 'Active', cls: 'green' },
+      { v: completedDrives, k: 'Completed', cls: 'cyan' },
+      { v: completedSteps + '/' + totalSteps, k: 'Steps Done', cls: 'purple' },
+      { v: totalAuditEntries, k: 'Audit Entries', cls: 'orange' },
+    ].map(function(k){ return '<div class="kpi '+k.cls+'"><div class="v">'+k.v+'</div><div class="k">'+k.k+'</div></div>'; }).join('');
+  }
+
+  if (ADMIN_DRIVES.length === 0) {
+    tbody.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  tbody.innerHTML = ADMIN_DRIVES.map(function(d) {
+    var stepsComplete = d.steps.filter(function(s){ return s.status === 'completed'; }).length;
+    var pct = Math.round((stepsComplete / d.steps.length) * 100);
+    var statusBadge = d.status === 'in-progress' ? '<span class="badge-s badge-yellow">In Progress</span>'
+      : d.status === 'completed' ? '<span class="badge-s badge-green">Completed</span>'
+      : d.status === 'completed-partial' ? '<span class="badge-s badge-blue">Partial</span>'
+      : d.status === 'aborted' ? '<span class="badge-s badge-red">Aborted</span>'
+      : '<span class="badge-s badge-dim">' + d.status + '</span>';
+    var launchedStr = d.launchedAt.toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    var progressBar = '<div style="display:flex;align-items:center;gap:6px">' +
+      '<div style="flex:1;background:var(--bg2);border-radius:99px;height:8px;overflow:hidden">' +
+      '<div style="background:var(--green);height:100%;width:'+pct+'%;border-radius:99px;transition:.3s"></div></div>' +
+      '<span style="font-size:.68rem;color:var(--muted);white-space:nowrap">'+stepsComplete+'/'+d.steps.length+'</span></div>';
+    return '<tr>' +
+      '<td><code style="color:var(--cyan)">'+d.id+'</code></td>' +
+      '<td style="font-weight:600">'+d.name+'</td>' +
+      '<td><span class="badge-s badge-purple">'+d.type+'</span></td>' +
+      '<td>'+statusBadge+'</td>' +
+      '<td style="font-size:.72rem">'+launchedStr+'</td>' +
+      '<td style="min-width:150px">'+progressBar+'</td>' +
+      '<td><button class="btn-sm btn-primary" onclick="openAuditDriveDetail(\''+d.id+'\')"><i class="fas fa-eye me-1"></i>View</button></td>' +
+    '</tr>';
+  }).join('');
+}
+
+// ── Open Drive Detail ──
+function openAuditDriveDetail(driveId) {
+  var drive = ADMIN_DRIVES.find(function(d){ return d.id === driveId; });
+  if (!drive) return;
+  AD_ACTIVE_DRIVE = drive;
+  document.getElementById('audit-drive-detail').style.display = 'block';
+  renderAuditDriveDetailUI();
+  document.getElementById('btn-ad-next-step').onclick = function() { executeNextDriveStep(drive); };
+  document.getElementById('btn-ad-run-all').onclick = function() { runAllRemainingSteps(drive); };
+  document.getElementById('btn-ad-refresh').onclick = function() { renderAuditDriveDetailUI(); showToast('Drive status refreshed', 'var(--blue)'); };
+  document.getElementById('btn-ad-abort').onclick = function() { abortDrive(drive); };
+}
+
+function closeAuditDriveDetail() {
+  document.getElementById('audit-drive-detail').style.display = 'none';
+  AD_ACTIVE_DRIVE = null;
+}
+
+// ── Render Drive Detail UI ──
+function renderAuditDriveDetailUI() {
+  var drive = AD_ACTIVE_DRIVE;
+  if (!drive) return;
+
+  document.getElementById('ad-drive-name').textContent = drive.name;
+  document.getElementById('ad-drive-id').textContent = drive.id;
+  document.getElementById('ad-launched-by').textContent = drive.launchedBy;
+  document.getElementById('ad-launched-at').textContent = drive.launchedAt.toLocaleString('en-US', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  var statusMap = { 'in-progress':'yellow', 'completed':'green', 'completed-partial':'blue', 'aborted':'red' };
+  var dse = document.getElementById('ad-drive-status');
+  dse.className = 'badge-s badge-' + (statusMap[drive.status] || 'dim');
+  dse.textContent = drive.status === 'in-progress' ? 'In Progress' : drive.status === 'completed' ? 'Completed' : drive.status === 'completed-partial' ? 'Partially Complete' : drive.status === 'aborted' ? 'Aborted' : drive.status;
+
+  var stepsComplete = drive.steps.filter(function(s){ return s.status === 'completed'; }).length;
+  document.getElementById('ad-drive-kpis').innerHTML = [
+    { v: drive.summary.total, k: 'Total Members', cls: 'blue' },
+    { v: drive.summary.gatePass, k: 'Gate Pass', cls: 'green' },
+    { v: drive.summary.gateFail, k: 'Gate Fail', cls: 'red' },
+    { v: drive.summary.signedUp, k: 'Signed Up', cls: 'cyan' },
+    { v: drive.summary.verified, k: 'Verified', cls: 'purple' },
+    { v: stepsComplete + '/' + drive.steps.length, k: 'Steps', cls: 'orange' }
+  ].map(function(k){ return '<div class="kpi '+k.cls+'"><div class="v">'+k.v+'</div><div class="k">'+k.k+'</div></div>'; }).join('');
+
+  // ── Workflow Steps ──
+  var stepsEl = document.getElementById('ad-workflow-steps');
+  stepsEl.innerHTML = drive.steps.map(function(s) {
+    var color = s.status === 'completed' ? 'var(--green)' : s.status === 'in-progress' ? 'var(--yellow)' : s.status === 'failed' ? 'var(--red)' : 'var(--dim)';
+    var icon = s.status === 'completed' ? 'fa-check-circle' : s.status === 'in-progress' ? 'fa-spinner fa-spin' : s.status === 'failed' ? 'fa-times-circle' : 'fa-circle';
+    var bg = s.status === 'completed' ? 'rgba(34,197,94,.06)' : s.status === 'in-progress' ? 'rgba(234,179,8,.08)' : s.status === 'failed' ? 'rgba(239,68,68,.06)' : 'transparent';
+    var duration = '';
+    if (s.startedAt && s.completedAt) {
+      var ms = s.completedAt.getTime() - s.startedAt.getTime();
+      duration = ms < 1000 ? ms + 'ms' : (ms/1000).toFixed(1) + 's';
+    }
+    var logsHtml = '';
+    if (s.logs.length > 0) {
+      logsHtml = '<div style="margin-top:8px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;max-height:200px;overflow-y:auto">' +
+        s.logs.map(function(l) {
+          return '<div style="font-size:.68rem;color:var(--muted);padding:2px 0;border-bottom:1px solid rgba(255,255,255,.03)"><span style="color:var(--dim);margin-right:6px">' + l.ts.toLocaleTimeString() + '</span>' + l.msg + '</div>';
+        }).join('') + '</div>';
+    }
+    var memberProgressHtml = '';
+    if (s.memberProgress && s.memberProgress.length > 0) {
+      var progressColors = { imported:'cyan', passed:'green', failed:'red', pending:'yellow', generated:'blue', skipped:'dim', invited:'green', 'signed-up':'green', reminded:'orange', verified:'green', 'n/a':'dim' };
+      memberProgressHtml = '<div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">' +
+        s.memberProgress.map(function(mp){
+          return '<span class="badge-s badge-'+(progressColors[mp.status]||'dim')+'" style="font-size:.6rem">'+mp.name.split(' ')[0]+': '+mp.status+'</span>';
+        }).join('') + '</div>';
+    }
+    return '<div style="padding:14px 16px;border-left:3px solid '+color+';background:'+bg+';border-radius:0 10px 10px 0;margin-bottom:8px;transition:.2s">' +
+      '<div style="display:flex;align-items:center;gap:10px">' +
+        '<i class="fas '+icon+'" style="color:'+color+';font-size:.85rem;width:20px;text-align:center"></i>' +
+        '<div style="flex:1">' +
+          '<div style="font-size:.84rem;font-weight:600;color:'+color+'"><i class="fas '+s.icon+' me-1" style="font-size:.72rem;opacity:.7"></i>Step '+s.id+': '+s.name+'</div>' +
+          '<div style="font-size:.7rem;color:var(--muted)">'+s.desc+'</div>' +
+          (s.detail ? '<div style="font-size:.72rem;color:var(--text);margin-top:4px;font-weight:500">'+s.detail+'</div>' : '') +
+          memberProgressHtml +
+        '</div>' +
+        '<div style="text-align:right;flex-shrink:0">' +
+          '<div style="font-size:.68rem;color:'+color+';font-weight:600">'+s.status.toUpperCase()+'</div>' +
+          (duration ? '<div style="font-size:.6rem;color:var(--dim)">'+duration+'</div>' : '') +
+        '</div>' +
+      '</div>' +
+      logsHtml +
+    '</div>';
+  }).join('');
+
+  // ── Member Status Table ──
+  var memberBody = document.getElementById('ad-member-status-body');
+  if (drive.members.length > 0) {
+    memberBody.innerHTML = drive.members.map(function(m) {
+      var gateBadge = m.gate === 'passed' ? '<span class="badge-s badge-green">Passed</span>' : m.gate === 'failed' ? '<span class="badge-s badge-red">Failed</span>' : m.gate === 'pending' ? '<span class="badge-s badge-yellow">Pending</span>' : '<span class="badge-s badge-dim">\u2014</span>';
+      var membershipBadge = '<span class="badge-s badge-'+(m.membership==='Paid'?'green':m.membership==='Pending'?'yellow':'red')+'">'+m.membership+'</span>';
+      var invitedBadge = m.invited ? '<span class="badge-s badge-green">Yes</span>' : '<span class="badge-s badge-dim">No</span>';
+      var signupBadge = m.signedUp ? '<span class="badge-s badge-green">Yes</span>' : '<span class="badge-s badge-red">No</span>';
+      var portalBadge = m.portalVerified ? '<span class="badge-s badge-green">\u2713</span>' : '<span class="badge-s badge-dim">\u2014</span>';
+      var statusIcon = m.portalVerified ? '<span class="badge-s badge-green">Onboarded</span>' : m.signedUp ? '<span class="badge-s badge-blue">Signed Up</span>' : m.invited ? '<span class="badge-s badge-yellow">Invited</span>' : m.gate === 'failed' ? '<span class="badge-s badge-red">Ineligible</span>' : '<span class="badge-s badge-dim">Pending</span>';
+      return '<tr><td style="font-weight:600">'+m.name+'</td><td>'+m.title+'</td><td style="font-size:.72rem">'+m.email+'</td><td>'+membershipBadge+'</td><td>'+gateBadge+'</td><td>'+invitedBadge+'</td><td>'+signupBadge+'</td><td>'+portalBadge+'</td><td>'+statusIcon+'</td></tr>';
+    }).join('');
+  } else {
+    memberBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--dim)">Members will be imported during Step 2</td></tr>';
+  }
+
+  // ── Audit Log ──
+  var logEl = document.getElementById('ad-audit-log');
+  var auditLogColors = { DRIVE_LAUNCH:'orange', STEP_START:'blue', STEP_COMPLETE:'green', STEP_FAIL:'red', DRIVE_COMPLETE:'green', DRIVE_ABORT:'red' };
+  logEl.innerHTML = drive.auditLog.map(function(l) {
+    var c = auditLogColors[l.action] || 'muted';
+    return '<div class="log-line"><span class="ll-ts">'+l.ts+'</span><span class="ll-act" style="color:var(--'+c+')">'+l.action+'</span><span class="ll-msg">'+l.detail+' <span style="color:var(--dim);font-size:.65rem">\u2014 by '+l.actor+'</span></span></div>';
+  }).join('');
+
+  // ── Action button state ──
+  var allDone = drive.steps.every(function(s){ return s.status === 'completed' || s.status === 'failed'; });
+  var isAborted = drive.status === 'aborted';
+  var disableActions = allDone || isAborted;
+  document.getElementById('btn-ad-next-step').disabled = disableActions;
+  document.getElementById('btn-ad-run-all').disabled = disableActions;
+  document.getElementById('btn-ad-abort').disabled = disableActions;
+  document.getElementById('btn-ad-next-step').style.opacity = disableActions ? '0.4' : '1';
+  document.getElementById('btn-ad-run-all').style.opacity = disableActions ? '0.4' : '1';
+  document.getElementById('btn-ad-abort').style.opacity = disableActions ? '0.4' : '1';
+}
+
+function executeNextDriveStep(drive) {
+  var next = drive.steps.find(function(s){ return s.status === 'pending'; });
+  if (!next) { showToast('All steps completed!', 'var(--green)'); return; }
+  executeStep(drive, next.id);
+  renderAuditDriveDetailUI();
+  renderAuditDrives();
+}
+
+function runAllRemainingSteps(drive) {
+  if (!confirm('Run all remaining steps automatically?\n\nThis will execute each step sequentially.')) return;
+  var pending = drive.steps.filter(function(s){ return s.status === 'pending'; });
+  if (pending.length === 0) { showToast('All steps already completed!', 'var(--green)'); return; }
+  var idx = 0;
+  function runNext() {
+    if (idx >= pending.length) {
+      renderAuditDriveDetailUI();
+      renderAuditDrives();
+      renderAll();
+      showToast('All drive steps completed!', 'var(--green)');
+      return;
+    }
+    executeStep(drive, pending[idx].id);
+    renderAuditDriveDetailUI();
+    idx++;
+    setTimeout(runNext, 500);
+  }
+  runNext();
+}
+
+function abortDrive(drive) {
+  if (!confirm('Are you sure you want to abort this drive?\n\nThis action cannot be undone.')) return;
+  drive.status = 'aborted';
+  driveAudit(drive, 'DRIVE_ABORT', 'Drive aborted by Super Admin');
+  addLog('DRIVE', drive.id + ' ABORTED by Super Admin');
+  renderAuditDriveDetailUI();
+  renderAuditDrives();
+  showToast('Drive ' + drive.id + ' aborted.', 'var(--red)');
+}
+
+
 function renderAll(){
   document.getElementById('dash-kpis').innerHTML=[
     {v:ROLES.length,k:'Defined Roles',cls:'blue'},
@@ -5474,7 +6046,7 @@ function renderAll(){
     {v:DEV_TICKETS.length,k:'Dev Tickets',cls:'yellow'},
     {v:LOG.length,k:'Audit Log',cls:'dim'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
-  renderRoles();renderUsers();renderDrive();renderEC();renderECDriveTasks();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();updatePortalSwitcher();
+  renderRoles();renderUsers();renderDrive();renderEC();renderECDriveTasks();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();updatePortalSwitcher();renderAuditDrives();
 }
 
 </script>

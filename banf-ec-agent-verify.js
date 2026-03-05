@@ -650,6 +650,180 @@ test('navTo: procurement triggers renderProcurement()', () => {
 });
 
 // ══════════════════════════════════════════════════════════
+// VERIFICATION: SUPER ADMIN AUDIT DRIVES PANEL
+// ══════════════════════════════════════════════════════════
+console.log('\n\x1b[36m── Verify: Super Admin Audit Drives Panel ──\x1b[0m');
+
+test('audit-drives: panel HTML exists', () => {
+  return html.includes('id="panel-audit-drives"');
+});
+
+test('audit-drives: initAuditDrives function exists', () => {
+  return html.includes('function initAuditDrives()');
+});
+
+test('audit-drives: launchECOnboardingDrive function exists', () => {
+  return html.includes('function launchECOnboardingDrive()');
+});
+
+test('audit-drives: EC_ONBOARD_STEPS defined with 9 steps', () => {
+  const match = html.match(/var EC_ONBOARD_STEPS\s*=\s*\[([\s\S]*?)\];/);
+  if (!match) return false;
+  const steps = match[1].match(/\{ id:/g);
+  return steps && steps.length === 9;
+});
+
+test('audit-drives: ADMIN_DRIVES data model declared', () => {
+  return html.includes('var ADMIN_DRIVES = []');
+});
+
+test('audit-drives: driveAudit logging function exists', () => {
+  return html.includes('function driveAudit(drive, action, detail)');
+});
+
+test('audit-drives: executeStep dispatcher exists', () => {
+  return html.includes('function executeStep(drive, stepId)');
+});
+
+test('audit-drives: completeStep function exists', () => {
+  return html.includes('function completeStep(drive, step, detail)');
+});
+
+test('audit-drives: failStep function exists', () => {
+  return html.includes('function failStep(drive, step, detail)');
+});
+
+// All 9 step execution functions
+test('audit-drives: execStep1_Initialize exists', () => {
+  return html.includes('function execStep1_Initialize(');
+});
+
+test('audit-drives: execStep2_ImportMembers exists', () => {
+  return html.includes('function execStep2_ImportMembers(');
+});
+
+test('audit-drives: execStep3_GateCheck exists', () => {
+  return html.includes('function execStep3_GateCheck(');
+});
+
+test('audit-drives: execStep4_GenerateCredentials exists', () => {
+  return html.includes('function execStep4_GenerateCredentials(');
+});
+
+test('audit-drives: execStep5_SendInvitations exists', () => {
+  return html.includes('function execStep5_SendInvitations(');
+});
+
+test('audit-drives: execStep6_TrackSignups exists', () => {
+  return html.includes('function execStep6_TrackSignups(');
+});
+
+test('audit-drives: execStep7_SendReminders exists', () => {
+  return html.includes('function execStep7_SendReminders(');
+});
+
+test('audit-drives: execStep8_VerifyAccess exists', () => {
+  return html.includes('function execStep8_VerifyAccess(');
+});
+
+test('audit-drives: execStep9_Finalize exists', () => {
+  return html.includes('function execStep9_Finalize(');
+});
+
+test('audit-drives: renderAuditDrives UI function exists', () => {
+  return html.includes('function renderAuditDrives()');
+});
+
+test('audit-drives: renderAuditDriveDetailUI function exists', () => {
+  return html.includes('function renderAuditDriveDetailUI()');
+});
+
+test('audit-drives: openAuditDriveDetail function exists', () => {
+  return html.includes('function openAuditDriveDetail(');
+});
+
+test('audit-drives: closeAuditDriveDetail function exists', () => {
+  return html.includes('function closeAuditDriveDetail()');
+});
+
+test('audit-drives: executeNextDriveStep function exists', () => {
+  return html.includes('function executeNextDriveStep(') || html.includes('function executeNextStep(');
+});
+
+test('audit-drives: runAllRemainingSteps function exists', () => {
+  return html.includes('function runAllRemainingSteps(');
+});
+
+test('audit-drives: abortDrive function exists', () => {
+  return html.includes('function abortDrive(');
+});
+
+test('audit-drives: renderAll calls renderAuditDrives', () => {
+  return html.includes('renderAuditDrives()');
+});
+
+// Drive detail UI elements
+test('audit-drives: workflow steps container exists', () => {
+  return html.includes('id="ad-workflow-steps"');
+});
+
+test('audit-drives: member status table exists', () => {
+  return html.includes('id="ad-member-status-body"');
+});
+
+test('audit-drives: drive audit log container exists', () => {
+  return html.includes('id="ad-audit-log"');
+});
+
+test('audit-drives: drive actions buttons exist', () => {
+  return html.includes('id="btn-ad-next-step"') && html.includes('id="btn-ad-run-all"') && html.includes('id="btn-ad-abort"');
+});
+
+test('audit-drives: launch EC onboarding button exists', () => {
+  return html.includes('id="btn-launch-ec-onboarding"');
+});
+
+test('audit-drives: all drives overview table exists', () => {
+  return html.includes('id="audit-drives-body"');
+});
+
+test('audit-drives: drive KPIs section exists', () => {
+  return html.includes('id="audit-drive-kpis"');
+});
+
+// ── RBAC: audit-drives — SUPER-ADMIN ONLY ──
+console.log('\n\x1b[36m── RBAC: Audit Drives — Super-Admin Only ──\x1b[0m');
+
+['super-admin', 'super_admin'].forEach(role => {
+  test(`RBAC: ${role} CAN access audit-drives (ROLE_PANEL_ACCESS)`, () => {
+    return ROLE_MAP && ROLE_MAP[role] && ROLE_MAP[role].includes('audit-drives');
+  });
+  test(`RBAC: ${role} CAN access audit-drives (NAV_PANEL_ACCESS)`, () => {
+    return NAV_MAP && NAV_MAP[role] && NAV_MAP[role].includes('audit-drives');
+  });
+});
+
+['admin', 'ec-member', 'ec_member', 'business-stakeholder', 'business_stakeholder'].forEach(role => {
+  test(`RBAC: ${role} CANNOT access audit-drives (ROLE_PANEL_ACCESS)`, () => {
+    return ROLE_MAP && (!ROLE_MAP[role] || !ROLE_MAP[role].includes('audit-drives'));
+  });
+  test(`RBAC: ${role} CANNOT access audit-drives (NAV_PANEL_ACCESS)`, () => {
+    return NAV_MAP && (!NAV_MAP[role] || !NAV_MAP[role].includes('audit-drives'));
+  });
+});
+
+test('sidebar: audit-drives has super_admin roles ONLY', () => {
+  const match = html.match(/data-panel="audit-drives"\s+data-roles="([^"]+)"/);
+  if (!match) return false;
+  const roles = match[1].split(',');
+  return roles.includes('super_admin') && !roles.includes('ec_member') && !roles.includes('admin');
+});
+
+test('navTo: audit-drives triggers initAuditDrives()', () => {
+  return html.includes("panel === 'audit-drives') { initAuditDrives()");
+});
+
+// ══════════════════════════════════════════════════════════
 // VERIFICATION: JS syntax clean (no duplicate const)
 // ══════════════════════════════════════════════════════════
 console.log('\n\x1b[36m── Verify: JS Integrity ──\x1b[0m');
