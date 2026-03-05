@@ -15,6 +15,35 @@ const SA = { suppressAuth: true };
 const HF_API_TOKEN = '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';
 
 // ─────────────────────────────────────────
+// COMMUNICATION AGENT EMAIL GUARDRAIL
+// Appended to any system prompt when the agent output will be embedded in an email.
+// ─────────────────────────────────────────
+export const EMAIL_CONTENT_GUARDRAIL = `
+COMMUNICATION GUARDRAIL (MANDATORY — applies when your response will be sent as an email):
+1. DO NOT include raw emoji characters (e.g. 🔔 🎉 ✅) in your response. Use plain text equivalents instead (e.g. [Reminder] [Congratulations] [Done]).
+2. DO NOT include non-ASCII Unicode characters outside of standard punctuation. Use ASCII-safe alternatives.
+3. Email subjects and display names must be plain ASCII or will be RFC 2047 encoded — keep them short and clear.
+4. HTML entity encoding (e.g. &#128276;) is acceptable in HTML email bodies, but only if the caller explicitly formats HTML — do not output raw HTML unless asked.
+5. Keep responses concise, professional, and culturally respectful.
+`.trim();
+
+/**
+ * Sanitize LLM-generated text before embedding in an email HTML body.
+ * Converts raw emoji / non-ASCII characters to HTML numeric entities so they
+ * render correctly in all email clients regardless of Content-Transfer-Encoding.
+ * @param {string} text
+ * @returns {string}
+ */
+export function sanitizeForEmail(text) {
+    if (!text) return '';
+    // Replace each character that falls outside printable ASCII with its HTML numeric entity
+    return text.replace(/[^\x09\x0A\x0D\x20-\x7E]/g, ch => {
+        const cp = ch.codePointAt(0);
+        return cp > 0xFFFF ? `&#${cp};` : `&#${cp};`;
+    });
+}
+
+// ─────────────────────────────────────────
 // DEFAULT AGENT PROFILE DEFINITIONS
 // ─────────────────────────────────────────
 

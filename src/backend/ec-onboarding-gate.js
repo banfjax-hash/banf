@@ -580,14 +580,17 @@ async function sendGmail(to, toName, subject, html) {
         actualSubject = `[TEST → ${to}] ${subject}`;
     }
     const token = await getGmailToken();
+    // Base64-encode the HTML body so the MIME message is ASCII-safe (RFC 2045 §6.8)
+    const bodyB64 = btoa(unescape(encodeURIComponent(html)));
     const raw = [
         `From: ${BANF_ORG} <${BANF_EMAIL}>`,
         `To: ${actualName} <${actualTo}>`,
         `Subject: ${mimeEncodeHeader(actualSubject)}`,
         'MIME-Version: 1.0',
         'Content-Type: text/html; charset=UTF-8',
+        'Content-Transfer-Encoding: base64',
         '',
-        html
+        bodyB64
     ].join('\r\n');
     const encoded = btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     const r = await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
@@ -968,14 +971,17 @@ export async function post_ec_send_all_invitations(request) {
                 // Always send to actual email (ignore TEST_MODE)
                 const token = await getGmailToken();
                 const subject = `BANF EC Onboarding Invitation - ${member.ecTitle || member.role || 'EC Member'} (FY2026-28)`;
+                // Base64-encode body so the MIME message is ASCII-safe (RFC 2045 §6.8)
+                const invBodyB64 = btoa(unescape(encodeURIComponent(html)));
                 const raw = [
                     `From: ${BANF_ORG} <${BANF_EMAIL}>`,
                     `To: ${name} <${member.email}>`,
                     `Subject: ${mimeEncodeHeader(subject)}`,
                     'MIME-Version: 1.0',
                     'Content-Type: text/html; charset=UTF-8',
+                    'Content-Transfer-Encoding: base64',
                     '',
-                    html
+                    invBodyB64
                 ].join('\r\n');
                 const encoded = btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                 await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {

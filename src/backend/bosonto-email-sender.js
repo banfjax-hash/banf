@@ -157,6 +157,8 @@ async function sendGmail(to, toName, subject, html, images) {
   if (images && (images.events || images.fees)) {
     // Multipart MIME with CID image attachments
     const boundary = 'BANF_BOUNDARY_' + Date.now();
+    // Base64-encode the HTML part so it is ASCII-safe (RFC 2045 §6.8)
+    const htmlB64 = btoa(unescape(encodeURIComponent(html)));
     const parts = [
       `From: ${BANF_ORG} <${BANF_EMAIL}>`,
       `To: ${actualName} <${actualTo}>`,
@@ -166,9 +168,9 @@ async function sendGmail(to, toName, subject, html, images) {
       '',
       `--${boundary}`,
       'Content-Type: text/html; charset=UTF-8',
-      'Content-Transfer-Encoding: 7bit',
+      'Content-Transfer-Encoding: base64',
       '',
-      html
+      htmlB64
     ];
 
     if (images.events) {
@@ -201,15 +203,17 @@ async function sendGmail(to, toName, subject, html, images) {
     parts.push(`--${boundary}--`);
     raw = parts.join('\r\n');
   } else {
-    // Simple HTML MIME (no images)
+    // Simple HTML MIME (no images) — base64-encode body for ASCII-safe transport
+    const simpleBodyB64 = btoa(unescape(encodeURIComponent(html)));
     raw = [
       `From: ${BANF_ORG} <${BANF_EMAIL}>`,
       `To: ${actualName} <${actualTo}>`,
       `Subject: ${mimeEncodeSubject(actualSubject)}`,
       'MIME-Version: 1.0',
       'Content-Type: text/html; charset=UTF-8',
+      'Content-Transfer-Encoding: base64',
       '',
-      html
+      simpleBodyB64
     ].join('\r\n');
   }
 

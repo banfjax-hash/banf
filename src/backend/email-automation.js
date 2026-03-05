@@ -17,6 +17,13 @@ const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.go
 const GOOGLE_CLIENT_SECRET = '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';
 const GOOGLE_REFRESH_TOKEN = '1//043SvrPmUfXwUCgYIARAAGAQSNwF-L9IrmO-MD0-4ult4fEofYmx_TDhjylHHdxZ-N3Yqo_-2lIhsmvyiYqhuJJGrZ3JAyZAgLuk';
 
+// RFC 2047 B-encoding for email header values containing non-ASCII characters
+function mimeEncodeHeader(value) {
+    if (!value) return '';
+    if (/^[\x00-\x7F]*$/.test(value)) return value; // ASCII-only — no encoding needed
+    return '=?UTF-8?B?' + btoa(unescape(encodeURIComponent(value))) + '?=';
+}
+
 // ─────────────────────────────────────────
 // INTENT CLASSIFICATION (keyword-first, LLM fallback)
 // ─────────────────────────────────────────
@@ -80,16 +87,20 @@ async function getGmailToken() {
 
 async function sendGmailReply(to, subject, body, accessToken) {
     const replySubject = subject.startsWith('Re:') ? subject : `Re: ${subject}`;
+    // Base64-encode body for ASCII-safe MIME (RFC 2045 §6.8 — prevents corruption of emoji/non-ASCII)
+    const bodyB64 = btoa(unescape(encodeURIComponent(body)));
     const mimeMessage = [
         'From: ' + BANF_EMAIL,
         'To: ' + to,
-        'Subject: ' + replySubject,
+        'Subject: ' + mimeEncodeHeader(replySubject),
+        'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=utf-8',
+        'Content-Transfer-Encoding: base64',
         '',
-        body
+        bodyB64
     ].join('\r\n');
 
-    const encoded = btoa(mimeMessage)
+    const encoded = btoa(unescape(encodeURIComponent(mimeMessage)))
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
@@ -120,6 +131,19 @@ const AGENT_SYSTEM_PROMPTS = {
     publication: `You are the BANF media coordinator. Help with newsletter/e-magazine submissions, past issues, and publication schedule.`,
     general: `You are a helpful BANF community assistant. Answer questions about Bengali Association of Northeast Florida using the provided context.`
 };
+
+// Communication guardrail appended to every system prompt — prevents raw emoji/non-ASCII in email replies
+const EMAIL_AGENT_GUARDRAIL = `
+
+COMMUNICATION GUARDRAIL (this response will be sent as an email):
+- Do NOT include raw emoji characters (e.g. no actual bell/party/check emoji). Use plain text equivalents like [Note] or [Done].
+- Do NOT include Bengali script or any non-ASCII characters directly. Keep output ASCII-safe.
+- Keep the response under 200 words, professional, and signed as "BANF Team".`;
+
+// Apply guardrail to all prompts
+Object.keys(AGENT_SYSTEM_PROMPTS).forEach(k => {
+    AGENT_SYSTEM_PROMPTS[k] += EMAIL_AGENT_GUARDRAIL;
+});
 
 /**
  * Generate an LLM response for an email using RAG context
@@ -431,10 +455,10 @@ export async function sendDirectEmail(to, toName, subject, htmlBody) {
     try {
         const accessToken = await getGmailToken();
 
-        // Build RFC 2822 MIME message (keep headers ASCII-safe)
-        const safeName = (toName || '').replace(/[^\x20-\x7E]/g, '');
-        const toHeader = safeName ? `${safeName} <${to}>` : to;
-        const safeSubject = (subject || '').replace(/[^\x20-\x7E]/g, '');
+        // Build RFC 2822 MIME message — use RFC 2047 B-encoding for non-ASCII chars (not stripping)
+        const encodedName = mimeEncodeHeader(toName || '');
+        const toHeader = encodedName ? `${encodedName} <${to}>` : to;
+        const safeSubject = mimeEncodeHeader(subject || '');
 
         // Encode htmlBody into quoted-printable-friendly base64
         // For ASCII-only HTML this is fine; non-ASCII in body is encoded as HTML entities by caller

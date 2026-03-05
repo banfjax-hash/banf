@@ -254,6 +254,13 @@ export async function seedDefaultKnowledge() {
             category: 'sponsorship',
             tags: 'sponsor,sponsorship,donate,advertise,business,gold,silver,bronze,title',
             sourceType: 'seed'
+        },
+        {
+            title: 'BANF Email Encoding Standard — Developer Guardrail',
+            content: `BANF outbound email encoding rules (MANDATORY — applies to all backend email senders: ec-onboarding-gate.js, bosonto-email-sender.js, email-automation.js):\n\n1. BODY ENCODING: Every MIME part that contains an HTML body MUST declare "Content-Transfer-Encoding: base64" and the body content MUST be base64-encoded via btoa(unescape(encodeURIComponent(html))). NEVER inline raw HTML directly as the body with no CTE header — this causes 8-bit UTF-8 bytes to be treated as 7-bit and corrupted by some mail clients.\n\n2. SUBJECT HEADER: All Subject headers containing non-ASCII characters MUST be encoded with RFC 2047 B-encoding using mimeEncodeHeader(). NEVER use .replace(/[^\\x20-\\x7E]/g, '') to strip non-ASCII from subjects — this silently deletes valid Bengali or emoji characters. The mimeEncodeHeader() function is defined in ec-onboarding-gate.js and email-automation.js.\n\n3. TO/FROM NAME HEADERS: Display names in To: headers MUST also be RFC 2047 encoded via mimeEncodeHeader() if they contain non-ASCII. Never strip or truncate Bengali or accented character names.\n\n4. EMOJI IN EMAIL BODIES: Emoji characters (e.g., &#128276; for bell, &#127881; for party popper) embedded in HTML bodies are fine ONLY when body CTE is base64. If an AI agent generates email content, it MUST NOT embed raw emoji codepoints in the plain text output — use HTML numeric entities instead (e.g., &#128276; not the actual emoji character) to ensure compatibility across all rendering paths.\n\n5. OUTER GMAIL API ENCODING: The full RFC 2822 message (already ASCII after applying rules 1-3) is base64url-encoded for the Gmail API raw field using btoa(unescape(encodeURIComponent(raw))).replace(/\\+/g,\'-\').replace(/\\//g,\'_\').replace(/=+$/,\'\').\n\n6. MULTIPART MIME: When sending multipart/related messages (HTML + embedded images), EACH MIME part must declare its own Content-Transfer-Encoding. HTML parts: "Content-Transfer-Encoding: base64". Image attachments: "Content-Transfer-Encoding: base64". NEVER use "Content-Transfer-Encoding: 7bit" for any part that may contain non-ASCII content.`,
+            category: 'developer-standards',
+            tags: 'email,encoding,CTE,base64,MIME,RFC2047,mimeEncodeHeader,guardrail,developer,standard,emoji,non-ascii,junk-characters',
+            sourceType: 'seed'
         }
     ];
 
