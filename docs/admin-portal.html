@@ -374,6 +374,16 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-item" data-panel="my-crm" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-address-card"></i><span>My CRM</span></div>
     <div class="sb-item" data-panel="procurement" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span></div>
 
+    <!-- ── EC COLLABORATION ── ec_member, admin, super_admin -->
+    <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">Collaboration</div>
+    <div class="sb-item" data-panel="ec-live" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-satellite-dish"></i><span>EC Live</span><span id="ec-live-count" style="margin-left:auto;background:var(--green);color:#000;font-size:.6rem;font-weight:700;border-radius:99px;padding:1px 6px;display:none">0</span></div>
+    <div class="sb-item" data-panel="ec-messenger" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-comments"></i><span>EC Messenger</span><span id="ec-msg-unread" style="margin-left:auto;background:var(--red);color:#fff;font-size:.6rem;font-weight:700;border-radius:99px;padding:1px 6px;display:none">0</span></div>
+    <div class="sb-item" data-panel="calendar-agent" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-calendar-days"></i><span>Calendar Agent</span></div>
+
+    <!-- ── MEMBERS MANAGEMENT ── admin, super_admin -->
+    <div class="sb-group" data-roles="admin,super_admin,super-admin">Members</div>
+    <div class="sb-item" data-panel="member-dues" data-roles="admin,super_admin,super-admin"><i class="fas fa-hand-holding-dollar"></i><span>Member Dues</span></div>
+
     <!-- ── EC ADMIN ── ec_member, admin, super_admin -->
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">EC Admin</div>
     <div class="sb-item" data-panel="ec-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-shield-halved"></i><span>EC Drive</span></div>
@@ -1151,6 +1161,305 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
       </div>
     </div>
 
+    <!-- ═══════ EC LIVE PRESENCE PANEL ═══════ -->
+    <div class="portal-section" id="panel-ec-live">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> EC Live Presence</div>
+
+      <div class="kpi-grid" id="ec-live-kpis">
+        <div class="kpi green"><div class="v" id="ec-live-online-count">0</div><div class="k">Online Now</div></div>
+        <div class="kpi blue"><div class="v" id="ec-live-total-count">0</div><div class="k">Total EC Members</div></div>
+        <div class="kpi cyan"><div class="v" id="ec-live-last-active">—</div><div class="k">Your Last Heartbeat</div></div>
+        <div class="kpi purple"><div class="v" id="ec-live-uptime">—</div><div class="k">Session Duration</div></div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-satellite-dish" style="color:var(--green)"></i> Who's Online
+          <span style="font-size:.68rem;font-weight:400;color:var(--muted);margin-left:8px">Auto-refreshes every 30s</span>
+          <button class="btn-sm btn-secondary" style="margin-left:auto;padding:3px 10px;font-size:.7rem" onclick="refreshECLive()"><i class="fas fa-sync me-1"></i>Refresh</button>
+        </h2>
+        <div id="ec-live-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">
+          <div style="text-align:center;padding:30px;color:var(--dim);grid-column:1/-1"><i class="fas fa-spinner fa-spin me-2"></i>Loading presence data...</div>
+        </div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-bolt" style="color:var(--yellow)"></i> Quick Actions</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="sendQuickPing()"><i class="fas fa-bell me-1"></i>Ping All Online</button>
+          <button class="btn-secondary" onclick="navTo('ec-messenger')"><i class="fas fa-comments me-1"></i>Open Messenger</button>
+          <button class="btn-secondary" onclick="navTo('calendar-agent')"><i class="fas fa-calendar-plus me-1"></i>Schedule Meeting</button>
+        </div>
+      </div>
+
+      <div class="card-a">
+        <h2><i class="fas fa-clock-rotate-left" style="color:var(--blue)"></i> Recent Sessions</h2>
+        <table class="t">
+          <thead><tr><th>Member</th><th>Title</th><th>Last Seen</th><th>Duration</th><th>Status</th></tr></thead>
+          <tbody id="ec-live-sessions-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════ EC MESSENGER PANEL ═══════ -->
+    <div class="portal-section" id="panel-ec-messenger">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--cyan)"></i> EC Messenger</div>
+
+      <div style="display:flex;gap:12px;height:calc(100vh - 120px)">
+        <!-- LEFT: Conversations list -->
+        <div style="width:280px;flex-shrink:0;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden">
+          <div style="padding:12px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px">
+            <input type="text" id="msg-search" placeholder="Search conversations..." style="flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 12px;border-radius:8px;font-size:.78rem;outline:none" oninput="filterConversations()">
+            <button class="btn-primary btn-sm" style="padding:6px 10px" onclick="openNewChat()" title="New Chat"><i class="fas fa-plus"></i></button>
+          </div>
+          <div id="msg-conv-list" style="flex:1;overflow-y:auto;padding:6px">
+            <div style="text-align:center;padding:30px 10px;color:var(--dim);font-size:.78rem"><i class="fas fa-inbox me-2"></i>No conversations yet. Click + to start one.</div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Active chat area -->
+        <div style="flex:1;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden">
+          <!-- Chat header -->
+          <div id="msg-chat-header" style="padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;min-height:52px">
+            <div style="font-size:.85rem;font-weight:600;color:var(--text)" id="msg-chat-title">Select a conversation</div>
+            <div style="font-size:.68rem;color:var(--muted);margin-left:4px" id="msg-chat-members"></div>
+            <div style="margin-left:auto;display:flex;gap:6px">
+              <button class="btn-sm btn-secondary" style="padding:3px 8px;font-size:.68rem;display:none" id="msg-add-member-btn" onclick="addMemberToChat()" title="Add member"><i class="fas fa-user-plus"></i></button>
+              <button class="btn-sm btn-secondary" style="padding:3px 8px;font-size:.68rem;display:none" id="msg-info-btn" onclick="toggleChatInfo()" title="Chat info"><i class="fas fa-info-circle"></i></button>
+            </div>
+          </div>
+
+          <!-- Messages area -->
+          <div id="msg-messages-area" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:8px">
+            <div style="text-align:center;padding:60px 20px;color:var(--dim);font-size:.82rem">
+              <i class="fas fa-comments" style="font-size:2.5rem;margin-bottom:14px;display:block;opacity:.3"></i>
+              Select a conversation or create a new one to start messaging
+            </div>
+          </div>
+
+          <!-- Message input -->
+          <div id="msg-input-area" style="padding:10px 14px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:flex-end">
+            <textarea id="msg-input" placeholder="Type a message..." rows="1" style="flex:1;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:10px 14px;border-radius:10px;font-size:.82rem;resize:none;outline:none;max-height:120px;font-family:inherit" oninput="autoResizeMsgInput()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+            <button class="btn-primary" style="padding:10px 16px;border-radius:10px;flex-shrink:0" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- New Chat Modal -->
+      <div id="msg-new-chat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;max-width:480px;width:92%">
+          <h2 style="font-size:.95rem;margin:0 0 14px"><i class="fas fa-plus-circle me-1" style="color:var(--cyan)"></i> New Conversation</h2>
+          <div class="form-group"><label>Conversation Name (optional for group)</label>
+            <input type="text" id="new-chat-name" placeholder="e.g., Budget Planning 2026">
+          </div>
+          <div class="form-group" style="margin-top:10px"><label>Select EC Members</label>
+            <div id="new-chat-members" style="max-height:200px;overflow-y:auto;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:8px"></div>
+          </div>
+          <div style="margin-top:14px;display:flex;gap:8px">
+            <button class="btn-primary" onclick="createNewChat()"><i class="fas fa-comments me-1"></i>Create Chat</button>
+            <button class="btn-secondary" onclick="closeNewChatModal()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ CALENDAR AGENT PANEL ═══════ -->
+    <div class="portal-section" id="panel-calendar-agent">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--purple)"></i> AI Calendar Agent</div>
+
+      <div class="kpi-grid">
+        <div class="kpi purple"><div class="v" id="cal-total-events">0</div><div class="k">Events This Year</div></div>
+        <div class="kpi green"><div class="v" id="cal-upcoming">0</div><div class="k">Upcoming</div></div>
+        <div class="kpi yellow"><div class="v" id="cal-reminders">0</div><div class="k">Active Reminders</div></div>
+        <div class="kpi cyan"><div class="v" id="cal-meetings">0</div><div class="k">Meetings</div></div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-lg-8">
+          <!-- Calendar grid -->
+          <div class="card-a" style="height:100%">
+            <h2><i class="fas fa-calendar-days" style="color:var(--purple)"></i> <span id="cal-month-title">March 2026</span>
+              <div style="margin-left:auto;display:flex;gap:6px">
+                <button class="btn-sm btn-secondary" onclick="calNavMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="btn-sm btn-secondary" onclick="calNavMonth(0)">Today</button>
+                <button class="btn-sm btn-secondary" onclick="calNavMonth(1)"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </h2>
+            <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:.75rem">
+              <!-- Calendar rendered by JS -->
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <!-- Quick add + upcoming -->
+          <div class="card-a">
+            <h2><i class="fas fa-robot" style="color:var(--cyan)"></i> Quick Add</h2>
+            <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">The Calendar Agent auto-schedules BANF events for <span id="cal-current-year">2026</span>.</p>
+            <div class="form-group"><label>Event Title</label><input type="text" id="cal-new-title" placeholder="e.g., EC Planning Meeting"></div>
+            <div class="form-row" style="margin-top:8px">
+              <div class="form-group"><label>Date</label><input type="date" id="cal-new-date"></div>
+              <div class="form-group"><label>Time</label><input type="time" id="cal-new-time" value="18:00"></div>
+            </div>
+            <div class="form-group" style="margin-top:8px"><label>Type</label>
+              <select id="cal-new-type" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:8px;font-size:.82rem">
+                <option value="meeting">Meeting</option>
+                <option value="reminder">Reminder</option>
+                <option value="event">Cultural Event</option>
+                <option value="deadline">Deadline</option>
+                <option value="payment">Payment Due</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-top:8px"><label>Reminder</label>
+              <select id="cal-new-reminder" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:8px;font-size:.82rem">
+                <option value="15">15 minutes before</option>
+                <option value="60" selected>1 hour before</option>
+                <option value="1440">1 day before</option>
+                <option value="10080">1 week before</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-top:8px"><label>Notes</label>
+              <input type="text" id="cal-new-notes" placeholder="Optional notes">
+            </div>
+            <button class="btn-primary" style="width:100%;margin-top:10px" onclick="addCalendarEvent()"><i class="fas fa-plus me-1"></i>Add to Calendar</button>
+          </div>
+
+          <div class="card-a">
+            <h2><i class="fas fa-clock" style="color:var(--yellow)"></i> Today &amp; Upcoming</h2>
+            <div id="cal-upcoming-list" style="max-height:300px;overflow-y:auto">
+              <div style="text-align:center;padding:20px;color:var(--dim);font-size:.78rem">No upcoming events</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-list-check" style="color:var(--green)"></i> All Events &amp; Reminders
+          <div style="margin-left:auto;display:flex;gap:4px">
+            <button class="btn-sm btn-secondary cal-filter-btn active" onclick="filterCalEvents('all',this)">All</button>
+            <button class="btn-sm btn-secondary cal-filter-btn" onclick="filterCalEvents('meeting',this)">Meetings</button>
+            <button class="btn-sm btn-secondary cal-filter-btn" onclick="filterCalEvents('event',this)">Events</button>
+            <button class="btn-sm btn-secondary cal-filter-btn" onclick="filterCalEvents('reminder',this)">Reminders</button>
+            <button class="btn-sm btn-secondary cal-filter-btn" onclick="filterCalEvents('deadline',this)">Deadlines</button>
+          </div>
+        </h2>
+        <table class="t">
+          <thead><tr><th>Date</th><th>Time</th><th>Title</th><th>Type</th><th>Reminder</th><th>Actions</th></tr></thead>
+          <tbody id="cal-events-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Auto-scheduled BANF events -->
+      <div class="card-a mt-3">
+        <h2><i class="fas fa-robot" style="color:var(--purple)"></i> AI Agent Auto-Scheduled Events
+          <button class="btn-sm btn-secondary" style="margin-left:auto;padding:3px 10px;font-size:.68rem" onclick="autoScheduleBANFEvents()"><i class="fas fa-wand-magic-sparkles me-1"></i>Re-sync</button>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Calendar Agent automatically populates the calendar with known BANF events for the year (Durga Puja, Saraswati Puja, Pohela Boishakh, picnics, etc.).</p>
+        <div id="cal-auto-events" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+    </div>
+
+    <!-- ═══════ MEMBER DUES & QR PANEL ═══════ -->
+    <div class="portal-section" id="panel-member-dues">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--yellow)"></i> Member Dues &amp; Payment Tracking</div>
+
+      <div class="kpi-grid">
+        <div class="kpi green"><div class="v" id="dues-paid-count">0</div><div class="k">Paid Members</div></div>
+        <div class="kpi red"><div class="v" id="dues-unpaid-count">0</div><div class="k">Unpaid</div></div>
+        <div class="kpi blue"><div class="v" id="dues-total-collected">$0</div><div class="k">Total Collected</div></div>
+        <div class="kpi yellow"><div class="v" id="dues-pending-verify">0</div><div class="k">Pending CRM Sync</div></div>
+        <div class="kpi purple"><div class="v" id="dues-events-count">0</div><div class="k">Events This Year</div></div>
+        <div class="kpi cyan"><div class="v" id="dues-qr-generated">0</div><div class="k">QR Codes</div></div>
+      </div>
+
+      <!-- Payment Agent Status -->
+      <div class="card-a">
+        <h2><i class="fas fa-robot" style="color:var(--cyan)"></i> Payment Agent Status
+          <button class="btn-sm btn-secondary" style="margin-left:auto;padding:3px 10px;font-size:.68rem" onclick="runPaymentAgentSync()"><i class="fas fa-sync me-1"></i>Run Agent Sync</button>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">The Payment Agent processes incoming payments, maps them to CRM records, and verifies membership status for the current year.</p>
+        <div id="payment-agent-status" style="display:flex;gap:10px;flex-wrap:wrap">
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:200px">
+            <div style="font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px">Last Sync</div>
+            <div style="font-size:.88rem;font-weight:600;color:var(--text);margin-top:3px" id="pa-last-sync">Never</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:200px">
+            <div style="font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px">Processed</div>
+            <div style="font-size:.88rem;font-weight:600;color:var(--green);margin-top:3px" id="pa-processed">0 / 0 payments</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:200px">
+            <div style="font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px">CRM Mapped</div>
+            <div style="font-size:.88rem;font-weight:600;color:var(--blue);margin-top:3px" id="pa-crm-mapped">0 records</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;min-width:200px">
+            <div style="font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px">Agent Health</div>
+            <div style="font-size:.88rem;font-weight:600;color:var(--green);margin-top:3px" id="pa-health"><i class="fas fa-circle-check me-1"></i>Operational</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Membership Dues Table -->
+      <div class="card-a">
+        <h2><i class="fas fa-hand-holding-dollar" style="color:var(--green)"></i> Membership Dues — <span id="dues-year">2026</span>
+          <div style="margin-left:auto;display:flex;gap:4px">
+            <button class="btn-sm btn-secondary dues-filter-btn active" onclick="filterDues('all',this)">All</button>
+            <button class="btn-sm btn-secondary dues-filter-btn" onclick="filterDues('paid',this)">Paid</button>
+            <button class="btn-sm btn-secondary dues-filter-btn" onclick="filterDues('unpaid',this)">Unpaid</button>
+            <button class="btn-sm btn-secondary dues-filter-btn" onclick="filterDues('pending',this)">Pending Sync</button>
+          </div>
+        </h2>
+        <div style="overflow-x:auto">
+          <table class="t">
+            <thead><tr><th>Member</th><th>Email</th><th>Membership</th><th>Amount</th><th>Payment Date</th><th>CRM Synced</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="dues-members-body"></tbody>
+          </table>
+        </div>
+        <div id="dues-empty" style="text-align:center;padding:20px;color:var(--dim);font-size:.82rem;display:none">No members match this filter.</div>
+      </div>
+
+      <!-- Event-Based Payment Mapping -->
+      <div class="card-a">
+        <h2><i class="fas fa-calendar-check" style="color:var(--purple)"></i> Event-Based Payment Mapping</h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Maps event registrations &amp; payments to individual members in the CRM.</p>
+        <table class="t">
+          <thead><tr><th>Event</th><th>Date</th><th>Registered</th><th>Paid</th><th>Pending</th><th>QR Codes</th></tr></thead>
+          <tbody id="dues-events-body"></tbody>
+        </table>
+      </div>
+
+      <!-- QR Code Generator -->
+      <div class="card-a">
+        <h2><i class="fas fa-qrcode" style="color:var(--indigo)"></i> QR Code Generator
+          <button class="btn-sm btn-secondary" style="margin-left:auto;padding:3px 10px;font-size:.68rem" onclick="generateAllQR()"><i class="fas fa-wand-magic-sparkles me-1"></i>Generate All</button>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Generate unique QR codes per event per member for check-in, payment verification, and attendance tracking.</p>
+        <div class="form-row">
+          <div class="form-group"><label>Select Event</label>
+            <select id="qr-event-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:8px;font-size:.82rem" onchange="loadQRForEvent()">
+              <option value="">— Select an event —</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Select Member (or All)</label>
+            <select id="qr-member-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px 12px;border-radius:8px;font-size:.82rem">
+              <option value="all">All Members</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:0;align-self:flex-end">
+            <button class="btn-primary" onclick="generateQR()"><i class="fas fa-qrcode me-1"></i>Generate</button>
+          </div>
+        </div>
+        <div id="qr-output" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px"></div>
+      </div>
+
+      <!-- Membership Payment Drive Recommendations -->
+      <div class="card-a">
+        <h2><i class="fas fa-bullhorn" style="color:var(--red)"></i> Payment Drive — Unpaid Members
+          <button class="btn-sm btn-secondary" style="margin-left:auto;padding:3px 10px;font-size:.68rem" onclick="sendPaymentReminders()"><i class="fas fa-envelope me-1"></i>Send Reminders</button>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Members who haven't paid their dues. Use the Payment Drive to send targeted reminders and track follow-ups.</p>
+        <div id="dues-drive-list" style="display:flex;flex-direction:column;gap:8px"></div>
+        <div id="dues-drive-empty" style="text-align:center;padding:20px;color:var(--green);font-size:.82rem;display:none"><i class="fas fa-check-circle me-1"></i>All members have paid their dues! 🎉</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -1168,13 +1477,13 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
   // super-admin: full system access (both hyphen and underscore variants)
-  'super-admin':          ['dashboard','my-crm','procurement','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
-  'super_admin':          ['dashboard','my-crm','procurement','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
+  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity'],
   // admin: senior EC officers — full operational, no system config
-  'admin':                ['dashboard','my-crm','procurement','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
-  // ec-member / ec_member: coordinators — EC-focused
-  'ec-member':            ['dashboard','my-crm','procurement','ec-drive','drive-status'],
-  'ec_member':            ['dashboard','my-crm','procurement','ec-drive','drive-status'],
+  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
+  // ec-member / ec_member: coordinators — EC-focused + collaboration
+  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status'],
+  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status'],
   // business-stakeholder: sponsors + community partners
   'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
   'business_stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
@@ -1907,12 +2216,12 @@ async function doForceResetPassword() {
 // Named NAV_PANEL_ACCESS to avoid conflict with the array-based ROLE_PANEL_ACCESS used by getVisiblePanels()
 const NAV_PANEL_ACCESS = {
   // Super Admin: all panels
-  'super_admin':         new Set(['dashboard','my-crm','procurement','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
-  'super-admin':         new Set(['dashboard','my-crm','procurement','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
-  // EC Member / Admin: EC-specific panels + My Data
-  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-drive','drive-status']),
-  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-drive','drive-status']),
-  'admin':               new Set(['dashboard','my-crm','procurement','ec-drive','drive-status','users']),
+  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity']),
+  // EC Member / Admin: EC-specific panels + My Data + Collaboration
+  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status']),
+  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status']),
+  'admin':               new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','ec-drive','drive-status','users']),
   // Stakeholder: stakeholder-specific panels
   'business_stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
   'business-stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
@@ -1940,6 +2249,10 @@ function navTo(panel){
   // Lazy-load My CRM or Procurement data on first visit
   if (panel === 'my-crm' && !MY_CRM_DATA) { loadMyCrmData(); }
   if (panel === 'procurement') { renderProcurement(); }
+  if (panel === 'ec-live') { initECLive(); }
+  if (panel === 'ec-messenger') { initMessenger(); }
+  if (panel === 'calendar-agent') { initCalendarAgent(); }
+  if (panel === 'member-dues') { initMemberDues(); }
 }
 
 function adminComingSoon(panel) {
@@ -1947,7 +2260,8 @@ function adminComingSoon(panel) {
     'roles':'Role Definitions','users':'User Management','identity':'Identity Engine',
     'stakeholder-drive':'Stakeholder Drive','ec-drive':'EC Drive','drive-status':'Drive Status',
     'feedback':'Feedback Pipeline','dev-board':'Dev Board','e2e-test':'E2E Test Suite','activity':'Activity Log',
-    'my-crm':'My CRM Data','procurement':'Procurement & Reimbursement'
+    'my-crm':'My CRM Data','procurement':'Procurement & Reimbursement',
+    'ec-live':'EC Live Presence','ec-messenger':'EC Messenger','calendar-agent':'Calendar Agent','member-dues':'Member Dues & QR'
   };
   const name = names[panel] || panel;
   // Remove any existing overlay
@@ -4121,6 +4435,1031 @@ function updateProcPipeline() {
   // Mark step 1 as done if any request exists
   var s1 = document.getElementById('proc-p-submit');
   if (s1 && myReqs.length > 0) s1.className = 'pipe-step done';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  EC LIVE PRESENCE SYSTEM
+// ═══════════════════════════════════════════════════════════════════
+var EC_LIVE_MEMBERS = [];
+var EC_LIVE_INTERVAL = null;
+var EC_SESSION_START = null;
+
+// Seed EC member pool (simulated — in production this comes from API)
+function getECMemberPool() {
+  // Pull from CRM/USERS if available, else use sample data
+  var pool = (typeof CRM !== 'undefined' && CRM.length > 0)
+    ? CRM.filter(function(m){ return m.adminRole && m.adminRole !== 'business_stakeholder'; })
+    .map(function(m){ return { email: m.email, name: (m.firstName||'') + ' ' + (m.lastName||''), ecTitle: m.ecTitle||'EC Member', roles: m.roles||[m.adminRole] }; })
+    : [
+      { email:'ranadhir@banf.org', name:'Ranadhir Dey', ecTitle:'President', roles:['admin'] },
+      { email:'treasurer@banf.org', name:'Amit Sen', ecTitle:'Treasurer', roles:['ec_member'] },
+      { email:'vp@banf.org', name:'Sudipta Roy', ecTitle:'Vice President', roles:['ec_member'] },
+      { email:'secretary@banf.org', name:'Priya Das', ecTitle:'Secretary', roles:['ec_member'] },
+      { email:'cultural@banf.org', name:'Indrani Ghosh', ecTitle:'Cultural Secretary', roles:['ec_member'] },
+      { email:'joint@banf.org', name:'Arun Bose', ecTitle:'Joint Secretary', roles:['ec_member'] },
+      { email:'sports@banf.org', name:'Rahul Mitra', ecTitle:'Sports Secretary', roles:['ec_member'] },
+    ];
+  return pool;
+}
+
+function initECLive() {
+  if (!EC_SESSION_START) EC_SESSION_START = new Date();
+  refreshECLive();
+  // Auto-refresh every 30s
+  if (EC_LIVE_INTERVAL) clearInterval(EC_LIVE_INTERVAL);
+  EC_LIVE_INTERVAL = setInterval(refreshECLive, 30000);
+}
+
+function refreshECLive() {
+  var pool = getECMemberPool();
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+
+  // Simulate presence: current user is always online, others have random presence
+  EC_LIVE_MEMBERS = pool.map(function(m) {
+    var isMe = m.email === myEmail;
+    var online = isMe ? true : (Math.random() > 0.5);
+    var lastSeen = online ? new Date() : new Date(Date.now() - Math.floor(Math.random() * 86400000));
+    var sessionDur = online ? Math.floor(Math.random() * 120) + 5 : 0;
+    return {
+      email: m.email, name: m.name, ecTitle: m.ecTitle,
+      online: online, lastSeen: lastSeen, sessionMinutes: isMe ? getMySessionMinutes() : sessionDur,
+      isMe: isMe
+    };
+  });
+
+  renderECLive();
+}
+
+function getMySessionMinutes() {
+  if (!EC_SESSION_START) return 0;
+  return Math.floor((Date.now() - EC_SESSION_START.getTime()) / 60000);
+}
+
+function renderECLive() {
+  var onlineCount = EC_LIVE_MEMBERS.filter(function(m){ return m.online; }).length;
+  var totalCount = EC_LIVE_MEMBERS.length;
+
+  var el = function(id){ return document.getElementById(id); };
+  if (el('ec-live-online-count')) el('ec-live-online-count').textContent = onlineCount;
+  if (el('ec-live-total-count')) el('ec-live-total-count').textContent = totalCount;
+  if (el('ec-live-last-active')) el('ec-live-last-active').textContent = new Date().toLocaleTimeString();
+  if (el('ec-live-uptime')) el('ec-live-uptime').textContent = getMySessionMinutes() + 'm';
+
+  // Sidebar badge
+  var badge = document.getElementById('ec-live-count');
+  if (badge) { badge.textContent = onlineCount; badge.style.display = onlineCount > 0 ? 'inline' : 'none'; }
+
+  // Grid of presence cards
+  var grid = document.getElementById('ec-live-grid');
+  if (!grid) return;
+
+  var sorted = EC_LIVE_MEMBERS.slice().sort(function(a,b){ return (b.online?1:0)-(a.online?1:0) || a.name.localeCompare(b.name); });
+  grid.innerHTML = sorted.map(function(m) {
+    var statusColor = m.online ? 'var(--green)' : 'var(--dim)';
+    var borderColor = m.online ? 'rgba(34,197,94,.3)' : 'var(--line)';
+    var bg = m.isMe ? 'rgba(249,115,22,.06)' : 'var(--bg2)';
+    var initials = m.name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2);
+    var lastStr = m.online ? 'Online now' : timeAgo(m.lastSeen);
+    var durStr = m.online ? m.sessionMinutes + 'm active' : '';
+    var msgBtn = !m.isMe ? '<button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem" onclick="startDirectChat(\''+m.email+'\')"><i class="fas fa-comment"></i></button>' : '<span class="badge-s badge-orange">You</span>';
+
+    return '<div style="background:'+bg+';border:1px solid '+borderColor+';border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px">' +
+      '<div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;color:#fff;flex-shrink:0;position:relative">' +
+        initials +
+        '<div style="position:absolute;bottom:-2px;right:-2px;width:10px;height:10px;border-radius:50%;background:'+statusColor+';border:2px solid var(--bg)"></div>' +
+      '</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-size:.8rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+m.name+'</div>' +
+        '<div style="font-size:.65rem;color:var(--dim)">'+m.ecTitle+'</div>' +
+        '<div style="font-size:.62rem;color:'+statusColor+'">'+lastStr+(durStr ? ' &middot; '+durStr : '')+'</div>' +
+      '</div>' +
+      '<div>'+msgBtn+'</div>' +
+    '</div>';
+  }).join('');
+
+  // Sessions table
+  var tbody = document.getElementById('ec-live-sessions-body');
+  if (tbody) {
+    tbody.innerHTML = sorted.map(function(m) {
+      var statusBadge = m.online ? '<span class="badge-s badge-green">Online</span>' : '<span class="badge-s badge-dim">Offline</span>';
+      return '<tr><td style="font-weight:600">'+m.name+(m.isMe?' <span style="color:var(--accent);font-size:.65rem">(you)</span>':'')+'</td><td>'+m.ecTitle+'</td><td>'+m.lastSeen.toLocaleString()+'</td><td>'+(m.online?m.sessionMinutes+'m':'—')+'</td><td>'+statusBadge+'</td></tr>';
+    }).join('');
+  }
+}
+
+function timeAgo(date) {
+  var s = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+}
+
+function sendQuickPing() {
+  var online = EC_LIVE_MEMBERS.filter(function(m){ return m.online && !m.isMe; });
+  if (online.length === 0) { showToast('No other EC members online to ping','var(--yellow)'); return; }
+  showToast('Ping sent to ' + online.length + ' online member(s)!', 'var(--green)');
+}
+
+function startDirectChat(email) {
+  // Navigate to messenger and open/create DM
+  navTo('ec-messenger');
+  setTimeout(function() { openDirectMessage(email); }, 200);
+}
+
+
+// ═══════════════════════════════════════════════════════════════════
+//  EC MESSENGER SYSTEM
+// ═══════════════════════════════════════════════════════════════════
+var MSG_CONVERSATIONS = [];
+var MSG_NEXT_ID = 1;
+var MSG_ACTIVE_CONV = null;
+var MSG_INITIALIZED = false;
+
+function initMessenger() {
+  if (MSG_INITIALIZED) { renderConversationList(); return; }
+  MSG_INITIALIZED = true;
+
+  // Create a default "EC General" group chat with sample messages
+  var pool = getECMemberPool();
+  var allEmails = pool.map(function(m){ return m.email; });
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+
+  var generalConv = {
+    id: MSG_NEXT_ID++,
+    name: 'EC General',
+    members: allEmails,
+    messages: [
+      { from: pool[0] ? pool[0].email : 'ranadhir@banf.org', text: 'Welcome to the EC general channel! Use this for group coordination.', time: new Date(Date.now() - 3600000*2), fromName: pool[0] ? pool[0].name : 'Ranadhir Dey' },
+      { from: pool[1] ? pool[1].email : 'treasurer@banf.org', text: 'Budget review meeting scheduled for next Friday. Please come prepared.', time: new Date(Date.now() - 3600000), fromName: pool[1] ? pool[1].name : 'Amit Sen' },
+    ],
+    isGroup: true,
+    created: new Date(Date.now() - 86400000)
+  };
+  MSG_CONVERSATIONS.push(generalConv);
+
+  renderConversationList();
+}
+
+function renderConversationList() {
+  var list = document.getElementById('msg-conv-list');
+  if (!list) return;
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  var search = (document.getElementById('msg-search') || {}).value || '';
+  search = search.toLowerCase();
+
+  var filtered = MSG_CONVERSATIONS.filter(function(c) {
+    if (!search) return true;
+    return c.name.toLowerCase().indexOf(search) !== -1 ||
+           c.members.some(function(e){ return e.toLowerCase().indexOf(search) !== -1; });
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:30px 10px;color:var(--dim);font-size:.78rem"><i class="fas fa-inbox me-2"></i>' + (search ? 'No matches' : 'No conversations yet. Click + to start one.') + '</div>';
+    return;
+  }
+
+  // Sort by last message time
+  filtered.sort(function(a,b) {
+    var aLast = a.messages.length ? a.messages[a.messages.length-1].time : a.created;
+    var bLast = b.messages.length ? b.messages[b.messages.length-1].time : b.created;
+    return bLast - aLast;
+  });
+
+  list.innerHTML = filtered.map(function(c) {
+    var active = MSG_ACTIVE_CONV && MSG_ACTIVE_CONV.id === c.id;
+    var lastMsg = c.messages.length ? c.messages[c.messages.length-1] : null;
+    var preview = lastMsg ? (lastMsg.fromName.split(' ')[0] + ': ' + lastMsg.text).slice(0,50) + '...' : 'No messages yet';
+    var timeStr = lastMsg ? timeAgo(lastMsg.time) : '';
+    var memberCount = c.members.length;
+    var icon = c.isGroup ? 'fa-users' : 'fa-user';
+    var border = active ? 'border-color:var(--accent)' : '';
+    var bg = active ? 'background:rgba(249,115,22,.1)' : 'background:var(--bg2)';
+
+    return '<div onclick="openConversation('+c.id+')" style="'+bg+';border:1px solid var(--line);border-radius:8px;padding:10px;cursor:pointer;transition:.15s;'+border+'" onmouseenter="this.style.borderColor=\'var(--accent)\'" onmouseleave="this.style.borderColor=\''+(active?'var(--accent)':'var(--line)')+'\'">' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<i class="fas '+icon+'" style="color:var(--accent);font-size:.78rem;width:20px;text-align:center"></i>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-size:.78rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+c.name+'</div>' +
+          '<div style="font-size:.65rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+preview+'</div>' +
+        '</div>' +
+        '<div style="text-align:right;flex-shrink:0">' +
+          '<div style="font-size:.6rem;color:var(--dim)">'+timeStr+'</div>' +
+          (c.isGroup ? '<div style="font-size:.58rem;color:var(--muted)">'+memberCount+' members</div>' : '') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function filterConversations() { renderConversationList(); }
+
+function openConversation(convId) {
+  var conv = MSG_CONVERSATIONS.find(function(c){ return c.id === convId; });
+  if (!conv) return;
+  MSG_ACTIVE_CONV = conv;
+
+  // Update header
+  document.getElementById('msg-chat-title').textContent = conv.name;
+  var pool = getECMemberPool();
+  var memberNames = conv.members.map(function(email) {
+    var m = pool.find(function(p){ return p.email === email; });
+    return m ? m.name.split(' ')[0] : email.split('@')[0];
+  }).join(', ');
+  document.getElementById('msg-chat-members').textContent = conv.isGroup ? memberNames : '';
+  document.getElementById('msg-add-member-btn').style.display = conv.isGroup ? 'inline-flex' : 'none';
+  document.getElementById('msg-info-btn').style.display = 'inline-flex';
+
+  renderMessages();
+  renderConversationList();
+}
+
+function renderMessages() {
+  if (!MSG_ACTIVE_CONV) return;
+  var area = document.getElementById('msg-messages-area');
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+
+  if (MSG_ACTIVE_CONV.messages.length === 0) {
+    area.innerHTML = '<div style="text-align:center;padding:40px;color:var(--dim);font-size:.82rem">No messages yet. Send the first one!</div>';
+    return;
+  }
+
+  area.innerHTML = MSG_ACTIVE_CONV.messages.map(function(msg) {
+    var isMe = msg.from === myEmail;
+    var align = isMe ? 'flex-end' : 'flex-start';
+    var bg = isMe ? 'rgba(249,115,22,.15)' : 'var(--bg2)';
+    var border = isMe ? 'rgba(249,115,22,.3)' : 'var(--line)';
+    var time = msg.time.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+    return '<div style="display:flex;flex-direction:column;align-items:'+align+';max-width:75%' + (isMe?';align-self:flex-end':';align-self:flex-start') + '">' +
+      (!isMe ? '<div style="font-size:.65rem;font-weight:600;color:var(--accent);margin-bottom:2px">'+msg.fromName+'</div>' : '') +
+      '<div style="background:'+bg+';border:1px solid '+border+';border-radius:12px;padding:8px 14px;font-size:.82rem;line-height:1.4;color:var(--text)">' +
+        msg.text +
+      '</div>' +
+      '<div style="font-size:.58rem;color:var(--dim);margin-top:2px">'+time+'</div>' +
+    '</div>';
+  }).join('');
+
+  // Scroll to bottom
+  area.scrollTop = area.scrollHeight;
+}
+
+function sendMessage() {
+  if (!MSG_ACTIVE_CONV) { showToast('Select a conversation first','var(--yellow)'); return; }
+  var input = document.getElementById('msg-input');
+  var text = (input.value || '').trim();
+  if (!text) return;
+
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+  var myName = CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'You';
+
+  MSG_ACTIVE_CONV.messages.push({
+    from: myEmail,
+    fromName: myName,
+    text: text,
+    time: new Date()
+  });
+
+  input.value = '';
+  input.style.height = 'auto';
+  renderMessages();
+  renderConversationList();
+
+  // Simulate reply after 2-4s from a random member
+  simulateReply();
+}
+
+function simulateReply() {
+  if (!MSG_ACTIVE_CONV) return;
+  var pool = getECMemberPool();
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  var others = MSG_ACTIVE_CONV.members.filter(function(e){ return e !== myEmail; });
+  if (others.length === 0) return;
+
+  var responder = others[Math.floor(Math.random() * others.length)];
+  var member = pool.find(function(m){ return m.email === responder; });
+  var replies = [
+    'Got it, thanks!', 'I\'ll look into this.', 'Sounds good to me.',
+    'Let\'s discuss in the next meeting.', 'Agreed!', 'I\'ll follow up on this.',
+    'Can we schedule a call?', 'Great idea!', 'Will share the update soon.'
+  ];
+
+  setTimeout(function() {
+    if (!MSG_ACTIVE_CONV) return;
+    MSG_ACTIVE_CONV.messages.push({
+      from: responder,
+      fromName: member ? member.name : responder.split('@')[0],
+      text: replies[Math.floor(Math.random() * replies.length)],
+      time: new Date()
+    });
+    renderMessages();
+    renderConversationList();
+  }, 2000 + Math.floor(Math.random() * 3000));
+}
+
+function autoResizeMsgInput() {
+  var el = document.getElementById('msg-input');
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function openNewChat() {
+  document.getElementById('msg-new-chat-modal').style.display = 'flex';
+  var pool = getECMemberPool();
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  var container = document.getElementById('new-chat-members');
+  container.innerHTML = pool.filter(function(m){ return m.email !== myEmail; }).map(function(m) {
+    return '<label style="display:flex;align-items:center;gap:8px;padding:6px 8px;cursor:pointer;border-radius:6px;transition:.15s" onmouseenter="this.style.background=\'rgba(249,115,22,.06)\'" onmouseleave="this.style.background=\'transparent\'">' +
+      '<input type="checkbox" value="'+m.email+'" style="accent-color:var(--accent)">' +
+      '<span style="font-size:.82rem;color:var(--text)">'+m.name+'</span>' +
+      '<span style="font-size:.65rem;color:var(--dim);margin-left:auto">'+m.ecTitle+'</span>' +
+    '</label>';
+  }).join('');
+}
+
+function closeNewChatModal() { document.getElementById('msg-new-chat-modal').style.display = 'none'; }
+
+function createNewChat() {
+  var checkboxes = document.querySelectorAll('#new-chat-members input[type=checkbox]:checked');
+  var selected = [];
+  checkboxes.forEach(function(cb){ selected.push(cb.value); });
+  if (selected.length === 0) { showToast('Select at least one member','var(--yellow)'); return; }
+
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+  selected.push(myEmail);
+
+  var chatName = (document.getElementById('new-chat-name').value || '').trim();
+  var pool = getECMemberPool();
+  if (!chatName) {
+    if (selected.length === 2) {
+      var other = selected.find(function(e){ return e !== myEmail; });
+      var member = pool.find(function(m){ return m.email === other; });
+      chatName = member ? member.name : other.split('@')[0];
+    } else {
+      chatName = 'Group (' + selected.length + ' members)';
+    }
+  }
+
+  var conv = {
+    id: MSG_NEXT_ID++,
+    name: chatName,
+    members: selected,
+    messages: [],
+    isGroup: selected.length > 2,
+    created: new Date()
+  };
+  MSG_CONVERSATIONS.push(conv);
+  closeNewChatModal();
+  document.getElementById('new-chat-name').value = '';
+  openConversation(conv.id);
+  showToast('Chat created: ' + chatName, 'var(--green)');
+}
+
+function openDirectMessage(email) {
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+  // Check if DM already exists
+  var existing = MSG_CONVERSATIONS.find(function(c) {
+    return !c.isGroup && c.members.length === 2 && c.members.indexOf(email) !== -1 && c.members.indexOf(myEmail) !== -1;
+  });
+  if (existing) { openConversation(existing.id); return; }
+
+  // Create new DM
+  var pool = getECMemberPool();
+  var member = pool.find(function(m){ return m.email === email; });
+  var conv = {
+    id: MSG_NEXT_ID++,
+    name: member ? member.name : email.split('@')[0],
+    members: [myEmail, email],
+    messages: [],
+    isGroup: false,
+    created: new Date()
+  };
+  MSG_CONVERSATIONS.push(conv);
+  openConversation(conv.id);
+}
+
+function addMemberToChat() {
+  if (!MSG_ACTIVE_CONV || !MSG_ACTIVE_CONV.isGroup) return;
+  var pool = getECMemberPool();
+  var current = new Set(MSG_ACTIVE_CONV.members);
+  var available = pool.filter(function(m){ return !current.has(m.email); });
+  if (available.length === 0) { showToast('All EC members are already in this chat','var(--blue)'); return; }
+
+  var name = prompt('Add member (enter email):\n\nAvailable:\n' + available.map(function(m){ return m.name + ' (' + m.email + ')'; }).join('\n'));
+  if (!name) return;
+  var match = available.find(function(m){ return m.email === name || m.name.toLowerCase() === name.toLowerCase(); });
+  if (match) {
+    MSG_ACTIVE_CONV.members.push(match.email);
+    showToast(match.name + ' added to ' + MSG_ACTIVE_CONV.name, 'var(--green)');
+    openConversation(MSG_ACTIVE_CONV.id);
+  } else {
+    showToast('Member not found','var(--red)');
+  }
+}
+
+function toggleChatInfo() {
+  if (!MSG_ACTIVE_CONV) return;
+  var pool = getECMemberPool();
+  var info = MSG_ACTIVE_CONV.members.map(function(e){
+    var m = pool.find(function(p){ return p.email === e; });
+    return (m ? m.name + ' (' + m.ecTitle + ')' : e);
+  }).join('\n');
+  alert('Chat: ' + MSG_ACTIVE_CONV.name + '\nMembers:\n' + info + '\n\nMessages: ' + MSG_ACTIVE_CONV.messages.length + '\nCreated: ' + MSG_ACTIVE_CONV.created.toLocaleString());
+}
+
+
+// ═══════════════════════════════════════════════════════════════════
+//  CALENDAR AGENT SYSTEM
+// ═══════════════════════════════════════════════════════════════════
+var CAL_EVENTS = [];
+var CAL_NEXT_ID = 1;
+var CAL_CURRENT_MONTH = new Date().getMonth();
+var CAL_CURRENT_YEAR_VIEW = new Date().getFullYear();
+var CAL_INITIALIZED = false;
+
+// BANF annual events auto-populated by the Calendar Agent
+var BANF_ANNUAL_EVENTS = [
+  { title: 'Saraswati Puja', month: 1, day: 14, type: 'event', notes: 'Annual Saraswati Puja celebration' },
+  { title: 'Holi Celebration', month: 2, day: 14, type: 'event', notes: 'Community Holi festival' },
+  { title: 'Pohela Boishakh', month: 3, day: 14, type: 'event', notes: 'Bengali New Year celebration' },
+  { title: 'Membership Drive Start', month: 0, day: 15, type: 'deadline', notes: 'Annual membership renewal drive begins' },
+  { title: 'Membership Drive Deadline', month: 2, day: 31, type: 'deadline', notes: 'Last day for membership renewal' },
+  { title: 'Annual Picnic', month: 5, day: 21, type: 'event', notes: 'Summer picnic for all members' },
+  { title: 'Independence Day Celebration', month: 7, day: 15, type: 'event', notes: 'Indian Independence Day program' },
+  { title: 'Durga Puja — Maha Shashti', month: 9, day: 1, type: 'event', notes: 'Durga Puja begins' },
+  { title: 'Durga Puja — Maha Saptami', month: 9, day: 2, type: 'event', notes: 'Saptami celebrations' },
+  { title: 'Durga Puja — Maha Ashtami', month: 9, day: 3, type: 'event', notes: 'Ashtami pushpanjali & sandhi puja' },
+  { title: 'Durga Puja — Bijoya Dashami', month: 9, day: 5, type: 'event', notes: 'Sindoor khela & immersion' },
+  { title: 'Diwali Celebration', month: 10, day: 1, type: 'event', notes: 'Diwali/Kali Puja celebration' },
+  { title: 'Annual General Meeting', month: 11, day: 7, type: 'meeting', notes: 'Yearly AGM for all members' },
+  { title: 'EC Elections', month: 11, day: 14, type: 'deadline', notes: 'Executive Committee election' },
+  { title: 'Bosonto Utsob', month: 1, day: 22, type: 'event', notes: 'Spring celebration' },
+  { title: 'Budget Planning Q1 Review', month: 2, day: 15, type: 'meeting', notes: 'Q1 financial review meeting' },
+  { title: 'Budget Planning Q3 Review', month: 8, day: 15, type: 'meeting', notes: 'Q3 financial review meeting' },
+  { title: 'Year-End Review Meeting', month: 11, day: 20, type: 'meeting', notes: 'Annual retrospective & planning' },
+];
+
+function initCalendarAgent() {
+  if (!CAL_INITIALIZED) {
+    CAL_INITIALIZED = true;
+    autoScheduleBANFEvents();
+  }
+  renderCalendar();
+  renderCalEventsList('all');
+  renderUpcomingEvents();
+  updateCalKPIs();
+}
+
+function autoScheduleBANFEvents() {
+  var year = new Date().getFullYear();
+  document.getElementById('cal-current-year').textContent = year;
+
+  // Only add if not already present
+  BANF_ANNUAL_EVENTS.forEach(function(evt) {
+    var exists = CAL_EVENTS.some(function(e){ return e.title === evt.title && e.year === year; });
+    if (!exists) {
+      var day = evt.day;
+      // Adjust day for months with fewer days
+      var maxDay = new Date(year, evt.month + 1, 0).getDate();
+      if (day > maxDay) day = maxDay;
+      CAL_EVENTS.push({
+        id: CAL_NEXT_ID++,
+        title: evt.title,
+        date: new Date(year, evt.month, day),
+        time: '10:00',
+        type: evt.type,
+        notes: evt.notes,
+        reminder: 1440,
+        autoGenerated: true,
+        year: year
+      });
+    }
+  });
+
+  // Render auto-event tags
+  var container = document.getElementById('cal-auto-events');
+  if (container) {
+    container.innerHTML = BANF_ANNUAL_EVENTS.map(function(evt) {
+      var colors = { event: 'purple', meeting: 'blue', deadline: 'red', reminder: 'yellow', payment: 'green' };
+      var col = colors[evt.type] || 'dim';
+      return '<span class="badge-s badge-'+col+'" style="padding:4px 10px;font-size:.7rem"><i class="fas fa-check-circle me-1"></i>'+evt.title+'</span>';
+    }).join('');
+  }
+
+  renderCalendar();
+  renderCalEventsList('all');
+  renderUpcomingEvents();
+  updateCalKPIs();
+  showToast('Calendar Agent synced ' + BANF_ANNUAL_EVENTS.length + ' events for ' + year, 'var(--purple)');
+}
+
+function renderCalendar() {
+  var grid = document.getElementById('cal-grid');
+  if (!grid) return;
+
+  var year = CAL_CURRENT_YEAR_VIEW;
+  var month = CAL_CURRENT_MONTH;
+  var title = document.getElementById('cal-month-title');
+  var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  if (title) title.textContent = monthNames[month] + ' ' + year;
+
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+  var today = new Date();
+  var todayStr = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
+
+  // Day headers
+  var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var html = days.map(function(d){ return '<div style="text-align:center;font-weight:700;color:var(--dim);padding:6px 2px;font-size:.68rem">'+d+'</div>'; }).join('');
+
+  // Empty cells before first day
+  for (var i = 0; i < firstDay; i++) {
+    html += '<div style="padding:4px"></div>';
+  }
+
+  // Day cells
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dateKey = year + '-' + month + '-' + d;
+    var isToday = dateKey === todayStr;
+    var dayEvents = CAL_EVENTS.filter(function(e) {
+      return e.date.getFullYear() === year && e.date.getMonth() === month && e.date.getDate() === d;
+    });
+    var border = isToday ? 'border:1px solid var(--accent)' : 'border:1px solid transparent';
+    var bg = isToday ? 'background:rgba(249,115,22,.1)' : (dayEvents.length ? 'background:rgba(168,85,247,.06)' : '');
+    var dots = dayEvents.slice(0,3).map(function(e) {
+      var colors = { event:'var(--purple)', meeting:'var(--blue)', deadline:'var(--red)', reminder:'var(--yellow)', payment:'var(--green)' };
+      return '<div style="width:5px;height:5px;border-radius:50%;background:'+(colors[e.type]||'var(--dim)')+'"></div>';
+    }).join('');
+
+    html += '<div style="padding:4px 2px;text-align:center;border-radius:6px;cursor:pointer;'+border+';'+bg+'" onclick="calDayClick('+year+','+month+','+d+')" title="'+dayEvents.map(function(e){return e.title;}).join(', ')+'">' +
+      '<div style="font-size:.78rem;font-weight:'+(isToday?'700':'400')+';color:'+(isToday?'var(--accent)':'var(--text)')+'">'+d+'</div>' +
+      (dots ? '<div style="display:flex;gap:2px;justify-content:center;margin-top:1px">'+dots+'</div>' : '') +
+    '</div>';
+  }
+
+  grid.innerHTML = html;
+}
+
+function calNavMonth(dir) {
+  if (dir === 0) {
+    CAL_CURRENT_MONTH = new Date().getMonth();
+    CAL_CURRENT_YEAR_VIEW = new Date().getFullYear();
+  } else {
+    CAL_CURRENT_MONTH += dir;
+    if (CAL_CURRENT_MONTH > 11) { CAL_CURRENT_MONTH = 0; CAL_CURRENT_YEAR_VIEW++; }
+    if (CAL_CURRENT_MONTH < 0) { CAL_CURRENT_MONTH = 11; CAL_CURRENT_YEAR_VIEW--; }
+  }
+  renderCalendar();
+}
+
+function calDayClick(year, month, day) {
+  var dayEvents = CAL_EVENTS.filter(function(e) {
+    return e.date.getFullYear() === year && e.date.getMonth() === month && e.date.getDate() === day;
+  });
+  if (dayEvents.length === 0) {
+    // Pre-fill date for new event
+    var dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+    document.getElementById('cal-new-date').value = dateStr;
+    showToast('Date selected: ' + dateStr + '. Fill in the form to add an event.', 'var(--blue)');
+  } else {
+    alert('Events on ' + (month+1) + '/' + day + '/' + year + ':\n\n' + dayEvents.map(function(e){
+      return '• ' + e.title + ' (' + e.type + ')' + (e.notes ? ' — ' + e.notes : '');
+    }).join('\n'));
+  }
+}
+
+function addCalendarEvent() {
+  var title = (document.getElementById('cal-new-title').value || '').trim();
+  var dateStr = document.getElementById('cal-new-date').value;
+  var time = document.getElementById('cal-new-time').value || '10:00';
+  var type = document.getElementById('cal-new-type').value;
+  var reminder = parseInt(document.getElementById('cal-new-reminder').value) || 60;
+  var notes = (document.getElementById('cal-new-notes').value || '').trim();
+
+  if (!title) { showToast('Please enter an event title','var(--red)'); return; }
+  if (!dateStr) { showToast('Please select a date','var(--red)'); return; }
+
+  var parts = dateStr.split('-');
+  var date = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+
+  CAL_EVENTS.push({
+    id: CAL_NEXT_ID++,
+    title: title, date: date, time: time, type: type,
+    notes: notes, reminder: reminder, autoGenerated: false,
+    year: date.getFullYear()
+  });
+
+  // Clear form
+  document.getElementById('cal-new-title').value = '';
+  document.getElementById('cal-new-date').value = '';
+  document.getElementById('cal-new-notes').value = '';
+
+  renderCalendar();
+  renderCalEventsList('all');
+  renderUpcomingEvents();
+  updateCalKPIs();
+  showToast('Event "' + title + '" added to calendar!', 'var(--green)');
+}
+
+function renderCalEventsList(filter) {
+  var tbody = document.getElementById('cal-events-body');
+  if (!tbody) return;
+
+  var events = CAL_EVENTS.slice().sort(function(a,b){ return a.date - b.date; });
+  if (filter && filter !== 'all') {
+    events = events.filter(function(e){ return e.type === filter; });
+  }
+
+  if (events.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--dim);padding:20px">No events found</td></tr>';
+    return;
+  }
+
+  var reminderLabels = { 15: '15m before', 60: '1h before', 1440: '1d before', 10080: '1w before' };
+  tbody.innerHTML = events.map(function(e) {
+    var typeColors = { event:'purple', meeting:'blue', deadline:'red', reminder:'yellow', payment:'green' };
+    var col = typeColors[e.type] || 'dim';
+    var dateStr = (e.date.getMonth()+1) + '/' + e.date.getDate() + '/' + e.date.getFullYear();
+    var auto = e.autoGenerated ? ' <i class="fas fa-robot" style="color:var(--purple);font-size:.6rem" title="Auto-scheduled by Calendar Agent"></i>' : '';
+    return '<tr>' +
+      '<td>'+dateStr+'</td>' +
+      '<td>'+e.time+'</td>' +
+      '<td style="font-weight:600">'+e.title+auto+'</td>' +
+      '<td><span class="badge-s badge-'+col+'">'+e.type+'</span></td>' +
+      '<td style="font-size:.72rem;color:var(--muted)">'+(reminderLabels[e.reminder]||e.reminder+'m')+'</td>' +
+      '<td><button class="btn-sm btn-secondary" style="padding:2px 6px;font-size:.6rem" onclick="deleteCalEvent('+e.id+')"><i class="fas fa-trash"></i></button></td>' +
+    '</tr>';
+  }).join('');
+}
+
+function filterCalEvents(filter, btn) {
+  document.querySelectorAll('.cal-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderCalEventsList(filter);
+}
+
+function deleteCalEvent(id) {
+  CAL_EVENTS = CAL_EVENTS.filter(function(e){ return e.id !== id; });
+  renderCalendar();
+  renderCalEventsList('all');
+  renderUpcomingEvents();
+  updateCalKPIs();
+  showToast('Event removed','var(--yellow)');
+}
+
+function renderUpcomingEvents() {
+  var container = document.getElementById('cal-upcoming-list');
+  if (!container) return;
+  var now = new Date();
+  var upcoming = CAL_EVENTS.filter(function(e){ return e.date >= now; })
+    .sort(function(a,b){ return a.date - b.date; })
+    .slice(0, 8);
+
+  if (upcoming.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim);font-size:.78rem">No upcoming events</div>';
+    return;
+  }
+
+  container.innerHTML = upcoming.map(function(e) {
+    var typeColors = { event:'var(--purple)', meeting:'var(--blue)', deadline:'var(--red)', reminder:'var(--yellow)', payment:'var(--green)' };
+    var color = typeColors[e.type] || 'var(--dim)';
+    var days = Math.ceil((e.date - now) / 86400000);
+    var when = days === 0 ? 'Today' : (days === 1 ? 'Tomorrow' : 'in '+days+' days');
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg2);border-radius:8px;border-left:3px solid '+color+';margin-bottom:4px">' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-size:.78rem;font-weight:600;color:var(--text)">'+e.title+'</div>' +
+        '<div style="font-size:.65rem;color:var(--dim)">'+(e.date.getMonth()+1)+'/'+e.date.getDate()+' at '+e.time+'</div>' +
+      '</div>' +
+      '<div style="font-size:.68rem;color:'+color+';font-weight:600;white-space:nowrap">'+when+'</div>' +
+    '</div>';
+  }).join('');
+}
+
+function updateCalKPIs() {
+  var year = new Date().getFullYear();
+  var yearEvents = CAL_EVENTS.filter(function(e){ return e.date.getFullYear() === year; });
+  var now = new Date();
+  var upcoming = yearEvents.filter(function(e){ return e.date >= now; });
+  var meetings = yearEvents.filter(function(e){ return e.type === 'meeting'; });
+  var reminders = yearEvents.filter(function(e){ return e.type === 'reminder' || e.type === 'deadline'; });
+
+  var el = function(id){ return document.getElementById(id); };
+  if (el('cal-total-events')) el('cal-total-events').textContent = yearEvents.length;
+  if (el('cal-upcoming')) el('cal-upcoming').textContent = upcoming.length;
+  if (el('cal-meetings')) el('cal-meetings').textContent = meetings.length;
+  if (el('cal-reminders')) el('cal-reminders').textContent = reminders.length;
+}
+
+
+// ═══════════════════════════════════════════════════════════════════
+//  MEMBER DUES & PAYMENT TRACKING SYSTEM
+// ═══════════════════════════════════════════════════════════════════
+var DUES_DATA = [];
+var DUES_EVENTS = [];
+var DUES_QR_CODES = [];
+var DUES_INITIALIZED = false;
+
+function initMemberDues() {
+  if (!DUES_INITIALIZED) {
+    DUES_INITIALIZED = true;
+    generateDuesData();
+  }
+  renderDuesKPIs();
+  renderDuesTable('all');
+  renderDuesEvents();
+  renderPaymentDrive();
+  populateQRSelects();
+}
+
+function generateDuesData() {
+  var year = new Date().getFullYear();
+  document.getElementById('dues-year').textContent = year;
+
+  // Build from CRM if available, else use sample
+  var members = (typeof CRM !== 'undefined' && CRM.length > 0)
+    ? CRM.map(function(m) {
+        var paid = Math.random() > 0.35;
+        var synced = paid ? (Math.random() > 0.2) : false;
+        return {
+          name: (m.firstName||'') + ' ' + (m.lastName||''),
+          email: m.email || '',
+          membership: m.membershipType || 'Annual',
+          amount: m.membershipType === 'Lifetime' ? 500 : 100,
+          paid: paid,
+          paymentDate: paid ? new Date(year, Math.floor(Math.random()*3), Math.floor(Math.random()*28)+1) : null,
+          crmSynced: synced,
+          year: year
+        };
+      })
+    : [
+      { name:'Ranadhir Dey', email:'ranadhir@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,0,15), crmSynced:true, year:year },
+      { name:'Amit Sen', email:'amit@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,1,3), crmSynced:true, year:year },
+      { name:'Sudipta Roy', email:'sudipta@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,0,20), crmSynced:false, year:year },
+      { name:'Priya Das', email:'priya@banf.org', membership:'Lifetime', amount:500, paid:true, paymentDate:new Date(year,1,10), crmSynced:true, year:year },
+      { name:'Indrani Ghosh', email:'indrani@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
+      { name:'Arun Bose', email:'arun@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
+      { name:'Rahul Mitra', email:'rahul@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
+      { name:'Keya Banerjee', email:'keya@banf.org', membership:'Family', amount:150, paid:true, paymentDate:new Date(year,2,1), crmSynced:true, year:year },
+      { name:'Suman Chakraborty', email:'suman@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,1,18), crmSynced:false, year:year },
+      { name:'Ananya Dutta', email:'ananya@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
+    ];
+  DUES_DATA = members;
+
+  // Generate sample events
+  DUES_EVENTS = [
+    { name:'Saraswati Puja 2026', date:new Date(year,1,14), registered: Math.floor(members.length*0.8), paid:Math.floor(members.length*0.6), fee:25 },
+    { name:'Pohela Boishakh 2026', date:new Date(year,3,14), registered: Math.floor(members.length*0.9), paid:Math.floor(members.length*0.5), fee:30 },
+    { name:'Annual Picnic 2026', date:new Date(year,5,21), registered: Math.floor(members.length*0.7), paid:Math.floor(members.length*0.4), fee:20 },
+    { name:'Durga Puja 2026', date:new Date(year,9,1), registered: members.length, paid:Math.floor(members.length*0.7), fee:50 },
+    { name:'Diwali 2026', date:new Date(year,10,1), registered: Math.floor(members.length*0.6), paid:Math.floor(members.length*0.3), fee:25 },
+  ];
+}
+
+function renderDuesKPIs() {
+  var paid = DUES_DATA.filter(function(m){ return m.paid; });
+  var unpaid = DUES_DATA.filter(function(m){ return !m.paid; });
+  var total = paid.reduce(function(s,m){ return s + m.amount; }, 0);
+  var pendingSync = DUES_DATA.filter(function(m){ return m.paid && !m.crmSynced; });
+
+  var el = function(id){ return document.getElementById(id); };
+  if (el('dues-paid-count')) el('dues-paid-count').textContent = paid.length;
+  if (el('dues-unpaid-count')) el('dues-unpaid-count').textContent = unpaid.length;
+  if (el('dues-total-collected')) el('dues-total-collected').textContent = '$' + total.toLocaleString();
+  if (el('dues-pending-verify')) el('dues-pending-verify').textContent = pendingSync.length;
+  if (el('dues-events-count')) el('dues-events-count').textContent = DUES_EVENTS.length;
+  if (el('dues-qr-generated')) el('dues-qr-generated').textContent = DUES_QR_CODES.length;
+
+  // Payment agent status
+  if (el('pa-last-sync')) el('pa-last-sync').textContent = new Date().toLocaleString();
+  if (el('pa-processed')) el('pa-processed').textContent = paid.length + ' / ' + DUES_DATA.length + ' payments';
+  if (el('pa-crm-mapped')) el('pa-crm-mapped').textContent = DUES_DATA.filter(function(m){return m.crmSynced;}).length + ' records';
+}
+
+function renderDuesTable(filter) {
+  var tbody = document.getElementById('dues-members-body');
+  var empty = document.getElementById('dues-empty');
+  if (!tbody) return;
+
+  var data = DUES_DATA.slice();
+  if (filter === 'paid') data = data.filter(function(m){ return m.paid; });
+  else if (filter === 'unpaid') data = data.filter(function(m){ return !m.paid; });
+  else if (filter === 'pending') data = data.filter(function(m){ return m.paid && !m.crmSynced; });
+
+  if (data.length === 0) {
+    tbody.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  tbody.innerHTML = data.map(function(m) {
+    var statusBadge = m.paid
+      ? (m.crmSynced ? '<span class="badge-s badge-green">Verified</span>' : '<span class="badge-s badge-yellow">Paid — Pending Sync</span>')
+      : '<span class="badge-s badge-red">Unpaid</span>';
+    var syncIcon = m.crmSynced
+      ? '<i class="fas fa-circle-check" style="color:var(--green)" title="Synced to CRM"></i>'
+      : (m.paid ? '<i class="fas fa-clock" style="color:var(--yellow)" title="Pending CRM sync"></i>' : '<i class="fas fa-minus-circle" style="color:var(--dim)" title="N/A"></i>');
+    var actions = '';
+    if (m.paid && !m.crmSynced) {
+      actions = '<button class="btn-sm btn-primary" style="padding:2px 8px;font-size:.6rem" onclick="syncDuesToCRM(\''+m.email+'\')"><i class="fas fa-sync me-1"></i>Sync</button>';
+    } else if (!m.paid) {
+      actions = '<button class="btn-sm btn-secondary" style="padding:2px 8px;font-size:.6rem" onclick="sendSingleReminder(\''+m.email+'\')"><i class="fas fa-envelope me-1"></i>Remind</button>';
+    }
+    var payDate = m.paymentDate ? ((m.paymentDate.getMonth()+1)+'/'+m.paymentDate.getDate()+'/'+m.paymentDate.getFullYear()) : '—';
+    return '<tr><td style="font-weight:600">'+m.name+'</td><td style="font-size:.72rem">'+m.email+'</td><td>'+m.membership+'</td><td>$'+m.amount+'</td><td>'+payDate+'</td><td style="text-align:center">'+syncIcon+'</td><td>'+statusBadge+'</td><td>'+actions+'</td></tr>';
+  }).join('');
+}
+
+function filterDues(filter, btn) {
+  document.querySelectorAll('.dues-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderDuesTable(filter);
+}
+
+function syncDuesToCRM(email) {
+  var member = DUES_DATA.find(function(m){ return m.email === email; });
+  if (member) {
+    member.crmSynced = true;
+    renderDuesTable('all');
+    renderDuesKPIs();
+    showToast('Payment for ' + member.name + ' synced to CRM!', 'var(--green)');
+  }
+}
+
+function runPaymentAgentSync() {
+  // Simulate agent processing: sync all paid-but-unsynced
+  var synced = 0;
+  DUES_DATA.forEach(function(m) {
+    if (m.paid && !m.crmSynced) { m.crmSynced = true; synced++; }
+  });
+  renderDuesTable('all');
+  renderDuesKPIs();
+  showToast('Payment Agent synced ' + synced + ' records to CRM', 'var(--cyan)');
+}
+
+function renderDuesEvents() {
+  var tbody = document.getElementById('dues-events-body');
+  if (!tbody) return;
+
+  tbody.innerHTML = DUES_EVENTS.map(function(evt) {
+    var pending = evt.registered - evt.paid;
+    var dateStr = (evt.date.getMonth()+1) + '/' + evt.date.getDate() + '/' + evt.date.getFullYear();
+    var qrCount = DUES_QR_CODES.filter(function(q){ return q.event === evt.name; }).length;
+    return '<tr>' +
+      '<td style="font-weight:600">'+evt.name+'</td>' +
+      '<td>'+dateStr+'</td>' +
+      '<td>'+evt.registered+'</td>' +
+      '<td><span class="badge-s badge-green">'+evt.paid+'</span></td>' +
+      '<td><span class="badge-s badge-yellow">'+pending+'</span></td>' +
+      '<td><span class="badge-s badge-purple">'+qrCount+'</span></td>' +
+    '</tr>';
+  }).join('');
+}
+
+// QR Code Generator (uses text-based QR representation since no external lib)
+function populateQRSelects() {
+  var eventSelect = document.getElementById('qr-event-select');
+  var memberSelect = document.getElementById('qr-member-select');
+  if (!eventSelect) return;
+
+  // Keep first option, add events
+  var firstOption = eventSelect.querySelector('option');
+  eventSelect.innerHTML = '';
+  eventSelect.appendChild(firstOption);
+  DUES_EVENTS.forEach(function(evt) {
+    var opt = document.createElement('option');
+    opt.value = evt.name;
+    opt.textContent = evt.name + ' ($' + evt.fee + ')';
+    eventSelect.appendChild(opt);
+  });
+
+  // Members
+  if (memberSelect) {
+    var allOpt = memberSelect.querySelector('option[value="all"]');
+    memberSelect.innerHTML = '';
+    if (allOpt) memberSelect.appendChild(allOpt);
+    DUES_DATA.forEach(function(m) {
+      var opt = document.createElement('option');
+      opt.value = m.email;
+      opt.textContent = m.name;
+      memberSelect.appendChild(opt);
+    });
+  }
+}
+
+function generateQR() {
+  var eventName = document.getElementById('qr-event-select').value;
+  var memberEmail = document.getElementById('qr-member-select').value;
+  if (!eventName) { showToast('Select an event first','var(--yellow)'); return; }
+
+  var members = memberEmail === 'all' ? DUES_DATA : DUES_DATA.filter(function(m){ return m.email === memberEmail; });
+  var output = document.getElementById('qr-output');
+  output.innerHTML = '';
+
+  members.forEach(function(m) {
+    var qrId = 'BANF-' + eventName.replace(/\s+/g,'-').slice(0,15) + '-' + m.email.split('@')[0] + '-' + Date.now().toString(36).slice(-4);
+    DUES_QR_CODES.push({ id: qrId, event: eventName, member: m.email, memberName: m.name, generated: new Date() });
+
+    // Visual QR representation (SVG-based pattern)
+    var size = 120;
+    var cells = 11;
+    var cellSize = size / cells;
+    var hash = qrId.split('').reduce(function(h,c){ return ((h << 5) - h) + c.charCodeAt(0); }, 0);
+    var svgCells = '';
+    for (var row = 0; row < cells; row++) {
+      for (var col = 0; col < cells; col++) {
+        // Fixed patterns (finder patterns at corners)
+        var isFinder = (row < 3 && col < 3) || (row < 3 && col >= cells-3) || (row >= cells-3 && col < 3);
+        var fill = isFinder || ((hash + row * 17 + col * 31) % 3 === 0);
+        if (fill) {
+          svgCells += '<rect x="'+(col*cellSize)+'" y="'+(row*cellSize)+'" width="'+cellSize+'" height="'+cellSize+'" fill="'+(isFinder?'var(--accent)':'var(--text)')+'"/>';
+        }
+      }
+    }
+
+    output.innerHTML += '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;width:180px">' +
+      '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'" style="background:#fff;border-radius:6px;padding:4px">' + svgCells + '</svg>' +
+      '<div style="font-size:.72rem;font-weight:600;color:var(--text);margin-top:8px">'+m.name+'</div>' +
+      '<div style="font-size:.6rem;color:var(--dim);word-break:break-all">'+qrId+'</div>' +
+      '<div style="font-size:.58rem;color:var(--accent);margin-top:2px">'+eventName+'</div>' +
+    '</div>';
+  });
+
+  renderDuesEvents();
+  renderDuesKPIs();
+  showToast('Generated ' + members.length + ' QR code(s) for ' + eventName, 'var(--purple)');
+}
+
+function generateAllQR() {
+  DUES_EVENTS.forEach(function(evt) {
+    DUES_DATA.forEach(function(m) {
+      var exists = DUES_QR_CODES.some(function(q){ return q.event === evt.name && q.member === m.email; });
+      if (!exists) {
+        var qrId = 'BANF-' + evt.name.replace(/\s+/g,'-').slice(0,15) + '-' + m.email.split('@')[0] + '-' + Date.now().toString(36).slice(-4);
+        DUES_QR_CODES.push({ id: qrId, event: evt.name, member: m.email, memberName: m.name, generated: new Date() });
+      }
+    });
+  });
+  renderDuesEvents();
+  renderDuesKPIs();
+  showToast('Generated QR codes for all events & members! Total: ' + DUES_QR_CODES.length, 'var(--green)');
+}
+
+function loadQRForEvent() { /* placeholder for dynamic load */ }
+
+// Payment Drive
+function renderPaymentDrive() {
+  var unpaid = DUES_DATA.filter(function(m){ return !m.paid; });
+  var container = document.getElementById('dues-drive-list');
+  var empty = document.getElementById('dues-drive-empty');
+  if (!container) return;
+
+  if (unpaid.length === 0) {
+    container.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  container.innerHTML = unpaid.map(function(m) {
+    return '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px">' +
+      '<div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--red),#b91c1c);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;color:#fff;flex-shrink:0">' +
+        m.name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2) +
+      '</div>' +
+      '<div style="flex:1">' +
+        '<div style="font-size:.82rem;font-weight:600;color:var(--text)">'+m.name+'</div>' +
+        '<div style="font-size:.68rem;color:var(--dim)">'+m.email+' &middot; '+m.membership+' ($'+m.amount+')</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:6px">' +
+        '<button class="btn-sm btn-primary" style="padding:4px 10px;font-size:.68rem" onclick="sendSingleReminder(\''+m.email+'\')"><i class="fas fa-envelope me-1"></i>Send Reminder</button>' +
+        '<button class="btn-sm btn-secondary" style="padding:4px 10px;font-size:.68rem" onclick="markAsPaid(\''+m.email+'\')"><i class="fas fa-check me-1"></i>Mark Paid</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function sendSingleReminder(email) {
+  var m = DUES_DATA.find(function(d){ return d.email === email; });
+  showToast('Payment reminder sent to ' + (m ? m.name : email) + '!', 'var(--blue)');
+}
+
+function sendPaymentReminders() {
+  var unpaid = DUES_DATA.filter(function(m){ return !m.paid; });
+  if (unpaid.length === 0) { showToast('All members have paid!','var(--green)'); return; }
+  showToast('Payment reminders sent to ' + unpaid.length + ' unpaid member(s)!', 'var(--blue)');
+}
+
+function markAsPaid(email) {
+  var m = DUES_DATA.find(function(d){ return d.email === email; });
+  if (m) {
+    m.paid = true;
+    m.paymentDate = new Date();
+    m.crmSynced = false; // Will need agent sync
+    renderDuesKPIs();
+    renderDuesTable('all');
+    renderPaymentDrive();
+    showToast(m.name + ' marked as paid. Pending CRM sync.', 'var(--green)');
+  }
 }
 
 
