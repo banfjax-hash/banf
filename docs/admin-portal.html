@@ -428,6 +428,10 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">AI Assistant</div>
     <div class="sb-item" data-panel="rag-chat" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-robot"></i><span>RAG Chat</span><span style="margin-left:auto;background:rgba(139,92,246,.3);color:#a78bfa;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">AI</span></div>
 
+    <!-- ── META SOCIAL / WHATSAPP ── ec_member, admin, super_admin -->
+    <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">Social &amp; Comms</div>
+    <div class="sb-item" data-panel="meta-social" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fab fa-meta"></i><span>Meta Social</span><span style="margin-left:auto;background:rgba(59,130,246,.2);color:#60a5fa;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">NEW</span></div>
+
     <!-- ── STAKEHOLDER ── business_stakeholder, super_admin ONLY (not admin/ec-member) -->
     <div class="sb-group" data-roles="business_stakeholder,business-stakeholder,super_admin,super-admin">Stakeholder</div>
     <div class="sb-item" data-panel="stakeholder-drive" data-roles="business_stakeholder,business-stakeholder,super_admin,super-admin"><i class="fas fa-bullhorn"></i><span>Stakeholder Drive</span></div>
@@ -1646,18 +1650,70 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="portal-section" id="panel-event-reports">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Event Reports &amp; Insights</div>
 
-      <!-- Attendance Report Generator -->
+      <!-- Event Selector + KPIs -->
       <div class="card-a">
-        <h2><i class="fas fa-clipboard-list" style="color:var(--green)"></i> Attendance Report</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Standard report: attendance details, membership paid/unpaid, category/tier, previous year tier. Downloadable as PDF or HTML.</p>
-        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+        <h2><i class="fas fa-clipboard-list" style="color:var(--green)"></i> Event Attendance Report
+          <span class="badge-s badge-green" style="font-size:.6rem;margin-left:6px">Excel View</span>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Full attendance report — read-only except for the Admin Comments column. Click a row to expand details. Export to CSV/PDF.</p>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px">
           <div class="form-group" style="flex:1;min-width:200px">
-            <label style="display:block;font-size:.72rem;font-weight:600;color:var(--dim);margin-bottom:4px">Select Event</label>
-            <select id="report-event-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem">
-              <option value="">— Select event —</option>
+            <label>Select Event</label>
+            <select id="er-event-select" onchange="erLoadEvent()" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+              <option value="Bosonto Utsob 2026" selected>Bosonto Utsob 2026</option>
             </select>
           </div>
-          <button class="btn-primary" onclick="generateSelectedAttendanceReport()"><i class="fas fa-file-alt me-1"></i>Generate Attendance Report</button>
+          <div class="form-group" style="flex:0;min-width:200px">
+            <label>Search</label>
+            <input id="er-search" type="text" placeholder="Name or email..." oninput="erFilterTable()" style="padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem;width:100%">
+          </div>
+          <button class="btn-primary" onclick="erExportCSV()"><i class="fas fa-file-csv me-1"></i>Export CSV</button>
+          <button class="btn-secondary" onclick="erExportPDF()"><i class="fas fa-file-pdf me-1"></i>Print / PDF</button>
+          <button class="btn-secondary" onclick="erSaveComments()"><i class="fas fa-save me-1"></i>Save Comments</button>
+        </div>
+        <!-- KPI strip -->
+        <div class="kpi-grid" style="margin-bottom:14px">
+          <div class="kpi green"><div class="v" id="er-total-rsvp">0</div><div class="k">RSVP'd</div></div>
+          <div class="kpi blue"><div class="v" id="er-total-adults">0</div><div class="k">Adults</div></div>
+          <div class="kpi cyan"><div class="v" id="er-total-kids">0</div><div class="k">Kids</div></div>
+          <div class="kpi green"><div class="v" id="er-total-paid">0</div><div class="k">Paid</div></div>
+          <div class="kpi yellow"><div class="v" id="er-total-partial">0</div><div class="k">Partial</div></div>
+          <div class="kpi red"><div class="v" id="er-total-unpaid">0</div><div class="k">Unpaid</div></div>
+          <div class="kpi purple"><div class="v" id="er-total-revenue">$0</div><div class="k">Revenue</div></div>
+          <div class="kpi orange"><div class="v" id="er-total-outstanding">$0</div><div class="k">Outstanding</div></div>
+        </div>
+      </div>
+
+      <!-- Excel-Like Table -->
+      <div class="card-a" style="padding:12px">
+        <div style="overflow-x:auto;max-height:600px;overflow-y:auto;border:1px solid var(--line);border-radius:8px">
+          <table class="t" id="er-table" style="font-size:.74rem">
+            <thead style="position:sticky;top:0;z-index:2">
+              <tr>
+                <th style="width:30px">#</th>
+                <th style="cursor:pointer;min-width:150px" onclick="erSort('name')">Name <i class="fas fa-sort" style="font-size:.6rem;opacity:.4"></i></th>
+                <th style="cursor:pointer;min-width:180px" onclick="erSort('email')">Email <i class="fas fa-sort" style="font-size:.6rem;opacity:.4"></i></th>
+                <th style="cursor:pointer;width:55px" onclick="erSort('adults')">Adults</th>
+                <th style="cursor:pointer;width:50px" onclick="erSort('kids')">Kids</th>
+                <th style="width:70px">Dietary</th>
+                <th style="cursor:pointer;width:85px" onclick="erSort('householdType')">Household</th>
+                <th style="cursor:pointer;width:90px" onclick="erSort('membership')">Tier</th>
+                <th style="cursor:pointer;width:85px" onclick="erSort('paymentStatus')">Payment</th>
+                <th style="cursor:pointer;width:70px" onclick="erSort('amount')">Paid $</th>
+                <th style="width:75px">Expected $</th>
+                <th style="width:75px">Balance $</th>
+                <th style="width:75px">Method</th>
+                <th style="width:55px">EC?</th>
+                <th style="width:70px">Member Since</th>
+                <th style="min-width:200px;background:rgba(249,115,22,.08)"><i class="fas fa-comment-dots me-1" style="color:var(--accent)"></i>Admin Comments</th>
+              </tr>
+            </thead>
+            <tbody id="er-table-body"></tbody>
+          </table>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:.72rem;color:var(--dim)">
+          <span id="er-row-count">0 rows</span>
+          <span>💡 Comments auto-save to localStorage — click "Save Comments" to persist</span>
         </div>
       </div>
 
@@ -1667,32 +1723,20 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Compare attendance, new signups, members who didn't return, unpaid memberships, and tier changes between two events.</p>
         <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
           <div class="form-group" style="flex:1;min-width:180px">
-            <label style="display:block;font-size:.72rem;font-weight:600;color:var(--dim);margin-bottom:4px">Current Event</label>
-            <select id="insight-event-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem">
-              <option value="">— Select event —</option>
+            <label>Current Event</label>
+            <select id="insight-event-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+              <option value="Bosonto Utsob 2026" selected>Bosonto Utsob 2026</option>
             </select>
           </div>
           <div class="form-group" style="flex:1;min-width:180px">
-            <label style="display:block;font-size:.72rem;font-weight:600;color:var(--dim);margin-bottom:4px">Compare With (Previous Event)</label>
-            <select id="insight-compare-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem">
+            <label>Compare With (Previous Event)</label>
+            <select id="insight-compare-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
               <option value="">— None (single event) —</option>
             </select>
           </div>
-          <button class="btn-primary" onclick="generateSelectedInsightReport()" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><i class="fas fa-chart-pie me-1"></i>Generate Insight Report</button>
+          <button class="btn-primary" onclick="erGenerateInsight()" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><i class="fas fa-chart-pie me-1"></i>Generate Insight</button>
         </div>
-      </div>
-
-      <!-- Procurement Report Shortcut -->
-      <div class="card-a">
-        <h2><i class="fas fa-file-invoice-dollar" style="color:var(--cyan)"></i> Procurement &amp; Reimbursement Report</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Complete report of all procurement requests, approval status, budget vs actual, and reimbursement tracking.</p>
-        <button class="btn-primary" onclick="generateProcReport()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4)"><i class="fas fa-download me-1"></i>Generate Procurement Report</button>
-      </div>
-
-      <!-- Quick Stats -->
-      <div class="card-a">
-        <h2><i class="fas fa-info-circle" style="color:var(--dim)"></i> Available Events Data</h2>
-        <div id="event-reports-summary" style="font-size:.82rem;color:var(--muted)">Loading event data...</div>
+        <div id="er-insight-output" style="margin-top:14px"></div>
       </div>
     </div>
 
@@ -2106,6 +2150,156 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
       </div>
     </div>
 
+    <!-- ══════════ META SOCIAL & WHATSAPP PANEL ══════════ -->
+    <div class="portal-section" id="panel-meta-social">
+      <div class="stg-label"><i class="fab fa-meta" style="color:var(--blue)"></i> Meta Social &amp; WhatsApp Orchestration</div>
+
+      <!-- Platform Overview -->
+      <div class="card-a">
+        <h2><i class="fab fa-meta" style="color:#0081FB"></i> Social Media Orchestration Hub
+          <span class="badge-s" style="background:rgba(59,130,246,.15);color:#3b82f6;font-size:.6rem;margin-left:8px">META API</span>
+        </h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">
+          EC admins orchestrate content &amp; campaigns. The <strong>Marketing &amp; Communication Agent</strong> handles actual posting.
+          WhatsApp uses a dedicated <strong>BANF Announcement Agent</strong>.
+        </p>
+        <!-- Platform Status Cards -->
+        <div class="kpi-grid" style="margin-bottom:14px">
+          <div class="kpi blue"><div class="v"><i class="fab fa-facebook" style="font-size:1.2rem"></i></div><div class="k">Facebook</div><div style="font-size:.6rem;color:var(--green)">● Ready</div></div>
+          <div class="kpi purple"><div class="v"><i class="fab fa-instagram" style="font-size:1.2rem"></i></div><div class="k">Instagram</div><div style="font-size:.6rem;color:var(--green)">● Ready</div></div>
+          <div class="kpi green"><div class="v"><i class="fab fa-whatsapp" style="font-size:1.2rem"></i></div><div class="k">WhatsApp</div><div style="font-size:.6rem;color:var(--green)">● Connected</div></div>
+          <div class="kpi cyan"><div class="v" id="meta-posts-count">0</div><div class="k">Queued Posts</div></div>
+          <div class="kpi orange"><div class="v" id="meta-wa-groups">0</div><div class="k">WA Groups</div></div>
+        </div>
+      </div>
+
+      <!-- Facebook / Instagram Post Composer -->
+      <div class="card-a">
+        <h2><i class="fab fa-facebook-square" style="color:#1877F2"></i> / <i class="fab fa-instagram" style="color:#E4405F"></i> &nbsp;Post Composer
+          <span class="badge-s badge-blue" style="font-size:.6rem;margin-left:8px">FB + IG</span>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Compose content for the Marketing &amp; Communication Agent to publish. EC admin adds materials, captions, scheduling — the agent handles publishing.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="form-group">
+            <label>Platform</label>
+            <select id="meta-platform" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+              <option value="both">📱 Facebook + Instagram</option>
+              <option value="facebook">📘 Facebook Only</option>
+              <option value="instagram">📸 Instagram Only</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Post Type</label>
+            <select id="meta-post-type" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+              <option value="announcement">📢 Event Announcement</option>
+              <option value="marketing">🎯 Marketing / Promo</option>
+              <option value="update">📋 Community Update</option>
+              <option value="photo-album">📸 Photo Album</option>
+              <option value="fundraiser">💰 Fundraiser</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Post Caption / Text</label>
+          <textarea id="meta-caption" rows="4" placeholder="Write your post caption... Use {{event_name}}, {{event_date}}, {{rsvp_link}} for dynamic variables" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem;resize:vertical;font-family:inherit"></textarea>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="form-group">
+            <label>Media / Image URL</label>
+            <input id="meta-media-url" type="text" placeholder="https://... or drag & drop" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+          </div>
+          <div class="form-group">
+            <label>Schedule</label>
+            <input id="meta-schedule" type="datetime-local" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Hashtags</label>
+          <input id="meta-hashtags" type="text" placeholder="#BANF #BostontoUtsob2026 #JaxBengali..." style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem" value="#BANF #JaxBengali #BengaliAssociation #Jacksonville">
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="metaQueuePost()" style="background:linear-gradient(135deg,#1877F2,#E4405F)"><i class="fas fa-paper-plane me-1"></i>Queue for Agent</button>
+          <button class="btn-secondary" onclick="metaPreviewPost()"><i class="fas fa-eye me-1"></i>Preview</button>
+          <button class="btn-secondary" onclick="metaAIDraft()"><i class="fas fa-magic me-1"></i>AI Draft Caption</button>
+        </div>
+      </div>
+
+      <!-- WhatsApp Announcement Agent -->
+      <div class="card-a">
+        <h2><i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp Announcement Agent
+          <span class="badge-s badge-green" style="font-size:.6rem;margin-left:8px">banf-announcement-agent</span>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">
+          The BANF Announcement Agent is added as a participant in WhatsApp groups. EC admin triggers announcements here — the agent posts to selected groups.
+        </p>
+
+        <!-- Group Management -->
+        <div style="margin-bottom:14px">
+          <label style="font-size:.72rem;font-weight:600;color:var(--dim);display:block;margin-bottom:6px">Active WhatsApp Groups</label>
+          <div id="meta-wa-group-list" style="display:flex;flex-wrap:wrap;gap:6px">
+            <span class="badge-s" style="background:rgba(37,211,102,.12);color:#25D366;padding:4px 10px;border-radius:12px;font-size:.72rem">
+              <i class="fab fa-whatsapp me-1"></i>BANF EC Committee <i class="fas fa-check-circle ms-1" style="font-size:.55rem"></i>
+            </span>
+            <span class="badge-s" style="background:rgba(37,211,102,.12);color:#25D366;padding:4px 10px;border-radius:12px;font-size:.72rem">
+              <i class="fab fa-whatsapp me-1"></i>BANF Community <i class="fas fa-check-circle ms-1" style="font-size:.55rem"></i>
+            </span>
+            <span class="badge-s" style="background:rgba(37,211,102,.12);color:#25D366;padding:4px 10px;border-radius:12px;font-size:.72rem">
+              <i class="fab fa-whatsapp me-1"></i>BANF Events <i class="fas fa-check-circle ms-1" style="font-size:.55rem"></i>
+            </span>
+            <button class="btn-sm btn-secondary" onclick="metaAddWAGroup()" style="font-size:.66rem;padding:3px 8px"><i class="fas fa-plus me-1"></i>Add Group</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Select Groups to Announce</label>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px" id="meta-wa-targets">
+            <label style="font-size:.78rem;cursor:pointer;display:flex;align-items:center;gap:4px">
+              <input type="checkbox" value="ec-committee" checked> BANF EC Committee
+            </label>
+            <label style="font-size:.78rem;cursor:pointer;display:flex;align-items:center;gap:4px">
+              <input type="checkbox" value="community"> BANF Community
+            </label>
+            <label style="font-size:.78rem;cursor:pointer;display:flex;align-items:center;gap:4px">
+              <input type="checkbox" value="events"> BANF Events
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Announcement Message</label>
+          <textarea id="meta-wa-message" rows="4" placeholder="Type your announcement message for WhatsApp groups..." style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem;resize:vertical;font-family:inherit"></textarea>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div class="form-group">
+            <label>Attachment (optional)</label>
+            <input id="meta-wa-attachment" type="text" placeholder="URL to image/PDF..." style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+          </div>
+          <div class="form-group">
+            <label>Schedule (leave blank for immediate)</label>
+            <input id="meta-wa-schedule" type="datetime-local" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="metaSendWA()" style="background:linear-gradient(135deg,#128C7E,#25D366)"><i class="fab fa-whatsapp me-1"></i>Send via Agent</button>
+          <button class="btn-secondary" onclick="metaPreviewWA()"><i class="fas fa-eye me-1"></i>Preview Message</button>
+        </div>
+      </div>
+
+      <!-- Post Queue / History -->
+      <div class="card-a">
+        <h2><i class="fas fa-history" style="color:var(--dim)"></i> Post Queue &amp; History</h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">All queued and previously published posts across platforms.</p>
+        <div id="meta-post-history" style="font-size:.78rem;color:var(--dim)">No posts yet. Use the composer above to queue your first post.</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -2123,13 +2317,13 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
   // super-admin: full system access (both hyphen and underscore variants)
-  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives'],
-  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives'],
+  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social','dev-board','e2e-test','activity','audit-drives'],
+  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social','dev-board','e2e-test','activity','audit-drives'],
   // admin: senior EC officers — full operational, no system config, NO stakeholder panels
-  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','activity'],
+  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social','activity'],
   // ec-member / ec_member: coordinators — EC-focused + collaboration + event ops
-  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat'],
-  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat'],
+  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social'],
+  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social'],
   // business-stakeholder: sponsors + community partners
   'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
   'business_stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
@@ -3291,12 +3485,12 @@ async function doForceResetPassword() {
 // Named NAV_PANEL_ACCESS to avoid conflict with the array-based ROLE_PANEL_ACCESS used by getVisiblePanels()
 const NAV_PANEL_ACCESS = {
   // Super Admin: all panels
-  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity','audit-drives']),
-  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','dev-board','e2e-test','activity','audit-drives']),
+  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives','meta-social']),
+  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives','meta-social']),
   // EC Member / Admin: EC-specific panels + My Data + Collaboration
-  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status']),
-  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status']),
-  'admin':               new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','ec-drive','drive-status','users']),
+  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social']),
+  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social']),
+  'admin':               new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','ec-drive','drive-status','users','event-reports','qr-food-serving','email-pipeline','rag-chat','activity','meta-social']),
   // Stakeholder: stakeholder-specific panels
   'business_stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
   'business-stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
@@ -3330,6 +3524,8 @@ function navTo(panel){
   if (panel === 'member-dues') { initMemberDues(); }
   if (panel === 'audit-drives') { initAuditDrives(); }
   if (panel === 'qr-food-serving') { qfsInit(); }
+  if (panel === 'event-reports') { initEventReports(); }
+  if (panel === 'meta-social') { initMetaSocial(); }
 }
 
 function adminComingSoon(panel) {
@@ -8675,6 +8871,487 @@ function renderAll(){
   showChangeBanner();
 }
 
+// ═══════════════════════════════════════════════════════════
+// EVENT REPORTS — Excel-Like Read-Only Viewer with Comments
+// ═══════════════════════════════════════════════════════════
+
+var ER_DATA = [];       // filtered/sorted view
+var ER_ALL = [];        // full dataset
+var ER_SORT_COL = '';
+var ER_SORT_ASC = true;
+var ER_COMMENTS = {};   // email → comment string
+var ER_INITIALIZED = false;
+
+function initEventReports() {
+  if (ER_INITIALIZED) { erRenderTable(); return; }
+  // Load comments from localStorage
+  try { var c = JSON.parse(localStorage.getItem('banf_er_comments') || '{}'); ER_COMMENTS = c; } catch(e) { ER_COMMENTS = {}; }
+  // Build dataset from BOSONTO_CRM_DATA
+  ER_ALL = (typeof BOSONTO_CRM_DATA !== 'undefined' ? BOSONTO_CRM_DATA : []).map(function(d, i) {
+    return {
+      idx: i + 1,
+      name: d.name || '',
+      email: d.email || '',
+      adults: parseInt(d.adults) || 0,
+      kids: parseInt(d.kids) || 0,
+      dietary: d.dietary || 'Not specified',
+      householdType: d.householdType || '',
+      membership: d.membership || '',
+      paymentStatus: d.paymentStatus || 'not_paid',
+      amount: parseFloat(d.amount) || 0,
+      expectedAmount: parseFloat(d.expectedAmount) || 0,
+      remainingBalance: parseFloat(d.remainingBalance) || 0,
+      paymentMethod: d.paymentMethod || '',
+      isEC: !!d.isEC,
+      memberSince: d.memberSince || '',
+      comment: ER_COMMENTS[d.email] || ''
+    };
+  });
+  ER_DATA = ER_ALL.slice();
+  ER_INITIALIZED = true;
+  erUpdateKPIs();
+  erRenderTable();
+}
+
+function erUpdateKPIs() {
+  var d = ER_ALL;
+  var totalRSVP = d.length;
+  var totalAdults = d.reduce(function(s,r){ return s + r.adults; }, 0);
+  var totalKids = d.reduce(function(s,r){ return s + r.kids; }, 0);
+  var paid = d.filter(function(r){ return r.paymentStatus === 'paid'; }).length;
+  var partial = d.filter(function(r){ return r.paymentStatus === 'partial'; }).length;
+  var unpaid = d.filter(function(r){ return r.paymentStatus === 'not_paid'; }).length;
+  var revenue = d.reduce(function(s,r){ return s + r.amount; }, 0);
+  var outstanding = d.reduce(function(s,r){ return s + r.remainingBalance; }, 0);
+
+  var el = function(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+  el('er-total-rsvp', totalRSVP);
+  el('er-total-adults', totalAdults);
+  el('er-total-kids', totalKids);
+  el('er-total-paid', paid);
+  el('er-total-partial', partial);
+  el('er-total-unpaid', unpaid);
+  el('er-total-revenue', '$' + revenue.toLocaleString());
+  el('er-total-outstanding', '$' + outstanding.toLocaleString());
+}
+
+function erSort(col) {
+  if (ER_SORT_COL === col) { ER_SORT_ASC = !ER_SORT_ASC; } else { ER_SORT_COL = col; ER_SORT_ASC = true; }
+  ER_DATA.sort(function(a, b) {
+    var va = a[col], vb = b[col];
+    if (typeof va === 'string') va = va.toLowerCase();
+    if (typeof vb === 'string') vb = vb.toLowerCase();
+    if (va < vb) return ER_SORT_ASC ? -1 : 1;
+    if (va > vb) return ER_SORT_ASC ? 1 : -1;
+    return 0;
+  });
+  erRenderTable();
+}
+
+function erFilterTable() {
+  var q = (document.getElementById('er-search') || {}).value || '';
+  q = q.toLowerCase().trim();
+  if (!q) { ER_DATA = ER_ALL.slice(); } else {
+    ER_DATA = ER_ALL.filter(function(r) {
+      return r.name.toLowerCase().indexOf(q) >= 0 || r.email.toLowerCase().indexOf(q) >= 0;
+    });
+  }
+  if (ER_SORT_COL) erSort(ER_SORT_COL);
+  else erRenderTable();
+}
+
+function erPayBadge(status) {
+  var colors = { paid: 'green', partial: 'yellow', not_paid: 'red' };
+  var labels = { paid: 'Paid', partial: 'Partial', not_paid: 'Unpaid' };
+  var c = colors[status] || 'dim';
+  var l = labels[status] || status;
+  return '<span class="badge-s badge-' + c + '" style="font-size:.6rem">' + l + '</span>';
+}
+
+function erTierLabel(m) {
+  var map = { m2: 'M2 Premium', family: 'Family', couple: 'Couple', individual: 'Individual' };
+  return map[m] || m || '—';
+}
+
+function erRenderTable() {
+  var tbody = document.getElementById('er-table-body');
+  if (!tbody) return;
+  var html = '';
+  ER_DATA.forEach(function(r, i) {
+    var rowNum = i + 1;
+    var payClass = r.paymentStatus === 'paid' ? 'background:rgba(34,197,94,.04)' : (r.paymentStatus === 'partial' ? 'background:rgba(251,191,36,.04)' : '');
+    html += '<tr style="' + payClass + '">' +
+      '<td style="font-size:.68rem;color:var(--dim);text-align:center">' + rowNum + '</td>' +
+      '<td style="font-weight:600;white-space:nowrap">' + r.name + (r.isEC ? ' <i class="fas fa-shield-alt" style="color:var(--accent);font-size:.6rem" title="EC Member"></i>' : '') + '</td>' +
+      '<td style="font-size:.7rem;color:var(--dim)">' + r.email + '</td>' +
+      '<td style="text-align:center">' + r.adults + '</td>' +
+      '<td style="text-align:center">' + r.kids + '</td>' +
+      '<td style="font-size:.7rem">' + (r.dietary === 'Not specified' ? '<span style="color:var(--dim)">—</span>' : r.dietary) + '</td>' +
+      '<td style="font-size:.7rem">' + (r.householdType || '—') + '</td>' +
+      '<td style="font-size:.7rem">' + erTierLabel(r.membership) + '</td>' +
+      '<td>' + erPayBadge(r.paymentStatus) + '</td>' +
+      '<td style="text-align:right;font-family:monospace;font-size:.72rem">' + (r.amount > 0 ? '$' + r.amount : '—') + '</td>' +
+      '<td style="text-align:right;font-family:monospace;font-size:.72rem">$' + r.expectedAmount + '</td>' +
+      '<td style="text-align:right;font-family:monospace;font-size:.72rem;color:' + (r.remainingBalance > 0 ? 'var(--red)' : 'var(--green)') + '">' + (r.remainingBalance > 0 ? '$' + r.remainingBalance : '$0') + '</td>' +
+      '<td style="font-size:.7rem">' + (r.paymentMethod || '—') + '</td>' +
+      '<td style="text-align:center">' + (r.isEC ? '<i class="fas fa-check-circle" style="color:var(--green)"></i>' : '<span style="color:var(--dim)">—</span>') + '</td>' +
+      '<td style="font-size:.7rem;text-align:center">' + (r.memberSince || '—') + '</td>' +
+      '<td style="background:rgba(249,115,22,.05);padding:4px">' +
+        '<textarea data-email="' + r.email + '" class="er-comment" rows="1" ' +
+        'style="width:100%;min-width:180px;padding:4px 6px;border-radius:6px;border:1px solid var(--line);' +
+        'background:var(--bg2);color:var(--text);font-size:.72rem;resize:vertical;font-family:inherit" ' +
+        'placeholder="Add admin comment..." oninput="erOnComment(this)">' + (r.comment || '') + '</textarea>' +
+      '</td>' +
+    '</tr>';
+  });
+  tbody.innerHTML = html;
+  var rc = document.getElementById('er-row-count');
+  if (rc) rc.textContent = ER_DATA.length + ' of ' + ER_ALL.length + ' rows';
+}
+
+function erOnComment(el) {
+  var email = el.getAttribute('data-email');
+  if (!email) return;
+  ER_COMMENTS[email] = el.value;
+  // Update in-memory data too
+  var rec = ER_ALL.find(function(r) { return r.email === email; });
+  if (rec) rec.comment = el.value;
+}
+
+function erSaveComments() {
+  try { localStorage.setItem('banf_er_comments', JSON.stringify(ER_COMMENTS)); } catch(e) {}
+  showToast('Admin comments saved (' + Object.keys(ER_COMMENTS).filter(function(k){ return ER_COMMENTS[k]; }).length + ' comments)', 'var(--green)');
+}
+
+function erExportCSV() {
+  if (ER_DATA.length === 0) { showToast('No data to export', 'var(--yellow)'); return; }
+  var headers = ['#','Name','Email','Adults','Kids','Dietary','Household','Membership Tier','Payment Status','Paid Amount','Expected Amount','Balance','Payment Method','EC Member','Member Since','Admin Comments'];
+  var rows = ER_DATA.map(function(r, i) {
+    return [i+1, r.name, r.email, r.adults, r.kids, r.dietary, r.householdType, erTierLabel(r.membership),
+      r.paymentStatus, r.amount, r.expectedAmount, r.remainingBalance, r.paymentMethod,
+      r.isEC ? 'Yes' : 'No', r.memberSince, r.comment || ''
+    ].map(function(v) { return '"' + String(v||'').replace(/"/g, '""') + '"'; }).join(',');
+  });
+  var csv = headers.join(',') + '\n' + rows.join('\n');
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'banf-event-report-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Event report CSV exported (' + ER_DATA.length + ' rows)', 'var(--green)');
+}
+
+function erExportPDF() {
+  // Open print dialog for the table
+  var printWin = window.open('', '_blank', 'width=1200,height=800');
+  var styles = '<style>body{font-family:system-ui,sans-serif;padding:20px}table{border-collapse:collapse;width:100%;font-size:11px}th,td{border:1px solid #ddd;padding:4px 6px;text-align:left}th{background:#f0f0f0;font-weight:600}.paid{color:green}.unpaid{color:red}.partial{color:#d97706}h1{font-size:18px;margin-bottom:4px}p{color:#666;font-size:12px;margin-bottom:12px}.comment{background:#fff7ed;min-width:150px}</style>';
+  var html = '<html><head><title>BANF Event Report</title>' + styles + '</head><body>';
+  html += '<h1>BANF Event Attendance Report</h1>';
+  html += '<p>Event: Bosonto Utsob 2026 &bull; Generated: ' + new Date().toLocaleString() + ' &bull; ' + ER_DATA.length + ' attendees</p>';
+  html += '<table><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Adults</th><th>Kids</th><th>Dietary</th><th>Household</th><th>Tier</th><th>Payment</th><th>Paid</th><th>Expected</th><th>Balance</th><th>Method</th><th>EC</th><th>Since</th><th class="comment">Comments</th></tr></thead><tbody>';
+  ER_DATA.forEach(function(r, i) {
+    var pc = r.paymentStatus === 'paid' ? 'paid' : (r.paymentStatus === 'partial' ? 'partial' : 'unpaid');
+    html += '<tr><td>' + (i+1) + '</td><td>' + r.name + '</td><td>' + r.email + '</td><td>' + r.adults + '</td><td>' + r.kids + '</td><td>' + r.dietary + '</td><td>' + r.householdType + '</td><td>' + erTierLabel(r.membership) + '</td><td class="' + pc + '">' + r.paymentStatus + '</td><td>$' + r.amount + '</td><td>$' + r.expectedAmount + '</td><td>$' + r.remainingBalance + '</td><td>' + (r.paymentMethod||'—') + '</td><td>' + (r.isEC?'Yes':'—') + '</td><td>' + (r.memberSince||'—') + '</td><td class="comment">' + (r.comment||'') + '</td></tr>';
+  });
+  html += '</tbody></table></body></html>';
+  printWin.document.write(html);
+  printWin.document.close();
+  printWin.focus();
+  setTimeout(function() { printWin.print(); }, 500);
+}
+
+function erLoadEvent() {
+  // For now, only one event. Future: swap ER_ALL based on selected event
+  initEventReports();
+}
+
+function erGenerateInsight() {
+  var output = document.getElementById('er-insight-output');
+  if (!output) return;
+  var d = ER_ALL;
+  if (d.length === 0) { output.innerHTML = '<div class="info-box-warning">No event data loaded.</div>'; return; }
+
+  var totalRSVP = d.length;
+  var totalHeadcount = d.reduce(function(s,r){ return s + r.adults + r.kids; }, 0);
+  var totalPaid = d.filter(function(r){ return r.paymentStatus === 'paid'; });
+  var totalPartial = d.filter(function(r){ return r.paymentStatus === 'partial'; });
+  var totalUnpaid = d.filter(function(r){ return r.paymentStatus === 'not_paid'; });
+  var revenue = d.reduce(function(s,r){ return s + r.amount; }, 0);
+  var outstanding = d.reduce(function(s,r){ return s + r.remainingBalance; }, 0);
+  var expected = d.reduce(function(s,r){ return s + r.expectedAmount; }, 0);
+  var ecMembers = d.filter(function(r){ return r.isEC; });
+
+  // Household breakdown
+  var hhTypes = {};
+  d.forEach(function(r) { hhTypes[r.householdType] = (hhTypes[r.householdType]||0) + 1; });
+
+  // Tier breakdown
+  var tierTypes = {};
+  d.forEach(function(r) { tierTypes[r.membership] = (tierTypes[r.membership]||0) + 1; });
+
+  var paidPct = totalRSVP > 0 ? Math.round(totalPaid.length / totalRSVP * 100) : 0;
+  var collectRate = expected > 0 ? Math.round(revenue / expected * 100) : 0;
+
+  output.innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">' +
+      '<div class="card-a" style="padding:14px">' +
+        '<h3 style="font-size:.8rem;margin-bottom:8px"><i class="fas fa-users me-1" style="color:var(--blue)"></i>Attendance Summary</h3>' +
+        '<div style="font-size:.78rem;line-height:1.8">' +
+          '<div><strong>' + totalRSVP + '</strong> families/individuals RSVP\'d</div>' +
+          '<div><strong>' + totalHeadcount + '</strong> total headcount (' + d.reduce(function(s,r){return s+r.adults;},0) + ' adults + ' + d.reduce(function(s,r){return s+r.kids;},0) + ' kids)</div>' +
+          '<div><strong>' + ecMembers.length + '</strong> EC members attending</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="card-a" style="padding:14px">' +
+        '<h3 style="font-size:.8rem;margin-bottom:8px"><i class="fas fa-dollar-sign me-1" style="color:var(--green)"></i>Financial Summary</h3>' +
+        '<div style="font-size:.78rem;line-height:1.8">' +
+          '<div>Revenue collected: <strong style="color:var(--green)">$' + revenue.toLocaleString() + '</strong></div>' +
+          '<div>Expected: <strong>$' + expected.toLocaleString() + '</strong></div>' +
+          '<div>Outstanding: <strong style="color:var(--red)">$' + outstanding.toLocaleString() + '</strong></div>' +
+          '<div>Collection rate: <strong>' + collectRate + '%</strong></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="card-a" style="padding:14px">' +
+        '<h3 style="font-size:.8rem;margin-bottom:8px"><i class="fas fa-credit-card me-1" style="color:var(--accent)"></i>Payment Breakdown</h3>' +
+        '<div style="font-size:.78rem;line-height:1.8">' +
+          '<div><span class="badge-s badge-green" style="font-size:.6rem">Paid</span> ' + totalPaid.length + ' (' + paidPct + '%)</div>' +
+          '<div><span class="badge-s badge-yellow" style="font-size:.6rem">Partial</span> ' + totalPartial.length + '</div>' +
+          '<div><span class="badge-s badge-red" style="font-size:.6rem">Unpaid</span> ' + totalUnpaid.length + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="card-a" style="padding:14px">' +
+        '<h3 style="font-size:.8rem;margin-bottom:8px"><i class="fas fa-home me-1" style="color:var(--cyan)"></i>Household & Tier Mix</h3>' +
+        '<div style="font-size:.78rem;line-height:1.8">' +
+          Object.keys(hhTypes).map(function(k) { return '<div><strong>' + (k||'Unknown') + ':</strong> ' + hhTypes[k] + '</div>'; }).join('') +
+          '<hr style="border:0;border-top:1px solid var(--line);margin:4px 0">' +
+          Object.keys(tierTypes).map(function(k) { return '<div><strong>' + erTierLabel(k) + ':</strong> ' + tierTypes[k] + '</div>'; }).join('') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  showToast('Insight report generated', 'var(--purple,#a855f7)');
+}
+
+// ═══════════════════════════════════════════════════════════
+// META SOCIAL — FB/IG Post Orchestration + WhatsApp Agent
+// ═══════════════════════════════════════════════════════════
+
+var META_POST_QUEUE = [];
+var META_WA_HISTORY = [];
+var META_INITIALIZED = false;
+
+function initMetaSocial() {
+  if (META_INITIALIZED) { metaRenderHistory(); return; }
+  // Restore from localStorage
+  try { META_POST_QUEUE = JSON.parse(localStorage.getItem('banf_meta_queue') || '[]'); } catch(e) { META_POST_QUEUE = []; }
+  try { META_WA_HISTORY = JSON.parse(localStorage.getItem('banf_meta_wa_history') || '[]'); } catch(e) { META_WA_HISTORY = []; }
+  META_INITIALIZED = true;
+  metaUpdateKPIs();
+  metaRenderHistory();
+}
+
+function metaUpdateKPIs() {
+  var el = function(id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+  el('meta-posts-count', META_POST_QUEUE.length);
+  var groups = document.querySelectorAll('#meta-wa-targets input[type="checkbox"]');
+  el('meta-wa-groups', groups ? groups.length : 3);
+}
+
+function metaQueuePost() {
+  var platform = (document.getElementById('meta-platform') || {}).value || 'both';
+  var postType = (document.getElementById('meta-post-type') || {}).value || 'announcement';
+  var caption = (document.getElementById('meta-caption') || {}).value || '';
+  var mediaUrl = (document.getElementById('meta-media-url') || {}).value || '';
+  var schedule = (document.getElementById('meta-schedule') || {}).value || '';
+  var hashtags = (document.getElementById('meta-hashtags') || {}).value || '';
+
+  if (!caption.trim()) { showToast('Please enter a post caption', 'var(--yellow)'); return; }
+
+  var post = {
+    id: 'META-' + Date.now(),
+    platform: platform,
+    type: postType,
+    caption: caption,
+    mediaUrl: mediaUrl,
+    hashtags: hashtags,
+    schedule: schedule || 'immediate',
+    status: 'queued',
+    createdBy: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'ec-admin',
+    createdAt: new Date().toISOString(),
+    agentStatus: 'pending'
+  };
+
+  META_POST_QUEUE.push(post);
+  try { localStorage.setItem('banf_meta_queue', JSON.stringify(META_POST_QUEUE)); } catch(e) {}
+
+  // Clear form
+  if (document.getElementById('meta-caption')) document.getElementById('meta-caption').value = '';
+  if (document.getElementById('meta-media-url')) document.getElementById('meta-media-url').value = '';
+  if (document.getElementById('meta-schedule')) document.getElementById('meta-schedule').value = '';
+
+  metaUpdateKPIs();
+  metaRenderHistory();
+  showToast('Post queued for Marketing Agent — ' + platform.toUpperCase(), 'var(--blue)');
+}
+
+function metaPreviewPost() {
+  var caption = (document.getElementById('meta-caption') || {}).value || '';
+  var hashtags = (document.getElementById('meta-hashtags') || {}).value || '';
+  var platform = (document.getElementById('meta-platform') || {}).value || 'both';
+  var mediaUrl = (document.getElementById('meta-media-url') || {}).value || '';
+
+  if (!caption.trim()) { showToast('Enter a caption to preview', 'var(--yellow)'); return; }
+
+  var fullText = caption + (hashtags ? '\n\n' + hashtags : '');
+  var platformIcons = { both: '📱 FB + IG', facebook: '📘 Facebook', instagram: '📸 Instagram' };
+
+  var preview = window.open('', '_blank', 'width=500,height=600');
+  preview.document.write('<!DOCTYPE html><html><head><title>Post Preview</title><style>body{font-family:system-ui,sans-serif;margin:0;background:#fafafa}' +
+    '.card{max-width:460px;margin:20px auto;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);overflow:hidden}' +
+    '.header{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee}' +
+    '.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1e3a5f,#d4a843);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}' +
+    '.name{font-weight:600;font-size:14px;color:#1a1a1a}.meta{font-size:11px;color:#888}' +
+    '.body{padding:16px;font-size:14px;line-height:1.6;color:#333;white-space:pre-wrap}' +
+    '.img{width:100%;max-height:300px;object-fit:cover}' +
+    '.footer{padding:12px 16px;border-top:1px solid #eee;font-size:11px;color:#999}</style></head><body>' +
+    '<div class="card"><div class="header"><div class="avatar">B</div><div><div class="name">BANF - Bengali Association of North Florida</div><div class="meta">' + platformIcons[platform] + ' · Queued</div></div></div>' +
+    (mediaUrl ? '<img class="img" src="' + mediaUrl + '" alt="media">' : '') +
+    '<div class="body">' + fullText.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</div>' +
+    '<div class="footer">👍 Like · 💬 Comment · ↗️ Share · Preview Only</div></div></body></html>');
+  preview.document.close();
+}
+
+function metaAIDraft() {
+  var postType = (document.getElementById('meta-post-type') || {}).value || 'announcement';
+  var templates = {
+    announcement: '🌸 Join us for Bosonto Utsob 2026! 🎉\n\nBANF (Bengali Association of North Florida) invites you to celebrate the joy of spring with our annual cultural program.\n\n📅 Date: Coming Soon\n📍 Venue: Jacksonville, FL\n🎭 Cultural performances, delicious Bengali food, and community fun!\n\nRSVP now at jaxbengali.org\n\n#BANF #BostontoUtsob2026 #JaxBengali #Bengali #Jacksonville #SpringFestival',
+    marketing: '✨ Have you renewed your BANF membership? ✨\n\nSupport our Bengali community in North Florida! Membership includes:\n\n🎪 Free entry to cultural events\n🍛 Authentic Bengali food nights\n🤝 Community networking\n👨‍👩‍👧‍👦 Family-friendly activities\n\nJoin today → jaxbengali.org/membership\n\n#BANF #JaxBengali #BengaliCommunity #JacksonvilleFL',
+    update: '📋 Community Update from BANF\n\nDear BANF family,\n\nWe\'re excited to share the latest updates from our community:\n\n🔹 [Update 1]\n🔹 [Update 2]\n🔹 [Update 3]\n\nStay connected at jaxbengali.org\n\n#BANF #JaxBengali #CommunityUpdate',
+    'photo-album': '📸 Moments from [Event Name] 📸\n\nWhat an incredible time we had! Thank you to everyone who joined us.\n\nSwipe through to see the highlights ➡️\n\n#BANF #JaxBengali #BengaliCulture #Community',
+    fundraiser: '🙏 Support BANF\'s Mission 💛\n\nHelp us continue bringing Bengali cultural experiences to Jacksonville, FL.\n\nYour contribution makes a difference:\n💰 Fund cultural programs\n🎓 Support community education\n🤲 Help families in need\n\nDonate now → jaxbengali.org/donate\n\n#BANF #JaxBengali #GiveBack'
+  };
+  var caption = document.getElementById('meta-caption');
+  if (caption) caption.value = templates[postType] || templates.announcement;
+  showToast('AI draft loaded — edit as needed', 'var(--cyan)');
+}
+
+function metaSendWA() {
+  var message = (document.getElementById('meta-wa-message') || {}).value || '';
+  var attachment = (document.getElementById('meta-wa-attachment') || {}).value || '';
+  var schedule = (document.getElementById('meta-wa-schedule') || {}).value || '';
+
+  if (!message.trim()) { showToast('Please enter a message', 'var(--yellow)'); return; }
+
+  // Get selected groups
+  var targets = [];
+  document.querySelectorAll('#meta-wa-targets input[type="checkbox"]:checked').forEach(function(cb) { targets.push(cb.value); });
+  if (targets.length === 0) { showToast('Select at least one WhatsApp group', 'var(--yellow)'); return; }
+
+  var entry = {
+    id: 'WA-' + Date.now(),
+    targets: targets,
+    message: message,
+    attachment: attachment,
+    schedule: schedule || 'immediate',
+    status: 'sent-to-agent',
+    createdBy: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'ec-admin',
+    createdAt: new Date().toISOString()
+  };
+
+  META_WA_HISTORY.push(entry);
+  try { localStorage.setItem('banf_meta_wa_history', JSON.stringify(META_WA_HISTORY)); } catch(e) {}
+
+  // Clear form
+  if (document.getElementById('meta-wa-message')) document.getElementById('meta-wa-message').value = '';
+  if (document.getElementById('meta-wa-attachment')) document.getElementById('meta-wa-attachment').value = '';
+  if (document.getElementById('meta-wa-schedule')) document.getElementById('meta-wa-schedule').value = '';
+
+  metaRenderHistory();
+  showToast('WhatsApp announcement sent to ' + targets.length + ' group(s) via BANF Agent', 'var(--green)');
+}
+
+function metaPreviewWA() {
+  var message = (document.getElementById('meta-wa-message') || {}).value || '';
+  if (!message.trim()) { showToast('Enter a message to preview', 'var(--yellow)'); return; }
+
+  var targets = [];
+  document.querySelectorAll('#meta-wa-targets input[type="checkbox"]:checked').forEach(function(cb) {
+    targets.push(cb.parentElement.textContent.trim());
+  });
+
+  alert('📱 WhatsApp Preview\n\nGroups: ' + (targets.join(', ') || 'None selected') + '\n\n' + message);
+}
+
+function metaAddWAGroup() {
+  var name = prompt('Enter WhatsApp group name:');
+  if (!name || !name.trim()) return;
+  var list = document.getElementById('meta-wa-group-list');
+  if (!list) return;
+
+  // Add badge
+  var badge = document.createElement('span');
+  badge.className = 'badge-s';
+  badge.style.cssText = 'background:rgba(37,211,102,.12);color:#25D366;padding:4px 10px;border-radius:12px;font-size:.72rem';
+  badge.innerHTML = '<i class="fab fa-whatsapp me-1"></i>' + name.trim() + ' <i class="fas fa-check-circle ms-1" style="font-size:.55rem"></i>';
+  list.insertBefore(badge, list.lastElementChild);
+
+  // Add checkbox
+  var targetsDiv = document.getElementById('meta-wa-targets');
+  if (targetsDiv) {
+    var label = document.createElement('label');
+    label.style.cssText = 'font-size:.78rem;cursor:pointer;display:flex;align-items:center;gap:4px';
+    label.innerHTML = '<input type="checkbox" value="' + name.trim().toLowerCase().replace(/\s+/g, '-') + '"> ' + name.trim();
+    targetsDiv.appendChild(label);
+  }
+
+  metaUpdateKPIs();
+  showToast('WhatsApp group "' + name.trim() + '" added', 'var(--green)');
+}
+
+function metaRenderHistory() {
+  var container = document.getElementById('meta-post-history');
+  if (!container) return;
+
+  var all = [];
+  META_POST_QUEUE.forEach(function(p) {
+    all.push({ time: p.createdAt, type: 'social', data: p });
+  });
+  META_WA_HISTORY.forEach(function(w) {
+    all.push({ time: w.createdAt, type: 'whatsapp', data: w });
+  });
+
+  all.sort(function(a, b) { return b.time.localeCompare(a.time); });
+
+  if (all.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:8px;display:block;opacity:.3"></i>No posts yet. Use the composer above to queue your first post.</div>';
+    return;
+  }
+
+  var html = '<table class="t" style="font-size:.74rem"><thead><tr><th>Time</th><th>Platform</th><th>Type</th><th>Content</th><th>Status</th></tr></thead><tbody>';
+  all.slice(0, 20).forEach(function(item) {
+    var d = item.data;
+    if (item.type === 'social') {
+      var platformBadge = d.platform === 'both' ? '<span class="badge-s badge-blue" style="font-size:.58rem">FB+IG</span>' :
+        d.platform === 'facebook' ? '<span class="badge-s badge-blue" style="font-size:.58rem">FB</span>' :
+        '<span class="badge-s badge-purple" style="font-size:.58rem">IG</span>';
+      html += '<tr>' +
+        '<td style="white-space:nowrap;font-size:.68rem">' + new Date(d.createdAt).toLocaleString() + '</td>' +
+        '<td>' + platformBadge + '</td>' +
+        '<td style="font-size:.7rem">' + (d.type || 'post') + '</td>' +
+        '<td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (d.caption || '').substring(0, 60) + '...</td>' +
+        '<td><span class="badge-s badge-' + (d.status === 'published' ? 'green' : 'yellow') + '" style="font-size:.58rem">' + d.status + '</span></td></tr>';
+    } else {
+      html += '<tr>' +
+        '<td style="white-space:nowrap;font-size:.68rem">' + new Date(d.createdAt).toLocaleString() + '</td>' +
+        '<td><span class="badge-s badge-green" style="font-size:.58rem"><i class="fab fa-whatsapp"></i> WA</span></td>' +
+        '<td style="font-size:.7rem">' + d.targets.length + ' group(s)</td>' +
+        '<td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (d.message || '').substring(0, 60) + '...</td>' +
+        '<td><span class="badge-s badge-green" style="font-size:.58rem">' + d.status + '</span></td></tr>';
+    }
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
 </script>
 <!-- BANF RAG Chatbot Widget (Admin Variant) -->
 <script>document.body.classList.add('admin-portal');</script>
@@ -8693,18 +9370,6 @@ document.addEventListener('DOMContentLoaded', function(){
           var wc = d.text.split(/\s+/).length;
           return '<tr><td style="font-family:monospace;font-size:.7rem">' + d.id + '</td><td>' + d.year + '</td><td><span class="badge-s badge-cyan" style="font-size:.6rem">' + d.category + '</span></td><td>' + d.title + '</td><td>' + wc + '</td></tr>';
         }).join('') + '</tbody></table>';
-    }
-    // Event reports summary
-    var erSummary = document.getElementById('event-reports-summary');
-    if(erSummary && window.BANF_EVENTS_DATA){
-      var evts = window.BANF_EVENTS_DATA.events;
-      erSummary.innerHTML = '<div style="display:flex;gap:10px;flex-wrap:wrap">' + evts.map(function(e){
-        return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:180px">' +
-          '<div style="font-weight:700;font-size:.84rem">' + e.name + '</div>' +
-          '<div style="font-size:.7rem;color:var(--dim)">' + e.date + ' · ' + e.venue + '</div>' +
-          '<div style="font-size:.7rem;margin-top:4px">' + e.attendees.length + ' registered · $' + (e.revenue||0).toLocaleString() + ' rev</div>' +
-        '</div>';
-      }).join('') + '</div>';
     }
     // Initialize QR Food Serving system
     if (typeof qfsInit === 'function') qfsInit();
