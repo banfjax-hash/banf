@@ -1744,6 +1744,16 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="portal-section" id="panel-qr-food-serving">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--cyan)"></i> QR Food-Serving &amp; Check-In</div>
 
+      <!-- TIME-LOCK BANNER -->
+      <div id="qfs-timelock-banner" style="display:none;background:linear-gradient(135deg,rgba(239,68,68,.1),rgba(249,115,22,.08));border:2px solid rgba(239,68,68,.25);border-radius:12px;padding:16px 20px;margin-bottom:14px;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:6px">🔒</div>
+        <div style="font-weight:700;font-size:.92rem;color:var(--red);margin-bottom:4px">QR Scanning Locked Until Event Day</div>
+        <div style="font-size:.78rem;color:var(--text);margin-bottom:8px">Scanning, check-in, and attendance approval will unlock on:</div>
+        <div style="font-size:1.1rem;font-weight:800;color:var(--accent);margin-bottom:6px">March 29, 2026 &bull; 11:00 AM ET</div>
+        <div id="qfs-countdown" style="font-family:monospace;font-size:.88rem;color:var(--dim);padding:6px 12px;background:var(--bg2);border-radius:8px;display:inline-block"></div>
+        <div style="font-size:.68rem;color:var(--muted);margin-top:8px"><i class="fas fa-info-circle me-1"></i>Test drive data will be cleared automatically when the event goes live. View-only mode is available below.</div>
+      </div>
+
       <!-- KPI Grid -->
       <div class="kpi-grid">
         <div class="kpi green"><div class="v" id="qfs-rsvp-count">0</div><div class="k">RSVP Yes</div></div>
@@ -7683,6 +7693,17 @@ var QFS_STATE = {};       // { email|event: { checkedIn: bool, time: str, served
 var QFS_ATTENDED = {};    // { email|event: { approved: bool, approvedAt: str, approvedBy: str, comments: str, crmSynced: bool } }
 var QFS_FILTER = 'all';
 
+// ── QR SCAN TIME-LOCK — Event starts March 29, 2026 at 11:00 AM ET (Jacksonville) ──
+var QFS_EVENT_UNLOCK = new Date('2026-03-29T11:00:00-04:00'); // 11 AM EDT
+function qfsIsLocked() { return new Date() < QFS_EVENT_UNLOCK; }
+function qfsLockMessage() {
+  var diff = QFS_EVENT_UNLOCK - new Date();
+  var days = Math.floor(diff / 86400000);
+  var hrs = Math.floor((diff % 86400000) / 3600000);
+  var mins = Math.floor((diff % 3600000) / 60000);
+  return 'QR scanning is locked until event day: March 29, 2026 at 11:00 AM ET\n\nCountdown: ' + days + 'd ' + hrs + 'h ' + mins + 'm';
+}
+
 // ── Real CRM data — Bosonto Utsob 2026 RSVP'd attendees (from banf-crm-reconciliation.json) ──
 var BOSONTO_CRM_DATA = [
   {name:'Amit Chandak',email:'amit.everywhere@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
@@ -7724,6 +7745,49 @@ var BOSONTO_CRM_DATA = [
 // Initialize QR Food Serving data from existing CRM/event data
 function qfsInit() {
   QFS_ATTENDEES = [];
+
+  // TIME-LOCK: Show/hide lock banner + auto-clear test data on go-live
+  var lockBanner = document.getElementById('qfs-timelock-banner');
+  if (qfsIsLocked()) {
+    if (lockBanner) {
+      lockBanner.style.display = 'block';
+      // Start countdown timer
+      var countdownEl = document.getElementById('qfs-countdown');
+      if (countdownEl) {
+        var updateCountdown = function() {
+          if (!qfsIsLocked()) {
+            lockBanner.style.display = 'none';
+            qfsInit(); // Re-init when unlocked
+            return;
+          }
+          var diff = QFS_EVENT_UNLOCK - new Date();
+          var d = Math.floor(diff / 86400000);
+          var h = Math.floor((diff % 86400000) / 3600000);
+          var m = Math.floor((diff % 3600000) / 60000);
+          var s = Math.floor((diff % 60000) / 1000);
+          countdownEl.textContent = d + 'd ' + h + 'h ' + m + 'm ' + s + 's';
+        };
+        updateCountdown();
+        if (window._qfsCountdownTimer) clearInterval(window._qfsCountdownTimer);
+        window._qfsCountdownTimer = setInterval(updateCountdown, 1000);
+      }
+    }
+  } else {
+    if (lockBanner) lockBanner.style.display = 'none';
+    // Auto-clear test drive data when event goes live (one-time)
+    var liveCleared = localStorage.getItem('banf_qfs_live_cleared');
+    if (!liveCleared) {
+      localStorage.removeItem('banf_qfs_state');
+      localStorage.removeItem('banf_qfs_walkins');
+      localStorage.removeItem('banf_qfs_attended');
+      localStorage.setItem('banf_qfs_live_cleared', new Date().toISOString());
+      QFS_STATE = {};
+      QFS_WALKINS = [];
+      QFS_ATTENDED = {};
+      showToast('🎉 Event is LIVE! Test drive data cleared — ready for real check-ins', 'var(--green)');
+    }
+  }
+
   // Restore saved state
   try {
     var saved = localStorage.getItem('banf_qfs_state');
@@ -8102,6 +8166,11 @@ var QFS_DETAIL_CURRENT = null;
 })();
 
 function qfsCameraStart() {
+  // TIME-LOCK: Prevent scanning before event
+  if (qfsIsLocked()) {
+    showToast('🔒 ' + qfsLockMessage(), 'var(--red)');
+    return;
+  }
   var video = document.getElementById('qfs-camera-video');
   var placeholder = document.getElementById('qfs-camera-placeholder');
   var overlay = document.getElementById('qfs-scan-overlay');
@@ -8202,6 +8271,12 @@ function qfsCameraScanLoop() {
 }
 
 function qfsProcessScannedQR(data) {
+  // TIME-LOCK: Block processing before event
+  if (qfsIsLocked()) {
+    showToast('🔒 QR scanning locked until March 29, 2026 11:00 AM ET', 'var(--red)');
+    qfsCameraStop();
+    return;
+  }
   var toast = document.getElementById('qfs-scan-toast');
   try {
     var payload = JSON.parse(data);
@@ -8385,6 +8460,11 @@ function qfsSaveDetail() {
 // ═══════════════════════════════════════════════════════════
 
 function qfsApproveAttendance() {
+  // TIME-LOCK: Prevent attendance approval before event
+  if (qfsIsLocked()) {
+    showToast('🔒 Attendance approval locked until event day: March 29, 2026 at 11:00 AM ET', 'var(--red)');
+    return;
+  }
   if (!QFS_DETAIL_CURRENT) return;
   var email = QFS_DETAIL_CURRENT.email || '';
   var event = QFS_DETAIL_CURRENT.event || '';
@@ -8557,6 +8637,8 @@ function qfsExportAttendedCSV() {
 }
 
 function qfsServeFromDetail() {
+  // TIME-LOCK
+  if (qfsIsLocked()) { showToast('🔒 Check-in locked until March 29, 2026 11:00 AM ET', 'var(--red)'); return; }
   if (!QFS_DETAIL_CURRENT) return;
   var email = QFS_DETAIL_CURRENT.email || '';
   var event = QFS_DETAIL_CURRENT.event || '';
