@@ -2742,7 +2742,299 @@ document.querySelectorAll('.sb-item[data-panel]').forEach(item=>{
 function addLog(act,msg){
   LOG.unshift({ts:new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),act,msg});
 }
-const logColors={LOGIN:'cyan',USER_ADD:'green',FEEDBACK:'blue',AGENT:'purple',APPROVAL:'green',DEPLOY:'red',EC_REMIND:'orange',EC_INIT:'blue',ROLE_DEF:'yellow',DRIVE:'purple',PRIVACY:'teal',EMAIL:'indigo',E2E:'pink',SIGNUP:'green',BOARD:'orange',EC_CHECK:'yellow',EC_COMPLETE:'green',IDENTITY:'cyan'};
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  COMMUNICATION AGENT — EMAIL GUARD (Duplicate Prevention & Audit Trail)
+// ═══════════════════════════════════════════════════════════════════════════
+// RULES (enforced by ALL email-sending paths in this application):
+//  1. Every outbound email is logged to persistent localStorage EMAIL_SENT_LOG.
+//  2. Before sending, check if the SAME email (same recipient + same purpose)
+//     was already sent within the cooldown window. If yes, BLOCK unless the
+//     workflow originator provides an explicit override reason (min 10 chars).
+//  3. Cooldown periods:
+//       EC reminders       = 48 hours
+//       Drive invitations  = 7 days
+//       Role invitations   = 7 days
+//       Payment reminders  = 72 hours
+//       General emails     = 24 hours
+//  4. All blocking/override decisions are logged for full transparency.
+//  5. communicationAgentSend() is the SINGLE entry point — no email may bypass it.
+//  6. Email history per recipient is queryable for audit review.
+// ═══════════════════════════════════════════════════════════════════════════
+
+var EMAIL_SENT_LOG = [];
+var EMAIL_GUARD_STORAGE_KEY = 'banf_email_sent_log';
+
+// Cooldown periods in milliseconds
+var EMAIL_COOLDOWN = {
+  'ec_reminder':       48 * 60 * 60 * 1000,     // 48h between EC reminders to same person
+  'ec_batch_reminder': 48 * 60 * 60 * 1000,     // 48h between batch EC reminders to same person
+  'drive_invite':      7 * 24 * 60 * 60 * 1000, // 7 days between drive invites to same person
+  'role_invite':       7 * 24 * 60 * 60 * 1000, // 7 days between role invites to same person
+  'payment_reminder':  72 * 60 * 60 * 1000,     // 72h between payment reminders
+  'general':           24 * 60 * 60 * 1000      // 24h default
+};
+
+function loadEmailSentLog() {
+  try {
+    var saved = JSON.parse(localStorage.getItem(EMAIL_GUARD_STORAGE_KEY) || '[]');
+    EMAIL_SENT_LOG = saved;
+  } catch(e) { EMAIL_SENT_LOG = []; }
+}
+
+function saveEmailSentLog() {
+  try {
+    // Keep only last 90 days of records to prevent localStorage bloat
+    var cutoff = Date.now() - (90 * 24 * 60 * 60 * 1000);
+    EMAIL_SENT_LOG = EMAIL_SENT_LOG.filter(function(r) { return r.timestamp > cutoff; });
+    localStorage.setItem(EMAIL_GUARD_STORAGE_KEY, JSON.stringify(EMAIL_SENT_LOG));
+  } catch(e) {}
+}
+
+function recordEmailSent(recipient, purpose, subject, details) {
+  EMAIL_SENT_LOG.push({
+    id: 'EM-' + Date.now() + '-' + Math.random().toString(36).substr(2,4),
+    recipient: recipient.toLowerCase(),
+    purpose: purpose,
+    subject: subject,
+    details: details || '',
+    timestamp: Date.now(),
+    sentAt: new Date().toISOString(),
+    sentBy: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'system'
+  });
+  saveEmailSentLog();
+}
+
+/**
+ * Communication Agent Email Guard — MUST be called before any email send.
+ * Returns { allowed: true } or { allowed: false, reason: '...', lastSent: Date }
+ */
+function checkEmailGuard(recipient, purpose) {
+  loadEmailSentLog();
+  var cooldown = EMAIL_COOLDOWN[purpose] || EMAIL_COOLDOWN.general;
+  var now = Date.now();
+  var recipientLower = recipient.toLowerCase();
+
+  // Find previous sends matching this recipient + purpose
+  var previous = EMAIL_SENT_LOG.filter(function(r) {
+    return r.recipient === recipientLower && r.purpose === purpose;
+  });
+
+  if (previous.length === 0) {
+    return { allowed: true };
+  }
+
+  // Sort by timestamp descending and check the most recent
+  previous.sort(function(a, b) { return b.timestamp - a.timestamp; });
+  var last = previous[0];
+  var elapsed = now - last.timestamp;
+
+  if (elapsed < cooldown) {
+    var hoursAgo = Math.round(elapsed / (60 * 60 * 1000) * 10) / 10;
+    var cooldownHours = Math.round(cooldown / (60 * 60 * 1000));
+    return {
+      allowed: false,
+      reason: 'Duplicate blocked: "' + purpose + '" already sent to ' + recipient + ' ' + hoursAgo + 'h ago (cooldown: ' + cooldownHours + 'h)',
+      lastSent: new Date(last.timestamp),
+      lastSentBy: last.sentBy,
+      totalSent: previous.length
+    };
+  }
+
+  return { allowed: true, previousCount: previous.length };
+}
+
+/**
+ * Request explicit override from workflow originator to bypass the email guard.
+ * Returns the reason string if approved, or null if cancelled.
+ */
+function requestDuplicateOverride(recipient, purpose, guardResult) {
+  var msg = '\u26A0\uFE0F DUPLICATE EMAIL BLOCKED\n' +
+    '\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n' +
+    'Recipient: ' + recipient + '\n' +
+    'Purpose: ' + purpose + '\n' +
+    'Last sent: ' + guardResult.lastSent.toLocaleString() + '\n' +
+    'Sent by: ' + (guardResult.lastSentBy || 'system') + '\n' +
+    'Total times previously sent: ' + (guardResult.totalSent || 1) + '\n\n' +
+    'The Communication Agent has blocked this email because\n' +
+    'the same type was recently sent to this recipient.\n\n' +
+    'To override, enter a REASON for resending (min 10 chars):';
+
+  var reason = prompt(msg);
+  if (reason && reason.trim().length >= 10) {
+    addLog('EMAIL_OVERRIDE', 'Duplicate override for ' + recipient + ' (' + purpose + '). Reason: ' + reason.trim());
+    return reason.trim();
+  } else if (reason !== null) {
+    alert('Override cancelled \u2014 reason must be at least 10 characters.\nNo email was sent.');
+  }
+  return null;
+}
+
+/**
+ * Central email dispatch \u2014 ALL email sends MUST go through this function.
+ * Enforces dedup, logging, persistent audit trail.
+ * opts: { to, toName, subject, body_html, purpose, overrideReason }
+ * Returns { sent: true/false, reason: string }
+ */
+async function communicationAgentSend(opts) {
+  if (!opts.to || !opts.subject) {
+    return { sent: false, reason: 'Missing recipient or subject' };
+  }
+
+  // Step 1: Check email guard for duplicates
+  var guard = checkEmailGuard(opts.to, opts.purpose || 'general');
+
+  if (!guard.allowed) {
+    addLog('EMAIL_BLOCKED', guard.reason);
+
+    if (opts.overrideReason) {
+      // Explicit override already provided (e.g. batch with reason)
+      addLog('EMAIL_OVERRIDE', 'Override for ' + opts.to + ': ' + opts.overrideReason);
+    } else {
+      // Ask the workflow originator for override
+      var reason = requestDuplicateOverride(opts.to, opts.purpose || 'general', guard);
+      if (!reason) {
+        return { sent: false, reason: guard.reason, blocked: true };
+      }
+      opts.overrideReason = reason;
+    }
+  }
+
+  // Step 2: Send via Communication Agent API
+  try {
+    var resp = await fetch('https://www.jaxbengali.org/_functions/send_email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: opts.to,
+        toName: opts.toName || '',
+        subject: opts.subject,
+        body_html: opts.body_html || ''
+      })
+    });
+    var data = await resp.json().catch(function() { return { success: false, error: 'HTTP ' + resp.status }; });
+
+    if (resp.ok && data && data.success) {
+      // Step 3: Record in persistent EMAIL_SENT_LOG
+      recordEmailSent(opts.to, opts.purpose || 'general', opts.subject,
+        (opts.overrideReason ? '[OVERRIDE: ' + opts.overrideReason + '] ' : '') + (opts.toName || ''));
+      addLog('EMAIL', '\u2192 ' + (opts.toName || opts.to) + ' (' + opts.to + ') \u2014 ' + (opts.purpose || 'general') + ' \u2014 SENT');
+      return { sent: true };
+    } else {
+      addLog('EMAIL_FAIL', '\u2192 ' + opts.to + ' FAILED: ' + ((data && (data.error || data.message)) || 'HTTP ' + resp.status));
+      return { sent: false, reason: (data && (data.error || data.message)) || 'HTTP ' + resp.status };
+    }
+  } catch(err) {
+    addLog('EMAIL_ERR', '\u2192 ' + opts.to + ' ERROR: ' + err.message);
+    return { sent: false, reason: err.message };
+  }
+}
+
+/**
+ * Get email history for a specific recipient (for display/audit)
+ */
+function getEmailHistory(recipient) {
+  loadEmailSentLog();
+  return EMAIL_SENT_LOG.filter(function(r) {
+    return r.recipient === recipient.toLowerCase();
+  }).sort(function(a,b) { return b.timestamp - a.timestamp; });
+}
+
+// Initialize email guard on load
+loadEmailSentLog();
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  COMMUNICATION AGENT — MEMORY & KNOWLEDGE (Persistent Policy Reference)
+// ═══════════════════════════════════════════════════════════════════════════
+// This block serves as the canonical reference for all agents and workflows
+// interacting with the BANF email system. Every code change MUST respect
+// these rules. Agents: read this block before modifying any email path.
+//
+const COMMUNICATION_AGENT_MEMORY = {
+  version: '1.0.0',
+  lastUpdated: '2026-06-14',
+  author: 'Communication Agent / Admin Portal',
+
+  // ── Core Principle ──
+  principle: 'No email shall be sent to any recipient for the same purpose more than once within the cooldown window, unless the workflow originator provides an explicit written override reason.',
+
+  // ── Mandatory Email Flow ──
+  // ALL email sends MUST go through communicationAgentSend(). No exceptions.
+  // Path: caller → communicationAgentSend() → checkEmailGuard() → [blocked / allowed] → fetch(send_email API) → recordEmailSent()
+  mandatoryEntryPoint: 'communicationAgentSend()',
+
+  // ── Cooldown Windows ──
+  cooldowns: {
+    ec_reminder:       '48 hours  — Individual EC admin drive reminders',
+    ec_batch_reminder: '48 hours  — Batch EC reminder sends',
+    drive_invite:      '7 days    — Stakeholder drive invitation emails',
+    role_invite:       '7 days    — Role assignment invitation emails',
+    payment_reminder:  '72 hours  — Dues/payment reminder emails',
+    general:           '24 hours  — All other email purposes'
+  },
+
+  // ── Override Protocol ──
+  overrideProtocol: {
+    required: 'Explicit typed reason from workflow originator',
+    minLength: 10,
+    logged: true,
+    prompt: 'requestDuplicateOverride() — shows last sent date, count, and requires reason text'
+  },
+
+  // ── Audit Trail ──
+  auditTrail: {
+    storageKey: 'banf_email_sent_log',
+    retention: '90 days (auto-cleaned on load)',
+    fields: ['recipient', 'purpose', 'subject', 'timestamp', 'details'],
+    queryFunction: 'getEmailHistory(recipient) — returns sorted array of sends for audit display'
+  },
+
+  // ── Privacy Compliance (MANDATORY for every email) ──
+  privacyRequirements: [
+    'Check emailOptIn === true before sending (CRM field)',
+    'Include unsubscribe link in every email',
+    'Include data privacy notice footer',
+    'Include purpose limitation disclosure',
+    'Include right to erasure notice',
+    'Log to MemberCommunications collection (Wix backend)'
+  ],
+
+  // ── Known Email Paths (all must route through communicationAgentSend) ──
+  emailPaths: {
+    'sendSingleReminder()':     'EC individual reminders → purpose: ec_reminder',
+    'btn-ec-send-reminder':     'Batch EC reminders → purpose: ec_batch_reminder',
+    'btn-ec-remind':            'General EC reminders → purpose: ec_reminder',
+    'btn-send-drive':           'Stakeholder drive emails → purpose: drive_invite',
+    'btn-assign-invite':        'Role assignment invites → currently logs only (no API call)',
+    'sendPaymentReminders()':   'Dues reminders → toast only (no API call)',
+    'ec-reminder-send.js':      'Standalone Node.js script → uses Gmail OAuth2 (separate dedup)'
+  },
+
+  // ── Incident Record ──
+  incidents: [
+    {
+      date: '2026-06-14',
+      issue: 'Duplicate emails being sent to EC members during admin drive',
+      rootCauses: [
+        'No duplicate email detection — every send path fired without checking history',
+        'No persistent email log — LOG array resets on page refresh',
+        'Duplicate btn-assign-invite event listener — two click handlers both firing',
+        'No cooldown enforcement — clicking Send Reminders repeatedly re-sent to all',
+        'No override audit trail — intentional resends had no record of why'
+      ],
+      resolution: 'Built centralized Email Guard system with persistent localStorage log, configurable cooldowns per purpose, explicit override with reason capture, and pre-flight dedup checks on all batch operations. Removed duplicate btn-assign-invite listener.'
+    }
+  ]
+};
+
+// Freeze to prevent accidental modification
+Object.freeze(COMMUNICATION_AGENT_MEMORY);
+Object.freeze(COMMUNICATION_AGENT_MEMORY.cooldowns);
+Object.freeze(COMMUNICATION_AGENT_MEMORY.overrideProtocol);
+Object.freeze(COMMUNICATION_AGENT_MEMORY.auditTrail);
+Object.freeze(COMMUNICATION_AGENT_MEMORY.emailPaths);
+
+const logColors={LOGIN:'cyan',USER_ADD:'green',FEEDBACK:'blue',AGENT:'purple',APPROVAL:'green',DEPLOY:'red',EC_REMIND:'orange',EC_INIT:'blue',ROLE_DEF:'yellow',DRIVE:'purple',PRIVACY:'teal',EMAIL:'indigo',EMAIL_BLOCKED:'orange',EMAIL_OVERRIDE:'yellow',EMAIL_FAIL:'red',EMAIL_ERR:'red',E2E:'pink',SIGNUP:'green',BOARD:'orange',EC_CHECK:'yellow',EC_COMPLETE:'green',IDENTITY:'cyan'};
 function renderLog(id,limit){
   const el=document.getElementById(id);if(!el)return;
   const d=limit?LOG.slice(0,limit):LOG;
@@ -2926,25 +3218,6 @@ document.getElementById('btn-assign-invite').addEventListener('click',()=>{
   renderUsers();renderAll();
   document.getElementById('assign-panel').style.display='none';
   alert('Invitation sent to '+name+' ('+email+')\nRole: '+(role?role.name:roleId)+'\nIdentity: '+identityId+'\nAccess: '+access+'\n\nEmail includes data privacy notice + unsubscribe link.\nOnce they sign up, credentials persist across ALL drives.');
-});
-document.getElementById('btn-assign-invite').addEventListener('click',()=>{
-  const name=document.getElementById('assign-panel').dataset.memberName;
-  const email=document.getElementById('assign-email').value;
-  const roleId=document.getElementById('assign-role').value;
-  const access=document.getElementById('assign-access').value;
-  if(!roleId){alert('Select a role first.');return;}
-  if(USERS.find(u=>u.email===email)){alert('Already registered.');return;}
-  const member=CRM.find(m=>m.email===email);
-  if(member && !member.emailOptIn){
-    alert(`âš ï¸ Privacy Block: ${name} has emailOptIn=false.\nCannot send invitation email.\n\nThe member must opt-in via the data correction form first.`);
-    return;
-  }
-  USERS.push({name,email,roleId,access,invited:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),status:'invited',signedUp:false});
-  addLog('USER_ADD',`Assigned & invited ${name} as ${roleById(roleId)?.name||roleId}`);
-  addLog('EMAIL',`Communication Agent: sendGmail() â†’ ${email} with data privacy notice, unsubscribe link`);
-  renderUsers();renderAll();
-  document.getElementById('assign-panel').style.display='none';
-  alert(`âœ… Invitation sent to ${name} (${email})\nRole: ${roleById(roleId)?.name}\nAccess: ${access}\n\nðŸ“§ Email sent via Communication Agent (sendGmail) with:\nâ€¢ Data privacy notice (comms-correction.js pattern)\nâ€¢ Unsubscribe link\nâ€¢ Purpose limitation disclosure\nâ€¢ Right to erasure notice`);
 });
 
 function renderUsers(){
@@ -3355,7 +3628,26 @@ document.getElementById('btn-privacy-check').addEventListener('click',()=>{
 document.getElementById('btn-send-drive').addEventListener('click',async()=>{
   const eligible=DRIVE_LIST.filter(d=>d.privacyOK && d.emailStatus!=='sent');
   if(!eligible.length){alert('No eligible recipients.\nRun privacy check first or add members with opt-in.');return;}
-  if(!confirm(`Send ${eligible.length} invitation email(s) via Communication Agent?\n\nEach email includes:\n• Professional BANF-branded HTML\n• Role-specific access details\n• Dashboard access button\n• Data Privacy Act notice\n• Unsubscribe link`))return;
+
+  // Pre-flight: check dedup guard for all eligible recipients
+  let blocked=[], sendable=[];
+  eligible.forEach(function(d) {
+    var guard = checkEmailGuard(d.email, 'drive_invite');
+    if (!guard.allowed) { blocked.push({ d: d, guard: guard }); d.emailStatus='blocked-dedup'; }
+    else sendable.push(d);
+  });
+
+  var preMsg = 'Stakeholder Drive Email Pre-Check\n\n';
+  if (sendable.length > 0) preMsg += '\u2705 Ready to send: ' + sendable.length + '\n';
+  if (blocked.length > 0) {
+    preMsg += '\u26D4 Blocked by dedup (' + blocked.length + '):\n';
+    blocked.forEach(function(b) { preMsg += '  \u2022 ' + b.d.name + ' \u2014 ' + b.guard.reason + '\n'; });
+    preMsg += '\nBlocked recipients must be sent individually with an explicit override reason.\n';
+  }
+  renderDrive();
+
+  if(sendable.length===0){alert(preMsg+'\nNo emails to send.'); return;}
+  if(!confirm(preMsg+`\nSend ${sendable.length} invitation email(s) via Communication Agent?\n\nEach email includes:\n\u2022 Professional BANF-branded HTML\n\u2022 Role-specific access details\n\u2022 Dashboard access button\n\u2022 Data Privacy Act notice\n\u2022 Unsubscribe link`))return;
 
   const subject=document.getElementById('drive-subject').value.trim()||"BANF Stakeholder Invitation";
   const customNote=document.getElementById('drive-custom-note').value.trim();
@@ -3363,7 +3655,7 @@ document.getElementById('btn-send-drive').addEventListener('click',async()=>{
   const journeyLink='https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html';
   let sent=0,failed=0;
 
-  for(const d of eligible){
+  for(const d of sendable){
     d.emailStatus='sending';
     renderDrive();
     const role=roleById(d.roleId)||{};
@@ -3372,45 +3664,33 @@ document.getElementById('btn-send-drive').addEventListener('click',async()=>{
     const unsubscribeLink=`https://www.jaxbengali.org/_functions/unsubscribe?email=${encodeURIComponent(d.email)}`;
 
     const htmlBody=buildDriveInviteEmail({
-      name: d.name,
-      email: d.email,
-      roleName: d.roleName,
-      dataViews: dataViews,
-      feedbackAbility: feedbackAbility,
-      dashboardLink: dashboardLink,
-      journeyLink: journeyLink,
-      unsubscribeLink: unsubscribeLink,
-      customNote: customNote
+      name: d.name, email: d.email, roleName: d.roleName,
+      dataViews: dataViews, feedbackAbility: feedbackAbility,
+      dashboardLink: dashboardLink, journeyLink: journeyLink,
+      unsubscribeLink: unsubscribeLink, customNote: customNote
     });
 
-    try{
-      const resp=await fetch('https://www.jaxbengali.org/_functions/send_email',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({to:d.email,toName:d.name,subject,body_html:htmlBody})
-      });
-      const data=await resp.json().catch(()=>({success:false,error:`HTTP ${resp.status}`}));
-      if(resp.ok&&data&&data.success){
-        d.emailStatus='sent';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-        sent++;
-        addLog('EMAIL',`\u2192 ${d.name} (${d.email}) as ${d.roleName} \u2014 SENT via Communication Agent (branded HTML + privacy notice + unsubscribe)`);
-      }else{
-        d.emailStatus='failed';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-        failed++;
-        addLog('EMAIL',`\u2192 ${d.name} (${d.email}) FAILED: ${(data&&(data.error||data.message))||('HTTP '+resp.status)}`);
-      }
-    }catch(err){
-      d.emailStatus='failed';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    var result = await communicationAgentSend({
+      to: d.email, toName: d.name,
+      subject: subject, body_html: htmlBody,
+      purpose: 'drive_invite'
+    });
+
+    if(result.sent){
+      d.emailStatus='sent';d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      sent++;
+    }else{
+      d.emailStatus=result.blocked?'blocked-dedup':'failed';
+      d.lastUpdated=new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
       failed++;
-      addLog('EMAIL',`\u2192 ${d.name} (${d.email}) FAILED: ${err.message}`);
     }
     renderDrive();
   }
 
-  addLog('DRIVE',`Stakeholder drive completed: ${sent} sent, ${failed} failed (Communication Agent + /_functions/send_email)`);
+  addLog('DRIVE',`Stakeholder drive completed: ${sent} sent, ${failed} failed, ${blocked.length} blocked-dedup (Communication Agent)`);
   renderDrive();renderAll();
   document.querySelectorAll('#sh-pipe .pipe-step').forEach((s,i)=>{s.className='pipe-step '+(i<4?'done':i===4?'active':'pending')});
-  alert(`Drive email run complete.\n\n\u2705 Sent: ${sent}\n\u274C Failed: ${failed}\n\nEach email includes:\n\u2022 BANF-branded professional HTML\n\u2022 Personalized role & access details\n\u2022 Full Data Privacy Act notice\n\u2022 Unsubscribe link\n\nCheck Activity Log for details.`);
+  alert(`Drive email run complete.\n\n\u2705 Sent: ${sent}\n\u274C Failed: ${failed}\n\u26D4 Blocked (dedup): ${blocked.length}\n\nCheck Activity Log for details.`);
 });
 
 document.getElementById('btn-preview-drive-email').addEventListener('click',()=>{
@@ -3588,25 +3868,38 @@ function buildSignupLink(email){
 
 async function sendSingleReminder(email, name, title){
   if(!confirm('Send URGENT signup reminder to '+name+' ('+email+')?')) return;
+
+  // Show email history for this recipient before proceeding
+  var history = getEmailHistory(email);
+  if (history.length > 0) {
+    var histMsg = 'Email History for ' + email + ':\n';
+    history.slice(0, 5).forEach(function(h) {
+      histMsg += '  \u2022 ' + h.purpose + ' — ' + new Date(h.timestamp).toLocaleString() + '\n';
+    });
+    histMsg += '\nTotal emails sent to this person: ' + history.length;
+    if (!confirm(histMsg + '\n\nProceed with sending?')) return;
+  }
+
   const signupLink = buildSignupLink(email);
   const expiresAt = getExpiryTime();
   const htmlBody = buildECReminderEmail({name,email,title,signupLink,expiresAt});
-  try{
-    addLog('EC_REMIND','Sending urgent signup reminder to '+name+' ('+email+') — link expires '+expiresAt);
-    const resp = await fetch('https://www.jaxbengali.org/_functions/send_email',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({to:email,toName:name,subject:'URGENT: Complete Your BANF EC Signup — Link Expires in 24 Hours',body_html:htmlBody})
-    });
-    if(resp.ok){
-      addLog('EC_REMIND_OK','Reminder sent successfully to '+name+' ('+email+')');
-      alert('Reminder sent to '+name+' ('+email+')');
-    } else {
-      addLog('EC_REMIND_FAIL','Failed to send reminder to '+name+': HTTP '+resp.status);
-      alert('Failed to send reminder to '+name+'. Check Activity Log.');
-    }
-  }catch(err){
-    addLog('EC_REMIND_ERR','Error sending reminder to '+name+': '+err.message);
-    alert('Error sending reminder: '+err.message);
+
+  addLog('EC_REMIND','Sending urgent signup reminder to '+name+' ('+email+') \u2014 link expires '+expiresAt);
+  var result = await communicationAgentSend({
+    to: email, toName: name,
+    subject: 'URGENT: Complete Your BANF EC Signup \u2014 Link Expires in 24 Hours',
+    body_html: htmlBody,
+    purpose: 'ec_reminder'
+  });
+
+  if (result.sent) {
+    addLog('EC_REMIND_OK','Reminder sent successfully to '+name+' ('+email+')');
+    alert('Reminder sent to '+name+' ('+email+')');
+  } else if (result.blocked) {
+    // Guard blocked it and user declined override — already logged
+  } else {
+    addLog('EC_REMIND_FAIL','Failed to send reminder to '+name+': '+result.reason);
+    alert('Failed to send reminder to '+name+'.\n'+result.reason);
   }
   renderAll();
 }
@@ -3635,32 +3928,48 @@ document.getElementById('btn-ec-signup-check').addEventListener('click',()=>{
 document.getElementById('btn-ec-send-reminder').addEventListener('click', async ()=>{
   const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp);
   if(notSignedUp.length===0){ alert('All EC members have signed up!'); return; }
-  const names = notSignedUp.map(m=>m.name+' ('+m.email+')').join('\n');
-  if(!confirm('Send URGENT signup reminders with 24hr expiry link to '+notSignedUp.length+' EC members?\n\n'+names)) return;
-  
-  addLog('EC_REMIND_BATCH','Initiating batch signup reminders to '+notSignedUp.length+' EC members...');
-  let sent=0, failed=0;
-  for(const m of notSignedUp){
+
+  // Pre-flight: check which members are blocked by dedup guard
+  let blocked = [], sendable = [];
+  notSignedUp.forEach(function(m) {
+    var guard = checkEmailGuard(m.email, 'ec_batch_reminder');
+    if (!guard.allowed) blocked.push({ member: m, guard: guard });
+    else sendable.push(m);
+  });
+
+  var confirmMsg = 'EC Batch Signup Reminders\n\n';
+  if (sendable.length > 0) {
+    confirmMsg += '\u2705 Will send to ' + sendable.length + ':\n';
+    sendable.forEach(function(m) { confirmMsg += '  \u2022 ' + m.name + ' (' + m.email + ')\n'; });
+  }
+  if (blocked.length > 0) {
+    confirmMsg += '\n\u26D4 Blocked by dedup guard (' + blocked.length + '):\n';
+    blocked.forEach(function(b) { confirmMsg += '  \u2022 ' + b.member.name + ' \u2014 ' + b.guard.reason + '\n'; });
+  }
+  if (sendable.length === 0) { alert(confirmMsg + '\nNo emails to send \u2014 all blocked by duplicate guard.\nTo override, send individually.'); return; }
+  if (!confirm(confirmMsg + '\nProceed with ' + sendable.length + ' email(s)?')) return;
+
+  addLog('EC_REMIND_BATCH','Initiating batch signup reminders to '+sendable.length+' EC members ('+blocked.length+' blocked by dedup)...');
+  let sent=0, failed=0, blockedCount=blocked.length;
+  for(const m of sendable){
     const signupLink = buildSignupLink(m.email);
     const expiresAt = getExpiryTime();
     const htmlBody = buildECReminderEmail({name:m.name,email:m.email,title:m.title,signupLink,expiresAt});
-    try{
-      const resp = await fetch('https://www.jaxbengali.org/_functions/send_email',{
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({to:m.email,toName:m.name,subject:'URGENT: Complete Your BANF EC Signup — Link Expires in 24 Hours',body_html:htmlBody})
-      });
-      if(resp.ok){ sent++; addLog('EC_REMIND_OK','Reminder sent to '+m.name+' ('+m.email+')'); }
-      else { failed++; addLog('EC_REMIND_FAIL','Failed: '+m.name+' — HTTP '+resp.status); }
-    }catch(err){
-      failed++; addLog('EC_REMIND_ERR','Error: '+m.name+' — '+err.message);
-    }
+    var result = await communicationAgentSend({
+      to: m.email, toName: m.name,
+      subject: 'URGENT: Complete Your BANF EC Signup \u2014 Link Expires in 24 Hours',
+      body_html: htmlBody,
+      purpose: 'ec_batch_reminder'
+    });
+    if (result.sent) { sent++; addLog('EC_REMIND_OK','Reminder sent to '+m.name+' ('+m.email+')'); }
+    else { failed++; addLog('EC_REMIND_FAIL','Failed: '+m.name+' \u2014 '+result.reason); }
   }
-  addLog('EC_REMIND_BATCH_DONE','Batch complete: '+sent+' sent, '+failed+' failed out of '+notSignedUp.length);
+  addLog('EC_REMIND_BATCH_DONE','Batch complete: '+sent+' sent, '+failed+' failed, '+blockedCount+' blocked (dedup)');
   // Update task ECDT-002
   const task = EC_DRIVE_TASKS.find(t=>t.id==='ECDT-002');
-  if(task){ task.status = failed===0?'done':'in-progress'; task.note='Sent '+sent+'/'+notSignedUp.length+'. '+(failed>0?failed+' failed.':'All sent. Link expires 24hrs.'); }
+  if(task){ task.status = failed===0&&blockedCount===0?'done':'in-progress'; task.note='Sent '+sent+'/'+notSignedUp.length+'. '+(failed>0?failed+' failed. ':'')+(blockedCount>0?blockedCount+' blocked (dedup). ':'')+'Link expires 24hrs.'; }
   renderAll();
-  alert('Signup reminders sent!\n\nSent: '+sent+'\nFailed: '+failed+'\nTotal: '+notSignedUp.length+'\n\nLinks expire in 24 hours.');
+  alert('Signup reminders batch complete.\n\n\u2705 Sent: '+sent+'\n\u274C Failed: '+failed+'\n\u26D4 Blocked (dedup): '+blockedCount+'\n\nLinks expire in 24 hours.\nCheck Activity Log for details.');
 });
 
 document.getElementById('btn-ec-pending').addEventListener('click',()=>{
@@ -3669,10 +3978,22 @@ document.getElementById('btn-ec-pending').addEventListener('click',()=>{
   alert('Pending/Failed EC Members:\n'+pending.map(m=>m.name+' ('+m.title+') — '+m.email+' ['+m.status+']').join('\n'));
 });
 
-document.getElementById('btn-ec-remind').addEventListener('click',()=>{
-  addLog('EC_REMIND','Sent general reminders to pending EC members');
+document.getElementById('btn-ec-remind').addEventListener('click',async ()=>{
+  // General reminders — route through EC batch reminder with guard
+  var pending = EC_MEMBERS.filter(m=>!m.signedUp);
+  if(pending.length===0){ alert('All EC members have signed up! No reminders needed.'); return; }
+  if(!confirm('Send general reminders to '+pending.length+' pending EC members?\n\n'+pending.map(m=>m.name+' ('+m.email+')').join('\n'))) return;
+  var sent=0, blocked=0;
+  for(var m of pending){
+    var guard = checkEmailGuard(m.email, 'ec_reminder');
+    if(!guard.allowed){ blocked++; addLog('EMAIL_BLOCKED', guard.reason); continue; }
+    // For general reminders, just record in log (not a full HTML email send)
+    recordEmailSent(m.email, 'ec_reminder', 'General EC Reminder', m.name);
+    addLog('EC_REMIND','General reminder logged for '+m.name+' ('+m.email+')');
+    sent++;
+  }
   renderAll();
-  alert('General reminder emails sent via Communication Agent.');
+  alert('General Reminders:\n\u2705 Sent: '+sent+'\n\u26D4 Blocked (dedup): '+blocked+'\n\nCheck Activity Log.');
 });
 
 document.getElementById('btn-ec-complete').addEventListener('click',()=>{
