@@ -70,6 +70,14 @@ input::placeholder{color:var(--dim)}
 .test-creds code{background:var(--bg);padding:1px 6px;border-radius:4px;font-size:.7rem;color:var(--cyan)}
 .ec-member-list{margin-top:10px;font-size:.7rem;color:var(--dim);line-height:1.6}
 select{appearance:auto}
+/* ═══ CRITICAL ALERTS & CHANGE BANNER ═══ */
+.banf-alert-banner{position:fixed;top:0;left:0;right:0;z-index:10000;padding:10px 20px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:banfAlertSlide .4s ease;cursor:default}
+.banf-alert-banner.critical{background:linear-gradient(90deg,#991b1b,#dc2626);color:#fff}
+.banf-alert-banner.warning{background:linear-gradient(90deg,#92400e,#d97706);color:#fff}
+.banf-alert-banner.info{background:linear-gradient(90deg,#1e3a5f,#3b82f6);color:#fff}
+.banf-alert-banner .close-btn{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.8);font-size:1.1rem;cursor:pointer;padding:0 4px}
+.banf-alert-banner .close-btn:hover{color:#fff}
+@keyframes banfAlertSlide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
@@ -374,6 +382,45 @@ const AUTH_DB = {
   }
 };
 
+// ── BANF PLATFORM CHANGELOG ──
+const BANF_CHANGELOG = [
+  {ver:'5.12.0',date:'Mar 05, 2026',type:'fix',severity:'critical',
+   title:'Amit Chandak Email Corrected',
+   detail:'Treasurer email changed from amit.chandak@gmail.com to amit.everywhere@gmail.com. EC onboarding invitation resent.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.11.0',date:'Mar 05, 2026',type:'security',severity:'warning',
+   title:'Credential Persistence Secured',
+   detail:'User-set passwords now persist across code updates via localStorage. Code deployments will NEVER overwrite your credentials.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.10.0',date:'Mar 05, 2026',type:'feature',severity:'info',
+   title:'Real EC Members Synced to All Data Stores',
+   detail:'All 7 real EC members now reflected in CRM, Identity Graph, Feedback, and Audit Log.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.8.0',date:'Mar 03, 2026',type:'feature',severity:'info',
+   title:'Email-Only Invitation Targeting',
+   detail:'EC onboarding emails only send to members who have NOT yet signed up. Already-registered members are automatically skipped.',
+   affectedRoles:['admin','ec-member','super-admin']},
+];
+
+function showChangeBanner() {
+  if (typeof BANF_CHANGELOG === 'undefined' || !BANF_CHANGELOG.length) return;
+  var latest = BANF_CHANGELOG[0];
+  var lastSeen = localStorage.getItem('banf_last_seen_ver') || '';
+  if (lastSeen === latest.ver) return;
+  var banner = document.createElement('div');
+  banner.className = 'banf-alert-banner ' + latest.severity;
+  banner.innerHTML = '<i class="fas fa-bolt"></i> <strong>v' + latest.ver + ':</strong> ' + latest.title + ' &mdash; ' + latest.detail.substring(0,120) + (latest.detail.length>120?'...':'') +
+    '<button class="close-btn" title="Dismiss">&times;</button>';
+  banner.querySelector('.close-btn').onclick = function(e) {
+    e.stopPropagation();
+    localStorage.setItem('banf_last_seen_ver', latest.ver);
+    banner.remove();
+    document.body.style.paddingTop = '';
+  };
+  document.body.prepend(banner);
+  document.body.style.paddingTop = banner.offsetHeight + 'px';
+}
+
 // Username-based lookup
 const USERNAME_MAP = {};
 Object.keys(AUTH_DB).forEach(email => {
@@ -517,8 +564,9 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   const email = resolveEmail(rawEmail);
   const localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
 
-  // 1. Offline credential check
-  if (localUser && localUser.offlinePw === pass) {
+  // 1. Offline credential check (localStorage creds survive code deploys)
+  const _secPw = localUser ? _getSecurePassword(email) : null;
+  if (localUser && _secPw === pass) {
     enterPortal(localUser, email);
     return;
   }
@@ -653,7 +701,13 @@ async function forgotStep1() {
   if (localUser) {
     FORGOT_STATE = { email, user: localUser };
     document.getElementById('forgot-found-name').textContent = localUser.name;
-    if (localUser.securityQ) {
+    // Use localStorage-safe security Q/A (survives code deploys)
+    const qa = _getSecurityQA(email);
+    if (qa && qa.q) {
+      document.getElementById('forgot-sq-display').textContent = SQ_LABELS[qa.q] || qa.q;
+      FORGOT_STATE._securityA = qa.a; // cached for step 2 check
+      showStep('forgot', 2);
+    } else if (localUser.securityQ) {
       document.getElementById('forgot-sq-display').textContent = SQ_LABELS[localUser.securityQ] || localUser.securityQ;
       showStep('forgot', 2);
     } else {
@@ -686,8 +740,9 @@ async function forgotStep2() {
   hideMsg('forgot-error-2');
   if (!answer) return showError('forgot-error-2', 'Please enter your answer.');
 
-  if (FORGOT_STATE.user && FORGOT_STATE.user.securityA) {
-    if (answer.toLowerCase() === FORGOT_STATE.user.securityA) {
+  if (FORGOT_STATE.user && (FORGOT_STATE._securityA || FORGOT_STATE.user.securityA)) {
+    const correctAnswer = FORGOT_STATE._securityA || FORGOT_STATE.user.securityA;
+    if (answer.toLowerCase() === correctAnswer) {
       showStep('forgot', 3);
       return;
     } else {
@@ -740,6 +795,28 @@ function _saveCredsToLocalStorage(email, password, sq, sa) {
     securityA: sa,
     savedAt: new Date().toISOString()
   }));
+}
+
+// ── SECURE CREDENTIAL RESOLVER ──
+// Priority: localStorage (user-set, survives all code deploys) → AUTH_DB offlinePw (default).
+// Once a user signs up and sets their own password, code changes NEVER overwrite it.
+function _getSecurePassword(email) {
+  const key = 'banf_ec_creds_' + email.toLowerCase();
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || 'null');
+    if (stored && stored.password) return stored.password;
+  } catch(e) {}
+  const dbUser = AUTH_DB[email];
+  return dbUser ? dbUser.offlinePw : null;
+}
+function _getSecurityQA(email) {
+  const key = 'banf_ec_creds_' + email.toLowerCase();
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || 'null');
+    if (stored && stored.securityQ) return { q: stored.securityQ, a: stored.securityA };
+  } catch(e) {}
+  const dbUser = AUTH_DB[email];
+  return dbUser ? { q: dbUser.securityQ, a: dbUser.securityA } : null;
 }
 
 // ── FORGOT USERNAME — Find EC email by name ──
@@ -862,6 +939,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+// Show change notification banner on page load
+showChangeBanner();
 </script>
 </body>
 </html>

@@ -70,6 +70,14 @@ input::placeholder{color:var(--dim)}
 }
 .test-creds code{background:var(--bg);padding:1px 6px;border-radius:4px;font-size:.7rem;color:var(--cyan)}
 select{appearance:auto}
+/* ═══ CRITICAL ALERTS & CHANGE BANNER ═══ */
+.banf-alert-banner{position:fixed;top:0;left:0;right:0;z-index:10000;padding:10px 20px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:banfAlertSlide .4s ease;cursor:default}
+.banf-alert-banner.critical{background:linear-gradient(90deg,#991b1b,#dc2626);color:#fff}
+.banf-alert-banner.warning{background:linear-gradient(90deg,#92400e,#d97706);color:#fff}
+.banf-alert-banner.info{background:linear-gradient(90deg,#1e3a5f,#3b82f6);color:#fff}
+.banf-alert-banner .close-btn{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.8);font-size:1.1rem;cursor:pointer;padding:0 4px}
+.banf-alert-banner .close-btn:hover{color:#fff}
+@keyframes banfAlertSlide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 </head>
 <body>
@@ -325,6 +333,41 @@ const AUTH_DB = {
   },
 };
 
+// ── BANF PLATFORM CHANGELOG ──
+const BANF_CHANGELOG = [
+  {ver:'5.12.0',date:'Mar 05, 2026',type:'fix',severity:'critical',
+   title:'Amit Chandak Email Corrected',
+   detail:'Treasurer email changed to amit.everywhere@gmail.com. EC onboarding invitation resent.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.11.0',date:'Mar 05, 2026',type:'security',severity:'warning',
+   title:'Credential Persistence Secured',
+   detail:'User-set passwords now persist across code updates via localStorage. Code deployments will NEVER overwrite your credentials.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.10.0',date:'Mar 05, 2026',type:'feature',severity:'info',
+   title:'Real EC Members Synced to All Data Stores',
+   detail:'All 7 real EC members now reflected in CRM, Identity Graph, Feedback, and Audit Log.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+];
+
+function showChangeBanner() {
+  if (typeof BANF_CHANGELOG === 'undefined' || !BANF_CHANGELOG.length) return;
+  var latest = BANF_CHANGELOG[0];
+  var lastSeen = localStorage.getItem('banf_last_seen_ver') || '';
+  if (lastSeen === latest.ver) return;
+  var banner = document.createElement('div');
+  banner.className = 'banf-alert-banner ' + latest.severity;
+  banner.innerHTML = '<i class="fas fa-bolt"></i> <strong>v' + latest.ver + ':</strong> ' + latest.title + ' &mdash; ' + latest.detail.substring(0,120) + (latest.detail.length>120?'...':'') +
+    '<button class="close-btn" title="Dismiss">&times;</button>';
+  banner.querySelector('.close-btn').onclick = function(e) {
+    e.stopPropagation();
+    localStorage.setItem('banf_last_seen_ver', latest.ver);
+    banner.remove();
+    document.body.style.paddingTop = '';
+  };
+  document.body.prepend(banner);
+  document.body.style.paddingTop = banner.offsetHeight + 'px';
+}
+
 // Username lookup
 const USERNAME_MAP = {};
 Object.keys(AUTH_DB).forEach(function(email) {
@@ -332,6 +375,18 @@ Object.keys(AUTH_DB).forEach(function(email) {
   USERNAME_MAP[username] = email;
   USERNAME_MAP[username.replace(/\./g, '_')] = email;
 });
+
+// ── SECURE CREDENTIAL RESOLVER ──
+// Priority: localStorage (user-set, survives all code deploys) → AUTH_DB offlinePw (default).
+function _getSecurePassword(email) {
+  var key = 'banf_ec_creds_' + email.toLowerCase();
+  try {
+    var stored = JSON.parse(localStorage.getItem(key) || 'null');
+    if (stored && stored.password) return stored.password;
+  } catch(e) {}
+  var dbUser = AUTH_DB[email];
+  return dbUser ? dbUser.offlinePw : null;
+}
 
 // ── UTILITY FUNCTIONS ──
 function showAuth(screen) {
@@ -474,8 +529,9 @@ document.getElementById('btn-login').addEventListener('click', async function() 
   var email = resolveEmail(rawEmail);
   var localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
 
-  // 1. Offline credential check
-  if (localUser && localUser.offlinePw === pass) {
+  // 1. Offline credential check (localStorage creds survive code deploys)
+  var _secPw = localUser ? _getSecurePassword(email) : null;
+  if (localUser && _secPw === pass) {
     enterPortal(localUser, email);
     return;
   }
@@ -678,6 +734,8 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (e) {}
   }
 });
+// Show change notification banner on page load
+showChangeBanner();
 </script>
 </body>
 </html>

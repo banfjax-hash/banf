@@ -207,6 +207,25 @@ body[class*="theme-"] .portal-top-bar{border-bottom-color:var(--role-accent,var(
 body[class*="theme-"] .sb-item.active{border-left-color:var(--role-accent,var(--accent))}
 body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--accent));box-shadow:0 0 8px var(--role-accent,var(--accent))}
 
+/* ═══ CRITICAL ALERTS & CHANGE BANNER ═══ */
+.banf-alert-banner{position:fixed;top:0;left:0;right:0;z-index:10000;padding:10px 20px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:banfAlertSlide .4s ease;cursor:default}
+.banf-alert-banner.critical{background:linear-gradient(90deg,#991b1b,#dc2626);color:#fff}
+.banf-alert-banner.warning{background:linear-gradient(90deg,#92400e,#d97706);color:#fff}
+.banf-alert-banner.info{background:linear-gradient(90deg,#1e3a5f,#3b82f6);color:#fff}
+.banf-alert-banner .close-btn{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.8);font-size:1.1rem;cursor:pointer;padding:0 4px}
+.banf-alert-banner .close-btn:hover{color:#fff}
+@keyframes banfAlertSlide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.banf-alerts-section{margin-bottom:16px}
+.banf-alert-item{padding:12px 16px;border-radius:10px;margin-bottom:8px;border-left:4px solid;font-size:.82rem;display:flex;gap:12px;align-items:flex-start}
+.banf-alert-item.critical{background:rgba(239,68,68,.06);border-color:var(--red);color:#fca5a5}
+.banf-alert-item.warning{background:rgba(234,179,8,.06);border-color:var(--yellow);color:#fde68a}
+.banf-alert-item.info{background:rgba(59,130,246,.06);border-color:var(--blue);color:#93c5fd}
+.banf-alert-item .alert-icon{font-size:1rem;flex-shrink:0;margin-top:2px}
+.banf-alert-item .alert-body{flex:1}
+.banf-alert-item .alert-title{font-weight:700;font-size:.84rem;margin-bottom:2px}
+.banf-alert-item .alert-detail{font-size:.74rem;opacity:.85;line-height:1.5}
+.banf-alert-item .alert-meta{font-size:.65rem;opacity:.6;margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -431,6 +450,8 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
 
     <div class="portal-section active" id="panel-dashboard">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Control Center</div>
+      <!-- Critical Alerts / Platform Updates -->
+      <div id="critical-alerts-container"></div>
       <div class="kpi-grid" id="dash-kpis"></div>
       <div class="row g-3">
         <div class="col-lg-7">
@@ -1697,6 +1718,36 @@ const CRM = [
   {memberId:'MBR-015',firstName:'Priyanka',lastName:'Sarkar',displayName:'Priyanka Sarkar',nickname:'Priyo',email:'priyanka.s@gmail.com',phone:'904-555-0115',familyId:'FAM-2025-D3',familyType:'family',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Lawyer',city:'Jacksonville',state:'FL',childrenNames:['Prithvi'],spouseName:'Debashis Sarkar',joinTimestamp:'2024-11-28T00:00:00Z',membershipYears:['2025','2026']},
 ];
 
+// ── BANF PLATFORM CHANGELOG ──
+// Shown to ALL authenticated users across all portals via Critical Alerts section.
+// Credential-safe: user passwords survive all code updates via localStorage persistence.
+const BANF_CHANGELOG = [
+  {ver:'5.12.0',date:'Mar 05, 2026',type:'fix',severity:'critical',
+   title:'Amit Chandak Email Corrected',
+   detail:'Treasurer email changed from amit.chandak@gmail.com to amit.everywhere@gmail.com. EC onboarding invitation resent. All portals updated.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.11.0',date:'Mar 05, 2026',type:'security',severity:'warning',
+   title:'Credential Persistence Secured',
+   detail:'User-set passwords now persist across code updates via localStorage. Code deployments will NEVER overwrite your credentials. Signup is a one-time process.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.10.1',date:'Mar 05, 2026',type:'feature',severity:'info',
+   title:'EC Onboarding Lifecycle Tracking',
+   detail:'Per-member onboarding lifecycle added to Super Admin Audit Drives panel. Click any member row to see full onboarding journey with email delivery status.',
+   affectedRoles:['super-admin']},
+  {ver:'5.10.0',date:'Mar 05, 2026',type:'feature',severity:'info',
+   title:'Real EC Members Synced to All Data Stores',
+   detail:'All 7 real EC members (Ranadhir, Partha, Amit, Rajanya, Moumita, Soumyajit, Rwiti) now reflected in CRM, Identity Graph, Feedback, and Audit Log.',
+   affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+  {ver:'5.9.0',date:'Mar 04, 2026',type:'feature',severity:'info',
+   title:'Super Admin Audit Drives Panel',
+   detail:'9-step EC onboarding workflow engine with auto-launch, per-member tracking, and full audit trail.',
+   affectedRoles:['super-admin']},
+  {ver:'5.8.0',date:'Mar 03, 2026',type:'feature',severity:'info',
+   title:'Email-Only Invitation Targeting',
+   detail:'EC onboarding emails now only send to members who have NOT yet signed up. Already-registered members are automatically skipped.',
+   affectedRoles:['admin','ec-member','super-admin']},
+];
+
 // Pre-defined roles
 let ROLES = [
   {id:'super-admin',name:'Super Admin',purpose:'Full system control, final authority on all implementations',dataViews:['overview','pipeline','agents','endpoints','testing','deployment','data-model','sprints','requirements','dev-status','observability','internals','expert-review'],processViews:['stakeholder-acceptance','dev-team','ticket-flow','feedback-pipeline','board-review','tech-lead-approval','design-change','implementation'],feedback:'full',comment:'full',suggestion:'full'},
@@ -1738,7 +1789,7 @@ const EC_MEMBERS = [
   // ── Real BANF EC Roster FY2026-28 (7 members) ──
   {name:'Dr. Ranadhir Ghosh',title:'President',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-15',emailSent:true,emailSentDate:'2026-02-10',emailSubject:'BANF EC Onboarding: President Portal Access',emailDelivered:true},
   {name:'Partha Mukhopadhyay',title:'Vice President',email:'mukhopadhyay.partha@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-20',emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Vice President Portal Access',emailDelivered:true},
-  {name:'Amit Chandak',title:'Treasurer',email:'amit.everywhere@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-21',emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Treasurer Portal Access',emailDelivered:true},
+  {name:'Amit Chandak',title:'Treasurer',email:'amit.everywhere@gmail.com',membership:'Paid',gate:'passed',status:'pending',signedUp:false,signupDate:null,emailSent:true,emailSentDate:'2026-03-05',emailSubject:'BANF EC Admin Portal — Treasurer Onboarding Invitation (corrected email)',emailDelivered:true,emailCorrected:true,previousEmail:'amit.chandak@gmail.com',correctionDate:'2026-03-05'},
   {name:'Rajanya Ghosh',title:'General Secretary',email:'rajanya.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-22',emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: General Secretary Portal Access',emailDelivered:true},
   {name:'Dr. Moumita Ghosh',title:'Cultural Secretary',email:'moumita.mukherje@gmail.com',membership:'Paid',gate:'passed',status:'pending',signedUp:false,signupDate:null,emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Cultural Secretary Portal Access',emailDelivered:true},
   {name:'Soumyajit Dutta (Bunty)',title:'Food Coordinator',email:'duttasoumyajit86@gmail.com',membership:'Paid',gate:'passed',status:'pending',signedUp:false,signupDate:null,emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Food Coordinator Portal Access',emailDelivered:true},
@@ -1749,9 +1800,9 @@ const EC_MEMBERS = [
 let EC_DRIVE_TASKS = [
   {id:'ECDT-001',task:'Check EC member signup status',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'Auto-checked: 4 signed up (Ranadhir, Partha, Amit, Rajanya), 3 pending (Moumita, Soumyajit, Rwiti)'},
   {id:'ECDT-002',task:'Send signup reminder to non-signed-up EC members',assignee:'Super Admin',status:'in-progress',created:'2026-03-04',due:'2026-03-05',note:'URGENT: Moumita Ghosh, Soumyajit Dutta, Rwiti Chowdhury — signup link expires 24hrs'},
-  {id:'ECDT-003',task:'Verify all invitation emails delivered',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'All 7 invitation emails delivered via Communication Agent (Feb 10-14)'},
-  {id:'ECDT-004',task:'Confirm portal access for signed-up members',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'Ranadhir, Partha, Amit, Rajanya — portal access verified'},
-  {id:'ECDT-005',task:'Complete EC onboarding drive FY2026-28',assignee:'Super Admin',status:'blocked',created:'2026-03-04',due:'2026-03-10',note:'Blocked until Moumita, Soumyajit, Rwiti complete signup'},
+  {id:'ECDT-003',task:'Verify all invitation emails delivered',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'All 7 invitation emails delivered via Communication Agent (Feb 10-14). Amit Chandak re-sent Mar 5 to corrected email amit.everywhere@gmail.com'},
+  {id:'ECDT-004',task:'Confirm portal access for signed-up members',assignee:'System',status:'in-progress',created:'2026-03-04',due:'2026-03-04',note:'Ranadhir, Partha, Rajanya — portal access verified. Amit Chandak pending re-signup at amit.everywhere@gmail.com'},
+  {id:'ECDT-005',task:'Complete EC onboarding drive FY2026-28',assignee:'Super Admin',status:'blocked',created:'2026-03-04',due:'2026-03-10',note:'Blocked until Amit, Moumita, Soumyajit, Rwiti complete signup'},
 ];
 
 let FEEDBACK = [
@@ -1767,6 +1818,8 @@ let DEV_TICKETS = [
 ];
 
 let LOG = [
+  {ts:'Mar 05, 2026 21:37',act:'EC_EMAIL',msg:'EC onboarding invitation RE-SENT to Amit Chandak (Treasurer) at corrected email amit.everywhere@gmail.com — previous: amit.chandak@gmail.com'},
+  {ts:'Mar 05, 2026 21:35',act:'EC_FIX',msg:'Amit Chandak email corrected: amit.chandak@gmail.com → amit.everywhere@gmail.com across all portals'},
   {ts:'Mar 05, 2026 09:00',act:'DRIVE',msg:'EC Onboarding Drive auto-launched by Super Admin — 7 EC members'},
   {ts:'Feb 27, 2026 09:00',act:'LOGIN',msg:'Super Admin login — Dr. Ranadhir Ghosh'},
   {ts:'Feb 27, 2026 08:30',act:'FEEDBACK',msg:'FB-001: Ranadhir Ghosh submitted design change for Data Model'},
@@ -6100,6 +6153,53 @@ function abortDrive(drive) {
 }
 
 
+// ── CRITICAL ALERTS & CHANGE NOTIFICATION BANNER ──
+function renderCriticalAlerts(containerId, userRoles) {
+  var el = document.getElementById(containerId);
+  if (!el || typeof BANF_CHANGELOG === 'undefined') return;
+  var roles = (userRoles || []).map(function(r){ return r.toLowerCase().replace(/_/g,'-'); });
+  var relevant = BANF_CHANGELOG.filter(function(c){
+    return c.affectedRoles.some(function(r){ return roles.indexOf(r) >= 0; });
+  });
+  if (relevant.length === 0) { el.style.display = 'none'; return; }
+  var icons = {critical:'fa-exclamation-triangle',warning:'fa-exclamation-circle',info:'fa-info-circle'};
+  el.innerHTML = '<div class="banf-alerts-section">' +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">' +
+      '<i class="fas fa-bell" style="color:var(--yellow)"></i>' +
+      '<span style="font-size:.88rem;font-weight:700">Platform Updates &amp; Alerts</span>' +
+      '<span style="font-size:.65rem;color:var(--muted);margin-left:auto">' + relevant.length + ' update(s)</span>' +
+    '</div>' +
+    relevant.map(function(c){
+      return '<div class="banf-alert-item ' + c.severity + '">' +
+        '<i class="fas ' + (icons[c.severity]||'fa-info-circle') + ' alert-icon"></i>' +
+        '<div class="alert-body">' +
+          '<div class="alert-title">' + c.title + '</div>' +
+          '<div class="alert-detail">' + c.detail + '</div>' +
+          '<div class="alert-meta">' + c.type.toUpperCase() + ' &middot; v' + c.ver + ' &middot; ' + c.date + '</div>' +
+        '</div></div>';
+    }).join('') +
+  '</div>';
+}
+
+function showChangeBanner() {
+  if (typeof BANF_CHANGELOG === 'undefined' || !BANF_CHANGELOG.length) return;
+  var latest = BANF_CHANGELOG[0];
+  var lastSeen = localStorage.getItem('banf_last_seen_ver') || '';
+  if (lastSeen === latest.ver) return; // already dismissed
+  var banner = document.createElement('div');
+  banner.className = 'banf-alert-banner ' + latest.severity;
+  banner.innerHTML = '<i class="fas fa-bolt"></i> <strong>v' + latest.ver + ':</strong> ' + latest.title + ' &mdash; ' + latest.detail.substring(0,120) + (latest.detail.length>120?'...':'') +
+    '<button class="close-btn" title="Dismiss">&times;</button>';
+  banner.querySelector('.close-btn').onclick = function(e) {
+    e.stopPropagation();
+    localStorage.setItem('banf_last_seen_ver', latest.ver);
+    banner.remove();
+    document.body.style.paddingTop = '';
+  };
+  document.body.prepend(banner);
+  document.body.style.paddingTop = banner.offsetHeight + 'px';
+}
+
 function renderAll(){
   document.getElementById('dash-kpis').innerHTML=[
     {v:ROLES.length,k:'Defined Roles',cls:'blue'},
@@ -6112,6 +6212,13 @@ function renderAll(){
     {v:LOG.length,k:'Audit Log',cls:'dim'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
   renderRoles();renderUsers();renderDrive();renderEC();renderECDriveTasks();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();updatePortalSwitcher();renderAuditDrives();
+  // Render critical alerts for authenticated user
+  var _session = null;
+  try { _session = JSON.parse(sessionStorage.getItem('banf_admin_session')); } catch(e) {}
+  var _roles = _session ? (_session.roles || ['super-admin']) : ['super-admin'];
+  renderCriticalAlerts('critical-alerts-container', _roles);
+  // Show change banner on first load
+  showChangeBanner();
 }
 
 </script>

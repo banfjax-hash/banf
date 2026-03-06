@@ -100,6 +100,14 @@
             background: #e9ecef; padding: 0.15rem 0.4rem;
             border-radius: 4px; font-size: 0.75rem;
         }
+        /* ═══ CRITICAL ALERTS & CHANGE BANNER ═══ */
+        .banf-alert-banner{position:fixed;top:0;left:0;right:0;z-index:10000;padding:10px 20px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:banfAlertSlide .4s ease;cursor:default}
+        .banf-alert-banner.critical{background:linear-gradient(90deg,#991b1b,#dc2626);color:#fff}
+        .banf-alert-banner.warning{background:linear-gradient(90deg,#92400e,#d97706);color:#fff}
+        .banf-alert-banner.info{background:linear-gradient(90deg,#1e3a5f,#3b82f6);color:#fff}
+        .banf-alert-banner .close-btn{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.8);font-size:1.1rem;cursor:pointer;padding:0 4px}
+        .banf-alert-banner .close-btn:hover{color:#fff}
+        @keyframes banfAlertSlide{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
     </style>
 </head>
 <body>
@@ -200,6 +208,41 @@
 
         function _loadCredsFromLocalStorage(email) {
           try { return JSON.parse(localStorage.getItem('banf_ec_creds_' + email.toLowerCase())); } catch(e) { return null; }
+        }
+
+        // ── BANF PLATFORM CHANGELOG ──
+        const BANF_CHANGELOG = [
+          {ver:'5.12.0',date:'Mar 05, 2026',type:'fix',severity:'critical',
+           title:'Amit Chandak Email Corrected',
+           detail:'Treasurer email changed to amit.everywhere@gmail.com. EC onboarding invitation resent.',
+           affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+          {ver:'5.11.0',date:'Mar 05, 2026',type:'security',severity:'warning',
+           title:'Credential Persistence Secured',
+           detail:'User-set passwords persist across code updates via localStorage. Code deployments will NEVER overwrite your credentials.',
+           affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+          {ver:'5.10.0',date:'Mar 05, 2026',type:'feature',severity:'info',
+           title:'Real EC Members Synced to All Data Stores',
+           detail:'All 7 real EC members now reflected in CRM, Identity Graph, Feedback, and Audit Log.',
+           affectedRoles:['admin','ec-member','super-admin','business-stakeholder']},
+        ];
+
+        function showChangeBanner() {
+          if (typeof BANF_CHANGELOG === 'undefined' || !BANF_CHANGELOG.length) return;
+          var latest = BANF_CHANGELOG[0];
+          var lastSeen = localStorage.getItem('banf_last_seen_ver') || '';
+          if (lastSeen === latest.ver) return;
+          var banner = document.createElement('div');
+          banner.className = 'banf-alert-banner ' + latest.severity;
+          banner.innerHTML = '<i class="fas fa-bolt"></i> <strong>v' + latest.ver + ':</strong> ' + latest.title + ' &mdash; ' + latest.detail.substring(0,120) + (latest.detail.length>120?'...':'') +
+            '<button class="close-btn" title="Dismiss">&times;</button>';
+          banner.querySelector('.close-btn').onclick = function(e) {
+            e.stopPropagation();
+            localStorage.setItem('banf_last_seen_ver', latest.ver);
+            banner.remove();
+            document.body.style.paddingTop = '';
+          };
+          document.body.prepend(banner);
+          document.body.style.paddingTop = banner.offsetHeight + 'px';
         }
 
         // Fetch with timeout helper
@@ -364,6 +407,8 @@
                 }
             } catch(e) {}
         });
+        // Show change notification banner on page load
+        showChangeBanner();
     </script>
 </body>
 </html>
