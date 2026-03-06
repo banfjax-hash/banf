@@ -558,33 +558,9 @@
         }
 
         async function sendReminders() {
-            const pending = dashboardData?.summary?.pendingOnboarding || 0;
-            if (pending === 0) {
-                showToast('No pending EC members to remind!', 'info');
-                return;
-            }
-            
-            if (!confirm(`Send reminder emails to ${pending} pending EC member(s)?\\n\\nNote: Emails are sent via Gmail from banfjax@gmail.com`)) return;
-
-            try {
-                showToast('Sending reminders...', 'info');
-                const resp = await fetch(`${API_BASE}/ec_send_reminder`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'x-user-email': adminEmail },
-                    body: JSON.stringify({ sendAll: true })
-                });
-                const json = await resp.json();
-                if (json.success) {
-                    let msg = json.message;
-                    if (json.testMode) msg += ' (TEST MODE - sent to admin only)';
-                    showToast(msg, 'success');
-                    setTimeout(() => loadDashboard(), 2000);
-                } else {
-                    showToast(json.error || 'Failed to send reminders', 'danger');
-                }
-            } catch (e) {
-                showToast('Error: ' + e.message, 'danger');
-            }
+            // EC invitation/reminder sending is DISABLED — completed task
+            showToast('EC Invitation/Reminder sending is DISABLED. EC onboarding is complete. Only super-admin can re-enable in backend code.', 'warning');
+            return;
         }
 
         // Utilities

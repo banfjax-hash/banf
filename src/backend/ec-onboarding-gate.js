@@ -39,6 +39,12 @@ const BANF_ORG = 'Bengali Association of North Florida (BANF)';
 const PRESIDENT_EMAIL = 'ranadhir.ghosh@gmail.com';
 const TEST_MODE = true; // SAFE TEST MODE: all emails redirected to PRESIDENT_EMAIL only
 
+// ══════════════════════════════════════════════════════════════
+// KILL SWITCH — EC invitation/reminder emails DISABLED
+// Only super-admin can re-enable by changing this to false.
+// ══════════════════════════════════════════════════════════════
+const EC_EMAIL_SENDING_DISABLED = true;
+
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';
 const GOOGLE_REFRESH_TOKEN = '1//04r5fLIbQ_StLCgYIARAAGAQSNwF-L9IrJfULpkONXwCrDUdNAVWB-TekD2LgRoQtxFDv1nmVM9O2M7wBSk_SWbZI5vH6EkrqsDs';
@@ -662,11 +668,14 @@ function buildReminderEmail(ecMember, steps) {
 
 export async function post_ec_send_reminder(request) {
     try {
-        const userEmail = (request.headers['x-user-email'] || '').toLowerCase().trim();
-        if (!userEmail) return jsonErr('x-user-email header required', 401);
+        // ── KILL SWITCH ──
+        if (EC_EMAIL_SENDING_DISABLED) {
+            return jsonErr('EC invitation/reminder email sending is DISABLED. Contact super-admin to re-enable.', 403);
+        }
 
-        const perm = await checkPermission(userEmail, 'ec_manage');
-        if (!perm.allowed) return jsonErr('Only super admin can send reminders', 403);
+        // ── SUPER-ADMIN ONLY ──
+        const perm = await checkPermission(request, 'admin:manage_roles');
+        if (!perm.allowed) return jsonErr('Forbidden — super_admin only can send EC reminders', 403);
 
         const body = await parseBody(request);
         const targetEmails = body.emails; // optional: specific emails to send to
@@ -856,6 +865,15 @@ function buildCongratsEmail(member, role) {
 
 export async function post_ec_signup_congratulations(request) {
     try {
+        // ── KILL SWITCH ──
+        if (EC_EMAIL_SENDING_DISABLED) {
+            return jsonErr('EC invitation/reminder email sending is DISABLED. Contact super-admin to re-enable.', 403);
+        }
+
+        // ── SUPER-ADMIN ONLY ──
+        const perm = await checkPermission(request, 'admin:manage_roles');
+        if (!perm.allowed) return jsonErr('Forbidden — super_admin only can trigger EC congratulations emails', 403);
+
         const body = await parseBody(request);
         const { email, firstName, lastName, role } = body;
         if (!email) return jsonErr('email required', 400);
@@ -952,6 +970,11 @@ function buildInviteEmail(member) {
 
 export async function post_ec_send_all_invitations(request) {
     try {
+        // ── KILL SWITCH ──
+        if (EC_EMAIL_SENDING_DISABLED) {
+            return jsonErr('EC invitation/reminder email sending is DISABLED. Contact super-admin to re-enable.', 403);
+        }
+
         const perm = await checkPermission(request, 'admin:manage_roles');
         if (!perm.allowed) return jsonErr('Forbidden — super_admin only', 403);
 

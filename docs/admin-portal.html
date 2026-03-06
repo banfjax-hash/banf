@@ -833,7 +833,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
               <button class="btn-primary" style="background:linear-gradient(135deg,var(--cyan),#0891b2)" id="btn-ec-signup-check"><i class="fas fa-user-check me-1"></i>Check Signup Status</button>
               <button class="btn-primary" style="background:linear-gradient(135deg,var(--red),#dc2626)" id="btn-ec-send-reminder"><i class="fas fa-envelope-open-text me-1"></i>Send Signup Reminders (24hr Expiry Link)</button>
               <button class="btn-secondary" id="btn-ec-pending"><i class="fas fa-users me-1"></i>View Pending Members</button>
-              <button class="btn-primary" style="background:linear-gradient(135deg,var(--yellow),#ca8a04)" id="btn-ec-remind"><i class="fas fa-bell me-1"></i>Send General Reminders</button>
+              <button class="btn-primary" style="background:linear-gradient(135deg,#666,#444);cursor:not-allowed;opacity:0.6" id="btn-ec-remind"><i class="fas fa-ban me-1"></i>EC Reminders DISABLED (Completed)</button>
               <button class="btn-success" id="btn-ec-complete"><i class="fas fa-check-double me-1"></i>Mark Complete (ec_year_complete)</button>
             </div>
           </div>
@@ -4814,21 +4814,9 @@ document.getElementById('btn-ec-pending').addEventListener('click',()=>{
 });
 
 document.getElementById('btn-ec-remind').addEventListener('click',async ()=>{
-  // General reminders — route through EC batch reminder with guard
-  var pending = EC_MEMBERS.filter(m=>!m.signedUp);
-  if(pending.length===0){ alert('All EC members have signed up! No reminders needed.'); return; }
-  if(!confirm('Send general reminders to '+pending.length+' pending EC members?\n\n'+pending.map(m=>m.name+' ('+m.email+')').join('\n'))) return;
-  var sent=0, blocked=0;
-  for(var m of pending){
-    var guard = checkEmailGuard(m.email, 'ec_reminder');
-    if(!guard.allowed){ blocked++; addLog('EMAIL_BLOCKED', guard.reason); continue; }
-    // For general reminders, just record in log (not a full HTML email send)
-    recordEmailSent(m.email, 'ec_reminder', 'General EC Reminder', m.name);
-    addLog('EC_REMIND','General reminder logged for '+m.name+' ('+m.email+')');
-    sent++;
-  }
-  renderAll();
-  alert('General Reminders:\n\u2705 Sent: '+sent+'\n\u26D4 Blocked (dedup): '+blocked+'\n\nCheck Activity Log.');
+  // EC invitation/reminder sending is DISABLED — completed task
+  alert('⛔ EC Invitation/Reminder Sending is DISABLED.\n\nEC onboarding is complete. This task has been locked.\nOnly the super-admin can re-enable this in the backend code (EC_EMAIL_SENDING_DISABLED flag).');
+  return;
 });
 
 document.getElementById('btn-ec-complete').addEventListener('click',()=>{

@@ -694,8 +694,8 @@ async function signupStep2Submit() {
   await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() });
   await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token });
 
-  // Fire congratulations email
-  apiCall('ec_signup_congratulations', { email: SIGNUP_STATE.email }).catch(function(){});
+  // EC congratulations email — DISABLED (completed task, super-admin only)
+  // apiCall('ec_signup_congratulations', { email: SIGNUP_STATE.email }).catch(function(){});
 
   showStep('signup', 3);
 }

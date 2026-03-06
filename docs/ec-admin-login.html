@@ -699,8 +699,8 @@ async function signupStep2Submit() {
   var dbUser = AUTH_DB[SIGNUP_STATE.email];
   if (dbUser) { dbUser.offlinePw = pass; dbUser.securityQ = sq; dbUser.securityA = sa.toLowerCase(); }
 
-  // Fire congratulations email (keepalive so it survives page navigation)
-  try { fetch(API + '/ec_signup_congratulations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: SIGNUP_STATE.email, firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '' }), keepalive: true }).catch(function(){}); } catch(e) {}
+  // EC congratulations email — DISABLED (completed task, super-admin only)
+  // try { fetch(API + '/ec_signup_congratulations', ...) } catch(e) {}
 
   // AUTO-LOGIN: enter portal directly after signup — no second sign-in needed
   var user = dbUser || { name: [SIGNUP_STATE.firstName, SIGNUP_STATE.lastName].filter(Boolean).join(' ') || SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: ['ec-member'], ecTitle: SIGNUP_STATE.ecTitle || '' };
