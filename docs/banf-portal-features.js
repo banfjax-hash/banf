@@ -33,12 +33,12 @@ window.BANF_ALERTS = [
   // ── Common alerts for ALL EC members ──
   {id:'ALT-001',type:'common',severity:'info',icon:'fa-bullhorn',
    title:'Bosonto Utsob 2026 — Event Planning Active',
-   detail:'Event date: March 22, 2026. Venue: JCCL Community Center. 56 members in pipeline, 6 paid ($2,490). All EC members should review their assigned tasks.',
+   detail:'Event date: Saturday, March 7, 2026. Venue: Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246. 47 RSVP Yes, 7 paid ($1,890). All EC members should review their assigned tasks.',
    date:'2026-03-05',dismissible:true,targetRoles:['ec-member','admin','super-admin']},
-  {id:'ALT-002',type:'common',severity:'warning',icon:'fa-user-clock',
-   title:'3 EC Members Pending Portal Signup',
-   detail:'Dr. Moumita Ghosh, Soumyajit Dutta (Banty), and Rwiti Chowdhury have not completed portal signup. Please remind them directly.',
-   date:'2026-03-05',dismissible:true,targetRoles:['ec-member','admin','super-admin']},
+  {id:'ALT-002',type:'common',severity:'success',icon:'fa-user-check',
+   title:'All 8 EC Members Portal Signup Complete',
+   detail:'All EC members have completed portal signup and credentials are active in AUTH_DB. EC onboarding drive is now INACTIVE.',
+   date:'2026-03-06',dismissible:true,targetRoles:['ec-member','admin','super-admin']},
   {id:'ALT-003',type:'common',severity:'info',icon:'fa-database',
    title:'CRM Data Update: 182 Members Loaded',
    detail:'Full CRM reconciliation completed. 182 members from 5 data sources, 129 families, $17,372 revenue tracked. All event/payment data enriched.',
@@ -259,13 +259,13 @@ window.BANF_RAG = {
 
     // 2026-27 Year
     docs.push({id:'kb-2026-bosonto',year:'2026-27',category:'event',title:'Bosonto Utsob 2026',
-      text:'Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. **GROUND TRUTH (CSV from Evite admin export, March 6 2026)**: 47 Yes attendees, 24 No, 139 Not Yet Replied. Total headcount: 119 guests. Food prefs from CSV: 1 veg (Amit Chandak), 3 non-veg (Suvankar Paul, Tanmoy Banerjee, lmukhe/Latika Mukherjee), 43 unspecified. **Payments (Zelle after Feb 27, 2026-27 year only)**: 7 verified paid totaling $1,890 — Amit Chandak $375, Ranadhir Ghosh $375, Suvankar Paul $330, Sunetra Basu Ghosh $330, Tarit Mondal $205, Ishita Saha $145, Asok Chaudhuri $130. 3 unmatched payments totaling $985 — Amit Kumar Saha $330, FNU Amrita $375, Suvendu Maitra $280. 40 unpaid RSVP-Yes attendees. **Pipeline learnings**: Evite RSVP notification emails do NOT contain guest email/phone — only the Evite admin CSV export has contact info. Food prefs only in CSV RSVP Comment field. 6 Evite usernames (Chakfam5, Dindrani74, etc.) cannot be resolved to real names without CSV email matching. Use CSV as authoritative source, email reader pipeline for incremental RSVP detection only.'});
+      text:'Bosonto Utsob 2026 (Spring Festival). Date: Saturday, March 7, 2026. Venue: Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246. Type: Membership + Cultural Event. **GROUND TRUTH (CSV from Evite admin export, March 6 2026)**: 47 Yes attendees, 24 No, 139 Not Yet Replied. Total headcount: 119 guests. Food prefs from CSV: 1 veg (Amit Chandak), 3 non-veg (Suvankar Paul, Tanmoy Banerjee, lmukhe/Latika Mukherjee), 43 unspecified. **Payments (Zelle after Feb 27, 2026-27 year only)**: 7 verified paid totaling $1,890 — Amit Chandak $375, Ranadhir Ghosh $375, Suvankar Paul $330, Sunetra Basu Ghosh $330, Tarit Mondal $205, Ishita Saha $145, Asok Chaudhuri $130. 3 unmatched payments totaling $985 — Amit Kumar Saha $330, FNU Amrita $375, Suvendu Maitra $280. 40 unpaid RSVP-Yes attendees. **Pipeline learnings**: Evite RSVP notification emails do NOT contain guest email/phone — only the Evite admin CSV export has contact info. Food prefs only in CSV RSVP Comment field. 6 Evite usernames (Chakfam5, Dindrani74, etc.) cannot be resolved to real names without CSV email matching. Use CSV as authoritative source, email reader pipeline for incremental RSVP detection only.'});
 
     docs.push({id:'kb-2026-membership',year:'2026-27',category:'membership',title:'BANF Membership 2026-27',
       text:'BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60), NB-Event Only ($35/event). Early bird discount: $25 off if paid by Aug 31, 2026. Payment: Zelle to banf.treasurer@gmail.com, PayPal, or cash at events. 6 members already paid for 2026-27 via Bosonto collection.'});
 
     docs.push({id:'kb-2026-upcoming',year:'2026-27',category:'events',title:'BANF Upcoming Events 2026-27',
-      text:'BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2027), 8) Holi (Mar 2027), 9) AGM - Annual General Meeting (Jan 2027). Each event requires: procurement budget approval, venue booking, food coordination, cultural program, puja arrangements (if applicable), attendance tracking via QR codes.'});
+      text:'BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 7, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2027), 8) Holi (Mar 2027), 9) AGM - Annual General Meeting (Jan 2027). Each event requires: procurement budget approval, venue booking, food coordination, cultural program, puja arrangements (if applicable), attendance tracking via QR codes.'});
 
     docs.push({id:'kb-2026-finance',year:'2026-27',category:'finance',title:'BANF Financial Summary',
       text:'BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit request → Treasurer review (24h) → VP escalation → President escalation → Purchase → Receipt upload → Reimbursement. Average event budget: $2,500-$8,500 depending on event size.'});
@@ -488,8 +488,8 @@ window.BANF_EVENTS_DATA = {
      ],
      totalAdults:85,totalKids:32,totalFamilies:65,newSignups:12,eventTicketRevenue:3200},
 
-    {id:'EVT-002',name:'Bosonto Utsob 2026',type:'cultural',date:'2026-03-22',year:'2026-27',
-     venue:'JCCL Community Center',budget:4500,revenue:2490,
+    {id:'EVT-002',name:'Bosonto Utsob 2026',type:'cultural',date:'2026-03-07',year:'2026-27',
+     venue:'Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246',budget:4500,revenue:1890,
      attendees:[
        {email:'mukhopadhyay.partha@gmail.com',name:'Partha Mukhopadhyay',adults:3,kids:0,checkedIn:false,membershipPaid:true,tier:'M2 Premium EB-Family',prevTier:'EB-Family',paymentAmount:375,paymentMethod:'Zelle'},
        {email:'ranadhir.ghosh@gmail.com',name:'Ranadhir Ghosh',adults:2,kids:2,checkedIn:false,membershipPaid:true,tier:'M2 Premium EB-Family',prevTier:'EB-Family',paymentAmount:375,paymentMethod:'Zelle'},

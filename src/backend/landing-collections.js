@@ -405,13 +405,13 @@ export const SEED = {
             active: true
         },
         {
-            title: 'Bosonto Utsob 2026 — March 22nd',
-            message: 'BANF Bosonto Utsob 2026 spring festival is on March 22nd. Enjoy cultural performances, Bengali spring festivities, food, music, and youth programs. M2 Premium members: complimentary entry. Contact banfjax@gmail.com for details.',
+            title: 'Bosonto Utsob 2026 — March 7th',
+            message: 'BANF Bosonto Utsob 2026 spring festival is on Saturday, March 7th at Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246. Enjoy cultural performances, Bengali spring festivities, food, music, and youth programs. M2 Premium members: complimentary entry. Contact banfjax@gmail.com for details.',
             priority: 'high',
             category: 'event',
             source: 'manual',
             effectiveOn: '2026-03-03',
-            expiresOn: '2026-03-22',
+            expiresOn: '2026-03-07',
             pinned: true,
             order: 4,
             active: true
