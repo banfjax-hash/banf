@@ -340,7 +340,7 @@ const STAKEHOLDERS = [
   { id:'secretary',  name:'Partha Mukhopadhyay',     role:'Secretary',                     email:'partha.bhdm@gmail.com',      domains:['compliance','communications','minutes','archive'] },
   { id:'jt_sec',     name:'Rajanya Ghosh',           role:'Joint Secretary',               email:'rajanya.ghosh@gmail.com',    domains:['membership','volunteer','community'] },
   { id:'cultural',   name:'Sumanta Ghosh',           role:'Cultural Secretary',            email:'sumanta.ghosh@gmail.com',    domains:['events','cultural','magazine','radio'] },
-  { id:'treasurer',  name:'Amit Chandak',            role:'Treasurer',                     email:'amit.chandak@gmail.com',     domains:['budget','payments','finance','reconciliation','vendors','sponsors'] },
+  { id:'treasurer',  name:'Amit Chandak',            role:'Treasurer',                     email:'amit.everywhere@gmail.com',     domains:['budget','payments','finance','reconciliation','vendors','sponsors'] },
   { id:'ec1',        name:'Rwiti Chowdhury',         role:'EC Member',                     email:'rwiti.chowdhury@gmail.com',  domains:['events','volunteer','community','feedback'] },
   { id:'ec2',        name:'Soumyajit Dutta',         role:'EC Member',                     email:'soumyajit.dutta@gmail.com',  domains:['events','youth','sports','community'] },
   { id:'tech_admin', name:'Technical Admin',          role:'Technical Admin',               email:'techadmin@banf.org',         domains:['platform','devops','architecture','security','ai'] }
@@ -480,7 +480,7 @@ const JOURNEYS = [
   },
   {
     name: 'Amit Chandak', role: 'Treasurer', roleCls: 'cat-admin',
-    email: 'amit.chandak@gmail.com',
+    email: 'amit.everywhere@gmail.com',
     scenario: 'Manage FY budget, track all income/expense, and run year-end reconciliation.',
     steps: [
       'Log in to CRM Admin via EC onboarding credentials (BR-010)',
@@ -622,7 +622,7 @@ const BD = {
   rules: ['5 roles: super_admin, admin, ec_member, member, guest','30+ granular permissions mapped to roles (e.g., admin:manage_members, member:view_own)','checkPermission(requiredPerm) middleware on every protected endpoint','AdminRoles collection stores EC member role assignments','Members collection stores general member role grants','5-minute role cache to reduce database queries','Default super_admin: banfjax@gmail.com (Moumita Ghosh — VP)','PRESIDENT_EMAIL: ranadhir.ghosh@gmail.com given super_admin'],
   collections: [{n:'AdminRoles',f:'email, role, permissions[], displayName, assignedBy, assignedAt, isActive'},{n:'Members',f:'email, role, firstName, lastName, isActive, loginEnabled'}],
   endpoints: [{m:'GET',r:'/admin_roles',d:'List all EC members with role assignments'},{m:'POST',r:'/admin_role_assign',d:'Assign role to an EC member'},{m:'POST',r:'/admin_role_revoke',d:'Revoke role from an EC member'},{m:'GET',r:'/admin_permissions',d:'Get full permission matrix'}],
-  example: '// Permission check in endpoint handler\nconst perm = await checkPermission(request, "admin:manage_members");\nif (!perm.ok) return forbidden(perm.reason);\n\n// AdminRoles record\n{\n  "email": "amit.chandak@gmail.com",\n  "role": "admin",\n  "permissions": ["admin:view","admin:manage_payments","admin:manage_vendors"],\n  "displayName": "Amit Chandak",\n  "assignedBy": "ranadhir.ghosh@gmail.com"\n}',
+  example: '// Permission check in endpoint handler\nconst perm = await checkPermission(request, "admin:manage_members");\nif (!perm.ok) return forbidden(perm.reason);\n\n// AdminRoles record\n{\n  "email": "amit.everywhere@gmail.com",\n  "role": "admin",\n  "permissions": ["admin:view","admin:manage_payments","admin:manage_vendors"],\n  "displayName": "Amit Chandak",\n  "assignedBy": "ranadhir.ghosh@gmail.com"\n}',
   templateMap: [{k:'Source File',v:'src/backend/rbac.js + admin-api.js'},{k:'Auth Pattern',v:'Email-based lookup → role → permission check'},{k:'Cache TTL',v:'5 minutes (300,000 ms)'},{k:'Role Hierarchy',v:'super_admin > admin > ec_member > member > guest'}],
   criteria: ['Unauthorized requests return 403 with clear reason','Role assignments persist in AdminRoles collection','Permission cache invalidates after 5 minutes','super_admin can access all endpoints','guest role blocked from all admin endpoints'],
   deps: ['BR-010','BR-012']

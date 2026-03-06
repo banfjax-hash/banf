@@ -210,7 +210,7 @@
         ecContacts: [
             { name: 'Dr. Ranadhir Ghosh',   role: 'President',         email: 'ranadhir.ghosh@gmail.com'      },
             { name: 'Partha Mukhopadhyay',  role: 'Vice President',    email: 'mukhopadhyay.partha@gmail.com' },
-            { name: 'Amit Chandak',         role: 'Treasurer',         email: 'amit.chandak@gmail.com'        },
+            { name: 'Amit Chandak',         role: 'Treasurer',         email: 'amit.everywhere@gmail.com'        },
             { name: 'Rajanya Ghosh',        role: 'Gen. Secretary',    email: 'rajanya.ghosh@gmail.com'       },
             { name: 'Dr. Moumita Ghosh',    role: 'Cultural Sec.',     email: 'moumita.mukherje@gmail.com'    },
             { name: 'Banty Dutta',          role: 'Food Coordinator',  email: 'duttasoumyajit86@gmail.com'    },

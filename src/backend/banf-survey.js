@@ -139,7 +139,7 @@ const EC_TEST_MEMBERS = [
     { name: 'Partha Mukhopadhyay',  email: 'partha.bhdm@gmail.com',           role: 'Secretary',         confirmed: true  },
     { name: 'Rajanya Ghosh',        email: 'rajanya.ghosh@gmail.com',         role: 'Joint Secretary',   confirmed: true  },
     { name: 'Sumanta Ghosh',        email: 'sumanta.ghosh@gmail.com',         role: 'Cultural Secretary',confirmed: true  },
-    { name: 'Amit Chandak',         email: 'amit.chandak@gmail.com',          role: 'Treasurer',         confirmed: true  },
+    { name: 'Amit Chandak',         email: 'amit.everywhere@gmail.com',          role: 'Treasurer',         confirmed: true  },
     { name: 'Rwiti Chowdhury',      email: 'rwiti.chowdhury@gmail.com',       role: 'EC Member',         confirmed: true  },
     { name: 'Soumyajit Dutta',      email: 'soumyajit.dutta@gmail.com',       role: 'EC Member',         confirmed: true  },
 ];
