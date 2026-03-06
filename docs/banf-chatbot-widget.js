@@ -1,20 +1,18 @@
 /**
- * BANF LLM-Powered Chatbot Widget v2.0
+ * BANF Knowledge-Based Chatbot Widget v3.0
  * ──────────────────────────────────────────────────────────────
  *  Architecture:
- *    Primary  → HuggingFace Inference API (featherless-ai router)
- *               Model: meta-llama/Llama-3.1-8B-Instruct
- *               System prompt = rich BANF knowledge graph
- *    Fallback → Rule-based keyword/KB engine (works offline)
+ *    KB-only → Rule-based keyword/knowledge-base engine
+ *              Instant responses, always available, no external API calls
  *
  *  Two personas:
  *    • Member chatbot  (green)  — community info, events, membership, portal guide
  *    • Admin chatbot   (orange) — all of above + EC processes, drive status, admin ops
  *
- *  Security:
+ *  Features:
+ *    • Quick-action keyword buttons for common topics
  *    • BLACKLIST: blocks PII, credentials, system internals, jailbreaks
- *    • System prompt: strict "BANF-only" instruction baked in
- *    • Timeout: falls back to KB after 15 s if LLM is slow
+ *    • Individual EC member search by role
  *
  *  Usage:  <script src="banf-chatbot-widget.js"></script>
  *          Self-injects into <body>.  Portal type auto-detected from page title.
@@ -23,21 +21,8 @@
     'use strict';
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  0.  LLM CONFIG  — HuggingFace featherless-ai router
+     *  0.  CONFIG
      * ═══════════════════════════════════════════════════════════════════*/
-    // Token removed — all LLM calls are proxied through the Wix backend.
-    // The actual HuggingFace API token lives only in the private SiteConfig
-    // Wix collection (key = HF_API_TOKEN).  See src/backend/banf-chat-proxy.js.
-    const HF_TOKEN   = null;  // unused — no client-side token
-    const HF_URL     = 'https://www.jaxbengali.org/_functions/chat_llm'; // Wix backend proxy
-    const HF_MODEL   = 'meta-llama/Llama-3.1-8B-Instruct';
-    const LLM_MAX_TOKENS  = 450;
-    const LLM_TEMPERATURE = 0.6;
-    const LLM_TIMEOUT_MS  = 14000; // fall back to KB after 14 s
-
-    // rolling chat history for multi-turn (last N exchanges)
-    let CHAT_HISTORY = [];
-    const MAX_HISTORY = 6; // keep last 3 user+assistant pairs
 
     /* ═══════════════════════════════════════════════════════════════════
      *  1.  KNOWLEDGE GRAPH — three sensitivity tiers
@@ -122,7 +107,7 @@
             { name: 'Bijoya Sonmiloni',                    date: 'October 25, 2026',  type: 'Social',       m2Only: false },
             { name: 'Artist Program Day 1 + Dinner',       date: 'October 24, 2026',  type: 'Cultural',     m2Only: false },
             { name: 'Artist Program Day 2 + Dinner',       date: 'October 25, 2026',  type: 'Cultural',     m2Only: false },
-            { name: 'Kali Puja + Lunch',                   date: 'November 7, 2026',  type: 'Religious',    m2Only: false },
+            { name: 'Kali Puja + Food',                    date: 'November 7, 2026',  type: 'Religious',    m2Only: false },
             { name: 'Natok (Drama) + Dinner',              date: 'November 7, 2026',  type: 'Cultural',     m2Only: false },
             { name: 'Winter Picnic',                       date: 'January 2027',      type: 'Social',       m2Only: false },
             { name: 'Saraswati Puja',                      date: 'February 27, 2027', type: 'Religious',    m2Only: true  }
@@ -175,7 +160,7 @@
                 { name: 'Amit Chandak',         role: 'Treasurer'                },
                 { name: 'Rajanya Ghosh',        role: 'General Secretary'        },
                 { name: 'Dr. Moumita Ghosh',    role: 'Cultural Secretary'       },
-                { name: 'Banty Dutta',          role: 'Food Coordinator'         },
+                { name: 'Soumyajit Dutta (Banty)', role: 'Food Coordinator'      },
                 { name: 'Dr. Sumanta Ghosh',    role: 'Event Coordinator'        },
                 { name: 'Rwiti Choudhury',      role: 'Puja Coordinator'         }
             ]
@@ -184,7 +169,7 @@
         // Member portal feature list
         memberPortal: [
             { name: 'Dashboard',            status: 'Live',     desc: 'Overview, stats, quick access to all features' },
-            { name: 'BANF AI Assistant',    status: 'Live',     desc: 'This LLM chatbot — events, fees, contacts, EC info' },
+            { name: 'BANF Assistant',       status: 'Live',     desc: 'Knowledge-based chatbot — events, fees, contacts, EC info' },
             { name: 'Profile & Family',     status: 'Phase 2',  desc: 'Update personal info, manage family members' },
             { name: 'Payments & Receipts',  status: 'Phase 2',  desc: 'Payment history, download receipts, pay membership' },
             { name: 'Events & RSVP',        status: 'Phase 2',  desc: 'Browse events, register, manage RSVPs' },
@@ -213,7 +198,7 @@
             { name: 'Amit Chandak',         role: 'Treasurer',         email: 'amit.everywhere@gmail.com'        },
             { name: 'Rajanya Ghosh',        role: 'Gen. Secretary',    email: 'rajanya.ghosh@gmail.com'       },
             { name: 'Dr. Moumita Ghosh',    role: 'Cultural Sec.',     email: 'moumita.mukherje@gmail.com'    },
-            { name: 'Banty Dutta',          role: 'Food Coordinator',  email: 'duttasoumyajit86@gmail.com'    },
+            { name: 'Soumyajit Dutta (Banty)', role: 'Food Coordinator',  email: 'duttasoumyajit86@gmail.com'    },
             { name: 'Dr. Sumanta Ghosh',    role: 'Event Coordinator', email: 'sumo475@gmail.com'             },
             { name: 'Rwiti Choudhury',      role: 'Puja Coordinator',  email: 'rwitichoudhury@gmail.com'      }
         ],
@@ -278,136 +263,7 @@
 
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  2.  SYSTEM PROMPTS — tiered RAG knowledge per portal type
-     *      Member portal: PUBLIC + MEMBER tiers
-     *      Admin portal:  PUBLIC + MEMBER + ADMIN tiers
-     * ═══════════════════════════════════════════════════════════════════*/
-
-    function buildPublicKG() {
-        const o = KB_PUBLIC.org;
-        const m = KB_PUBLIC.membership;
-        let s = '';
-        // Org
-        s += `## ORGANIZATION\n`;
-        s += `Name: ${o.name} (${o.bengali}) | Also known as: ${o.altName}\n`;
-        s += `Founded: ${o.founded} | Type: ${o.type} | Location: ${o.location}\n`;
-        s += `Mission: ${o.mission}\n`;
-        s += `Website: ${o.website} | Email: ${o.email} | Phone: ${o.phone}\n`;
-        s += `Social: Facebook: ${o.social.facebook} | Instagram: ${o.social.instagram} | YouTube: ${o.social.youtube}\n`;
-        s += `Payment: ${o.payment.zelle} | Square: ${o.payment.square}\n`;
-        s += `Community size: ${o.stats.persons} persons, ${o.stats.families} families\n\n`;
-        // Membership
-        s += `## MEMBERSHIP FEES — ${m.season} (Early Bird deadline: ${m.earlyBirdDeadline})\n`;
-        m.tiers.forEach(t => {
-            s += `${t.name} (${t.code}): Family $${t.family} | Couple $${t.couple} | Individual $${t.individual} | Student $${t.student}\n`;
-            s += `  → Covers: ${t.events}\n  → ${t.note}\n`;
-        });
-        s += `Special passes:\n`;
-        m.specialPasses.forEach(p => {
-            s += `  ${p.name}: Family $${p.family} | Couple $${p.couple} | Ind $${p.individual} | Student $${p.student} (${p.covers})\n`;
-        });
-        s += `How to join: ${m.howToJoin}\nBenefits (all plans): ${m.benefits}\n\n`;
-        // Events
-        s += `## 2026-27 EVENTS (17 total)\nHighlight: ${KB_PUBLIC.upcomingHighlight}\n`;
-        KB_PUBLIC.events.forEach((e, i) => {
-            s += `${i + 1}. ${e.name} — ${e.date} [${e.type}]${e.m2Only ? ' (M2 Premium only)' : ''}\n`;
-        });
-        s += `\n`;
-        // Programs
-        s += `## PROGRAMS\n`;
-        KB_PUBLIC.programs.forEach(p => { s += `• ${p.name}: ${p.desc}\n`; });
-        s += `\n`;
-        // Sponsorship
-        const sp = KB_PUBLIC.sponsorship;
-        s += `## SPONSORSHIP\n`;
-        sp.tiers.forEach(t => { s += `${t.name} (${t.amount}): ${t.benefits}\n`; });
-        s += `Contact: ${sp.contact} | Current sponsors include: ${sp.currentSponsors}\n\n`;
-        // EC roster (public — names + roles)
-        s += `## EC LEADERSHIP — ${KB_PUBLIC.ec2026.term} (elected ${KB_PUBLIC.ec2026.electedAt})\n`;
-        KB_PUBLIC.ec2026.members.forEach(m => { s += `• ${m.name} — ${m.role}\n`; });
-        s += `\n`;
-        return s;
-    }
-
-    function buildMemberKG() {
-        let s = buildPublicKG();
-        const mk = KB_MEMBER;
-        s += `## COMMUNITY STATISTICS\n`;
-        s += `Total persons in DB: ${mk.communityStats.totalPersons} | Families: ${mk.communityStats.families}\n`;
-        s += `Active members: ${mk.communityStats.activeMembers} | Membership records all years: ${mk.communityStats.membershipRecordsAllYears}\n`;
-        s += `Top family surnames: ${mk.communityStats.topFamilies}\n\n`;
-        s += `## EC CONTACT DETAILS\n`;
-        mk.ecContacts.forEach(c => { s += `• ${c.name} (${c.role}): ${c.email}\n`; });
-        s += `\n## GBM 2026: ${mk.gbm2026.date} — ${mk.gbm2026.result}\n`;
-        return s;
-    }
-
-    function buildAdminKG() {
-        let s = buildMemberKG();
-        const ak = KB_ADMIN;
-        s += `\n## EC DRIVE STATUS (FY2026-27)\n`;
-        s += `Total EC seats: ${ak.ecDrive.total} | Signed up: ${ak.ecDrive.signedUp} | Pending: ${ak.ecDrive.pending}\n`;
-        s += `Last reminder sent to: ${ak.ecDrive.lastReminderTo}\nSignup URL: ${ak.ecDrive.signupUrl}\n\n`;
-        s += `## ADMIN PORTAL PANELS\n`;
-        ak.adminPanels.forEach(p => { s += `• ${p.name} [${p.status}] (${p.roles}): ${p.desc}\n`; });
-        s += `\n## ROLES & ACCESS\n`;
-        ak.roles.forEach(r => { s += `• ${r.role}: ${r.access}\n`; });
-        s += `\n## PORTAL LINKS\n`;
-        Object.entries(ak.portals).forEach(([k, v]) => { s += `${k}: ${v}\n`; });
-        s += `\n## FINANCE OVERVIEW (admin only)\n`;
-        s += `2025-26 membership revenue: ${ak.financeOverview.revenue2526}\n`;
-        s += `Event budget 2025-26: ${ak.financeOverview.eventBudget2526} | Total transactions: ${ak.financeOverview.totalTransactions}\n`;
-        return s;
-    }
-
-    function getMemberSystemPrompt() {
-        const sd = (() => { try { return JSON.parse(sessionStorage.getItem('banf_member_data') || '{}'); } catch { return {}; } })();
-        const uName = sd.name || sd.firstName || '';
-        const uCtx  = uName ? `\nLOGGED-IN MEMBER: ${uName}` : '';
-
-        return `You are "BANF Assistant" — the AI-powered community chatbot for the Bengali Association of North Florida Member Portal.
-
-PERSONA: Warm, helpful, knowledgeable. Use occasional Bengali greetings (Namaskar, Dhanyabad) naturally. Keep responses under 220 words unless listing events or fees. Use **bold** for key terms.
-${uCtx}
-
-KNOWLEDGE BASE (Public + Member tier):
-${buildMemberKG()}
-MEMBER PORTAL FEATURES:
-${KB_PUBLIC.memberPortal.map(f => `• ${f.name} [${f.status}]: ${f.desc}`).join('\n')}
-
-RULES:
-1. Answer ONLY about BANF — events, fees, programs, EC team, contacts, payment, radio, sponsorship, Jagriti, Bengali school, portals.
-2. Refuse politely if asked about passwords, API keys, private member data, or other members' personal info.
-3. Features marked Phase 2/3/4 are coming soon — explain they are in development.
-4. Unknown specifics → direct to banfjax@gmail.com.
-5. Never invent fees, dates, or names. Use only the knowledge base above.`;
-    }
-
-    function getAdminSystemPrompt() {
-        const sd = (() => { try { return JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}'); } catch { return {}; } })();
-        const aName = sd.name || sd.firstName || '';
-        const aRole = sd.effectiveRole || (Array.isArray(sd.roles) ? sd.roles[0] : '') || 'EC Admin';
-        const aCtx  = aName ? `\nLOGGED-IN ADMIN: ${aName} (role: ${aRole})` : '';
-
-        return `You are "BANF Admin Assistant" — the AI-powered operations chatbot for the BANF EC Admin Portal.
-
-PERSONA: Professional, precise, operational focus. Keep responses under 220 words unless listing panels or rosters. Use clear structure.
-${aCtx}
-
-KNOWLEDGE BASE (Public + Member + Admin tier):
-${buildAdminKG()}
-
-RULES:
-1. Answer questions about BANF operations, EC processes, admin portal, EC drive, roles, onboarding, finance overview.
-2. NEVER reveal API tokens, database schemas, passwords, or individual payment records.
-3. Coming-soon panels → reference Phase status and planned capabilities.
-4. For EC drive questions → use the drive status section above.
-5. Never invent data. Use only the knowledge base above.`;
-    }
-
-
-    /* ═══════════════════════════════════════════════════════════════════
-     *  3.  BLACKLIST  — blocks sensitive queries regardless of LLM
+     *  2.  BLACKLIST  — blocks sensitive queries
      * ═══════════════════════════════════════════════════════════════════*/
 
     const BLACKLIST_PATTERNS = [
@@ -440,68 +296,7 @@ RULES:
 
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  4.  LLM API CALL  — HuggingFace with timeout + fallback
-     * ═══════════════════════════════════════════════════════════════════*/
-
-    async function callLLM(userMessage, isAdmin) {
-        const systemPrompt = isAdmin ? getAdminSystemPrompt() : getMemberSystemPrompt();
-
-        // Build messages array: system + rolling history + new user message
-        const messages = [
-            { role: 'system', content: systemPrompt },
-            ...CHAT_HISTORY.slice(-MAX_HISTORY),
-            { role: 'user', content: userMessage }
-        ];
-
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), LLM_TIMEOUT_MS);
-
-        try {
-            const res = await fetch(HF_URL, {
-                method: 'POST',
-                headers: {
-                    // No Authorization header — token is held server-side by the proxy
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    model: HF_MODEL,
-                    messages,
-                    max_tokens: LLM_MAX_TOKENS,
-                    temperature: LLM_TEMPERATURE,
-                    stream: false
-                }),
-                signal: controller.signal
-            });
-            clearTimeout(timer);
-
-            if (!res.ok) {
-                console.warn('[BANF LLM] API error:', res.status);
-                return null; // triggers fallback
-            }
-
-            const data = await res.json();
-            const reply = data?.choices?.[0]?.message?.content?.trim();
-            if (reply) {
-                // Update rolling history
-                CHAT_HISTORY.push({ role: 'user', content: userMessage });
-                CHAT_HISTORY.push({ role: 'assistant', content: reply });
-                if (CHAT_HISTORY.length > MAX_HISTORY * 2) {
-                    CHAT_HISTORY = CHAT_HISTORY.slice(-MAX_HISTORY * 2);
-                }
-            }
-            return reply || null;
-
-        } catch (err) {
-            clearTimeout(timer);
-            if (err.name === 'AbortError') console.warn('[BANF LLM] Timeout — using KB fallback');
-            else console.warn('[BANF LLM] Error:', err.message);
-            return null;
-        }
-    }
-
-
-    /* ═══════════════════════════════════════════════════════════════════
-     *  5.  KB FALLBACK ENGINE  — rule-based, always works offline
+     *  3.  KB ENGINE  — rule-based, instant, always works
      * ═══════════════════════════════════════════════════════════════════*/
 
     function kbAnswer(query) {
@@ -570,7 +365,31 @@ RULES:
         }
 
         // ── EC Team ──
-        if (/ec\s*team|executive|committee|president|vice\s*president|treasurer|secretary|who\s*runs|leadership|board|cultural\s*sec|food\s*coord|event\s*coord|puja\s*coord/.test(q)) {
+        if (/ec\s*team|ec\s*member|executive|committee|president|vice\s*president|treasurer|secretary|who\s*runs|leadership|board|cultural\s*sec|food\s*coord|event\s*coord|puja\s*coord/.test(q)) {
+            // Check for individual role queries first
+            const roleMap = {
+                'president':      m => m.role.toLowerCase().includes('president') && !m.role.toLowerCase().includes('vice'),
+                'vice president': m => m.role.toLowerCase().includes('vice president'),
+                'treasurer':      m => m.role.toLowerCase().includes('treasurer'),
+                'secretary':      m => m.role.toLowerCase().includes('secretary') && !m.role.toLowerCase().includes('cultural'),
+                'cultural':       m => m.role.toLowerCase().includes('cultural'),
+                'food':           m => m.role.toLowerCase().includes('food'),
+                'event coord':    m => m.role.toLowerCase().includes('event'),
+                'puja':           m => m.role.toLowerCase().includes('puja')
+            };
+            for (const [keyword, matcher] of Object.entries(roleMap)) {
+                if (q.includes(keyword)) {
+                    const found = KB_PUBLIC.ec2026.members.find(matcher);
+                    if (found) {
+                        const contact = KB_MEMBER.ecContacts.find(c => c.name === found.name);
+                        let resp = `👤 **${found.name}** — ${found.role}\n_(EC ${KB_PUBLIC.ec2026.term}, elected ${KB_PUBLIC.ec2026.electedAt})_`;
+                        if (contact && contact.email) resp += `\n📧 ${contact.email}`;
+                        resp += `\n\n_Ask "EC team" to see the full roster._`;
+                        return resp;
+                    }
+                }
+            }
+            // Full roster
             let resp = `👥 **BANF Executive Committee ${KB_PUBLIC.ec2026.term}**\n_(${KB_PUBLIC.ec2026.electedAt})_\n\n`;
             KB_PUBLIC.ec2026.members.forEach(m => {
                 resp += `• **${m.name}** — ${m.role}\n`;
@@ -631,29 +450,25 @@ RULES:
 
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  6.  MAIN ANSWER  — LLM first, KB fallback
+     *  4.  MAIN ANSWER  — KB-only (instant, no external API)
      * ═══════════════════════════════════════════════════════════════════*/
 
-    async function answer(query, isAdmin) {
+    function answer(query) {
         const q = query.toLowerCase().trim();
 
-        // Always apply blacklist first (no LLM path for sensitive queries)
+        // Apply blacklist first
         if (isBlacklisted(query)) {
             return '🔒 I\'m not authorized to share that type of information. I can help with BANF events, membership fees, EC team info, and community contacts.';
         }
         if (q.length < 2) return 'Please type a question about BANF!';
 
-        // Try LLM first
-        const llmReply = await callLLM(query, isAdmin);
-        if (llmReply) return llmReply;
-
-        // Fallback: rule-based KB
+        // KB engine
         return kbAnswer(query);
     }
 
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  7.  CHAT WIDGET UI  — floating bubble (LLM badge added)
+     *  5.  CHAT WIDGET UI  — floating bubble with keyword suggestions
      * ═══════════════════════════════════════════════════════════════════*/
     const WIDGET_HTML = `
 <div id="banf-chat-widget" style="position:fixed;bottom:20px;right:20px;z-index:99999;font-family:'Segoe UI',system-ui,sans-serif;">
@@ -671,8 +486,8 @@ RULES:
         <i class="fas fa-robot"></i>
       </div>
       <div style="flex:1;">
-        <div style="font-weight:700;font-size:.95rem;">BANF Assistant <span style="font-size:.62rem;background:rgba(255,255,255,.25);border-radius:4px;padding:1px 5px;margin-left:4px;letter-spacing:.3px;">LLM ✦</span></div>
-        <div style="font-size:.72rem;opacity:.85;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle;"></span>AI-powered · Llama 3.1</div>
+        <div style="font-weight:700;font-size:.95rem;">BANF Assistant <span style="font-size:.62rem;background:rgba(255,255,255,.25);border-radius:4px;padding:1px 5px;margin-left:4px;letter-spacing:.3px;">KB</span></div>
+        <div style="font-size:.72rem;opacity:.85;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle;"></span>Always available · Instant</div>
       </div>
       <div style="cursor:pointer;font-size:1.2rem;opacity:.8;" onclick="banfChatToggle()" title="Close">✕</div>
     </div>
@@ -681,10 +496,21 @@ RULES:
       <!-- Welcome message -->
       <div class="banf-msg bot">
         <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #a7f3d0;border-radius:12px 12px 12px 4px;padding:12px 16px;max-width:88%;font-size:.88rem;color:#064e3b;line-height:1.5;">
-          🙏 <strong>Namaskar!</strong> Welcome to BANF AI Assistant.<br><br>
+          🙏 <strong>Namaskar!</strong> Welcome to BANF Assistant.<br><br>
           I can help you with events, membership fees, EC team info, portal features, contacts, payments, and more.<br><br>
-          <em style="font-size:.75rem;color:#059669;">⚡ Powered by Llama 3.1 · Offline fallback always on</em>
+          <em style="font-size:.75rem;color:#059669;">⚡ BANF Knowledge Engine · Always available</em>
         </div>
+      </div>
+      <!-- Quick-action keyword buttons -->
+      <div id="banf-quick-actions" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 2px;">
+        <button onclick="banfQuickAsk('membership fees')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">💰 Membership</button>
+        <button onclick="banfQuickAsk('events')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">📅 Events</button>
+        <button onclick="banfQuickAsk('ec team')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">👥 EC Members</button>
+        <button onclick="banfQuickAsk('president')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">🏛️ President</button>
+        <button onclick="banfQuickAsk('contact')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">📧 Contact</button>
+        <button onclick="banfQuickAsk('programs')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">📚 Programs</button>
+        <button onclick="banfQuickAsk('sponsorship')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">🤝 Sponsorship</button>
+        <button onclick="banfQuickAsk('how to pay')" style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:20px;padding:6px 14px;font-size:.78rem;color:#065f46;cursor:pointer;transition:all .2s;font-family:inherit;" onmouseover="this.style.background='#d1fae5'" onmouseout="this.style.background='#ecfdf5'">💳 Payment</button>
       </div>
     </div>
     <!-- Input -->
@@ -698,7 +524,7 @@ RULES:
 </div>`;
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  5.  ADMIN variant — orange theme
+     *  6.  ADMIN variant — orange theme
      * ═══════════════════════════════════════════════════════════════════*/
     const WIDGET_HTML_ADMIN = WIDGET_HTML
         .replace(/#006A4E/g, '#f97316')
@@ -707,13 +533,14 @@ RULES:
         .replace(/#d1fae5/g, '#ffedd5')
         .replace(/#a7f3d0/g, '#fed7aa')
         .replace(/#064e3b/g, '#7c2d12')
+        .replace(/#065f46/g, '#9a3412')
         .replace(/#059669/g, '#c2410c')
         .replace(/#4ade80/g, '#fb923c')
         .replace(/BANF Assistant/g, 'BANF Admin Assistant');
 
 
     /* ═══════════════════════════════════════════════════════════════════
-     *  6.  INJECT + GLOBAL FUNCTIONS
+     *  7.  INJECT + GLOBAL FUNCTIONS
      * ═══════════════════════════════════════════════════════════════════*/
     function init() {
         const isAdmin = document.title.toLowerCase().includes('admin') || document.body.classList.contains('admin-portal');
@@ -738,45 +565,37 @@ RULES:
             }
         };
 
-        window.banfChatSend = async function () {
+        // Quick-action button helper — simulates typing + sending
+        window.banfQuickAsk = function (text) {
+            const input = document.getElementById('banf-chat-input');
+            if (input) input.value = text;
+            // Hide quick-action buttons after first use
+            const qa = document.getElementById('banf-quick-actions');
+            if (qa) qa.style.display = 'none';
+            banfChatSend();
+        };
+
+        window.banfChatSend = function () {
             const input  = document.getElementById('banf-chat-input');
             const messages = document.getElementById('banf-chat-messages');
-            const sendBtn  = document.getElementById('banf-chat-btn');
             if (!input || !messages) return;
             const text = input.value.trim();
             if (!text) return;
             input.value = '';
 
-            // Disable send button while waiting
-            if (sendBtn) sendBtn.disabled = true;
+            // Hide quick-action buttons once user starts chatting
+            const qa = document.getElementById('banf-quick-actions');
+            if (qa) qa.style.display = 'none';
 
             // User message bubble
             messages.innerHTML += `<div class="banf-msg user" style="display:flex;justify-content:flex-end;"><div style="background:linear-gradient(135deg,${isAdmin ? '#f97316' : '#006A4E'},${isAdmin ? '#ea580c' : '#00856F'});color:#fff;border-radius:12px 12px 4px 12px;padding:10px 16px;max-width:80%;font-size:.88rem;line-height:1.4;">${escHtml(text)}</div></div>`;
 
-            // Typing indicator (real LLM delay — no fake setTimeout)
-            const typingId = 'typing-' + Date.now();
-            messages.innerHTML += `<div id="${typingId}" class="banf-msg bot"><div style="background:#f1f5f9;border-radius:12px;padding:10px 16px;max-width:60px;display:flex;gap:4px;align-items:center;"><span style="width:7px;height:7px;border-radius:50%;background:#94a3b8;animation:banfDot .8s infinite 0s;display:inline-block;">​</span><span style="width:7px;height:7px;border-radius:50%;background:#94a3b8;animation:banfDot .8s infinite .25s;display:inline-block;">​</span><span style="width:7px;height:7px;border-radius:50%;background:#94a3b8;animation:banfDot .8s infinite .5s;display:inline-block;">​</span></div></div>`;
+            // Get KB response (instant — no loading indicator needed)
+            const resp = answer(text);
+            const formatted = formatResponse(resp);
+            messages.innerHTML += `<div class="banf-msg bot"><div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px 12px 12px 4px;padding:12px 16px;max-width:88%;font-size:.88rem;color:#1e293b;line-height:1.5;">${formatted}</div></div>`;
             messages.scrollTop = messages.scrollHeight;
-
-            try {
-                // Await LLM (with KB fallback inside answer())
-                const resp = await answer(text, isAdmin);
-                const formatted = formatResponse(resp);
-                const typingEl = document.getElementById(typingId);
-                if (typingEl) typingEl.remove();
-                messages.innerHTML += `<div class="banf-msg bot"><div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px 12px 12px 4px;padding:12px 16px;max-width:88%;font-size:.88rem;color:#1e293b;line-height:1.5;">${formatted}</div></div>`;
-            } catch (err) {
-                // Hard fallback — KB only
-                const typingEl = document.getElementById(typingId);
-                if (typingEl) typingEl.remove();
-                const resp = kbAnswer(text);
-                const formatted = formatResponse(resp);
-                messages.innerHTML += `<div class="banf-msg bot"><div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px 12px 12px 4px;padding:12px 16px;max-width:88%;font-size:.88rem;color:#1e293b;line-height:1.5;">${formatted}<br><span style="font-size:.72rem;color:#9a3412;">⚠ Offline mode</span></div></div>`;
-            } finally {
-                messages.scrollTop = messages.scrollHeight;
-                if (sendBtn) sendBtn.disabled = false;
-                input.focus();
-            }
+            input.focus();
         };
     }
 
