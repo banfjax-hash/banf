@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-03-06T03:19:19.089Z",
+  "crmMembers": 0,
+  "expectedMembers": 8,
+  "issues": [
+    {
+      "type": "MISSING",
+      "id": "MBR-001",
+      "name": "Dr. Ranadhir Ghosh",
+      "msg": "EC member Dr. Ranadhir Ghosh (MBR-001) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-002",
+      "name": "Partha Mukhopadhyay",
+      "msg": "EC member Partha Mukhopadhyay (MBR-002) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-003",
+      "name": "Amit Chandak",
+      "msg": "EC member Amit Chandak (MBR-003) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-004",
+      "name": "Rajanya Ghosh",
+      "msg": "EC member Rajanya Ghosh (MBR-004) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-005",
+      "name": "Dr. Moumita Ghosh",
+      "msg": "EC member Dr. Moumita Ghosh (MBR-005) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-006",
+      "name": "Soumyajit Dutta (Banty)",
+      "msg": "EC member Soumyajit Dutta (Banty) (MBR-006) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-007",
+      "name": "Dr. Sumanta Ghosh",
+      "msg": "EC member Dr. Sumanta Ghosh (MBR-007) not found in CRM"
+    },
+    {
+      "type": "MISSING",
+      "id": "MBR-008",
+      "name": "Rwiti Choudhury",
+      "msg": "EC member Rwiti Choudhury (MBR-008) not found in CRM"
+    }
+  ],
+  "status": "ISSUES_FOUND"
+}

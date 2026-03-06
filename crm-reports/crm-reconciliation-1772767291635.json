@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-03-06T03:21:31.635Z",
+  "crmMembers": 7,
+  "expectedMembers": 8,
+  "issues": [
+    {
+      "type": "NO_CRM_ENTRY",
+      "name": "Rwiti Choudhury",
+      "msg": "EC member Rwiti Choudhury (Puja Coordinator) has no CRM entry — needs to be added"
+    }
+  ],
+  "status": "ISSUES_FOUND"
+}

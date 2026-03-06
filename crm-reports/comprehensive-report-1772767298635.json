@@ -1,0 +1,80 @@
+{
+  "timestamp": "2026-03-06T03:21:38.635Z",
+  "title": "BANF CRM Comprehensive Report",
+  "ecMembers2026": [
+    {
+      "id": "MBR-001",
+      "name": "Dr. Ranadhir Ghosh",
+      "role": "President / IT Lead",
+      "email": "ranadhir.ghosh@gmail.com"
+    },
+    {
+      "id": "MBR-002",
+      "name": "Partha Mukhopadhyay",
+      "role": "Vice President",
+      "email": "mukhopadhyay.partha@gmail.com"
+    },
+    {
+      "id": "MBR-003",
+      "name": "Amit Chandak",
+      "role": "Treasurer",
+      "email": "amit.everywhere@gmail.com"
+    },
+    {
+      "id": "MBR-004",
+      "name": "Rajanya Ghosh",
+      "role": "General Secretary",
+      "email": "rajanya.ghosh@gmail.com"
+    },
+    {
+      "id": "MBR-005",
+      "name": "Dr. Moumita Ghosh",
+      "role": "Cultural Secretary",
+      "email": "moumita.mukherje@gmail.com"
+    },
+    {
+      "id": "MBR-006",
+      "name": "Soumyajit Dutta (Banty)",
+      "role": "Food Coordinator",
+      "email": "duttasoumyajit86@gmail.com"
+    },
+    {
+      "id": "MBR-007",
+      "name": "Dr. Sumanta Ghosh",
+      "role": "Event Coordinator",
+      "email": "sumo475@gmail.com"
+    },
+    {
+      "id": null,
+      "name": "Rwiti Choudhury",
+      "role": "Puja Coordinator",
+      "email": "rwitichoudhury@gmail.com",
+      "note": "Not yet in CRM — needs MBR-008 entry"
+    }
+  ],
+  "communityStats": {
+    "totalPersons": 416,
+    "families": 105,
+    "activeMembers": 243,
+    "membershipRecordsAllYears": 886,
+    "topFamilies": "Roy (17), Ghosh (15), Dutta (10), Das (7), Pal (5), Mukherjee (5)"
+  },
+  "dataSources": {
+    "adminPortal": "docs/admin-portal.html — primary CRM store",
+    "chatbotKB": "docs/banf-chatbot-widget.js — chatbot knowledge base",
+    "knowledgeBase": "docs/banf-knowledge-base.js — global knowledge base",
+    "loginPages": [
+      "docs/ec-admin-login.html",
+      "docs/admin-login.html",
+      "docs/stakeholder-login.html",
+      "docs/member-login.html"
+    ]
+  },
+  "recommendations": [
+    "Export Google Drive BANF folder and run --analyze-drive to discover additional member data",
+    "Export Gmail communications as CSV and run --analyze-emails to find active community contacts",
+    "Run --reconcile periodically to ensure CRM data matches ground truth",
+    "Consider migrating CRM from HTML-embedded arrays to a proper Wix collection or database",
+    "Set up ANTHROPIC_API_KEY for AI-powered data analysis and enrichment"
+  ]
+}
