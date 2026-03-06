@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF RAG Chatbot — Test & Validation Report</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0f1a;--surface:#111827;--card:#1e293b;--border:#334155;--text:#e2e8f0;--dim:#94a3b8;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--blue:#60a5fa;--purple:#a78bfa;--cyan:#22d3ee;--orange:#fb923c;--banf:#006A4E;--banf-light:#00856F}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding:20px}
+.container{max-width:1400px;margin:0 auto}
+
+/* Header */
+.header{background:linear-gradient(135deg,var(--banf),var(--banf-light));padding:36px 40px;border-radius:16px;margin-bottom:24px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-50%;right:-30%;width:60%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);pointer-events:none}
+.header h1{font-size:1.8rem;color:#fff;font-weight:800;letter-spacing:-.5px}
+.header .subtitle{color:rgba(255,255,255,.85);font-size:.88rem;margin-top:4px}
+.header .meta{color:rgba(255,255,255,.6);font-size:.72rem;margin-top:8px;display:flex;gap:20px}
+
+/* KPI Row */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:24px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;transition:transform .15s,border-color .15s}
+.kpi:hover{transform:translateY(-2px);border-color:rgba(99,102,241,.3)}
+.kpi .value{font-size:2rem;font-weight:800;line-height:1}
+.kpi .value.green{color:var(--green)}.kpi .value.red{color:var(--red)}.kpi .value.blue{color:var(--blue)}.kpi .value.purple{color:var(--purple)}.kpi .value.cyan{color:var(--cyan)}
+.kpi .label{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.6px;margin-top:6px}
+
+/* Progress Bar */
+.progress-bar{height:8px;background:var(--border);border-radius:4px;margin:8px 0;overflow:hidden}
+.progress-bar .fill{height:100%;border-radius:4px;transition:width .5s}
+.progress-bar .fill.green{background:var(--green)}.progress-bar .fill.red{background:var(--red)}.progress-bar .fill.yellow{background:var(--yellow)}
+
+/* Category Navigation */
+.cat-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.cat-btn{padding:6px 14px;border-radius:8px;font-size:.75rem;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--dim);cursor:pointer;transition:all .15s}
+.cat-btn:hover,.cat-btn.active{background:var(--banf);color:#fff;border-color:var(--banf)}
+.cat-btn .count{display:inline-block;background:rgba(255,255,255,.15);padding:0 6px;border-radius:4px;font-size:.65rem;margin-left:4px}
+
+/* Cards */
+.section{margin-bottom:28px}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.section-title{font-size:1.1rem;font-weight:700;color:var(--text)}
+.section-badge{font-size:.68rem;padding:3px 10px;border-radius:6px;font-weight:600}
+
+/* Test Result Cards */
+.test-card{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .15s}
+.test-card:hover{border-color:rgba(99,102,241,.25)}
+.test-card.pass{border-left:4px solid var(--green)}
+.test-card.fail{border-left:4px solid var(--red)}
+.tc-header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;cursor:pointer;user-select:none}
+.tc-header:hover{background:rgba(255,255,255,.02)}
+.tc-id{font-family:'Cascadia Code','Fira Code',monospace;font-size:.72rem;color:var(--cyan);font-weight:700;min-width:36px}
+.tc-query{flex:1;margin:0 14px;font-size:.84rem;font-weight:600}
+.tc-badges{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:.66rem;font-weight:700;letter-spacing:.2px}
+.badge-pass{background:#064e3b;color:#6ee7b7}.badge-fail{background:#7f1d1d;color:#fca5a5}
+.badge-simple{background:#1e3a5f;color:#93c5fd}.badge-moderate{background:#78350f;color:#fcd34d}.badge-complex{background:#4c1d95;color:#c4b5fd}
+.badge-cat{background:rgba(99,102,241,.12);color:#818cf8}
+
+/* Expandable Detail */
+.tc-detail{display:none;padding:0 18px 16px;border-top:1px solid rgba(51,65,85,.5)}
+.tc-detail.open{display:block}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.detail-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px}
+.detail-block h4{font-size:.74rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.detail-block .content{font-size:.78rem;line-height:1.7;color:var(--text)}
+.src-list{list-style:none;padding:0}
+.src-list li{padding:4px 0;border-bottom:1px solid rgba(51,65,85,.3);font-size:.74rem}
+.src-list li:last-child{border:0}
+.src-score{font-family:monospace;color:var(--cyan);font-size:.68rem;margin-left:6px}
+.src-year{color:var(--purple);font-size:.64rem}
+.check-row{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:.76rem}
+.check-icon{width:18px;text-align:center}
+.check-icon.ok{color:var(--green)}.check-icon.ng{color:var(--red)}
+
+/* Answer Block */
+.answer-block{background:rgba(6,78,59,.1);border:1px solid rgba(74,222,128,.15);border-radius:8px;padding:12px;margin-top:10px;font-size:.78rem;line-height:1.7;white-space:pre-wrap;max-height:300px;overflow-y:auto}
+
+/* Summary Tables */
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{background:var(--surface);color:var(--dim);padding:10px 12px;text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
+td{padding:8px 12px;border-bottom:1px solid rgba(51,65,85,.4)}
+tr:hover{background:rgba(255,255,255,.015)}
+
+/* Footer */
+footer{text-align:center;color:#475569;font-size:.7rem;margin-top:40px;padding:20px 0;border-top:1px solid var(--border)}
+
+/* Print */
+@media print{
+  body{background:#fff;color:#000;padding:10px}
+  .header{background:var(--banf)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .kpi,.test-card,.detail-block{border:1px solid #ddd}
+  .tc-detail{display:block!important}
+  .no-print{display:none!important}
+}
+@media(max-width:768px){
+  .detail-grid{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <h1><i class="fas fa-robot" style="margin-right:10px"></i>BANF RAG Chatbot — Test & Validation Report</h1>
+  <div class="subtitle">Comprehensive query testing across 9 categories with factual validation</div>
+  <div class="meta">
+    <span><i class="fas fa-calendar me-1"></i> 2026-03-06 04:48:39</span>
+    <span><i class="fas fa-database me-1"></i> 13 KB Documents</span>
+    <span><i class="fas fa-vial me-1"></i> 35 Test Queries</span>
+    <span><i class="fas fa-cog me-1"></i> TF-IDF Retrieval + Local KB Fallback</span>
+  </div>
+</div>
+
+<!-- KPI ROW -->
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="value green">35</div>
+    <div class="label">Tests Passed</div>
+  </div>
+  <div class="kpi">
+    <div class="value red">0</div>
+    <div class="label">Tests Failed</div>
+  </div>
+  <div class="kpi">
+    <div class="value green">100.0%</div>
+    <div class="label">Pass Rate</div>
+    <div class="progress-bar"><div class="fill green" style="width:100.0%"></div></div>
+  </div>
+  <div class="kpi">
+    <div class="value blue">12/12</div>
+    <div class="label">Simple Queries</div>
+  </div>
+  <div class="kpi">
+    <div class="value purple">13/13</div>
+    <div class="label">Moderate Queries</div>
+  </div>
+  <div class="kpi">
+    <div class="value cyan">10/10</div>
+    <div class="label">Complex Queries</div>
+  </div>
+  <div class="kpi">
+    <div class="value" style="color:var(--orange)">13</div>
+    <div class="label">KB Documents</div>
+  </div>
+  <div class="kpi">
+    <div class="value" style="color:var(--dim)">0ms</div>
+    <div class="label">Avg Retrieval</div>
+  </div>
+</div>
+
+<!-- CATEGORY SUMMARY TABLE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title"><i class="fas fa-chart-bar" style="color:var(--purple);margin-right:8px"></i>Category Breakdown</div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <table>
+      <thead><tr><th>Category</th><th>Total</th><th>Passed</th><th>Failed</th><th>Pass Rate</th><th>Bar</th></tr></thead>
+      <tbody>
+      <tr>
+          <td><strong>Payment</strong></td>
+          <td>5</td>
+          <td style="color:var(--green)">5</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>Attendance</strong></td>
+          <td>5</td>
+          <td style="color:var(--green)">5</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>Year Comparison</strong></td>
+          <td>5</td>
+          <td style="color:var(--green)">5</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>Programs</strong></td>
+          <td>4</td>
+          <td style="color:var(--green)">4</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>EC / Organization</strong></td>
+          <td>3</td>
+          <td style="color:var(--green)">3</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>Finance</strong></td>
+          <td>3</td>
+          <td style="color:var(--green)">3</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>CRM / Data</strong></td>
+          <td>2</td>
+          <td style="color:var(--green)">2</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>Email Policy</strong></td>
+          <td>3</td>
+          <td style="color:var(--green)">3</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr><tr>
+          <td><strong>Cross-Domain</strong></td>
+          <td>5</td>
+          <td style="color:var(--green)">5</td>
+          <td style="color:var(--dim)">0</td>
+          <td><strong>100%</strong></td>
+          <td style="width:200px"><div class="progress-bar"><div class="fill green" style="width:100%"></div></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CATEGORY NAV -->
+<div class="cat-nav no-print">
+  <button class="cat-btn active" onclick="filterCat('all')">All <span class="count">35</span></button>
+  <button class="cat-btn" onclick="filterCat('Payment')">Payment <span class="count">5</span></button><button class="cat-btn" onclick="filterCat('Attendance')">Attendance <span class="count">5</span></button><button class="cat-btn" onclick="filterCat('Year-Comparison')">Year Comparison <span class="count">5</span></button><button class="cat-btn" onclick="filterCat('Programs')">Programs <span class="count">4</span></button><button class="cat-btn" onclick="filterCat('EC---Organization')">EC / Organization <span class="count">3</span></button><button class="cat-btn" onclick="filterCat('Finance')">Finance <span class="count">3</span></button><button class="cat-btn" onclick="filterCat('CRM---Data')">CRM / Data <span class="count">2</span></button><button class="cat-btn" onclick="filterCat('Email-Policy')">Email Policy <span class="count">3</span></button><button class="cat-btn" onclick="filterCat('Cross-Domain')">Cross-Domain <span class="count">5</span></button>
+  <button class="cat-btn" onclick="filterCat('pass')" style="border-color:var(--green);color:var(--green)"><i class="fas fa-check"></i> Passed <span class="count">35</span></button>
+  <button class="cat-btn" onclick="filterCat('fail')" style="border-color:var(--red);color:var(--red)"><i class="fas fa-times"></i> Failed <span class="count">0</span></button>
+</div>
+
+<!-- ALL TEST RESULTS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title"><i class="fas fa-list-check" style="color:var(--green);margin-right:8px"></i>Test Results (35 Queries)</div>
+  </div>
+
+
+  <div class="test-card pass" data-cat="Payment" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q01</span>
+      <span class="tc-query">How much is the EB-Family membership for 2025-26?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Payment</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Membership 2025-26 <span class="src-year">(2025-26)</span></strong> <span class="src-score">score: 6.90</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.98</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.72</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.18</span></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.10</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/2 (340, family)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Correctly retrieves $340 EB-Family standard</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 6.90</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Payment" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q02</span>
+      <span class="tc-query">What membership tiers are available for 2026-27 and what are their prices?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Payment</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Membership 2026-27 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 5.52</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 5.20</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.90</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 6/7 (350, 185, 375, 200, 60, 35)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 4/5 tier prices: 350, 185, 375, 200</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 5.52</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Payment" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q03</span>
+      <span class="tc-query">How many members have paid for Bosonto Utsob 2026 and how much was collected?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Payment</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 10.40</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 6.18</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.65</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.75</span></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.15</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/3 (6, zelle)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 6 paid: true, $2490: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 10.40</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Payment" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q04</span>
+      <span class="tc-query">What is the early bird discount and deadline for 2026-27 membership?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Payment</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Membership 2025-26 <span class="src-year">(2025-26)</span></strong> <span class="src-score">score: 6.90</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 6.72</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 5.20</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (25, aug, 31)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: $25 discount: true, August deadline: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 6.90</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Payment" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q05</span>
+      <span class="tc-query">What payment methods does BANF accept?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Payment</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 6.15</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.00</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.40</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.33</span></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 1.50</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (zelle, paypal, cash)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 3/3 payment methods: zelle, paypal, cash</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 6.15</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Attendance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q06</span>
+      <span class="tc-query">How many people attended Durga Puja 2024?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Attendance</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Durga Puja 2024 Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 6.00</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 5.40</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.00</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 1.88</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 0.75</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (150, 65, 215, 92)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 215 total: true, 150 adults: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 6.00</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Attendance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q07</span>
+      <span class="tc-query">What was the attendance at Holi 2025 event?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Attendance</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Holi 2025 Event Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 7.58</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.50</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.15</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.06</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.00</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (85, 32, 117, 65)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 117 total: true, 85 adults: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.58</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Attendance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q08</span>
+      <span class="tc-query">How many families attended the Kali Puja 2025?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Attendance</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span></strong> <span class="src-score">score: 6.75</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.50</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.20</span></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.60</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/2 (72, families)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 72 families: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 6.75</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Attendance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q09</span>
+      <span class="tc-query">How many new members signed up at Holi 2025?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Attendance</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Holi 2025 Event Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 4.65</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.26</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.30</span></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.40</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 1.65</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (12, new, signups)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 12 new signups: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 4.65</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Attendance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q10</span>
+      <span class="tc-query">What is the expected attendance for Bosonto Utsob 2026?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Attendance</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 10.10</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.13</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.60</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>EC Members 2026-2028 <span class="src-year">(2025-26)</span> <span class="src-score">score: 1.13</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/2 (120, 150)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 120-150 expected: 120=true, 150=true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 10.10</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**EC Members 2026-2028** (2025-26):
+BANF Executive Committee 2026-2028 (elected). President: Dr. Ranadhir Ghosh (ranadhir.ghosh@gmail.com, IT Lead). Vice President: Partha Mukhopadhyay (mukhopadhyay.partha@gmail.com). Treasurer: Amit Chandak (amit.everywhere@gmail.com). General Secretary: Rajanya Ghosh (rajanya.ghosh@gmail.com). Cultu...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Year-Comparison" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q11</span>
+      <span class="tc-query">Compare the membership count between 2025-26 and 2026-27</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Year Comparison</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 5.20</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.98</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 4.65</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.50</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.08</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/2 (168, 182)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Both years retrieved: true, 168: true, 182: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 5.20</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Year-Comparison" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q12</span>
+      <span class="tc-query">How did membership prices change from 2024-25 to 2026-27?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Year Comparison</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 5.20</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.92</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.78</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.15</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/2 (340, 350)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 2024-25 $340: true, 2026-27 $350: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 5.20</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Year-Comparison" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q13</span>
+      <span class="tc-query">Compare Durga Puja 2024 attendance with Kali Puja 2025 attendance</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Year Comparison</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span></strong> <span class="src-score">score: 10.50</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 10.20</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 9.60</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.50</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.90</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (215, 133, durga, kali)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Durga doc: true, Kali doc: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 10.50</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Year-Comparison" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q14</span>
+      <span class="tc-query">What events happened in 2024-25 vs what is planned for 2026-27?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Year Comparison</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Membership 2026-27 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 4.32</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.66</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.49</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.30</span></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 1.92</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (durga, holi, bosonto)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 2024-25 history: true, 2026-27 calendar: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 4.32</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Year-Comparison" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q15</span>
+      <span class="tc-query">How did the budget and revenue compare between Holi 2025 and Durga Puja 2024?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Year Comparison</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF 2024-25 Activities <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 7.80</span></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 6.60</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 6.00</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 5.25</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 5.25</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ng"><i class="fas fa-times"></i></span> Keywords matched: 0/2 (none)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Holi doc: true, Durga doc: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.80</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Programs" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q16</span>
+      <span class="tc-query">What cultural programs were held during Durga Puja 2024?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Programs</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Durga Puja 2024 Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 7.26</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 6.00</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.75</span></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.10</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.29</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (saptami, ashtami, pushpanjali, dhunuchi)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 4/4 puja elements: saptami, ashtami, pushpanjali, dhunuchi</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.26</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Programs" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q17</span>
+      <span class="tc-query">What food was served at Kali Puja 2025?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Programs</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span></strong> <span class="src-score">score: 8.25</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.80</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.00</span></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.00</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.63</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (khichuri, begun, payesh)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 4/4 food items: khichuri, begun, payesh, chutney</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 8.25</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Programs" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q18</span>
+      <span class="tc-query">When is Durga Puja 2026 and what events come after it?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Programs</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 5.36</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.32</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.32</span></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.30</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.08</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (oct, 2026, kali, saraswati)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Durga Oct date: true, Kali after: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 5.36</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Programs" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q19</span>
+      <span class="tc-query">Where is JCCL Community Center where BANF holds Durga Puja and Holi events?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Programs</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Durga Puja 2024 Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 6.72</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 6.08</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.86</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 4.05</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.49</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/3</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (jccl, community, jacksonville)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: JCCL: true, Community Center: true, Jacksonville: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 6.72</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="EC---Organization" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q20</span>
+      <span class="tc-query">Who is the BANF EC President and Vice President for 2026-2028?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">EC / Organization</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 7.50</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.80</span></li><li>EC Members 2026-2028 <span class="src-year">(2025-26)</span> <span class="src-score">score: 4.50</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 4.50</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.75</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (ranadhir, ghosh, president)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Dr. Ranadhir Ghosh: true, President mention: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 7.50</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**EC Members 2026-2028** (2025-26):
+BANF Executive Committee 2026-2028 (elected). President: Dr. Ranadhir Ghosh (ranadhir.ghosh@gmail.com, IT Lead). Vice President: Partha Mukhopadhyay (mukhopadhyay.partha@gmail.com). Treasurer: Amit Chandak (amit.everywhere@gmail.com). General Secretary: Rajanya Ghosh (rajanya.ghosh@gmail.com). Cultu...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="EC---Organization" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q21</span>
+      <span class="tc-query">Who is the BANF EC Treasurer Amit Chandak and what is the email for payments?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">EC / Organization</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 9.15</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 4.50</span></li><li>Communication Agent Email Dedup Policy <span class="src-year">(general)</span> <span class="src-score">score: 3.63</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.46</span></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.40</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/2</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (amit, chandak, treasurer)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Amit mention: true, Treasurer: true, Chandak: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 9.15</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+**Communication Agent Email Dedup Policy** (general):
+BANF Communication Agent Email Guard Policy (mandatory for all outbound emails). RULE 1: Every outbound email is logged to persistent localStorage (EMAIL_SENT_LOG key: banf_email_sent_log, 90-day retention). RULE 2: Before sending ANY email, the system checks if the SAME recipient + SAME purpose ema...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="EC---Organization" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q22</span>
+      <span class="tc-query">List all EC members and their roles for 2026-2028</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">EC / Organization</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Membership 2026-27 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 4.38</span></li><li>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span> <span class="src-score">score: 4.30</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>EC Members 2026-2028 <span class="src-year">(2025-26)</span> <span class="src-score">score: 2.63</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.40</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 5/5 (president, vice, treasurer, secretary, coordinator)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 4/4 role mentions: president, treasurer, secretary, coordinator</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 4.38</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**EC Members 2026-2028** (2025-26):
+BANF Executive Committee 2026-2028 (elected). President: Dr. Ranadhir Ghosh (ranadhir.ghosh@gmail.com, IT Lead). Vice President: Partha Mukhopadhyay (mukhopadhyay.partha@gmail.com). Treasurer: Amit Chandak (amit.everywhere@gmail.com). General Secretary: Rajanya Ghosh (rajanya.ghosh@gmail.com). Cultu...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Finance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q23</span>
+      <span class="tc-query">What is the total revenue BANF has tracked across all years?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Finance</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 9.00</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 3.15</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.06</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 2.33</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 1.86</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 1/2 (17,372)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: $17,372.50 total: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 9.00</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Finance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q24</span>
+      <span class="tc-query">What was the budget for Durga Puja 2024 and what was the net surplus?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Finance</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Durga Puja 2024 Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 7.20</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 5.40</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.75</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 2.25</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/4 (8,500, 1,500)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: $8,500 budget: true, $1,500 net: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.20</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Finance" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q25</span>
+      <span class="tc-query">How does the budget approval workflow work for procurement?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Finance</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 6.15</span></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 6.15</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 1.13</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 0.75</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 0.75</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (treasurer, escalat, receipt, reimburse)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 3/3 workflow steps: treasurer, receipt, reimburse</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 6.15</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="CRM---Data" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q26</span>
+      <span class="tc-query">How many data sources feed into the BANF CRM?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">CRM / Data</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>CRM Data Overview <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 7.50</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.40</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 2.25</span></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 1.50</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 5/5 (5, wix, google, xlsx, bosonto)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 5/5 data sources: wix, google, xlsx, bosonto, email audit</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.50</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="CRM---Data" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q27</span>
+      <span class="tc-query">How many data issues were flagged in the CRM and what categories?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">CRM / Data</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>CRM Data Overview <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 7.50</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 1.50</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 0.75</span></li><li>Communication Agent Email Dedup Policy <span class="src-year">(general)</span> <span class="src-score">score: 0.67</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 0.60</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 6/6 (1064, 286, 218, 167, 155, 141)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 1064 total issues: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.50</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**Communication Agent Email Dedup Policy** (general):
+BANF Communication Agent Email Guard Policy (mandatory for all outbound emails). RULE 1: Every outbound email is logged to persistent localStorage (EMAIL_SENT_LOG key: banf_email_sent_log, 90-day retention). RULE 2: Before sending ANY email, the system checks if the SAME recipient + SAME purpose ema...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Email-Policy" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q28</span>
+      <span class="tc-query">What is the email cooldown period for EC reminders?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Email Policy</span>
+        <span class="badge badge-simple">simple</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 2)</h4>
+          <ul class="src-list">
+            <li><strong>Communication Agent Email Dedup Policy <span class="src-year">(general)</span></strong> <span class="src-score">score: 4.93</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 0.75</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (48, hours, cooldown)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 48 hours: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 4.93</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Communication Agent Email Dedup Policy** (general):
+BANF Communication Agent Email Guard Policy (mandatory for all outbound emails). RULE 1: Every outbound email is logged to persistent localStorage (EMAIL_SENT_LOG key: banf_email_sent_log, 90-day retention). RULE 2: Before sending ANY email, the system checks if the SAME recipient + SAME purpose ema...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Email-Policy" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q29</span>
+      <span class="tc-query">What happens if someone tries to send a duplicate email?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Email Policy</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 2)</h4>
+          <ul class="src-list">
+            <li><strong>Communication Agent Email Dedup Policy <span class="src-year">(general)</span></strong> <span class="src-score">score: 4.40</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 0.75</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (blocked, override, reason)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Mentions blocking/override: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 4.40</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Communication Agent Email Dedup Policy** (general):
+BANF Communication Agent Email Guard Policy (mandatory for all outbound emails). RULE 1: Every outbound email is logged to persistent localStorage (EMAIL_SENT_LOG key: banf_email_sent_log, 90-day retention). RULE 2: Before sending ANY email, the system checks if the SAME recipient + SAME purpose ema...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Email-Policy" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q30</span>
+      <span class="tc-query">What privacy requirements must all BANF emails comply with?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Email Policy</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 3.00</span></li><li>Communication Agent Email Dedup Policy <span class="src-year">(general)</span> <span class="src-score">score: 2.67</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 1.80</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 1.50</span></li><li>Procurement & Reimbursement Process <span class="src-year">(general)</span> <span class="src-score">score: 1.50</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 4/4 (unsubscribe, privacy, optin, erasure)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 4/4 privacy reqs: unsubscribe, privacy, erasure, opt</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 3.00</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**Communication Agent Email Dedup Policy** (general):
+BANF Communication Agent Email Guard Policy (mandatory for all outbound emails). RULE 1: Every outbound email is logged to persistent localStorage (EMAIL_SENT_LOG key: banf_email_sent_log, 90-day retention). RULE 2: Before sending ANY email, the system checks if the SAME recipient + SAME purpose ema...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Cross-Domain" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q31</span>
+      <span class="tc-query">Who coordinates the food for BANF events and what food was served previously?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Cross-Domain</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Procurement & Reimbursement Process <span class="src-year">(general)</span></strong> <span class="src-score">score: 4.65</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 4.58</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.30</span></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 3.15</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.12</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/3</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/4 (soumyajit, banty, khichuri)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Food coordinator: true, food details: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 4.65</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Procurement &amp; Reimbursement Process** (general):
+BANF Procurement Workflow: 1) Any EC member can submit a purchase request with description, budget amount, category, and needed-by date. 2) Treasurer reviews within 24 hours. 3) If not approved in 24h, escalates to VP. 4) If VP does not approve, escalates to President. 5) Once approved, requester ma...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Cross-Domain" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q32</span>
+      <span class="tc-query">How many total members across all years and what is the growth trend?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Cross-Domain</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF Financial Summary <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 3.15</span></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.64</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2025-26 <span class="src-year">(2025-26)</span> <span class="src-score">score: 2.63</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 2.52</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>CRM Data Overview <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.40</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 3/3 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (120, 168, 182)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Found 3/3 member counts: 120, 168, 182</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 3.15</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Membership 2025-26** (2025-26):
+BANF Membership 2025-26. Total registered members: 168 (Wix CRM). Active paid members: 74. Membership tiers: M1 Standard EB-Family ($340 - early bird family), M1 Standard EB-Single ($175), M2 Premium EB-Family ($375 - includes all events), M2 Premium EB-Single ($200), Student ($50), NB-Event Only ($...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**CRM Data Overview** (2026-27):
+BANF CRM contains 182 unique members from 5 reconciled data sources: Wix CRM (168), Google Contacts (165), membership XLSX (74 with payments), Bosonto pipeline (56), email audit (167). 129 family groups identified. Data quality: 36 members have phone numbers (20%), 74 have payment records (41%), 172...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Cross-Domain" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q33</span>
+      <span class="tc-query">What was the Durga Puja 2024 budget and how does it compare to other event budgets?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Cross-Domain</span>
+        <span class="badge badge-moderate">moderate</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Durga Puja 2024 Report <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 7.86</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 6.30</span></li><li>BANF 2024-25 Activities <span class="src-year">(2024-25)</span> <span class="src-score">score: 6.06</span></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 4.58</span></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 3.83</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 2/3 (durga, budget)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Durga Puja: true, budget $8500: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.86</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Cross-Domain" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q34</span>
+      <span class="tc-query">How many unpaid RSVPs are there for Bosonto 2026 and what is the follow-up plan?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Cross-Domain</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>Bosonto Utsob 2026 <span class="src-year">(2026-27)</span></strong> <span class="src-score">score: 7.30</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>BANF Membership 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.72</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.38</span></li><li>BANF Financial Summary <span class="src-year">(2026-27)</span> <span class="src-score">score: 3.00</span></li><li>EC Members 2026-2028 <span class="src-year">(2025-26)</span> <span class="src-score">score: 1.13</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 1/1 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 3/3 (29, unpaid, rsvp)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: 29 unpaid-yes: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 1ms | Top score: 7.30</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**Bosonto Utsob 2026** (2026-27):
+Bosonto Utsob 2026 (Spring Festival). Date: March 22, 2026. Venue: JCCL Community Center, Jacksonville FL. Type: Membership + Cultural Event. Evite responses: 71 total — 45 Yes (adults), 22 kids, 4 No. Pipeline: 56 members processed, 6 paid ($2,490 via Zelle), 29 unpaid-yes (RSVP but no payment), 22...
+
+**BANF Membership 2026-27** (2026-27):
+BANF Membership 2026-27 (current year). Total members in CRM: 182 across 129 families. Membership tiers for 2026-27: M1 Standard EB-Family ($350), M1 Standard EB-Single ($185), M2 Premium EB-Family ($375 - all events included), M2 Premium EB-Single ($200), M3 Lifetime Family ($1,500), Student ($60),...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+**BANF Financial Summary** (2026-27):
+BANF Financial Overview. Total revenue tracked (all years): $17,372.50. 2025-26 membership dues collected: approximately $12,000. Bosonto 2026 collections so far: $2,490 (6 families). Payment methods accepted: Zelle (preferred), PayPal, cash. Treasurer: Amit Chandak. Budget approval workflow: Submit...
+
+**EC Members 2026-2028** (2025-26):
+BANF Executive Committee 2026-2028 (elected). President: Dr. Ranadhir Ghosh (ranadhir.ghosh@gmail.com, IT Lead). Vice President: Partha Mukhopadhyay (mukhopadhyay.partha@gmail.com). Treasurer: Amit Chandak (amit.everywhere@gmail.com). General Secretary: Rajanya Ghosh (rajanya.ghosh@gmail.com). Cultu...
+
+</div>
+    </div>
+  </div>
+
+  <div class="test-card pass" data-cat="Cross-Domain" data-status="pass">
+    <div class="tc-header" onclick="this.nextElementSibling.classList.toggle('open')">
+      <span class="tc-id">Q35</span>
+      <span class="tc-query">What is the Holi 2025 net surplus and how does it compare to Durga Puja 2024 surplus?</span>
+      <div class="tc-badges">
+        <span class="badge badge-cat">Cross-Domain</span>
+        <span class="badge badge-complex">complex</span>
+        <span class="badge badge-pass">PASS</span>
+      </div>
+    </div>
+    <div class="tc-detail">
+      <div class="detail-grid">
+        <div class="detail-block">
+          <h4><i class="fas fa-search" style="margin-right:4px"></i>Retrieved Documents (Top 5)</h4>
+          <ul class="src-list">
+            <li><strong>BANF 2024-25 Activities <span class="src-year">(2024-25)</span></strong> <span class="src-score">score: 7.80</span></li><li>Durga Puja 2024 Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 6.60</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Holi 2025 Event Report <span class="src-year">(2024-25)</span> <span class="src-score">score: 6.00</span> <i class="fas fa-check" style="color:var(--green);font-size:.65rem"></i></li><li>Kali Puja + Food 2025 <span class="src-year">(2025-26)</span> <span class="src-score">score: 4.50</span></li><li>BANF Upcoming Events 2026-27 <span class="src-year">(2026-27)</span> <span class="src-score">score: 2.25</span></li>
+          </ul>
+        </div>
+        <div class="detail-block">
+          <h4><i class="fas fa-clipboard-check" style="margin-right:4px"></i>Validation Checks</h4>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Expected docs retrieved: 2/2 (all found)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Keywords matched: 1/2 (400)</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-check"></i></span> Fact check: Holi doc: true, Durga doc: true</div>
+          <div class="check-row"><span class="check-icon ok"><i class="fas fa-clock"></i></span> Retrieval time: 0ms | Top score: 7.80</div>
+        </div>
+      </div>
+      <div class="answer-block">Based on BANF records:
+
+**BANF 2024-25 Activities** (2024-25):
+Bengali Association of North Florida (BANF) 2024-25 year. Events held: Durga Puja (Oct 2024), Kali Puja + Food (Nov 2024), Saraswati Puja (Feb 2025), Holi (Mar 2025), Pohela Boishakh (Apr 2025). EC members for 2024-25 included founding members. Membership categories: EB-Family ($340), EB-Single ($17...
+
+**Durga Puja 2024 Report** (2024-25):
+Durga Puja 2024 held October 12-13, 2024 at JCCL Community Center. 2-day event. Day 1: Saptami Puja + Cultural Program. Day 2: Ashtami Puja + Pushpanjali + Sandhi Puja + Dhunuchi Nach. Attendance: 150 adults, 65 kids (215 total). 92 families. Priest: Pandit Subhabrata. Budget: $8,500. Sponsorship co...
+
+**Holi 2025 Event Report** (2024-25):
+Holi 2025 was held March 15, 2025 at JCCL Community Center, Jacksonville FL. Attendance: 85 adults, 32 kids (117 total). 65 families attended. New member signups at event: 12. Membership paid at event: 8 families. Food: Indian buffet catered by Swad Restaurant. Budget: $2,800. Revenue from event tic...
+
+**Kali Puja + Food 2025** (2025-26):
+Kali Puja + Food event held November 2025 at JCCL Community Center. Combined religious puja with community dinner. Attendance: 95 adults, 38 kids (133 total). 72 families participated. Puja arrangements by Rwiti Chowdhury. Food coordinated by Soumyajit Dutta (Banty). Menu: Traditional Bengali thali ...
+
+**BANF Upcoming Events 2026-27** (2026-27):
+BANF Event Calendar 2026-27: 1) Bosonto Utsob (Mar 22, 2026) - Spring Festival, 2) Pohela Boishakh (Apr 14, 2026) - Bengali New Year, 3) Rabindra-Nazrul Jayanti (May 2026), 4) Summer Picnic (Jun 2026), 5) Durga Puja (Oct 2026) - Biggest event, 6) Kali Puja + Food (Nov 2026), 7) Saraswati Puja (Feb 2...
+
+</div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- KNOWLEDGE BASE INDEX -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title"><i class="fas fa-book" style="color:var(--cyan);margin-right:8px"></i>Knowledge Base Documents (13)</div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden">
+    <table>
+      <thead><tr><th>Doc ID</th><th>Year</th><th>Category</th><th>Title</th><th>Words</th><th>Queries Hitting</th></tr></thead>
+      <tbody>
+      <tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2024-history</td>
+          <td>2024-25</td>
+          <td><span class="badge badge-cat">history</span></td>
+          <td>BANF 2024-25 Activities</td>
+          <td>53</td>
+          <td><strong style="color:var(--green)">18</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2024-holi</td>
+          <td>2024-25</td>
+          <td><span class="badge badge-cat">event</span></td>
+          <td>Holi 2025 Event Report</td>
+          <td>59</td>
+          <td><strong style="color:var(--green)">13</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2024-durga</td>
+          <td>2024-25</td>
+          <td><span class="badge badge-cat">event</span></td>
+          <td>Durga Puja 2024 Report</td>
+          <td>60</td>
+          <td><strong style="color:var(--green)">12</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2025-membership</td>
+          <td>2025-26</td>
+          <td><span class="badge badge-cat">membership</span></td>
+          <td>BANF Membership 2025-26</td>
+          <td>64</td>
+          <td><strong style="color:var(--green)">14</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2025-ec</td>
+          <td>2025-26</td>
+          <td><span class="badge badge-cat">organization</span></td>
+          <td>EC Members 2026-2028</td>
+          <td>52</td>
+          <td><strong style="color:var(--green)">4</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2025-kali</td>
+          <td>2025-26</td>
+          <td><span class="badge badge-cat">event</span></td>
+          <td>Kali Puja + Food 2025</td>
+          <td>51</td>
+          <td><strong style="color:var(--green)">14</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2026-bosonto</td>
+          <td>2026-27</td>
+          <td><span class="badge badge-cat">event</span></td>
+          <td>Bosonto Utsob 2026</td>
+          <td>82</td>
+          <td><strong style="color:var(--green)">12</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2026-membership</td>
+          <td>2026-27</td>
+          <td><span class="badge badge-cat">membership</span></td>
+          <td>BANF Membership 2026-27</td>
+          <td>75</td>
+          <td><strong style="color:var(--green)">19</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2026-upcoming</td>
+          <td>2026-27</td>
+          <td><span class="badge badge-cat">events</span></td>
+          <td>BANF Upcoming Events 2026-27</td>
+          <td>86</td>
+          <td><strong style="color:var(--green)">17</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2026-finance</td>
+          <td>2026-27</td>
+          <td><span class="badge badge-cat">finance</span></td>
+          <td>BANF Financial Summary</td>
+          <td>63</td>
+          <td><strong style="color:var(--green)">21</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-2026-crm</td>
+          <td>2026-27</td>
+          <td><span class="badge badge-cat">data</span></td>
+          <td>CRM Data Overview</td>
+          <td>71</td>
+          <td><strong style="color:var(--green)">11</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-procurement</td>
+          <td>general</td>
+          <td><span class="badge badge-cat">process</span></td>
+          <td>Procurement & Reimbursement Process</td>
+          <td>81</td>
+          <td><strong style="color:var(--green)">9</strong> / 35</td>
+        </tr><tr>
+          <td style="font-family:monospace;font-size:.72rem;color:var(--cyan)">kb-email-dedup-policy</td>
+          <td>general</td>
+          <td><span class="badge badge-cat">process</span></td>
+          <td>Communication Agent Email Dedup Policy</td>
+          <td>194</td>
+          <td><strong style="color:var(--green)">5</strong> / 35</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="margin-bottom:6px"><strong>Bengali Association of North Florida</strong> · www.jaxbengali.org</div>
+  <div>RAG Chatbot Test Report · Generated 2026-03-06 04:48:39 · 35 queries tested across 9 categories</div>
+  <div style="margin-top:4px">Engine: TF-IDF Vector Index + Local KB Fallback (no external API required)</div>
+</footer>
+
+</div>
+
+<script>
+// Toggle category filter
+function filterCat(cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  event.target.closest('.cat-btn').classList.add('active');
+  document.querySelectorAll('.test-card').forEach(card => {
+    if (cat === 'all') { card.style.display = ''; return; }
+    if (cat === 'pass' || cat === 'fail') {
+      card.style.display = card.dataset.status === cat ? '' : 'none';
+      return;
+    }
+    card.style.display = card.dataset.cat === cat ? '' : 'none';
+  });
+}
+// Expand all for print
+window.addEventListener('beforeprint', () => {
+  document.querySelectorAll('.tc-detail').forEach(d => d.classList.add('open'));
+});
+</script>
+</body>
+</html>

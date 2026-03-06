@@ -302,18 +302,23 @@ window.BANF_RAG = {
   },
 
   // ── Retrieve top-K relevant documents ──
+  // Stopwords filtered to reduce noise in partial matching
+  _stopwords: {the:1,and:1,for:1,are:1,but:1,not:1,you:1,all:1,can:1,her:1,was:1,one:1,our:1,out:1,has:1,had:1,hot:1,how:1,its:1,let:1,may:1,who:1,did:1,get:1,got:1,him:1,his:1,she:1,too:1,use:1,what:1,when:1,where:1,which:1,with:1,will:1,from:1,this:1,that:1,they:1,been:1,have:1,many:1,some:1,them:1,than:1,each:1,make:1,does:1,into:1,also:1,about:1,these:1,there:1,their:1,other:1,after:1,most:1,very:1,just:1,over:1,such:1,much:1,only:1},
   retrieve: function(query, topK){
     topK = topK || this.topK;
-    var qWords = query.toLowerCase().split(/\W+/).filter(function(w){return w.length > 2;});
+    var self = this;
+    var qWords = query.toLowerCase().split(/\W+/).filter(function(w){return w.length > 2 && !self._stopwords[w];});
     var scores = this.vectors.map(function(v, idx){
       var score = 0;
       qWords.forEach(function(qw){
-        // Exact match
-        if(v.tf[qw]) score += v.tf[qw] * 2;
-        // Partial match
-        Object.keys(v.tf).forEach(function(dw){
-          if(dw.indexOf(qw) >= 0 || qw.indexOf(dw) >= 0) score += v.tf[dw] * 0.5;
-        });
+        // Exact match — high weight
+        if(v.tf[qw]) score += v.tf[qw] * 3;
+        // Partial match — only when both words are 4+ chars to avoid noise
+        if(qw.length >= 4){
+          Object.keys(v.tf).forEach(function(dw){
+            if(dw !== qw && dw.length >= 4 && (dw.indexOf(qw) >= 0 || qw.indexOf(dw) >= 0)) score += v.tf[dw] * 0.3;
+          });
+        }
       });
       return {idx: idx, score: score};
     });
