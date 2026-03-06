@@ -1202,12 +1202,42 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
 
     <!-- ═══════ PROCUREMENT PANEL ═══════ -->
     <div class="portal-section" id="panel-procurement">
-      <div class="stg-label"><i class="fas fa-circle" style="color:var(--accent)"></i> Procurement &amp; Reimbursement</div>
+      <div class="stg-label" style="display:flex;align-items:center;gap:8px">
+        <span><i class="fas fa-circle" style="color:var(--accent)"></i> Procurement &amp; Reimbursement</span>
+        <!-- NOTIFICATION BELL -->
+        <div style="position:relative;margin-left:auto;cursor:pointer" onclick="toggleProcNotifications()">
+          <i class="fas fa-bell" style="font-size:1.1rem;color:var(--accent)"></i>
+          <span id="proc-notif-badge" style="display:none;position:absolute;top:-6px;right:-8px;background:#ef4444;color:#fff;font-size:.6rem;font-weight:700;border-radius:50%;width:16px;height:16px;align-items:center;justify-content:center;line-height:16px;text-align:center">0</span>
+        </div>
+      </div>
+
+      <!-- NOTIFICATION DROPDOWN -->
+      <div id="proc-notif-panel" style="display:none;position:relative;z-index:100">
+        <div style="background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:320px;overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.3);margin-bottom:12px">
+          <div style="padding:10px 14px;background:rgba(212,168,67,.08);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:.82rem;font-weight:600;color:var(--accent)"><i class="fas fa-bell me-1"></i>Notifications</span>
+            <button class="btn-sm btn-secondary" style="padding:2px 8px;font-size:.65rem" onclick="PROC_NOTIFICATIONS=[];renderProcNotifications();renderProcNotificationBadge()">Clear All</button>
+          </div>
+          <div id="proc-notif-body"></div>
+        </div>
+      </div>
+
+      <!-- APPROVAL TIER LEGEND -->
+      <div class="card-a" style="padding:12px 16px">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:.72rem">
+          <strong style="color:var(--accent);margin-right:4px"><i class="fas fa-layer-group me-1"></i>Tiered Approval:</strong>
+          <span class="badge-s badge-green" style="font-size:.65rem">&lt;$500 &rarr; Treasurer</span>
+          <span class="badge-s badge-yellow" style="font-size:.65rem">$500–$999 &rarr; Treasurer + VP</span>
+          <span class="badge-s badge-orange" style="font-size:.65rem">$1000+ &rarr; Treasurer + VP + President</span>
+          <span style="color:var(--dim);margin-left:8px">|</span>
+          <span style="color:var(--muted)"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>Actual &gt;10% of approved &rarr; re-approval</span>
+        </div>
+      </div>
 
       <!-- PROCUREMENT WORKFLOW PIPELINE -->
       <div class="card-a">
         <h2><i class="fas fa-file-invoice-dollar"></i> Procurement Workflow</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Submit purchase requests for approval. Workflow: <strong>Submit</strong> &rarr; <strong>Treasurer Approval</strong> (24h) &rarr; <strong>VP Escalation</strong> &rarr; <strong>President Escalation</strong> &rarr; <strong>Purchase &amp; Receipt</strong> &rarr; <strong>Reimbursement</strong></p>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Submit purchase requests for tiered approval. <strong>&lt;$500</strong> Treasurer only | <strong>$500–$999</strong> Treasurer + VP | <strong>$1000+</strong> All Officers. Receipt variance &gt;10% triggers re-approval. Zelle reimbursement tracking.</p>
         <div class="pipe" id="proc-pipeline-display">
           <div class="pipe-step pending" id="proc-p-submit"><h6>1. Submit</h6><small>Request</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
           <div class="pipe-step pending" id="proc-p-treasurer"><h6>2. Treasurer</h6><small>Approve (24h)</small></div><div class="pipe-arrow"><i class="fas fa-chevron-right"></i></div>
@@ -1259,17 +1289,33 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
       <!-- APPROVAL QUEUE (Treasurer/VP/President) -->
       <div class="card-a" id="proc-approval-section" style="display:none">
         <h2><i class="fas fa-gavel" style="color:var(--yellow)"></i> Approval Queue <span class="badge-s badge-yellow" id="proc-approval-count">0</span></h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Requests awaiting your approval. Auto-escalation occurs after 24 hours.</p>
-        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Description</th><th>Budget</th><th>Submitted</th><th>Time Left</th><th>Actions</th></tr></thead>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Requests awaiting your approval. Tiered routing: &lt;$500 Treasurer → $500–$999 + VP → $1000+ + President. Auto-notification after 24 hours.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Description</th><th>Budget</th><th>Tier</th><th>Submitted</th><th>Actions</th></tr></thead>
         <tbody id="proc-approval-body"></tbody></table>
+      </div>
+
+      <!-- VARIANCE REVIEW QUEUE (actual > 10% of approved) -->
+      <div class="card-a" id="proc-variance-section" style="display:none">
+        <h2><i class="fas fa-exclamation-triangle" style="color:var(--yellow)"></i> Variance Review <span class="badge-s badge-orange" id="proc-variance-count">0</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Actual expense exceeds approved budget by &gt;10%. Re-approval required with same tiered routing.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Approved</th><th>Actual</th><th>Variance</th><th>Receipt</th><th>Actions</th></tr></thead>
+        <tbody id="proc-variance-body"></tbody></table>
       </div>
 
       <!-- REIMBURSEMENT SECTION -->
       <div class="card-a" id="proc-reimbursement-section" style="display:none">
         <h2><i class="fas fa-money-bill-wave" style="color:var(--green)"></i> Reimbursement Queue <span class="badge-s badge-green" id="proc-reimburse-count">0</span></h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Approved purchases with receipts uploaded. Process reimbursement within 24 hours.</p>
-        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Amount</th><th>Receipt</th><th>Submitted</th><th>Actions</th></tr></thead>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Approved purchases with receipts uploaded. Initiate Zelle payment to reimburse.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Amount</th><th>Receipt</th><th>Uploaded</th><th>Actions</th></tr></thead>
         <tbody id="proc-reimburse-body"></tbody></table>
+      </div>
+
+      <!-- PAYMENT TRACKING (Zelle) -->
+      <div class="card-a" id="proc-payment-section" style="display:none">
+        <h2><i class="fas fa-university" style="color:var(--cyan)"></i> Zelle Payment Tracking <span class="badge-s badge-blue" id="proc-payment-count">0</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Payments initiated via Zelle. Confirm once the payment has been sent.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Pay To</th><th>Amount</th><th>Method</th><th>Initiated</th><th>Actions</th></tr></thead>
+        <tbody id="proc-payment-body"></tbody></table>
       </div>
 
       <!-- UPLOAD RECEIPT MODAL -->
@@ -1277,6 +1323,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;max-width:500px;width:92%">
           <h2 style="font-size:.95rem;margin:0 0 10px"><i class="fas fa-receipt me-1" style="color:var(--green)"></i> Upload Receipt</h2>
           <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Upload the purchase receipt for request <strong id="receipt-proc-id"></strong>. This will trigger the reimbursement workflow.</p>
+          <div id="receipt-budget-ref" style="display:none;font-size:.72rem;padding:8px 12px;background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);border-radius:8px;margin-bottom:12px;color:var(--yellow)"></div>
           <div class="form-group"><label>Actual Amount Spent ($)</label><input type="number" id="receipt-amount" placeholder="0.00" step="0.01" min="0"></div>
           <div class="form-group" style="margin-top:8px"><label>Receipt Image / File</label>
             <input type="file" id="receipt-file" accept="image/*,.pdf" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:8px;border-radius:8px;width:100%;font-size:.82rem">
@@ -5838,13 +5885,150 @@ function showToast(message, color) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// PROCUREMENT — Request / Approval / Purchase / Reimbursement Workflow
+// PROCUREMENT — Tiered Approval / Purchase / Variance Check / Reimbursement
 // ═══════════════════════════════════════════════════════════════════════════
+//
+//  █ APPROVAL TIERS (by amount):
+//    < $500  → Treasurer only
+//    $500–$999 → Treasurer + VP
+//    $1000+  → Treasurer + VP + President
+//
+//  █ VARIANCE GUARD:
+//    If actual expense > 110% of approved → re-approval with same tier routing
+//
+//  █ PAYMENT:
+//    Reimbursement → Treasurer sends Zelle → marks payment complete
+//
+// ═══════════════════════════════════════════════════════════════════════════
+
+var PROC_VARIANCE_THRESHOLD = 0.10; // 10%
+
+// Tiered approval definitions
+var PROC_TIERS = {
+  TIER_1: { max: 499.99, roles: ['Treasurer'], label: 'Treasurer Only (<$500)' },
+  TIER_2: { max: 999.99, roles: ['Treasurer', 'VP'], label: 'Treasurer + VP ($500–$999)' },
+  TIER_3: { max: Infinity, roles: ['Treasurer', 'VP', 'President'], label: 'All EC Officers ($1000+)' }
+};
+
+function getProcTier(amount) {
+  if (amount < 500) return PROC_TIERS.TIER_1;
+  if (amount < 1000) return PROC_TIERS.TIER_2;
+  return PROC_TIERS.TIER_3;
+}
+
+// Notification system
+var PROC_NOTIFICATIONS = [];
+
+function addProcNotification(title, detail, type, targetEmail) {
+  PROC_NOTIFICATIONS.unshift({
+    id: 'N-' + Date.now() + '-' + Math.random().toString(36).substring(2,6),
+    title: title,
+    detail: detail,
+    type: type || 'info', // info|success|warning|danger
+    targetEmail: targetEmail || null,
+    time: new Date().toISOString(),
+    read: false
+  });
+  if (PROC_NOTIFICATIONS.length > 50) PROC_NOTIFICATIONS = PROC_NOTIFICATIONS.slice(0, 50);
+  renderProcNotificationBadge();
+}
+
+function renderProcNotificationBadge() {
+  var badgeEl = document.getElementById('proc-notif-badge');
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  var unread = PROC_NOTIFICATIONS.filter(function(n) {
+    return !n.read && (!n.targetEmail || n.targetEmail === myEmail);
+  }).length;
+  if (badgeEl) {
+    badgeEl.textContent = unread;
+    badgeEl.style.display = unread > 0 ? 'inline-flex' : 'none';
+  }
+}
+
+function toggleProcNotifications() {
+  var panel = document.getElementById('proc-notif-panel');
+  if (!panel) return;
+  panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+  renderProcNotifications();
+}
+
+function renderProcNotifications() {
+  var body = document.getElementById('proc-notif-body');
+  if (!body) return;
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  var myNotifs = PROC_NOTIFICATIONS.filter(function(n) {
+    return !n.targetEmail || n.targetEmail === myEmail;
+  });
+  if (myNotifs.length === 0) {
+    body.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim);font-size:.78rem"><i class="fas fa-bell-slash me-1"></i>No notifications</div>';
+    return;
+  }
+  body.innerHTML = myNotifs.slice(0, 20).map(function(n) {
+    var iconMap = { info: 'info-circle', success: 'check-circle', warning: 'exclamation-triangle', danger: 'times-circle' };
+    var colorMap = { info: 'var(--cyan)', success: 'var(--green)', warning: 'var(--yellow)', danger: 'var(--red)' };
+    var icon = iconMap[n.type] || 'bell';
+    var color = colorMap[n.type] || 'var(--accent)';
+    var bg = n.read ? 'transparent' : 'rgba(212,168,67,.06)';
+    var ago = getTimeAgo(n.time);
+    return '<div style="padding:10px 12px;border-bottom:1px solid var(--line);background:'+bg+';cursor:pointer" onclick="markProcNotifRead(\''+n.id+'\')">' +
+      '<div style="display:flex;align-items:flex-start;gap:8px">' +
+      '<i class="fas fa-'+icon+'" style="color:'+color+';margin-top:2px"></i>' +
+      '<div style="flex:1;min-width:0">' +
+      '<div style="font-size:.78rem;font-weight:'+(n.read?'400':'600')+';color:var(--text)">'+n.title+'</div>' +
+      '<div style="font-size:.7rem;color:var(--dim);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+n.detail+'</div>' +
+      '<div style="font-size:.65rem;color:var(--muted);margin-top:3px">'+ago+'</div>' +
+      '</div></div></div>';
+  }).join('');
+  // Mark all as read after viewing
+  myNotifs.forEach(function(n) { n.read = true; });
+  renderProcNotificationBadge();
+}
+
+function markProcNotifRead(notifId) {
+  var n = PROC_NOTIFICATIONS.find(function(x) { return x.id === notifId; });
+  if (n) n.read = true;
+  renderProcNotificationBadge();
+}
+
+function getTimeAgo(isoStr) {
+  var diff = Date.now() - new Date(isoStr).getTime();
+  var mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return mins + 'm ago';
+  var hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  return Math.floor(hrs / 24) + 'd ago';
+}
+
+// Initial procurement requests — Bosonto Utsob 2026 (updated with tiered approval structure)
 var PROCUREMENT_REQUESTS = [
-  // Initial procurement requests — real Bosonto Utsob 2026 preparations
-  {id:'PROC-001',description:'Catering deposit for Bosonto Utsob 2026 — Swad Restaurant',budget:1200,actualAmount:null,category:'Food/Catering',neededBy:'2026-03-15',notes:'50% advance deposit for catering (120 guests)',submittedBy:'duttasoumyajit86@gmail.com',submitterName:'Soumyajit Dutta',submittedAt:'2026-03-01T10:00:00Z',status:'pending_treasurer',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:new Date(Date.now()+24*60*60*1000).toISOString(),approvedBy:null,approvedAt:null,receiptFile:null,receiptNotes:null,reimbursedAt:null,history:[{ts:'2026-03-01T10:00:00Z',action:'Submitted',by:'duttasoumyajit86@gmail.com',detail:'Procurement request created. Budget: $1200.00'}]},
-  {id:'PROC-002',description:'Table & chair rental (20 tables, 100 chairs) for Bosonto venue',budget:450,actualAmount:425,category:'Venue Rental',neededBy:'2026-03-20',notes:'Delivery and pickup included',submittedBy:'sumo475@gmail.com',submitterName:'Dr. Sumanta Ghosh',submittedAt:'2026-02-28T14:30:00Z',status:'approved',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:'2026-03-01T14:30:00Z',approvedBy:'Amit Chandak (Treasurer)',approvedAt:'2026-03-01T09:00:00Z',receiptFile:null,receiptNotes:null,reimbursedAt:null,history:[{ts:'2026-02-28T14:30:00Z',action:'Submitted',by:'sumo475@gmail.com',detail:'Request created. Budget: $450.00'},{ts:'2026-03-01T09:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'}]},
-  {id:'PROC-003',description:'Printed flyers & banners for Bosonto Utsob',budget:180,actualAmount:165,category:'Marketing/Printing',neededBy:'2026-03-10',notes:'200 flyers + 2 roll-up banners',submittedBy:'moumita.mukherje@gmail.com',submitterName:'Dr. Moumita Ghosh',submittedAt:'2026-02-25T11:00:00Z',status:'reimbursed',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:'2026-02-26T11:00:00Z',approvedBy:'Amit Chandak (Treasurer)',approvedAt:'2026-02-26T08:00:00Z',receiptFile:'bosonto_flyers_receipt.pdf',receiptNotes:'Staples print order #28374',reimbursedAt:'2026-03-03T10:00:00Z',history:[{ts:'2026-02-25T11:00:00Z',action:'Submitted',by:'moumita.mukherje@gmail.com',detail:'Request created. Budget: $180.00'},{ts:'2026-02-26T08:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'},{ts:'2026-03-01T12:00:00Z',action:'Receipt Uploaded',by:'moumita.mukherje@gmail.com',detail:'Receipt: bosonto_flyers_receipt.pdf, Amount: $165.00'},{ts:'2026-03-03T10:00:00Z',action:'Reimbursed',by:'amit.everywhere@gmail.com',detail:'Reimbursement processed: $165.00'}]},
+  {id:'PROC-001',description:'Catering deposit for Bosonto Utsob 2026 — Swad Restaurant',budget:1200,actualAmount:null,category:'Food/Catering',neededBy:'2026-03-15',notes:'50% advance deposit for catering (120 guests)',submittedBy:'duttasoumyajit86@gmail.com',submitterName:'Soumyajit Dutta',submittedAt:'2026-03-01T10:00:00Z',
+    status:'pending_approval',currentApprover:'Treasurer',
+    approvalTier:'All EC Officers ($1000+)',
+    requiredApprovers:['Treasurer','VP','President'],
+    approvals:{},
+    variancePercent:null,varianceApproved:false,varianceApprovals:null,varianceRequiredApprovers:null,
+    paymentMethod:null,paymentReference:null,paymentInitiatedAt:null,paymentConfirmedAt:null,
+    receiptFile:null,receiptNotes:null,receiptUploadedAt:null,reimbursedAt:null,
+    history:[{ts:'2026-03-01T10:00:00Z',action:'Submitted',by:'duttasoumyajit86@gmail.com',detail:'Procurement request created. Budget: $1200.00. Tier: All EC Officers ($1000+)'}]},
+  {id:'PROC-002',description:'Table & chair rental (20 tables, 100 chairs) for Bosonto venue',budget:450,actualAmount:425,category:'Venue Rental',neededBy:'2026-03-20',notes:'Delivery and pickup included',submittedBy:'sumo475@gmail.com',submitterName:'Dr. Sumanta Ghosh',submittedAt:'2026-02-28T14:30:00Z',
+    status:'approved',currentApprover:null,
+    approvalTier:'Treasurer Only (<$500)',
+    requiredApprovers:['Treasurer'],
+    approvals:{'Treasurer':{by:'Amit Chandak',email:'amit.everywhere@gmail.com',at:'2026-03-01T09:00:00Z',decision:'approved'}},
+    variancePercent:null,varianceApproved:false,varianceApprovals:null,varianceRequiredApprovers:null,
+    paymentMethod:null,paymentReference:null,paymentInitiatedAt:null,paymentConfirmedAt:null,
+    receiptFile:null,receiptNotes:null,receiptUploadedAt:null,reimbursedAt:null,
+    history:[{ts:'2026-02-28T14:30:00Z',action:'Submitted',by:'sumo475@gmail.com',detail:'Request created. Budget: $450.00. Tier: Treasurer Only (<$500)'},{ts:'2026-03-01T09:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer. All required approvals received.'}]},
+  {id:'PROC-003',description:'Printed flyers & banners for Bosonto Utsob',budget:180,actualAmount:165,category:'Marketing/Printing',neededBy:'2026-03-10',notes:'200 flyers + 2 roll-up banners',submittedBy:'moumita.mukherje@gmail.com',submitterName:'Dr. Moumita Ghosh',submittedAt:'2026-02-25T11:00:00Z',
+    status:'completed',currentApprover:null,
+    approvalTier:'Treasurer Only (<$500)',
+    requiredApprovers:['Treasurer'],
+    approvals:{'Treasurer':{by:'Amit Chandak',email:'amit.everywhere@gmail.com',at:'2026-02-26T08:00:00Z',decision:'approved'}},
+    variancePercent:-8.33,varianceApproved:true,varianceApprovals:null,varianceRequiredApprovers:null,
+    paymentMethod:'Zelle',paymentReference:'ZELLE-BF9A2D01',paymentInitiatedAt:'2026-03-03T09:00:00Z',paymentConfirmedAt:'2026-03-03T10:00:00Z',
+    receiptFile:'bosonto_flyers_receipt.pdf',receiptNotes:'Staples print order #28374',receiptUploadedAt:'2026-03-01T12:00:00Z',reimbursedAt:'2026-03-03T10:00:00Z',
+    history:[{ts:'2026-02-25T11:00:00Z',action:'Submitted',by:'moumita.mukherje@gmail.com',detail:'Request created. Budget: $180.00'},{ts:'2026-02-26T08:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'},{ts:'2026-03-01T12:00:00Z',action:'Receipt Uploaded',by:'moumita.mukherje@gmail.com',detail:'Receipt: bosonto_flyers_receipt.pdf, Actual: $165.00 (−8.33% variance — within 10% tolerance)'},{ts:'2026-03-03T09:00:00Z',action:'Payment Initiated',by:'amit.everywhere@gmail.com',detail:'Zelle payment task created: $165.00 to Dr. Moumita Ghosh'},{ts:'2026-03-03T10:00:00Z',action:'Payment Confirmed',by:'system',detail:'Zelle confirmed. Ref: ZELLE-BF9A2D01. Reimbursement complete.'}]},
 ];
 var PROC_NEXT_ID = 4;
 
@@ -5866,6 +6050,29 @@ function getMyProcRole() {
   return null;
 }
 
+function getMyProcRoles() {
+  // Returns ALL roles this admin can act as (President can also act as VP/Treasurer in emergencies)
+  var primary = getMyProcRole();
+  if (!primary) return [];
+  if (primary === 'President') return ['President', 'VP', 'Treasurer'];
+  if (primary === 'VP') return ['VP', 'Treasurer'];
+  return [primary];
+}
+
+function isFullyApproved(req) {
+  if (!req.requiredApprovers || !req.approvals) return false;
+  return req.requiredApprovers.every(function(role) { return req.approvals[role] && req.approvals[role].decision === 'approved'; });
+}
+
+function getNextPendingApprover(req) {
+  if (!req.requiredApprovers) return null;
+  for (var i = 0; i < req.requiredApprovers.length; i++) {
+    var role = req.requiredApprovers[i];
+    if (!req.approvals[role]) return role;
+  }
+  return null;
+}
+
 function submitProcurementRequest() {
   var desc = document.getElementById('proc-description').value.trim();
   var budget = parseFloat(document.getElementById('proc-budget').value) || 0;
@@ -5877,6 +6084,8 @@ function submitProcurementRequest() {
   if (!desc) { msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.textContent='Please describe what needs to be purchased.'; return; }
   if (budget <= 0) { msgEl.style.display='block'; msgEl.style.color='var(--red)'; msgEl.textContent='Please enter a valid estimated budget.'; return; }
 
+  // ── TIERED APPROVAL ROUTING ──
+  var tier = getProcTier(budget);
   var request = {
     id: 'PROC-' + (PROC_NEXT_ID++).toString().padStart(3,'0'),
     description: desc,
@@ -5888,21 +6097,46 @@ function submitProcurementRequest() {
     submittedBy: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
     submitterName: CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Unknown',
     submittedAt: new Date().toISOString(),
-    status: 'pending_treasurer', // pending_treasurer → pending_vp → pending_president → approved → purchased → pending_reimbursement → reimbursed
-    currentApprover: 'Treasurer',
-    escalationLevel: 1,
-    approvalDeadline: new Date(Date.now() + 24*60*60*1000).toISOString(), // 24 hours
-    approvedBy: null,
-    approvedAt: null,
+
+    // Tiered approval
+    status: 'pending_approval',
+    approvalTier: tier.label,
+    requiredApprovers: tier.roles.slice(), // e.g. ['Treasurer','VP','President']
+    approvals: {},
+    currentApprover: tier.roles[0], // Always starts with Treasurer
+
+    // Variance & receipt
+    variancePercent: null,
+    varianceApproved: false,
+    varianceApprovals: null,
+    varianceRequiredApprovers: null,
+
+    // Payment
+    paymentMethod: null,
+    paymentReference: null,
+    paymentInitiatedAt: null,
+    paymentConfirmedAt: null,
+
+    // Receipt
     receiptFile: null,
     receiptNotes: null,
+    receiptUploadedAt: null,
     reimbursedAt: null,
-    history: [{ ts: new Date().toISOString(), action: 'Submitted', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Procurement request created. Budget: $' + budget.toFixed(2) }]
+
+    history: [{ ts: new Date().toISOString(), action: 'Submitted', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Procurement request created. Budget: $' + budget.toFixed(2) + '. Tier: ' + tier.label + '. Requires: ' + tier.roles.join(' → ') }]
   };
   PROCUREMENT_REQUESTS.push(request);
 
-  LOG.unshift({ ts: new Date().toISOString(), who: request.submittedBy, action: 'procurement_submit', detail: 'Procurement ' + request.id + ': ' + desc.substring(0,50) + '... ($' + budget.toFixed(2) + ')' });
+  LOG.unshift({ ts: new Date().toISOString(), who: request.submittedBy, action: 'procurement_submit', detail: 'Procurement ' + request.id + ': ' + desc.substring(0,50) + '... ($' + budget.toFixed(2) + ') — ' + tier.label });
   renderLog('dash-log',8); renderLog('full-log');
+
+  // Notification to first approver
+  addProcNotification(
+    '📋 New Request: ' + request.id,
+    request.submitterName + ' requests $' + budget.toFixed(2) + ' for ' + desc.substring(0,40),
+    'warning',
+    null // visible to all approvers
+  );
 
   // Clear form
   document.getElementById('proc-description').value = '';
@@ -5911,8 +6145,8 @@ function submitProcurementRequest() {
   document.getElementById('proc-needed-by').value = '';
 
   msgEl.style.display='block'; msgEl.style.color='var(--green)';
-  msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Request ' + request.id + ' submitted successfully! Awaiting Treasurer approval.';
-  setTimeout(function(){ msgEl.style.display='none'; }, 4000);
+  msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Request ' + request.id + ' submitted! <strong>' + tier.label + '</strong> — Awaiting ' + tier.roles[0] + ' approval.';
+  setTimeout(function(){ msgEl.style.display='none'; }, 5000);
 
   renderProcurement();
 }
@@ -5920,9 +6154,12 @@ function submitProcurementRequest() {
 function renderProcurement() {
   renderProcRequests();
   renderProcApprovalQueue();
+  renderProcVarianceQueue();
   renderProcReimbursementQueue();
+  renderProcPaymentQueue();
   updateProcPipeline();
   checkProcEscalations();
+  renderProcNotificationBadge();
 }
 
 function renderProcRequests(filter) {
@@ -5937,10 +6174,10 @@ function renderProcRequests(filter) {
 
   if (filter !== 'all') {
     myRequests = myRequests.filter(function(r) {
-      if (filter === 'pending') return r.status.indexOf('pending') >= 0;
+      if (filter === 'pending') return r.status === 'pending_approval' || r.status === 'variance_review';
       if (filter === 'approved') return r.status === 'approved';
-      if (filter === 'purchased') return r.status === 'purchased' || r.status === 'pending_reimbursement';
-      if (filter === 'reimbursed') return r.status === 'reimbursed';
+      if (filter === 'purchased') return r.status === 'reimbursement_pending' || r.status === 'payment_initiated';
+      if (filter === 'reimbursed') return r.status === 'completed';
       if (filter === 'rejected') return r.status === 'rejected';
       return true;
     });
@@ -5958,29 +6195,41 @@ function renderProcRequests(filter) {
 
   body.innerHTML = myRequests.map(function(r) {
     var statusBadge = getProcStatusBadge(r.status);
+    var tierBadge = '<span class="badge-s badge-dim" style="font-size:.65rem">' + (r.approvalTier || '—') + '</span>';
     var actions = '';
     if (r.status === 'approved') {
       actions = '<button class="btn-sm btn-primary" onclick="openReceiptModal(\''+r.id+'\')"><i class="fas fa-receipt me-1"></i>Upload Receipt</button>';
-    } else if (r.status === 'reimbursed') {
+    } else if (r.status === 'completed') {
       actions = '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Complete</span>';
     } else if (r.status === 'rejected') {
       actions = '<span class="badge-s badge-red">Rejected</span>';
+    } else if (r.status === 'variance_review') {
+      actions = '<span style="font-size:.72rem;color:var(--yellow)"><i class="fas fa-exclamation-triangle me-1"></i>Variance Review</span>';
+    } else if (r.status === 'payment_initiated') {
+      actions = '<span style="font-size:.72rem;color:var(--cyan)"><i class="fas fa-university me-1"></i>Zelle Pending</span>';
+    } else if (r.status === 'reimbursement_pending') {
+      actions = '<span style="font-size:.72rem;color:var(--purple)"><i class="fas fa-money-bill me-1"></i>Reimburse Queue</span>';
     } else {
-      actions = '<span style="font-size:.72rem;color:var(--dim)">Awaiting ' + r.currentApprover + '</span>';
+      actions = '<span style="font-size:.72rem;color:var(--dim)">Awaiting ' + (r.currentApprover || '—') + '</span>';
     }
-    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td style="max-width:200px">'+r.description.substring(0,60)+(r.description.length>60?'...':'')+'</td><td>$'+r.budget.toFixed(2)+'</td><td><span class="badge-s badge-dim">'+r.category+'</span></td><td>'+statusBadge+'</td><td style="font-size:.72rem">'+(r.approvedBy||r.currentApprover)+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td>'+actions+'</td></tr>';
+    // Show approval progress
+    var approvalProgress = '';
+    if (r.requiredApprovers && r.requiredApprovers.length > 1) {
+      var approved = r.requiredApprovers.filter(function(role) { return r.approvals && r.approvals[role]; }).length;
+      approvalProgress = ' <span style="font-size:.65rem;color:var(--muted)">(' + approved + '/' + r.requiredApprovers.length + ')</span>';
+    }
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td style="max-width:200px">'+r.description.substring(0,60)+(r.description.length>60?'...':'')+'</td><td>$'+r.budget.toFixed(2)+'</td><td>'+tierBadge+'</td><td>'+statusBadge+approvalProgress+'</td><td style="font-size:.72rem">'+(r.currentApprover||'Done')+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td>'+actions+'</td></tr>';
   }).join('');
 }
 
 function getProcStatusBadge(status) {
   var map = {
-    'pending_treasurer': '<span class="badge-s badge-yellow"><i class="fas fa-clock me-1"></i>Treasurer Review</span>',
-    'pending_vp': '<span class="badge-s badge-yellow"><i class="fas fa-arrow-up me-1"></i>VP Review</span>',
-    'pending_president': '<span class="badge-s badge-orange"><i class="fas fa-arrow-up me-1"></i>President Review</span>',
+    'pending_approval': '<span class="badge-s badge-yellow"><i class="fas fa-clock me-1"></i>Pending Approval</span>',
     'approved': '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Approved</span>',
-    'purchased': '<span class="badge-s badge-blue"><i class="fas fa-shopping-cart me-1"></i>Purchased</span>',
-    'pending_reimbursement': '<span class="badge-s badge-purple"><i class="fas fa-money-bill me-1"></i>Reimbursement Pending</span>',
-    'reimbursed': '<span class="badge-s badge-green"><i class="fas fa-check-double me-1"></i>Reimbursed</span>',
+    'variance_review': '<span class="badge-s badge-orange"><i class="fas fa-exclamation-triangle me-1"></i>Variance Review</span>',
+    'reimbursement_pending': '<span class="badge-s badge-purple"><i class="fas fa-money-bill me-1"></i>Reimburse Queue</span>',
+    'payment_initiated': '<span class="badge-s badge-blue"><i class="fas fa-university me-1"></i>Zelle Pending</span>',
+    'completed': '<span class="badge-s badge-green"><i class="fas fa-check-double me-1"></i>Completed</span>',
     'rejected': '<span class="badge-s badge-red"><i class="fas fa-times me-1"></i>Rejected</span>'
   };
   return map[status] || '<span class="badge-s badge-dim">'+status+'</span>';
@@ -5997,11 +6246,14 @@ function renderProcApprovalQueue() {
   var body = document.getElementById('proc-approval-body');
   var countEl = document.getElementById('proc-approval-count');
   var myRole = getMyProcRole();
+  var myRoles = getMyProcRoles();
 
   if (!myRole) { section.style.display = 'none'; return; }
 
   var pendingForMe = PROCUREMENT_REQUESTS.filter(function(r) {
-    return r.currentApprover === myRole && r.status.indexOf('pending') >= 0;
+    if (r.status !== 'pending_approval') return false;
+    if (!r.currentApprover) return false;
+    return myRoles.indexOf(r.currentApprover) >= 0;
   });
 
   if (pendingForMe.length === 0) { section.style.display = 'none'; return; }
@@ -6009,74 +6261,203 @@ function renderProcApprovalQueue() {
   countEl.textContent = pendingForMe.length;
 
   body.innerHTML = pendingForMe.map(function(r) {
-    var deadline = new Date(r.approvalDeadline);
-    var now = new Date();
-    var hoursLeft = Math.max(0, Math.round((deadline - now) / (1000*60*60)));
-    var timeColor = hoursLeft < 6 ? 'var(--red)' : hoursLeft < 12 ? 'var(--yellow)' : 'var(--green)';
-    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td style="max-width:180px">'+r.description.substring(0,50)+'</td><td>$'+r.budget.toFixed(2)+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td style="color:'+timeColor+';font-weight:600;font-size:.78rem">'+hoursLeft+'h left</td><td style="white-space:nowrap"><button class="btn-sm btn-success" onclick="approveProcRequest(\''+r.id+'\')"><i class="fas fa-check me-1"></i>Approve</button> <button class="btn-sm btn-danger" onclick="rejectProcRequest(\''+r.id+'\')"><i class="fas fa-times me-1"></i>Reject</button></td></tr>';
+    var tierInfo = '<span class="badge-s badge-dim" style="font-size:.62rem">' + r.approvalTier + '</span>';
+    var approvedSoFar = r.requiredApprovers.filter(function(role) { return r.approvals && r.approvals[role]; });
+    var progressStr = approvedSoFar.length > 0 ? '<br><span style="font-size:.65rem;color:var(--green)">✓ ' + approvedSoFar.join(', ') + '</span>' : '';
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td style="max-width:180px">'+r.description.substring(0,50)+'</td><td>$'+r.budget.toFixed(2)+'</td><td>'+tierInfo+progressStr+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td style="white-space:nowrap"><button class="btn-sm btn-success" onclick="approveProcRequest(\''+r.id+'\')"><i class="fas fa-check me-1"></i>Approve</button> <button class="btn-sm btn-danger" onclick="rejectProcRequest(\''+r.id+'\')"><i class="fas fa-times me-1"></i>Reject</button></td></tr>';
   }).join('');
 }
 
 function approveProcRequest(procId) {
   var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
   if (!req) return;
-  req.status = 'approved';
-  req.approvedBy = (CURRENT_ADMIN ? CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName : 'Admin') + ' (' + req.currentApprover + ')';
-  req.approvedAt = new Date().toISOString();
-  req.history.push({ ts: new Date().toISOString(), action: 'Approved', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Approved by ' + req.currentApprover });
+  var myRole = getMyProcRole();
+  if (!myRole) { showToast('You do not have an approval role.', 'red'); return; }
 
-  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_approve', detail: req.id + ' approved by ' + req.currentApprover + '. Requester can now purchase.' });
+  // Record this role's approval
+  var approverName = CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Admin';
+  req.approvals[req.currentApprover] = {
+    by: approverName,
+    email: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
+    at: new Date().toISOString(),
+    decision: 'approved'
+  };
+  req.history.push({ ts: new Date().toISOString(), action: 'Approved', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Approved by ' + approverName + ' (' + req.currentApprover + ')' });
+
+  // Check if all required approvers have approved
+  if (isFullyApproved(req)) {
+    req.status = 'approved';
+    req.currentApprover = null;
+    req.history.push({ ts: new Date().toISOString(), action: 'Fully Approved', by: 'system', detail: 'All required approvals received (' + req.requiredApprovers.join(' + ') + '). Requester may proceed with purchase.' });
+
+    LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_fully_approved', detail: req.id + ' fully approved (' + req.approvalTier + '). Requester can now purchase.' });
+
+    addProcNotification(
+      '✅ ' + req.id + ' Approved!',
+      '$' + req.budget.toFixed(2) + ' — All approvals received. Ready to purchase.',
+      'success',
+      req.submittedBy
+    );
+    showToast(req.id + ' fully approved! All ' + req.requiredApprovers.length + ' approvers signed off.', 'green');
+  } else {
+    // Move to next approver in chain
+    var nextApprover = getNextPendingApprover(req);
+    req.currentApprover = nextApprover;
+
+    LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_approve', detail: req.id + ' approved by ' + req.currentApprover + '. Next: ' + nextApprover });
+
+    addProcNotification(
+      '📋 ' + req.id + ' needs your approval',
+      approverName + ' approved. Now awaiting ' + nextApprover + ' approval.',
+      'warning',
+      null
+    );
+    showToast(req.id + ' approved by you. Forwarded to ' + nextApprover + '.', 'green');
+  }
+
   renderLog('dash-log',8); renderLog('full-log');
-  showToast('Request ' + procId + ' approved! Requester can now purchase.', 'green');
   renderProcurement();
 }
 
 function rejectProcRequest(procId) {
   var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
   if (!req) return;
+  var rejectorName = CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Admin';
+  var rejectorRole = req.currentApprover || getMyProcRole() || 'Approver';
   req.status = 'rejected';
-  req.history.push({ ts: new Date().toISOString(), action: 'Rejected', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Rejected by ' + req.currentApprover });
+  req.approvals[rejectorRole] = {
+    by: rejectorName,
+    email: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
+    at: new Date().toISOString(),
+    decision: 'rejected'
+  };
+  req.history.push({ ts: new Date().toISOString(), action: 'Rejected', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Rejected by ' + rejectorName + ' (' + rejectorRole + ')' });
 
-  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_reject', detail: req.id + ' rejected by ' + req.currentApprover });
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_reject', detail: req.id + ' rejected by ' + rejectorRole });
   renderLog('dash-log',8); renderLog('full-log');
+
+  addProcNotification(
+    '❌ ' + req.id + ' Rejected',
+    'Rejected by ' + rejectorName + ' (' + rejectorRole + ')',
+    'danger',
+    req.submittedBy
+  );
   showToast('Request ' + procId + ' rejected.', 'red');
   renderProcurement();
 }
 
 function checkProcEscalations() {
-  // Auto-escalate requests that exceeded 24-hour deadline
+  // Auto-escalation still works for tiered — if current approver hasn't acted in 24h, notify again
   var now = new Date();
   PROCUREMENT_REQUESTS.forEach(function(req) {
-    if (req.status.indexOf('pending') < 0) return;
-    if (new Date(req.approvalDeadline) > now) return;
-
-    // Escalate!
-    if (req.currentApprover === 'Treasurer') {
-      req.currentApprover = 'VP';
-      req.status = 'pending_vp';
-      req.escalationLevel = 2;
-      req.approvalDeadline = new Date(now.getTime() + 24*60*60*1000).toISOString();
-      req.history.push({ ts: now.toISOString(), action: 'Escalated', by: 'System', detail: 'Auto-escalated to VP (Treasurer did not respond in 24h)' });
-    } else if (req.currentApprover === 'VP') {
-      req.currentApprover = 'President';
-      req.status = 'pending_president';
-      req.escalationLevel = 3;
-      req.approvalDeadline = new Date(now.getTime() + 24*60*60*1000).toISOString();
-      req.history.push({ ts: now.toISOString(), action: 'Escalated', by: 'System', detail: 'Auto-escalated to President (VP did not respond in 24h)' });
+    if (req.status !== 'pending_approval' && req.status !== 'variance_review') return;
+    // Check if last history entry is > 24h old
+    if (!req.history || req.history.length === 0) return;
+    var lastAction = new Date(req.history[req.history.length - 1].ts);
+    if ((now - lastAction) > 24 * 60 * 60 * 1000) {
+      // Add escalation notice
+      req.history.push({ ts: now.toISOString(), action: 'Escalation Notice', by: 'System', detail: req.currentApprover + ' has not responded in 24+ hours. Escalation notice sent.' });
+      addProcNotification(
+        '⏰ Overdue: ' + req.id,
+        'Awaiting ' + req.currentApprover + ' for 24+ hours. $' + req.budget.toFixed(2),
+        'danger',
+        null
+      );
     }
-    // President is final — no further escalation
   });
+}
+
+// ── VARIANCE APPROVAL QUEUE ──
+function renderProcVarianceQueue() {
+  var section = document.getElementById('proc-variance-section');
+  if (!section) return;
+  var body = document.getElementById('proc-variance-body');
+  var countEl = document.getElementById('proc-variance-count');
+  var myRole = getMyProcRole();
+  var myRoles = getMyProcRoles();
+
+  if (!myRole) { section.style.display = 'none'; return; }
+
+  var varianceItems = PROCUREMENT_REQUESTS.filter(function(r) {
+    if (r.status !== 'variance_review') return false;
+    if (!r.currentApprover) return false;
+    return myRoles.indexOf(r.currentApprover) >= 0;
+  });
+
+  if (varianceItems.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  countEl.textContent = varianceItems.length;
+
+  body.innerHTML = varianceItems.map(function(r) {
+    var varianceColor = r.variancePercent > 20 ? 'var(--red)' : 'var(--yellow)';
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td>$'+r.budget.toFixed(2)+'</td><td style="font-weight:700">$'+(r.actualAmount||0).toFixed(2)+'</td><td style="color:'+varianceColor+';font-weight:700">+'+(r.variancePercent||0).toFixed(1)+'%</td><td><i class="fas fa-file-alt me-1" style="color:var(--cyan)"></i>'+(r.receiptFile||'—')+'</td><td style="white-space:nowrap"><button class="btn-sm btn-success" onclick="approveVariance(\''+r.id+'\')"><i class="fas fa-check me-1"></i>Approve Variance</button> <button class="btn-sm btn-danger" onclick="rejectVariance(\''+r.id+'\')"><i class="fas fa-times me-1"></i>Reject</button></td></tr>';
+  }).join('');
+}
+
+function approveVariance(procId) {
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
+  if (!req || req.status !== 'variance_review') return;
+  var approverName = CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Admin';
+  var role = req.currentApprover;
+
+  req.varianceApprovals = req.varianceApprovals || {};
+  req.varianceApprovals[role] = {
+    by: approverName,
+    email: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
+    at: new Date().toISOString(),
+    decision: 'approved'
+  };
+  req.history.push({ ts: new Date().toISOString(), action: 'Variance Approved', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Variance approved by ' + approverName + ' (' + role + ')' });
+
+  var allDone = (req.varianceRequiredApprovers || []).every(function(r) { return req.varianceApprovals[r]; });
+  if (allDone) {
+    req.status = 'reimbursement_pending';
+    req.varianceApproved = true;
+    req.currentApprover = null;
+    req.history.push({ ts: new Date().toISOString(), action: 'Variance Fully Approved', by: 'system', detail: 'All variance approvals received. Proceeding to reimbursement.' });
+    addProcNotification('✅ ' + req.id + ' Variance Approved', 'Actual $' + (req.actualAmount||0).toFixed(2) + ' approved. Reimbursement queue.', 'success', req.submittedBy);
+    showToast(req.id + ' variance approved! Moved to reimbursement queue.', 'green');
+  } else {
+    var nextRole = (req.varianceRequiredApprovers || []).find(function(r) { return !req.varianceApprovals[r]; });
+    req.currentApprover = nextRole;
+    showToast(req.id + ' variance approved by you. Forwarded to ' + nextRole + '.', 'green');
+  }
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'variance_approve', detail: req.id + ' variance approved by ' + role });
+  renderLog('dash-log',8); renderLog('full-log');
+  renderProcurement();
+}
+
+function rejectVariance(procId) {
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
+  if (!req) return;
+  req.status = 'rejected';
+  var rejectorName = CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'Admin';
+  req.history.push({ ts: new Date().toISOString(), action: 'Variance Rejected', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Variance rejected by ' + rejectorName + '. Actual amount $' + (req.actualAmount||0).toFixed(2) + ' exceeds tolerance.' });
+
+  addProcNotification('❌ ' + req.id + ' Variance Rejected', 'Actual $' + (req.actualAmount||0).toFixed(2) + ' rejected.', 'danger', req.submittedBy);
+  showToast(req.id + ' variance rejected.', 'red');
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'variance_reject', detail: req.id + ' variance rejected' });
+  renderLog('dash-log',8); renderLog('full-log');
+  renderProcurement();
 }
 
 // Receipt Upload
 var RECEIPT_PROC_ID = null;
 function openReceiptModal(procId) {
   RECEIPT_PROC_ID = procId;
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
   document.getElementById('receipt-proc-id').textContent = procId;
   document.getElementById('receipt-amount').value = '';
   document.getElementById('receipt-notes').value = '';
   document.getElementById('receipt-file').value = '';
   document.getElementById('receipt-status-msg').style.display = 'none';
+  // Show approved budget for reference
+  var refEl = document.getElementById('receipt-budget-ref');
+  if (refEl && req) {
+    refEl.innerHTML = '<i class="fas fa-info-circle me-1"></i>Approved budget: <strong>$' + req.budget.toFixed(2) + '</strong>. If actual exceeds by &gt;10% ($' + (req.budget * 1.10).toFixed(2) + '), re-approval will be required.';
+    refEl.style.display = 'block';
+  }
   document.getElementById('proc-receipt-modal').style.display = 'flex';
 }
 
@@ -6100,15 +6481,52 @@ function submitReceipt() {
   req.actualAmount = amount;
   req.receiptFile = fileInput.files[0].name;
   req.receiptNotes = notes;
-  req.status = 'pending_reimbursement';
-  req.history.push({ ts: new Date().toISOString(), action: 'Receipt Uploaded', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Receipt: ' + fileInput.files[0].name + ', Amount: $' + amount.toFixed(2) });
+  req.receiptUploadedAt = new Date().toISOString();
 
-  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_receipt', detail: req.id + ' receipt uploaded. Actual: $' + amount.toFixed(2) + '. Awaiting reimbursement.' });
+  // ── VARIANCE CHECK ──
+  var variance = (amount - req.budget) / req.budget;
+  req.variancePercent = Math.round(variance * 10000) / 100;
+
+  if (amount > req.budget * (1 + PROC_VARIANCE_THRESHOLD)) {
+    // Actual exceeds approved by >10% → RE-APPROVAL REQUIRED
+    req.status = 'variance_review';
+    req.varianceApproved = false;
+    req.varianceApprovals = {};
+    var tier = getProcTier(amount); // tier based on ACTUAL amount
+    req.varianceRequiredApprovers = tier.roles.slice();
+    req.currentApprover = tier.roles[0];
+    req.history.push({ ts: new Date().toISOString(), action: 'Variance Flagged', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'VARIANCE: Actual $' + amount.toFixed(2) + ' exceeds approved $' + req.budget.toFixed(2) + ' by ' + req.variancePercent.toFixed(1) + '% (>' + (PROC_VARIANCE_THRESHOLD*100) + '% threshold). Re-approval required. Tier: ' + tier.label });
+
+    addProcNotification(
+      '⚠️ Variance: ' + req.id,
+      'Actual $' + amount.toFixed(2) + ' vs approved $' + req.budget.toFixed(2) + ' (+' + req.variancePercent.toFixed(1) + '%). Re-approval needed.',
+      'warning',
+      null
+    );
+
+    msgEl.style.display='block'; msgEl.style.color='var(--yellow)';
+    msgEl.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>Receipt uploaded. <strong>VARIANCE ALERT:</strong> Actual ($' + amount.toFixed(2) + ') exceeds approved ($' + req.budget.toFixed(2) + ') by ' + req.variancePercent.toFixed(1) + '%. Re-approval required.';
+  } else {
+    // Within tolerance → proceed to reimbursement
+    req.status = 'reimbursement_pending';
+    req.varianceApproved = true;
+    req.history.push({ ts: new Date().toISOString(), action: 'Receipt Uploaded', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Receipt: ' + fileInput.files[0].name + ', Actual: $' + amount.toFixed(2) + ' (' + (req.variancePercent > 0 ? '+' : '') + req.variancePercent.toFixed(1) + '% variance — within ' + (PROC_VARIANCE_THRESHOLD*100) + '% tolerance). Reimbursement queue.' });
+
+    addProcNotification(
+      '📄 Receipt: ' + req.id,
+      req.submitterName + ' uploaded receipt. Actual: $' + amount.toFixed(2) + '. Reimbursement needed.',
+      'info',
+      null
+    );
+
+    msgEl.style.display='block'; msgEl.style.color='var(--green)';
+    msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Receipt uploaded! Variance: ' + (req.variancePercent > 0 ? '+' : '') + req.variancePercent.toFixed(1) + '% (within tolerance). Moved to reimbursement queue.';
+  }
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_receipt', detail: req.id + ' receipt uploaded. Actual: $' + amount.toFixed(2) + ' (variance: ' + (req.variancePercent > 0 ? '+' : '') + req.variancePercent.toFixed(1) + '%)' });
   renderLog('dash-log',8); renderLog('full-log');
 
-  msgEl.style.display='block'; msgEl.style.color='var(--green)';
-  msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Receipt uploaded! Reimbursement workflow initiated.';
-  setTimeout(function(){ closeReceiptModal(); renderProcurement(); }, 2000);
+  setTimeout(function(){ closeReceiptModal(); renderProcurement(); }, 3000);
 }
 
 function renderProcReimbursementQueue() {
@@ -6120,7 +6538,7 @@ function renderProcReimbursementQueue() {
   if (!myRole) { section.style.display = 'none'; return; }
 
   var pendingReimburse = PROCUREMENT_REQUESTS.filter(function(r) {
-    return r.status === 'pending_reimbursement';
+    return r.status === 'reimbursement_pending';
   });
 
   if (pendingReimburse.length === 0) { section.style.display = 'none'; return; }
@@ -6128,20 +6546,79 @@ function renderProcReimbursementQueue() {
   countEl.textContent = pendingReimburse.length;
 
   body.innerHTML = pendingReimburse.map(function(r) {
-    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td>$'+(r.actualAmount||r.budget).toFixed(2)+'</td><td><i class="fas fa-file-alt me-1" style="color:var(--cyan)"></i>'+(r.receiptFile||'No file')+'</td><td style="font-size:.72rem">'+new Date(r.submittedAt).toLocaleDateString()+'</td><td><button class="btn-sm btn-success" onclick="processReimbursement(\''+r.id+'\')"><i class="fas fa-money-bill-wave me-1"></i>Reimburse</button></td></tr>';
+    var varianceInfo = r.variancePercent !== null ? ' <span style="font-size:.65rem;color:' + (r.variancePercent > 0 ? 'var(--yellow)' : 'var(--green)') + '">(' + (r.variancePercent > 0 ? '+' : '') + r.variancePercent.toFixed(1) + '%)</span>' : '';
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td style="font-weight:600">$'+(r.actualAmount||r.budget).toFixed(2)+varianceInfo+'</td><td><i class="fas fa-file-alt me-1" style="color:var(--cyan)"></i>'+(r.receiptFile||'No file')+'</td><td style="font-size:.72rem">'+new Date(r.receiptUploadedAt || r.submittedAt).toLocaleDateString()+'</td><td><button class="btn-sm btn-success" onclick="initiatePayment(\''+r.id+'\')"><i class="fas fa-university me-1"></i>Send Zelle</button></td></tr>';
   }).join('');
 }
 
-function processReimbursement(procId) {
+// ── PAYMENT INITIATION (Zelle) ──
+function initiatePayment(procId) {
   var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
-  if (!req) return;
-  req.status = 'reimbursed';
-  req.reimbursedAt = new Date().toISOString();
-  req.history.push({ ts: new Date().toISOString(), action: 'Reimbursed', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Reimbursement processed: $' + (req.actualAmount || req.budget).toFixed(2) });
+  if (!req || req.status !== 'reimbursement_pending') return;
 
-  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'procurement_reimbursed', detail: req.id + ' reimbursed $' + (req.actualAmount || req.budget).toFixed(2) + ' to ' + req.submitterName });
+  req.status = 'payment_initiated';
+  req.paymentMethod = 'Zelle';
+  req.paymentInitiatedAt = new Date().toISOString();
+  req.history.push({ ts: new Date().toISOString(), action: 'Payment Initiated', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Zelle payment task created: $' + (req.actualAmount || req.budget).toFixed(2) + ' to ' + req.submitterName + '. Memo: BANF ' + req.id + ' Reimbursement' });
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'payment_initiated', detail: req.id + ' Zelle payment initiated: $' + (req.actualAmount || req.budget).toFixed(2) + ' → ' + req.submitterName });
   renderLog('dash-log',8); renderLog('full-log');
-  showToast('Reimbursement for ' + procId + ' processed successfully!', 'green');
+
+  addProcNotification(
+    '🏦 Payment: ' + req.id,
+    'Zelle $' + (req.actualAmount || req.budget).toFixed(2) + ' to ' + req.submitterName + '. Pending confirmation.',
+    'info',
+    req.submittedBy
+  );
+  showToast('Zelle payment initiated for ' + req.id + ': $' + (req.actualAmount || req.budget).toFixed(2), 'green');
+  renderProcurement();
+}
+
+// ── PAYMENT QUEUE & CONFIRMATION ──
+function renderProcPaymentQueue() {
+  var section = document.getElementById('proc-payment-section');
+  if (!section) return;
+  var body = document.getElementById('proc-payment-body');
+  var countEl = document.getElementById('proc-payment-count');
+  var myRole = getMyProcRole();
+
+  if (!myRole) { section.style.display = 'none'; return; }
+
+  var pendingPayment = PROCUREMENT_REQUESTS.filter(function(r) {
+    return r.status === 'payment_initiated';
+  });
+
+  if (pendingPayment.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  countEl.textContent = pendingPayment.length;
+
+  body.innerHTML = pendingPayment.map(function(r) {
+    var initiatedAgo = getTimeAgo(r.paymentInitiatedAt);
+    return '<tr><td style="font-weight:600;color:var(--accent)">'+r.id+'</td><td>'+r.submitterName+'</td><td style="font-weight:600">$'+(r.actualAmount||r.budget).toFixed(2)+'</td><td><span class="badge-s badge-blue"><i class="fas fa-university me-1"></i>Zelle</span></td><td style="font-size:.72rem">'+initiatedAgo+'</td><td><button class="btn-sm btn-success" onclick="confirmPayment(\''+r.id+'\')"><i class="fas fa-check-double me-1"></i>Confirm Sent</button></td></tr>';
+  }).join('');
+}
+
+function confirmPayment(procId) {
+  var req = PROCUREMENT_REQUESTS.find(function(r){ return r.id === procId; });
+  if (!req || req.status !== 'payment_initiated') return;
+
+  var ref = 'ZELLE-' + Math.random().toString(36).substring(2,10).toUpperCase();
+  req.status = 'completed';
+  req.paymentReference = ref;
+  req.paymentConfirmedAt = new Date().toISOString();
+  req.reimbursedAt = new Date().toISOString();
+  req.history.push({ ts: new Date().toISOString(), action: 'Payment Confirmed', by: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', detail: 'Zelle payment confirmed. Ref: ' + ref + '. Reimbursement complete: $' + (req.actualAmount || req.budget).toFixed(2) });
+
+  LOG.unshift({ ts: new Date().toISOString(), who: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', action: 'payment_confirmed', detail: req.id + ' COMPLETED — reimbursed $' + (req.actualAmount || req.budget).toFixed(2) + ' via Zelle (' + ref + ')' });
+  renderLog('dash-log',8); renderLog('full-log');
+
+  addProcNotification(
+    '💰 Reimbursed: ' + req.id,
+    '$' + (req.actualAmount || req.budget).toFixed(2) + ' via Zelle. Ref: ' + ref + '. Complete!',
+    'success',
+    req.submittedBy
+  );
+  showToast(req.id + ' reimbursement COMPLETE! Ref: ' + ref, 'green');
   renderProcurement();
 }
 
@@ -6152,13 +6629,12 @@ function updateProcPipeline() {
   if (myReqs.length === 0) return;
   var latest = myReqs[myReqs.length - 1];
   var steps = {
-    'pending_treasurer': 2,
-    'pending_vp': 3,
-    'pending_president': 4,
+    'pending_approval': 2,
     'approved': 5,
-    'purchased': 5,
-    'pending_reimbursement': 5,
-    'reimbursed': 6,
+    'variance_review': 5,
+    'reimbursement_pending': 5,
+    'payment_initiated': 6,
+    'completed': 7,
     'rejected': 0
   };
   var activeStep = steps[latest.status] || 1;
@@ -6171,6 +6647,19 @@ function updateProcPipeline() {
   // Mark step 1 as done if any request exists
   var s1 = document.getElementById('proc-p-submit');
   if (s1 && myReqs.length > 0) s1.className = 'pipe-step done';
+  // For multi-approver, highlight which approvers are done
+  if (latest.requiredApprovers && latest.status === 'pending_approval') {
+    var treasEl = document.getElementById('proc-p-treasurer');
+    var vpEl = document.getElementById('proc-p-vp');
+    var presEl = document.getElementById('proc-p-president');
+    if (treasEl && latest.approvals['Treasurer']) treasEl.className = 'pipe-step done';
+    if (vpEl && latest.approvals['VP']) vpEl.className = 'pipe-step done';
+    if (presEl && latest.approvals['President']) presEl.className = 'pipe-step done';
+    // Highlight current approver
+    if (latest.currentApprover === 'Treasurer' && treasEl) treasEl.className = 'pipe-step active';
+    if (latest.currentApprover === 'VP' && vpEl) vpEl.className = 'pipe-step active';
+    if (latest.currentApprover === 'President' && presEl) presEl.className = 'pipe-step active';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════
