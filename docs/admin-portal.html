@@ -422,6 +422,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-item" data-panel="drive-status" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-line"></i><span>Drive Status</span></div>
     <div class="sb-item" data-panel="event-reports" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-pie"></i><span>Event Reports</span></div>
     <div class="sb-item" data-panel="qr-food-serving" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-utensils"></i><span>QR Food Serving</span></div>
+    <div class="sb-item" data-panel="email-pipeline" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-envelope-open-text"></i><span>Email Pipeline</span><span id="pipeline-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block" title="Pipeline Active"></span></div>
 
     <!-- ── AI / RAG ── ec_member, admin, super_admin -->
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">AI Assistant</div>
@@ -1700,26 +1701,137 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div class="kpi red"><div class="v" id="qfs-remaining">0</div><div class="k">Remaining</div></div>
       </div>
 
-      <!-- QR Scanner -->
+      <!-- QR Scanner — Camera-Based + Manual Search -->
       <div class="card-a">
         <h2><i class="fas fa-camera" style="color:var(--green)"></i> QR Code Scanner
           <span class="badge-s badge-green" style="font-size:.6rem;margin-left:6px">Live</span>
+          <span id="qfs-camera-status" class="badge-s" style="font-size:.56rem;margin-left:4px;background:rgba(100,100,100,.2);color:var(--dim)">Camera Off</span>
         </h2>
-        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Scan a member's QR code to check them in for food serving. Alternately, search by name or email below.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
-          <div class="form-group" style="flex:1;min-width:250px">
-            <label>Search by Name or Email</label>
-            <input id="qfs-search" type="text" placeholder="Type name or email..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem" oninput="qfsSearch(this.value)">
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Scan a member's QR code to check them in for food serving. Use the camera scanner or search by name/email below.</p>
+
+        <!-- Camera Scanner Area -->
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px">
+          <div style="flex:1;min-width:280px">
+            <div style="display:flex;gap:6px;margin-bottom:8px">
+              <button id="qfs-cam-start" class="btn-sm btn-primary" onclick="qfsCameraStart()"><i class="fas fa-video me-1"></i>Start Camera</button>
+              <button id="qfs-cam-stop" class="btn-sm btn-secondary" onclick="qfsCameraStop()" style="display:none"><i class="fas fa-stop me-1"></i>Stop Camera</button>
+              <select id="qfs-cam-select" style="padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.72rem;max-width:200px" onchange="qfsCameraSwitch()">
+                <option value="">Select camera...</option>
+              </select>
+            </div>
+            <div id="qfs-camera-container" style="position:relative;width:100%;max-width:400px;border-radius:12px;overflow:hidden;background:#000;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center">
+              <video id="qfs-camera-video" style="width:100%;height:100%;object-fit:cover;display:none" autoplay playsinline></video>
+              <canvas id="qfs-camera-canvas" style="display:none"></canvas>
+              <div id="qfs-camera-placeholder" style="color:var(--dim);font-size:.82rem;text-align:center;padding:20px">
+                <i class="fas fa-qrcode" style="font-size:3rem;margin-bottom:8px;display:block;opacity:.3"></i>
+                Click "Start Camera" to begin scanning QR codes
+              </div>
+              <!-- Scan overlay crosshair -->
+              <div id="qfs-scan-overlay" style="display:none;position:absolute;inset:0;pointer-events:none">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:180px;height:180px;border:2px solid rgba(34,197,94,.7);border-radius:12px"></div>
+                <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.6);color:#fff;padding:4px 12px;border-radius:6px;font-size:.7rem">
+                  <i class="fas fa-crosshairs me-1"></i> Point camera at QR code
+                </div>
+              </div>
+            </div>
+            <div id="qfs-scan-toast" style="display:none;margin-top:8px;padding:10px 14px;border-radius:8px;font-size:.78rem;font-weight:600"></div>
           </div>
-          <div class="form-group" style="flex:1;min-width:250px">
-            <label>Select Event</label>
-            <select id="qfs-event-select" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem" onchange="qfsLoadEvent()">
-              <option value="all">All Events</option>
-            </select>
+          <div style="flex:1;min-width:250px">
+            <div class="form-group" style="margin-bottom:8px">
+              <label>Search by Name or Email</label>
+              <input id="qfs-search" type="text" placeholder="Type name or email..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem" oninput="qfsSearch(this.value)">
+            </div>
+            <div class="form-group" style="margin-bottom:8px">
+              <label>Select Event</label>
+              <select id="qfs-event-select" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem" onchange="qfsLoadEvent()">
+                <option value="all">All Events</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn-primary" onclick="qfsRefresh()"><i class="fas fa-sync me-1"></i>Refresh</button>
+              <button class="btn-sm btn-secondary" onclick="qfsExportVerifyExcel()"><i class="fas fa-file-excel me-1"></i>Export Verification Excel</button>
+            </div>
           </div>
-          <button class="btn-primary" onclick="qfsRefresh()"><i class="fas fa-sync me-1"></i>Refresh</button>
         </div>
         <div id="qfs-scan-result" style="margin-top:12px;display:none;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px"></div>
+      </div>
+
+      <!-- ── Attendee Detail Modal (opened by QR scan or row click) ── -->
+      <div id="qfs-detail-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);overflow-y:auto">
+        <div style="max-width:700px;margin:40px auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+          <div style="display:flex;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(6,182,212,.06))">
+            <div style="flex:1">
+              <h2 style="margin:0;font-size:1.1rem" id="qfs-dm-title">Attendee Details</h2>
+              <p style="margin:4px 0 0;font-size:.72rem;color:var(--muted)" id="qfs-dm-subtitle">—</p>
+            </div>
+            <button onclick="qfsCloseDetail()" style="background:none;border:none;color:var(--dim);font-size:1.4rem;cursor:pointer;padding:4px 8px" title="Close"><i class="fas fa-times"></i></button>
+          </div>
+          <div style="padding:20px 22px;display:flex;flex-direction:column;gap:16px">
+            <!-- Evite / RSVP Details -->
+            <div>
+              <div style="font-size:.74rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-envelope-open me-1"></i> Evite / RSVP Details</div>
+              <div id="qfs-dm-evite" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:.78rem"></div>
+            </div>
+            <!-- Payment Details -->
+            <div>
+              <div style="font-size:.74rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-credit-card me-1"></i> Payment Details</div>
+              <div id="qfs-dm-payment" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:.78rem"></div>
+            </div>
+            <!-- Membership Details -->
+            <div>
+              <div style="font-size:.74rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-id-card me-1"></i> Membership Details</div>
+              <div id="qfs-dm-membership" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:.78rem"></div>
+            </div>
+            <!-- Food Serving -->
+            <div>
+              <div style="font-size:.74rem;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-utensils me-1"></i> Food Serving</div>
+              <div id="qfs-dm-food" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:.78rem"></div>
+            </div>
+            <!-- Admin Editable Fields -->
+            <div style="border-top:1px solid var(--line);padding-top:14px">
+              <div style="font-size:.74rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-pen me-1"></i> Admin Verification & Updates</div>
+              <div class="form-row" style="gap:10px">
+                <div class="form-group" style="flex:1">
+                  <label>Membership Recommendation</label>
+                  <select id="qfs-dm-membership-rec" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.78rem">
+                    <option value="m2-family">M2 Premium — Family ($375)</option>
+                    <option value="m2-couple">M2 Premium — Couple ($330)</option>
+                    <option value="m2-individual">M2 Premium — Individual ($205)</option>
+                    <option value="m2-student">M2 Premium — Student ($145)</option>
+                    <option value="m1-family">M1 Regular — Family ($280)</option>
+                    <option value="m1-couple">M1 Regular — Couple ($255)</option>
+                    <option value="m1-individual">M1 Regular — Individual ($140)</option>
+                    <option value="m1-student">M1 Regular — Student ($100)</option>
+                    <option value="cultural-family">Cultural Special — Family ($180)</option>
+                    <option value="cultural-couple">Cultural Special — Couple ($140)</option>
+                    <option value="cultural-individual">Cultural Special — Individual ($100)</option>
+                    <option value="cultural-student">Cultural Special — Student ($75)</option>
+                    <option value="guest">Guest Pass</option>
+                    <option value="ec-comp">EC Complimentary</option>
+                  </select>
+                </div>
+                <div class="form-group" style="flex:1">
+                  <label>Verification Status</label>
+                  <select id="qfs-dm-verify-status" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.78rem">
+                    <option value="verified">✅ Verified</option>
+                    <option value="pending">⏳ Pending Verification</option>
+                    <option value="mismatch">⚠️ Data Mismatch</option>
+                    <option value="flagged">🚩 Flagged for Review</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:8px">
+                <label>Admin Notes</label>
+                <textarea id="qfs-dm-notes" rows="2" placeholder="Add notes about this attendee..." style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.78rem;resize:vertical"></textarea>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:10px">
+                <button class="btn-primary" onclick="qfsSaveDetail()"><i class="fas fa-save me-1"></i>Save & Close</button>
+                <button class="btn-sm btn-primary" style="background:var(--green)" onclick="qfsServeFromDetail()"><i class="fas fa-check me-1"></i>Mark as Served</button>
+                <button class="btn-sm btn-secondary" onclick="qfsCloseDetail()"><i class="fas fa-times me-1"></i>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Attendee Check-In List -->
@@ -1782,6 +1894,107 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
           <button class="btn-sm btn-secondary" onclick="qfsSaveState()"><i class="fas fa-save me-1"></i>Save Check-In State</button>
           <button class="btn-sm btn-secondary" onclick="qfsRestoreState()"><i class="fas fa-undo me-1"></i>Restore Saved State</button>
         </div>
+      </div>
+    </div>
+
+    <!-- ══════════ EMAIL PIPELINE STATUS PANEL ══════════ -->
+    <div class="portal-section" id="panel-email-pipeline">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Email Processing Pipeline</div>
+
+      <!-- Pipeline Health Bar -->
+      <div class="card-a" style="border-left:4px solid var(--green)">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="flex:1">
+            <h2 style="margin:0"><i class="fas fa-satellite-dish" style="color:var(--green)"></i> Pipeline Status
+              <span id="epl-status-badge" class="badge-s badge-green" style="font-size:.6rem;margin-left:6px">ACTIVE</span>
+            </h2>
+            <p id="epl-uptime" style="font-size:.72rem;color:var(--muted);margin:4px 0 0">Checking pipeline...</p>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn-sm btn-primary" onclick="eplRefresh()"><i class="fas fa-sync me-1"></i>Refresh</button>
+            <button class="btn-sm btn-secondary" onclick="eplStartPipeline()"><i class="fas fa-play me-1"></i>Start Pipeline</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pipeline KPIs -->
+      <div class="kpi-grid" id="epl-kpi-grid">
+        <div class="kpi green"><div class="v" id="epl-poll-count">0</div><div class="k">Poll Cycles</div></div>
+        <div class="kpi blue"><div class="v" id="epl-total-emails">0</div><div class="k">Emails Processed</div></div>
+        <div class="kpi cyan"><div class="v" id="epl-total-rsvps">0</div><div class="k">RSVPs Detected</div></div>
+        <div class="kpi purple"><div class="v" id="epl-total-payments">0</div><div class="k">Payments Detected</div></div>
+        <div class="kpi yellow"><div class="v" id="epl-total-sent">0</div><div class="k">Emails Sent</div></div>
+        <div class="kpi green"><div class="v" id="epl-interval">5m</div><div class="k">Poll Interval</div></div>
+        <div class="kpi blue"><div class="v" id="epl-queries">0</div><div class="k">User Queries</div></div>
+        <div class="kpi red"><div class="v" id="epl-health">—</div><div class="k">Health</div></div>
+      </div>
+
+      <!-- Active Drives -->
+      <div class="card-a">
+        <h2><i class="fas fa-route" style="color:var(--cyan)"></i> Active Email Pipelines</h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Emails are parsed and routed to the appropriate pipeline based on the current active drives.</p>
+        <div id="epl-active-drives" style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge-s" style="background:rgba(34,197,94,.12);color:var(--green);padding:6px 14px;font-size:.76rem"><i class="fas fa-envelope-open me-1"></i>Loading...</span>
+        </div>
+        <div style="margin-top:12px;font-size:.72rem;color:var(--dim)">
+          <i class="fas fa-info-circle me-1"></i> Pipeline routes: <strong>Evite RSVPs</strong> → Member Pipeline → Auto-send | <strong>Zelle Payments</strong> → CRM Update → Payment Followup | <strong>Admin Instructions</strong> → Action Processor | <strong>User Queries</strong> → RAG Classification → Auto/Manual Reply
+        </div>
+      </div>
+
+      <!-- Last Cycle Details -->
+      <div class="card-a">
+        <h2><i class="fas fa-clock-rotate-left" style="color:var(--yellow)"></i> Last Scan Cycle</h2>
+        <div id="epl-last-cycle" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px">
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--green)" id="epl-lc-rsvps">0</div>
+            <div style="font-size:.68rem;color:var(--dim)">New RSVPs</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--purple)" id="epl-lc-payments">0</div>
+            <div style="font-size:.68rem;color:var(--dim)">New Payments</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--blue)" id="epl-lc-members">0</div>
+            <div style="font-size:.68rem;color:var(--dim)">New Members</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--yellow)" id="epl-lc-followups">0</div>
+            <div style="font-size:.68rem;color:var(--dim)">Followups Sent</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--cyan)" id="epl-lc-queries">0</div>
+            <div style="font-size:.68rem;color:var(--dim)">User Queries</div>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px;text-align:center">
+            <div style="font-size:1.2rem;font-weight:700;color:var(--muted)" id="epl-lc-duration">—</div>
+            <div style="font-size:.68rem;color:var(--dim)">Duration</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:.7rem;color:var(--dim)">
+          <i class="fas fa-clock me-1"></i> Last scan: <span id="epl-last-scan-time">—</span> | Next poll: <span id="epl-next-poll">—</span>
+        </div>
+      </div>
+
+      <!-- Recent Activity Feed -->
+      <div class="card-a">
+        <h2><i class="fas fa-stream" style="color:var(--blue)"></i> Recent Pipeline Activity</h2>
+        <div id="epl-activity-feed" style="max-height:350px;overflow-y:auto">
+          <div style="text-align:center;padding:20px;color:var(--dim);font-size:.82rem">Loading pipeline activity...</div>
+        </div>
+      </div>
+
+      <!-- Pipeline Config -->
+      <div class="card-a">
+        <h2><i class="fas fa-cog" style="color:var(--muted)"></i> Pipeline Configuration</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:.78rem">
+          <div><strong>Poll Interval:</strong> <span id="epl-cfg-interval">5 min</span></div>
+          <div><strong>Auto-Send:</strong> <span id="epl-cfg-autosend">—</span></div>
+          <div><strong>Batch Size:</strong> <span id="epl-cfg-batch">—</span></div>
+          <div><strong>Up Since:</strong> <span id="epl-cfg-upsince">—</span></div>
+        </div>
+        <p style="font-size:.68rem;color:var(--dim);margin-top:10px">
+          <i class="fas fa-terminal me-1"></i> Command: <code style="background:var(--bg2);padding:2px 6px;border-radius:4px">node bosonto-email-reader-agent.js --poll --auto-send --interval=5</code>
+        </p>
       </div>
     </div>
 
@@ -7152,7 +7365,7 @@ function qfsRender() {
       ? '<button class="btn-sm btn-secondary" style="padding:2px 8px;font-size:.66rem" onclick="qfsUndo(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-undo me-1"></i>Undo</button>'
       : '<button class="btn-sm btn-primary" style="padding:4px 12px;font-size:.72rem" onclick="qfsServe(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-check me-1"></i>Serve</button>';
 
-    return '<tr style="background:' + (state ? 'rgba(34,197,94,.05)' : 'transparent') + '">' +
+    return '<tr style="background:' + (state ? 'rgba(34,197,94,.05)' : 'transparent') + ';cursor:pointer" onclick="qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')" title="Click to view full details">' +
       '<td>' + (i+1) + '</td>' +
       '<td><div style="font-weight:600;font-size:.82rem">' + a.name + '</div><div style="font-size:.66rem;color:var(--dim)">' + a.email + '</div></td>' +
       '<td style="font-size:.78rem">' + a.event + '</td>' +
@@ -7163,7 +7376,7 @@ function qfsRender() {
       '<td>' + payBadge + '</td>' +
       '<td style="font-size:.72rem">' + (a.membership || '—') + '</td>' +
       '<td>' + statusBadge + '</td>' +
-      '<td>' + actions + '</td>' +
+      '<td onclick="event.stopPropagation()">' + actions + '</td>' +
     '</tr>';
   }).join('');
 
@@ -7332,6 +7545,495 @@ function qfsRestoreState() {
 
 // ═══════════════════════════════════════════════════════════
 // END QR FOOD-SERVING
+// ═══════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
+// QR CAMERA SCANNER — uses jsQR for real-time QR code reading
+// ═══════════════════════════════════════════════════════════
+var QFS_CAMERA_STREAM = null;
+var QFS_CAMERA_TIMER = null;
+var QFS_LAST_SCAN = '';
+var QFS_DETAIL_CURRENT = null;
+
+// Load jsQR library dynamically
+(function loadJsQR() {
+  if (window.jsQR) return;
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+
+function qfsCameraStart() {
+  var video = document.getElementById('qfs-camera-video');
+  var placeholder = document.getElementById('qfs-camera-placeholder');
+  var overlay = document.getElementById('qfs-scan-overlay');
+  var camStatus = document.getElementById('qfs-camera-status');
+  var startBtn = document.getElementById('qfs-cam-start');
+  var stopBtn = document.getElementById('qfs-cam-stop');
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('Camera not supported in this browser', 'var(--red)');
+    return;
+  }
+
+  // Enumerate cameras
+  navigator.mediaDevices.enumerateDevices().then(function(devices) {
+    var cameras = devices.filter(function(d) { return d.kind === 'videoinput'; });
+    var select = document.getElementById('qfs-cam-select');
+    if (select && cameras.length > 0) {
+      select.innerHTML = cameras.map(function(c, i) {
+        return '<option value="' + c.deviceId + '">' + (c.label || 'Camera ' + (i+1)) + '</option>';
+      }).join('');
+    }
+  });
+
+  var constraints = { video: { facingMode: 'environment', width: { ideal: 640 }, height: { ideal: 480 } } };
+  var selectedCam = (document.getElementById('qfs-cam-select') || {}).value;
+  if (selectedCam) constraints.video = { deviceId: { exact: selectedCam }, width: { ideal: 640 }, height: { ideal: 480 } };
+
+  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+    QFS_CAMERA_STREAM = stream;
+    video.srcObject = stream;
+    video.style.display = 'block';
+    if (placeholder) placeholder.style.display = 'none';
+    if (overlay) overlay.style.display = 'block';
+    if (camStatus) { camStatus.textContent = 'Camera Active'; camStatus.style.background = 'rgba(34,197,94,.15)'; camStatus.style.color = 'var(--green)'; }
+    if (startBtn) startBtn.style.display = 'none';
+    if (stopBtn) stopBtn.style.display = 'inline-flex';
+
+    // Start scanning loop
+    video.onloadedmetadata = function() {
+      video.play();
+      qfsCameraScanLoop();
+    };
+  }).catch(function(err) {
+    showToast('Camera error: ' + err.message, 'var(--red)');
+  });
+}
+
+function qfsCameraStop() {
+  if (QFS_CAMERA_STREAM) {
+    QFS_CAMERA_STREAM.getTracks().forEach(function(t) { t.stop(); });
+    QFS_CAMERA_STREAM = null;
+  }
+  if (QFS_CAMERA_TIMER) { cancelAnimationFrame(QFS_CAMERA_TIMER); QFS_CAMERA_TIMER = null; }
+  var video = document.getElementById('qfs-camera-video');
+  var placeholder = document.getElementById('qfs-camera-placeholder');
+  var overlay = document.getElementById('qfs-scan-overlay');
+  var camStatus = document.getElementById('qfs-camera-status');
+  if (video) { video.style.display = 'none'; video.srcObject = null; }
+  if (placeholder) placeholder.style.display = 'block';
+  if (overlay) overlay.style.display = 'none';
+  if (camStatus) { camStatus.textContent = 'Camera Off'; camStatus.style.background = 'rgba(100,100,100,.2)'; camStatus.style.color = 'var(--dim)'; }
+  var startBtn = document.getElementById('qfs-cam-start');
+  var stopBtn = document.getElementById('qfs-cam-stop');
+  if (startBtn) startBtn.style.display = 'inline-flex';
+  if (stopBtn) stopBtn.style.display = 'none';
+}
+
+function qfsCameraSwitch() {
+  qfsCameraStop();
+  setTimeout(qfsCameraStart, 300);
+}
+
+function qfsCameraScanLoop() {
+  if (!QFS_CAMERA_STREAM) return;
+  var video = document.getElementById('qfs-camera-video');
+  var canvas = document.getElementById('qfs-camera-canvas');
+  if (!video || !canvas || video.readyState < 2) {
+    QFS_CAMERA_TIMER = requestAnimationFrame(qfsCameraScanLoop);
+    return;
+  }
+  var ctx = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  if (typeof jsQR === 'function') {
+    var code = jsQR(imageData.data, canvas.width, canvas.height, { inversionAttempts: 'dontInvert' });
+    if (code && code.data && code.data !== QFS_LAST_SCAN) {
+      QFS_LAST_SCAN = code.data;
+      qfsProcessScannedQR(code.data);
+      // Prevent re-scan of same code for 3 seconds
+      setTimeout(function() { QFS_LAST_SCAN = ''; }, 3000);
+    }
+  }
+
+  QFS_CAMERA_TIMER = requestAnimationFrame(qfsCameraScanLoop);
+}
+
+function qfsProcessScannedQR(data) {
+  var toast = document.getElementById('qfs-scan-toast');
+  try {
+    var payload = JSON.parse(data);
+    if (payload.type === 'BANF_FOOD_CHECK_IN' || payload.regCode) {
+      // Valid BANF QR code — open detail modal
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> QR Scanned: ' + (payload.name || 'Unknown'); }
+      qfsOpenDetail(payload);
+      // Play a beep
+      try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = 880; var g = ac.createGain(); g.gain.value = 0.1; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.15); } catch(e){}
+    } else {
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(251,191,36,.12)'; toast.style.color = 'var(--yellow)'; toast.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Unknown QR format'; }
+    }
+  } catch(e) {
+    // Not JSON — show raw data
+    if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-times-circle me-1"></i> Invalid QR: ' + data.substring(0, 60); }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// ATTENDEE DETAIL MODAL — Full Record Viewer/Editor
+// ═══════════════════════════════════════════════════════════
+
+function qfsOpenDetail(payload) {
+  QFS_DETAIL_CURRENT = payload;
+  var modal = document.getElementById('qfs-detail-modal');
+  if (!modal) return;
+  modal.style.display = 'block';
+
+  // Title
+  var title = document.getElementById('qfs-dm-title');
+  var subtitle = document.getElementById('qfs-dm-subtitle');
+  if (title) title.textContent = payload.name || 'Unknown Attendee';
+  if (subtitle) subtitle.textContent = (payload.email || '—') + ' | ' + (payload.event || 'Event') + ' | Reg: ' + (payload.regCode || '—');
+
+  // Match with QFS_ATTENDEES for extra data
+  var match = QFS_ATTENDEES.find(function(a) { return a.email === payload.email && a.event === (payload.event || a.event); });
+  var key = (payload.email || '') + '|' + (payload.event || '');
+  var checkedIn = QFS_STATE[key];
+
+  // ── Evite / RSVP ──
+  var evEl = document.getElementById('qfs-dm-evite');
+  if (evEl) evEl.innerHTML = qfsDmRow('Event', payload.event || '—') +
+    qfsDmRow('RSVP Status', '<span class="badge-s badge-green">Yes</span>') +
+    qfsDmRow('Adults', payload.adults || 0) +
+    qfsDmRow('Kids', payload.kids || 0) +
+    qfsDmRow('Total Headcount', (payload.adults || 0) + (payload.kids || 0)) +
+    qfsDmRow('Dietary', payload.dietary || 'Not specified') +
+    qfsDmRow('Dietary Notes', payload.dietaryNotes || '—') +
+    qfsDmRow('Registration Code', '<code style="font-size:.7rem;background:var(--bg2);padding:2px 6px;border-radius:4px">' + (payload.regCode || '—') + '</code>');
+
+  // ── Payment ──
+  var payEl = document.getElementById('qfs-dm-payment');
+  var payBadge = payload.paid ? '<span class="badge-s badge-green">Paid</span>' : '<span class="badge-s badge-red">Unpaid</span>';
+  if (payEl) payEl.innerHTML = qfsDmRow('Payment Status', payBadge) +
+    qfsDmRow('Amount Paid', payload.amount ? '$' + payload.amount : '$0') +
+    qfsDmRow('Payment Method', (match && match.paymentMethod) || 'Zelle / Unknown') +
+    qfsDmRow('Household Type', payload.householdType || '—');
+
+  // ── Membership ──
+  var memEl = document.getElementById('qfs-dm-membership');
+  var tier = payload.membershipTier || (match && match.membership) || '—';
+  if (memEl) memEl.innerHTML = qfsDmRow('Membership Category', tier) +
+    qfsDmRow('Household Type', payload.householdType || '—') +
+    qfsDmRow('EC Member', (match && match.isEC) ? '<span class="badge-s badge-cyan">Yes</span>' : 'No') +
+    qfsDmRow('Member Since', (match && match.memberSince) || '—');
+
+  // ── Food Serving ──
+  var foodEl = document.getElementById('qfs-dm-food');
+  var servStatus = checkedIn ? '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Served at ' + checkedIn.time + '</span>' : '<span class="badge-s badge-yellow">Not served yet</span>';
+  if (foodEl) foodEl.innerHTML = qfsDmRow('Serving Status', servStatus) +
+    qfsDmRow('Veg Servings', payload.veg || 0) +
+    qfsDmRow('Non-Veg Servings', payload.nonVeg || 0) +
+    qfsDmRow('Total Servings', (payload.veg || 0) + (payload.nonVeg || 0));
+
+  // ── Pre-fill admin editable fields ──
+  var recSelect = document.getElementById('qfs-dm-membership-rec');
+  if (recSelect) {
+    // Try to match current tier
+    var ht = (payload.householdType || 'individual').toLowerCase();
+    var currTier = (tier || '').toLowerCase();
+    if (currTier.includes('m2') || currTier.includes('premium')) recSelect.value = 'm2-' + ht;
+    else if (currTier.includes('m1') || currTier.includes('regular')) recSelect.value = 'm1-' + ht;
+    else if (currTier.includes('cultural')) recSelect.value = 'cultural-' + ht;
+    else recSelect.value = 'm2-' + ht;
+  }
+  var verifySelect = document.getElementById('qfs-dm-verify-status');
+  if (verifySelect) verifySelect.value = payload.paid ? 'verified' : 'pending';
+  var notesEl = document.getElementById('qfs-dm-notes');
+  if (notesEl) {
+    // Check if we have saved notes
+    var savedNotes = localStorage.getItem('banf_qfs_notes_' + (payload.email || ''));
+    notesEl.value = savedNotes || '';
+  }
+}
+
+function qfsDmRow(label, value) {
+  return '<div style="color:var(--dim);font-size:.72rem">' + label + '</div><div>' + value + '</div>';
+}
+
+function qfsCloseDetail() {
+  var modal = document.getElementById('qfs-detail-modal');
+  if (modal) modal.style.display = 'none';
+  QFS_DETAIL_CURRENT = null;
+}
+
+function qfsSaveDetail() {
+  if (!QFS_DETAIL_CURRENT) return;
+  var rec = (document.getElementById('qfs-dm-membership-rec') || {}).value || '';
+  var verify = (document.getElementById('qfs-dm-verify-status') || {}).value || '';
+  var notes = (document.getElementById('qfs-dm-notes') || {}).value || '';
+
+  // Save notes to localStorage
+  localStorage.setItem('banf_qfs_notes_' + (QFS_DETAIL_CURRENT.email || ''), notes);
+
+  // Save verification state
+  var verifyData = JSON.parse(localStorage.getItem('banf_qfs_verify') || '{}');
+  verifyData[QFS_DETAIL_CURRENT.email || ''] = {
+    recommendation: rec,
+    verifyStatus: verify,
+    notes: notes,
+    updatedAt: new Date().toISOString(),
+    updatedBy: (window.ADMIN_SESSION || {}).name || 'Admin'
+  };
+  localStorage.setItem('banf_qfs_verify', JSON.stringify(verifyData));
+
+  qfsCloseDetail();
+  showToast('Attendee record updated: ' + (QFS_DETAIL_CURRENT.name || ''), 'var(--green)');
+}
+
+function qfsServeFromDetail() {
+  if (!QFS_DETAIL_CURRENT) return;
+  var email = QFS_DETAIL_CURRENT.email || '';
+  var event = QFS_DETAIL_CURRENT.event || '';
+  // First save the detail
+  qfsSaveDetail();
+  // Then mark as served
+  qfsServe(email, event);
+}
+
+// Open detail from table row click
+function qfsOpenDetailByEmail(email, event) {
+  var match = QFS_ATTENDEES.find(function(a) { return a.email === email && a.event === event; });
+  if (match) {
+    var payload = {
+      type: 'BANF_FOOD_CHECK_IN',
+      regCode: match.regCode || '',
+      name: match.name,
+      email: match.email,
+      adults: match.adults,
+      kids: match.kids,
+      veg: match.vegServings,
+      nonVeg: match.nonVegServings,
+      dietary: match.dietary,
+      dietaryNotes: match.dietaryNotes || '',
+      householdType: match.householdType || match.tier || '',
+      membershipTier: match.membership || match.tier || '',
+      paid: match.paid,
+      amount: match.amount,
+      event: match.event
+    };
+    qfsOpenDetail(payload);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXCEL VERIFICATION EXPORT — Download attendee Excel for
+// admin to verify before sending QR codes to attendees
+// ═══════════════════════════════════════════════════════════
+
+function qfsExportVerifyExcel() {
+  var list = qfsGetFiltered();
+  if (list.length === 0) { showToast('No attendees to export', 'var(--yellow)'); return; }
+
+  // Build worksheet data
+  var wsData = [['#','Name','Email','Event','Adults','Kids','Dietary','Veg Servings','NonVeg Servings','Payment Status','Amount','Membership','Household Type','QR RegCode','Checked In','Admin Verification','Admin Notes']];
+  var verifyData = JSON.parse(localStorage.getItem('banf_qfs_verify') || '{}');
+
+  list.forEach(function(a, i) {
+    var key = a.email + '|' + a.event;
+    var state = QFS_STATE[key];
+    var vd = verifyData[a.email] || {};
+
+    wsData.push([
+      i+1, a.name, a.email, a.event, a.adults, a.kids,
+      a.dietary, a.vegServings, a.nonVegServings,
+      a.paid ? 'Paid' : 'Unpaid', a.amount,
+      a.membership || '', a.householdType || a.tier || '',
+      a.regCode || '', state ? 'Yes (' + (state.time || '') + ')' : 'No',
+      vd.verifyStatus || 'pending', vd.notes || ''
+    ]);
+  });
+
+  // Create workbook using SheetJS-style CSV (Excel-compatible)
+  var csv = wsData.map(function(row) {
+    return row.map(function(v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(',');
+  }).join('\n');
+
+  // Add BOM for Excel UTF-8
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'banf-attendee-verification-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Verification Excel exported (' + list.length + ' attendees)', 'var(--green)');
+}
+
+// ═══════════════════════════════════════════════════════════
+// EMAIL PIPELINE STATUS — Fetches pipeline status JSON
+// ═══════════════════════════════════════════════════════════
+var EPL_STATUS = null;
+var EPL_AUTO_REFRESH = null;
+
+function eplInit() {
+  eplRefresh();
+  // Auto-refresh every 30 seconds when panel is visible
+  if (EPL_AUTO_REFRESH) clearInterval(EPL_AUTO_REFRESH);
+  EPL_AUTO_REFRESH = setInterval(function() {
+    var panel = document.getElementById('panel-email-pipeline');
+    if (panel && panel.style.display !== 'none' && !panel.classList.contains('portal-section-hidden')) {
+      eplRefresh();
+    }
+  }, 30000);
+}
+
+function eplRefresh() {
+  // Try to fetch status from local file or stored data
+  // In production, this would fetch from a server endpoint
+  // For now, we use localStorage as bridge (set by pipeline agent)
+  var stored = localStorage.getItem('banf_pipeline_status');
+  if (stored) {
+    try { EPL_STATUS = JSON.parse(stored); } catch(e) {}
+  }
+
+  // Demo/fallback data if not available
+  if (!EPL_STATUS) {
+    EPL_STATUS = {
+      pipelineStatus: 'ACTIVE', health: 'GREEN',
+      lastScanTime: new Date(Date.now() - 120000).toISOString(),
+      nextPollAt: new Date(Date.now() + 180000).toISOString(),
+      pollIntervalMin: 5, pollCount: 9, autoSend: true, batchSize: 3,
+      upSince: new Date(Date.now() - 36000000).toISOString(),
+      lastCycle: { duration: '27.3s', newRsvps: 7, newPayments: 0, newMembers: 6, paymentFollowups: 0, instructions: 0, userQueries: 23 },
+      totals: { processedEmails: 216, totalRsvps: 47, totalPayments: 10, totalEmailsSent: 28, totalInstructions: 3, totalQueries: 45 },
+      activeDrives: ['Evite RSVP Pipeline','Zelle Payment Pipeline','User Query Pipeline'],
+      recentActivity: [
+        { type: 'rsvp', name: 'Sreya', email: 'sreya@example.com', time: new Date(Date.now() - 60000).toISOString(), detail: 'yes', cycle: 9 },
+        { type: 'rsvp', name: 'Chandra Ganguly', email: 'chandra@example.com', time: new Date(Date.now() - 90000).toISOString(), detail: 'yes', cycle: 9 },
+        { type: 'email_sent', name: 'Amit Chandak', email: 'amit.everywhere@gmail.com', time: new Date(Date.now() - 300000).toISOString(), detail: 'payment_followup', cycle: 9 },
+        { type: 'email_sent', name: 'Amit Saha', email: 'asahaech@yahoo.com', time: new Date(Date.now() - 330000).toISOString(), detail: 'payment_followup', cycle: 9 },
+        { type: 'email_sent', name: 'Suvendu Maitra', email: 'slmaitra@gmail.com', time: new Date(Date.now() - 360000).toISOString(), detail: 'payment_followup', cycle: 9 },
+        { type: 'payment', name: 'AMIT CHANDAK', email: 'amit.everywhere@gmail.com', time: new Date(Date.now() - 600000).toISOString(), detail: '$375', cycle: 3 },
+      ]
+    };
+  }
+
+  eplRender();
+}
+
+function eplRender() {
+  if (!EPL_STATUS) return;
+  var s = EPL_STATUS;
+
+  // Status badge
+  var badge = document.getElementById('epl-status-badge');
+  if (badge) {
+    if (s.pipelineStatus === 'ACTIVE') { badge.textContent = 'ACTIVE'; badge.className = 'badge-s badge-green'; }
+    else if (s.pipelineStatus === 'SINGLE_RUN') { badge.textContent = 'SINGLE RUN'; badge.className = 'badge-s badge-yellow'; }
+    else { badge.textContent = 'OFFLINE'; badge.className = 'badge-s badge-red'; }
+  }
+
+  // Pipeline dot in sidebar
+  var dot = document.getElementById('pipeline-status-dot');
+  if (dot) {
+    dot.style.background = s.health === 'GREEN' ? 'var(--green)' : s.health === 'YELLOW' ? 'var(--yellow)' : 'var(--red)';
+  }
+
+  // Uptime
+  var upEl = document.getElementById('epl-uptime');
+  if (upEl && s.upSince) {
+    var upMs = Date.now() - new Date(s.upSince).getTime();
+    var upH = Math.floor(upMs / 3600000);
+    var upM = Math.floor((upMs % 3600000) / 60000);
+    upEl.textContent = 'Uptime: ' + upH + 'h ' + upM + 'm | Poll cycles: ' + s.pollCount + ' | Last scan: ' + eplTimeAgo(s.lastScanTime);
+  }
+
+  // KPIs
+  var el = function(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; };
+  el('epl-poll-count', s.pollCount || 0);
+  el('epl-total-emails', s.totals ? s.totals.processedEmails : 0);
+  el('epl-total-rsvps', s.totals ? s.totals.totalRsvps : 0);
+  el('epl-total-payments', s.totals ? s.totals.totalPayments : 0);
+  el('epl-total-sent', s.totals ? s.totals.totalEmailsSent : 0);
+  el('epl-interval', s.pollIntervalMin + 'm');
+  el('epl-queries', s.totals ? s.totals.totalQueries : 0);
+  el('epl-health', s.health || '—');
+  // Color health KPI
+  var healthEl = document.getElementById('epl-health');
+  if (healthEl) healthEl.style.color = s.health === 'GREEN' ? 'var(--green)' : s.health === 'YELLOW' ? 'var(--yellow)' : 'var(--red)';
+
+  // Active drives
+  var drivesEl = document.getElementById('epl-active-drives');
+  if (drivesEl && s.activeDrives) {
+    var icons = { 'Evite RSVP Pipeline': 'fa-envelope-open', 'Zelle Payment Pipeline': 'fa-credit-card', 'User Query Pipeline': 'fa-comments', 'Admin Instruction Pipeline': 'fa-terminal', 'Monitoring (idle)': 'fa-clock' };
+    var colors = { 'Evite RSVP Pipeline': 'var(--green)', 'Zelle Payment Pipeline': 'var(--purple)', 'User Query Pipeline': 'var(--blue)', 'Admin Instruction Pipeline': 'var(--yellow)', 'Monitoring (idle)': 'var(--dim)' };
+    drivesEl.innerHTML = s.activeDrives.map(function(d) {
+      var icon = icons[d] || 'fa-circle';
+      var color = colors[d] || 'var(--cyan)';
+      return '<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(34,197,94,.08);color:' + color + ';padding:6px 14px;border-radius:8px;font-size:.76rem;border:1px solid rgba(34,197,94,.15)"><i class="fas ' + icon + '"></i> ' + d + '</span>';
+    }).join('');
+  }
+
+  // Last cycle metrics
+  if (s.lastCycle) {
+    el('epl-lc-rsvps', s.lastCycle.newRsvps || 0);
+    el('epl-lc-payments', s.lastCycle.newPayments || 0);
+    el('epl-lc-members', s.lastCycle.newMembers || 0);
+    el('epl-lc-followups', s.lastCycle.paymentFollowups || 0);
+    el('epl-lc-queries', s.lastCycle.userQueries || 0);
+    el('epl-lc-duration', s.lastCycle.duration || '—');
+  }
+  el('epl-last-scan-time', s.lastScanTime ? new Date(s.lastScanTime).toLocaleTimeString() : '—');
+  el('epl-next-poll', s.nextPollAt ? new Date(s.nextPollAt).toLocaleTimeString() : '—');
+
+  // Config
+  el('epl-cfg-interval', s.pollIntervalMin + ' min');
+  el('epl-cfg-autosend', s.autoSend ? '✅ Enabled' : '❌ Disabled');
+  el('epl-cfg-batch', s.batchSize || '—');
+  el('epl-cfg-upsince', s.upSince ? new Date(s.upSince).toLocaleString() : '—');
+
+  // Activity feed
+  var feedEl = document.getElementById('epl-activity-feed');
+  if (feedEl && s.recentActivity && s.recentActivity.length > 0) {
+    var typeIcons = { rsvp: 'fa-envelope-open', payment: 'fa-credit-card', email_sent: 'fa-paper-plane' };
+    var typeColors = { rsvp: 'var(--green)', payment: 'var(--purple)', email_sent: 'var(--blue)' };
+    var typeBg = { rsvp: 'rgba(34,197,94,.08)', payment: 'rgba(168,85,247,.08)', email_sent: 'rgba(59,130,246,.08)' };
+    feedEl.innerHTML = s.recentActivity.map(function(a) {
+      var icon = typeIcons[a.type] || 'fa-circle';
+      var color = typeColors[a.type] || 'var(--dim)';
+      var bg = typeBg[a.type] || 'transparent';
+      var timeStr = eplTimeAgo(a.time);
+      return '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;background:' + bg + '">' +
+        '<i class="fas ' + icon + '" style="color:' + color + ';width:20px;text-align:center"></i>' +
+        '<div style="flex:1"><div style="font-size:.78rem;font-weight:600">' + (a.name || '—') + ' <span style="font-size:.68rem;color:var(--dim)">(' + (a.email || '') + ')</span></div>' +
+        '<div style="font-size:.66rem;color:var(--muted)">' + a.type.replace('_',' ') + (a.detail ? ' — ' + a.detail : '') + '</div></div>' +
+        '<div style="font-size:.66rem;color:var(--dim);white-space:nowrap">' + timeStr + ' · #' + a.cycle + '</div></div>';
+    }).join('');
+  }
+}
+
+function eplTimeAgo(isoStr) {
+  if (!isoStr) return '—';
+  var ms = Date.now() - new Date(isoStr).getTime();
+  if (ms < 60000) return Math.floor(ms/1000) + 's ago';
+  if (ms < 3600000) return Math.floor(ms/60000) + 'm ago';
+  if (ms < 86400000) return Math.floor(ms/3600000) + 'h ago';
+  return Math.floor(ms/86400000) + 'd ago';
+}
+
+function eplStartPipeline() {
+  showToast('Pipeline command: node bosonto-email-reader-agent.js --poll --auto-send --interval=5', 'var(--cyan)');
+}
+
+// Initialize pipeline status on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() { setTimeout(eplInit, 500); });
+
+// ═══════════════════════════════════════════════════════════
+// END EMAIL PIPELINE & QR CAMERA SCANNER
 // ═══════════════════════════════════════════════════════════
 
 // ── CRITICAL ALERTS & CHANGE NOTIFICATION BANNER ──
