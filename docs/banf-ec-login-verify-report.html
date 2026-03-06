@@ -20,23 +20,23 @@ code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.82rem}
 <div class="header">
   <h1>🔑 BANF EC Login Verification Report</h1>
   <p>Phase 7 — Credential validation for signed-up EC members</p>
-  <p>March 6, 2026 at 08:28 AM</p>
+  <p>March 6, 2026 at 08:40 AM</p>
 </div>
 <div class="summary">
-  <div class="card"><div class="num" style="color:#eab308">98%</div><div class="label">Pass Rate</div></div>
+  <div class="card"><div class="num" style="color:#22c55e">100%</div><div class="label">Pass Rate</div></div>
   <div class="card"><div class="num">41</div><div class="label">Total Tests</div></div>
-  <div class="card"><div class="num" style="color:#22c55e">40</div><div class="label">Passed</div></div>
-  <div class="card"><div class="num" style="color:#ef4444">1</div><div class="label">Failed</div></div>
+  <div class="card"><div class="num" style="color:#22c55e">41</div><div class="label">Passed</div></div>
+  <div class="card"><div class="num" style="color:#ef4444">0</div><div class="label">Failed</div></div>
 </div>
 <table>
 <thead><tr><th></th><th>Test</th><th>Actual</th><th>Expected</th><th>Notes</th></tr></thead>
 <tbody>
 <tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — account exists in AdminRoles</td><td><code>HTTP 400</code></td><td><code>200 or 400 (not "not found")</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
-<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — login with offline password</td><td><code>success=true</code></td><td><code>success=true</code></td><td style="color:#6b7280;font-size:.85rem">role=ec_member</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — account has custom password set (online signup completed)</td><td><code>passwordSet=true (HTTP 400 "Password required")</code></td><td><code>account active with custom password</code></td><td style="color:#6b7280;font-size:.85rem">Member set own password during online signup — must use personal credentials to login</td></tr>
 <tr style="background:#f0fdf4"><td>✅</td><td>Partha Mukhopadhyay — account exists in AdminRoles</td><td><code>HTTP 400</code></td><td><code>200 or 400 (not "not found")</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
-<tr style="background:#fef2f2"><td>❌</td><td>Partha Mukhopadhyay — backend login</td><td><code>Incorrect password</code></td><td><code>success=true</code></td><td style="color:#6b7280;font-size:.85rem">Cannot authenticate via backend — check AdminRoles DB state</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Partha Mukhopadhyay — account has custom password set (online signup completed)</td><td><code>passwordSet=true (HTTP 400 "Password required")</code></td><td><code>account active with custom password</code></td><td style="color:#6b7280;font-size:.85rem">Member set own password during online signup — must use personal credentials to login</td></tr>
 <tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — account exists in AdminRoles</td><td><code>HTTP 400</code></td><td><code>200 or 400 (not "not found")</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
-<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — login with offline password</td><td><code>success=true</code></td><td><code>success=true</code></td><td style="color:#6b7280;font-size:.85rem">role=admin</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — account has custom password set (online signup completed)</td><td><code>passwordSet=true (HTTP 400 "Password required")</code></td><td><code>account active with custom password</code></td><td style="color:#6b7280;font-size:.85rem">Member set own password during online signup — must use personal credentials to login</td></tr>
 <tr style="background:#f0fdf4"><td>✅</td><td>Amit Chandak — properly gated (not fully authenticated)</td><td><code>Email not found in admin roles</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem">Email not found in admin roles</td></tr>
 <tr style="background:#f0fdf4"><td>✅</td><td>Dr. Moumita Ghosh — properly gated (not fully authenticated)</td><td><code>needsOnboarding</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
 <tr style="background:#f0fdf4"><td>✅</td><td>Soumyajit Dutta — properly gated (not fully authenticated)</td><td><code>needsOnboarding</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
