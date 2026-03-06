@@ -2510,9 +2510,18 @@ let DEV_TICKETS = [
   {id:'TK-041',origin:'FB-001',desc:'Add preferredLanguage to CRMMembers + update backend',assignee:'Backend Agent',sprint:'S1',priority:'Medium',status:'in-progress'},
   {id:'TK-035',origin:'Backlog',desc:'HuggingFace circuit breaker implementation',assignee:'ML/AI Agent',sprint:'S1',priority:'High',status:'in-progress'},
   {id:'TK-036',origin:'Backlog',desc:'OpenTelemetry trace integration',assignee:'DevOps Agent',sprint:'S2',priority:'Medium',status:'todo'},
+  {id:'TK-042',origin:'Payment-Scan',desc:'Resolve $375 Zelle from FNU AMRITA (memo: Amrita Partha Yash) — likely spouse of Partha Mukhopadhyay. Verify if duplicate or separate M2 Premium EB-Family payment. If spouse payment, link to Partha\'s household in CRM.',assignee:'Partha Mukhopadhyay (VP)',sprint:'S1',priority:'High',status:'todo'},
+  {id:'TK-043',origin:'Payment-Scan',desc:'Resolve $145 Zelle from Ishita Saha (memo: BANF membership) — not in CRM. $145 = Student individual pricing. Likely student member or family of Amit Saha. Create CRM entry, confirm membership tier, send acknowledgment email.',assignee:'Amit Chandak (Treasurer)',sprint:'S1',priority:'High',status:'todo'},
+  {id:'TK-044',origin:'Payment-Scan',desc:'Resolve $205 Zelle from TARIT K MONDAL (memo: BANF Membership from Tarit Mondal) — not in CRM. $205 = M2 Premium Individual. Create CRM entry with correct email, confirm tier, send acknowledgment email.',assignee:'Amit Chandak (Treasurer)',sprint:'S1',priority:'High',status:'todo'},
+  {id:'TK-045',origin:'Payment-Scan',desc:'Resolve $130 Zelle from ASOK CHAUDHURI — CRM match found but no email on file. Obtain email address from Asok, update CRM record, send payment acknowledgment email.',assignee:'Partha Mukhopadhyay (VP)',sprint:'S1',priority:'Medium',status:'todo'},
 ];
 
 let LOG = [
+  {ts:'Mar 06, 2026 09:16',act:'TASK',msg:'TK-042 created: Resolve $375 Zelle from FNU AMRITA → assigned to Partha Mukhopadhyay (VP) — likely spouse payment, needs CRM verification'},
+  {ts:'Mar 06, 2026 09:16',act:'TASK',msg:'TK-043 created: Resolve $145 Zelle from Ishita Saha → assigned to Amit Chandak (Treasurer) — new student member, needs CRM entry'},
+  {ts:'Mar 06, 2026 09:16',act:'TASK',msg:'TK-044 created: Resolve $205 Zelle from TARIT K MONDAL → assigned to Amit Chandak (Treasurer) — new M2 Premium Individual, needs CRM entry'},
+  {ts:'Mar 06, 2026 09:16',act:'TASK',msg:'TK-045 created: Resolve $130 Zelle from ASOK CHAUDHURI → assigned to Partha Mukhopadhyay (VP) — needs email address'},
+  {ts:'Mar 06, 2026 09:15',act:'PAYMENT',msg:'Payment acknowledgment emails sent: Amit Chandak ($375), Amit Saha ($330), Suvendu Maitra ($280) — 3/3 successful via Wix pipeline'},
   {ts:'Mar 05, 2026 21:37',act:'EC_EMAIL',msg:'EC onboarding invitation RE-SENT to Amit Chandak (Treasurer) at corrected email amit.everywhere@gmail.com — previous: amit.chandak@gmail.com'},
   {ts:'Mar 05, 2026 21:35',act:'EC_FIX',msg:'Amit Chandak email corrected: amit.chandak@gmail.com → amit.everywhere@gmail.com across all portals'},
   {ts:'Mar 05, 2026 09:00',act:'DRIVE',msg:'EC Onboarding Drive auto-launched by Super Admin — 7 EC members'},
