@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF EC Login Verification Report</title>
+<style>
+body{font-family:'Segoe UI',system-ui,sans-serif;margin:0;padding:20px;background:#f8fafc;color:#1e293b}
+.header{background:linear-gradient(135deg,#006A4E,#00856F);color:#fff;padding:30px;border-radius:12px;margin-bottom:24px}
+.header h1{margin:0;font-size:1.6rem}.header p{margin:6px 0 0;opacity:.85;font-size:.95rem}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+.card{background:#fff;border-radius:10px;padding:20px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.card .num{font-size:2rem;font-weight:700}.card .label{font-size:.85rem;color:#64748b;margin-top:4px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+th{background:#f1f5f9;padding:10px 12px;text-align:left;font-size:.85rem;color:#475569;border-bottom:2px solid #e2e8f0}
+td{padding:10px 12px;border-bottom:1px solid #f1f5f9;font-size:.9rem}
+code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔑 BANF EC Login Verification Report</h1>
+  <p>Phase 7 — Credential validation for signed-up EC members</p>
+  <p>March 6, 2026 at 08:28 AM</p>
+</div>
+<div class="summary">
+  <div class="card"><div class="num" style="color:#eab308">98%</div><div class="label">Pass Rate</div></div>
+  <div class="card"><div class="num">41</div><div class="label">Total Tests</div></div>
+  <div class="card"><div class="num" style="color:#22c55e">40</div><div class="label">Passed</div></div>
+  <div class="card"><div class="num" style="color:#ef4444">1</div><div class="label">Failed</div></div>
+</div>
+<table>
+<thead><tr><th></th><th>Test</th><th>Actual</th><th>Expected</th><th>Notes</th></tr></thead>
+<tbody>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — account exists in AdminRoles</td><td><code>HTTP 400</code></td><td><code>200 or 400 (not "not found")</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — login with offline password</td><td><code>success=true</code></td><td><code>success=true</code></td><td style="color:#6b7280;font-size:.85rem">role=ec_member</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Partha Mukhopadhyay — account exists in AdminRoles</td><td><code>HTTP 400</code></td><td><code>200 or 400 (not "not found")</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
+<tr style="background:#fef2f2"><td>❌</td><td>Partha Mukhopadhyay — backend login</td><td><code>Incorrect password</code></td><td><code>success=true</code></td><td style="color:#6b7280;font-size:.85rem">Cannot authenticate via backend — check AdminRoles DB state</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — account exists in AdminRoles</td><td><code>HTTP 400</code></td><td><code>200 or 400 (not "not found")</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — login with offline password</td><td><code>success=true</code></td><td><code>success=true</code></td><td style="color:#6b7280;font-size:.85rem">role=admin</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Amit Chandak — properly gated (not fully authenticated)</td><td><code>Email not found in admin roles</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem">Email not found in admin roles</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Moumita Ghosh — properly gated (not fully authenticated)</td><td><code>needsOnboarding</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Soumyajit Dutta — properly gated (not fully authenticated)</td><td><code>needsOnboarding</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Sumanta Ghosh — properly gated (not fully authenticated)</td><td><code>Password required</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rwiti Chowdhury — properly gated (not fully authenticated)</td><td><code>Password required</code></td><td><code>needsOnboarding or noPassword or error</code></td><td style="color:#6b7280;font-size:.85rem">Password required</td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Partha Mukhopadhyay — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Amit Chandak — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Moumita Ghosh — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Soumyajit Dutta — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Sumanta Ghosh — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rwiti Chowdhury — present in AUTH_DB</td><td><code>found</code></td><td><code>found</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — has offlinePw set</td><td><code>banf-super-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Partha Mukhopadhyay — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Amit Chandak — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Moumita Ghosh — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Soumyajit Dutta — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Sumanta Ghosh — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rwiti Chowdhury — has offlinePw set</td><td><code>banf-ec-2026</code></td><td><code>banf-ec-2026 or banf-super-2026</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Ranadhir Ghosh — has 'super-admin' role</td><td><code>'super-admin', 'business-stakeholder', 'admin'</code></td><td><code>includes 'super-admin'</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Partha Mukhopadhyay — has 'admin' role</td><td><code>'admin'</code></td><td><code>includes 'admin'</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Rajanya Ghosh — has 'admin' role</td><td><code>'admin'</code></td><td><code>includes 'admin'</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Amit Chandak — has 'admin' role</td><td><code>'admin'</code></td><td><code>includes 'admin'</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>Dr. Moumita Ghosh — has 'ec-member' role</td><td><code>'ec-member'</code></td><td><code>includes 'ec-member'</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>enterPortal() function exists</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>enterPortal() gates for admin/ec-member roles</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>_getSecurePassword() used for login</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>localStorage credential persistence (banf_ec_creds_)</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>enterPortal() sets banf_admin_session</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>enterPortal() redirects to admin-portal.html</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>enterPortal() sets banf_member_data for portal compat</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>admin-portal.html reads banf_admin_session</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+<tr style="background:#f0fdf4"><td>✅</td><td>admin-portal.html uses effectiveRole for section gating</td><td><code>true</code></td><td><code>true</code></td><td style="color:#6b7280;font-size:.85rem"></td></tr>
+</tbody>
+</table>
+</body></html>

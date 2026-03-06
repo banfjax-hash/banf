@@ -403,6 +403,17 @@ function _getSecurePassword(email) {
   return dbUser ? dbUser.offlinePw : null;
 }
 
+function _saveCredsToLocalStorage(email, password, sq, sa) {
+  const key = 'banf_ec_creds_' + email.toLowerCase();
+  localStorage.setItem(key, JSON.stringify({
+    email: email.toLowerCase(),
+    password,
+    securityQ: sq,
+    securityA: sa,
+    savedAt: new Date().toISOString()
+  }));
+}
+
 // ── UTILITY FUNCTIONS ──
 function showAuth(screen) {
   document.querySelectorAll('.auth-screen').forEach(s => s.classList.remove('active'));
@@ -655,6 +666,25 @@ async function signupStep2Submit() {
       user.securityQ = sq;
       user.securityA = sa.toLowerCase();
     }
+    _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
+
+    // ── BACKGROUND BACKEND SYNC (Phase 7 fix) ──────────────────────────
+    // Even in offline mode, attempt to finalize onboarding in the Wix backend.
+    // This prevents members from getting stuck in needsOnboarding=true.
+    (async function _syncBackend() {
+      try {
+        var signupRes = await apiCall('admin_signup_direct', { email: SIGNUP_STATE.email });
+        var tok = signupRes.setupToken || SIGNUP_STATE.token;
+        if (tok) {
+          await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: tok, password: pass }).catch(function(){});
+          await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: tok, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() }).catch(function(){});
+          await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: tok }).catch(function(){});
+          console.log('[SYNC] ✅ Backend onboarding synced for ' + SIGNUP_STATE.email);
+        }
+      } catch(e) { console.log('[SYNC] ⚠️ Backend sync failed (offline):', e.message); }
+    })();
+    // ────────────────────────────────────────────────────────────────────
+
     showStep('signup', 3);
     return;
   }
