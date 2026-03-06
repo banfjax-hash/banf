@@ -226,6 +226,19 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
 .banf-alert-item .alert-detail{font-size:.74rem;opacity:.85;line-height:1.5}
 .banf-alert-item .alert-meta{font-size:.65rem;opacity:.6;margin-top:4px}
 
+/* ── RAG Chat Messages ── */
+.rag-msg{display:flex;gap:10px;max-width:85%}
+.rag-msg.user{align-self:flex-end;flex-direction:row-reverse}
+.rag-msg.bot{align-self:flex-start}
+.rag-msg-content{padding:10px 14px;border-radius:12px;font-size:.82rem;line-height:1.6}
+.rag-msg.user .rag-msg-content{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.rag-msg.bot .rag-msg-content{background:var(--card);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px}
+.rag-msg.typing .rag-msg-content{color:var(--dim);font-style:italic}
+
+/* ── Enhanced Alert Sections ── */
+.banf-alerts-section .banf-alert-item{transition:all .2s ease}
+.banf-alerts-section .banf-alert-item:hover{transform:translateX(2px);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+
 </style>
 </head>
 <body>
@@ -407,6 +420,11 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">EC Admin</div>
     <div class="sb-item" data-panel="ec-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-shield-halved"></i><span>EC Drive</span></div>
     <div class="sb-item" data-panel="drive-status" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-line"></i><span>Drive Status</span></div>
+    <div class="sb-item" data-panel="event-reports" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-pie"></i><span>Event Reports</span></div>
+
+    <!-- ── AI / RAG ── ec_member, admin, super_admin -->
+    <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">AI Assistant</div>
+    <div class="sb-item" data-panel="rag-chat" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-robot"></i><span>RAG Chat</span><span style="margin-left:auto;background:rgba(139,92,246,.3);color:#a78bfa;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">AI</span></div>
 
     <!-- ── STAKEHOLDER ── business_stakeholder, admin, super_admin -->
     <div class="sb-group" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin">Stakeholder</div>
@@ -1553,6 +1571,131 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Members who haven't paid their dues. Use the Payment Drive to send targeted reminders and track follow-ups.</p>
         <div id="dues-drive-list" style="display:flex;flex-direction:column;gap:8px"></div>
         <div id="dues-drive-empty" style="text-align:center;padding:20px;color:var(--green);font-size:.82rem;display:none"><i class="fas fa-check-circle me-1"></i>All members have paid their dues! 🎉</div>
+      </div>
+    </div>
+
+    <!-- ══════════ EVENT REPORTS PANEL ══════════ -->
+    <div class="portal-section" id="panel-event-reports">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Event Reports &amp; Insights</div>
+
+      <!-- Attendance Report Generator -->
+      <div class="card-a">
+        <h2><i class="fas fa-clipboard-list" style="color:var(--green)"></i> Attendance Report</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Standard report: attendance details, membership paid/unpaid, category/tier, previous year tier. Downloadable as PDF or HTML.</p>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div class="form-group" style="flex:1;min-width:200px">
+            <label style="display:block;font-size:.72rem;font-weight:600;color:var(--dim);margin-bottom:4px">Select Event</label>
+            <select id="report-event-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem">
+              <option value="">— Select event —</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="generateSelectedAttendanceReport()"><i class="fas fa-file-alt me-1"></i>Generate Attendance Report</button>
+        </div>
+      </div>
+
+      <!-- Insight Report (YoY Comparison) -->
+      <div class="card-a">
+        <h2><i class="fas fa-chart-line" style="color:var(--purple,#a855f7)"></i> Event Insight Report <span class="badge-s badge-purple" style="font-size:.6rem;margin-left:6px">YoY Compare</span></h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Compare attendance, new signups, members who didn't return, unpaid memberships, and tier changes between two events.</p>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div class="form-group" style="flex:1;min-width:180px">
+            <label style="display:block;font-size:.72rem;font-weight:600;color:var(--dim);margin-bottom:4px">Current Event</label>
+            <select id="insight-event-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem">
+              <option value="">— Select event —</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;min-width:180px">
+            <label style="display:block;font-size:.72rem;font-weight:600;color:var(--dim);margin-bottom:4px">Compare With (Previous Event)</label>
+            <select id="insight-compare-select" style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.82rem">
+              <option value="">— None (single event) —</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="generateSelectedInsightReport()" style="background:linear-gradient(135deg,#7c3aed,#a855f7)"><i class="fas fa-chart-pie me-1"></i>Generate Insight Report</button>
+        </div>
+      </div>
+
+      <!-- Procurement Report Shortcut -->
+      <div class="card-a">
+        <h2><i class="fas fa-file-invoice-dollar" style="color:var(--cyan)"></i> Procurement &amp; Reimbursement Report</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Complete report of all procurement requests, approval status, budget vs actual, and reimbursement tracking.</p>
+        <button class="btn-primary" onclick="generateProcReport()" style="background:linear-gradient(135deg,#0ea5e9,#06b6d4)"><i class="fas fa-download me-1"></i>Generate Procurement Report</button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="card-a">
+        <h2><i class="fas fa-info-circle" style="color:var(--dim)"></i> Available Events Data</h2>
+        <div id="event-reports-summary" style="font-size:.82rem;color:var(--muted)">Loading event data...</div>
+      </div>
+    </div>
+
+    <!-- ══════════ RAG CHAT PANEL ══════════ -->
+    <div class="portal-section" id="panel-rag-chat">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--purple,#a855f7)"></i> AI-Powered RAG Chat</div>
+
+      <!-- RAG Chat Configuration -->
+      <div class="card-a">
+        <h2><i class="fas fa-robot" style="color:var(--purple,#a855f7)"></i> BANF AI Assistant
+          <span id="rag-mode-badge" class="badge-s" style="margin-left:8px;font-size:.6rem;background:rgba(251,191,36,.15);color:#fbbf24">KB-Only Mode</span>
+        </h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:6px">
+          RAG-powered chatbot using <strong>vector search</strong> over yearwise BANF data. Ask about events, membership, finances, EC members, or any BANF topic.
+        </p>
+        <div style="font-size:.7rem;color:var(--dim);margin-bottom:12px">
+          <i class="fas fa-brain me-1"></i> <strong>Primary Model:</strong> Qwen2.5-7B-Instruct (128K context) &nbsp;|&nbsp;
+          <i class="fas fa-database me-1"></i> <strong>Vector Store:</strong> TF-IDF + Cosine Similarity &nbsp;|&nbsp;
+          <i class="fas fa-cube me-1"></i> <strong>Embeddings:</strong> all-MiniLM-L6-v2
+        </div>
+
+        <!-- HF Token Setup -->
+        <div style="display:flex;gap:8px;align-items:flex-end;margin-bottom:16px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <label style="display:block;font-size:.68rem;font-weight:600;color:var(--dim);margin-bottom:3px"><i class="fas fa-key me-1"></i>HuggingFace API Token (optional — enables LLM mode)</label>
+            <input id="rag-hf-token" type="password" placeholder="hf_xxxxxxxxxxxxxxxxxxxxxxxxxx" style="width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.8rem;font-family:monospace">
+          </div>
+          <button class="btn-primary" onclick="setHFToken()" style="padding:7px 14px;font-size:.78rem"><i class="fas fa-plug me-1"></i>Connect</button>
+        </div>
+        <p style="font-size:.66rem;color:var(--dim);margin-bottom:14px"><i class="fas fa-info-circle me-1"></i>Without token: uses local KB-only retrieval. With token: full AI answers via HuggingFace Inference API (free tier supported).<br>
+        Get your free token at <a href="https://huggingface.co/settings/tokens" target="_blank" style="color:var(--accent)">huggingface.co/settings/tokens</a></p>
+
+        <!-- Chat Area -->
+        <div style="border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--surface)">
+          <div id="rag-chat-messages" style="height:400px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px">
+            <!-- Welcome message -->
+            <div class="rag-msg bot">
+              <div class="rag-msg-content">
+                <strong>🤖 BANF AI Assistant</strong><br>
+                I have access to yearwise BANF knowledge including events, membership data, finances, EC members, and more.<br><br>
+                <strong>Try asking:</strong><br>
+                • "How many members attended Holi 2025?"<br>
+                • "Who are the EC members for 2026-28?"<br>
+                • "What's the Bosonto Utsob 2026 status?"<br>
+                • "What are the membership tiers for 2026-27?"<br>
+                • "How does the procurement process work?"
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--border);background:var(--card)">
+            <input id="rag-chat-input" type="text" placeholder="Ask anything about BANF..." style="flex:1;padding:9px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:.84rem;outline:none" autocomplete="off">
+            <button class="btn-primary" onclick="sendRAGMessage()" style="padding:8px 16px;white-space:nowrap"><i class="fas fa-paper-plane me-1"></i>Send</button>
+          </div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+          <button class="btn-sm btn-secondary" onclick="document.getElementById('rag-chat-input').value='What events are coming up in 2026-27?';sendRAGMessage()">📅 Upcoming Events</button>
+          <button class="btn-sm btn-secondary" onclick="document.getElementById('rag-chat-input').value='Who are the EC members?';sendRAGMessage()">👥 EC Members</button>
+          <button class="btn-sm btn-secondary" onclick="document.getElementById('rag-chat-input').value='What are the membership tiers and pricing?';sendRAGMessage()">💳 Membership Tiers</button>
+          <button class="btn-sm btn-secondary" onclick="document.getElementById('rag-chat-input').value='Tell me about Bosonto Utsob 2026';sendRAGMessage()">🌸 Bosonto Status</button>
+          <button class="btn-sm btn-secondary" onclick="document.getElementById('rag-chat-input').value='How much revenue has BANF collected?';sendRAGMessage()">💰 Financials</button>
+          <button class="btn-sm btn-secondary" onclick="document.getElementById('rag-chat-input').value='How does the procurement and reimbursement process work?';sendRAGMessage()">📋 Procurement</button>
+        </div>
+      </div>
+
+      <!-- Knowledge Base Index -->
+      <div class="card-a">
+        <h2><i class="fas fa-database" style="color:var(--cyan)"></i> RAG Knowledge Base Index</h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">All documents indexed in the vector store for semantic retrieval.</p>
+        <div id="rag-kb-index" style="font-size:.78rem;color:var(--dim)">Initializing...</div>
       </div>
     </div>
 
@@ -4409,8 +4552,13 @@ function showToast(message, color) {
 // ═══════════════════════════════════════════════════════════════════════════
 // PROCUREMENT — Request / Approval / Purchase / Reimbursement Workflow
 // ═══════════════════════════════════════════════════════════════════════════
-var PROCUREMENT_REQUESTS = []; // stores all procurement requests
-var PROC_NEXT_ID = 1;
+var PROCUREMENT_REQUESTS = [
+  // Seed sample data for demo/testing full workflow
+  {id:'PROC-001',description:'Catering deposit for Bosonto Utsob 2026 — Swad Restaurant',budget:1200,actualAmount:null,category:'Food/Catering',neededBy:'2026-03-15',notes:'50% advance deposit for catering (120 guests)',submittedBy:'duttasoumyajit86@gmail.com',submitterName:'Soumyajit Dutta',submittedAt:'2026-03-01T10:00:00Z',status:'pending_treasurer',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:new Date(Date.now()+24*60*60*1000).toISOString(),approvedBy:null,approvedAt:null,receiptFile:null,receiptNotes:null,reimbursedAt:null,history:[{ts:'2026-03-01T10:00:00Z',action:'Submitted',by:'duttasoumyajit86@gmail.com',detail:'Procurement request created. Budget: $1200.00'}]},
+  {id:'PROC-002',description:'Table & chair rental (20 tables, 100 chairs) for Bosonto venue',budget:450,actualAmount:425,category:'Venue Rental',neededBy:'2026-03-20',notes:'Delivery and pickup included',submittedBy:'sumo475@gmail.com',submitterName:'Dr. Sumanta Ghosh',submittedAt:'2026-02-28T14:30:00Z',status:'approved',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:'2026-03-01T14:30:00Z',approvedBy:'Amit Chandak (Treasurer)',approvedAt:'2026-03-01T09:00:00Z',receiptFile:null,receiptNotes:null,reimbursedAt:null,history:[{ts:'2026-02-28T14:30:00Z',action:'Submitted',by:'sumo475@gmail.com',detail:'Request created. Budget: $450.00'},{ts:'2026-03-01T09:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'}]},
+  {id:'PROC-003',description:'Printed flyers & banners for Bosonto Utsob',budget:180,actualAmount:165,category:'Marketing/Printing',neededBy:'2026-03-10',notes:'200 flyers + 2 roll-up banners',submittedBy:'moumita.mukherje@gmail.com',submitterName:'Dr. Moumita Ghosh',submittedAt:'2026-02-25T11:00:00Z',status:'reimbursed',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:'2026-02-26T11:00:00Z',approvedBy:'Amit Chandak (Treasurer)',approvedAt:'2026-02-26T08:00:00Z',receiptFile:'bosonto_flyers_receipt.pdf',receiptNotes:'Staples print order #28374',reimbursedAt:'2026-03-03T10:00:00Z',history:[{ts:'2026-02-25T11:00:00Z',action:'Submitted',by:'moumita.mukherje@gmail.com',detail:'Request created. Budget: $180.00'},{ts:'2026-02-26T08:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'},{ts:'2026-03-01T12:00:00Z',action:'Receipt Uploaded',by:'moumita.mukherje@gmail.com',detail:'Receipt: bosonto_flyers_receipt.pdf, Amount: $165.00'},{ts:'2026-03-03T10:00:00Z',action:'Reimbursed',by:'amit.everywhere@gmail.com',detail:'Reimbursement processed: $165.00'}]},
+];
+var PROC_NEXT_ID = 4;
 
 // EC titles that correspond to approval roles
 var PROC_APPROVAL_ROLES = {
@@ -6401,6 +6549,8 @@ function renderAll(){
   try { _session = JSON.parse(sessionStorage.getItem('banf_admin_session')); } catch(e) {}
   var _roles = _session ? (_session.roles || ['super-admin']) : ['super-admin'];
   renderCriticalAlerts('critical-alerts-container', _roles);
+  // Override with enhanced alerts if features module is loaded
+  if(typeof renderEnhancedAlerts === 'function') renderEnhancedAlerts('critical-alerts-container');
   // Show change banner on first load
   showChangeBanner();
 }
@@ -6409,6 +6559,43 @@ function renderAll(){
 <!-- BANF RAG Chatbot Widget (Admin Variant) -->
 <script>document.body.classList.add('admin-portal');</script>
 <script src="banf-chatbot-widget.js"></script>
+<!-- BANF Portal Features: Enhanced Alerts, RAG, Event Reports -->
+<script src="banf-portal-features.js"></script>
+<script>
+// Populate KB index display and event summary after features init
+document.addEventListener('DOMContentLoaded', function(){
+  setTimeout(function(){
+    // RAG KB index display
+    var kbIdx = document.getElementById('rag-kb-index');
+    if(kbIdx && window.BANF_RAG && window.BANF_RAG.documents.length > 0){
+      kbIdx.innerHTML = '<table class="t"><thead><tr><th>Doc ID</th><th>Year</th><th>Category</th><th>Title</th><th>Words</th></tr></thead><tbody>' +
+        window.BANF_RAG.documents.map(function(d,i){
+          var wc = d.text.split(/\s+/).length;
+          return '<tr><td style="font-family:monospace;font-size:.7rem">' + d.id + '</td><td>' + d.year + '</td><td><span class="badge-s badge-cyan" style="font-size:.6rem">' + d.category + '</span></td><td>' + d.title + '</td><td>' + wc + '</td></tr>';
+        }).join('') + '</tbody></table>';
+    }
+    // Event reports summary
+    var erSummary = document.getElementById('event-reports-summary');
+    if(erSummary && window.BANF_EVENTS_DATA){
+      var evts = window.BANF_EVENTS_DATA.events;
+      erSummary.innerHTML = '<div style="display:flex;gap:10px;flex-wrap:wrap">' + evts.map(function(e){
+        return '<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;min-width:180px">' +
+          '<div style="font-weight:700;font-size:.84rem">' + e.name + '</div>' +
+          '<div style="font-size:.7rem;color:var(--dim)">' + e.date + ' · ' + e.venue + '</div>' +
+          '<div style="font-size:.7rem;margin-top:4px">' + e.attendees.length + ' registered · $' + (e.revenue||0).toLocaleString() + ' rev</div>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+    // Check if HF token is saved
+    var savedToken = localStorage.getItem('banf_hf_token');
+    if(savedToken){
+      window.BANF_RAG.hfToken = savedToken;
+      var badge = document.getElementById('rag-mode-badge');
+      if(badge){ badge.textContent = 'AI Mode (Qwen2.5-7B)'; badge.style.background = 'rgba(16,185,129,.15)'; badge.style.color = '#10b981'; }
+    }
+  }, 300);
+});
+</script>
 </body>
 </html>
 
