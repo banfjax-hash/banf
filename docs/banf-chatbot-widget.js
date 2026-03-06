@@ -565,7 +565,7 @@
             }
         };
 
-        // Quick-action button helper — simulates typing + sending
+        // Quick-action button helper — auto-fills input and sends
         window.banfQuickAsk = function (text) {
             const input = document.getElementById('banf-chat-input');
             if (input) input.value = text;

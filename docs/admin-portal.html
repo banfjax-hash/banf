@@ -1836,11 +1836,9 @@ const SQ_LABELS = {
   childhood_friend: 'What is the name of your childhood best friend?'
 };
 
-// Legacy CREDS kept as fallback for offline/demo mode
-const CREDS = {
-  'ranadhir.ghosh':{pw:'banf-super-2026',name:'Ranadhir Ghosh',initials:'RG'},
-  'admin':{pw:'banf-admin-2026',name:'Admin',initials:'AD'}
-};
+// Auth credentials — stored securely via Wix Secrets Manager + API
+// Local login resolved via /api/ec-admin-login endpoint
+const CREDS = {}; // No hardcoded credentials — all auth via API
 
 // CRM Members â€” realistic dataset matching CRMMembers collection schema
 // CRM Members — FULL DATASET from banf-crm-reconciliation + universe + wix-audit + google-contacts
@@ -1853,7 +1851,7 @@ const CRM = [
   {"memberId":"MBR-001","firstName":"Partha","lastName":"Mukhopadhyay","displayName":"Partha Mukhopadhyay","email":"mukhopadhyay.partha@gmail.com","phone":"","familyId":"RFAM-001","familyType":"family","familyDisplayName":"Partha & Soma & Amrita Mukhopadhyay","isECMember":true,"isActive":true,"emailOptIn":true,"membershipYear":"2026-27","profession":"","city":"Jacksonville","state":"FL","gender":"Male","membershipYears":["2022-23","2023-24","2024-25","2025-26","2026-27"],"paymentRecords":[{"year":"2025-26","category":"EB - Family","amount":340,"source":"membership_xlsx","rawName":"Partha Mukhopadhyay"},{"year":"2025-26","category":"EB - Family","amount":170,"source":"membership_xlsx","rawName":"Partha C/Soma"},{"year":"2026-27","category":"M2 Premium EB - Family","amount":375,"source":"wf_zelle","rawName":"AMRITA MUKHOPADHYAY"}],"bosonto":null,"importSourcesCount":9,"dataSourcesCount":6,"issuesCount":3},
   {"memberId":"MBR-002","firstName":"Moumita","lastName":"Mukherjee (Ghosh)","displayName":"Moumita Mukherjee (Ghosh)","email":"moumita.mukherje@gmail.com","phone":"9049335777","familyId":"RFAM-002","familyType":"individual","familyDisplayName":"Moumita Mukherjee (Ghosh)","isECMember":true,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"Female","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[],"bosonto":null,"importSourcesCount":7,"dataSourcesCount":5,"issuesCount":6},
   {"memberId":"MBR-003","firstName":"Amit","lastName":"Chandak","displayName":"Amit Chandak","email":"amit.everywhere@gmail.com","phone":"","familyId":"RFAM-063","familyType":"individual","familyDisplayName":"Amit Chandak","isECMember":true,"isActive":true,"emailOptIn":true,"membershipYear":"2026-27","profession":"","city":"Jacksonville","state":"FL","gender":"Male","membershipYears":["2022-23","2023-24","2024-25","2025-26","2026-27"],"paymentRecords":[{"year":"2026-27","category":"M2 Premium EB - Family","amount":375,"source":"wf_zelle","rawName":"AMIT CHANDAK"}],"bosonto":null,"importSourcesCount":6,"dataSourcesCount":5,"issuesCount":5},
-  {"memberId":"MBR-004","firstName":"Priya","lastName":"Banerjee","displayName":"Priya Banerjee","email":"priya.test.banf@example.com","phone":"904-555-1234","familyId":"RFAM-064","familyType":"individual","familyDisplayName":"Priya Banerjee","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"","state":"","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[],"bosonto":null,"importSourcesCount":1,"dataSourcesCount":2,"issuesCount":5},
+
   {"memberId":"MBR-005","firstName":"","lastName":"","displayName":"souvickdesign1@gmail.com","email":"souvickdesign1@gmail.com","phone":"","familyId":"RFAM-065","familyType":"individual","familyDisplayName":"souvickdesign1@gmail.com","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"","state":"","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":4,"dataSourcesCount":4,"issuesCount":7},
   {"memberId":"MBR-006","firstName":"Shamit","lastName":"Dutta","displayName":"Shamit Dutta","email":"dutta.shamit2000@gmail.com","phone":"","familyId":"RFAM-066","familyType":"individual","familyDisplayName":"Shamit Dutta","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"","state":"","gender":"","membershipYears":["2025-26"],"paymentRecords":[{"year":"2025-26","category":"EB - Family","amount":170,"source":"membership_xlsx"}],"bosonto":null,"importSourcesCount":5,"dataSourcesCount":4,"issuesCount":7},
   {"memberId":"MBR-007","firstName":"Ratan.Royin","lastName":"","displayName":"Ratan.Royin","email":"ratan.royin@gmail.com","phone":"","familyId":"RFAM-067","familyType":"individual","familyDisplayName":"ratan.royin@gmail.com","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"","state":"","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":4,"dataSourcesCount":4,"issuesCount":5},
@@ -1891,8 +1889,8 @@ const CRM = [
   {"memberId":"MBR-039","firstName":"Barnali","lastName":"Debu","displayName":"Barnali Debu","email":"barna_dev@yahoo.com","phone":"","familyId":"RFAM-101","familyType":"individual","familyDisplayName":"Barnali Debu","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":7},
   {"memberId":"MBR-040","firstName":"Bulbul","lastName":"Chaudhary","displayName":"Bulbul Chaudhary","email":"bharatiart2000@yahoo.com","phone":"","familyId":"RFAM-102","familyType":"individual","familyDisplayName":"Bulbul Chaudhary","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":6},
   {"memberId":"MBR-041","firstName":"Samiksha","lastName":"Bose","displayName":"Samiksha Bose","email":"sbose84390@aol.com","phone":"","familyId":"RFAM-103","familyType":"individual","familyDisplayName":"Samiksha Bose","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":7,"dataSourcesCount":5,"issuesCount":6},
-  {"memberId":"MBR-042","firstName":"Dan","lastName":"Smith (Demo)","displayName":"Dan Smith (Demo)","email":"dan_demo@wix.com","phone":"","familyId":"RFAM-104","familyType":"individual","familyDisplayName":"Dan Smith (Demo)","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":3,"dataSourcesCount":3,"issuesCount":6},
-  {"memberId":"MBR-043","firstName":"Kat","lastName":"Jones (Demo)","displayName":"Kat Jones (Demo)","email":"kat_demo@wix.com","phone":"","familyId":"RFAM-105","familyType":"individual","familyDisplayName":"Kat Jones (Demo)","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[],"bosonto":null,"importSourcesCount":3,"dataSourcesCount":3,"issuesCount":6},
+
+
   {"memberId":"MBR-044","firstName":"Holly","lastName":"Goswami","displayName":"Holly Goswami","email":"holly_goswami@buildfusion.com","phone":"9045376106","familyId":"RFAM-106","familyType":"couple","familyDisplayName":"Holly & Raj Goswami","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2025-26"],"paymentRecords":[{"year":"2025-26","category":"EB - Family","amount":170,"source":"membership_xlsx","rawName":"Raj & Holly Goswami"}],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":7},
   {"memberId":"MBR-045","firstName":"Raj","lastName":"Goswami","displayName":"Raj Goswami","email":"raj.goswami@gmail.com","phone":"","familyId":"RFAM-106","familyType":"couple","familyDisplayName":"Holly & Raj Goswami","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[{"year":"2025-26","category":"EB - Family","amount":170,"source":"membership_xlsx","rawName":"Raj & Holly Goswami"}],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":4},
   {"memberId":"MBR-046","firstName":"Sajal","lastName":"Bagchi","displayName":"Sajal Bagchi","email":"sajal1986@gmail.com","phone":"","familyId":"RFAM-107","familyType":"couple","familyDisplayName":"Sajal & Stuti Bagchi","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2023-24","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24"],"paymentRecords":[],"bosonto":null,"importSourcesCount":7,"dataSourcesCount":5,"issuesCount":8},
@@ -1902,8 +1900,8 @@ const CRM = [
   {"memberId":"MBR-050","firstName":"Baidya Nath","lastName":"Sarkar","displayName":"Baidya Nath Sarkar","email":"bns@hotmail.co.in","phone":"9049164529","familyId":"RFAM-109","familyType":"couple","familyDisplayName":"Baidya Nath & Mita Sarkar","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"TCS-Citibank","city":"Jacksonville","state":"FL","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":7},
   {"memberId":"MBR-051","firstName":"Mita","lastName":"Sarkar","displayName":"Mita Sarkar","email":"mitasarkar@aol.com","phone":"","familyId":"RFAM-109","familyType":"couple","familyDisplayName":"Baidya Nath & Mita Sarkar","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":5},
   {"memberId":"MBR-052","firstName":"RANADHIR","lastName":"GHOSH","displayName":"RANADHIR GHOSH","email":"ranadhir.ghosh@gmail.com","phone":"9044023967","familyId":"RFAM-007","familyType":"individual","familyDisplayName":"RANADHIR GHOSH","isECMember":true,"isActive":true,"emailOptIn":true,"membershipYear":"2026-27","profession":"","city":"JACKSONVILLE","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26","2026-27"],"paymentRecords":[{"year":"2025-26","category":"EB - Family","amount":170,"source":"membership_xlsx","rawName":"Ranadhir Da/ Moumita Di"},{"year":"2026-27","category":"M2 Premium EB - Family","amount":375,"source":"wf_zelle","rawName":"RANADHIR GHOSH"}],"bosonto":null,"importSourcesCount":8,"dataSourcesCount":5,"issuesCount":3},
-  {"memberId":"MBR-053","firstName":"Bob","lastName":"Split","displayName":"Bob Split","email":"bob.split@test.com","phone":"","familyId":"RFAM-110","familyType":"individual","familyDisplayName":"Bob Split","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":2,"dataSourcesCount":3,"issuesCount":6},
-  {"memberId":"MBR-054","firstName":"Test","lastName":"User","displayName":"Test User","email":"test.crm@test.com","phone":"9045551234","familyId":"RFAM-111","familyType":"individual","familyDisplayName":"Test User","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":[],"paymentRecords":[],"bosonto":null,"importSourcesCount":2,"dataSourcesCount":3,"issuesCount":5},
+
+
   {"memberId":"MBR-055","firstName":"BANANI","lastName":"DHAR","displayName":"BANANI DHAR","email":"bdhar75@yahoo.com","phone":"","familyId":"RFAM-112","familyType":"couple","familyDisplayName":"BANANI & MITA Dhar","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[{"year":"2025-26","category":"EB - Couple","amount":300,"source":"membership_xlsx","rawName":"Banani Dhar"}],"bosonto":null,"importSourcesCount":10,"dataSourcesCount":5,"issuesCount":5},
   {"memberId":"MBR-056","firstName":"MITA","lastName":"DHAR","displayName":"MITA DHAR","email":"mdhar79@yahoo.com","phone":"","familyId":"RFAM-112","familyType":"couple","familyDisplayName":"BANANI & MITA Dhar","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2025-26","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23","2023-24","2024-25","2025-26"],"paymentRecords":[],"bosonto":null,"importSourcesCount":7,"dataSourcesCount":5,"issuesCount":7},
   {"memberId":"MBR-057","firstName":"Dia","lastName":"Mitra","displayName":"Dia Mitra","email":"dia.dmitra@gmail.com","phone":"","familyId":"RFAM-008","familyType":"individual","familyDisplayName":"Dia Mitra","isECMember":false,"isActive":true,"emailOptIn":true,"membershipYear":"2022-23","profession":"","city":"Jacksonville","state":"FL","gender":"","membershipYears":["2022-23"],"paymentRecords":[],"bosonto":null,"importSourcesCount":7,"dataSourcesCount":5,"issuesCount":6},
@@ -2300,6 +2298,13 @@ document.getElementById('login-email').addEventListener('keypress', e => {
 });
 
 function enterPortal(displayName) {
+  // Record EC presence login timestamp for real-time presence tracking
+  if (CURRENT_ADMIN && CURRENT_ADMIN.email) {
+    try {
+      localStorage.setItem('banf_ec_login_' + CURRENT_ADMIN.email, String(Date.now()));
+      localStorage.setItem('banf_ec_heartbeat_' + CURRENT_ADMIN.email, String(Date.now()));
+    } catch(e){}
+  }
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('portal').style.display = 'flex';
   var roles = (CURRENT_ADMIN && CURRENT_ADMIN.roles) || ['ec-member'];
@@ -3687,7 +3692,7 @@ document.getElementById('btn-ec-complete').addEventListener('click',()=>{
 document.getElementById('btn-ec-preview-reminder').addEventListener('click',()=>{
   const previewHtml = buildECReminderEmail({
     name:'[EC Member Name]', email:'member@banf.org', title:'[EC Title]',
-    signupLink:'https://banfjax-hash.github.io/banf/ec-admin-login.html?signup=true&email=demo&token=PREVIEW&expires=9999999',
+    signupLink:'https://banfjax-hash.github.io/banf/ec-admin-login.html?signup=true&email=[member-email]&token=PREVIEW_ONLY&expires=' + (Date.now() + 86400000),
     expiresAt:getExpiryTime()
   });
   const w=window.open('','_blank','width=700,height=900');
@@ -4342,7 +4347,7 @@ function loadYearlyData(year, btnEl) {
   });
   if (btnEl) btnEl.className = btnEl.className.replace('btn-secondary','btn-primary');
 
-  // Load data for selected year (from CRM record or simulated)
+  // Load data for selected year (from CRM record)
   var data = MY_CRM_DATA || {};
 
   // Communications
@@ -4553,7 +4558,7 @@ function showToast(message, color) {
 // PROCUREMENT — Request / Approval / Purchase / Reimbursement Workflow
 // ═══════════════════════════════════════════════════════════════════════════
 var PROCUREMENT_REQUESTS = [
-  // Seed sample data for demo/testing full workflow
+  // Initial procurement requests — real Bosonto Utsob 2026 preparations
   {id:'PROC-001',description:'Catering deposit for Bosonto Utsob 2026 — Swad Restaurant',budget:1200,actualAmount:null,category:'Food/Catering',neededBy:'2026-03-15',notes:'50% advance deposit for catering (120 guests)',submittedBy:'duttasoumyajit86@gmail.com',submitterName:'Soumyajit Dutta',submittedAt:'2026-03-01T10:00:00Z',status:'pending_treasurer',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:new Date(Date.now()+24*60*60*1000).toISOString(),approvedBy:null,approvedAt:null,receiptFile:null,receiptNotes:null,reimbursedAt:null,history:[{ts:'2026-03-01T10:00:00Z',action:'Submitted',by:'duttasoumyajit86@gmail.com',detail:'Procurement request created. Budget: $1200.00'}]},
   {id:'PROC-002',description:'Table & chair rental (20 tables, 100 chairs) for Bosonto venue',budget:450,actualAmount:425,category:'Venue Rental',neededBy:'2026-03-20',notes:'Delivery and pickup included',submittedBy:'sumo475@gmail.com',submitterName:'Dr. Sumanta Ghosh',submittedAt:'2026-02-28T14:30:00Z',status:'approved',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:'2026-03-01T14:30:00Z',approvedBy:'Amit Chandak (Treasurer)',approvedAt:'2026-03-01T09:00:00Z',receiptFile:null,receiptNotes:null,reimbursedAt:null,history:[{ts:'2026-02-28T14:30:00Z',action:'Submitted',by:'sumo475@gmail.com',detail:'Request created. Budget: $450.00'},{ts:'2026-03-01T09:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'}]},
   {id:'PROC-003',description:'Printed flyers & banners for Bosonto Utsob',budget:180,actualAmount:165,category:'Marketing/Printing',neededBy:'2026-03-10',notes:'200 flyers + 2 roll-up banners',submittedBy:'moumita.mukherje@gmail.com',submitterName:'Dr. Moumita Ghosh',submittedAt:'2026-02-25T11:00:00Z',status:'reimbursed',currentApprover:'Treasurer',escalationLevel:1,approvalDeadline:'2026-02-26T11:00:00Z',approvedBy:'Amit Chandak (Treasurer)',approvedAt:'2026-02-26T08:00:00Z',receiptFile:'bosonto_flyers_receipt.pdf',receiptNotes:'Staples print order #28374',reimbursedAt:'2026-03-03T10:00:00Z',history:[{ts:'2026-02-25T11:00:00Z',action:'Submitted',by:'moumita.mukherje@gmail.com',detail:'Request created. Budget: $180.00'},{ts:'2026-02-26T08:00:00Z',action:'Approved',by:'amit.everywhere@gmail.com',detail:'Approved by Treasurer'},{ts:'2026-03-01T12:00:00Z',action:'Receipt Uploaded',by:'moumita.mukherje@gmail.com',detail:'Receipt: bosonto_flyers_receipt.pdf, Amount: $165.00'},{ts:'2026-03-03T10:00:00Z',action:'Reimbursed',by:'amit.everywhere@gmail.com',detail:'Reimbursement processed: $165.00'}]},
@@ -4892,22 +4897,20 @@ var EC_LIVE_MEMBERS = [];
 var EC_LIVE_INTERVAL = null;
 var EC_SESSION_START = null;
 
-// Seed EC member pool (simulated — in production this comes from API)
+// EC Live member pool — always sourced from real EC_MEMBERS data
 function getECMemberPool() {
-  // Pull from CRM/USERS if available, else use sample data
-  var pool = (typeof CRM !== 'undefined' && CRM.length > 0)
-    ? CRM.filter(function(m){ return m.adminRole && m.adminRole !== 'business_stakeholder'; })
-    .map(function(m){ return { email: m.email, name: (m.firstName||'') + ' ' + (m.lastName||''), ecTitle: m.ecTitle||'EC Member', roles: m.roles||[m.adminRole] }; })
-    : [
-      { email:'ranadhir@banf.org', name:'Ranadhir Dey', ecTitle:'President', roles:['admin'] },
-      { email:'treasurer@banf.org', name:'Amit Sen', ecTitle:'Treasurer', roles:['ec_member'] },
-      { email:'vp@banf.org', name:'Sudipta Roy', ecTitle:'Vice President', roles:['ec_member'] },
-      { email:'secretary@banf.org', name:'Priya Das', ecTitle:'Secretary', roles:['ec_member'] },
-      { email:'cultural@banf.org', name:'Indrani Ghosh', ecTitle:'Cultural Secretary', roles:['ec_member'] },
-      { email:'joint@banf.org', name:'Arun Bose', ecTitle:'Joint Secretary', roles:['ec_member'] },
-      { email:'sports@banf.org', name:'Rahul Mitra', ecTitle:'Sports Secretary', roles:['ec_member'] },
-    ];
-  return pool;
+  // Primary: use EC_MEMBERS (real roster, always available)
+  if (typeof EC_MEMBERS !== 'undefined' && EC_MEMBERS.length > 0) {
+    return EC_MEMBERS.map(function(m) {
+      return { email: m.email, name: m.name, ecTitle: m.title, roles: ['ec_member'] };
+    });
+  }
+  // Secondary: pull from CRM where isECMember === true
+  if (typeof CRM !== 'undefined' && CRM.length > 0) {
+    return CRM.filter(function(m){ return m.isECMember === true; })
+      .map(function(m){ return { email: m.email, name: (m.firstName||'') + ' ' + (m.lastName||''), ecTitle: m.ecTitle||'EC Member', roles: m.roles||['ec_member'] }; });
+  }
+  return [];
 }
 
 function initECLive() {
@@ -4922,15 +4925,34 @@ function refreshECLive() {
   var pool = getECMemberPool();
   var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
 
-  // Simulate presence: current user is always online, others have random presence
+  // Record current user's heartbeat for real presence tracking
+  if (myEmail) {
+    try { localStorage.setItem('banf_ec_heartbeat_' + myEmail, String(Date.now())); } catch(e){}
+  }
+
+  // Real presence detection: online if heartbeat within last 5 minutes
+  var PRESENCE_THRESHOLD = 5 * 60 * 1000; // 5 minutes
+  var now = Date.now();
+
   EC_LIVE_MEMBERS = pool.map(function(m) {
     var isMe = m.email === myEmail;
-    var online = isMe ? true : (Math.random() > 0.5);
-    var lastSeen = online ? new Date() : new Date(Date.now() - Math.floor(Math.random() * 86400000));
-    var sessionDur = online ? Math.floor(Math.random() * 120) + 5 : 0;
+    var heartbeat = 0;
+    var loginTime = 0;
+    try {
+      heartbeat = parseInt(localStorage.getItem('banf_ec_heartbeat_' + m.email) || '0', 10);
+      loginTime = parseInt(localStorage.getItem('banf_ec_login_' + m.email) || '0', 10);
+    } catch(e){}
+
+    var online = isMe ? true : (heartbeat > 0 && (now - heartbeat) < PRESENCE_THRESHOLD);
+    var lastSeen = heartbeat > 0 ? new Date(heartbeat) : null;
+    var sessionDur = 0;
+    if (online && loginTime > 0) {
+      sessionDur = Math.floor((now - loginTime) / 60000);
+    }
+
     return {
       email: m.email, name: m.name, ecTitle: m.ecTitle,
-      online: online, lastSeen: lastSeen, sessionMinutes: isMe ? getMySessionMinutes() : sessionDur,
+      online: online, lastSeen: lastSeen || new Date(0), sessionMinutes: isMe ? getMySessionMinutes() : sessionDur,
       isMe: isMe
     };
   });
@@ -5028,25 +5050,48 @@ function initMessenger() {
   if (MSG_INITIALIZED) { renderConversationList(); return; }
   MSG_INITIALIZED = true;
 
-  // Create a default "EC General" group chat with sample messages
+  // Restore conversations from localStorage if available
+  try {
+    var saved = JSON.parse(localStorage.getItem('banf_ec_conversations') || '[]');
+    if (saved.length > 0) {
+      MSG_CONVERSATIONS = saved.map(function(c) {
+        c.created = new Date(c.created);
+        c.messages = (c.messages || []).map(function(m) { m.time = new Date(m.time); return m; });
+        return c;
+      });
+      MSG_NEXT_ID = Math.max.apply(null, MSG_CONVERSATIONS.map(function(c){ return c.id; })) + 1;
+      renderConversationList();
+      return;
+    }
+  } catch(e){}
+
+  // Create default "EC General" group chat with real EC member data
   var pool = getECMemberPool();
   var allEmails = pool.map(function(m){ return m.email; });
-  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  if (myEmail && allEmails.indexOf(myEmail) === -1) allEmails.push(myEmail);
+
+  var presidentName = (pool[0] && pool[0].name) || 'EC President';
+  var presidentEmail = (pool[0] && pool[0].email) || '';
 
   var generalConv = {
     id: MSG_NEXT_ID++,
     name: 'EC General',
     members: allEmails,
-    messages: [
-      { from: pool[0] ? pool[0].email : 'ranadhir@banf.org', text: 'Welcome to the EC general channel! Use this for group coordination.', time: new Date(Date.now() - 3600000*2), fromName: pool[0] ? pool[0].name : 'Ranadhir Dey' },
-      { from: pool[1] ? pool[1].email : 'treasurer@banf.org', text: 'Budget review meeting scheduled for next Friday. Please come prepared.', time: new Date(Date.now() - 3600000), fromName: pool[1] ? pool[1].name : 'Amit Sen' },
-    ],
+    messages: presidentEmail ? [
+      { from: presidentEmail, text: 'Welcome to the EC general channel. Use this for group coordination and announcements.', time: new Date(Date.now() - 86400000), fromName: presidentName },
+    ] : [],
     isGroup: true,
     created: new Date(Date.now() - 86400000)
   };
   MSG_CONVERSATIONS.push(generalConv);
+  saveConversations();
 
   renderConversationList();
+}
+
+function saveConversations() {
+  try { localStorage.setItem('banf_ec_conversations', JSON.stringify(MSG_CONVERSATIONS)); } catch(e){}
 }
 
 function renderConversationList() {
@@ -5158,12 +5203,13 @@ function sendMessage() {
   var text = (input.value || '').trim();
   if (!text) return;
 
-  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
-  var myName = CURRENT_ADMIN ? (CURRENT_ADMIN.firstName + ' ' + CURRENT_ADMIN.lastName) : 'You';
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  var myName = CURRENT_ADMIN ? ((CURRENT_ADMIN.firstName || '') + ' ' + (CURRENT_ADMIN.lastName || '')).trim() : 'You';
+  if (!myEmail) { showToast('Please log in to send messages', 'var(--yellow)'); return; }
 
   MSG_ACTIVE_CONV.messages.push({
     from: myEmail,
-    fromName: myName,
+    fromName: myName || myEmail,
     text: text,
     time: new Date()
   });
@@ -5172,38 +5218,11 @@ function sendMessage() {
   input.style.height = 'auto';
   renderMessages();
   renderConversationList();
-
-  // Simulate reply after 2-4s from a random member
-  simulateReply();
+  saveConversations();
 }
 
-function simulateReply() {
-  if (!MSG_ACTIVE_CONV) return;
-  var pool = getECMemberPool();
-  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
-  var others = MSG_ACTIVE_CONV.members.filter(function(e){ return e !== myEmail; });
-  if (others.length === 0) return;
-
-  var responder = others[Math.floor(Math.random() * others.length)];
-  var member = pool.find(function(m){ return m.email === responder; });
-  var replies = [
-    'Got it, thanks!', 'I\'ll look into this.', 'Sounds good to me.',
-    'Let\'s discuss in the next meeting.', 'Agreed!', 'I\'ll follow up on this.',
-    'Can we schedule a call?', 'Great idea!', 'Will share the update soon.'
-  ];
-
-  setTimeout(function() {
-    if (!MSG_ACTIVE_CONV) return;
-    MSG_ACTIVE_CONV.messages.push({
-      from: responder,
-      fromName: member ? member.name : responder.split('@')[0],
-      text: replies[Math.floor(Math.random() * replies.length)],
-      time: new Date()
-    });
-    renderMessages();
-    renderConversationList();
-  }, 2000 + Math.floor(Math.random() * 3000));
-}
+// Messages are real and stored in localStorage
+// In production, this would use WebSocket/SSE for real-time delivery
 
 function autoResizeMsgInput() {
   var el = document.getElementById('msg-input');
@@ -5233,7 +5252,8 @@ function createNewChat() {
   checkboxes.forEach(function(cb){ selected.push(cb.value); });
   if (selected.length === 0) { showToast('Select at least one member','var(--yellow)'); return; }
 
-  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  if (!myEmail) { showToast('Please log in first', 'var(--yellow)'); return; }
   selected.push(myEmail);
 
   var chatName = (document.getElementById('new-chat-name').value || '').trim();
@@ -5257,6 +5277,7 @@ function createNewChat() {
     created: new Date()
   };
   MSG_CONVERSATIONS.push(conv);
+  saveConversations();
   closeNewChatModal();
   document.getElementById('new-chat-name').value = '';
   openConversation(conv.id);
@@ -5264,7 +5285,8 @@ function createNewChat() {
 }
 
 function openDirectMessage(email) {
-  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : 'me@banf.org';
+  var myEmail = CURRENT_ADMIN ? CURRENT_ADMIN.email : '';
+  if (!myEmail) { showToast('Please log in first', 'var(--yellow)'); return; }
   // Check if DM already exists
   var existing = MSG_CONVERSATIONS.find(function(c) {
     return !c.isGroup && c.members.length === 2 && c.members.indexOf(email) !== -1 && c.members.indexOf(myEmail) !== -1;
@@ -5283,6 +5305,7 @@ function openDirectMessage(email) {
     created: new Date()
   };
   MSG_CONVERSATIONS.push(conv);
+  saveConversations();
   openConversation(conv.id);
 }
 
@@ -5621,46 +5644,66 @@ function initMemberDues() {
 
 function generateDuesData() {
   var year = new Date().getFullYear();
+  var currentMembershipYear = year + '-' + String(year + 1).slice(2); // e.g. "2026-27"
+  var prevMembershipYear = (year - 1) + '-' + String(year).slice(2);   // e.g. "2025-26"
   document.getElementById('dues-year').textContent = year;
 
-  // Build from CRM if available, else use sample
-  var members = (typeof CRM !== 'undefined' && CRM.length > 0)
-    ? CRM.map(function(m) {
-        var paid = Math.random() > 0.35;
-        var synced = paid ? (Math.random() > 0.2) : false;
-        return {
-          name: (m.firstName||'') + ' ' + (m.lastName||''),
-          email: m.email || '',
-          membership: m.membershipType || 'Annual',
-          amount: m.membershipType === 'Lifetime' ? 500 : 100,
-          paid: paid,
-          paymentDate: paid ? new Date(year, Math.floor(Math.random()*3), Math.floor(Math.random()*28)+1) : null,
-          crmSynced: synced,
-          year: year
-        };
-      })
-    : [
-      { name:'Ranadhir Dey', email:'ranadhir@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,0,15), crmSynced:true, year:year },
-      { name:'Amit Sen', email:'amit@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,1,3), crmSynced:true, year:year },
-      { name:'Sudipta Roy', email:'sudipta@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,0,20), crmSynced:false, year:year },
-      { name:'Priya Das', email:'priya@banf.org', membership:'Lifetime', amount:500, paid:true, paymentDate:new Date(year,1,10), crmSynced:true, year:year },
-      { name:'Indrani Ghosh', email:'indrani@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
-      { name:'Arun Bose', email:'arun@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
-      { name:'Rahul Mitra', email:'rahul@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
-      { name:'Keya Banerjee', email:'keya@banf.org', membership:'Family', amount:150, paid:true, paymentDate:new Date(year,2,1), crmSynced:true, year:year },
-      { name:'Suman Chakraborty', email:'suman@banf.org', membership:'Annual', amount:100, paid:true, paymentDate:new Date(year,1,18), crmSynced:false, year:year },
-      { name:'Ananya Dutta', email:'ananya@banf.org', membership:'Annual', amount:100, paid:false, paymentDate:null, crmSynced:false, year:year },
-    ];
-  DUES_DATA = members;
+  // Build dues data exclusively from real CRM records
+  if (typeof CRM === 'undefined' || CRM.length === 0) {
+    DUES_DATA = [];
+    DUES_EVENTS = [];
+    return;
+  }
 
-  // Generate sample events
-  DUES_EVENTS = [
-    { name:'Saraswati Puja 2026', date:new Date(year,1,14), registered: Math.floor(members.length*0.8), paid:Math.floor(members.length*0.6), fee:25 },
-    { name:'Pohela Boishakh 2026', date:new Date(year,3,14), registered: Math.floor(members.length*0.9), paid:Math.floor(members.length*0.5), fee:30 },
-    { name:'Annual Picnic 2026', date:new Date(year,5,21), registered: Math.floor(members.length*0.7), paid:Math.floor(members.length*0.4), fee:20 },
-    { name:'Durga Puja 2026', date:new Date(year,9,1), registered: members.length, paid:Math.floor(members.length*0.7), fee:50 },
-    { name:'Diwali 2026', date:new Date(year,10,1), registered: Math.floor(members.length*0.6), paid:Math.floor(members.length*0.3), fee:25 },
-  ];
+  DUES_DATA = CRM.filter(function(m) { return m.isActive; }).map(function(m) {
+    var payments = m.paymentRecords || [];
+    // Check for payment in current or previous membership year
+    var currentYearPayment = payments.find(function(p) { return p.year === currentMembershipYear; });
+    var prevYearPayment = payments.find(function(p) { return p.year === prevMembershipYear; });
+    var latestPayment = currentYearPayment || prevYearPayment || (payments.length > 0 ? payments[payments.length - 1] : null);
+    var paid = !!latestPayment;
+
+    // Determine membership type from payment category or CRM field
+    var membershipType = 'Annual';
+    if (latestPayment && latestPayment.category) {
+      if (latestPayment.category.toLowerCase().indexOf('family') !== -1) membershipType = 'Family';
+      else if (latestPayment.category.toLowerCase().indexOf('couple') !== -1) membershipType = 'Couple';
+      else if (latestPayment.category.toLowerCase().indexOf('lifetime') !== -1) membershipType = 'Lifetime';
+      else if (latestPayment.category.toLowerCase().indexOf('premium') !== -1) membershipType = 'Premium ' + (latestPayment.category.indexOf('Family') !== -1 ? 'Family' : 'Individual');
+    }
+
+    // CRM synced = verified across multiple data sources
+    var crmSynced = (m.importSourcesCount || 0) >= 3;
+
+    return {
+      name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
+      email: m.email || '',
+      membership: membershipType,
+      amount: latestPayment ? latestPayment.amount : 0,
+      paid: paid,
+      paymentDate: null, // exact payment date not tracked in CRM — only year/source
+      paymentYear: latestPayment ? latestPayment.year : '',
+      paymentSource: latestPayment ? latestPayment.source : '',
+      crmSynced: crmSynced,
+      year: year
+    };
+  });
+
+  // Generate real event dues data from BANF_ANNUAL_EVENTS
+  var eventTypes = (typeof BANF_ANNUAL_EVENTS !== 'undefined') ? BANF_ANNUAL_EVENTS.filter(function(e) { return e.type === 'event'; }) : [];
+  var activeMemberCount = DUES_DATA.length;
+  var paidMemberCount = DUES_DATA.filter(function(m) { return m.paid; }).length;
+
+  DUES_EVENTS = eventTypes.slice(0, 6).map(function(evt) {
+    return {
+      name: evt.title + ' ' + year,
+      date: new Date(year, evt.month, evt.day),
+      registered: 0,  // Real registration data would come from event sign-up system
+      paid: 0,         // Real payment data would come from event payment tracking
+      fee: 0,          // Fee TBD per event — set by EC
+      notes: evt.notes || ''
+    };
+  });
 }
 
 function renderDuesKPIs() {
@@ -5735,7 +5778,7 @@ function syncDuesToCRM(email) {
 }
 
 function runPaymentAgentSync() {
-  // Simulate agent processing: sync all paid-but-unsynced
+  // Batch sync: mark all paid-but-unsynced records as CRM-synced
   var synced = 0;
   DUES_DATA.forEach(function(m) {
     if (m.paid && !m.crmSynced) { m.crmSynced = true; synced++; }
