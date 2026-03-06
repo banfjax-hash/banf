@@ -428,10 +428,10 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">AI Assistant</div>
     <div class="sb-item" data-panel="rag-chat" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-robot"></i><span>RAG Chat</span><span style="margin-left:auto;background:rgba(139,92,246,.3);color:#a78bfa;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">AI</span></div>
 
-    <!-- ── STAKEHOLDER ── business_stakeholder, admin, super_admin -->
-    <div class="sb-group" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin">Stakeholder</div>
-    <div class="sb-item" data-panel="stakeholder-drive" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin"><i class="fas fa-bullhorn"></i><span>Stakeholder Drive</span></div>
-    <div class="sb-item" data-panel="feedback" data-roles="business_stakeholder,business-stakeholder,admin,super_admin,super-admin"><i class="fas fa-comments"></i><span>Feedback Pipeline</span></div>
+    <!-- ── STAKEHOLDER ── business_stakeholder, super_admin ONLY (not admin/ec-member) -->
+    <div class="sb-group" data-roles="business_stakeholder,business-stakeholder,super_admin,super-admin">Stakeholder</div>
+    <div class="sb-item" data-panel="stakeholder-drive" data-roles="business_stakeholder,business-stakeholder,super_admin,super-admin"><i class="fas fa-bullhorn"></i><span>Stakeholder Drive</span></div>
+    <div class="sb-item" data-panel="feedback" data-roles="business_stakeholder,business-stakeholder,super_admin,super-admin"><i class="fas fa-comments"></i><span>Feedback Pipeline</span></div>
 
     <!-- ── SYSTEM ADMIN ── super_admin only -->
     <div class="sb-group" data-roles="super_admin,super-admin">System Admin</div>
@@ -453,7 +453,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">Portals</div>
     <div class="sb-item" data-roles="ec_member,ec-member,admin,super_admin,super-admin" onclick="window.location.href='member-portal.html'"><i class="fas fa-user-circle"></i><span>Member Portal</span></div>
     <div class="sb-item" onclick="window.open('https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html','_blank')"><i class="fas fa-atom"></i><span>Main Dashboard</span></div>
-    <div class="sb-item" data-roles="super_admin,super-admin,business_stakeholder,business-stakeholder" onclick="window.open('https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
+    <div class="sb-item" data-roles="super_admin,super-admin,business_stakeholder,business-stakeholder" onclick="window.open('https://banfjax-hash.github.io/banf1/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
 
     <div class="sb-user">
       <div class="sb-avatar" id="sb-avatar">—</div>
@@ -2086,13 +2086,13 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
   // super-admin: full system access (both hyphen and underscore variants)
-  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity','audit-drives'],
-  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','dev-board','e2e-test','activity','audit-drives'],
-  // admin: senior EC officers — full operational, no system config
-  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','stakeholder-drive','ec-drive','drive-status','feedback','activity'],
-  // ec-member / ec_member: coordinators — EC-focused + collaboration
-  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status'],
-  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status'],
+  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives'],
+  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives'],
+  // admin: senior EC officers — full operational, no system config, NO stakeholder panels
+  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','activity'],
+  // ec-member / ec_member: coordinators — EC-focused + collaboration + event ops
+  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat'],
+  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat'],
   // business-stakeholder: sponsors + community partners
   'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
   'business_stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
