@@ -499,10 +499,21 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
       <div class="card-a mt-3">
         <h2><i class="fas fa-link"></i> Quick Actions</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn-primary" onclick="if(typeof banfChatToggle==='function')banfChatToggle()"><i class="fas fa-robot me-1"></i>BANF Admin Assistant</button>
+          <button class="btn-primary" onclick="navTo('qr-food-serving')"><i class="fas fa-qrcode me-1"></i>QR Food Verification</button>
+          <button class="btn-primary" style="background:linear-gradient(135deg,var(--blue),#2563eb)" onclick="navTo('event-reports')"><i class="fas fa-chart-pie me-1"></i>Event Reports</button>
+          <button class="btn-secondary" onclick="if(typeof banfChatToggle==='function')banfChatToggle()"><i class="fas fa-robot me-1"></i>BANF Admin Assistant</button>
           <a href="https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html" target="_blank" class="btn-secondary"><i class="fas fa-atom me-1"></i>Main Dashboard</a>
-          <a href="https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html" target="_blank" class="btn-secondary"><i class="fas fa-route me-1"></i>Requirements Journey</a>
           <a href="https://www.jaxbengali.org" target="_blank" class="btn-secondary"><i class="fas fa-globe me-1"></i>Live Site</a>
+        </div>
+        <!-- Bosonto Utsob Quick Links -->
+        <div style="margin-top:10px;padding:10px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px">
+          <div style="font-size:.72rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px"><i class="fas fa-calendar-star me-1"></i>Bosonto Utsob 2026 — Quick Links</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn-sm btn-primary" onclick="navTo('qr-food-serving')"><i class="fas fa-utensils me-1"></i>Food Check-In</button>
+            <button class="btn-sm btn-secondary" onclick="navTo('member-dues')"><i class="fas fa-hand-holding-dollar me-1"></i>Payment Status</button>
+            <button class="btn-sm btn-secondary" onclick="navTo('email-pipeline')"><i class="fas fa-envelope me-1"></i>Email Pipeline</button>
+            <button class="btn-sm btn-secondary" onclick="navTo('event-reports')"><i class="fas fa-chart-bar me-1"></i>Attendance Report</button>
+          </div>
         </div>
         <!-- Dynamic Portal Switcher — visible to ALL authenticated users -->
         <div id="portal-switcher" style="margin-top:14px;padding:14px;background:rgba(249,115,22,.04);border:1px solid var(--line);border-radius:10px;display:none">
@@ -7726,9 +7737,18 @@ function qfsOpenDetail(payload) {
 
   // ── Payment ──
   var payEl = document.getElementById('qfs-dm-payment');
-  var payBadge = payload.paid ? '<span class="badge-s badge-green">Paid</span>' : '<span class="badge-s badge-red">Unpaid</span>';
+  var pStatus = payload.paymentStatus || (payload.paid ? 'PAID' : 'UNPAID');
+  var payBadge = pStatus === 'PAID' ? '<span class="badge-s badge-green">Paid</span>'
+    : pStatus === 'PARTIAL' ? '<span class="badge-s badge-yellow">Partial</span>'
+    : '<span class="badge-s badge-red">Unpaid</span>';
+  var balanceHtml = '';
+  if (payload.remainingBalance > 0) {
+    balanceHtml = qfsDmRow('Remaining Balance', '<span style="color:var(--red);font-weight:700">$' + payload.remainingBalance + '</span>');
+  }
   if (payEl) payEl.innerHTML = qfsDmRow('Payment Status', payBadge) +
     qfsDmRow('Amount Paid', payload.amount ? '$' + payload.amount : '$0') +
+    qfsDmRow('Expected Amount', payload.expectedAmount ? '$' + payload.expectedAmount : '—') +
+    balanceHtml +
     qfsDmRow('Payment Method', (match && match.paymentMethod) || 'Zelle / Unknown') +
     qfsDmRow('Household Type', payload.householdType || '—');
 
@@ -7832,6 +7852,9 @@ function qfsOpenDetailByEmail(email, event) {
       membershipTier: match.membership || match.tier || '',
       paid: match.paid,
       amount: match.amount,
+      expectedAmount: match.expectedAmount || 0,
+      remainingBalance: match.remainingBalance || 0,
+      paymentStatus: match.paymentStatus || (match.paid ? 'PAID' : 'UNPAID'),
       event: match.event
     };
     qfsOpenDetail(payload);
