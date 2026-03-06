@@ -1709,6 +1709,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div class="kpi green"><div class="v" id="qfs-veg">0</div><div class="k">Veg Servings</div></div>
         <div class="kpi yellow"><div class="v" id="qfs-nonveg">0</div><div class="k">Non-Veg Servings</div></div>
         <div class="kpi green"><div class="v" id="qfs-checked-in">0</div><div class="k">Checked In</div></div>
+        <div class="kpi orange"><div class="v" id="qfs-approved">0</div><div class="k">Approved</div></div>
         <div class="kpi red"><div class="v" id="qfs-remaining">0</div><div class="k">Remaining</div></div>
       </div>
 
@@ -1832,13 +1833,16 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
                 </div>
               </div>
               <div class="form-group" style="margin-top:8px">
-                <label>Admin Notes</label>
-                <textarea id="qfs-dm-notes" rows="2" placeholder="Add notes about this attendee..." style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.78rem;resize:vertical"></textarea>
+                <label>Admin Comments / Notes</label>
+                <textarea id="qfs-dm-notes" rows="3" placeholder="Add comments about this attendee — will be saved to the CRM attended collection..." style="width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.78rem;resize:vertical"></textarea>
               </div>
-              <div style="display:flex;gap:8px;margin-top:10px">
-                <button class="btn-primary" onclick="qfsSaveDetail()"><i class="fas fa-save me-1"></i>Save & Close</button>
-                <button class="btn-sm btn-primary" style="background:var(--green)" onclick="qfsServeFromDetail()"><i class="fas fa-check me-1"></i>Mark as Served</button>
-                <button class="btn-sm btn-secondary" onclick="qfsCloseDetail()"><i class="fas fa-times me-1"></i>Cancel</button>
+              <!-- Attendance Approval Status -->
+              <div id="qfs-dm-attendance-status" style="display:none;margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.78rem"></div>
+              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+                <button class="btn-primary" style="background:linear-gradient(135deg,var(--green),#16a34a);flex:1;min-width:160px" onclick="qfsApproveAttendance()"><i class="fas fa-user-check me-1"></i>Approve Attendance</button>
+                <button class="btn-sm btn-primary" onclick="qfsServeFromDetail()" style="flex:0"><i class="fas fa-utensils me-1"></i>Mark Served</button>
+                <button class="btn-sm btn-secondary" onclick="qfsSaveDetail()" style="flex:0"><i class="fas fa-save me-1"></i>Save Only</button>
+                <button class="btn-sm btn-secondary" onclick="qfsCloseDetail()" style="flex:0"><i class="fas fa-times me-1"></i>Cancel</button>
               </div>
             </div>
           </div>
@@ -1852,6 +1856,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
             <button class="btn-sm btn-secondary qfs-filter active" onclick="qfsFilter('all',this)">All</button>
             <button class="btn-sm btn-secondary qfs-filter" onclick="qfsFilter('pending',this)">Pending</button>
             <button class="btn-sm btn-secondary qfs-filter" onclick="qfsFilter('served',this)">Served</button>
+            <button class="btn-sm btn-secondary qfs-filter" onclick="qfsFilter('approved',this)" style="border-color:rgba(34,197,94,.3);color:var(--green)">Approved</button>
             <button class="btn-sm btn-secondary qfs-filter" onclick="qfsFilter('paid',this)">Paid</button>
             <button class="btn-sm btn-secondary qfs-filter" onclick="qfsFilter('unpaid',this)">Unpaid</button>
           </div>
@@ -1896,14 +1901,35 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div id="qfs-food-summary" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px"></div>
       </div>
 
+      <!-- Attended Members Collection -->
+      <div class="card-a" style="border-left:4px solid var(--green)">
+        <h2><i class="fas fa-user-check" style="color:var(--green)"></i> Attended Members Collection
+          <span class="badge-s badge-green" style="font-size:.6rem;margin-left:6px" id="qfs-attended-badge">0 Members</span>
+          <div style="margin-left:auto;display:flex;gap:4px">
+            <button class="btn-sm btn-primary" style="background:var(--green)" onclick="qfsSyncAllPending()"><i class="fas fa-cloud-arrow-up me-1"></i>Sync to CRM</button>
+            <button class="btn-sm btn-secondary" onclick="qfsExportAttendedCSV()"><i class="fas fa-download me-1"></i>Export CSV</button>
+          </div>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Members approved for attendance — admin-verified via QR scan or manual check-in. Records are synced to the CRM as the official "Attended Members" collection.</p>
+        <div id="qfs-attended-table-wrapper" style="overflow-x:auto">
+          <table class="t">
+            <thead><tr><th>#</th><th>Name / Email</th><th>Event</th><th>Headcount</th><th>Payment</th><th>Comments</th><th>Approved By</th><th>Approved At</th><th>CRM Sync</th></tr></thead>
+            <tbody id="qfs-attended-body"></tbody>
+          </table>
+        </div>
+        <div id="qfs-attended-empty" style="text-align:center;padding:20px;color:var(--dim);font-size:.82rem;display:none"><i class="fas fa-info-circle me-1"></i>No approved attendance records yet. Scan a QR code and click "Approve Attendance" to add members.</div>
+      </div>
+
       <!-- Export Controls -->
       <div class="card-a">
         <h2><i class="fas fa-download" style="color:var(--blue)"></i> Export &amp; Reports</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn-sm btn-primary" onclick="qfsExportCSV()"><i class="fas fa-file-csv me-1"></i>Export CSV</button>
+          <button class="btn-sm btn-primary" onclick="qfsExportCSV()"><i class="fas fa-file-csv me-1"></i>Export All CSV</button>
+          <button class="btn-sm btn-primary" style="background:var(--green)" onclick="qfsExportAttendedCSV()"><i class="fas fa-user-check me-1"></i>Export Attended CSV</button>
           <button class="btn-sm btn-secondary" onclick="qfsExportPrint()"><i class="fas fa-print me-1"></i>Print Check-In Sheet</button>
           <button class="btn-sm btn-secondary" onclick="qfsSaveState()"><i class="fas fa-save me-1"></i>Save Check-In State</button>
           <button class="btn-sm btn-secondary" onclick="qfsRestoreState()"><i class="fas fa-undo me-1"></i>Restore Saved State</button>
+          <button class="btn-sm btn-secondary" onclick="qfsSyncAllPending()"><i class="fas fa-cloud-arrow-up me-1"></i>Sync Pending to CRM</button>
         </div>
       </div>
     </div>
@@ -3303,6 +3329,7 @@ function navTo(panel){
   if (panel === 'calendar-agent') { initCalendarAgent(); }
   if (panel === 'member-dues') { initMemberDues(); }
   if (panel === 'audit-drives') { initAuditDrives(); }
+  if (panel === 'qr-food-serving') { qfsInit(); }
 }
 
 function adminComingSoon(panel) {
@@ -7456,8 +7483,47 @@ function abortDrive(drive) {
 // ═══════════════════════════════════════════════════════════
 var QFS_ATTENDEES = [];   // Loaded from CRM data
 var QFS_WALKINS = [];     // Manual walk-in entries
-var QFS_STATE = {};       // { email: { checkedIn: bool, time: str, servedBy: str, comment: str } }
+var QFS_STATE = {};       // { email|event: { checkedIn: bool, time: str, servedBy: str, comment: str } }
+var QFS_ATTENDED = {};    // { email|event: { approved: bool, approvedAt: str, approvedBy: str, comments: str, crmSynced: bool } }
 var QFS_FILTER = 'all';
+
+// ── Real CRM data — Bosonto Utsob 2026 RSVP'd attendees (from banf-crm-reconciliation.json) ──
+var BOSONTO_CRM_DATA = [
+  {name:'Amit Chandak',email:'amit.everywhere@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sunetra Basu Ghosh',email:'sunetra.basu@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Kapil Sadhu',email:'kapil.sadhu@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Paulami Guha',email:'drpaulami@gmail.com',adults:1,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sourav Jan',email:'jan.sourav@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',adults:4,kids:1,dietary:'Not specified',paid:true,amount:545,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Mita Dhar',email:'mdhar79@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Asok Chaudhuri',email:'asokchaudhuri@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:130,paymentStatus:'partial',expectedAmount:330,remainingBalance:200,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Rwiti Choudhury',email:'rwitichoudhury@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:''},
+  {name:'Soma Choudhury',email:'soma1979p@yahoo.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Paramita Pal',email:'runaparamita@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Suvankar Paul',email:'suvankar.paul@gmail.com',adults:2,kids:0,dietary:'non_veg',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Kaushiki Bhattacharya',email:'kb94311@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sanchari Bhattacharyya',email:'tosanchari@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Nilay Chandra',email:'chandranilay@gmail.com',adults:3,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Amit Saha',email:'asahaech@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sunanda Banerjee',email:'sunanda.banerjee@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Anasuya Banerjee',email:'ana@anasuya.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Barnali Mondal',email:'hibarnali@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'m2',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Anita Mandal',email:'amandalamandal@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Aparna Chakravarty',email:'chakfam5@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Prianka Natta',email:'priyanka16587@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Atmadeep Mazumdar',email:'atmadeep.mazumdar@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Reshma Das',email:'reshmabhadra@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Nandini Dutta',email:'dutta.nandini47@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Soumyajit Dutta',email:'duttasoumyajit86@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:true,memberSince:'2025',paymentMethod:''},
+  {name:'Indrani Dutta',email:'dindrani74@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Rajanya Ghosh',email:'rajanya.ghosh1993@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:true,memberSince:'2025',paymentMethod:''},
+  {name:'Dipra Ghosh',email:'ghosh.dipra@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sumon Ghosh',email:'suman.ghosh12@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Bithika Roy',email:'bithikaroy96@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Ipshita Roy',email:'sudipshita@yahoo.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Bidhan Sarkar',email:'bidhan138@gmail.com',adults:3,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Tanmoy Banerjee',email:'tanmoy.banerjee2009@gmail.com',adults:2,kids:1,dietary:'non_veg',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''}
+];
 
 // Initialize QR Food Serving data from existing CRM/event data
 function qfsInit() {
@@ -7471,44 +7537,31 @@ function qfsInit() {
     var walkins = localStorage.getItem('banf_qfs_walkins');
     if (walkins) QFS_WALKINS = JSON.parse(walkins);
   } catch(e) {}
+  try {
+    var attended = localStorage.getItem('banf_qfs_attended');
+    if (attended) QFS_ATTENDED = JSON.parse(attended);
+  } catch(e) {}
 
-  // Build attendee list from CRM data available in portal
-  // Source 1: DUES_DATA (from Member Dues panel)
-  if (typeof DUES_DATA !== 'undefined' && DUES_DATA.length > 0) {
-    DUES_DATA.forEach(function(m) {
-      QFS_ATTENDEES.push({
-        name: m.name || '', email: m.email || '', event: 'Membership Event',
-        adults: 1, kids: 0, dietary: 'Not specified', dietaryNotes: '',
-        vegServings: 0, nonVegServings: 1, totalHeadcount: 1,
-        paid: !!m.paid, amount: m.amount || 0,
-        membership: m.membership || '', tier: m.tier || '',
-        householdType: '', isEC: false, regCode: 'BANF-' + (m.email||'').split('@')[0].slice(0,8).toUpperCase() + '-' + Date.now().toString(36).slice(-4),
-        source: 'dues'
-      });
-    });
-  }
-
-  // Source 2: Demo data for Bosonto Utsob & other events (from CRM pipeline)
-  var demoEvents = [
-    { name: 'Sourav Jan', email: 'sourav.jan@example.com', event: 'Bosonto Utsob 2026', adults: 2, kids: 0, dietary: 'Not specified', paid: false, amount: 0, membership: 'EB - Family', tier: 'family' },
-    { name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', event: 'Bosonto Utsob 2026', adults: 4, kids: 1, dietary: 'Not specified', paid: true, amount: 545, membership: 'M2 Premium', tier: 'family' },
-    { name: 'Barnali Mondal', email: 'barnali.mondal@example.com', event: 'Bosonto Utsob 2026', adults: 2, kids: 2, dietary: 'Not specified', paid: false, amount: 0, membership: 'EB - Family', tier: 'family' },
-    { name: 'Soumyajit Dutta', email: 'duttasoumyajit86@gmail.com', event: 'Bosonto Utsob 2026', adults: 1, kids: 0, dietary: 'Vegetarian', paid: true, amount: 150, membership: 'EB - Couple', tier: 'couple' },
-    { name: 'Rajanya Ghosh', email: 'rajanya.ghosh@gmail.com', event: 'Bosonto Utsob 2026', adults: 2, kids: 1, dietary: 'Not specified', paid: true, amount: 150, membership: 'EB - Couple', tier: 'couple' },
-    { name: 'Ipshita Roy', email: 'ipshita.roy@example.com', event: 'Bosonto Utsob 2026', adults: 2, kids: 2, dietary: 'Not specified', paid: true, amount: 170, membership: 'EB - Family', tier: 'family' },
-  ];
-  demoEvents.forEach(function(d) {
-    var exists = QFS_ATTENDEES.some(function(a) { return a.email === d.email && a.event === d.event; });
+  // Build attendee list from real CRM data (Bosonto Utsob 2026)
+  BOSONTO_CRM_DATA.forEach(function(d) {
+    var exists = QFS_ATTENDEES.some(function(a) { return a.email === d.email && a.event === 'Bosonto Utsob 2026'; });
     if (!exists) {
-      var vegS = d.dietary === 'Vegetarian' ? (d.adults + d.kids) : 0;
-      var nvS = d.dietary !== 'Vegetarian' ? (d.adults + d.kids) : 0;
+      var vegS = (d.dietary === 'Vegetarian' || d.dietary === 'veg') ? (parseInt(d.adults)||1) + (parseInt(d.kids)||0) : 0;
+      var nvS = (d.dietary !== 'Vegetarian' && d.dietary !== 'veg') ? (parseInt(d.adults)||1) + (parseInt(d.kids)||0) : 0;
+      var isPaid = d.paymentStatus === 'paid' || d.paid;
       QFS_ATTENDEES.push({
-        name: d.name, email: d.email, event: d.event,
-        adults: d.adults, kids: d.kids, dietary: d.dietary, dietaryNotes: '',
-        vegServings: vegS, nonVegServings: nvS, totalHeadcount: d.adults + d.kids,
-        paid: d.paid, amount: d.amount, membership: d.membership, tier: d.tier,
-        householdType: d.tier || '', isEC: false,
-        regCode: 'BANF-' + d.event.replace(/\s+/g,'-').slice(0,12) + '-' + (d.email||'').split('@')[0].slice(0,8).toUpperCase(),
+        name: d.name, email: d.email, event: 'Bosonto Utsob 2026',
+        adults: parseInt(d.adults)||1, kids: parseInt(d.kids)||0,
+        dietary: d.dietary || 'Not specified', dietaryNotes: d.dietaryNotes || '',
+        vegServings: vegS, nonVegServings: nvS, totalHeadcount: (parseInt(d.adults)||1) + (parseInt(d.kids)||0),
+        paid: isPaid, amount: d.amount || 0,
+        paymentStatus: d.paymentStatus || (isPaid ? 'paid' : 'not_paid'),
+        expectedAmount: d.expectedAmount || 0, remainingBalance: d.remainingBalance || 0,
+        membership: d.membership || '', tier: d.householdType || '',
+        householdType: d.householdType || '', isEC: !!d.isEC,
+        memberSince: d.memberSince || '',
+        paymentMethod: d.paymentMethod || '',
+        regCode: 'BANF-Bosonto-Utso-' + (d.email||'').split('@')[0].slice(0,8).toUpperCase(),
         source: 'crm'
       });
     }
@@ -7541,8 +7594,9 @@ function qfsGetFiltered() {
   if (eventVal !== 'all') list = list.filter(function(a){ return a.event === eventVal; });
   if (QFS_FILTER === 'pending') list = list.filter(function(a){ return !QFS_STATE[a.email + '|' + a.event]; });
   if (QFS_FILTER === 'served') list = list.filter(function(a){ return QFS_STATE[a.email + '|' + a.event]; });
-  if (QFS_FILTER === 'paid') list = list.filter(function(a){ return a.paid; });
-  if (QFS_FILTER === 'unpaid') list = list.filter(function(a){ return !a.paid; });
+  if (QFS_FILTER === 'paid') list = list.filter(function(a){ return a.paid || a.paymentStatus === 'paid'; });
+  if (QFS_FILTER === 'unpaid') list = list.filter(function(a){ return !a.paid && a.paymentStatus !== 'paid'; });
+  if (QFS_FILTER === 'approved') list = list.filter(function(a){ return QFS_ATTENDED[a.email + '|' + a.event]; });
   return list;
 }
 
@@ -7558,6 +7612,7 @@ function qfsRender() {
   var totalVeg = all.reduce(function(s,a){ return s + a.vegServings; }, 0);
   var totalNV = all.reduce(function(s,a){ return s + a.nonVegServings; }, 0);
   var checkedIn = all.filter(function(a){ return QFS_STATE[a.email + '|' + a.event]; }).length;
+  var approvedCount = all.filter(function(a){ return QFS_ATTENDED[a.email + '|' + a.event]; }).length;
 
   var el = function(id, v) { var e = document.getElementById(id); if(e) e.textContent = v; };
   el('qfs-rsvp-count', all.length);
@@ -7567,7 +7622,8 @@ function qfsRender() {
   el('qfs-veg', totalVeg);
   el('qfs-nonveg', totalNV);
   el('qfs-checked-in', checkedIn);
-  el('qfs-remaining', all.length - checkedIn);
+  el('qfs-approved', approvedCount);
+  el('qfs-remaining', all.length - approvedCount);
 
   // Table
   var tbody = document.getElementById('qfs-attendee-body');
@@ -7584,22 +7640,29 @@ function qfsRender() {
   tbody.innerHTML = list.map(function(a, i) {
     var key = a.email + '|' + a.event;
     var state = QFS_STATE[key];
-    var statusBadge = state
-      ? '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Served ' + (state.time || '') + '</span>'
-      : '<span class="badge-s badge-yellow">Pending</span>';
-    var payBadge = a.paid
+    var attended = QFS_ATTENDED[key];
+    var statusBadge = attended
+      ? '<span class="badge-s badge-green"><i class="fas fa-user-check me-1"></i>Attended</span>'
+      : state
+        ? '<span class="badge-s badge-cyan"><i class="fas fa-check me-1"></i>Served ' + (state.time || '') + '</span>'
+        : '<span class="badge-s badge-yellow">Pending</span>';
+    var payBadge = (a.paymentStatus === 'paid' || a.paid)
       ? '<span class="badge-s badge-green">$' + a.amount + '</span>'
-      : '<span class="badge-s badge-red">Unpaid</span>';
+      : a.paymentStatus === 'partial'
+        ? '<span class="badge-s badge-yellow">$' + a.amount + ' / $' + (a.expectedAmount||'?') + '</span>'
+        : '<span class="badge-s badge-red">Unpaid</span>';
     var dietBadge = (a.dietary === 'Vegetarian' || a.dietary === 'veg')
       ? '<span style="background:#f0fdf4;color:#166534;padding:2px 6px;border-radius:4px;font-size:.7rem">VEG</span>'
       : '<span style="background:#fff7ed;color:#9a3412;padding:2px 6px;border-radius:4px;font-size:.7rem">NON-VEG</span>';
-    var actions = state
-      ? '<button class="btn-sm btn-secondary" style="padding:2px 8px;font-size:.66rem" onclick="qfsUndo(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-undo me-1"></i>Undo</button>'
-      : '<button class="btn-sm btn-primary" style="padding:4px 12px;font-size:.72rem" onclick="qfsServe(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-check me-1"></i>Serve</button>';
+    var actions = attended
+      ? '<span class="badge-s badge-green" style="font-size:.66rem"><i class="fas fa-check-double me-1"></i>Approved</span>'
+      : state
+        ? '<button class="btn-sm btn-primary" style="padding:3px 10px;font-size:.68rem;background:var(--green)" onclick="event.stopPropagation();qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-clipboard-check me-1"></i>Approve</button>'
+        : '<button class="btn-sm btn-primary" style="padding:4px 12px;font-size:.72rem" onclick="event.stopPropagation();qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-qrcode me-1"></i>Check In</button>';
 
-    return '<tr style="background:' + (state ? 'rgba(34,197,94,.05)' : 'transparent') + ';cursor:pointer" onclick="qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')" title="Click to view full details">' +
+    return '<tr style="background:' + (attended ? 'rgba(34,197,94,.08)' : state ? 'rgba(6,182,212,.05)' : 'transparent') + ';cursor:pointer" onclick="qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')" title="Click to view full details">' +
       '<td>' + (i+1) + '</td>' +
-      '<td><div style="font-weight:600;font-size:.82rem">' + a.name + '</div><div style="font-size:.66rem;color:var(--dim)">' + a.email + '</div></td>' +
+      '<td><div style="font-weight:600;font-size:.82rem">' + a.name + (a.isEC ? ' <span class="badge-s badge-cyan" style="font-size:.55rem">EC</span>' : '') + '</div><div style="font-size:.66rem;color:var(--dim)">' + a.email + '</div></td>' +
       '<td style="font-size:.78rem">' + a.event + '</td>' +
       '<td>' + a.adults + '</td>' +
       '<td>' + a.kids + '</td>' +
@@ -7637,6 +7700,46 @@ function qfsRender() {
         '<div style="font-size:.72rem;color:var(--dim)">' + it.label + '</div></div>';
     }).join('');
   }
+
+  // Render attended members table
+  qfsRenderAttended();
+}
+
+function qfsRenderAttended() {
+  var attendedList = Object.values(QFS_ATTENDED).filter(function(r){ return r.approved; });
+  var badge = document.getElementById('qfs-attended-badge');
+  if (badge) badge.textContent = attendedList.length + ' Member' + (attendedList.length !== 1 ? 's' : '');
+  var tbody = document.getElementById('qfs-attended-body');
+  var emptyEl = document.getElementById('qfs-attended-empty');
+  if (!tbody) return;
+  if (attendedList.length === 0) {
+    tbody.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+  // Sort by approved time (newest first)
+  attendedList.sort(function(a, b) { return (b.approvedAt || '').localeCompare(a.approvedAt || ''); });
+  tbody.innerHTML = attendedList.map(function(r, i) {
+    var payBadge = r.paymentStatus === 'paid' ? '<span class="badge-s badge-green">$' + (r.amount||0) + '</span>'
+      : r.paymentStatus === 'partial' ? '<span class="badge-s badge-yellow">$' + (r.amount||0) + '/$' + (r.expectedAmount||'?') + '</span>'
+      : '<span class="badge-s badge-red">Unpaid</span>';
+    var syncBadge = r.crmSynced
+      ? '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Synced</span>'
+      : '<span class="badge-s badge-yellow"><i class="fas fa-clock me-1"></i>Pending</span>';
+    var timeStr = r.approvedAt ? new Date(r.approvedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+    return '<tr>' +
+      '<td>' + (i+1) + '</td>' +
+      '<td><div style="font-weight:600;font-size:.82rem">' + (r.name||'—') + '</div><div style="font-size:.66rem;color:var(--dim)">' + (r.email||'—') + '</div></td>' +
+      '<td style="font-size:.78rem">' + (r.event||'—') + '</td>' +
+      '<td>' + (r.adults||0) + 'A + ' + (r.kids||0) + 'K</td>' +
+      '<td>' + payBadge + '</td>' +
+      '<td style="font-size:.72rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (r.comments||'').replace(/"/g,'&quot;') + '">' + (r.comments || '<span style="color:var(--dim)">—</span>') + '</td>' +
+      '<td style="font-size:.72rem">' + (r.approvedBy||'Admin') + '</td>' +
+      '<td style="font-size:.72rem">' + timeStr + '</td>' +
+      '<td>' + syncBadge + '</td>' +
+    '</tr>';
+  }).join('');
 }
 
 function qfsServe(email, event) {
@@ -7682,13 +7785,19 @@ function qfsSearch(q) {
   resultEl.innerHTML = matches.slice(0, 5).map(function(a) {
     var key = a.email + '|' + a.event;
     var served = QFS_STATE[key];
-    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)">' +
+    var attended = QFS_ATTENDED[key];
+    var statusHtml = attended
+      ? '<span class="badge-s badge-green"><i class="fas fa-user-check me-1"></i>Attended</span>'
+      : served
+        ? '<span class="badge-s badge-cyan"><i class="fas fa-check me-1"></i>Served</span>'
+        : '';
+    var actionHtml = attended
+      ? '<span class="badge-s badge-green" style="font-size:.66rem">Approved</span>'
+      : '<button class="btn-sm btn-primary" style="padding:4px 12px" onclick="qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')"><i class="fas fa-clipboard-check me-1"></i>' + (served ? 'Approve' : 'Check In') + '</button>';
+    return '<div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer" onclick="qfsOpenDetailByEmail(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\')">' +
       '<div style="flex:1"><strong>' + a.name + '</strong> <span style="font-size:.72rem;color:var(--dim)">' + a.email + '</span>' +
-      '<br><span style="font-size:.72rem">' + a.adults + 'A + ' + a.kids + 'K | ' + a.dietary + ' | ' + (a.paid ? 'Paid $' + a.amount : 'Unpaid') + '</span></div>' +
-      (served
-        ? '<span class="badge-s badge-green"><i class="fas fa-check me-1"></i>Served</span>'
-        : '<button class="btn-sm btn-primary" style="padding:4px 12px" onclick="qfsServe(\'' + a.email.replace(/'/g,"\\'") + '\',\'' + a.event.replace(/'/g,"\\'") + '\');qfsSearch(\'' + q.replace(/'/g,"\\'") + '\')"><i class="fas fa-check me-1"></i>Serve</button>'
-      ) + '</div>';
+      '<br><span style="font-size:.72rem">' + a.adults + 'A + ' + a.kids + 'K | ' + a.dietary + ' | ' + ((a.paid || a.paymentStatus === 'paid') ? 'Paid $' + a.amount : a.paymentStatus === 'partial' ? 'Partial $' + a.amount : 'Unpaid') + '</span></div>' +
+      statusHtml + ' ' + actionHtml + '</div>';
   }).join('');
 }
 
@@ -7901,17 +8010,36 @@ function qfsProcessScannedQR(data) {
   try {
     var payload = JSON.parse(data);
     if (payload.type === 'BANF_FOOD_CHECK_IN' || payload.regCode) {
-      // Valid BANF QR code — open detail modal
-      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> QR Scanned: ' + (payload.name || 'Unknown'); }
+      // Valid BANF QR code — match with local attendee data for enrichment
+      var match = QFS_ATTENDEES.find(function(a) { return a.email === payload.email; });
+      if (match) {
+        // Enrich payload with local data
+        payload.adults = payload.adults || match.adults;
+        payload.kids = payload.kids || match.kids;
+        payload.householdType = payload.householdType || match.householdType || match.tier;
+        payload.membershipTier = payload.membershipTier || match.membership;
+        payload.paid = payload.paid || match.paid || match.paymentStatus === 'paid';
+        payload.amount = payload.amount || match.amount;
+        payload.expectedAmount = payload.expectedAmount || match.expectedAmount;
+        payload.remainingBalance = payload.remainingBalance || match.remainingBalance;
+        payload.paymentStatus = payload.paymentStatus || match.paymentStatus || (match.paid ? 'PAID' : 'UNPAID');
+      }
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> QR Scanned: <strong>' + (payload.name || 'Unknown') + '</strong> — Opening details...'; }
       qfsOpenDetail(payload);
       // Play a beep
       try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = 880; var g = ac.createGain(); g.gain.value = 0.1; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.15); } catch(e){}
     } else {
-      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(251,191,36,.12)'; toast.style.color = 'var(--yellow)'; toast.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Unknown QR format'; }
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(251,191,36,.12)'; toast.style.color = 'var(--yellow)'; toast.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Unknown QR format — not a BANF food check-in code'; }
     }
   } catch(e) {
-    // Not JSON — show raw data
-    if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-times-circle me-1"></i> Invalid QR: ' + data.substring(0, 60); }
+    // Not JSON — try to match as email or regCode
+    var matchByCode = QFS_ATTENDEES.find(function(a) { return a.regCode === data || a.email === data; });
+    if (matchByCode) {
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> Matched: <strong>' + matchByCode.name + '</strong>'; }
+      qfsOpenDetailByEmail(matchByCode.email, matchByCode.event);
+    } else {
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-times-circle me-1"></i> Unrecognized QR: ' + data.substring(0, 60); }
+    }
   }
 }
 
@@ -7999,6 +8127,26 @@ function qfsOpenDetail(payload) {
     var savedNotes = localStorage.getItem('banf_qfs_notes_' + (payload.email || ''));
     notesEl.value = savedNotes || '';
   }
+
+  // Show attendance approval status if already approved
+  var statusEl = document.getElementById('qfs-dm-attendance-status');
+  var attendedKey = (payload.email || '') + '|' + (payload.event || '');
+  var attendedRec = QFS_ATTENDED[attendedKey];
+  if (statusEl) {
+    if (attendedRec && attendedRec.approved) {
+      statusEl.style.display = 'block';
+      statusEl.style.background = 'rgba(34,197,94,.08)';
+      statusEl.style.border = '1px solid rgba(34,197,94,.2)';
+      statusEl.innerHTML = '<div style="display:flex;align-items:center;gap:8px"><i class="fas fa-check-double" style="color:var(--green);font-size:1.2rem"></i><div>' +
+        '<div style="font-weight:700;color:var(--green)">Attendance Already Approved</div>' +
+        '<div style="font-size:.7rem;color:var(--muted)">By ' + (attendedRec.approvedBy || 'Admin') + ' at ' + new Date(attendedRec.approvedAt).toLocaleString() +
+        ' | CRM: ' + (attendedRec.crmSynced ? '<span style="color:var(--green)">Synced ✓</span>' : '<span style="color:var(--yellow)">Pending sync</span>') +
+        '</div></div></div>';
+      if (attendedRec.comments) notesEl.value = attendedRec.comments;
+    } else {
+      statusEl.style.display = 'none';
+    }
+  }
 }
 
 function qfsDmRow(label, value) {
@@ -8033,6 +8181,183 @@ function qfsSaveDetail() {
 
   qfsCloseDetail();
   showToast('Attendee record updated: ' + (QFS_DETAIL_CURRENT.name || ''), 'var(--green)');
+}
+
+// ═══════════════════════════════════════════════════════════
+// APPROVE ATTENDANCE — Marks member as officially attended
+// Saves to local attended collection + syncs to backend CRM
+// ═══════════════════════════════════════════════════════════
+
+function qfsApproveAttendance() {
+  if (!QFS_DETAIL_CURRENT) return;
+  var email = QFS_DETAIL_CURRENT.email || '';
+  var event = QFS_DETAIL_CURRENT.event || '';
+  var key = email + '|' + event;
+  var rec = (document.getElementById('qfs-dm-membership-rec') || {}).value || '';
+  var verify = (document.getElementById('qfs-dm-verify-status') || {}).value || '';
+  var notes = (document.getElementById('qfs-dm-notes') || {}).value || '';
+  var adminName = (window.ADMIN_SESSION || window.CURRENT_ADMIN || {}).name || 'Admin';
+
+  // Build attended record
+  var attendedRecord = {
+    approved: true,
+    approvedAt: new Date().toISOString(),
+    approvedBy: adminName,
+    comments: notes,
+    membershipRecommendation: rec,
+    verificationStatus: verify,
+    // Attendee snapshot
+    name: QFS_DETAIL_CURRENT.name || '',
+    email: email,
+    event: event,
+    adults: QFS_DETAIL_CURRENT.adults || 0,
+    kids: QFS_DETAIL_CURRENT.kids || 0,
+    totalHeadcount: (QFS_DETAIL_CURRENT.adults || 0) + (QFS_DETAIL_CURRENT.kids || 0),
+    dietary: QFS_DETAIL_CURRENT.dietary || 'Not specified',
+    paid: QFS_DETAIL_CURRENT.paid || false,
+    amount: QFS_DETAIL_CURRENT.amount || 0,
+    paymentStatus: QFS_DETAIL_CURRENT.paymentStatus || 'unpaid',
+    expectedAmount: QFS_DETAIL_CURRENT.expectedAmount || 0,
+    remainingBalance: QFS_DETAIL_CURRENT.remainingBalance || 0,
+    membership: QFS_DETAIL_CURRENT.membershipTier || '',
+    householdType: QFS_DETAIL_CURRENT.householdType || '',
+    regCode: QFS_DETAIL_CURRENT.regCode || '',
+    crmSynced: false,
+    crmSyncAttempts: 0
+  };
+
+  // Save to local attended collection
+  QFS_ATTENDED[key] = attendedRecord;
+  localStorage.setItem('banf_qfs_attended', JSON.stringify(QFS_ATTENDED));
+
+  // Also mark as served (check-in) if not already
+  if (!QFS_STATE[key]) {
+    QFS_STATE[key] = {
+      checkedIn: true,
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+      servedBy: adminName
+    };
+    localStorage.setItem('banf_qfs_state', JSON.stringify(QFS_STATE));
+  }
+
+  // Save notes
+  localStorage.setItem('banf_qfs_notes_' + email, notes);
+
+  // Save verification data
+  var verifyData = JSON.parse(localStorage.getItem('banf_qfs_verify') || '{}');
+  verifyData[email] = {
+    recommendation: rec, verifyStatus: verify, notes: notes,
+    updatedAt: new Date().toISOString(), updatedBy: adminName
+  };
+  localStorage.setItem('banf_qfs_verify', JSON.stringify(verifyData));
+
+  // Sync to backend CRM (attended collection)
+  qfsSyncAttendedToCRM(attendedRecord);
+
+  // Update UI
+  var statusEl = document.getElementById('qfs-dm-attendance-status');
+  if (statusEl) {
+    statusEl.style.display = 'block';
+    statusEl.style.background = 'rgba(34,197,94,.1)';
+    statusEl.style.border = '1px solid rgba(34,197,94,.3)';
+    statusEl.innerHTML = '<i class="fas fa-check-circle me-1" style="color:var(--green)"></i>' +
+      '<strong style="color:var(--green)">Attendance Approved!</strong> ' +
+      '<span style="color:var(--muted)">by ' + adminName + ' at ' + new Date().toLocaleTimeString() + '</span>' +
+      '<br><span style="font-size:.7rem;color:var(--dim)">Record added to Attended Members collection. CRM sync in progress...</span>';
+  }
+
+  // Close after short delay for feedback
+  setTimeout(function() {
+    qfsCloseDetail();
+    qfsRender();
+    showToast('✅ ' + (QFS_DETAIL_CURRENT ? QFS_DETAIL_CURRENT.name : 'Attendee') + ' — Attendance approved & added to CRM', 'var(--green)');
+  }, 1200);
+}
+
+// Sync attended record to backend CRM
+function qfsSyncAttendedToCRM(record) {
+  // Try to sync to Wix backend
+  var payload = {
+    action: 'approve_attendance',
+    adminKey: 'banf-bosonto-2026-live',
+    record: {
+      email: record.email,
+      name: record.name,
+      event: record.event,
+      adults: record.adults,
+      kids: record.kids,
+      totalHeadcount: record.totalHeadcount,
+      dietary: record.dietary,
+      paid: record.paid,
+      amount: record.amount,
+      paymentStatus: record.paymentStatus,
+      expectedAmount: record.expectedAmount,
+      remainingBalance: record.remainingBalance,
+      membership: record.membership,
+      householdType: record.householdType,
+      membershipRecommendation: record.membershipRecommendation,
+      verificationStatus: record.verificationStatus,
+      comments: record.comments,
+      approvedAt: record.approvedAt,
+      approvedBy: record.approvedBy,
+      regCode: record.regCode
+    }
+  };
+
+  fetch(API + '/admin_approve_attendance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function(resp) {
+    return resp.json();
+  }).then(function(data) {
+    if (data && data.success) {
+      // Mark as synced
+      var key = record.email + '|' + record.event;
+      if (QFS_ATTENDED[key]) {
+        QFS_ATTENDED[key].crmSynced = true;
+        QFS_ATTENDED[key].crmSyncedAt = new Date().toISOString();
+        localStorage.setItem('banf_qfs_attended', JSON.stringify(QFS_ATTENDED));
+      }
+      console.log('[QFS] CRM sync success for ' + record.email);
+    } else {
+      console.warn('[QFS] CRM sync returned non-success for ' + record.email, data);
+      // Will retry on next sync
+    }
+  }).catch(function(err) {
+    console.warn('[QFS] CRM sync failed (offline mode) for ' + record.email + ':', err.message);
+    // Offline mode — record is saved locally, will sync when backend is available
+  });
+}
+
+// Retry syncing all unsynced attended records
+function qfsSyncAllPending() {
+  var pending = Object.keys(QFS_ATTENDED).filter(function(k) { return !QFS_ATTENDED[k].crmSynced; });
+  if (pending.length === 0) { showToast('All attended records already synced', 'var(--green)'); return; }
+  showToast('Syncing ' + pending.length + ' pending records...', 'var(--blue)');
+  pending.forEach(function(key) {
+    qfsSyncAttendedToCRM(QFS_ATTENDED[key]);
+  });
+}
+
+// Export attended members as CSV
+function qfsExportAttendedCSV() {
+  var attended = Object.values(QFS_ATTENDED);
+  if (attended.length === 0) { showToast('No approved attendance records yet', 'var(--yellow)'); return; }
+  var headers = ['Name','Email','Event','Adults','Kids','Headcount','Dietary','Paid','Amount','Payment Status','Membership','Household Type','Admin Comments','Approved By','Approved At','CRM Synced'];
+  var rows = attended.map(function(r) {
+    return [r.name, r.email, r.event, r.adults, r.kids, r.totalHeadcount, r.dietary,
+      r.paid ? 'Yes' : 'No', r.amount, r.paymentStatus, r.membership, r.householdType,
+      r.comments, r.approvedBy, r.approvedAt, r.crmSynced ? 'Yes' : 'Pending'
+    ].map(function(v) { return '"' + String(v||'').replace(/"/g, '""') + '"'; }).join(',');
+  });
+  var csv = headers.join(',') + '\n' + rows.join('\n');
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'banf-attended-members-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('Attended members CSV exported (' + attended.length + ' records)', 'var(--green)');
 }
 
 function qfsServeFromDetail() {
