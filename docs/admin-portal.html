@@ -422,6 +422,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-item" data-panel="drive-status" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-line"></i><span>Drive Status</span></div>
     <div class="sb-item" data-panel="event-reports" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-pie"></i><span>Event Reports</span></div>
     <div class="sb-item" data-panel="qr-food-serving" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-utensils"></i><span>QR Food Serving</span></div>
+    <div class="sb-item" data-panel="qr-email-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-paper-plane"></i><span>QR Email Drive</span><span id="qrd-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block" title="QR Drive Status"></span></div>
     <div class="sb-item" data-panel="email-pipeline" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-envelope-open-text"></i><span>Email Pipeline</span><span id="pipeline-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block" title="Pipeline Active"></span></div>
 
     <!-- ── AI / RAG ── ec_member, admin, super_admin -->
@@ -1749,7 +1750,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div style="font-size:1.5rem;margin-bottom:6px">🔒</div>
         <div style="font-weight:700;font-size:.92rem;color:var(--red);margin-bottom:4px">QR Scanning Locked Until Event Day</div>
         <div style="font-size:.78rem;color:var(--text);margin-bottom:8px">Scanning, check-in, and attendance approval will unlock on:</div>
-        <div style="font-size:1.1rem;font-weight:800;color:var(--accent);margin-bottom:6px">March 29, 2026 &bull; 11:00 AM ET</div>
+        <div style="font-size:1.1rem;font-weight:800;color:var(--accent);margin-bottom:6px">March 7, 2026 &bull; 11:00 AM ET</div>
         <div id="qfs-countdown" style="font-family:monospace;font-size:.88rem;color:var(--dim);padding:6px 12px;background:var(--bg2);border-radius:8px;display:inline-block"></div>
         <div style="font-size:.68rem;color:var(--muted);margin-top:8px"><i class="fas fa-info-circle me-1"></i>Test drive data will be cleared automatically when the event goes live. View-only mode is available below.</div>
       </div>
@@ -1984,6 +1985,125 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
           <button class="btn-sm btn-secondary" onclick="qfsSaveState()"><i class="fas fa-save me-1"></i>Save Check-In State</button>
           <button class="btn-sm btn-secondary" onclick="qfsRestoreState()"><i class="fas fa-undo me-1"></i>Restore Saved State</button>
           <button class="btn-sm btn-secondary" onclick="qfsSyncAllPending()"><i class="fas fa-cloud-arrow-up me-1"></i>Sync Pending to CRM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ QR CODE EMAIL DRIVE PANEL ══════════ -->
+    <div class="portal-section" id="panel-qr-email-drive">
+      <div class="stg-label"><i class="fas fa-paper-plane" style="color:var(--yellow)"></i> QR Code Email Drive — Bosonto Utsob 2026</div>
+
+      <!-- Drive Status Banner -->
+      <div class="card-a" id="qrd-status-banner" style="border-left:4px solid var(--yellow)">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="font-size:2rem" id="qrd-icon">📧</div>
+          <div style="flex:1;min-width:200px">
+            <h2 style="font-size:1rem;margin:0 0 4px;color:var(--text)" id="qrd-title">QR Code Email Drive</h2>
+            <p style="font-size:.72rem;color:var(--muted);margin:0" id="qrd-subtitle">Live status of QR code email delivery to all RSVP-Yes attendees</p>
+          </div>
+          <div id="qrd-badge" style="background:rgba(234,179,8,.2);color:#eab308;font-size:.7rem;font-weight:700;border-radius:99px;padding:4px 12px;text-transform:uppercase">Initialized</div>
+        </div>
+      </div>
+
+      <!-- Drive KPIs -->
+      <div class="kpi-row" style="margin-bottom:18px">
+        <div class="kpi blue"><div class="v" id="qrd-total">0</div><div class="k">Total Recipients</div></div>
+        <div class="kpi green"><div class="v" id="qrd-sent">0</div><div class="k">Emails Sent</div></div>
+        <div class="kpi red"><div class="v" id="qrd-failed">0</div><div class="k">Failed</div></div>
+        <div class="kpi yellow"><div class="v" id="qrd-pending">0</div><div class="k">Pending</div></div>
+        <div class="kpi purple"><div class="v" id="qrd-phase">—</div><div class="k">Current Phase</div></div>
+        <div class="kpi cyan"><div class="v" id="qrd-progress">0%</div><div class="k">Progress</div></div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="card-a">
+        <h2 style="font-size:.82rem"><i class="fas fa-chart-line me-1" style="color:var(--green)"></i> Drive Progress</h2>
+        <div style="background:var(--bg2);border-radius:12px;overflow:hidden;height:28px;border:1px solid var(--line);position:relative;margin:8px 0">
+          <div id="qrd-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--green),var(--cyan));border-radius:12px;transition:width .5s ease;width:0%"></div>
+          <div style="position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:var(--text)" id="qrd-progress-text">0 / 0 sent</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--dim);margin-top:6px">
+          <span id="qrd-last-sent">Last sent: —</span>
+          <span id="qrd-drive-id">Drive ID: —</span>
+        </div>
+      </div>
+
+      <!-- No-Duplicate Policy Notice -->
+      <div class="card-a" style="border-left:4px solid var(--red);background:rgba(239,68,68,.05)">
+        <h2 style="font-size:.82rem;color:#ef4444"><i class="fas fa-shield-halved me-1"></i> Strict No-Duplicate Policy</h2>
+        <p style="font-size:.72rem;color:var(--muted);margin:0;line-height:1.6">
+          This drive enforces a <strong>strict no-duplicate email policy</strong>. Once an email is sent to a recipient, 
+          it is permanently locked in the <code>banf-qr-drive-lock.json</code> file and will <strong>never</strong> be 
+          sent again, even if the drive is restarted. Each send is verified against the lock file immediately before 
+          transmission to prevent any race conditions.
+        </p>
+      </div>
+
+      <!-- Phase Guide -->
+      <div class="card-a">
+        <h2 style="font-size:.82rem"><i class="fas fa-list-ol me-1" style="color:var(--purple)"></i> Cautious Batch Approach</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div id="qrd-phase1-card" style="flex:1;min-width:200px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px">
+            <div style="font-size:.9rem;font-weight:700;color:var(--blue)">Phase 1</div>
+            <div style="font-size:.68rem;color:var(--dim);margin:4px 0">Test Batch — 3 EC Members</div>
+            <div style="font-size:.62rem;color:var(--muted)">Send to EC test recipients, verify template and QR code rendering. Check inbox for issues.</div>
+            <div style="font-size:.6rem;margin-top:6px;font-weight:600" id="qrd-phase1-status">⏳ Not started</div>
+          </div>
+          <div id="qrd-phase2-card" style="flex:1;min-width:200px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px">
+            <div style="font-size:.9rem;font-weight:700;color:var(--purple)">Phase 2</div>
+            <div style="font-size:.68rem;color:var(--dim);margin:4px 0">Verification — 10 Members</div>
+            <div style="font-size:.62rem;color:var(--muted)">Send next 10. Wait for feedback. Check that all QR codes scan correctly at portal.</div>
+            <div style="font-size:.6rem;margin-top:6px;font-weight:600" id="qrd-phase2-status">⏳ Not started</div>
+          </div>
+          <div id="qrd-phase3-card" style="flex:1;min-width:200px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px">
+            <div style="font-size:.9rem;font-weight:700;color:var(--green)">Phase 3</div>
+            <div style="font-size:.68rem;color:var(--dim);margin:4px 0">Full Send — Remaining</div>
+            <div style="font-size:.62rem;color:var(--muted)">Send all remaining members in batches of 10 with 5-second delays. Auto-pause on errors.</div>
+            <div style="font-size:.6rem;margin-top:6px;font-weight:600" id="qrd-phase3-status">⏳ Not started</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batch History -->
+      <div class="card-a">
+        <h2 style="font-size:.82rem"><i class="fas fa-history me-1" style="color:var(--cyan)"></i> Batch History</h2>
+        <div id="qrd-batch-history" style="max-height:300px;overflow-y:auto">
+          <p style="font-size:.72rem;color:var(--dim);text-align:center;padding:20px">No batches sent yet. Start with Phase 1.</p>
+        </div>
+      </div>
+
+      <!-- Recipient List -->
+      <div class="card-a">
+        <h2 style="font-size:.82rem">
+          <i class="fas fa-users me-1" style="color:var(--blue)"></i> Recipient Status
+          <button class="btn-sm btn-secondary" style="margin-left:auto;font-size:.62rem" onclick="qrdRefreshStatus()"><i class="fas fa-sync me-1"></i>Refresh</button>
+        </h2>
+        <div style="margin-bottom:10px">
+          <input type="text" id="qrd-search" placeholder="Search recipients..." style="width:100%;padding:6px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.72rem" oninput="qrdFilterRecipients(this.value)">
+        </div>
+        <div id="qrd-recipients-list" style="max-height:400px;overflow-y:auto">
+          <p style="font-size:.72rem;color:var(--dim);text-align:center;padding:20px">Loading recipients...</p>
+        </div>
+      </div>
+
+      <!-- Drive Activity Log -->
+      <div class="card-a">
+        <h2 style="font-size:.82rem"><i class="fas fa-clipboard-list me-1" style="color:var(--muted)"></i> Drive Activity Log</h2>
+        <div id="qrd-log" style="max-height:250px;overflow-y:auto;font-family:monospace;font-size:.65rem;background:var(--bg2);border-radius:8px;padding:10px;border:1px solid var(--line)">
+          <div style="color:var(--dim)">No activity yet</div>
+        </div>
+      </div>
+
+      <!-- CLI Commands Reference -->
+      <div class="card-a" style="border-left:4px solid var(--dim)">
+        <h2 style="font-size:.82rem"><i class="fas fa-terminal me-1" style="color:var(--dim)"></i> CLI Commands</h2>
+        <div style="font-family:monospace;font-size:.65rem;line-height:2;color:var(--muted);background:var(--bg2);border-radius:8px;padding:12px;border:1px solid var(--line)">
+          <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --dry-run <span style="color:var(--dim)"># Preview — no emails sent</span></div>
+          <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --phase 1 <span style="color:var(--dim)"># Test batch (3 EC members)</span></div>
+          <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --phase 2 <span style="color:var(--dim)"># Verification batch (10 members)</span></div>
+          <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --phase 3 <span style="color:var(--dim)"># Full send (remaining, batch 10)</span></div>
+          <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --continue <span style="color:var(--dim)"># Send next batch of pending</span></div>
+          <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --status <span style="color:var(--dim)"># Show drive status report</span></div>
         </div>
       </div>
     </div>
@@ -2328,13 +2448,13 @@ let FORGOT_STATE = {}; // temp state for forgot flow
 // Defines which sidebar panels each role can see
 const ROLE_PANEL_ACCESS = {
   // super-admin: full system access (both hyphen and underscore variants)
-  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social','dev-board','e2e-test','activity','audit-drives'],
-  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social','dev-board','e2e-test','activity','audit-drives'],
+  'super-admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social','dev-board','e2e-test','activity','audit-drives'],
+  'super_admin':          ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','stakeholder-drive','ec-drive','drive-status','feedback','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social','dev-board','e2e-test','activity','audit-drives'],
   // admin: senior EC officers — full operational, no system config, NO stakeholder panels
-  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social','activity'],
+  'admin':                ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','users','ec-drive','drive-status','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social','activity'],
   // ec-member / ec_member: coordinators — EC-focused + collaboration + event ops
-  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social'],
-  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social'],
+  'ec-member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social'],
+  'ec_member':            ['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social'],
   // business-stakeholder: sponsors + community partners
   'business-stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
   'business_stakeholder': ['dashboard','stakeholder-drive','drive-status','feedback'],
@@ -3496,12 +3616,12 @@ async function doForceResetPassword() {
 // Named NAV_PANEL_ACCESS to avoid conflict with the array-based ROLE_PANEL_ACCESS used by getVisiblePanels()
 const NAV_PANEL_ACCESS = {
   // Super Admin: all panels
-  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives','meta-social']),
-  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','event-reports','qr-food-serving','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives','meta-social']),
+  'super_admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives','meta-social']),
+  'super-admin':         new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','roles','users','identity','ec-drive','drive-status','stakeholder-drive','feedback','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','dev-board','e2e-test','activity','audit-drives','meta-social']),
   // EC Member / Admin: EC-specific panels + My Data + Collaboration
-  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social']),
-  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','email-pipeline','rag-chat','meta-social']),
-  'admin':               new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','ec-drive','drive-status','users','event-reports','qr-food-serving','email-pipeline','rag-chat','activity','meta-social']),
+  'ec_member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social']),
+  'ec-member':           new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','ec-drive','drive-status','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','meta-social']),
+  'admin':               new Set(['dashboard','my-crm','procurement','ec-live','ec-messenger','calendar-agent','member-dues','ec-drive','drive-status','users','event-reports','qr-food-serving','qr-email-drive','email-pipeline','rag-chat','activity','meta-social']),
   // Stakeholder: stakeholder-specific panels
   'business_stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
   'business-stakeholder':new Set(['dashboard','stakeholder-drive','feedback']),
@@ -3535,6 +3655,7 @@ function navTo(panel){
   if (panel === 'member-dues') { initMemberDues(); }
   if (panel === 'audit-drives') { initAuditDrives(); }
   if (panel === 'qr-food-serving') { qfsInit(); }
+  if (panel === 'qr-email-drive') { qrdInit(); }
   if (panel === 'event-reports') { initEventReports(); }
   if (panel === 'meta-social') { initMetaSocial(); }
 }
@@ -7699,53 +7820,68 @@ var QFS_STATE = {};       // { email|event: { checkedIn: bool, time: str, served
 var QFS_ATTENDED = {};    // { email|event: { approved: bool, approvedAt: str, approvedBy: str, comments: str, crmSynced: bool } }
 var QFS_FILTER = 'all';
 
-// ── QR SCAN TIME-LOCK — Event starts March 29, 2026 at 11:00 AM ET (Jacksonville) ──
-var QFS_EVENT_UNLOCK = new Date('2026-03-29T11:00:00-04:00'); // 11 AM EDT
+// ── QR SCAN TIME-LOCK — Event starts March 7, 2026 at 11:00 AM ET (Jacksonville) ──
+var QFS_EVENT_UNLOCK = new Date('2026-03-07T11:00:00-04:00'); // 11 AM EDT
 function qfsIsLocked() { return new Date() < QFS_EVENT_UNLOCK; }
 function qfsLockMessage() {
   var diff = QFS_EVENT_UNLOCK - new Date();
   var days = Math.floor(diff / 86400000);
   var hrs = Math.floor((diff % 86400000) / 3600000);
   var mins = Math.floor((diff % 3600000) / 60000);
-  return 'QR scanning is locked until event day: March 29, 2026 at 11:00 AM ET\n\nCountdown: ' + days + 'd ' + hrs + 'h ' + mins + 'm';
+  return 'QR scanning is locked until event day: March 7, 2026 at 11:00 AM ET\n\nCountdown: ' + days + 'd ' + hrs + 'h ' + mins + 'm';
 }
 
 // ── Real CRM data — Bosonto Utsob 2026 RSVP'd attendees (from banf-crm-reconciliation.json) ──
+// ── BOSONTO CRM DATA — All 47 RSVP-Yes attendees (from banf-crm-reconciliation.json, March 6 2026) ──
+// Total headcount: ~116 (adults+kids). 6 paid ($1,890). DO NOT manually edit — regenerate from CRM.
 var BOSONTO_CRM_DATA = [
-  {name:'Amit Chandak',email:'amit.everywhere@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Sunetra Basu Ghosh',email:'sunetra.basu@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Kapil Sadhu',email:'kapil.sadhu@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Paulami Guha',email:'drpaulami@gmail.com',adults:1,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Sourav Jan',email:'jan.sourav@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',adults:4,kids:1,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Paulami Guha',email:'drpaulami@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',adults:5,kids:0,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'family',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Mita Dhar',email:'mdhar79@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Asok Chaudhuri',email:'asokchaudhuri@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:130,paymentStatus:'partial',expectedAmount:330,remainingBalance:200,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Rwiti Choudhury',email:'rwitichoudhury@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:''},
-  {name:'Soma Choudhury',email:'soma1979p@yahoo.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Paramita Pal',email:'runaparamita@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Soma Choudhury',email:'soma1979p@yahoo.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Paramita Pal',email:'runaparamita@gmail.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Suvankar Paul',email:'suvankar.paul@gmail.com',adults:2,kids:0,dietary:'non_veg',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
-  {name:'Kaushiki Bhattacharya',email:'kb94311@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Rita Bhattacharjee',email:'ritabhattacharjee@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'individual',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Sanchari Bhattacharyya',email:'tosanchari@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Nilay Chandra',email:'chandranilay@gmail.com',adults:3,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Amit Saha',email:'asahaech@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Jiniya Chandra',email:'jiniya.chandra@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Amit Saha',email:'asahaech@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Sunanda Banerjee',email:'sunanda.banerjee@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Anasuya Banerjee',email:'ana@anasuya.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Barnali Mondal',email:'hibarnali@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'m2',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Anita Mandal',email:'amandalamandal@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Chandra Ganguly',email:'chandra.ganguly6@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Latika Mukherjee',email:'lmukhe@yahoo.com',adults:2,kids:0,dietary:'non_veg',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Aparna Chakravarty',email:'chakfam5@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Prianka Natta',email:'priyanka16587@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Kalyan Chakrabarti',email:'kalyan32258@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Prianka Natta',email:'priyanka16587@gmail.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Atmadeep Mazumdar',email:'atmadeep.mazumdar@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Reshma Das',email:'reshmabhadra@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Nandini Dutta',email:'dutta.nandini47@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Soumyajit Dutta',email:'duttasoumyajit86@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:true,memberSince:'2025',paymentMethod:''},
   {name:'Indrani Dutta',email:'dindrani74@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Chandra Ghosh',email:'ghosh.chandra47@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Rajanya Ghosh',email:'rajanya.ghosh1993@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:true,memberSince:'2025',paymentMethod:''},
   {name:'Dipra Ghosh',email:'ghosh.dipra@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Sumon Ghosh',email:'suman.ghosh12@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sumon Ghosh',email:'suman.ghosh12@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sreya Ghosh',email:'sreya.ghosh1510@gmail.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sonu Roy',email:'sonuroy123@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Bithika Roy',email:'bithikaroy96@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Padmoja Roy',email:'poddojaroy@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Sanhita Roy',email:'sanhitadas_2000@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Ipshita Roy',email:'sudipshita@yahoo.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Bidhan Sarkar',email:'bidhan138@gmail.com',adults:3,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
-  {name:'Tanmoy Banerjee',email:'tanmoy.banerjee2009@gmail.com',adults:2,kids:1,dietary:'non_veg',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''}
+  {name:'Amit Chandak',email:'amit.everywhere@gmail.com',adults:3,kids:0,dietary:'veg',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'couple',isEC:true,memberSince:'',paymentMethod:'Zelle'},
+  {name:'Bidhan Sarkar',email:'bidhan138@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Tanmoy Banerjee',email:'tanmoy.banerjee2009@gmail.com',adults:3,kids:0,dietary:'non_veg',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Papri Saha',email:'saha.papri@ymail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'student',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Indrani Sindhuvalli',email:'isindhu7@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'guest',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Srabasti Sengupta',email:'mailsrabasti@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'guest',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Kaushiki',email:'kaushiki0011@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'guest',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Ishita Saha',email:'saha.ishita@mayo.edu',adults:1,kids:0,dietary:'Not specified',paid:true,amount:145,paymentStatus:'paid',expectedAmount:145,remainingBalance:0,membership:'m2',householdType:'student',isEC:false,memberSince:'',paymentMethod:'Zelle'},
+  {name:'Sourav Pal',email:'palsourav30@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'guest',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
+  {name:'Tarit Mondal',email:'trt.mondal@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:true,amount:205,paymentStatus:'paid',expectedAmount:215,remainingBalance:10,membership:'m2',householdType:'individual',isEC:false,memberSince:'',paymentMethod:'Zelle'}
 ];
 
 // Initialize QR Food Serving data from existing CRM/event data
@@ -8724,6 +8860,218 @@ function qfsExportVerifyExcel() {
   a.click();
   URL.revokeObjectURL(url);
   showToast('Verification Excel exported (' + list.length + ' attendees)', 'var(--green)');
+}
+
+// ═══════════════════════════════════════════════════════════
+// QR CODE EMAIL DRIVE — EC Admin Visibility Panel
+// ═══════════════════════════════════════════════════════════
+var QRD_STATUS = null;
+var QRD_REFRESH_INTERVAL = null;
+
+// QR Drive data — all 47 RSVP-Yes recipients (mirrors BOSONTO_CRM_DATA for status tracking)
+var QRD_ALL_RECIPIENTS = BOSONTO_CRM_DATA.map(function(m) {
+  return { name: m.name, email: m.email, adults: m.adults, kids: m.kids, isEC: m.isEC, paid: m.paid };
+});
+
+function qrdInit() {
+  // Load drive status from server-side JSON (or use CRM data for initial display)
+  qrdRefreshStatus();
+  // Auto-refresh every 10 seconds if drive is active
+  if (QRD_REFRESH_INTERVAL) clearInterval(QRD_REFRESH_INTERVAL);
+  QRD_REFRESH_INTERVAL = setInterval(function() {
+    var panel = document.getElementById('panel-qr-email-drive');
+    if (panel && panel.style.display !== 'none') { qrdRefreshStatus(); }
+  }, 10000);
+}
+
+function qrdRefreshStatus() {
+  // In live mode, this would fetch banf-qr-drive-status.json from the server
+  // For now, use the embedded data and simulate status based on available info
+  qrdRenderFromData(QRD_STATUS || qrdBuildDefaultStatus());
+}
+
+function qrdBuildDefaultStatus() {
+  var sentEmails = {};
+  // Check if lock data exists (would be loaded from banf-qr-drive-lock.json in production)
+  var totalRecipients = QRD_ALL_RECIPIENTS.length;
+  var sent = Object.keys(sentEmails).length;
+  return {
+    driveId: null,
+    driveName: 'QR Code Email Drive — Bosonto Utsob 2026',
+    event: 'Bosonto Utsob 2026',
+    eventDate: 'Saturday, March 7, 2026',
+    status: 'initialized',
+    phase: 0,
+    totalRecipients: totalRecipients,
+    sent: sent,
+    failed: 0,
+    pending: totalRecipients - sent,
+    lastSentAt: null,
+    lastSentTo: null,
+    startedAt: null,
+    batches: [],
+    errors: [],
+    log: [],
+    sentEmails: sentEmails
+  };
+}
+
+function qrdRenderFromData(data) {
+  QRD_STATUS = data;
+  var total = data.totalRecipients || QRD_ALL_RECIPIENTS.length;
+  var sent = data.sent || 0;
+  var failed = data.failed || 0;
+  var pending = data.pending || (total - sent);
+  var pct = total > 0 ? Math.round((sent / total) * 100) : 0;
+
+  // KPIs
+  var el;
+  el = document.getElementById('qrd-total'); if (el) el.textContent = total;
+  el = document.getElementById('qrd-sent'); if (el) el.textContent = sent;
+  el = document.getElementById('qrd-failed'); if (el) el.textContent = failed;
+  el = document.getElementById('qrd-pending'); if (el) el.textContent = pending;
+  el = document.getElementById('qrd-phase'); if (el) el.textContent = data.phase || '—';
+  el = document.getElementById('qrd-progress'); if (el) el.textContent = pct + '%';
+
+  // Progress bar
+  el = document.getElementById('qrd-progress-bar'); if (el) el.style.width = pct + '%';
+  el = document.getElementById('qrd-progress-text'); if (el) el.textContent = sent + ' / ' + total + ' sent';
+  el = document.getElementById('qrd-last-sent');
+  if (el) el.textContent = 'Last sent: ' + (data.lastSentAt ? new Date(data.lastSentAt).toLocaleString() : '—');
+  el = document.getElementById('qrd-drive-id');
+  if (el) el.textContent = 'Drive ID: ' + (data.driveId || 'Not started');
+
+  // Status badge
+  var badge = document.getElementById('qrd-badge');
+  var dot = document.getElementById('qrd-status-dot');
+  var statusColors = {
+    'initialized': { bg: 'rgba(234,179,8,.2)', color: '#eab308', label: 'Initialized', dot: 'var(--yellow)' },
+    'phase1_testing': { bg: 'rgba(59,130,246,.2)', color: '#3b82f6', label: 'Phase 1 Testing', dot: 'var(--blue)' },
+    'phase1_sending': { bg: 'rgba(59,130,246,.2)', color: '#3b82f6', label: 'Phase 1 Sending', dot: 'var(--blue)' },
+    'phase2_verifying': { bg: 'rgba(139,92,246,.2)', color: '#8b5cf6', label: 'Phase 2 Verifying', dot: 'var(--purple)' },
+    'phase2_sending': { bg: 'rgba(139,92,246,.2)', color: '#8b5cf6', label: 'Phase 2 Sending', dot: 'var(--purple)' },
+    'phase3_sending': { bg: 'rgba(34,197,94,.2)', color: '#22c55e', label: 'Phase 3 Sending', dot: 'var(--green)' },
+    'phasecontinue_sending': { bg: 'rgba(34,197,94,.2)', color: '#22c55e', label: 'Sending', dot: 'var(--green)' },
+    'paused': { bg: 'rgba(249,115,22,.2)', color: '#f97316', label: 'Paused', dot: 'var(--orange, #f97316)' },
+    'completed': { bg: 'rgba(34,197,94,.2)', color: '#22c55e', label: 'Complete ✓', dot: 'var(--green)' },
+    'error': { bg: 'rgba(239,68,68,.2)', color: '#ef4444', label: 'Error', dot: 'var(--red)' }
+  };
+  var sc = statusColors[data.status] || statusColors['initialized'];
+  if (badge) { badge.style.background = sc.bg; badge.style.color = sc.color; badge.textContent = sc.label; }
+  if (dot) { dot.style.background = sc.dot; }
+
+  // Phase cards
+  qrdUpdatePhaseCard(1, data);
+  qrdUpdatePhaseCard(2, data);
+  qrdUpdatePhaseCard(3, data);
+
+  // Batch history
+  qrdRenderBatchHistory(data.batches || []);
+
+  // Recipients list
+  qrdRenderRecipients(data);
+
+  // Activity log
+  qrdRenderLog(data.log || []);
+}
+
+function qrdUpdatePhaseCard(n, data) {
+  var el = document.getElementById('qrd-phase' + n + '-status');
+  if (!el) return;
+  var batches = (data.batches || []).filter(function(b) { return b.phase === n; });
+  if (batches.length > 0) {
+    var totalSent = batches.reduce(function(s, b) { return s + (b.sent || 0); }, 0);
+    var totalFailed = batches.reduce(function(s, b) { return s + (b.failed || 0); }, 0);
+    el.textContent = '✅ Sent: ' + totalSent + (totalFailed > 0 ? ' | ❌ Failed: ' + totalFailed : '');
+    el.style.color = 'var(--green)';
+    el.parentElement.style.borderColor = 'var(--green)';
+  } else if (data.phase >= n) {
+    el.textContent = '🔄 In progress';
+    el.style.color = 'var(--blue)';
+    el.parentElement.style.borderColor = 'var(--blue)';
+  } else {
+    el.textContent = '⏳ Not started';
+    el.style.color = 'var(--dim)';
+  }
+}
+
+function qrdRenderBatchHistory(batches) {
+  var container = document.getElementById('qrd-batch-history');
+  if (!container) return;
+  if (!batches || batches.length === 0) {
+    container.innerHTML = '<p style="font-size:.72rem;color:var(--dim);text-align:center;padding:20px">No batches sent yet. Start with Phase 1 via CLI.</p>';
+    return;
+  }
+  var html = '<table style="width:100%;font-size:.68rem;border-collapse:collapse">';
+  html += '<tr style="background:var(--bg2);font-weight:600"><td style="padding:6px 8px">Batch</td><td>Phase</td><td>Sent</td><td>Failed</td><td>Time</td></tr>';
+  batches.slice().reverse().forEach(function(b) {
+    var rowColor = b.failed > 0 ? 'rgba(239,68,68,.08)' : '';
+    html += '<tr style="border-bottom:1px solid var(--line);background:' + rowColor + '">';
+    html += '<td style="padding:6px 8px">' + (b.label || b.batchId) + '</td>';
+    html += '<td>' + b.phase + '</td>';
+    html += '<td style="color:var(--green)">' + b.sent + '</td>';
+    html += '<td style="color:' + (b.failed > 0 ? 'var(--red)' : 'var(--dim)') + '">' + b.failed + '</td>';
+    html += '<td>' + (b.sentAt ? new Date(b.sentAt).toLocaleString() : '—') + '</td>';
+    html += '</tr>';
+  });
+  html += '</table>';
+  container.innerHTML = html;
+}
+
+function qrdRenderRecipients(data) {
+  var container = document.getElementById('qrd-recipients-list');
+  if (!container) return;
+  var sentMap = data.sentEmails || {};
+  var html = '<table style="width:100%;font-size:.68rem;border-collapse:collapse">';
+  html += '<tr style="background:var(--bg2);font-weight:600"><td style="padding:6px 8px">#</td><td>Name</td><td>Email</td><td>Party</td><td>Status</td><td>Sent At</td></tr>';
+  QRD_ALL_RECIPIENTS.forEach(function(m, i) {
+    var sent = sentMap[m.email.toLowerCase()];
+    var statusHtml, statusBg;
+    if (sent) {
+      statusHtml = '<span style="color:var(--green);font-weight:600">✅ Sent</span>';
+      statusBg = 'rgba(34,197,94,.05)';
+    } else {
+      statusHtml = '<span style="color:var(--yellow)">⏳ Pending</span>';
+      statusBg = '';
+    }
+    var ecTag = m.isEC ? ' <span style="background:rgba(139,92,246,.2);color:#a78bfa;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 5px">EC</span>' : '';
+    html += '<tr class="qrd-recipient-row" data-name="' + m.name.toLowerCase() + '" data-email="' + m.email.toLowerCase() + '" style="border-bottom:1px solid var(--line);background:' + statusBg + '">';
+    html += '<td style="padding:5px 8px">' + (i + 1) + '</td>';
+    html += '<td>' + m.name + ecTag + '</td>';
+    html += '<td style="color:var(--muted)">' + m.email + '</td>';
+    html += '<td>' + m.adults + (m.kids > 0 ? '+' + m.kids : '') + '</td>';
+    html += '<td>' + statusHtml + '</td>';
+    html += '<td style="color:var(--dim)">' + (sent ? new Date(sent.sentAt).toLocaleString() : '—') + '</td>';
+    html += '</tr>';
+  });
+  html += '</table>';
+  container.innerHTML = html;
+}
+
+function qrdFilterRecipients(query) {
+  var q = query.toLowerCase();
+  var rows = document.querySelectorAll('.qrd-recipient-row');
+  rows.forEach(function(row) {
+    var name = row.getAttribute('data-name') || '';
+    var email = row.getAttribute('data-email') || '';
+    row.style.display = (name.includes(q) || email.includes(q)) ? '' : 'none';
+  });
+}
+
+function qrdRenderLog(log) {
+  var container = document.getElementById('qrd-log');
+  if (!container) return;
+  if (!log || log.length === 0) {
+    container.innerHTML = '<div style="color:var(--dim)">No activity yet. Run the drive via CLI to begin.</div>';
+    return;
+  }
+  var html = '';
+  log.slice().reverse().forEach(function(entry) {
+    var color = entry.level === 'error' ? 'var(--red)' : (entry.level === 'warn' ? 'var(--yellow)' : 'var(--muted)');
+    var time = entry.time ? new Date(entry.time).toLocaleTimeString() : '';
+    html += '<div style="color:' + color + ';margin-bottom:3px"><span style="color:var(--dim)">[' + time + ']</span> ' + entry.message + '</div>';
+  });
+  container.innerHTML = html;
 }
 
 // ═══════════════════════════════════════════════════════════
