@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF WhatsApp Agent — Setup Guide</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f172a;--card:#1e293b;--line:#334155;--accent:#f97316;--accent2:#fb923c;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--cyan:#06b6d4;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--wa-green:#25d366;--wa-dark:#075e54;--wa-light:#128c7e;--radius:12px}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.7;min-height:100vh}
+.container{max-width:820px;margin:0 auto;padding:20px}
+.hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,rgba(37,211,102,.08),rgba(7,94,84,.12));border:1px solid rgba(37,211,102,.2);border-radius:var(--radius);margin-bottom:30px}
+.hero-icon{font-size:3.5rem;margin-bottom:12px}
+.hero h1{font-size:1.6rem;font-weight:800;background:linear-gradient(90deg,var(--wa-green),var(--wa-light));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.hero p{color:var(--muted);font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-bottom:20px}
+.card h2{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.card h2 .step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;font-size:.82rem;font-weight:800;color:#fff;flex-shrink:0}
+.step-green{background:var(--wa-green)}
+.step-blue{background:var(--blue)}
+.step-orange{background:var(--accent)}
+.step-cyan{background:var(--cyan)}
+.step-purple{background:#a855f7}
+ol,ul{padding-left:24px;margin:10px 0}
+li{margin-bottom:8px;color:var(--muted);font-size:.88rem}
+li strong{color:var(--text)}
+.highlight{background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.15);border-radius:8px;padding:14px 18px;margin:12px 0;font-size:.85rem}
+.highlight i{color:var(--wa-green);margin-right:6px}
+.warning{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:14px 18px;margin:12px 0;font-size:.85rem;color:var(--red)}
+.warning i{margin-right:6px}
+.info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:14px 18px;margin:12px 0;font-size:.85rem;color:var(--blue)}
+.info i{margin-right:6px}
+.btn-wa{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--wa-green),var(--wa-light));color:#fff;border:none;padding:14px 28px;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.2s;margin:10px 0}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,211,102,.3)}
+.btn-wa svg{width:22px;height:22px;fill:#fff}
+.code-block{background:#0f172a;border:1px solid var(--line);border-radius:8px;padding:14px 18px;font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:.82rem;color:var(--wa-green);overflow-x:auto;margin:10px 0;line-height:1.6}
+.screenshot-placeholder{background:rgba(37,211,102,.04);border:2px dashed rgba(37,211,102,.2);border-radius:8px;padding:30px;text-align:center;margin:12px 0;color:var(--dim);font-size:.82rem}
+.prereq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.prereq-item{background:rgba(37,211,102,.04);border:1px solid rgba(37,211,102,.1);border-radius:8px;padding:14px;text-align:center}
+.prereq-item .icon{font-size:1.6rem;margin-bottom:6px}
+.prereq-item .label{font-size:.78rem;color:var(--muted)}
+.prereq-item .value{font-size:.88rem;font-weight:600;color:#fff;margin-top:2px}
+.faq{border-left:3px solid var(--wa-green);padding:12px 18px;margin:10px 0;background:rgba(37,211,102,.03);border-radius:0 8px 8px 0}
+.faq .q{font-weight:700;color:#fff;font-size:.88rem;margin-bottom:4px}
+.faq .a{color:var(--muted);font-size:.84rem}
+.footer{text-align:center;padding:30px 20px;color:var(--dim);font-size:.75rem;border-top:1px solid var(--line);margin-top:20px}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:.7rem;font-weight:600}
+.badge-green{background:rgba(34,197,94,.15);color:var(--green)}
+.badge-yellow{background:rgba(234,179,8,.15);color:#eab308}
+@media(max-width:600px){.container{padding:12px}.card{padding:16px}.hero{padding:24px 16px}.hero h1{font-size:1.3rem}.prereq-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-icon">🤖💬</div>
+    <h1>BANF WhatsApp Agent — Setup Guide</h1>
+    <p>Add the BANF AI Agent to any existing WhatsApp group in under 2 minutes</p>
+    <p style="margin-top:8px"><span class="badge badge-green">v1.0</span> &nbsp; <span class="badge badge-yellow">BANF Platform</span></p>
+  </div>
+
+  <!-- WHAT IS THIS -->
+  <div class="card">
+    <h2><span class="step-num step-green">?</span> What is the BANF WhatsApp Agent?</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">
+      The BANF WhatsApp Agent is an AI-powered assistant integrated into WhatsApp groups to help BANF (Bengali Association of North Florida) community members with:
+    </p>
+    <ul>
+      <li><strong>Event Information</strong> — Get details about upcoming events like Bosonto Utsob 2026</li>
+      <li><strong>RSVP Status</strong> — Check your registration and payment status</li>
+      <li><strong>Community Updates</strong> — Receive important announcements and reminders</li>
+      <li><strong>Quick Answers</strong> — Ask questions about membership, fees, venue, schedule, etc.</li>
+      <li><strong>EC Contact</strong> — Connect with the right EC member for specific queries</li>
+    </ul>
+  </div>
+
+  <!-- PREREQUISITES -->
+  <div class="card">
+    <h2><span class="step-num step-blue">✓</span> Prerequisites</h2>
+    <div class="prereq-grid">
+      <div class="prereq-item">
+        <div class="icon">📱</div>
+        <div class="value">WhatsApp</div>
+        <div class="label">Latest version installed</div>
+      </div>
+      <div class="prereq-item">
+        <div class="icon">👑</div>
+        <div class="value">Group Admin</div>
+        <div class="label">You must be a group admin</div>
+      </div>
+      <div class="prereq-item">
+        <div class="icon">🔗</div>
+        <div class="value">Invite Link</div>
+        <div class="label">BANF agent invite link</div>
+      </div>
+    </div>
+    <div class="info">
+      <i class="fas fa-info-circle"></i>
+      <strong>Note:</strong> Only WhatsApp group admins can add new participants or use invite links to add agents. If you are not an admin, ask your group admin to follow these steps.
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="card">
+    <h2><span class="step-num step-green">1</span> Open the BANF Agent Invite Link</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Click the button below or copy the invite link to join the BANF WhatsApp Agent to your group:</p>
+
+    <a href="https://chat.whatsapp.com/GGPb7xo9v7V9W6cbpbR5lm?mode=gi_t" target="_blank" class="btn-wa">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Join BANF WhatsApp Agent Group
+    </a>
+
+    <div class="code-block">
+      https://chat.whatsapp.com/GGPb7xo9v7V9W6cbpbR5lm?mode=gi_t
+    </div>
+
+    <div class="highlight">
+      <i class="fas fa-lightbulb"></i>
+      <strong>Tip:</strong> You can also copy the link above and share it directly with your group admin if you're not an admin yourself.
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card">
+    <h2><span class="step-num step-orange">2</span> Add the Agent to Your Existing Group</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">
+      Once you click the invite link, WhatsApp will open. Follow these steps to add the BANF Agent to your <strong>existing</strong> group:
+    </p>
+    <ol>
+      <li>Click the invite link — WhatsApp will open and show the <strong>BANF Agent</strong> profile</li>
+      <li>Tap <strong>"Join Group"</strong> or <strong>"Add to Group"</strong> when prompted</li>
+      <li>If asked to select a group, pick the group where you want the agent</li>
+      <li>The agent will appear as a new participant in your selected group</li>
+      <li>A join notification will appear in the group chat</li>
+    </ol>
+
+    <div class="warning">
+      <i class="fas fa-exclamation-triangle"></i>
+      <strong>Important:</strong> The invite link method joins a <em>specific</em> agent group. To add the agent to your <em>own</em> group, use the <strong>alternative method</strong> below instead.
+    </div>
+  </div>
+
+  <!-- STEP 2B - ALT METHOD -->
+  <div class="card">
+    <h2><span class="step-num step-cyan">2b</span> Alternative: Add Agent Directly to Your Group</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">
+      If you want to add the BANF Agent to your <strong>own existing WhatsApp group</strong> (not join the agent's group), follow these steps:
+    </p>
+    <ol>
+      <li>Open your WhatsApp group where you want to add the agent</li>
+      <li>Tap the <strong>group name</strong> at the top to open Group Info</li>
+      <li>Scroll down and tap <strong>"Add Participants"</strong> (you must be admin)</li>
+      <li>Search for the <strong>BANF Agent phone number</strong> or select from contacts:
+        <div class="code-block" style="margin:8px 0">BANF Agent Contact: Save this number first in your phone contacts</div>
+      </li>
+      <li>Tap the agent contact, then tap the <strong>green checkmark ✓</strong> to add</li>
+      <li>The agent will join your group and send an introduction message</li>
+    </ol>
+
+    <div class="highlight">
+      <i class="fas fa-shield-halved"></i>
+      <strong>Privacy:</strong> The BANF Agent only responds when mentioned or when a question is directed at it. It does not read or store personal conversations.
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card">
+    <h2><span class="step-num step-purple">3</span> Verify the Agent is Active</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">
+      After adding the agent, verify it's working:
+    </p>
+    <ol>
+      <li>Type <strong>"Hello BANF"</strong> or <strong>"@BANF"</strong> in the group chat</li>
+      <li>The agent should reply within a few seconds with a welcome message</li>
+      <li>Try asking a question like: <strong>"What events are coming up?"</strong></li>
+    </ol>
+
+    <div class="code-block" style="color:var(--text)">
+<span style="color:var(--wa-green);font-weight:700">You:</span> Hello BANF<br><br>
+<span style="color:var(--cyan);font-weight:700">🤖 BANF Agent:</span> Namaste! 🙏 I'm the BANF AI Assistant.<br>
+I can help you with:<br>
+• 📅 Upcoming events &amp; schedules<br>
+• 🎫 RSVP and registration status<br>
+• 💰 Payment and membership info<br>
+• 👥 EC member contacts<br>
+• ❓ General community questions<br><br>
+Just ask me anything!
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="card">
+    <h2><span class="step-num step-green">4</span> Common Commands &amp; Questions</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Here are useful queries you can ask the BANF Agent:</p>
+
+    <table style="width:100%;border-collapse:collapse;font-size:.84rem">
+      <thead>
+        <tr style="border-bottom:2px solid var(--line)">
+          <th style="text-align:left;padding:8px 12px;color:var(--wa-green);font-size:.76rem;text-transform:uppercase;letter-spacing:.5px">Command</th>
+          <th style="text-align:left;padding:8px 12px;color:var(--wa-green);font-size:.76rem;text-transform:uppercase;letter-spacing:.5px">What it does</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:8px 12px;color:#fff;font-weight:600">"Next event?"</td>
+          <td style="padding:8px 12px;color:var(--muted)">Shows the next upcoming BANF event with date, venue, and details</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:8px 12px;color:#fff;font-weight:600">"My RSVP status"</td>
+          <td style="padding:8px 12px;color:var(--muted)">Checks your RSVP for Bosonto Utsob 2026</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:8px 12px;color:#fff;font-weight:600">"Payment info"</td>
+          <td style="padding:8px 12px;color:var(--muted)">Shows payment options — Zelle, check, and membership tiers</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:8px 12px;color:#fff;font-weight:600">"Who is the EC?"</td>
+          <td style="padding:8px 12px;color:var(--muted)">Lists all EC members with their roles and contact info</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--line)">
+          <td style="padding:8px 12px;color:#fff;font-weight:600">"Membership tiers"</td>
+          <td style="padding:8px 12px;color:var(--muted)">Explains M2 Premium, Family, Couple, and Individual tiers</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 12px;color:#fff;font-weight:600">"Help"</td>
+          <td style="padding:8px 12px;color:var(--muted)">Shows all available commands and capabilities</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ADMIN CONTROLS -->
+  <div class="card">
+    <h2><span class="step-num step-orange">⚙</span> Group Admin Controls</h2>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">
+      As a group admin, you have additional control:
+    </p>
+    <ul>
+      <li><strong>Mute the agent:</strong> If you want to temporarily silence the agent, you can remove it from the group and re-add later</li>
+      <li><strong>Set as admin:</strong> You can make the BANF Agent a group admin so it can pin important messages (optional)</li>
+      <li><strong>Restrict messaging:</strong> In group settings, you can set "Only admins can send messages" — the agent (if admin) can still respond</li>
+    </ul>
+
+    <div class="info">
+      <i class="fas fa-info-circle"></i>
+      <strong>Best Practice:</strong> Keep the agent as a regular participant (not admin) unless you specifically need it to pin messages or manage the group.
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="card">
+    <h2><span class="step-num step-blue">?</span> Frequently Asked Questions</h2>
+
+    <div class="faq">
+      <div class="q">Q: Can the agent read all messages in the group?</div>
+      <div class="a">The agent only processes messages that mention it (e.g., @BANF) or contain trigger keywords. Private conversations are not stored or processed.</div>
+    </div>
+
+    <div class="faq">
+      <div class="q">Q: Does the agent work in any WhatsApp group?</div>
+      <div class="a">Yes, once the agent is added to a group, it can respond to queries in that group. It works best in BANF community groups.</div>
+    </div>
+
+    <div class="faq">
+      <div class="q">Q: What if the agent doesn't respond?</div>
+      <div class="a">Make sure you mention it with @BANF or say "Hello BANF". If it still doesn't respond, the agent service may be temporarily offline. Contact the BANF EC Tech team.</div>
+    </div>
+
+    <div class="faq">
+      <div class="q">Q: Can I remove the agent from my group?</div>
+      <div class="a">Yes. Any group admin can remove the agent like any other participant. Go to Group Info → tap the agent → Remove.</div>
+    </div>
+
+    <div class="faq">
+      <div class="q">Q: Is there a cost to use the agent?</div>
+      <div class="a">No. The BANF WhatsApp Agent is free for all BANF community members and groups.</div>
+    </div>
+
+    <div class="faq">
+      <div class="q">Q: Can I add the agent to multiple groups?</div>
+      <div class="a">Yes. The agent can be added to any number of WhatsApp groups simultaneously.</div>
+    </div>
+  </div>
+
+  <!-- QUICK START -->
+  <div class="card" style="border-color:rgba(37,211,102,.3);background:linear-gradient(135deg,rgba(37,211,102,.04),rgba(7,94,84,.06))">
+    <h2 style="color:var(--wa-green)">⚡ Quick Start (TL;DR)</h2>
+    <ol>
+      <li><strong>Click the invite link</strong> → <a href="https://chat.whatsapp.com/GGPb7xo9v7V9W6cbpbR5lm?mode=gi_t" target="_blank" style="color:var(--wa-green)">Join BANF Agent Group</a></li>
+      <li><strong>Or</strong> add the agent directly to your group via Group Info → Add Participants</li>
+      <li><strong>Say "Hello BANF"</strong> in the group to verify it's active</li>
+      <li><strong>Ask anything</strong> — events, RSVP, payments, EC contacts, membership info</li>
+    </ol>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p><strong>BANF — Bengali Association of North Florida</strong></p>
+    <p style="margin-top:4px">www.jaxbengali.org &nbsp;|&nbsp; WhatsApp Agent Guide v1.0</p>
+    <p style="margin-top:6px;font-size:.68rem;color:var(--dim)">Data Privacy Act compliant &nbsp;•&nbsp; No personal data stored &nbsp;•&nbsp; EC approved deployment</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -47,10 +47,10 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 .sb-brand h2{font-size:.95rem;font-weight:700;margin:0;background:linear-gradient(90deg,#f97316,#fb923c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .sb-brand small{font-size:.68rem;color:var(--dim)}
 .sb-group{padding:8px 10px 4px;font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:700;margin-top:6px}
-.sb-item{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--muted);font-size:.82rem;cursor:pointer;transition:.15s;border-left:3px solid transparent}
+.sb-item{display:flex;align-items:center;gap:10px;padding:8px 16px;color:var(--muted);font-size:.82rem;cursor:pointer;transition:.15s;border-left:3px solid transparent}
 .sb-item:hover{background:rgba(249,115,22,.06);color:var(--text)}
 .sb-item.active{color:var(--accent);background:rgba(249,115,22,.1);border-left-color:var(--accent)}
-.sb-item i{width:18px;text-align:center;font-size:.78rem}
+.sb-item i{width:22px;min-width:22px;text-align:center;font-size:.82rem}
 .sb-user{margin-top:auto;padding:12px 18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px;font-size:.78rem;cursor:pointer}
 .sb-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;color:#fff;flex-shrink:0}
 .sb-user .name{font-weight:600;color:var(--text);font-size:.78rem}.sb-user .role-lbl{font-size:.65rem;color:var(--dim)}
@@ -142,7 +142,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 .privacy-banner{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:.74rem;color:var(--green);display:flex;align-items:flex-start;gap:8px}
 .privacy-banner i{margin-top:2px}
 
-@media(max-width:900px){.sidebar{width:52px}.sidebar .sb-group,.sidebar .sb-brand small,.sidebar .sb-user .name,.sidebar .sb-user .role-lbl,.sb-item span{display:none}.sb-item{padding:10px;justify-content:center}.sb-item i{width:auto}.main-content{margin-left:52px;padding:12px}}
+@media(max-width:900px){.sidebar{width:58px}.sidebar .sb-group,.sidebar .sb-brand small,.sidebar .sb-user .name,.sidebar .sb-user .role-lbl,.sb-item span{display:none}.sb-item{padding:10px 8px;justify-content:center}.sb-item i{width:auto;font-size:.9rem}.main-content{margin-left:58px;padding:12px}}
 
 /* ═══ PORTAL NAVIGATION BAR ═══ */
 .portal-top-bar{
@@ -815,11 +815,11 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
             <h2><i class="fas fa-info-circle"></i> EC Year Status</h2>
             <table class="t"><tbody>
               <tr><td>Fiscal Year</td><td><strong>FY2026-27</strong></td></tr>
-              <tr><td>Status</td><td><span class="badge-s badge-yellow">In Progress</span></td></tr>
-              <tr><td>Total</td><td><strong>11</strong></td></tr>
-              <tr><td>Gate Passed</td><td><span class="badge-s badge-green" id="ec-gate-passed">7</span></td></tr>
-              <tr><td>Pending</td><td><span class="badge-s badge-yellow" id="ec-gate-pending">3</span></td></tr>
-              <tr><td>Failed</td><td><span class="badge-s badge-red" id="ec-gate-failed">1</span></td></tr>
+              <tr><td>Status</td><td><span class="badge-s badge-yellow" id="ec-year-status-badge">In Progress</span></td></tr>
+              <tr><td>Total</td><td><strong id="ec-total-count">0</strong></td></tr>
+              <tr><td>Gate Passed</td><td><span class="badge-s badge-green" id="ec-gate-passed">0</span></td></tr>
+              <tr><td>Pending</td><td><span class="badge-s badge-yellow" id="ec-gate-pending">0</span></td></tr>
+              <tr><td>Failed</td><td><span class="badge-s badge-red" id="ec-gate-failed">0</span></td></tr>
               <tr><td style="border-top:2px solid var(--line)"><strong>Signed Up</strong></td><td style="border-top:2px solid var(--line)"><span class="badge-s badge-green" id="ec-signed-up">0</span></td></tr>
               <tr><td><strong>Not Signed Up</strong></td><td><span class="badge-s badge-red" id="ec-not-signed-up">0</span></td></tr>
             </tbody></table>
@@ -4551,12 +4551,29 @@ document.getElementById('btn-preview-drive-email').addEventListener('click',()=>
 // ═══════════════════════════════════════════════════════════════════
 
 function updateECSignupCounts(){
+  const total = EC_MEMBERS.length;
+  const gatePassed = EC_MEMBERS.filter(m=>m.gate==='passed').length;
+  const gatePending = EC_MEMBERS.filter(m=>m.gate==='pending').length;
+  const gateFailed = EC_MEMBERS.filter(m=>m.gate!=='passed'&&m.gate!=='pending').length;
   const signedUp = EC_MEMBERS.filter(m=>m.signedUp).length;
   const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp).length;
-  const el1 = document.getElementById('ec-signed-up');
-  const el2 = document.getElementById('ec-not-signed-up');
-  if(el1) el1.textContent = signedUp;
-  if(el2) el2.textContent = notSignedUp;
+  const allComplete = EC_MEMBERS.every(m=>m.status==='complete');
+
+  const el = function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  el('ec-total-count', total);
+  el('ec-gate-passed', gatePassed);
+  el('ec-gate-pending', gatePending);
+  el('ec-gate-failed', gateFailed);
+  el('ec-signed-up', signedUp);
+  el('ec-not-signed-up', notSignedUp);
+
+  // Update year status badge
+  var badge = document.getElementById('ec-year-status-badge');
+  if(badge){
+    if(allComplete && total > 0){ badge.textContent='Complete'; badge.className='badge-s badge-green'; }
+    else if(gatePassed === total && total > 0){ badge.textContent='Gate Complete'; badge.className='badge-s badge-cyan'; }
+    else { badge.textContent='In Progress'; badge.className='badge-s badge-yellow'; }
+  }
 }
 
 function renderEC(){
@@ -7694,12 +7711,12 @@ function qfsLockMessage() {
 
 // ── Real CRM data — Bosonto Utsob 2026 RSVP'd attendees (from banf-crm-reconciliation.json) ──
 var BOSONTO_CRM_DATA = [
-  {name:'Amit Chandak',email:'amit.everywhere@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Sunetra Basu Ghosh',email:'sunetra.basu@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Amit Chandak',email:'amit.everywhere@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Sunetra Basu Ghosh',email:'sunetra.basu@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Kapil Sadhu',email:'kapil.sadhu@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Paulami Guha',email:'drpaulami@gmail.com',adults:1,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Sourav Jan',email:'jan.sourav@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',adults:4,kids:1,dietary:'Not specified',paid:true,amount:545,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',adults:4,kids:1,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Mita Dhar',email:'mdhar79@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Asok Chaudhuri',email:'asokchaudhuri@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:130,paymentStatus:'partial',expectedAmount:330,remainingBalance:200,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Rwiti Choudhury',email:'rwitichoudhury@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:''},
