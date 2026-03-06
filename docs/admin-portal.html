@@ -1005,10 +1005,11 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
           <div id="ad-workflow-steps"></div>
         </div>
 
-        <!-- Per-Member Status Table -->
+        <!-- Per-Member Status Table + Onboarding Lifecycle -->
         <div class="card-a mt-3">
-          <h2><i class="fas fa-users"></i> Member Processing Status</h2>
-          <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Invited</th><th>Signed Up</th><th>Portal</th><th>Status</th></tr></thead>
+          <h2><i class="fas fa-users"></i> EC Member Onboarding Lifecycle</h2>
+          <p style="font-size:.78rem;color:var(--muted);margin-bottom:10px">Click any member row to expand their full onboarding journey with email delivery and lifecycle task tracking.</p>
+          <table class="t"><thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Membership</th><th>Gate</th><th>Email Sent</th><th>Delivered</th><th>Signed Up</th><th>Portal</th><th>Status</th><th></th></tr></thead>
           <tbody id="ad-member-status-body"></tbody></table>
         </div>
 
@@ -1680,15 +1681,15 @@ const CREDS = {
 // CRM Members â€” realistic dataset matching CRMMembers collection schema
 const CRM = [
   {memberId:'MBR-001',firstName:'Ranadhir',lastName:'Ghosh',displayName:'Ranadhir Ghosh',nickname:'Rana',email:'ranadhir.ghosh@gmail.com',phone:'904-555-0101',familyId:'FAM-2025-A1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Software Architect',city:'Jacksonville',state:'FL',childrenNames:['Ria','Arjun'],spouseName:'Soma Ghosh',joinTimestamp:'2024-08-15T00:00:00Z',membershipYears:['2025','2026']},
-  {memberId:'MBR-002',firstName:'Arun',lastName:'Sen',displayName:'Arun Sen',nickname:'Arun',email:'president@banf.org',phone:'904-555-0102',familyId:'FAM-2025-A2',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Physician',city:'Jacksonville',state:'FL',childrenNames:['Aritra'],spouseName:'Rupa Sen',joinTimestamp:'2023-01-10T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
-  {memberId:'MBR-003',firstName:'Priya',lastName:'Bose',displayName:'Priya Bose',nickname:'Priya',email:'treasurer@banf.org',phone:'904-555-0103',familyId:'FAM-2025-A3',familyType:'couple',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'CPA',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'Amit Bose',joinTimestamp:'2024-03-20T00:00:00Z',membershipYears:['2024','2025','2026']},
-  {memberId:'MBR-004',firstName:'Suman',lastName:'Das',displayName:'Suman Das',nickname:'Suman',email:'secretary@banf.org',phone:'904-555-0104',familyId:'FAM-2025-A4',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Teacher',city:'Jacksonville',state:'FL',childrenNames:['Sohini','Sourav'],spouseName:'Moumita Das',joinTimestamp:'2022-06-01T00:00:00Z',membershipYears:['2022','2023','2024','2025','2026']},
-  {memberId:'MBR-005',firstName:'Mita',lastName:'Roy',displayName:'Mita Roy',nickname:'Mita',email:'cultural@banf.org',phone:'904-555-0105',familyId:'FAM-2025-A5',familyType:'individual',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Artist',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-01-05T00:00:00Z',membershipYears:['2025','2026']},
-  {memberId:'MBR-006',firstName:'Dipak',lastName:'Mukherjee',displayName:'Dipak Mukherjee',nickname:'Dipu',email:'vp-membership@banf.org',phone:'904-555-0106',familyId:'FAM-2025-B1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Engineer',city:'Jacksonville',state:'FL',childrenNames:['Diya'],spouseName:'Anita Mukherjee',joinTimestamp:'2023-09-12T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
-  {memberId:'MBR-007',firstName:'Tanmay',lastName:'Chatterjee',displayName:'Tanmay Chatterjee',nickname:'Tanmay',email:'vp-events@banf.org',phone:'904-555-0107',familyId:'FAM-2025-B2',familyType:'couple',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:false,membershipYear:'2025',profession:'Marketing',city:'Jacksonville',state:'FL',childrenNames:['Tiya'],spouseName:'Keya Chatterjee',joinTimestamp:'2024-02-28T00:00:00Z',membershipYears:['2024','2025']},
+  {memberId:'MBR-002',firstName:'Partha',lastName:'Mukhopadhyay',displayName:'Partha Mukhopadhyay',nickname:'Partha',email:'mukhopadhyay.partha@gmail.com',phone:'904-555-0102',familyId:'FAM-2025-A2',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Engineer',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2023-01-10T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
+  {memberId:'MBR-003',firstName:'Amit',lastName:'Chandak',displayName:'Amit Chandak',nickname:'Amit',email:'amit.chandak@gmail.com',phone:'904-555-0103',familyId:'FAM-2025-A3',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Business Owner',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2024-03-20T00:00:00Z',membershipYears:['2024','2025','2026']},
+  {memberId:'MBR-004',firstName:'Rajanya',lastName:'Ghosh',displayName:'Rajanya Ghosh',nickname:'Rajanya',email:'rajanya.ghosh@gmail.com',phone:'904-555-0104',familyId:'FAM-2025-A4',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Professional',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2022-06-01T00:00:00Z',membershipYears:['2022','2023','2024','2025','2026']},
+  {memberId:'MBR-005',firstName:'Moumita',lastName:'Ghosh',displayName:'Dr. Moumita Ghosh',nickname:'Moumita',email:'moumita.mukherje@gmail.com',phone:'904-555-0105',familyId:'FAM-2025-A5',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Professional',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-01-05T00:00:00Z',membershipYears:['2025','2026']},
+  {memberId:'MBR-006',firstName:'Soumyajit',lastName:'Dutta',displayName:'Soumyajit Dutta (Bunty)',nickname:'Bunty',email:'duttasoumyajit86@gmail.com',phone:'904-555-0106',familyId:'FAM-2025-B1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Professional',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2023-09-12T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
+  {memberId:'MBR-007',firstName:'Rwiti',lastName:'Chowdhury',displayName:'Rwiti Chowdhury',nickname:'Rwiti',email:'rwitichoudhury@gmail.com',phone:'904-555-0107',familyId:'FAM-2025-B2',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Professional',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2024-02-28T00:00:00Z',membershipYears:['2024','2025','2026']},
   {memberId:'MBR-008',firstName:'Jayanta',lastName:'Pal',displayName:'Jayanta Pal',nickname:'Jay',email:'it@banf.org',phone:'904-555-0108',familyId:'FAM-2025-B3',familyType:'individual',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'IT Specialist',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-04-10T00:00:00Z',membershipYears:['2025','2026']},
   {memberId:'MBR-009',firstName:'Ananya',lastName:'Banerjee',displayName:'Ananya Banerjee',nickname:'Anu',email:'youth@banf.org',phone:'904-555-0109',familyId:'FAM-2025-B4',familyType:'individual',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Student',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'',joinTimestamp:'2025-06-15T00:00:00Z',membershipYears:['2026']},
-  {memberId:'MBR-010',firstName:'Kamal',lastName:'Gupta',displayName:'Kamal Gupta',nickname:'Kamal',email:'jt-secretary@banf.org',phone:'904-555-0110',familyId:'FAM-2025-C1',familyType:'family',isECMember:true,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Pharmacist',city:'Jacksonville',state:'FL',childrenNames:['Kunal','Kavya'],spouseName:'Rekha Gupta',joinTimestamp:'2022-11-20T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
+  {memberId:'MBR-010',firstName:'Kamal',lastName:'Gupta',displayName:'Kamal Gupta',nickname:'Kamal',email:'kamal.gupta@email.com',phone:'904-555-0110',familyId:'FAM-2025-C1',familyType:'family',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Pharmacist',city:'Jacksonville',state:'FL',childrenNames:['Kunal','Kavya'],spouseName:'Rekha Gupta',joinTimestamp:'2022-11-20T00:00:00Z',membershipYears:['2023','2024','2025','2026']},
   {memberId:'MBR-011',firstName:'Sharmila',lastName:'Dey',displayName:'Sharmila Dey',nickname:'Sharmi',email:'sponsor1@banf.org',phone:'904-555-0111',familyId:'FAM-2025-C2',familyType:'family',isECMember:false,isBOTMember:true,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Business Owner',city:'Jacksonville',state:'FL',childrenNames:['Shreya'],spouseName:'Tapan Dey',joinTimestamp:'2024-07-01T00:00:00Z',membershipYears:['2024','2025','2026']},
   {memberId:'MBR-012',firstName:'Rajat',lastName:'Saha',displayName:'Rajat Saha',nickname:'Rajat',email:'rajat.saha@gmail.com',phone:'904-555-0112',familyId:'FAM-2025-C3',familyType:'couple',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Dentist',city:'Jacksonville',state:'FL',childrenNames:[],spouseName:'Puja Saha',joinTimestamp:'2025-02-14T00:00:00Z',membershipYears:['2025','2026']},
   {memberId:'MBR-013',firstName:'Nibedita',lastName:'Chakraborty',displayName:'Nibedita Chakraborty',nickname:'Nibu',email:'nibedita.c@gmail.com',phone:'904-555-0113',familyId:'FAM-2025-D1',familyType:'family',isECMember:false,isBOTMember:false,isActive:true,emailOptIn:true,membershipYear:'2026',profession:'Nurse',city:'Jacksonville',state:'FL',childrenNames:['Neel','Nisha'],spouseName:'Sourav Chakraborty',joinTimestamp:'2024-10-05T00:00:00Z',membershipYears:['2025','2026']},
@@ -1721,53 +1722,42 @@ let USERS = [
 // NOTE: Date of birth is NOT stored per privacy policy.
 // Strategy: Each dimension has a weight. Composite score >= 80 = auto-match, 50-79 = suggest, <50 = new identity.
 let IDENTITY_GRAPH = [
-  {identityId:'IDN-001',primaryEmail:'ranadhir.ghosh@gmail.com',displayName:'Ranadhir Ghosh',
-   dimensions:{emails:['ranadhir.ghosh@gmail.com'],phones:['904-555-0101'],familyId:'FAM-2025-A1',
-     childrenNames:['Ria','Arjun'],spouseName:'Soma Ghosh',joinTimestamp:'2024-08-15T00:00:00Z',
-     membershipYears:['2025','2026'],city:'Jacksonville',profession:'Software Architect'},
-   confidenceScore:100,linkedMemberIds:['MBR-001'],linkedUserEmails:['ranadhir.ghosh@gmail.com'],
-   createdAt:'2024-08-15',lastVerified:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})},
-  {identityId:'IDN-002',primaryEmail:'president@banf.org',displayName:'Arun Sen',
-   dimensions:{emails:['president@banf.org'],phones:['904-555-0102'],familyId:'FAM-2025-A2',
-     childrenNames:['Aritra'],spouseName:'Rupa Sen',joinTimestamp:'2023-01-10T00:00:00Z',
-     membershipYears:['2023','2024','2025','2026'],city:'Jacksonville',profession:'Physician'},
-   confidenceScore:100,linkedMemberIds:['MBR-002'],linkedUserEmails:[],
-   createdAt:'2023-01-10',lastVerified:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})},
-  {identityId:'IDN-003',primaryEmail:'subir.ghosh@gmail.com',displayName:'Subir Ghosh',
-   dimensions:{emails:['subir.ghosh@gmail.com'],phones:['904-555-0114'],familyId:'FAM-2025-D2',
-     childrenNames:['Sumon'],spouseName:'Swapna Ghosh',joinTimestamp:'2020-03-15T00:00:00Z',
-     membershipYears:['2020','2021','2022','2023','2024'],city:'Jacksonville',profession:'Retired'},
-   confidenceScore:100,linkedMemberIds:['MBR-014'],linkedUserEmails:[],
-   createdAt:'2020-03-15',lastVerified:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})},
+  {id:'IDN-001',name:'Dr. Ranadhir Ghosh',primaryEmail:'ranadhir.ghosh@gmail.com',aliases:['Rana','RG'],linkedCRM:'MBR-001',verified:true,role:'President',ecMember:true},
+  {id:'IDN-002',name:'Partha Mukhopadhyay',primaryEmail:'mukhopadhyay.partha@gmail.com',aliases:['Partha'],linkedCRM:'MBR-002',verified:true,role:'Vice President',ecMember:true},
+  {id:'IDN-003',name:'Amit Chandak',primaryEmail:'amit.chandak@gmail.com',aliases:['Amit'],linkedCRM:'MBR-003',verified:true,role:'Treasurer',ecMember:true},
+  {id:'IDN-004',name:'Rajanya Ghosh',primaryEmail:'rajanya.ghosh@gmail.com',aliases:['Rajanya'],linkedCRM:'MBR-004',verified:true,role:'General Secretary',ecMember:true},
+  {id:'IDN-005',name:'Dr. Moumita Ghosh',primaryEmail:'moumita.mukherje@gmail.com',aliases:['Moumita'],linkedCRM:'MBR-005',verified:true,role:'Cultural Secretary',ecMember:true},
+  {id:'IDN-006',name:'Soumyajit Dutta (Bunty)',primaryEmail:'duttasoumyajit86@gmail.com',aliases:['Bunty','Banty','Soumya'],linkedCRM:'MBR-006',verified:true,role:'Food Coordinator',ecMember:true},
+  {id:'IDN-007',name:'Rwiti Chowdhury',primaryEmail:'rwitichoudhury@gmail.com',aliases:['Rwiti'],linkedCRM:'MBR-007',verified:true,role:'Puja Coordinator',ecMember:true},
 ];
-let IDENTITY_COUNTER = 4;
+let IDENTITY_COUNTER = 8;
 
 let DRIVE_LIST = [];
 
 const EC_MEMBERS = [
-  {name:'Arun Sen',title:'President',email:'president@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-20'},
-  {name:'Dipak Mukherjee',title:'VP Membership',email:'vp-membership@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-21'},
-  {name:'Priya Bose',title:'Treasurer',email:'treasurer@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-19'},
-  {name:'Suman Das',title:'Secretary',email:'secretary@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-22'},
-  {name:'Kamal Gupta',title:'Jt Secretary',email:'jt-secretary@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:false,signupDate:null},
-  {name:'Mita Roy',title:'Cultural Sec',email:'cultural@banf.org',membership:'Paid',gate:'passed',status:'complete',signedUp:false,signupDate:null},
-  {name:'Ranadhir Ghosh',title:'IT / Tech Lead',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-15'},
-  {name:'Tanmay Chatterjee',title:'VP Events',email:'vp-events@banf.org',membership:'Pending',gate:'pending',status:'pending',signedUp:false,signupDate:null},
+  // ── Real BANF EC Roster FY2026-28 (7 members) ──
+  {name:'Dr. Ranadhir Ghosh',title:'President',email:'ranadhir.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-15',emailSent:true,emailSentDate:'2026-02-10',emailSubject:'BANF EC Onboarding: President Portal Access',emailDelivered:true},
+  {name:'Partha Mukhopadhyay',title:'Vice President',email:'mukhopadhyay.partha@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-20',emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Vice President Portal Access',emailDelivered:true},
+  {name:'Amit Chandak',title:'Treasurer',email:'amit.chandak@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-21',emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Treasurer Portal Access',emailDelivered:true},
+  {name:'Rajanya Ghosh',title:'General Secretary',email:'rajanya.ghosh@gmail.com',membership:'Paid',gate:'passed',status:'complete',signedUp:true,signupDate:'2026-02-22',emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: General Secretary Portal Access',emailDelivered:true},
+  {name:'Dr. Moumita Ghosh',title:'Cultural Secretary',email:'moumita.mukherje@gmail.com',membership:'Paid',gate:'passed',status:'pending',signedUp:false,signupDate:null,emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Cultural Secretary Portal Access',emailDelivered:true},
+  {name:'Soumyajit Dutta (Bunty)',title:'Food Coordinator',email:'duttasoumyajit86@gmail.com',membership:'Paid',gate:'passed',status:'pending',signedUp:false,signupDate:null,emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Food Coordinator Portal Access',emailDelivered:true},
+  {name:'Rwiti Chowdhury',title:'Puja Coordinator',email:'rwitichoudhury@gmail.com',membership:'Paid',gate:'passed',status:'pending',signedUp:false,signupDate:null,emailSent:true,emailSentDate:'2026-02-14',emailSubject:'BANF EC Onboarding: Puja Coordinator Portal Access',emailDelivered:true},
 ];
 
 // EC Onboarding Drive Task List — visible to Stakeholder / Super Admin
 let EC_DRIVE_TASKS = [
-  {id:'ECDT-001',task:'Check EC member signup status',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'Auto-checked: 5 signed up, 6 pending'},
-  {id:'ECDT-002',task:'Send signup reminder to non-signed-up EC members',assignee:'Super Admin',status:'in-progress',created:'2026-03-04',due:'2026-03-05',note:'URGENT: Blocking membership drive. Link expires 24hrs.'},
-  {id:'ECDT-003',task:'Follow up on pending membership payments',assignee:'Treasurer',status:'todo',created:'2026-03-04',due:'2026-03-06',note:'Tanmay, Jayanta, Ananya — membership pending'},
-  {id:'ECDT-004',task:'Resolve failed gate (Subir Ghosh)',assignee:'VP Membership',status:'todo',created:'2026-03-04',due:'2026-03-07',note:'Expired membership — confirm if still active EC'},
-  {id:'ECDT-005',task:'Complete EC onboarding drive FY2026-27',assignee:'Super Admin',status:'blocked',created:'2026-03-04',due:'2026-03-10',note:'Blocked until all EC members sign up'},
+  {id:'ECDT-001',task:'Check EC member signup status',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'Auto-checked: 4 signed up (Ranadhir, Partha, Amit, Rajanya), 3 pending (Moumita, Soumyajit, Rwiti)'},
+  {id:'ECDT-002',task:'Send signup reminder to non-signed-up EC members',assignee:'Super Admin',status:'in-progress',created:'2026-03-04',due:'2026-03-05',note:'URGENT: Moumita Ghosh, Soumyajit Dutta, Rwiti Chowdhury — signup link expires 24hrs'},
+  {id:'ECDT-003',task:'Verify all invitation emails delivered',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'All 7 invitation emails delivered via Communication Agent (Feb 10-14)'},
+  {id:'ECDT-004',task:'Confirm portal access for signed-up members',assignee:'System',status:'done',created:'2026-03-04',due:'2026-03-04',note:'Ranadhir, Partha, Amit, Rajanya — portal access verified'},
+  {id:'ECDT-005',task:'Complete EC onboarding drive FY2026-28',assignee:'Super Admin',status:'blocked',created:'2026-03-04',due:'2026-03-10',note:'Blocked until Moumita, Soumyajit, Rwiti complete signup'},
 ];
 
 let FEEDBACK = [
-  {id:'FB-001',user:'Ranadhir Ghosh',role:'Technical Lead',section:'Data Model',type:'Design Change',body:'CRMMembers collection should include a "preferredLanguage" field for multilingual communication support. This enables the communication agent to send emails in the member\'s preferred language.',ts:'Feb 27, 2026 08:30',agentAnalysis:'Copilot CLI analysis: Low-risk schema addition. Requires: 1) Add field to CRMMembers, 2) Update crm-agent.js allowed fields, 3) Update email-templates.js for language selection.',designChange:'Add preferredLanguage TEXT field to CRMMembers; update 3 backend modules',boardStatus:'approved',techLeadApproval:'approved',devTicket:'TK-041',devStatus:'in-progress'},
-  {id:'FB-002',user:'Arun Sen',role:'EC President',section:'Overview',type:'Suggestion',body:'The overview dashboard should show upcoming events count and next EC meeting date for quick reference.',ts:'Feb 26, 2026 14:00',agentAnalysis:'Copilot CLI analysis: Requires integration with StreamingEvents collection. Medium complexity â€” needs new API endpoint.',designChange:'Add events widget to overview section; create /api/upcoming_events endpoint',boardStatus:'approved',techLeadApproval:'pending',devTicket:null,devStatus:null},
-  {id:'FB-003',user:'Priya Bose',role:'EC Treasurer',section:'Sprints',type:'Feedback',body:'Sprint velocity chart would help understand team capacity better. Can we add a burndown chart?',ts:'Feb 25, 2026 10:00',agentAnalysis:'Copilot CLI analysis: UI-only change. Data already exists in sprint board. Low risk.',designChange:'Add velocity + burndown charts to Sprint Board section',boardStatus:'pending',techLeadApproval:null,devTicket:null,devStatus:null},
+  {id:'FB-001',user:'Ranadhir Ghosh',role:'President / Tech Lead',section:'Data Model',type:'Design Change',body:'CRMMembers collection should include a "preferredLanguage" field for multilingual communication support.',ts:'Feb 27, 2026 08:30',agentAnalysis:'Low-risk schema addition. Requires: 1) Add field to CRMMembers, 2) Update crm-agent.js, 3) Update email-templates.js.',designChange:'Add preferredLanguage TEXT field to CRMMembers; update 3 backend modules',boardStatus:'approved',techLeadApproval:'approved',devTicket:'TK-041',devStatus:'in-progress'},
+  {id:'FB-002',user:'Partha Mukhopadhyay',role:'Vice President',section:'Overview',type:'Suggestion',body:'The overview dashboard should show upcoming events count and next EC meeting date for quick reference.',ts:'Feb 26, 2026 14:00',agentAnalysis:'Requires integration with StreamingEvents collection. Medium complexity.',designChange:'Add events widget to overview section; create /api/upcoming_events endpoint',boardStatus:'approved',techLeadApproval:'pending',devTicket:null,devStatus:null},
+  {id:'FB-003',user:'Amit Chandak',role:'Treasurer',section:'Sprints',type:'Feedback',body:'Sprint velocity chart would help understand team capacity better. Can we add a burndown chart?',ts:'Feb 25, 2026 10:00',agentAnalysis:'UI-only change. Data already exists in sprint board. Low risk.',designChange:'Add velocity + burndown charts to Sprint Board section',boardStatus:'pending',techLeadApproval:null,devTicket:null,devStatus:null},
 ];
 
 let DEV_TICKETS = [
@@ -1777,18 +1767,19 @@ let DEV_TICKETS = [
 ];
 
 let LOG = [
-  {ts:'Feb 27, 2026 09:00',act:'LOGIN',msg:'Super Admin login â€” Ranadhir Ghosh'},
+  {ts:'Mar 05, 2026 09:00',act:'DRIVE',msg:'EC Onboarding Drive auto-launched by Super Admin — 7 EC members'},
+  {ts:'Feb 27, 2026 09:00',act:'LOGIN',msg:'Super Admin login — Dr. Ranadhir Ghosh'},
   {ts:'Feb 27, 2026 08:30',act:'FEEDBACK',msg:'FB-001: Ranadhir Ghosh submitted design change for Data Model'},
-  {ts:'Feb 27, 2026 08:35',act:'AGENT',msg:'Copilot CLI analyzed FB-001 â€” low-risk, 3 modules affected'},
-  {ts:'Feb 27, 2026 08:40',act:'APPROVAL',msg:'Board approved FB-001 design change'},
-  {ts:'Feb 27, 2026 08:45',act:'APPROVAL',msg:'Tech Lead approved FB-001 â†’ created TK-041'},
-  {ts:'Feb 26, 2026 16:30',act:'USER_ADD',msg:'Added EC President with stakeholder role'},
-  {ts:'Feb 26, 2026 14:00',act:'FEEDBACK',msg:'FB-002: Arun Sen submitted suggestion for Overview'},
-  {ts:'Feb 25, 2026 11:00',act:'EC_REMIND',msg:'Sent Round 2 reminders to 3 pending EC members'},
-  {ts:'Feb 24, 2026 10:00',act:'ROLE_DEF',msg:'Defined role: business-stakeholder'},
-  {ts:'Feb 23, 2026 09:00',act:'ROLE_DEF',msg:'Defined role: ec-member'},
+  {ts:'Feb 26, 2026 16:30',act:'USER_ADD',msg:'Added VP (Partha Mukhopadhyay) with admin role'},
+  {ts:'Feb 26, 2026 14:00',act:'FEEDBACK',msg:'FB-002: Partha Mukhopadhyay submitted suggestion for Overview'},
+  {ts:'Feb 25, 2026 11:00',act:'EC_REMIND',msg:'Sent reminders to 3 pending EC: Moumita, Soumyajit, Rwiti'},
   {ts:'Feb 22, 2026 15:00',act:'DEPLOY',msg:'Deployed v5.10.1-ec-reminder to production'},
-  {ts:'Feb 20, 2026 09:00',act:'EC_INIT',msg:'Initialized EC Year FY2026-27 â€” 11 members imported'},
+  {ts:'Feb 20, 2026 09:00',act:'EC_INIT',msg:'Initialized EC Year FY2026-28 — 7 EC members imported'},
+  {ts:'Feb 14, 2026 10:00',act:'EC_EMAIL',msg:'Invitation emails sent to all 7 EC members via Communication Agent'},
+  {ts:'Feb 15, 2026 14:00',act:'EC_SIGNUP',msg:'Dr. Ranadhir Ghosh (President) signed up — portal verified'},
+  {ts:'Feb 20, 2026 09:30',act:'EC_SIGNUP',msg:'Partha Mukhopadhyay (VP) signed up — portal verified'},
+  {ts:'Feb 21, 2026 11:00',act:'EC_SIGNUP',msg:'Amit Chandak (Treasurer) signed up — portal verified'},
+  {ts:'Feb 22, 2026 16:00',act:'EC_SIGNUP',msg:'Rajanya Ghosh (Gen Sec) signed up — portal verified'},
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -5584,8 +5575,8 @@ function autoLaunchECOnboardingDrive() {
     summary: { total:0, gatePass:0, gateFail:0, gatePending:0, invited:0, signedUp:0, verified:0 }
   };
   ADMIN_DRIVES.push(drive);
-  driveAudit(drive, 'DRIVE_LAUNCH', 'Auto-launched EC Member Onboarding Drive \u2014 FY2026-28 (8 EC members)');
-  addLog('DRIVE', 'Super Admin auto-launched EC Onboarding Drive: ' + drive.id + ' with 8 EC members');
+  driveAudit(drive, 'DRIVE_LAUNCH', 'Auto-launched EC Member Onboarding Drive \u2014 FY2026-28 (7 EC members)');
+  addLog('DRIVE', 'Super Admin auto-launched EC Onboarding Drive: ' + drive.id + ' with 7 EC members');
   // Execute all 9 steps sequentially
   for (var stepIdx = 1; stepIdx <= 9; stepIdx++) {
     executeStep(drive, stepIdx);
@@ -5593,7 +5584,7 @@ function autoLaunchECOnboardingDrive() {
   AD_ACTIVE_DRIVE = drive;
   renderAuditDrives();
   openAuditDriveDetail(drive.id);
-  showToast('EC Onboarding Drive completed! All 9 steps executed for 8 EC members.', 'var(--green)');
+  showToast('EC Onboarding Drive completed! All 9 steps executed for 7 EC members.', 'var(--green)');
 }
 
 function launchECOnboardingDrive() {
@@ -5691,7 +5682,12 @@ function execStep2_ImportMembers(drive, step) {
       membership: m.membership, gate: null, invited: false,
       invitedAt: null, signedUp: m.signedUp, signupDate: m.signupDate,
       portalVerified: false, signupToken: null, signupLink: null,
-      tokenExpiry: null, status: 'imported'
+      tokenExpiry: null, status: 'imported',
+      emailSent: m.emailSent || false, emailSentDate: m.emailSentDate || null,
+      emailSubject: m.emailSubject || null, emailDelivered: m.emailDelivered || false,
+      lifecycle: [
+        {step:'CRM Import',status:'done',ts:new Date().toISOString(),detail:'Imported from CRMMembers collection'},
+      ]
     };
   });
   drive.summary.total = drive.members.length;
@@ -5713,6 +5709,7 @@ function execStep3_GateCheck(drive, step) {
     else { m.gate = 'pending'; pending++; }
     var label = m.gate === 'passed' ? '\u2713 PASSED' : (m.gate === 'failed' ? '\u2717 FAILED' : '\u23f3 PENDING');
     step.logs.push({ ts: new Date(), msg: m.name + ' \u2014 Membership: ' + m.membership + ' \u2192 Gate: ' + label });
+    if (m.lifecycle) m.lifecycle.push({step:'Membership Gate',status:m.gate,ts:new Date().toISOString(),detail:'Membership: '+m.membership+' \u2192 Gate: '+m.gate});
   });
   drive.summary.gatePass = passed;
   drive.summary.gateFail = failed;
@@ -5731,9 +5728,11 @@ function execStep4_GenerateCredentials(drive, step) {
     m.tokenExpiry = getExpiryTime();
     generated++;
     step.logs.push({ ts: new Date(), msg: '\u2713 Token generated for ' + m.name + ' (' + m.email + ') \u2014 expires ' + m.tokenExpiry });
+    if (m.lifecycle) m.lifecycle.push({step:'Credential Generation',status:'done',ts:new Date().toISOString(),detail:'Signup token generated, expires '+m.tokenExpiry});
   });
   drive.members.filter(function(m){ return m.gate === 'failed'; }).forEach(function(m) {
     step.logs.push({ ts: new Date(), msg: '\u26a0 Skipped ' + m.name + ' \u2014 membership gate FAILED (expired)' });
+    if (m.lifecycle) m.lifecycle.push({step:'Credential Generation',status:'skipped',ts:new Date().toISOString(),detail:'Gate failed \u2014 not eligible'});
   });
   step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.signupToken ? 'generated' : 'skipped' }; });
   completeStep(drive, step, generated + ' signup tokens generated, ' + (drive.members.length - generated) + ' skipped (gate fail)');
@@ -5748,6 +5747,7 @@ function execStep5_SendInvitations(drive, step) {
     m.invited = true;
     m.invitedAt = m.signupDate || new Date().toISOString();
     step.logs.push({ ts: new Date(), msg: '\u2713 ' + m.name + ' already signed up (invitation skipped)' });
+    if (m.lifecycle) m.lifecycle.push({step:'Email Invitation',status:'skipped',ts:new Date().toISOString(),detail:'Already signed up \u2014 no invitation needed'});
   });
   eligible.forEach(function(m) {
     m.invited = true;
@@ -5755,9 +5755,11 @@ function execStep5_SendInvitations(drive, step) {
     sent++;
     step.logs.push({ ts: new Date(), msg: '\ud83d\udce7 Invitation sent to ' + m.name + ' (' + m.email + ') via Communication Agent' });
     step.logs.push({ ts: new Date(), msg: '   \u21b3 Branded HTML email with data privacy notice, 24hr signup link' });
+    if (m.lifecycle) m.lifecycle.push({step:'Email Invitation',status:'sent',ts:new Date().toISOString(),detail:'Invitation sent to '+m.email+' via Communication Agent'});
   });
   drive.members.filter(function(m){ return m.gate === 'failed'; }).forEach(function(m) {
     step.logs.push({ ts: new Date(), msg: '\u26a0 Skipped ' + m.name + ' \u2014 not eligible (gate failed)' });
+    if (m.lifecycle) m.lifecycle.push({step:'Email Invitation',status:'skipped',ts:new Date().toISOString(),detail:'Not eligible \u2014 gate failed'});
   });
   drive.summary.invited = sent + alreadySignedUp.length;
   step.memberProgress = drive.members.map(function(m){ return { name: m.name, status: m.invited ? 'invited' : 'skipped' }; });
@@ -5773,11 +5775,14 @@ function execStep6_TrackSignups(drive, step) {
     if (m.signedUp) {
       signedUp++;
       step.logs.push({ ts: new Date(), msg: '\u2713 ' + m.name + ' \u2014 signed up on ' + (m.signupDate || 'unknown') });
+      if (m.lifecycle) m.lifecycle.push({step:'Signup Complete',status:'done',ts:m.signupDate||new Date().toISOString(),detail:'Member signed up on '+(m.signupDate||'unknown')});
     } else if (m.invited) {
       notSignedUp++;
       step.logs.push({ ts: new Date(), msg: '\u23f3 ' + m.name + ' \u2014 invited but NOT yet signed up' });
+      if (m.lifecycle) m.lifecycle.push({step:'Signup Complete',status:'pending',ts:new Date().toISOString(),detail:'Invited but not yet signed up'});
     } else {
       step.logs.push({ ts: new Date(), msg: '\u2014 ' + m.name + ' \u2014 not eligible / not invited' });
+      if (m.lifecycle) m.lifecycle.push({step:'Signup Complete',status:'n/a',ts:new Date().toISOString(),detail:'Not eligible or not invited'});
     }
   });
   drive.summary.signedUp = signedUp;
@@ -5796,6 +5801,7 @@ function execStep7_SendReminders(drive, step) {
   needReminder.forEach(function(m) {
     step.logs.push({ ts: new Date(), msg: '\ud83d\udd14 Reminder sent to ' + m.name + ' (' + m.email + ')' });
     step.logs.push({ ts: new Date(), msg: '   \u21b3 URGENT flag, updated 24hr signup link, blocking notice' });
+    if (m.lifecycle) m.lifecycle.push({step:'Reminder Sent',status:'reminded',ts:new Date().toISOString(),detail:'URGENT reminder sent to '+m.email});
   });
   step.memberProgress = drive.members.map(function(m){
     var s = m.signedUp ? 'signed-up' : (needReminder.some(function(n){return n.email===m.email;}) ? 'reminded' : 'n/a');
@@ -5812,11 +5818,14 @@ function execStep8_VerifyAccess(drive, step) {
       m.portalVerified = true;
       verified++;
       step.logs.push({ ts: new Date(), msg: '\u2713 ' + m.name + ' \u2014 portal access VERIFIED (can log in to EC Admin)' });
+      if (m.lifecycle) m.lifecycle.push({step:'Portal Verify',status:'done',ts:new Date().toISOString(),detail:'Portal access verified \u2014 can log in to EC Admin'});
     } else if (m.gate === 'failed') {
       step.logs.push({ ts: new Date(), msg: '\u2717 ' + m.name + ' \u2014 gate FAILED, no portal access' });
       failCount++;
+      if (m.lifecycle) m.lifecycle.push({step:'Portal Verify',status:'failed',ts:new Date().toISOString(),detail:'Gate failed \u2014 no portal access'});
     } else {
       step.logs.push({ ts: new Date(), msg: '\u23f3 ' + m.name + ' \u2014 not yet signed up, cannot verify' });
+      if (m.lifecycle) m.lifecycle.push({step:'Portal Verify',status:'pending',ts:new Date().toISOString(),detail:'Not yet signed up \u2014 cannot verify portal access'});
     }
   });
   drive.summary.verified = verified;
@@ -5993,20 +6002,42 @@ function renderAuditDriveDetailUI() {
     '</div>';
   }).join('');
 
-  // ── Member Status Table ──
+  // ── Member Status Table with Onboarding Lifecycle ──
   var memberBody = document.getElementById('ad-member-status-body');
   if (drive.members.length > 0) {
-    memberBody.innerHTML = drive.members.map(function(m) {
+    memberBody.innerHTML = drive.members.map(function(m, idx) {
       var gateBadge = m.gate === 'passed' ? '<span class="badge-s badge-green">Passed</span>' : m.gate === 'failed' ? '<span class="badge-s badge-red">Failed</span>' : m.gate === 'pending' ? '<span class="badge-s badge-yellow">Pending</span>' : '<span class="badge-s badge-dim">\u2014</span>';
       var membershipBadge = '<span class="badge-s badge-'+(m.membership==='Paid'?'green':m.membership==='Pending'?'yellow':'red')+'">'+m.membership+'</span>';
-      var invitedBadge = m.invited ? '<span class="badge-s badge-green">Yes</span>' : '<span class="badge-s badge-dim">No</span>';
-      var signupBadge = m.signedUp ? '<span class="badge-s badge-green">Yes</span>' : '<span class="badge-s badge-red">No</span>';
+      var emailSentBadge = m.emailSent ? '<span class="badge-s badge-green" title="Sent: '+(m.emailSentDate||'')+'">\u2713 '+(m.emailSentDate||'Yes')+'</span>' : '<span class="badge-s badge-dim">No</span>';
+      var emailDeliveredBadge = m.emailDelivered ? '<span class="badge-s badge-green">\u2713</span>' : (m.emailSent ? '<span class="badge-s badge-yellow">Pending</span>' : '<span class="badge-s badge-dim">\u2014</span>');
+      var signupBadge = m.signedUp ? '<span class="badge-s badge-green">\u2713 '+(m.signupDate||'')+'</span>' : '<span class="badge-s badge-red">No</span>';
       var portalBadge = m.portalVerified ? '<span class="badge-s badge-green">\u2713</span>' : '<span class="badge-s badge-dim">\u2014</span>';
       var statusIcon = m.portalVerified ? '<span class="badge-s badge-green">Onboarded</span>' : m.signedUp ? '<span class="badge-s badge-blue">Signed Up</span>' : m.invited ? '<span class="badge-s badge-yellow">Invited</span>' : m.gate === 'failed' ? '<span class="badge-s badge-red">Ineligible</span>' : '<span class="badge-s badge-dim">Pending</span>';
-      return '<tr><td style="font-weight:600">'+m.name+'</td><td>'+m.title+'</td><td style="font-size:.72rem">'+m.email+'</td><td>'+membershipBadge+'</td><td>'+gateBadge+'</td><td>'+invitedBadge+'</td><td>'+signupBadge+'</td><td>'+portalBadge+'</td><td>'+statusIcon+'</td></tr>';
+      // Lifecycle row
+      var lifecycleHtml = '';
+      if (m.lifecycle && m.lifecycle.length > 0) {
+        var lcColors = {done:'green',passed:'green',sent:'green',reminded:'orange',pending:'yellow',failed:'red',skipped:'dim','n/a':'dim'};
+        var lcIcons = {done:'fa-check-circle',passed:'fa-check-circle',sent:'fa-paper-plane',reminded:'fa-bell',pending:'fa-clock',failed:'fa-times-circle',skipped:'fa-forward','n/a':'fa-minus-circle'};
+        lifecycleHtml = '<tr id="lc-row-'+idx+'" style="display:none"><td colspan="11" style="padding:10px 16px;background:rgba(99,102,241,.04);border-left:3px solid var(--purple)">' +
+          '<div style="font-size:.76rem;font-weight:700;color:var(--purple);margin-bottom:8px"><i class="fas fa-stream me-1"></i>Onboarding Lifecycle: '+m.name+'</div>' +
+          (m.emailSubject ? '<div style="font-size:.68rem;color:var(--muted);margin-bottom:6px"><i class="fas fa-envelope me-1" style="color:var(--cyan)"></i>Subject: <em>'+m.emailSubject+'</em></div>' : '') +
+          '<div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">' +
+          m.lifecycle.map(function(lc){
+            var c = lcColors[lc.status]||'dim';
+            var ic = lcIcons[lc.status]||'fa-circle';
+            return '<div style="padding:6px 10px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:8px;min-width:120px;flex:0 0 auto">' +
+              '<div style="font-size:.68rem;font-weight:600;color:var(--'+c+')"><i class="fas '+ic+' me-1"></i>'+lc.step+'</div>' +
+              '<div style="font-size:.6rem;color:var(--'+c+');text-transform:uppercase;font-weight:700;margin:2px 0">'+lc.status+'</div>' +
+              '<div style="font-size:.58rem;color:var(--muted)">'+lc.detail+'</div>' +
+            '</div>';
+          }).join('<div style="color:var(--dim);font-size:.7rem">\u2192</div>') +
+          '</div></td></tr>';
+      }
+      var expandBtn = m.lifecycle && m.lifecycle.length > 0 ? '<button class="btn-sm" style="padding:2px 6px;font-size:.65rem" onclick="var r=document.getElementById(\'lc-row-'+idx+'\');r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'"><i class="fas fa-chevron-down"></i></button>' : '';
+      return '<tr style="cursor:pointer" onclick="var r=document.getElementById(\'lc-row-'+idx+'\');if(r)r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'"><td style="font-weight:600">'+m.name+'</td><td>'+m.title+'</td><td style="font-size:.72rem">'+m.email+'</td><td>'+membershipBadge+'</td><td>'+gateBadge+'</td><td>'+emailSentBadge+'</td><td>'+emailDeliveredBadge+'</td><td>'+signupBadge+'</td><td>'+portalBadge+'</td><td>'+statusIcon+'</td><td>'+expandBtn+'</td></tr>' + lifecycleHtml;
     }).join('');
   } else {
-    memberBody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--dim)">Members will be imported during Step 2</td></tr>';
+    memberBody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--dim)">Members will be imported during Step 2</td></tr>';
   }
 
   // ── Audit Log ──
