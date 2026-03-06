@@ -198,27 +198,25 @@ window.dismissAlert = function(alertId, btn){
 //      chunked BANF knowledge base documents (yearwise)
 //    - LLM: Hugging Face Inference API
 //
-//  Best Open-Source Models for RAG Chat (2025-2026 research):
+//  Best Open-Source Models for RAG Chat (2025-2026 research, UPDATED):
 //  ┌──────────────────────────────────────────────────────────┐
 //  │ MODEL              │ SIZE  │ CONTEXT │ STRENGTHS         │
 //  ├──────────────────────────────────────────────────────────┤
-//  │ Mistral-7B-v0.3    │  7B   │  32K    │ Fast, great RAG   │
-//  │ Mixtral-8x7B       │ 47B   │  32K    │ Best OS agent     │
-//  │ Llama-3.1-8B-Inst  │  8B   │ 128K    │ Long context RAG  │
-//  │ Qwen2.5-7B-Inst    │  7B   │ 128K    │ Multilingual RAG  │
-//  │ Phi-3.5-mini-Inst  │ 3.8B  │ 128K    │ Small + accurate  │
-//  │ Gemma-2-9B-it      │  9B   │  8K     │ Strong reasoning  │
-//  │ DeepSeek-R1-8B     │  8B   │ 128K    │ Math / reasoning  │
+//  │ Qwen2.5-72B-Inst   │ 72B   │ 128K    │ ★ BEST reasoning  │
+//  │ Llama-3.3-70B-Inst │ 70B   │ 128K    │ Strong fallback   │
+//  │ Qwen2.5-7B-Inst    │  7B   │ 128K    │ Light/fast option │
+//  │ Mixtral-8x7B       │ 47B   │  32K    │ MoE agent         │
+//  │ DeepSeek-R1        │ 671B  │ 128K    │ Math / reasoning  │
 //  └──────────────────────────────────────────────────────────┘
 //
-//  RECOMMENDATION:  Qwen2.5-7B-Instruct
-//    - 128K context window (excellent for RAG retrieval)
-//    - Strong multilingual (handles Bengali terms)
-//    - Free via HF Inference API
-//    - Outperforms Mistral-7B on MMLU, HellaSwag, GSM8K
-//    - Best balance of size, speed, and accuracy for our use case
+//  ACTIVE:  Qwen2.5-72B-Instruct (primary) + Llama-3.3-70B-Instruct (fallback)
+//    - 72B: deep reasoning, 128K context, strong multilingual (Bengali)
+//    - Free via HF Inference API (serverless)
+//    - Outperforms all 7B models on MMLU, HellaSwag, GSM8K, HumanEval
+//    - Fallback: Llama-3.3-70B for reliability and diversity
 //
-//  Fallback: Mistral-7B-Instruct-v0.3 (faster, 32K context)
+//  Primary:   Qwen2.5-72B-Instruct (72B params, 128K context, deep reasoning)
+//  Fallback:  Llama-3.3-70B-Instruct (70B params, 128K context)
 //  Embedding: all-MiniLM-L6-v2 (384-dim, fastest for similarity)
 //
 // ══════════════════════════════════════════════════════════════
@@ -227,9 +225,9 @@ window.BANF_RAG = {
   // ── Vector Store: Yearwise Knowledge Documents ──
   documents: [],
   vectors: [],
-  model: 'Qwen/Qwen2.5-7B-Instruct',
+  model: 'Qwen/Qwen2.5-72B-Instruct',
   embeddingModel: 'sentence-transformers/all-MiniLM-L6-v2',
-  fallbackModel: 'mistralai/Mistral-7B-Instruct-v0.3',
+  fallbackModel: 'meta-llama/Llama-3.3-70B-Instruct',
   hfToken: null,  // Set via RAG settings panel
   maxChunkSize: 500,
   topK: 5,
@@ -368,10 +366,11 @@ window.BANF_RAG = {
       return '[' + r.document.year + ' / ' + r.document.category + '] ' + r.document.title + ':\n' + r.document.text;
     }).join('\n\n');
 
-    var systemPrompt = 'You are BANF Admin Assistant, an AI for the Bengali Association of North Florida. ' +
+    var systemPrompt = 'You are BANF Sahayak (সহায়ক), the official AI assistant of the Bengali Association of North Florida (BANF). ' +
       'Answer questions using ONLY the provided context. Be concise, accurate, and helpful. ' +
       'If the context does not contain enough information, say so. ' +
-      'Format amounts with $ and dates clearly. Use bullet points for lists.';
+      'Format amounts with $ and dates clearly. Use bullet points for lists. ' +
+      'You are an application-only agent — you do not represent any individual person.';
 
     var messages = [
       {role: 'system', content: systemPrompt},
@@ -991,7 +990,7 @@ window.setHFToken = function(){
   input.value = '';
   if(typeof showToast==='function') showToast('HF API token saved! RAG AI mode active.','var(--green)');
   var badge = document.getElementById('rag-mode-badge');
-  if(badge){ badge.textContent = 'AI Mode (Qwen2.5-7B)'; badge.style.background = 'rgba(16,185,129,.15)'; badge.style.color = '#10b981'; }
+  if(badge){ badge.textContent = 'AI Mode (Qwen2.5-72B)'; badge.style.background = 'rgba(16,185,129,.15)'; badge.style.color = '#10b981'; }
 };
 
 // Auto-initialize when DOM is ready

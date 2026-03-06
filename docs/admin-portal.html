@@ -505,7 +505,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn-primary" onclick="navTo('qr-food-serving')"><i class="fas fa-qrcode me-1"></i>QR Food Verification</button>
           <button class="btn-primary" style="background:linear-gradient(135deg,var(--blue),#2563eb)" onclick="navTo('event-reports')"><i class="fas fa-chart-pie me-1"></i>Event Reports</button>
-          <button class="btn-secondary" onclick="if(typeof banfChatToggle==='function')banfChatToggle()"><i class="fas fa-robot me-1"></i>BANF Admin Assistant</button>
+          <button class="btn-secondary" onclick="if(typeof banfChatToggle==='function')banfChatToggle()"><i class="fas fa-robot me-1"></i>BANF Sahayak</button>
           <a href="https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html" target="_blank" class="btn-secondary"><i class="fas fa-atom me-1"></i>Main Dashboard</a>
           <a href="https://www.jaxbengali.org" target="_blank" class="btn-secondary"><i class="fas fa-globe me-1"></i>Live Site</a>
         </div>
@@ -2095,14 +2095,15 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
 
       <!-- RAG Chat Configuration -->
       <div class="card-a">
-        <h2><i class="fas fa-robot" style="color:var(--purple,#a855f7)"></i> BANF AI Assistant
+        <h2><i class="fas fa-robot" style="color:var(--purple,#a855f7)"></i> BANF Sahayak <span style="font-size:.65rem;color:var(--muted);font-weight:400">(সহায়ক)</span>
           <span id="rag-mode-badge" class="badge-s" style="margin-left:8px;font-size:.6rem;background:rgba(251,191,36,.15);color:#fbbf24">KB-Only Mode</span>
         </h2>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:6px">
-          RAG-powered chatbot using <strong>vector search</strong> over yearwise BANF data. Ask about events, membership, finances, EC members, or any BANF topic.
+          Official BANF AI Assistant &mdash; RAG-powered chatbot using <strong>vector search</strong> over yearwise BANF data. Application-only agent (no personal profile).
         </p>
         <div style="font-size:.7rem;color:var(--dim);margin-bottom:12px">
-          <i class="fas fa-brain me-1"></i> <strong>Primary Model:</strong> Qwen2.5-7B-Instruct (128K context) &nbsp;|&nbsp;
+          <i class="fas fa-brain me-1"></i> <strong>Primary Model:</strong> Qwen2.5-72B-Instruct (128K context, deep reasoning) &nbsp;|&nbsp;
+          <i class="fas fa-shield-alt me-1" style="color:var(--green)"></i> <strong>Fallback:</strong> Llama-3.3-70B-Instruct &nbsp;|&nbsp;
           <i class="fas fa-database me-1"></i> <strong>Vector Store:</strong> TF-IDF + Cosine Similarity &nbsp;|&nbsp;
           <i class="fas fa-cube me-1"></i> <strong>Embeddings:</strong> all-MiniLM-L6-v2
         </div>
@@ -2124,8 +2125,8 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
             <!-- Welcome message -->
             <div class="rag-msg bot">
               <div class="rag-msg-content">
-                <strong>🤖 BANF AI Assistant</strong><br>
-                I have access to yearwise BANF knowledge including events, membership data, finances, EC members, and more.<br><br>
+                <strong>🤖 BANF Sahayak (সহায়ক)</strong><br>
+                Namaskar! I’m BANF Sahayak, the official AI assistant of BANF. I have access to yearwise knowledge including events, membership data, finances, EC members, and more.<br><br>
                 <strong>Try asking:</strong><br>
                 • "How many members attended Holi 2025?"<br>
                 • "Who are the EC members for 2026-28?"<br>
@@ -2171,7 +2172,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         </h2>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">
           EC admins orchestrate content &amp; campaigns. The <strong>Marketing &amp; Communication Agent</strong> handles actual posting.
-          WhatsApp uses a dedicated <strong>BANF Announcement Agent</strong>.
+          WhatsApp uses <strong>BANF Sahayak</strong> — the official application-only agent (no personal phone).
         </p>
         <!-- Platform Status Cards -->
         <div class="kpi-grid" style="margin-bottom:14px">
@@ -2241,11 +2242,11 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
 
       <!-- WhatsApp Announcement Agent -->
       <div class="card-a">
-        <h2><i class="fab fa-whatsapp" style="color:#25D366"></i> WhatsApp Announcement Agent
-          <span class="badge-s badge-green" style="font-size:.6rem;margin-left:8px">banf-announcement-agent</span>
+        <h2><i class="fab fa-whatsapp" style="color:#25D366"></i> BANF Sahayak — WhatsApp Agent
+          <span class="badge-s badge-green" style="font-size:.6rem;margin-left:8px">banf-sahayak-agent</span>
         </h2>
         <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">
-          The BANF Announcement Agent is added as a participant in WhatsApp groups. EC admin triggers announcements here — the agent posts to selected groups.
+          BANF Sahayak is the official application-only WhatsApp agent (no personal phone). EC admin triggers announcements here — the agent posts to selected groups via WhatsApp Business API.
         </p>
 
         <!-- Group Management -->
@@ -3559,7 +3560,7 @@ function adminComingSoon(panel) {
     <p style="color:var(--muted);font-size:.88rem;line-height:1.6;">This admin agent module is being launched in a <strong style="color:var(--accent)">phased rollout</strong> with proper security, RBAC, and compliance measures.</p>
     <p style="color:var(--dim);font-size:.8rem;">Each module undergoes stakeholder validation, security audit, and role-based access control setup before going live.</p>
     <div style="margin:16px 0;padding:12px 16px;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);border-radius:10px;font-size:.84rem;color:var(--accent);">
-      <i class="fas fa-robot me-2"></i>Use the <strong>BANF Admin Assistant</strong> chatbot (bottom-right) to ask questions about events, membership, fees, and more!
+      <i class="fas fa-robot me-2"></i>Use <strong>BANF Sahayak</strong> chatbot (bottom-right) to ask questions about events, membership, fees, and more!
     </div>
     <button onclick="this.closest('.admin-cs-overlay').remove()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 28px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;"><i class="fas fa-check me-1"></i>Got it</button>
   </div>`;
@@ -9353,7 +9354,7 @@ function metaSendWA() {
   if (document.getElementById('meta-wa-schedule')) document.getElementById('meta-wa-schedule').value = '';
 
   metaRenderHistory();
-  showToast('WhatsApp announcement sent to ' + targets.length + ' group(s) via BANF Agent', 'var(--green)');
+  showToast('WhatsApp announcement sent to ' + targets.length + ' group(s) via BANF Sahayak', 'var(--green)');
 }
 
 function metaPreviewWA() {
@@ -9465,7 +9466,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(savedToken){
       window.BANF_RAG.hfToken = savedToken;
       var badge = document.getElementById('rag-mode-badge');
-      if(badge){ badge.textContent = 'AI Mode (Qwen2.5-7B)'; badge.style.background = 'rgba(16,185,129,.15)'; badge.style.color = '#10b981'; }
+      if(badge){ badge.textContent = 'AI Mode (Qwen2.5-72B)'; badge.style.background = 'rgba(16,185,129,.15)'; badge.style.color = '#10b981'; }
     }
   }, 300);
 });

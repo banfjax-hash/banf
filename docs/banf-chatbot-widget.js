@@ -486,8 +486,8 @@
         <i class="fas fa-robot"></i>
       </div>
       <div style="flex:1;">
-        <div style="font-weight:700;font-size:.95rem;">BANF Assistant <span style="font-size:.62rem;background:rgba(255,255,255,.25);border-radius:4px;padding:1px 5px;margin-left:4px;letter-spacing:.3px;">KB</span></div>
-        <div style="font-size:.72rem;opacity:.85;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle;"></span>Always available · Instant</div>
+        <div style="font-weight:700;font-size:.95rem;">BANF Sahayak <span style="font-size:.55rem;opacity:.8">সহায়ক</span> <span style="font-size:.62rem;background:rgba(255,255,255,.25);border-radius:4px;padding:1px 5px;margin-left:4px;letter-spacing:.3px;">KB</span></div>
+        <div style="font-size:.72rem;opacity:.85;"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle;"></span>Official BANF Agent · Always available</div>
       </div>
       <div style="cursor:pointer;font-size:1.2rem;opacity:.8;" onclick="banfChatToggle()" title="Close">✕</div>
     </div>
@@ -496,9 +496,9 @@
       <!-- Welcome message -->
       <div class="banf-msg bot">
         <div style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #a7f3d0;border-radius:12px 12px 12px 4px;padding:12px 16px;max-width:88%;font-size:.88rem;color:#064e3b;line-height:1.5;">
-          🙏 <strong>Namaskar!</strong> Welcome to BANF Assistant.<br><br>
+          🙏 <strong>Namaskar!</strong> Welcome — I’m <strong>BANF Sahayak</strong> (সহায়ক), the official AI assistant of BANF.<br><br>
           I can help you with events, membership fees, EC team info, portal features, contacts, payments, and more.<br><br>
-          <em style="font-size:.75rem;color:#059669;">⚡ BANF Knowledge Engine · Always available</em>
+          <em style="font-size:.75rem;color:#059669;">⚡ BANF Sahayak · Application Agent · Always available</em>
         </div>
       </div>
       <!-- Quick-action keyword buttons -->
@@ -536,7 +536,7 @@
         .replace(/#065f46/g, '#9a3412')
         .replace(/#059669/g, '#c2410c')
         .replace(/#4ade80/g, '#fb923c')
-        .replace(/BANF Assistant/g, 'BANF Admin Assistant');
+        .replace(/BANF Sahayak/g, 'BANF Sahayak (Admin)');
 
 
     /* ═══════════════════════════════════════════════════════════════════

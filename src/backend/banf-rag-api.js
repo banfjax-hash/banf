@@ -28,7 +28,7 @@ import { fetch } from 'wix-fetch';
 // SiteConfig collection with key = "HF_API_TOKEN" and value = hf_...
 // (generate a new read-only Inference token at huggingface.co/settings/tokens)
 const HF_LLM_URL = 'https://router.huggingface.co/featherless-ai/v1/chat/completions';
-const HF_LLM_MDL = 'mistralai/Mistral-7B-Instruct-v0.3';
+const HF_LLM_MDL = 'Qwen/Qwen2.5-72B-Instruct';
 
 async function getHFToken() {
     try {
