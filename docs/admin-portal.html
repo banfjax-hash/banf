@@ -2076,25 +2076,64 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         <div id="qfs-empty" style="text-align:center;padding:20px;color:var(--dim);font-size:.82rem;display:none">No attendees match this filter.</div>
       </div>
 
-      <!-- Admin Manual Entry -->
-      <div class="card-a">
-        <h2><i class="fas fa-pen-to-square" style="color:var(--yellow)"></i> Manual Walk-In Entry</h2>
-        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">For walk-in attendees not in the RSVP list. Add them manually for food tracking.</p>
-        <div class="form-row">
-          <div class="form-group"><label>Name *</label><input id="qfs-manual-name" type="text" placeholder="Full name"></div>
-          <div class="form-group"><label>Email</label><input id="qfs-manual-email" type="email" placeholder="email@example.com"></div>
-          <div class="form-group"><label>Adults</label><input id="qfs-manual-adults" type="number" value="1" min="0" max="10" style="width:80px"></div>
-          <div class="form-group"><label>Kids</label><input id="qfs-manual-kids" type="number" value="0" min="0" max="10" style="width:80px"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Dietary</label>
-            <select id="qfs-manual-dietary" style="padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
-              <option value="non-veg">Non-Vegetarian</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option>
-            </select>
+      <!-- Admin Manual Attendance Entry (CRM Search + Walk-In) -->
+      <div class="card-a" id="manual-attendance-card">
+        <h2><i class="fas fa-user-plus" style="color:var(--yellow)"></i> Add Manual Attendance
+          <span class="badge-s badge-blue" style="font-size:.6rem;margin-left:6px">CRM Search</span>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Search CRM by name to add attendees who came without RSVP. If not found in CRM, add as a new member.</p>
+
+        <!-- Step 1: Search CRM -->
+        <div id="ma-search-section">
+          <div class="form-row" style="align-items:flex-end">
+            <div class="form-group" style="flex:2">
+              <label><i class="fas fa-search me-1"></i>Search by Name</label>
+              <input id="ma-search-input" type="text" placeholder="Type first or last name..." oninput="maSearch()" autocomplete="off" style="font-size:.92rem">
+            </div>
+            <div class="form-group" style="flex:0">
+              <button class="btn-sm btn-secondary" onclick="maShowNewMember()" title="Add completely new member"><i class="fas fa-user-plus me-1"></i>New Member</button>
+            </div>
           </div>
-          <div class="form-group"><label>Special Dietary Notes</label><input id="qfs-manual-notes" type="text" placeholder="Allergies, gluten-free, etc."></div>
-          <div class="form-group" style="flex:0;align-self:flex-end">
-            <button class="btn-primary" onclick="qfsAddWalkIn()"><i class="fas fa-plus me-1"></i>Add Walk-In</button>
+          <div id="ma-search-results" style="display:none;max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg2);margin-bottom:12px"></div>
+          <div id="ma-no-results" style="display:none;text-align:center;padding:14px;border:1px dashed var(--line);border-radius:10px;margin-bottom:12px">
+            <div style="font-size:.82rem;color:var(--dim)"><i class="fas fa-user-slash me-1"></i>No matching members found in CRM</div>
+            <button class="btn-sm btn-primary" onclick="maShowNewMember()" style="margin-top:8px"><i class="fas fa-plus me-1"></i>Add as New Member</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Pre-filled / New Member Form (hidden initially) -->
+        <div id="ma-form-section" style="display:none;border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--bg2)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <div id="ma-form-title" style="font-weight:700;font-size:.88rem;color:var(--accent)"><i class="fas fa-user-check me-1"></i>Add to Attendance</div>
+            <button class="btn-sm btn-secondary" onclick="maCancelForm()" style="font-size:.7rem"><i class="fas fa-times me-1"></i>Cancel</button>
+          </div>
+          <div id="ma-crm-badge" style="display:none;font-size:.7rem;color:var(--green);margin-bottom:8px;padding:4px 8px;background:rgba(34,197,94,.08);border-radius:6px;display:inline-block">
+            <i class="fas fa-database me-1"></i><span id="ma-crm-source">Found in CRM</span>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Full Name *</label><input id="ma-name" type="text" placeholder="Full name"></div>
+            <div class="form-group"><label>Email *</label><input id="ma-email" type="email" placeholder="email@example.com"></div>
+            <div class="form-group"><label>Phone</label><input id="ma-phone" type="tel" placeholder="904-555-0000"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Adults</label><input id="ma-adults" type="number" value="1" min="0" max="10" style="width:80px"></div>
+            <div class="form-group"><label>Kids</label><input id="ma-kids" type="number" value="0" min="0" max="10" style="width:80px"></div>
+            <div class="form-group"><label>Dietary</label>
+              <select id="ma-dietary" style="padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+                <option value="non-veg">Non-Vegetarian</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Household Type</label>
+              <select id="ma-hhtype" style="padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:.82rem">
+                <option value="family">Family</option><option value="couple">Couple</option><option value="individual">Individual</option><option value="student">Student</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex:2"><label>Notes</label><input id="ma-notes" type="text" placeholder="Allergies, special needs, etc."></div>
+            <div class="form-group" style="flex:0;align-self:flex-end">
+              <button class="btn-primary" onclick="maAddAttendee()" style="white-space:nowrap"><i class="fas fa-user-check me-1"></i>Add to Attendance</button>
+            </div>
           </div>
         </div>
       </div>
@@ -8405,40 +8444,40 @@ function qfsLockMessage() {
 }
 
 // ── Real CRM data — Bosonto Utsob 2026 RSVP'd attendees (from banf-crm-reconciliation.json) ──
-// ── BOSONTO CRM DATA — All 47 RSVP-Yes attendees (from banf-crm-reconciliation.json, March 6 2026) ──
-// Total headcount: ~116 (adults+kids). 6 paid ($1,890). DO NOT manually edit — regenerate from CRM.
+// ── BOSONTO CRM DATA — 49 attendees (47 RSVP-Yes + 2 Zelle payers w/o RSVP, March 7 2026) ──
+// Total headcount: ~121 (adults+kids). 15 paid ($4,840). Synced from membership-acceptance-agent.
 var BOSONTO_CRM_DATA = [
   {name:'Sunetra Basu Ghosh',email:'sunetra.basu@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Kapil Sadhu',email:'kapil.sadhu@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Paulami Guha',email:'drpaulami@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Ranadhir Ghosh',email:'ranadhir.ghosh@gmail.com',adults:5,kids:0,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'family',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Mita Dhar',email:'mdhar79@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Asok Chaudhuri',email:'asokchaudhuri@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:130,paymentStatus:'partial',expectedAmount:330,remainingBalance:200,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
+  {name:'Asok Chaudhuri',email:'asokchaudhuri@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle',paymentNote:'$130 on Mar 2 + $200 on Mar 6 = $330 (couple M2 EB exact)'},
   {name:'Rwiti Choudhury',email:'rwitichoudhury@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:true,memberSince:'2025',paymentMethod:''},
-  {name:'Soma Choudhury',email:'soma1979p@yahoo.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Soma Choudhury',email:'soma1979p@yahoo.com',adults:3,kids:0,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:'Zelle',paymentNote:'$375 on Mar 6 — Zelle from PARTHA CHOWDHURY (spouse) — M2 EB family exact'},
   {name:'Paramita Pal',email:'runaparamita@gmail.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Suvankar Paul',email:'suvankar.paul@gmail.com',adults:2,kids:0,dietary:'non_veg',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle'},
   {name:'Rita Bhattacharjee',email:'ritabhattacharjee@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'individual',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Sanchari Bhattacharyya',email:'tosanchari@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Jiniya Chandra',email:'jiniya.chandra@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Amit Saha',email:'asahaech@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Amit Saha',email:'asahaech@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:330,paymentStatus:'paid',expectedAmount:330,remainingBalance:0,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:'Zelle',paymentNote:'$330 on Mar 1 — Zelle from Amit Kumar Saha — M2 EB couple exact'},
   {name:'Sunanda Banerjee',email:'sunanda.banerjee@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Barnali Mondal',email:'hibarnali@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'m2',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Anita Mandal',email:'amandalamandal@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Chandra Ganguly',email:'chandra.ganguly6@gmail.com',adults:2,kids:2,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Latika Mukherjee',email:'lmukhe@yahoo.com',adults:2,kids:0,dietary:'non_veg',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Latika Mukherjee',email:'lmukhe@yahoo.com',adults:2,kids:0,dietary:'non_veg',paid:true,amount:205,paymentStatus:'paid',expectedAmount:205,remainingBalance:0,membership:'m2',householdType:'individual',isEC:false,memberSince:'',paymentMethod:'Zelle',paymentNote:'$205 on Mar 6 — M2 EB individual exact'},
   {name:'Aparna Chakravarty',email:'chakfam5@yahoo.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Kalyan Chakrabarti',email:'kalyan32258@yahoo.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Prianka Natta',email:'priyanka16587@gmail.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Atmadeep Mazumdar',email:'atmadeep.mazumdar@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Atmadeep Mazumdar',email:'atmadeep.mazumdar@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'family',householdType:'family',isEC:false,memberSince:'',paymentMethod:'Zelle',paymentNote:'$375 on Mar 6 — M2 EB family exact'},
   {name:'Reshma Das',email:'reshmabhadra@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Nandini Dutta',email:'dutta.nandini47@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Soumyajit Dutta',email:'duttasoumyajit86@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:true,memberSince:'2025',paymentMethod:''},
   {name:'Indrani Dutta',email:'dindrani74@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Chandra Ghosh',email:'ghosh.chandra47@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Rajanya Ghosh',email:'rajanya.ghosh1993@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:true,memberSince:'2025',paymentMethod:''},
-  {name:'Dipra Ghosh',email:'ghosh.dipra@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'m2',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
-  {name:'Sumon Ghosh',email:'suman.ghosh12@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:215,remainingBalance:215,membership:'individual',householdType:'individual',isEC:false,memberSince:'2025',paymentMethod:''},
+  {name:'Dipra Ghosh',email:'ghosh.dipra@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:true,amount:530,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'m2',householdType:'family',isEC:false,memberSince:'',paymentMethod:'Zelle',paymentNote:'$200 on Feb 5 + $330 on Mar 6 = $530 (family M2 EB $375 + $155 credit)'},
+  {name:'Sumon Ghosh',email:'suman.ghosh12@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:true,amount:280,paymentStatus:'paid',expectedAmount:280,remainingBalance:0,membership:'m1',householdType:'family',isEC:false,memberSince:'',paymentMethod:'Zelle',paymentNote:'$280 on Mar 6 — Zelle from SUMAN GHOSH — M1 Regular family exact'},
   {name:'Sreya Ghosh',email:'sreya.ghosh1510@gmail.com',adults:3,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'individual',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Sonu Roy',email:'sonuroy123@gmail.com',adults:4,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'family',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:''},
   {name:'Bithika Roy',email:'bithikaroy96@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'couple',householdType:'couple',isEC:false,memberSince:'2025',paymentMethod:''},
@@ -8454,7 +8493,186 @@ var BOSONTO_CRM_DATA = [
   {name:'Kaushiki',email:'kaushiki0011@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:375,remainingBalance:375,membership:'guest',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
   {name:'Ishita Saha',email:'saha.ishita@mayo.edu',adults:1,kids:0,dietary:'Not specified',paid:true,amount:145,paymentStatus:'paid',expectedAmount:145,remainingBalance:0,membership:'m2',householdType:'student',isEC:false,memberSince:'',paymentMethod:'Zelle'},
   {name:'Sourav Pal',email:'palsourav30@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:false,amount:0,paymentStatus:'not_paid',expectedAmount:330,remainingBalance:330,membership:'guest',householdType:'individual',isEC:false,memberSince:'',paymentMethod:''},
-  {name:'Tarit Mondal',email:'trt.mondal@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:true,amount:205,paymentStatus:'paid',expectedAmount:215,remainingBalance:10,membership:'m2',householdType:'individual',isEC:false,memberSince:'',paymentMethod:'Zelle'}
+  {name:'Tarit Mondal',email:'trt.mondal@gmail.com',adults:1,kids:0,dietary:'Not specified',paid:true,amount:205,paymentStatus:'paid',expectedAmount:205,remainingBalance:0,membership:'m2',householdType:'individual',isEC:false,memberSince:'',paymentMethod:'Zelle',paymentNote:'$205 on Mar 2 — M2 EB individual exact'},
+  {name:'Suvendu Maitra',email:'slmaitra@gmail.com',adults:2,kids:0,dietary:'Not specified',paid:true,amount:280,paymentStatus:'paid',expectedAmount:280,remainingBalance:0,membership:'m1',householdType:'family',isEC:false,memberSince:'2025',paymentMethod:'Zelle',paymentNote:'$280 on Mar 5 — M1 Regular family exact'},
+  {name:'Amrita Mukhopadhyay',email:'amrriita@gmail.com',adults:2,kids:1,dietary:'Not specified',paid:true,amount:375,paymentStatus:'paid',expectedAmount:375,remainingBalance:0,membership:'family',householdType:'family',isEC:false,memberSince:'',paymentMethod:'Zelle',paymentNote:'$375 on Mar 2 — Zelle from FNU AMRITA — M2 EB family exact'}
+];
+
+// ── CRM Member Directory (176 members) — for Manual Attendance search ──
+var CRM_MEMBER_DIRECTORY = [
+  {n:"Partha Mukhopadhyay",e:"mukhopadhyay.partha@gmail.com",h:"",t:"family"},
+  {n:"Moumita Mukherjee (Ghosh)",e:"moumita.mukherje@gmail.com",h:"",t:"family"},
+  {n:"Amit Chandak",e:"amit.everywhere@gmail.com",h:"",t:"family"},
+  {n:"Shamit Dutta",e:"dutta.shamit2000@gmail.com",h:"",t:"individual"},
+  {n:"Ratan.Royin",e:"ratan.royin@gmail.com",h:"",t:"individual"},
+  {n:"Sunetra Basu Ghosh",e:"sunetra.basu@gmail.com",h:"",t:"couple"},
+  {n:"Sumana Di",e:"aroyc55@gmail.com",h:"",t:"individual"},
+  {n:"Alak Manna",e:"alak.manna@gmail.com",h:"",t:"family"},
+  {n:"Nandita Guin",e:"g.nnandita@gmail.com",h:"",t:"couple"},
+  {n:"Swagatika Tripathy",e:"swagatika.ty@gmail.com",h:"",t:"individual"},
+  {n:"Swarnendu Sen",e:"swarnendu.sen@gmail.com",h:"",t:"family"},
+  {n:"Tanay Bhaduri",e:"tanay.bhaduri@gmail.com",h:"",t:"couple"},
+  {n:"Maximilian T. H. Suchy",e:"max@anasuya.com",h:"",t:"individual"},
+  {n:"Supriya",e:"supriya.lnct2@gmail.com",h:"",t:"individual"},
+  {n:"Krishna Di",e:"r.se47@yahoo.com",h:"",t:"family"},
+  {n:"Kapil Sadhu",e:"kapil.sadhu@gmail.com",h:"",t:"family"},
+  {n:"Anindya (Peter) Roy Choudhury",e:"royc.anindya@gmail.com",h:"",t:"individual"},
+  {n:"Saikat Natta",e:"natta.saikat@gmail.com",h:"",t:"family"},
+  {n:"Rajib S",e:"rajibs123@gmail.com",h:"",t:"couple"},
+  {n:"Dola Sinha",e:"dolasinha@yahoo.com",h:"",t:"couple"},
+  {n:"Souvik Chakraborty (Old Souvik)",e:"souvik.chakraborty87@gmail.com",h:"",t:"individual"},
+  {n:"Uttam Mistry",e:"uttamkgec@gmail.com",h:"",t:"individual"},
+  {n:"Urmi Rakshit",e:"urmi.kanya@gmail.com",h:"",t:"couple"},
+  {n:"Nilanjana B",e:"nilanb@gmail.com",h:"",t:"family"},
+  {n:"Koushik Karmakar",e:"karmakar.2007@gmail.com",h:"",t:"couple"},
+  {n:"Paulami Guha",e:"drpaulami@gmail.com",h:"",t:"couple"},
+  {n:"Arnab Sikdar",e:"callarnabsikdar@gmail.com",h:"",t:"family"},
+  {n:"Sharmistha Poddar",e:"sharmi.p09@gmail.com",h:"",t:"couple"},
+  {n:"Joyeeta Polley",e:"joyeeta.all@gmail.com",h:"",t:"family"},
+  {n:"Suchitra Biswas",e:"suchitrab4@gmail.com",h:"",t:"couple"},
+  {n:"Sikhorini .Mukherjee",e:"sikhorini@gmail.com",h:"",t:"individual"},
+  {n:"Sourav Jan",e:"jan.sourav@gmail.com",h:"",t:"family"},
+  {n:"Irene Sen",e:"irenesen28@gmail.com",h:"",t:"individual"},
+  {n:"Swati Mehta",e:"mehta.swati2011@gmail.com",h:"",t:"individual"},
+  {n:"Anjali Gupta",e:"dr_anjaligupta@yahoo.com",h:"",t:"individual"},
+  {n:"Pal D.",e:"pal.krishnendu@mayo.edu",h:"",t:"individual"},
+  {n:"Barnali Debu",e:"barna_dev@yahoo.com",h:"",t:"individual"},
+  {n:"Bulbul Chaudhary",e:"bharatiart2000@yahoo.com",h:"",t:"individual"},
+  {n:"Samiksha Bose",e:"sbose84390@aol.com",h:"",t:"individual"},
+  {n:"Holly Goswami",e:"holly_goswami@buildfusion.com",h:"",t:"family"},
+  {n:"Raj Goswami",e:"raj.goswami@gmail.com",h:"",t:"family"},
+  {n:"Sajal Bagchi",e:"sajal1986@gmail.com",h:"",t:"individual"},
+  {n:"Stuti Bagchi",e:"bagchibhaduristuti93@gmail.com",h:"",t:"individual"},
+  {n:"Sankalan Hazra",e:"sankalanhazra@gmail.com",h:"",t:"individual"},
+  {n:"Uma Hazra",e:"uma.417@gmail.com",h:"",t:"individual"},
+  {n:"Baidya Nath Sarkar",e:"bns@hotmail.co.in",h:"",t:"couple"},
+  {n:"Mita Sarkar",e:"mitasarkar@aol.com",h:"",t:"couple"},
+  {n:"RANADHIR GHOSH",e:"ranadhir.ghosh@gmail.com",h:"",t:"family"},
+  {n:"BANANI DHAR",e:"bdhar75@yahoo.com",h:"",t:"couple"},
+  {n:"MITA DHAR",e:"mdhar79@yahoo.com",h:"",t:"individual"},
+  {n:"Dia Mitra",e:"dia.dmitra@gmail.com",h:"",t:"individual"},
+  {n:"Moumita Mitra",e:"tinnee223@gmail.com",h:"",t:"family"},
+  {n:"Debanjan Mitra",e:"debanjanmtr@gmail.com",h:"",t:"individual"},
+  {n:"Arnab Sanyal",e:"arnabsanyal2002@gmail.com",h:"",t:"individual"},
+  {n:"Poonam Sanyal",e:"poonam.sanyal@gmail.com",h:"",t:"individual"},
+  {n:"Rupan Sanyal",e:"rupan.sanyal@gmail.com",h:"",t:"individual"},
+  {n:"Asok Chaudhuri",e:"asokchaudhuri@gmail.com",h:"",t:"couple"},
+  {n:"Rwiti Choudhury",e:"rwitichoudhury@gmail.com",h:"",t:"family"},
+  {n:"Soma Choudhury",e:"soma1979p@yahoo.com",h:"",t:"family"},
+  {n:"Paramita Pal",e:"runaparamita@gmail.com",h:"",t:"family"},
+  {n:"Suvankar Paul",e:"suvankar.paul@gmail.com",h:"",t:"couple"},
+  {n:"Sumit Pal",e:"sumit_system@yahoo.com",h:"",t:"family"},
+  {n:"Suvendu Maitra",e:"slmaitra@gmail.com",h:"",t:"family"},
+  {n:"Sayani Maitra",e:"maitra.sayani@gmail.com",h:"",t:"family"},
+  {n:"Munmun Maitra",e:"munmun_maitra@yahoo.com",h:"",t:"family"},
+  {n:"Kaushiki Bhattacharya",e:"kb94311@gmail.com",h:"",t:"individual"},
+  {n:"Rita Bhattacharjee",e:"ritabhattacharjee@gmail.com",h:"",t:"couple"},
+  {n:"Sanchari Bhattacharyya",e:"tosanchari@gmail.com",h:"",t:"family"},
+  {n:"Santanu Bhattacharya",e:"tosantanu@gmail.com",h:"",t:"family"},
+  {n:"Sanghamitra Chandra",e:"riyachandra1988@gmail.com",h:"",t:"family"},
+  {n:"Sanjukta Chandra",e:"sanjuktacdas@gmail.com",h:"",t:"individual"},
+  {n:"Nilay Chandra",e:"chandranilay@gmail.com",h:"",t:"family"},
+  {n:"Jiniya Chandra",e:"jiniya.chandra@gmail.com",h:"",t:"family"},
+  {n:"Angsuman Saha",e:"angsu.saha01@gmail.com",h:"",t:"individual"},
+  {n:"Mukul Saha",e:"mukulsaha89@gmail.com",h:"",t:"individual"},
+  {n:"Gourab Saha",e:"gourabhere@gmail.com",h:"",t:"individual"},
+  {n:"Amit Saha",e:"asahaech@yahoo.com",h:"",t:"couple"},
+  {n:"Supriya Chatterjee",e:"scrj.1982@gmail.com",h:"",t:"individual"},
+  {n:"SUDESHNA CHATTERJEE",e:"sudeshna.chatterjee1986@gmail.com",h:"",t:"family"},
+  {n:"Chiradip Chatterjee",e:"cchat003@fiu.edu",h:"",t:"family"},
+  {n:"Mahua Chattopadhyay",e:"robchatto@aol.com",h:"",t:"individual"},
+  {n:"Shilpi Banerjee",e:"shilpibanerjee07@gmail.com",h:"",t:"individual"},
+  {n:"Sunanda Banerjee",e:"sunanda.banerjee@gmail.com",h:"",t:"couple"},
+  {n:"Rahul Banerjee",e:"weekender_in@yahoo.com",h:"",t:"couple"},
+  {n:"Anasuya Banerjee",e:"ana@anasuya.com",h:"",t:"individual"},
+  {n:"Prabir Mandal",e:"prabirmandal@yahoo.com",h:"",t:"individual"},
+  {n:"Barnali Mondal",e:"hibarnali@gmail.com",h:"",t:"individual"},
+  {n:"Moushumi Mondal",e:"moushumi.mondal@gmail.com",h:"",t:"couple"},
+  {n:"Anita Mandal",e:"amandalamandal@yahoo.com",h:"",t:"couple"},
+  {n:"Subrata Mondal",e:"sm.mondal@gmail.com",h:"",t:"couple"},
+  {n:"Joyita Ganguly",e:"ganguly.joyita@gmail.com",h:"",t:"individual"},
+  {n:"Subhra Ganguly",e:"subhra.ganguly99@gmail.com",h:"",t:"individual"},
+  {n:"Chandra Ganguly",e:"chandra.ganguly6@gmail.com",h:"",t:"individual"},
+  {n:"Varsha Ganguly",e:"vartew@gmail.com",h:"",t:"individual"},
+  {n:"Chandra Ganguly",e:"banfjax@gmail.com",h:"",t:"individual"},
+  {n:"Latika Mukherjee",e:"lmukhe@yahoo.com",h:"",t:"individual"},
+  {n:"Andy Mukherjee",e:"andy.mukherjee2005@gmail.com",h:"",t:"individual"},
+  {n:"Annandita Mukherjee",e:"annem25f@yahoo.co.in",h:"",t:"individual"},
+  {n:"Raghunath Mukherjee",e:"rnm205@hotmail.com",h:"",t:"individual"},
+  {n:"Souvik Chakraborty",e:"souvikcha@gmail.com",h:"",t:"couple"},
+  {n:"Surajit Chakravarty",e:"surajit_c@hotmail.com",h:"",t:"couple"},
+  {n:"Pallavi Chakraborty",e:"pallavib_00@yahoo.com",h:"",t:"couple"},
+  {n:"Jay Chakraborty",e:"jchakrab@gmail.com",h:"",t:"couple"},
+  {n:"Soumo Chakravarty",e:"soumo.chakravarty@gmail.com",h:"",t:"individual"},
+  {n:"Aparna Chakravarty",e:"chakfam5@yahoo.com",h:"",t:"family"},
+  {n:"Kalyan Chakrabarti",e:"kalyan32258@yahoo.com",h:"",t:"couple"},
+  {n:"Lopita Majumdar",e:"lopita.majumdar@gmail.com",h:"",t:"family"},
+  {n:"Rupa Majumdar",e:"srabana.m@gmail.com",h:"",t:"couple"},
+  {n:"Madhumita Chakravarty",e:"madhumita.mazumdar3@gmail.com",h:"",t:"family"},
+  {n:"Prianka Natta",e:"priyanka16587@gmail.com",h:"",t:"individual"},
+  {n:"Rajarshi Majumdar",e:"rajarshi.majumdar@gmail.com",h:"",t:"family"},
+  {n:"Atmadeep Mazumdar",e:"atmadeep.mazumdar@gmail.com",h:"",t:"family"},
+  {n:"Ras Mazumder",e:"rasmazumder@aol.com",h:"",t:"individual"},
+  {n:"Antara Das",e:"maildasantara@gmail.com",h:"",t:"individual"},
+  {n:"Ananya Das",e:"ananyadas999@gmail.com",h:"",t:"individual"},
+  {n:"Mayukh Das",e:"dasmayukh@gmail.com",h:"",t:"family"},
+  {n:"Saugata Das",e:"mrsaugatadas@gmail.com",h:"",t:"family"},
+  {n:"Reshma Das",e:"reshmabhadra@gmail.com",h:"",t:"family"},
+  {n:"Tanmay Das",e:"tanmay0562017@gmail.com",h:"",t:"individual"},
+  {n:"Chrissy Das",e:"chrissy.m.das@gmail.com",h:"",t:"individual"},
+  {n:"Bonnie Das",e:"dasban3@yahoo.com",h:"",t:"individual"},
+  {n:"Paromita Dutta",e:"paromita.dutta5@gmail.com",h:"",t:"individual"},
+  {n:"Nandini Dutta",e:"dutta.nandini47@gmail.com",h:"",t:"individual"},
+  {n:"Poushali Datta",e:"poushalidatta1@gmail.com",h:"",t:"individual"},
+  {n:"Soumyajit Dutta",e:"duttasoumyajit86@gmail.com",h:"",t:"couple"},
+  {n:"Ayan Dutta",e:"duttaayan.cs@gmail.com",h:"",t:"couple"},
+  {n:"Navnita Dutta",e:"navnitadutta7@gmail.com",h:"",t:"individual"},
+  {n:"Swati Dutta",e:"swati.dutta1409@gmail.com",h:"",t:"individual"},
+  {n:"Soumali Dutta",e:"2soumaliwithlove@gmail.com",h:"",t:"individual"},
+  {n:"Indrani Dutta",e:"dindrani74@gmail.com",h:"",t:"couple"},
+  {n:"Shamit Dutta",e:"dutta.shamit@mayo.edu",h:"",t:"individual"},
+  {n:"AB Ghosh",e:"abghosh.88@gmail.com",h:"",t:"individual"},
+  {n:"Chandra Ghosh",e:"ghosh.chandra47@gmail.com",h:"",t:"individual"},
+  {n:"Jay Ghosh",e:"jayanta0@yahoo.com",h:"",t:"individual"},
+  {n:"Sumanta Ghosh",e:"sumo475@gmail.com",h:"",t:"family"},
+  {n:"Rajanya Ghosh",e:"rajanya.ghosh1993@gmail.com",h:"",t:"couple"},
+  {n:"Dipra Ghosh",e:"ghosh.dipra@gmail.com",h:"",t:"couple"},
+  {n:"Anirban Ghosh",e:"anirban.ninja@gmail.com",h:"",t:"couple"},
+  {n:"Sumon Ghosh",e:"suman.ghosh12@gmail.com",h:"",t:"individual"},
+  {n:"Priyanka Ghosh",e:"priyanka.ghosh@gmail.com",h:"",t:"individual"},
+  {n:"Sreya Ghosh",e:"sreya.ghosh1510@gmail.com",h:"",t:"family"},
+  {n:"Shom Ghosh",e:"shomgos@gmail.com",h:"",t:"individual"},
+  {n:"Mita Ghosh",e:"mitaghosh1@yahoo.com",h:"",t:"individual"},
+  {n:"Sonu Roy",e:"sonuroy123@gmail.com",h:"",t:"family"},
+  {n:"Bithika Roy",e:"bithikaroy96@gmail.com",h:"",t:"couple"},
+  {n:"Sudip Roy",e:"roysu2000@gmail.com",h:"",t:"family"},
+  {n:"Dibendu Roy",e:"dbroy05@gmail.com",h:"",t:"couple"},
+  {n:"Sourav Roychoudhury",e:"sourav.roychoudhury@gmail.com",h:"",t:"individual"},
+  {n:"Bhaskar Roy",e:"bhaskarroy24@gmail.com",h:"",t:"family"},
+  {n:"Dipak Roy",e:"dipak.chebri@gmail.com",h:"",t:"individual"},
+  {n:"Varsha Roy",e:"varsharoy.86@gmail.com",h:"",t:"individual"},
+  {n:"Swapnoneel Roy",e:"sroy.iitm@gmail.com",h:"",t:"family"},
+  {n:"Padmoja Roy",e:"poddojaroy@gmail.com",h:"",t:"family"},
+  {n:"Nabo Roy",e:"nabokumar09@gmail.com",h:"",t:"family"},
+  {n:"Debasmita Roy",e:"roy.debasmita@gmail.com",h:"",t:"family"},
+  {n:"Souvik Ray",e:"souvik.ray86@gmail.com",h:"",t:"individual"},
+  {n:"Sanhita Roy",e:"sanhitadas_2000@yahoo.com",h:"",t:"couple"},
+  {n:"Subhra Roy",e:"subhraroy88@yahoo.com",h:"",t:"individual"},
+  {n:"Amitava Roychoudhury",e:"aroyc001@netzero.com",h:"",t:"individual"},
+  {n:"Ipshita Roy",e:"sudipshita@yahoo.com",h:"",t:"family"},
+  {n:"Raka Raychaudhuri",e:"raka1027@aol.com",h:"",t:"individual"},
+  {n:"Tapash Roy",e:"tapashroyk@msn.com",h:"",t:"couple"},
+  {n:"Diptesh",e:"dipteshm@gmail.com",h:"",t:"individual"},
+  {n:"Amrita",e:"amrriita@gmail.com",h:"",t:"family"},
+  {n:"Sanjeev",e:"sanjeev04@gmail.com",h:"",t:"individual"},
+  {n:"Sudipto",e:"sudipto.sbyn@gmail.com",h:"",t:"individual"},
+  {n:"Papri Saha",e:"saha.papri@ymail.com",h:"",t:"student"},
+  {n:"Indrani Sindhuvalli",e:"isindhu7@gmail.com",h:"",t:""},
+  {n:"Srabasti Sengupta",e:"mailsrabasti@gmail.com",h:"",t:""},
+  {n:"Kaushiki",e:"kaushiki0011@gmail.com",h:"",t:""},
+  {n:"Ishita Saha",e:"saha.ishita@mayo.edu",h:"",t:"student"},
+  {n:"Sourav Pal",e:"palsourav30@gmail.com",h:"",t:""},
+  {n:"Tarit Mondal",e:"trt.mondal@gmail.com",h:"",t:"individual"}
 ];
 
 // Initialize QR Food Serving data from existing CRM/event data
@@ -8819,6 +9037,232 @@ function qfsAddWalkIn() {
 
   qfsRender();
   showToast('Walk-in added: ' + name, 'var(--green)');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MANUAL ATTENDANCE — CRM Search + Add New Member
+// ═══════════════════════════════════════════════════════════════════
+
+var MA_SELECTED = null; // Currently selected CRM member
+
+function maSearch() {
+  var q = (document.getElementById('ma-search-input') || {}).value.trim().toLowerCase();
+  var resultsDiv = document.getElementById('ma-search-results');
+  var noResultsDiv = document.getElementById('ma-no-results');
+  var formSection = document.getElementById('ma-form-section');
+
+  if (!q || q.length < 2) {
+    if (resultsDiv) resultsDiv.style.display = 'none';
+    if (noResultsDiv) noResultsDiv.style.display = 'none';
+    return;
+  }
+
+  var words = q.split(/\s+/);
+
+  // Search BOSONTO_CRM_DATA (event attendees) first
+  var eventMatches = [];
+  BOSONTO_CRM_DATA.forEach(function(d) {
+    var nameL = (d.name || '').toLowerCase();
+    var emailL = (d.email || '').toLowerCase();
+    var match = words.every(function(w) { return nameL.indexOf(w) >= 0 || emailL.indexOf(w) >= 0; });
+    if (match) eventMatches.push({name: d.name, email: d.email, type: d.householdType || '', source: 'event', paid: d.paid || d.paymentStatus === 'paid', adults: d.adults, kids: d.kids, dietary: d.dietary});
+  });
+
+  // Search CRM_MEMBER_DIRECTORY (broader CRM) — exclude already-in-event
+  var eventEmails = {};
+  BOSONTO_CRM_DATA.forEach(function(d) { eventEmails[d.email.toLowerCase()] = true; });
+  var crmMatches = [];
+  CRM_MEMBER_DIRECTORY.forEach(function(d) {
+    if (eventEmails[d.e.toLowerCase()]) return; // Skip if already an event attendee
+    var nameL = (d.n || '').toLowerCase();
+    var emailL = (d.e || '').toLowerCase();
+    var match = words.every(function(w) { return nameL.indexOf(w) >= 0 || emailL.indexOf(w) >= 0; });
+    if (match) crmMatches.push({name: d.n, email: d.e, type: d.t || '', source: 'crm', household: d.h || ''});
+  });
+
+  var allMatches = eventMatches.concat(crmMatches);
+
+  if (allMatches.length === 0) {
+    if (resultsDiv) resultsDiv.style.display = 'none';
+    if (noResultsDiv) noResultsDiv.style.display = 'block';
+    return;
+  }
+
+  if (noResultsDiv) noResultsDiv.style.display = 'none';
+
+  // Build results HTML
+  var html = '';
+  allMatches.slice(0, 15).forEach(function(m, i) {
+    var isEvent = m.source === 'event';
+    var alreadyAttending = isEvent && QFS_ATTENDEES.some(function(a){ return a.email.toLowerCase() === m.email.toLowerCase(); });
+    var badge = isEvent
+      ? '<span style="font-size:.6rem;padding:2px 6px;border-radius:4px;background:rgba(139,92,246,.15);color:var(--purple)">RSVP</span>'
+      : '<span style="font-size:.6rem;padding:2px 6px;border-radius:4px;background:rgba(59,130,246,.15);color:var(--blue)">CRM</span>';
+    var paidBadge = m.paid ? ' <span style="font-size:.6rem;padding:2px 6px;border-radius:4px;background:rgba(34,197,94,.15);color:var(--green)">Paid</span>' : '';
+    var typeBadge = m.type ? ' <span style="font-size:.6rem;color:var(--dim)">' + m.type + '</span>' : '';
+
+    html += '<div class="ma-result-item" onclick="maSelectMember(' + i + ')" data-idx="' + i + '" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;transition:background .15s"'
+      + ' onmouseover="this.style.background=\'rgba(139,92,246,.08)\'" onmouseout="this.style.background=\'transparent\'">'
+      + '<div style="width:32px;height:32px;border-radius:50%;background:' + (isEvent ? 'var(--purple)' : 'var(--blue)') + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0">'
+      + (m.name || '?').charAt(0).toUpperCase() + '</div>'
+      + '<div style="flex:1;min-width:0">'
+      + '<div style="font-weight:600;font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + (m.name || 'Unknown') + '</div>'
+      + '<div style="font-size:.7rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + m.email + '</div>'
+      + '</div>'
+      + '<div style="display:flex;gap:4px;flex-shrink:0">' + badge + paidBadge + typeBadge + '</div>'
+      + '</div>';
+  });
+
+  if (resultsDiv) {
+    resultsDiv.innerHTML = html;
+    resultsDiv.style.display = 'block';
+  }
+
+  // Store matches for selection
+  window._maSearchResults = allMatches;
+}
+
+function maSelectMember(idx) {
+  var m = (window._maSearchResults || [])[idx];
+  if (!m) return;
+
+  MA_SELECTED = m;
+
+  // Pre-fill form
+  var nameEl = document.getElementById('ma-name');
+  var emailEl = document.getElementById('ma-email');
+  var adultsEl = document.getElementById('ma-adults');
+  var kidsEl = document.getElementById('ma-kids');
+  var dietaryEl = document.getElementById('ma-dietary');
+  var hhtypeEl = document.getElementById('ma-hhtype');
+  var titleEl = document.getElementById('ma-form-title');
+  var badgeEl = document.getElementById('ma-crm-badge');
+  var sourceEl = document.getElementById('ma-crm-source');
+
+  if (nameEl) nameEl.value = m.name || '';
+  if (emailEl) emailEl.value = m.email || '';
+  if (adultsEl) adultsEl.value = m.adults || 1;
+  if (kidsEl) kidsEl.value = m.kids || 0;
+  if (dietaryEl && m.dietary && m.dietary !== 'Not specified') dietaryEl.value = m.dietary === 'Vegetarian' ? 'veg' : (m.dietary || 'non-veg');
+  if (hhtypeEl && m.type) hhtypeEl.value = m.type;
+
+  if (titleEl) titleEl.innerHTML = '<i class="fas fa-user-check me-1"></i>Add ' + (m.name || 'Member') + ' to Attendance';
+  if (badgeEl) badgeEl.style.display = 'inline-block';
+  if (sourceEl) sourceEl.textContent = m.source === 'event' ? 'Found in Event RSVP list' : 'Found in BANF CRM';
+
+  // Show form, hide search results
+  var resultsDiv = document.getElementById('ma-search-results');
+  if (resultsDiv) resultsDiv.style.display = 'none';
+  var formSection = document.getElementById('ma-form-section');
+  if (formSection) formSection.style.display = 'block';
+}
+
+function maShowNewMember() {
+  MA_SELECTED = null;
+
+  // Clear form
+  var nameEl = document.getElementById('ma-name');
+  var emailEl = document.getElementById('ma-email');
+  var phoneEl = document.getElementById('ma-phone');
+  var adultsEl = document.getElementById('ma-adults');
+  var kidsEl = document.getElementById('ma-kids');
+  var notesEl = document.getElementById('ma-notes');
+  var titleEl = document.getElementById('ma-form-title');
+  var badgeEl = document.getElementById('ma-crm-badge');
+
+  if (nameEl) nameEl.value = '';
+  if (emailEl) emailEl.value = '';
+  if (phoneEl) phoneEl.value = '';
+  if (adultsEl) adultsEl.value = '1';
+  if (kidsEl) kidsEl.value = '0';
+  if (notesEl) notesEl.value = '';
+  if (titleEl) titleEl.innerHTML = '<i class="fas fa-user-plus me-1"></i>Add New Member to Attendance';
+  if (badgeEl) badgeEl.style.display = 'none';
+
+  // Pre-fill name from search input
+  var searchInput = document.getElementById('ma-search-input');
+  if (searchInput && searchInput.value.trim() && nameEl) {
+    nameEl.value = searchInput.value.trim();
+  }
+
+  // Hide search results, show form
+  var resultsDiv = document.getElementById('ma-search-results');
+  var noResultsDiv = document.getElementById('ma-no-results');
+  if (resultsDiv) resultsDiv.style.display = 'none';
+  if (noResultsDiv) noResultsDiv.style.display = 'none';
+  var formSection = document.getElementById('ma-form-section');
+  if (formSection) formSection.style.display = 'block';
+}
+
+function maCancelForm() {
+  MA_SELECTED = null;
+  var formSection = document.getElementById('ma-form-section');
+  if (formSection) formSection.style.display = 'none';
+  var searchInput = document.getElementById('ma-search-input');
+  if (searchInput) { searchInput.value = ''; }
+  var resultsDiv = document.getElementById('ma-search-results');
+  var noResultsDiv = document.getElementById('ma-no-results');
+  if (resultsDiv) resultsDiv.style.display = 'none';
+  if (noResultsDiv) noResultsDiv.style.display = 'none';
+}
+
+function maAddAttendee() {
+  var name = (document.getElementById('ma-name') || {}).value.trim();
+  var email = (document.getElementById('ma-email') || {}).value.trim();
+  var phone = (document.getElementById('ma-phone') || {}).value.trim();
+  var adults = parseInt((document.getElementById('ma-adults') || {}).value) || 1;
+  var kids = parseInt((document.getElementById('ma-kids') || {}).value) || 0;
+  var dietary = (document.getElementById('ma-dietary') || {}).value || 'non-veg';
+  var hhtype = (document.getElementById('ma-hhtype') || {}).value || 'individual';
+  var notes = (document.getElementById('ma-notes') || {}).value.trim();
+
+  if (!name) { showToast('Name is required', 'var(--red)'); return; }
+  if (!email) { showToast('Email is required for attendance tracking', 'var(--red)'); return; }
+
+  // Check for duplicate in QFS_ATTENDEES
+  var existing = QFS_ATTENDEES.some(function(a) {
+    return a.email.toLowerCase() === email.toLowerCase() && a.event === 'Bosonto Utsob 2026';
+  });
+
+  if (existing) {
+    showToast(name + ' is already in the attendance list', 'var(--yellow)');
+    maCancelForm();
+    // Scroll to the attendee in the list
+    qfsRender();
+    return;
+  }
+
+  var event = 'Bosonto Utsob 2026';
+  var vegS = dietary === 'veg' || dietary === 'vegan' ? (adults + kids) : 0;
+  var nvS = dietary !== 'veg' && dietary !== 'vegan' ? (adults + kids) : 0;
+  var isPaid = MA_SELECTED && MA_SELECTED.paid;
+
+  var entry = {
+    name: name, email: email,
+    event: event, adults: adults, kids: kids,
+    dietary: dietary, dietaryNotes: notes,
+    vegServings: vegS, nonVegServings: nvS, totalHeadcount: adults + kids,
+    paid: !!isPaid, amount: (MA_SELECTED && MA_SELECTED.source === 'event') ? (BOSONTO_CRM_DATA.find(function(d){ return d.email.toLowerCase() === email.toLowerCase(); }) || {}).amount || 0 : 0,
+    paymentStatus: isPaid ? 'paid' : 'not_paid',
+    membership: MA_SELECTED ? (MA_SELECTED.source === 'event' ? 'RSVP' : 'CRM Member') : 'New Walk-In',
+    tier: hhtype, householdType: hhtype, isEC: false,
+    phone: phone,
+    memberSince: MA_SELECTED && MA_SELECTED.source === 'crm' ? 'existing' : '',
+    regCode: 'BANF-MA-' + Date.now().toString(36).toUpperCase(),
+    source: MA_SELECTED ? ('manual-' + MA_SELECTED.source) : 'manual-new',
+    addedAt: new Date().toISOString(),
+    addedBy: 'EC Admin (Manual Attendance)'
+  };
+
+  QFS_WALKINS.push(entry);
+  QFS_ATTENDEES.push(entry);
+  localStorage.setItem('banf_qfs_walkins', JSON.stringify(QFS_WALKINS));
+
+  maCancelForm();
+  qfsRender();
+
+  var sourceLabel = MA_SELECTED ? (MA_SELECTED.source === 'event' ? 'from RSVP' : 'from CRM') : 'new member';
+  showToast('✅ ' + name + ' added to attendance (' + sourceLabel + ')', 'var(--green)');
 }
 
 function qfsExportCSV() {
