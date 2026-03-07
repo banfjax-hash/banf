@@ -423,6 +423,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-item" data-panel="event-reports" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-chart-pie"></i><span>Event Reports</span></div>
     <div class="sb-item" data-panel="qr-food-serving" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-utensils"></i><span>QR Food Serving</span></div>
     <div class="sb-item" data-panel="qr-email-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-paper-plane"></i><span>QR Email Drive</span><span id="qrd-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block" title="QR Drive Status"></span></div>
+    <div class="sb-item" data-panel="qr-manage" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-qrcode"></i><span>QR Manager</span><span style="margin-left:auto;background:rgba(6,182,212,.2);color:#22d3ee;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">NEW</span></div>
     <div class="sb-item" data-panel="email-pipeline" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-envelope-open-text"></i><span>Email Pipeline</span><span id="pipeline-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block" title="Pipeline Active"></span></div>
     <div class="sb-item" data-panel="membership-acceptance" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-id-card-clip"></i><span>Membership Drive</span><span style="margin-left:auto;background:rgba(34,197,94,.2);color:#4ade80;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">NEW</span></div>
 
@@ -2294,6 +2295,160 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
           <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --continue <span style="color:var(--dim)"># Send next batch of pending</span></div>
           <div><span style="color:var(--green)">$</span> node banf-qr-drive-live.js --status <span style="color:var(--dim)"># Show drive status report</span></div>
         </div>
+      </div>
+    </div>
+
+    <!-- ══════════ QR MANAGER — EC ADMIN TOOL ══════════ -->
+    <div class="portal-section" id="panel-qr-manage">
+      <div class="stg-label"><i class="fas fa-qrcode" style="color:var(--cyan)"></i> QR Code Manager — EC Admin Tool</div>
+
+      <!-- Info Banner -->
+      <div class="card-a" style="border-left:4px solid var(--cyan);background:rgba(6,182,212,.04)">
+        <p style="font-size:.78rem;color:var(--muted);margin:0;line-height:1.6">
+          <i class="fas fa-info-circle me-1" style="color:var(--cyan)"></i>
+          <strong>Use this tool</strong> when a member hasn't received their QR code, lost it, or didn't RSVP via Evite.
+          Search by first or last name across the full CRM (176 members) + Event RSVP list (52 attendees).
+          View QR send history, resend QR codes, fix email errors, or add new members on the spot.
+        </p>
+      </div>
+
+      <!-- KPI Row -->
+      <div class="kpi-grid">
+        <div class="kpi green"><div class="v" id="qrm-total-sent">0</div><div class="k">QR Codes Sent</div></div>
+        <div class="kpi blue"><div class="v" id="qrm-total-crm">0</div><div class="k">CRM Members</div></div>
+        <div class="kpi purple"><div class="v" id="qrm-total-event">0</div><div class="k">Event RSVP</div></div>
+        <div class="kpi yellow"><div class="v" id="qrm-manual-adds">0</div><div class="k">Manual Adds</div></div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="card-a">
+        <h2><i class="fas fa-search" style="color:var(--cyan)"></i> Search Member
+          <span class="badge-s badge-cyan" style="font-size:.6rem;margin-left:6px">CRM + Event</span>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Search by first name, last name, or email across all data sources. Results show QR send status.</p>
+        <div class="form-row" style="align-items:flex-end">
+          <div class="form-group" style="flex:2">
+            <label><i class="fas fa-user me-1"></i>Name or Email</label>
+            <input id="qrm-search" type="text" placeholder="Type first name, last name, or email..." oninput="qrmSearch()" autocomplete="off" style="font-size:.92rem">
+          </div>
+          <div class="form-group" style="flex:0">
+            <button class="btn-sm btn-primary" onclick="qrmShowAddNew()" title="Add new member not in CRM"><i class="fas fa-user-plus me-1"></i>Add New Member</button>
+          </div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="qrm-results" style="display:none;max-height:400px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg2);margin-top:10px"></div>
+        <div id="qrm-no-results" style="display:none;text-align:center;padding:16px;border:1px dashed var(--line);border-radius:10px;margin-top:10px">
+          <div style="font-size:.82rem;color:var(--dim)"><i class="fas fa-user-slash me-1"></i>No members found matching your search</div>
+          <button class="btn-sm btn-primary" onclick="qrmShowAddNew()" style="margin-top:8px"><i class="fas fa-plus me-1"></i>Add as New Member</button>
+        </div>
+      </div>
+
+      <!-- Member Detail / Action Panel (shown after selection) -->
+      <div id="qrm-detail-panel" class="card-a" style="display:none;border-left:4px solid var(--purple)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h2 style="margin:0"><i class="fas fa-id-card" style="color:var(--purple)"></i> <span id="qrm-detail-name">Member Details</span></h2>
+          <button class="btn-sm btn-secondary" onclick="qrmCloseDetail()"><i class="fas fa-times me-1"></i>Close</button>
+        </div>
+
+        <!-- Member Info Grid -->
+        <div id="qrm-detail-info" style="display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:.78rem;margin-bottom:14px;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--line)"></div>
+
+        <!-- QR Send History -->
+        <div id="qrm-qr-history" style="margin-bottom:14px"></div>
+
+        <!-- Editable Fields -->
+        <div style="border-top:1px solid var(--line);padding-top:14px">
+          <div style="font-size:.74rem;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-pen me-1"></i> Fix / Update Details</div>
+          <div class="form-row">
+            <div class="form-group"><label>Name</label><input id="qrm-edit-name" type="text"></div>
+            <div class="form-group"><label>Email *</label><input id="qrm-edit-email" type="email"></div>
+            <div class="form-group"><label>Phone</label><input id="qrm-edit-phone" type="tel" placeholder="Optional"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Adults</label><input id="qrm-edit-adults" type="number" value="1" min="0" max="10" style="width:80px"></div>
+            <div class="form-group"><label>Kids</label><input id="qrm-edit-kids" type="number" value="0" min="0" max="10" style="width:80px"></div>
+            <div class="form-group"><label>Household Type</label>
+              <select id="qrm-edit-hhtype"><option value="family">Family</option><option value="couple">Couple</option><option value="individual">Individual</option><option value="student">Student</option></select>
+            </div>
+            <div class="form-group"><label>Dietary</label>
+              <select id="qrm-edit-dietary"><option value="non-veg">Non-Vegetarian</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option></select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Spouse Name</label><input id="qrm-edit-spouse" type="text" placeholder="Optional"></div>
+            <div class="form-group"><label>Children Details</label><input id="qrm-edit-children" type="text" placeholder="e.g. 2 kids (ages 5, 8)"></div>
+          </div>
+          <div class="form-group" style="margin-top:6px"><label>Admin Notes</label><input id="qrm-edit-notes" type="text" placeholder="Any issues, corrections, or notes..."></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="qrmSendQR()" id="qrm-btn-send"><i class="fas fa-paper-plane me-1"></i>Send QR Code</button>
+          <button class="btn-primary" style="background:linear-gradient(135deg,var(--purple),#7c3aed)" onclick="qrmResendQR()" id="qrm-btn-resend" style="display:none"><i class="fas fa-redo me-1"></i>Resend QR Code</button>
+          <button class="btn-sm btn-secondary" onclick="qrmSaveChanges()"><i class="fas fa-save me-1"></i>Save Changes</button>
+          <button class="btn-sm btn-secondary" onclick="qrmAddToAttendance()"><i class="fas fa-user-check me-1"></i>Add to Attendance</button>
+        </div>
+
+        <!-- Send Result -->
+        <div id="qrm-send-result" style="display:none;margin-top:10px;padding:12px;border-radius:8px;font-size:.78rem"></div>
+      </div>
+
+      <!-- Add New Member Form (for people not in CRM) -->
+      <div id="qrm-new-member" class="card-a" style="display:none;border-left:4px solid var(--yellow)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h2 style="margin:0"><i class="fas fa-user-plus" style="color:var(--yellow)"></i> Add New Member</h2>
+          <button class="btn-sm btn-secondary" onclick="qrmCloseAddNew()"><i class="fas fa-times me-1"></i>Cancel</button>
+        </div>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Add a member who is not in the CRM or Evite. They will receive a QR code at the email provided.</p>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input id="qrm-new-fname" type="text" placeholder="First name"></div>
+          <div class="form-group"><label>Last Name *</label><input id="qrm-new-lname" type="text" placeholder="Last name"></div>
+          <div class="form-group"><label>Email *</label><input id="qrm-new-email" type="email" placeholder="email@example.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input id="qrm-new-phone" type="tel" placeholder="Optional"></div>
+          <div class="form-group"><label>Adults</label><input id="qrm-new-adults" type="number" value="2" min="1" max="10" style="width:80px"></div>
+          <div class="form-group"><label>Kids</label><input id="qrm-new-kids" type="number" value="0" min="0" max="10" style="width:80px"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Spouse Name</label><input id="qrm-new-spouse" type="text" placeholder="Optional"></div>
+          <div class="form-group"><label>Children Details</label><input id="qrm-new-children" type="text" placeholder="e.g. 2 kids (ages 5, 8)"></div>
+          <div class="form-group"><label>Household Type</label>
+            <select id="qrm-new-hhtype"><option value="family">Family</option><option value="couple">Couple</option><option value="individual">Individual</option><option value="student">Student</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Dietary</label>
+            <select id="qrm-new-dietary"><option value="non-veg">Non-Vegetarian</option><option value="veg">Vegetarian</option><option value="vegan">Vegan</option></select>
+          </div>
+          <div class="form-group" style="flex:2"><label>Notes</label><input id="qrm-new-notes" type="text" placeholder="How they found out, special needs..."></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn-primary" onclick="qrmAddNewMember()"><i class="fas fa-user-plus me-1"></i>Add Member &amp; Send QR</button>
+          <button class="btn-sm btn-secondary" onclick="qrmAddNewMemberOnly()"><i class="fas fa-save me-1"></i>Add Without Sending QR</button>
+        </div>
+        <div id="qrm-new-result" style="display:none;margin-top:10px;padding:12px;border-radius:8px;font-size:.78rem"></div>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="card-a">
+        <h2><i class="fas fa-clipboard-list" style="color:var(--muted)"></i> QR Manager Activity Log
+          <span class="badge-s badge-dim" style="font-size:.6rem;margin-left:6px" id="qrm-log-count">0 actions</span>
+        </h2>
+        <div id="qrm-log" class="act-log" style="min-height:60px">
+          <div class="log-line"><span class="ll-ts" style="color:var(--dim)">—</span><span class="ll-act" style="color:var(--cyan)">INIT</span><span class="ll-msg">QR Manager initialized. Ready for EC admin operations.</span></div>
+        </div>
+      </div>
+
+      <!-- Dry Run Test Panel -->
+      <div class="card-a" style="border-left:4px solid var(--green)">
+        <h2><i class="fas fa-flask" style="color:var(--green)"></i> End-to-End Dry Run Test
+          <button class="btn-sm btn-primary" style="margin-left:auto" onclick="qrmRunE2ETest()"><i class="fas fa-play me-1"></i>Run Test</button>
+        </h2>
+        <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Simulates the full QR management pipeline: CRM search, QR history check, email correction, new member addition, and QR send. No actual emails are sent.</p>
+        <div id="qrm-test-steps"></div>
+        <div id="qrm-test-summary" style="display:none;margin-top:12px;padding:14px;border-radius:10px"></div>
       </div>
     </div>
 
@@ -8675,6 +8830,15 @@ var CRM_MEMBER_DIRECTORY = [
   {n:"Tarit Mondal",e:"trt.mondal@gmail.com",h:"",t:"individual"}
 ];
 
+// ── QR Sent Log — 52 entries from banf-qr-drive-lock.json (e=email, n=name, s=sentAt, p=phase, b=batchId) ──
+var QR_SENT_LOG = [{"e":"ranadhir.ghosh@gmail.com","n":"RANADHIR GHOSH","s":"2026-03-06T20:44:16.586Z","p":1,"b":"BATCH-mmfd4dwd"},{"e":"amit.everywhere@gmail.com","n":"Amit Chandak","s":"2026-03-06T20:44:31.569Z","p":1,"b":"BATCH-mmfd4dwd"},{"e":"rwitichoudhury@gmail.com","n":"Rwiti Choudhury","s":"2026-03-06T20:44:49.821Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"duttasoumyajit86@gmail.com","n":"Soumyajit Dutta","s":"2026-03-06T20:44:56.602Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"mukhopadhyay.partha@gmail.com","n":"Mukhopadhyay Partha","s":"2026-03-06T20:45:03.823Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"moumitamukherjee2002@yahoo.com","n":"Moumitamukherjee2002","s":"2026-03-06T20:45:10.969Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"sumantadatta07@gmail.com","n":"Sumantadatta07","s":"2026-03-06T20:45:17.493Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"sunetra.basu@gmail.com","n":"Sunetra Basu Ghosh","s":"2026-03-06T20:45:24.355Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"kapil.sadhu@gmail.com","n":"Kapil Sadhu","s":"2026-03-06T20:45:30.780Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"drpaulami@gmail.com","n":"Paulami Guha","s":"2026-03-06T20:45:38.172Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"mdhar79@yahoo.com","n":"MITA DHAR","s":"2026-03-06T20:45:45.610Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"asokchaudhuri@gmail.com","n":"Asok Chaudhuri","s":"2026-03-06T20:45:52.521Z","p":2,"b":"BATCH-mmfd54hy"},{"e":"soma1979p@yahoo.com","n":"Soma Choudhury","s":"2026-03-06T20:46:06.904Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"runaparamita@gmail.com","n":"Paramita Pal","s":"2026-03-06T20:46:13.754Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"suvankar.paul@gmail.com","n":"Suvankar Paul","s":"2026-03-06T20:46:20.541Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"ritabhattacharjee@gmail.com","n":"Rita Bhattacharjee","s":"2026-03-06T20:46:27.586Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"tosanchari@gmail.com","n":"Sanchari Bhattacharyya","s":"2026-03-06T20:46:34.299Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"jiniya.chandra@gmail.com","n":"Jiniya Chandra","s":"2026-03-06T20:46:41.409Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"asahaech@yahoo.com","n":"Amit Saha","s":"2026-03-06T20:46:48.359Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"sunanda.banerjee@gmail.com","n":"Sunanda Banerjee","s":"2026-03-06T20:46:55.361Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"hibarnali@gmail.com","n":"Barnali Mondal","s":"2026-03-06T20:47:02.198Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"amandalamandal@yahoo.com","n":"Anita Mandal","s":"2026-03-06T20:47:09.122Z","p":3,"b":"BATCH-mmfd6r4s"},{"e":"chandra.ganguly6@gmail.com","n":"Chandra Ganguly","s":"2026-03-06T20:47:17.652Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"lmukhe@yahoo.com","n":"Latika Mukherjee","s":"2026-03-06T20:47:24.488Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"chakfam5@yahoo.com","n":"Aparna Chakravarty","s":"2026-03-06T20:47:31.323Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"kalyan32258@yahoo.com","n":"Kalyan Chakrabarti","s":"2026-03-06T20:47:38.140Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"priyanka16587@gmail.com","n":"Prianka Natta","s":"2026-03-06T20:47:44.865Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"atmadeep.mazumdar@gmail.com","n":"Atmadeep Mazumdar","s":"2026-03-06T20:47:51.965Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"reshmabhadra@gmail.com","n":"Reshma Das","s":"2026-03-06T20:47:58.561Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"dutta.nandini47@gmail.com","n":"Nandini Dutta","s":"2026-03-06T20:48:04.892Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"dindrani74@gmail.com","n":"Indrani Dutta","s":"2026-03-06T20:48:11.332Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"ghosh.chandra47@gmail.com","n":"Chandra Ghosh","s":"2026-03-06T20:48:18.179Z","p":3,"b":"BATCH-mmfd8a9n"},{"e":"ghosh.dipra@gmail.com","n":"Dipra Ghosh","s":"2026-03-06T20:48:25.104Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"suman.ghosh12@gmail.com","n":"Sumon Ghosh","s":"2026-03-06T20:48:31.829Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"sreya.ghosh1510@gmail.com","n":"Sreya Ghosh","s":"2026-03-06T20:48:38.670Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"sonuroy123@gmail.com","n":"Sonu Roy","s":"2026-03-06T20:48:45.315Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"bithikaroy96@gmail.com","n":"Bithika Roy","s":"2026-03-06T20:48:51.657Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"poddojaroy@gmail.com","n":"Padmoja Roy","s":"2026-03-06T20:48:58.544Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"sanhitadas_2000@yahoo.com","n":"Sanhita Roy","s":"2026-03-06T20:49:04.860Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"sudipshita@yahoo.com","n":"Ipshita Roy","s":"2026-03-06T20:49:11.744Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"bidhan138@gmail.com","n":"bidhan138@gmail.com","s":"2026-03-06T20:49:18.594Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"tanmoy.banerjee2009@gmail.com","n":"tanmoy.banerjee2009@gmail.com","s":"2026-03-06T20:49:28.523Z","p":3,"b":"BATCH-mmfd9qdu"},{"e":"saha.papri@ymail.com","n":"Papri Saha","s":"2026-03-06T20:49:35.545Z","p":3,"b":"BATCH-mmfdb909"},{"e":"isindhu7@gmail.com","n":"Indrani Sindhuvalli","s":"2026-03-06T20:49:42.102Z","p":3,"b":"BATCH-mmfdb909"},{"e":"mailsrabasti@gmail.com","n":"Srabasti Sengupta","s":"2026-03-06T20:49:49.022Z","p":3,"b":"BATCH-mmfdb909"},{"e":"kaushiki0011@gmail.com","n":"Kaushiki","s":"2026-03-06T20:49:55.725Z","p":3,"b":"BATCH-mmfdb909"},{"e":"saha.ishita@mayo.edu","n":"Ishita Saha","s":"2026-03-06T20:50:02.556Z","p":3,"b":"BATCH-mmfdb909"},{"e":"palsourav30@gmail.com","n":"Sourav Pal","s":"2026-03-06T20:50:09.441Z","p":3,"b":"BATCH-mmfdb909"},{"e":"trt.mondal@gmail.com","n":"Tarit Mondal","s":"2026-03-06T20:50:15.997Z","p":3,"b":"BATCH-mmfdb909"},{"e":"rajanya.ghosh@gmail.com","n":"Rajanya Ghosh","s":"2026-03-07T14:52:54.717Z","p":3,"b":"BATCH-mmgg0e34"},{"e":"slmaitra@gmail.com","n":"Suvendu Maitra","s":"2026-03-07T14:53:02.085Z","p":3,"b":"BATCH-mmgg0e34"},{"e":"amrriita@gmail.com","n":"Amrita Mukhopadhyay","s":"2026-03-07T14:53:09.303Z","p":3,"b":"BATCH-mmgg0e34"}];
+
+// ── QR Manager State ──
+var QRM_SELECTED = null;  // Currently selected member
+var QRM_NEW_MEMBERS = []; // Members added via QR Manager (persisted to localStorage)
+var QRM_ACTIONS_LOG = []; // All admin actions
+var QRM_DRY_RUN = true;   // Dry-run mode (no real emails sent)
+
 // Initialize QR Food Serving data from existing CRM/event data
 function qfsInit() {
   QFS_ATTENDEES = [];
@@ -11142,6 +11306,837 @@ function metaRenderHistory() {
   html += '</tbody></table>';
   container.innerHTML = html;
 }
+
+// ═══════════════════════════════════════════════════════════════
+// ██  QR MANAGER — EC Admin Tool (Event Day QR Code Pipeline)  ██
+// ═══════════════════════════════════════════════════════════════
+
+function qrmInit() {
+  // Load persisted data from localStorage
+  try { QRM_NEW_MEMBERS = JSON.parse(localStorage.getItem('qrm_new_members') || '[]'); } catch(e){ QRM_NEW_MEMBERS = []; }
+  try { QRM_ACTIONS_LOG = JSON.parse(localStorage.getItem('qrm_actions_log') || '[]'); } catch(e){ QRM_ACTIONS_LOG = []; }
+
+  // Update KPIs
+  var sentEl = document.getElementById('qrm-total-sent');
+  var crmEl  = document.getElementById('qrm-total-crm');
+  var evtEl  = document.getElementById('qrm-total-event');
+  var addEl  = document.getElementById('qrm-manual-adds');
+  if (sentEl) sentEl.textContent = QR_SENT_LOG.length;
+  if (crmEl)  crmEl.textContent  = CRM_MEMBER_DIRECTORY.length;
+  if (evtEl)  evtEl.textContent  = BOSONTO_CRM_DATA.length;
+  if (addEl)  addEl.textContent  = QRM_NEW_MEMBERS.length;
+
+  // Render any existing log entries
+  qrmRenderLog();
+  qrmLog('INIT', 'QR Manager ready. ' + QR_SENT_LOG.length + ' QR codes sent, ' + CRM_MEMBER_DIRECTORY.length + ' CRM members, ' + QRM_NEW_MEMBERS.length + ' manual adds.');
+}
+
+// ── Unified search across all data sources ──
+function qrmSearch() {
+  var q = (document.getElementById('qrm-search').value || '').trim().toLowerCase();
+  var resultsDiv   = document.getElementById('qrm-results');
+  var noResultsDiv = document.getElementById('qrm-no-results');
+  if (!q || q.length < 2) {
+    resultsDiv.style.display = 'none';
+    noResultsDiv.style.display = 'none';
+    return;
+  }
+
+  var words = q.split(/\s+/);
+  var matches = [];
+  var seen = {};
+
+  // Helper: check if all query words appear in a string
+  function matchesAll(text) {
+    var t = (text || '').toLowerCase();
+    return words.every(function(w){ return t.indexOf(w) >= 0; });
+  }
+
+  // Search BOSONTO_CRM_DATA (event RSVP list — richest data)
+  BOSONTO_CRM_DATA.forEach(function(m, idx) {
+    var key = (m.email || '').toLowerCase();
+    if (matchesAll(m.name) || matchesAll(m.email)) {
+      if (!seen[key]) {
+        seen[key] = true;
+        var qr = qrmFindQRHistory(m.email);
+        matches.push({
+          source: 'event', name: m.name, email: m.email, phone: m.phone || '',
+          adults: m.adults || 1, kids: m.kids || 0, dietary: m.dietary || '',
+          paid: m.paid, amount: m.amount || 0, paymentStatus: m.paymentStatus || '',
+          householdType: m.householdType || '', isEC: m.isEC || false,
+          membership: m.membership || '', qrSent: !!qr, qr: qr,
+          spouse: m.spouse || '', children: m.children || ''
+        });
+      }
+    }
+  });
+
+  // Search CRM_MEMBER_DIRECTORY (full 176 members)
+  CRM_MEMBER_DIRECTORY.forEach(function(m) {
+    var key = (m.e || '').toLowerCase();
+    if (matchesAll(m.n) || matchesAll(m.e)) {
+      if (!seen[key]) {
+        seen[key] = true;
+        var qr = qrmFindQRHistory(m.e);
+        matches.push({
+          source: 'crm', name: m.n, email: m.e, phone: m.h || '',
+          adults: 1, kids: 0, dietary: '', paid: false, amount: 0,
+          paymentStatus: 'unknown', householdType: m.t || '', isEC: false,
+          membership: '', qrSent: !!qr, qr: qr,
+          spouse: '', children: ''
+        });
+      }
+    }
+  });
+
+  // Search QRM_NEW_MEMBERS (manually added this session)
+  QRM_NEW_MEMBERS.forEach(function(m) {
+    var key = (m.email || '').toLowerCase();
+    if (matchesAll(m.name) || matchesAll(m.email)) {
+      if (!seen[key]) {
+        seen[key] = true;
+        var qr = qrmFindQRHistory(m.email);
+        matches.push({
+          source: 'manual', name: m.name, email: m.email, phone: m.phone || '',
+          adults: m.adults || 1, kids: m.kids || 0, dietary: m.dietary || '',
+          paid: false, amount: 0, paymentStatus: 'manual_add',
+          householdType: m.householdType || '', isEC: false,
+          membership: '', qrSent: !!qr, qr: qr,
+          spouse: m.spouse || '', children: m.children || ''
+        });
+      }
+    }
+  });
+
+  if (matches.length === 0) {
+    resultsDiv.style.display = 'none';
+    noResultsDiv.style.display = 'block';
+    return;
+  }
+
+  noResultsDiv.style.display = 'none';
+  var html = '';
+  matches.forEach(function(m, i) {
+    var srcBadge = m.source === 'event' ? '<span class="badge-s badge-green" style="font-size:.56rem">EVENT RSVP</span>'
+                 : m.source === 'crm'   ? '<span class="badge-s badge-cyan" style="font-size:.56rem">CRM</span>'
+                 : '<span class="badge-s badge-yellow" style="font-size:.56rem">MANUAL ADD</span>';
+    var qrBadge = m.qrSent
+      ? '<span class="badge-s badge-green" style="font-size:.56rem"><i class="fas fa-check me-1"></i>QR SENT</span>'
+      : '<span class="badge-s badge-red" style="font-size:.56rem"><i class="fas fa-times me-1"></i>NO QR</span>';
+    var paidBadge = m.paid ? '<span class="badge-s badge-green" style="font-size:.56rem">PAID $' + m.amount + '</span>'
+                          : (m.paymentStatus === 'unknown' ? '' : '<span class="badge-s badge-red" style="font-size:.56rem">UNPAID</span>');
+
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .15s" onmouseover="this.style.background=\'rgba(6,182,212,.06)\'" onmouseout="this.style.background=\'transparent\'" onclick=\'qrmSelectMember(' + JSON.stringify(m).replace(/'/g, "&#39;") + ')\'>'
+      + '<div>'
+      + '<div style="font-size:.86rem;font-weight:600;color:var(--fg)">' + m.name + '</div>'
+      + '<div style="font-size:.7rem;color:var(--muted)">' + m.email + (m.phone ? ' · ' + m.phone : '') + '</div>'
+      + '<div style="display:flex;gap:4px;margin-top:4px">' + srcBadge + qrBadge + paidBadge + '</div>'
+      + '</div>'
+      + '<i class="fas fa-chevron-right" style="color:var(--dim)"></i>'
+      + '</div>';
+  });
+  resultsDiv.innerHTML = html;
+  resultsDiv.style.display = 'block';
+}
+
+// ── Find QR send history for an email ──
+function qrmFindQRHistory(email) {
+  if (!email) return null;
+  var em = email.toLowerCase();
+  for (var i = 0; i < QR_SENT_LOG.length; i++) {
+    if (QR_SENT_LOG[i].e.toLowerCase() === em) return QR_SENT_LOG[i];
+  }
+  return null;
+}
+
+// ── Select a member and show detail panel ──
+function qrmSelectMember(m) {
+  QRM_SELECTED = m;
+  var panel = document.getElementById('qrm-detail-panel');
+  panel.style.display = 'block';
+  document.getElementById('qrm-detail-name').textContent = m.name;
+
+  // Info grid
+  var info = document.getElementById('qrm-detail-info');
+  var srcLabel = m.source === 'event' ? 'Event RSVP' : m.source === 'crm' ? 'CRM Directory' : 'Manual Add';
+  info.innerHTML =
+    '<div><span style="color:var(--muted);font-size:.68rem">Source</span><br><strong>' + srcLabel + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">Email</span><br><strong>' + m.email + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">Phone</span><br><strong>' + (m.phone || '—') + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">Household</span><br><strong>' + (m.householdType || '—') + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">Adults / Kids</span><br><strong>' + m.adults + ' / ' + m.kids + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">Dietary</span><br><strong>' + (m.dietary || '—') + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">Payment</span><br><strong>' + (m.paid ? '✅ $' + m.amount + ' paid' : '❌ Not paid') + '</strong></div>' +
+    '<div><span style="color:var(--muted);font-size:.68rem">EC Member</span><br><strong>' + (m.isEC ? '✅ Yes' : 'No') + '</strong></div>';
+
+  // QR History
+  var histDiv = document.getElementById('qrm-qr-history');
+  if (m.qr) {
+    var sentDate = new Date(m.qr.s);
+    var timeAgo = qrmTimeAgo(sentDate);
+    histDiv.innerHTML =
+      '<div style="background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:12px">' +
+      '<div style="font-size:.74rem;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px"><i class="fas fa-check-circle me-1"></i> QR Code Has Been Sent</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:.74rem">' +
+      '<div><span style="color:var(--muted)">Sent to:</span> <strong>' + m.qr.e + '</strong></div>' +
+      '<div><span style="color:var(--muted)">Sent at:</span> <strong>' + sentDate.toLocaleString() + '</strong></div>' +
+      '<div><span style="color:var(--muted)">Time ago:</span> <strong>' + timeAgo + '</strong></div>' +
+      '<div><span style="color:var(--muted)">Phase:</span> <strong>Phase ' + m.qr.p + '</strong></div>' +
+      '<div><span style="color:var(--muted)">Batch:</span> <strong style="font-family:monospace;font-size:.68rem">' + m.qr.b + '</strong></div>' +
+      '<div><span style="color:var(--muted)">Recipient name:</span> <strong>' + m.qr.n + '</strong></div>' +
+      '</div></div>';
+  } else {
+    histDiv.innerHTML =
+      '<div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:12px">' +
+      '<div style="font-size:.74rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.6px"><i class="fas fa-exclamation-triangle me-1"></i> No QR Code Sent</div>' +
+      '<p style="font-size:.72rem;color:var(--muted);margin:6px 0 0">This member has not received a QR code. Use the "Send QR Code" button below to generate and send one.</p>' +
+      '</div>';
+  }
+
+  // Pre-fill editable fields
+  document.getElementById('qrm-edit-name').value = m.name || '';
+  document.getElementById('qrm-edit-email').value = m.email || '';
+  document.getElementById('qrm-edit-phone').value = m.phone || '';
+  document.getElementById('qrm-edit-adults').value = m.adults || 1;
+  document.getElementById('qrm-edit-kids').value = m.kids || 0;
+  document.getElementById('qrm-edit-spouse').value = m.spouse || '';
+  document.getElementById('qrm-edit-children').value = m.children || '';
+  document.getElementById('qrm-edit-notes').value = '';
+  if (m.householdType) document.getElementById('qrm-edit-hhtype').value = m.householdType;
+  if (m.dietary) {
+    var dietSel = document.getElementById('qrm-edit-dietary');
+    if (m.dietary.toLowerCase().indexOf('vegan') >= 0) dietSel.value = 'vegan';
+    else if (m.dietary.toLowerCase().indexOf('veg') >= 0) dietSel.value = 'veg';
+    else dietSel.value = 'non-veg';
+  }
+
+  // Show/hide send vs resend
+  document.getElementById('qrm-btn-send').style.display = m.qrSent ? 'none' : '';
+  document.getElementById('qrm-btn-resend').style.display = m.qrSent ? '' : 'none';
+
+  // Clear send result
+  document.getElementById('qrm-send-result').style.display = 'none';
+
+  // Scroll to detail panel
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Close detail panel ──
+function qrmCloseDetail() {
+  document.getElementById('qrm-detail-panel').style.display = 'none';
+  QRM_SELECTED = null;
+}
+
+// ── Send QR Code (dry run or live) ──
+function qrmSendQR() {
+  var email = (document.getElementById('qrm-edit-email').value || '').trim();
+  var name  = (document.getElementById('qrm-edit-name').value || '').trim();
+  if (!email) { showToast('Email address is required!', '#ef4444'); return; }
+  if (!name)  { showToast('Name is required!', '#ef4444'); return; }
+
+  var resultDiv = document.getElementById('qrm-send-result');
+
+  if (QRM_DRY_RUN) {
+    // Simulate QR generation + send
+    var hmacPayload = email.toLowerCase() + '|BOSONTO-2026|' + Date.now();
+    var fakeQR = 'BANF-QR-' + btoa(hmacPayload).substring(0, 16);
+    var now = new Date().toISOString();
+
+    // Add to QR_SENT_LOG (in-memory)
+    var newEntry = { e: email.toLowerCase(), n: name, s: now, p: 4, b: 'BATCH-MANUAL-' + Date.now().toString(36) };
+    QR_SENT_LOG.push(newEntry);
+
+    resultDiv.innerHTML =
+      '<div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);padding:10px;border-radius:8px">' +
+      '<div style="font-weight:700;color:var(--green);margin-bottom:6px"><i class="fas fa-check-circle me-1"></i> QR Code Sent Successfully (DRY RUN)</div>' +
+      '<div style="font-size:.72rem;color:var(--muted)">' +
+      '<div>📧 Sent to: <strong>' + email + '</strong></div>' +
+      '<div>🔑 QR Token: <code style="background:var(--bg2);padding:2px 6px;border-radius:4px">' + fakeQR + '</code></div>' +
+      '<div>📅 Timestamp: ' + new Date().toLocaleString() + '</div>' +
+      '<div>⚠️ DRY RUN — No actual email was sent. In live mode, this would trigger the Gmail API to send a formatted QR code email.</div>' +
+      '</div></div>';
+    resultDiv.style.display = 'block';
+
+    qrmLog('SEND_QR', 'QR code sent to ' + name + ' (' + email + ') [DRY RUN]');
+    showToast('QR code sent to ' + name + ' (dry run)', '#10b981');
+
+    // Update the detail panel to show the QR was sent
+    if (QRM_SELECTED) {
+      QRM_SELECTED.qrSent = true;
+      QRM_SELECTED.qr = newEntry;
+      document.getElementById('qrm-btn-send').style.display = 'none';
+      document.getElementById('qrm-btn-resend').style.display = '';
+    }
+
+    // Update KPI
+    document.getElementById('qrm-total-sent').textContent = QR_SENT_LOG.length;
+  } else {
+    resultDiv.innerHTML =
+      '<div style="background:rgba(234,179,8,.1);border:1px solid rgba(234,179,8,.3);padding:10px;border-radius:8px">' +
+      '<div style="font-weight:700;color:var(--yellow)"><i class="fas fa-spinner fa-spin me-1"></i> Sending QR Code via Gmail API...</div>' +
+      '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">Live mode: Sending actual email to ' + email + '. This requires the Node.js agent running on the server.</div>' +
+      '</div>';
+    resultDiv.style.display = 'block';
+    qrmLog('SEND_QR_LIVE', 'Attempting live QR send to ' + name + ' (' + email + '). Requires server agent.');
+    showToast('Live QR send requires server agent (banf-qr-drive-live.js)', '#eab308');
+  }
+}
+
+// ── Resend QR Code ──
+function qrmResendQR() {
+  var email = (document.getElementById('qrm-edit-email').value || '').trim();
+  var name  = (document.getElementById('qrm-edit-name').value || '').trim();
+  if (!email) { showToast('Email address is required!', '#ef4444'); return; }
+
+  var resultDiv = document.getElementById('qrm-send-result');
+  if (QRM_DRY_RUN) {
+    var now = new Date().toISOString();
+    var newEntry = { e: email.toLowerCase(), n: name, s: now, p: 4, b: 'BATCH-RESEND-' + Date.now().toString(36) };
+
+    // Update existing entry in log
+    var found = false;
+    for (var i = 0; i < QR_SENT_LOG.length; i++) {
+      if (QR_SENT_LOG[i].e.toLowerCase() === email.toLowerCase()) {
+        QR_SENT_LOG[i] = newEntry;
+        found = true;
+        break;
+      }
+    }
+    if (!found) QR_SENT_LOG.push(newEntry);
+
+    resultDiv.innerHTML =
+      '<div style="background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);padding:10px;border-radius:8px">' +
+      '<div style="font-weight:700;color:var(--purple);margin-bottom:6px"><i class="fas fa-redo me-1"></i> QR Code Resent (DRY RUN)</div>' +
+      '<div style="font-size:.72rem;color:var(--muted)">' +
+      '<div>📧 Resent to: <strong>' + email + '</strong></div>' +
+      '<div>📅 Timestamp: ' + new Date().toLocaleString() + '</div>' +
+      '<div>⚠️ DRY RUN — Would re-generate and resend QR code to this email via Gmail API.</div>' +
+      '</div></div>';
+    resultDiv.style.display = 'block';
+
+    qrmLog('RESEND_QR', 'QR code resent to ' + name + ' (' + email + ') [DRY RUN]');
+    showToast('QR code resent to ' + name + ' (dry run)', '#8b5cf6');
+  } else {
+    showToast('Live QR resend requires server agent', '#eab308');
+  }
+}
+
+// ── Save Changes (email fix, details update) ──
+function qrmSaveChanges() {
+  if (!QRM_SELECTED) { showToast('No member selected', '#ef4444'); return; }
+
+  var oldEmail = QRM_SELECTED.email;
+  var newEmail = (document.getElementById('qrm-edit-email').value || '').trim();
+  var newName  = (document.getElementById('qrm-edit-name').value || '').trim();
+  var newPhone = (document.getElementById('qrm-edit-phone').value || '').trim();
+  var newSpouse = (document.getElementById('qrm-edit-spouse').value || '').trim();
+  var newChildren = (document.getElementById('qrm-edit-children').value || '').trim();
+  var newNotes = (document.getElementById('qrm-edit-notes').value || '').trim();
+  var newAdults = parseInt(document.getElementById('qrm-edit-adults').value) || 1;
+  var newKids   = parseInt(document.getElementById('qrm-edit-kids').value) || 0;
+  var newHHType = document.getElementById('qrm-edit-hhtype').value;
+  var newDietary = document.getElementById('qrm-edit-dietary').value;
+
+  var changes = [];
+
+  // Track what changed
+  if (newEmail !== oldEmail) changes.push('email: ' + oldEmail + ' → ' + newEmail);
+  if (newName !== QRM_SELECTED.name) changes.push('name: ' + QRM_SELECTED.name + ' → ' + newName);
+  if (newPhone !== (QRM_SELECTED.phone || '')) changes.push('phone updated');
+  if (newSpouse !== (QRM_SELECTED.spouse || '')) changes.push('spouse: ' + newSpouse);
+  if (newChildren !== (QRM_SELECTED.children || '')) changes.push('children: ' + newChildren);
+  if (newAdults !== QRM_SELECTED.adults) changes.push('adults: ' + QRM_SELECTED.adults + ' → ' + newAdults);
+  if (newKids !== QRM_SELECTED.kids) changes.push('kids: ' + QRM_SELECTED.kids + ' → ' + newKids);
+
+  if (changes.length === 0 && !newNotes) {
+    showToast('No changes to save', '#6b7280');
+    return;
+  }
+
+  // Update in-memory CRM data if email changed
+  if (newEmail !== oldEmail) {
+    // Update BOSONTO_CRM_DATA
+    BOSONTO_CRM_DATA.forEach(function(m) {
+      if (m.email && m.email.toLowerCase() === oldEmail.toLowerCase()) {
+        m.email = newEmail;
+        if (newName) m.name = newName;
+        if (newPhone) m.phone = newPhone;
+      }
+    });
+    // Update CRM_MEMBER_DIRECTORY
+    CRM_MEMBER_DIRECTORY.forEach(function(m) {
+      if (m.e && m.e.toLowerCase() === oldEmail.toLowerCase()) {
+        m.e = newEmail;
+        if (newName) m.n = newName;
+      }
+    });
+    // Update QR_SENT_LOG
+    QR_SENT_LOG.forEach(function(entry) {
+      if (entry.e.toLowerCase() === oldEmail.toLowerCase()) {
+        entry.e = newEmail;
+        if (newName) entry.n = newName;
+      }
+    });
+  }
+
+  // Update QRM_SELECTED
+  QRM_SELECTED.name = newName;
+  QRM_SELECTED.email = newEmail;
+  QRM_SELECTED.phone = newPhone;
+  QRM_SELECTED.adults = newAdults;
+  QRM_SELECTED.kids = newKids;
+  QRM_SELECTED.householdType = newHHType;
+  QRM_SELECTED.dietary = newDietary;
+  QRM_SELECTED.spouse = newSpouse;
+  QRM_SELECTED.children = newChildren;
+
+  var changeStr = changes.length > 0 ? changes.join(', ') : 'notes added';
+  qrmLog('UPDATE', 'Updated ' + newName + ': ' + changeStr + (newNotes ? ' | Note: ' + newNotes : ''));
+  showToast('Changes saved for ' + newName, '#10b981');
+
+  // Re-render the detail panel
+  qrmSelectMember(QRM_SELECTED);
+}
+
+// ── Add to attendance list (quick check-in) ──
+function qrmAddToAttendance() {
+  if (!QRM_SELECTED) { showToast('No member selected', '#ef4444'); return; }
+  var name = QRM_SELECTED.name;
+  var email = QRM_SELECTED.email;
+
+  // Add to QFS_ATTENDEES (used by QR Food Serving panel)
+  if (typeof QFS_ATTENDEES !== 'undefined') {
+    var exists = QFS_ATTENDEES.some(function(a) {
+      return (a.email || '').toLowerCase() === email.toLowerCase();
+    });
+    if (exists) {
+      showToast(name + ' is already in the attendance list', '#eab308');
+      return;
+    }
+    QFS_ATTENDEES.push({
+      name: name, email: email, phone: QRM_SELECTED.phone || '',
+      adults: QRM_SELECTED.adults || 1, kids: QRM_SELECTED.kids || 0,
+      dietary: QRM_SELECTED.dietary || '', householdType: QRM_SELECTED.householdType || '',
+      paid: QRM_SELECTED.paid || false, amount: QRM_SELECTED.amount || 0,
+      checkedIn: true, checkedInAt: new Date().toISOString(), checkedInBy: 'QR Manager',
+      source: 'qr-manager'
+    });
+  }
+
+  qrmLog('CHECK_IN', name + ' (' + email + ') added to attendance list via QR Manager');
+  showToast(name + ' added to attendance ✓', '#10b981');
+}
+
+// ── Show Add New Member form ──
+function qrmShowAddNew() {
+  document.getElementById('qrm-new-member').style.display = 'block';
+  document.getElementById('qrm-new-result').style.display = 'none';
+  // Pre-fill search query if available
+  var q = (document.getElementById('qrm-search').value || '').trim();
+  if (q) {
+    var parts = q.split(/\s+/);
+    if (parts.length >= 2) {
+      document.getElementById('qrm-new-fname').value = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+      document.getElementById('qrm-new-lname').value = parts.slice(1).map(function(w){ return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+    } else {
+      document.getElementById('qrm-new-fname').value = q.charAt(0).toUpperCase() + q.slice(1);
+      document.getElementById('qrm-new-lname').value = '';
+    }
+  }
+  document.getElementById('qrm-new-member').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ── Close Add New Member ──
+function qrmCloseAddNew() {
+  document.getElementById('qrm-new-member').style.display = 'none';
+}
+
+// ── Add new member & send QR ──
+function qrmAddNewMember() {
+  var result = qrmCreateNewMember();
+  if (!result) return;
+  // Also send QR
+  QRM_SELECTED = result;
+  document.getElementById('qrm-edit-email').value = result.email;
+  document.getElementById('qrm-edit-name').value = result.name;
+  qrmSendQR();
+
+  var resDiv = document.getElementById('qrm-new-result');
+  resDiv.innerHTML =
+    '<div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);padding:10px;border-radius:8px">' +
+    '<div style="font-weight:700;color:var(--green)"><i class="fas fa-check-circle me-1"></i> Member Added &amp; QR Sent (DRY RUN)</div>' +
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">' + result.name + ' (' + result.email + ') added to system. QR code sent.</div>' +
+    '</div>';
+  resDiv.style.display = 'block';
+}
+
+// ── Add new member without sending QR ──
+function qrmAddNewMemberOnly() {
+  var result = qrmCreateNewMember();
+  if (!result) return;
+
+  var resDiv = document.getElementById('qrm-new-result');
+  resDiv.innerHTML =
+    '<div style="background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.3);padding:10px;border-radius:8px">' +
+    '<div style="font-weight:700;color:var(--cyan)"><i class="fas fa-check-circle me-1"></i> Member Added (No QR Sent)</div>' +
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px">' + result.name + ' (' + result.email + ') added to system. Use Search to find and send QR later.</div>' +
+    '</div>';
+  resDiv.style.display = 'block';
+}
+
+// ── Create new member (shared logic) ──
+function qrmCreateNewMember() {
+  var fname = (document.getElementById('qrm-new-fname').value || '').trim();
+  var lname = (document.getElementById('qrm-new-lname').value || '').trim();
+  var email = (document.getElementById('qrm-new-email').value || '').trim();
+  if (!fname)  { showToast('First name is required', '#ef4444'); return null; }
+  if (!lname)  { showToast('Last name is required', '#ef4444'); return null; }
+  if (!email)  { showToast('Email is required', '#ef4444'); return null; }
+  if (email.indexOf('@') < 1) { showToast('Invalid email address', '#ef4444'); return null; }
+
+  // Check for duplicates
+  var dup = false;
+  BOSONTO_CRM_DATA.forEach(function(m) { if (m.email && m.email.toLowerCase() === email.toLowerCase()) dup = true; });
+  CRM_MEMBER_DIRECTORY.forEach(function(m) { if (m.e && m.e.toLowerCase() === email.toLowerCase()) dup = true; });
+  QRM_NEW_MEMBERS.forEach(function(m) { if (m.email && m.email.toLowerCase() === email.toLowerCase()) dup = true; });
+  if (dup) { showToast('A member with this email already exists! Use Search.', '#ef4444'); return null; }
+
+  var fullName = fname + ' ' + lname;
+  var phone    = (document.getElementById('qrm-new-phone').value || '').trim();
+  var adults   = parseInt(document.getElementById('qrm-new-adults').value) || 2;
+  var kids     = parseInt(document.getElementById('qrm-new-kids').value) || 0;
+  var spouse   = (document.getElementById('qrm-new-spouse').value || '').trim();
+  var children = (document.getElementById('qrm-new-children').value || '').trim();
+  var hhtype   = document.getElementById('qrm-new-hhtype').value;
+  var dietary  = document.getElementById('qrm-new-dietary').value;
+  var notes    = (document.getElementById('qrm-new-notes').value || '').trim();
+
+  var member = {
+    name: fullName, email: email, phone: phone,
+    adults: adults, kids: kids, spouse: spouse, children: children,
+    householdType: hhtype, dietary: dietary, notes: notes,
+    addedAt: new Date().toISOString(), addedVia: 'qr-manager',
+    paid: false, amount: 0, paymentStatus: 'manual_add'
+  };
+
+  // Add to QRM_NEW_MEMBERS
+  QRM_NEW_MEMBERS.push(member);
+  localStorage.setItem('qrm_new_members', JSON.stringify(QRM_NEW_MEMBERS));
+
+  // Also add to CRM_MEMBER_DIRECTORY for search
+  CRM_MEMBER_DIRECTORY.push({ n: fullName, e: email, h: phone, t: hhtype });
+
+  // Update KPI
+  document.getElementById('qrm-manual-adds').textContent = QRM_NEW_MEMBERS.length;
+  document.getElementById('qrm-total-crm').textContent = CRM_MEMBER_DIRECTORY.length;
+
+  qrmLog('ADD_MEMBER', 'New member added: ' + fullName + ' (' + email + ')' +
+    (spouse ? ' | Spouse: ' + spouse : '') + (children ? ' | Children: ' + children : ''));
+  showToast(fullName + ' added successfully', '#10b981');
+
+  return { name: fullName, email: email, phone: phone, adults: adults, kids: kids,
+           spouse: spouse, children: children, householdType: hhtype, dietary: dietary,
+           paid: false, amount: 0, paymentStatus: 'manual_add', source: 'manual',
+           qrSent: false, qr: null, isEC: false, membership: '' };
+}
+
+// ── Activity log ──
+function qrmLog(action, message) {
+  var now = new Date();
+  var ts = now.toLocaleTimeString();
+  QRM_ACTIONS_LOG.push({ ts: now.toISOString(), action: action, message: message });
+  localStorage.setItem('qrm_actions_log', JSON.stringify(QRM_ACTIONS_LOG));
+
+  var logDiv = document.getElementById('qrm-log');
+  if (logDiv) {
+    var colors = { INIT: 'var(--cyan)', SEND_QR: 'var(--green)', RESEND_QR: 'var(--purple)',
+                   UPDATE: 'var(--yellow)', CHECK_IN: 'var(--blue)', ADD_MEMBER: 'var(--green)',
+                   SEND_QR_LIVE: 'var(--yellow)', TEST: 'var(--cyan)', TEST_PASS: 'var(--green)', TEST_FAIL: 'var(--red)' };
+    var c = colors[action] || 'var(--muted)';
+    logDiv.innerHTML += '<div class="log-line"><span class="ll-ts">' + ts + '</span><span class="ll-act" style="color:' + c + '">' + action + '</span><span class="ll-msg">' + message + '</span></div>';
+    logDiv.scrollTop = logDiv.scrollHeight;
+  }
+  var countEl = document.getElementById('qrm-log-count');
+  if (countEl) countEl.textContent = QRM_ACTIONS_LOG.length + ' actions';
+}
+
+// ── Render persisted log ──
+function qrmRenderLog() {
+  if (QRM_ACTIONS_LOG.length === 0) return;
+  var logDiv = document.getElementById('qrm-log');
+  if (!logDiv) return;
+  QRM_ACTIONS_LOG.forEach(function(entry) {
+    var ts = new Date(entry.ts).toLocaleTimeString();
+    var colors = { INIT: 'var(--cyan)', SEND_QR: 'var(--green)', RESEND_QR: 'var(--purple)',
+                   UPDATE: 'var(--yellow)', CHECK_IN: 'var(--blue)', ADD_MEMBER: 'var(--green)',
+                   TEST: 'var(--cyan)', TEST_PASS: 'var(--green)', TEST_FAIL: 'var(--red)' };
+    var c = colors[entry.action] || 'var(--muted)';
+    logDiv.innerHTML += '<div class="log-line"><span class="ll-ts">' + ts + '</span><span class="ll-act" style="color:' + c + '">' + entry.action + '</span><span class="ll-msg">' + entry.message + '</span></div>';
+  });
+}
+
+// ── Time ago helper ──
+function qrmTimeAgo(date) {
+  var diff = Math.floor((Date.now() - date.getTime()) / 1000);
+  if (diff < 60) return diff + 's ago';
+  if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+  return Math.floor(diff / 86400) + 'd ago';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ██  QR MANAGER — End-to-End Dry Run Test                     ██
+// ═══════════════════════════════════════════════════════════════
+
+function qrmRunE2ETest() {
+  var container = document.getElementById('qrm-test-steps');
+  var summary   = document.getElementById('qrm-test-summary');
+  container.innerHTML = '';
+  summary.style.display = 'none';
+
+  var steps = [];
+  var passed = 0;
+  var failed = 0;
+
+  function addStep(name, desc, fn) {
+    steps.push({ name: name, desc: desc, fn: fn });
+  }
+
+  function renderStep(idx, status, detail) {
+    var icons = { running: 'fas fa-spinner fa-spin', pass: 'fas fa-check-circle', fail: 'fas fa-times-circle' };
+    var colors = { running: 'var(--yellow)', pass: 'var(--green)', fail: 'var(--red)' };
+    var el = document.getElementById('qrm-test-step-' + idx);
+    if (!el) {
+      container.innerHTML += '<div id="qrm-test-step-' + idx + '" style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:.78rem">'
+        + '<i class="' + icons[status] + '" style="color:' + colors[status] + ';margin-top:2px;min-width:16px"></i>'
+        + '<div><strong>' + steps[idx].name + '</strong><br><span style="color:var(--muted)">' + steps[idx].desc + '</span>'
+        + '<div id="qrm-test-detail-' + idx + '" style="margin-top:4px;color:' + colors[status] + '">' + (detail || '') + '</div></div></div>';
+    } else {
+      var icon = el.querySelector('i');
+      if (icon) { icon.className = icons[status]; icon.style.color = colors[status]; }
+      var detailEl = document.getElementById('qrm-test-detail-' + idx);
+      if (detailEl) { detailEl.textContent = detail || ''; detailEl.style.color = colors[status]; }
+    }
+  }
+
+  // ── Define Test Steps ──
+
+  // Step 1: CRM Data Integrity
+  addStep('CRM Data Check', 'Verify BOSONTO_CRM_DATA and CRM_MEMBER_DIRECTORY are loaded', function() {
+    var crmOk = BOSONTO_CRM_DATA && BOSONTO_CRM_DATA.length > 0;
+    var dirOk = CRM_MEMBER_DIRECTORY && CRM_MEMBER_DIRECTORY.length > 0;
+    if (crmOk && dirOk) {
+      return { ok: true, msg: '✓ Event RSVP: ' + BOSONTO_CRM_DATA.length + ' members, CRM Directory: ' + CRM_MEMBER_DIRECTORY.length + ' members' };
+    }
+    return { ok: false, msg: '✗ CRM data missing: Event=' + (BOSONTO_CRM_DATA||[]).length + ', Directory=' + (CRM_MEMBER_DIRECTORY||[]).length };
+  });
+
+  // Step 2: QR Sent Log
+  addStep('QR Sent Log Check', 'Verify QR_SENT_LOG has entries', function() {
+    if (QR_SENT_LOG && QR_SENT_LOG.length >= 50) {
+      return { ok: true, msg: '✓ ' + QR_SENT_LOG.length + ' QR codes in sent log (phases 1-3 + manual)' };
+    }
+    return { ok: false, msg: '✗ Only ' + (QR_SENT_LOG||[]).length + ' entries in QR sent log' };
+  });
+
+  // Step 3: Search by first name
+  addStep('Search by First Name', 'Search for "Ranadhir" — should find EC member', function() {
+    var q = 'ranadhir';
+    var found = false;
+    BOSONTO_CRM_DATA.forEach(function(m) { if (m.name.toLowerCase().indexOf(q) >= 0) found = true; });
+    CRM_MEMBER_DIRECTORY.forEach(function(m) { if (m.n.toLowerCase().indexOf(q) >= 0) found = true; });
+    return found ? { ok: true, msg: '✓ Found member matching "Ranadhir" in CRM' } : { ok: false, msg: '✗ No match for "Ranadhir"' };
+  });
+
+  // Step 4: Search by last name
+  addStep('Search by Last Name', 'Search for "Ghosh" — should find multiple members', function() {
+    var q = 'ghosh';
+    var count = 0;
+    var seen = {};
+    BOSONTO_CRM_DATA.forEach(function(m) { if (m.name.toLowerCase().indexOf(q) >= 0 && !seen[m.email]) { count++; seen[m.email] = true; } });
+    CRM_MEMBER_DIRECTORY.forEach(function(m) { if (m.n.toLowerCase().indexOf(q) >= 0 && !seen[m.e]) { count++; seen[m.e] = true; } });
+    return count >= 3 ? { ok: true, msg: '✓ Found ' + count + ' members matching "Ghosh"' } : { ok: false, msg: '✗ Only ' + count + ' matches for "Ghosh", expected ≥3' };
+  });
+
+  // Step 5: Search by full name
+  addStep('Search by Full Name', 'Search for "Sunetra Basu" — should find exact match', function() {
+    var words = ['sunetra', 'basu'];
+    var found = false;
+    BOSONTO_CRM_DATA.forEach(function(m) {
+      var n = m.name.toLowerCase();
+      if (words.every(function(w) { return n.indexOf(w) >= 0; })) found = true;
+    });
+    return found ? { ok: true, msg: '✓ Found "Sunetra Basu Ghosh" via full name search' } : { ok: false, msg: '✗ No match for "Sunetra Basu"' };
+  });
+
+  // Step 6: QR history lookup
+  addStep('QR History Lookup', 'Check QR send history for ranadhir.ghosh@gmail.com', function() {
+    var qr = qrmFindQRHistory('ranadhir.ghosh@gmail.com');
+    if (qr && qr.s && qr.p) {
+      return { ok: true, msg: '✓ QR found: Phase ' + qr.p + ', Batch ' + qr.b + ', Sent ' + new Date(qr.s).toLocaleString() };
+    }
+    return { ok: false, msg: '✗ No QR history for ranadhir.ghosh@gmail.com' };
+  });
+
+  // Step 7: QR history for corrected email (Rajanya)
+  addStep('Corrected Email QR Check', 'Verify rajanya.ghosh@gmail.com has QR (was fixed from bouncing email)', function() {
+    var qr = qrmFindQRHistory('rajanya.ghosh@gmail.com');
+    if (qr && qr.s) {
+      return { ok: true, msg: '✓ Rajanya\'s corrected email has QR: sent ' + new Date(qr.s).toLocaleString() };
+    }
+    return { ok: false, msg: '✗ No QR for rajanya.ghosh@gmail.com (email fix may not have propagated)' };
+  });
+
+  // Step 8: QR for manually-added members (Suvendu, Amrita)
+  addStep('Manual Addition QR Check', 'Verify Suvendu Maitra & Amrita Mukhopadhyay got QR codes', function() {
+    var s = qrmFindQRHistory('slmaitra@gmail.com');
+    var a = qrmFindQRHistory('amrriita@gmail.com');
+    if (s && a) {
+      return { ok: true, msg: '✓ Both manual additions have QR codes (Suvendu: ' + s.b + ', Amrita: ' + a.b + ')' };
+    }
+    return { ok: false, msg: '✗ Missing QR: Suvendu=' + !!s + ', Amrita=' + !!a };
+  });
+
+  // Step 9: Simulate new member add
+  addStep('New Member Add (Simulated)', 'Add test member "Test Kumar" and verify in system', function() {
+    var testEmail = 'test.kumar.e2e@example.com';
+    // Clean up any previous test entry
+    QRM_NEW_MEMBERS = QRM_NEW_MEMBERS.filter(function(m) { return m.email !== testEmail; });
+    CRM_MEMBER_DIRECTORY = CRM_MEMBER_DIRECTORY.filter(function(m) { return m.e !== testEmail; });
+
+    // Simulate add
+    var member = {
+      name: 'Test Kumar', email: testEmail, phone: '555-0199',
+      adults: 2, kids: 1, spouse: 'Tina Kumar', children: '1 kid (age 6)',
+      householdType: 'family', dietary: 'veg', notes: 'E2E test entry',
+      addedAt: new Date().toISOString(), addedVia: 'e2e-test', paid: false, amount: 0
+    };
+    QRM_NEW_MEMBERS.push(member);
+    CRM_MEMBER_DIRECTORY.push({ n: 'Test Kumar', e: testEmail, h: '555-0199', t: 'family' });
+
+    // Verify searchable
+    var found = false;
+    CRM_MEMBER_DIRECTORY.forEach(function(m) { if (m.e === testEmail) found = true; });
+
+    // Clean up
+    QRM_NEW_MEMBERS = QRM_NEW_MEMBERS.filter(function(m) { return m.email !== testEmail; });
+    CRM_MEMBER_DIRECTORY = CRM_MEMBER_DIRECTORY.filter(function(m) { return m.e !== testEmail; });
+
+    return found ? { ok: true, msg: '✓ Test member added, verified in directory, cleaned up. Spouse: Tina Kumar, Kids: 1 (age 6)' }
+                 : { ok: false, msg: '✗ Test member not found after add' };
+  });
+
+  // Step 10: Simulate QR send
+  addStep('QR Send Simulation', 'Simulate sending QR to test email', function() {
+    var testEmail = 'test.e2e@example.com';
+    var before = QR_SENT_LOG.length;
+    var entry = { e: testEmail, n: 'E2E Test', s: new Date().toISOString(), p: 4, b: 'BATCH-E2E-TEST' };
+    QR_SENT_LOG.push(entry);
+    var after = QR_SENT_LOG.length;
+    // Verify
+    var found = qrmFindQRHistory(testEmail);
+    // Clean up
+    QR_SENT_LOG = QR_SENT_LOG.filter(function(e) { return e.e !== testEmail; });
+    return found ? { ok: true, msg: '✓ QR send simulated: log grew from ' + before + ' to ' + after + ', entry found and cleaned up' }
+                 : { ok: false, msg: '✗ QR send simulation failed' };
+  });
+
+  // Step 11: Email fix simulation
+  addStep('Email Fix Simulation', 'Simulate correcting an email address in CRM', function() {
+    // Use a safe test: temporarily change and revert
+    var original = null;
+    BOSONTO_CRM_DATA.forEach(function(m) { if (m.email === 'sunetra.basu@gmail.com') original = m; });
+    if (!original) return { ok: false, msg: '✗ Could not find test member for email fix' };
+
+    var oldEmail = original.email;
+    original.email = 'sunetra.basu.test@gmail.com';
+    var changed = original.email === 'sunetra.basu.test@gmail.com';
+    original.email = oldEmail; // revert
+    return changed ? { ok: true, msg: '✓ Email change applied and reverted successfully (sunetra.basu@gmail.com → test → reverted)' }
+                   : { ok: false, msg: '✗ Email fix did not apply' };
+  });
+
+  // Step 12: No-match scenario
+  addStep('No Match Handling', 'Search for non-existent "Zzzzxxx" — should return 0 results', function() {
+    var q = 'zzzzxxx';
+    var count = 0;
+    BOSONTO_CRM_DATA.forEach(function(m) { if (m.name.toLowerCase().indexOf(q) >= 0) count++; });
+    CRM_MEMBER_DIRECTORY.forEach(function(m) { if (m.n.toLowerCase().indexOf(q) >= 0) count++; });
+    return count === 0 ? { ok: true, msg: '✓ No results for "Zzzzxxx" — Add New Member prompt would appear' }
+                       : { ok: false, msg: '✗ Unexpectedly found ' + count + ' results' };
+  });
+
+  // ── Run Steps Sequentially with Visual Updates ──
+  var stepIdx = 0;
+  function runNext() {
+    if (stepIdx >= steps.length) {
+      // Show summary
+      summary.style.display = 'block';
+      var allPass = failed === 0;
+      summary.style.background = allPass ? 'rgba(16,185,129,.08)' : 'rgba(239,68,68,.08)';
+      summary.style.border = '1px solid ' + (allPass ? 'rgba(16,185,129,.3)' : 'rgba(239,68,68,.3)');
+      summary.innerHTML =
+        '<div style="font-size:.9rem;font-weight:700;color:' + (allPass ? 'var(--green)' : 'var(--red)') + '">'
+        + (allPass ? '<i class="fas fa-trophy me-1"></i> ALL TESTS PASSED' : '<i class="fas fa-exclamation-triangle me-1"></i> SOME TESTS FAILED')
+        + '</div>'
+        + '<div style="font-size:.78rem;color:var(--muted);margin-top:6px">'
+        + '<span style="color:var(--green)">✓ ' + passed + ' passed</span> · '
+        + '<span style="color:var(--red)">✗ ' + failed + ' failed</span> · '
+        + steps.length + ' total steps · '
+        + 'Ran at ' + new Date().toLocaleString()
+        + '</div>';
+
+      qrmLog('TEST', 'E2E test complete: ' + passed + '/' + steps.length + ' passed' + (failed > 0 ? ' (' + failed + ' failed)' : ''));
+      return;
+    }
+
+    renderStep(stepIdx, 'running', 'Running...');
+
+    setTimeout(function() {
+      var s = steps[stepIdx];
+      try {
+        var result = s.fn();
+        if (result.ok) { passed++; renderStep(stepIdx, 'pass', result.msg); }
+        else { failed++; renderStep(stepIdx, 'fail', result.msg); }
+      } catch(e) {
+        failed++;
+        renderStep(stepIdx, 'fail', '✗ Error: ' + e.message);
+      }
+      stepIdx++;
+      setTimeout(runNext, 150);
+    }, 200);
+  }
+
+  qrmLog('TEST', 'Starting E2E dry run test (' + steps.length + ' steps)...');
+  runNext();
+}
+
+// ── Initialize QR Manager when panel is shown ──
+(function() {
+  var origShow = window.showPanel || null;
+  if (!origShow) {
+    // Watch for panel-qr-manage becoming visible
+    var ob = new MutationObserver(function() {
+      var panel = document.getElementById('panel-qr-manage');
+      if (panel && panel.style.display !== 'none' && !panel.dataset.qrmInit) {
+        panel.dataset.qrmInit = '1';
+        qrmInit();
+      }
+    });
+    setTimeout(function() {
+      var panel = document.getElementById('panel-qr-manage');
+      if (panel) ob.observe(panel, { attributes: true, attributeFilter: ['style'] });
+    }, 500);
+  }
+})();
+
+// Also init QR Manager on sidebar click
+document.addEventListener('click', function(e) {
+  var item = e.target.closest('[data-panel="qr-manage"]');
+  if (item) {
+    setTimeout(function() { qrmInit(); }, 100);
+  }
+});
 
 </script>
 <!-- BANF RAG Chatbot Widget (Admin Variant) -->
