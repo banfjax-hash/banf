@@ -1441,8 +1441,15 @@ async function sendViaWixEmail({ to, subject, body, body_html, toName, cc, bcc, 
     const errors = [];
 
     for (const recipientEmail of emails) {
-        // Try 1: Wix Triggered Emails (requires 'general_email' template in dashboard)
+        // ═══ EC GUARD: Skip Wix Triggered Emails to prevent Wix Automation side-effects ═══
+        // findOrCreateContact() creates Wix CRM contacts which can trigger
+        // Wix Dashboard Automations (e.g. EC onboarding emails). To prevent
+        // unintended EC email sends, go straight to Gmail for all emails.
+        // Re-enable Wix Triggered Emails ONLY after disabling Wix Dashboard
+        // Automations that fire on contact creation/update.
+        // ══════════════════════════════════════════════════════════════════════════
         let wixEmailSucceeded = false;
+        /* --- Wix Triggered Emails BYPASSED (EC delink fix) ---
         try {
             const contactId = await findOrCreateContact(recipientEmail, toName);
             if (!contactId) throw new Error('Could not resolve contact ID for ' + recipientEmail);
@@ -1459,6 +1466,7 @@ async function sendViaWixEmail({ to, subject, body, body_html, toName, cc, bcc, 
         } catch (_wixEmailErr) {
             // Fall through to Gmail API fallback — Wix template 'general_email' not configured
         }
+        --- End bypass --- */
 
         // Try 2: Gmail API fallback (no Wix template required)
         if (!wixEmailSucceeded) {

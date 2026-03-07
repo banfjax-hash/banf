@@ -3989,6 +3989,18 @@ async function communicationAgentSend(opts) {
     return { sent: false, reason: 'Missing recipient or subject' };
   }
 
+  // ═══ EC ONBOARDING GUARD ═══════════════════════════════════════
+  // Block ALL ec_ purpose emails at the communication agent level.
+  // EC emails must ONLY go through the ec-onboarding-gate.js backend
+  // which has kill switch, super-admin permission, and 72hr cooldown.
+  // This prevents any portal button from bypassing EC safeguards.
+  // ═══════════════════════════════════════════════════════════════
+  var purpose = (opts.purpose || 'general').toLowerCase();
+  if (purpose.indexOf('ec_') === 0 || purpose.indexOf('ec-') === 0 || purpose === 'ec_onboarding' || purpose === 'ec_batch_reminder') {
+    addLog('EC_GUARD_BLOCK', 'communicationAgentSend BLOCKED ec-purpose email to ' + opts.to + ' (purpose: ' + opts.purpose + '). EC emails delinked — use ec-onboarding-gate.js backend only.');
+    return { sent: false, reason: 'EC email sending is disabled at communication agent level. Use ec-onboarding-gate.js backend endpoints.', blocked: true };
+  }
+
   // Step 1: Check email guard for duplicates
   var guard = checkEmailGuard(opts.to, opts.purpose || 'general');
 
@@ -5051,50 +5063,16 @@ document.getElementById('btn-ec-signup-check').addEventListener('click',()=>{
 });
 
 document.getElementById('btn-ec-send-reminder').addEventListener('click', async ()=>{
-  const notSignedUp = EC_MEMBERS.filter(m=>!m.signedUp);
-  if(notSignedUp.length===0){ alert('All EC members have signed up!'); return; }
-
-  // Pre-flight: check which members are blocked by dedup guard
-  let blocked = [], sendable = [];
-  notSignedUp.forEach(function(m) {
-    var guard = checkEmailGuard(m.email, 'ec_batch_reminder');
-    if (!guard.allowed) blocked.push({ member: m, guard: guard });
-    else sendable.push(m);
-  });
-
-  var confirmMsg = 'EC Batch Signup Reminders\n\n';
-  if (sendable.length > 0) {
-    confirmMsg += '\u2705 Will send to ' + sendable.length + ':\n';
-    sendable.forEach(function(m) { confirmMsg += '  \u2022 ' + m.name + ' (' + m.email + ')\n'; });
-  }
-  if (blocked.length > 0) {
-    confirmMsg += '\n\u26D4 Blocked by dedup guard (' + blocked.length + '):\n';
-    blocked.forEach(function(b) { confirmMsg += '  \u2022 ' + b.member.name + ' \u2014 ' + b.guard.reason + '\n'; });
-  }
-  if (sendable.length === 0) { alert(confirmMsg + '\nNo emails to send \u2014 all blocked by duplicate guard.\nTo override, send individually.'); return; }
-  if (!confirm(confirmMsg + '\nProceed with ' + sendable.length + ' email(s)?')) return;
-
-  addLog('EC_REMIND_BATCH','Initiating batch signup reminders to '+sendable.length+' EC members ('+blocked.length+' blocked by dedup)...');
-  let sent=0, failed=0, blockedCount=blocked.length;
-  for(const m of sendable){
-    const signupLink = buildSignupLink(m.email);
-    const expiresAt = getExpiryTime();
-    const htmlBody = buildECReminderEmail({name:m.name,email:m.email,title:m.title,signupLink,expiresAt});
-    var result = await communicationAgentSend({
-      to: m.email, toName: m.name,
-      subject: 'URGENT: Complete Your BANF EC Signup \u2014 Link Expires in 24 Hours',
-      body_html: htmlBody,
-      purpose: 'ec_batch_reminder'
-    });
-    if (result.sent) { sent++; addLog('EC_REMIND_OK','Reminder sent to '+m.name+' ('+m.email+')'); }
-    else { failed++; addLog('EC_REMIND_FAIL','Failed: '+m.name+' \u2014 '+result.reason); }
-  }
-  addLog('EC_REMIND_BATCH_DONE','Batch complete: '+sent+' sent, '+failed+' failed, '+blockedCount+' blocked (dedup)');
-  // Update task ECDT-002
-  const task = EC_DRIVE_TASKS.find(t=>t.id==='ECDT-002');
-  if(task){ task.status = failed===0&&blockedCount===0?'done':'in-progress'; task.note='Sent '+sent+'/'+notSignedUp.length+'. '+(failed>0?failed+' failed. ':'')+(blockedCount>0?blockedCount+' blocked (dedup). ':'')+'Link expires 24hrs.'; }
-  renderAll();
-  alert('Signup reminders batch complete.\n\n\u2705 Sent: '+sent+'\n\u274C Failed: '+failed+'\n\u26D4 Blocked (dedup): '+blockedCount+'\n\nLinks expire in 24 hours.\nCheck Activity Log for details.');
+  // ══════════════════════════════════════════════════════════════
+  // EC EMAIL SENDING — DISABLED (delinked from all email drives)
+  // Bug fix: This button was bypassing the EC_EMAIL_SENDING_DISABLED
+  // kill switch by using communicationAgentSend() instead of the
+  // guarded ec_send_reminder endpoint. Now properly disabled.
+  // Re-enable ONLY via backend ec-onboarding-gate.js kill switch.
+  // ══════════════════════════════════════════════════════════════
+  alert('\u26D4 EC Signup Reminder Sending is DISABLED.\n\nEC onboarding email sends have been delinked from all email drives.\nTo re-enable, set EC_EMAIL_SENDING_DISABLED = false in ec-onboarding-gate.js\nand redeploy the backend.');
+  addLog('EC_REMIND_BLOCKED', 'EC signup reminder send BLOCKED — EC email sending is disabled (delinked)');
+  return;
 });
 
 document.getElementById('btn-ec-pending').addEventListener('click',()=>{
@@ -7854,11 +7832,13 @@ var AD_DRIVE_LAUNCHED = false;
 function initAuditDrives() {
   renderAuditDrives();
   document.getElementById('btn-launch-ec-onboarding').onclick = launchECOnboardingDrive;
-  // Auto-launch EC Onboarding Drive on first visit by super admin
-  if (!AD_DRIVE_LAUNCHED && ADMIN_DRIVES.length === 0) {
-    AD_DRIVE_LAUNCHED = true;
-    autoLaunchECOnboardingDrive();
-  }
+  // Auto-launch DISABLED — was causing confusion by running simulation
+  // that appeared to send EC emails. EC onboarding is now delinked.
+  // To manually launch, use the 'Launch EC Onboarding Drive' button.
+  // if (!AD_DRIVE_LAUNCHED && ADMIN_DRIVES.length === 0) {
+  //   AD_DRIVE_LAUNCHED = true;
+  //   autoLaunchECOnboardingDrive();
+  // }
 }
 
 // Auto-launch: runs the complete EC Onboarding Drive (all 9 steps) without confirmation
