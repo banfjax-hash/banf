@@ -424,6 +424,7 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
     <div class="sb-item" data-panel="qr-food-serving" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-utensils"></i><span>QR Food Serving</span></div>
     <div class="sb-item" data-panel="qr-email-drive" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-paper-plane"></i><span>QR Email Drive</span><span id="qrd-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block" title="QR Drive Status"></span></div>
     <div class="sb-item" data-panel="email-pipeline" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-envelope-open-text"></i><span>Email Pipeline</span><span id="pipeline-status-dot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block" title="Pipeline Active"></span></div>
+    <div class="sb-item" data-panel="membership-acceptance" data-roles="ec_member,ec-member,admin,super_admin,super-admin"><i class="fas fa-id-card-clip"></i><span>Membership Drive</span><span style="margin-left:auto;background:rgba(34,197,94,.2);color:#4ade80;font-size:.56rem;font-weight:700;border-radius:99px;padding:1px 6px">NEW</span></div>
 
     <!-- ── AI / RAG ── ec_member, admin, super_admin -->
     <div class="sb-group" data-roles="ec_member,ec-member,admin,super_admin,super-admin">AI Assistant</div>
@@ -1533,6 +1534,108 @@ body[class*="theme-"] .sb-item.active::after{background:var(--role-accent,var(--
         </h2>
         <p style="font-size:.72rem;color:var(--muted);margin-bottom:10px">Calendar Agent automatically populates the calendar with known BANF events for the year (Durga Puja, Saraswati Puja, Pohela Boishakh, picnics, etc.).</p>
         <div id="cal-auto-events" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+    </div>
+
+    <!-- ═══════ MEMBERSHIP ACCEPTANCE DRIVE PANEL ═══════ -->
+    <div class="portal-section" id="panel-membership-acceptance">
+      <div class="stg-label" style="display:flex;align-items:center;gap:8px">
+        <span><i class="fas fa-id-card-clip" style="color:var(--green)"></i> User Membership Acceptance Drive</span>
+        <span style="margin-left:auto;background:rgba(34,197,94,.15);color:#4ade80;font-size:.62rem;font-weight:700;border-radius:99px;padding:2px 8px">Season 2026-27</span>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi green"><div class="v" id="mad-paid">0</div><div class="k">Fully Paid</div></div>
+        <div class="kpi yellow"><div class="v" id="mad-partial">0</div><div class="k">Partial</div></div>
+        <div class="kpi red"><div class="v" id="mad-unpaid">0</div><div class="k">Unpaid</div></div>
+        <div class="kpi blue"><div class="v" id="mad-exact">0</div><div class="k">Exact Matches</div></div>
+        <div class="kpi cyan"><div class="v" id="mad-total">0</div><div class="k">Total Members</div></div>
+        <div class="kpi purple"><div class="v" id="mad-revenue">$0</div><div class="k">Revenue</div></div>
+      </div>
+
+      <!-- EB Deadline Banner -->
+      <div style="background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(139,92,246,.1));border:1px solid rgba(59,130,246,.2);border-radius:12px;padding:14px 18px;margin:12px 0;display:flex;align-items:center;gap:12px">
+        <i class="fas fa-hourglass-half" style="font-size:1.5rem;color:var(--blue)"></i>
+        <div>
+          <div style="font-weight:700;color:var(--text)">Early Bird Deadline: May 31, 2026</div>
+          <div style="font-size:.75rem;color:var(--dim)">M2 Premium Early Bird rates apply until this date. After: M2 Premium rates apply.</div>
+        </div>
+      </div>
+
+      <!-- Pricing Reference -->
+      <div style="background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0">
+        <div style="font-weight:700;margin-bottom:8px;font-size:.85rem"><i class="fas fa-tags me-1" style="color:var(--accent)"></i> Membership Pricing (2026-27)</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;font-size:.75rem">
+          <div style="background:var(--bg);border-radius:8px;padding:8px 10px;border:1px solid var(--line)">
+            <div style="font-weight:700;color:var(--green);margin-bottom:4px">M2 Early Bird</div>
+            <div>Family: $375</div><div>Couple: $330</div><div>Individual: $205</div><div>Student: $145</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:8px 10px;border:1px solid var(--line)">
+            <div style="font-weight:700;color:var(--blue);margin-bottom:4px">M2 Premium</div>
+            <div>Family: $410</div><div>Couple: $365</div><div>Individual: $230</div><div>Student: $165</div>
+          </div>
+          <div style="background:var(--bg);border-radius:8px;padding:8px 10px;border:1px solid var(--line)">
+            <div style="font-weight:700;color:var(--yellow);margin-bottom:4px">M1 Regular</div>
+            <div>Family: $280</div><div>Couple: $255</div><div>Individual: $140</div><div>Student: $100</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin:12px 0">
+        <button class="mad-filter active" onclick="madFilter('all',this)" style="padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--accent);color:#fff;cursor:pointer">All</button>
+        <button class="mad-filter" onclick="madFilter('paid',this)" style="padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer">✅ Paid</button>
+        <button class="mad-filter" onclick="madFilter('exact',this)" style="padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer">⭐ Exact Match</button>
+        <button class="mad-filter" onclick="madFilter('partial',this)" style="padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer">⏳ Partial</button>
+        <button class="mad-filter" onclick="madFilter('unpaid',this)" style="padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer">❌ Unpaid</button>
+        <button class="mad-filter" onclick="madFilter('balance',this)" style="padding:6px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer">⚠️ Balance Due</button>
+      </div>
+
+      <!-- Members Table -->
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:.78rem" id="mad-table">
+          <thead><tr style="background:var(--bg2)">
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">#</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Member</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Party</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">HH Type</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Paid</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Mapped Tier</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Price</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Confidence</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Status</th>
+            <th style="padding:8px 10px;text-align:left;font-weight:600;font-size:.72rem">Actions</th>
+          </tr></thead>
+          <tbody id="mad-body"></tbody>
+        </table>
+      </div>
+      <div id="mad-empty" style="display:none;text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-check-circle me-2"></i>No members in this filter</div>
+
+      <!-- Manual Mapping Section -->
+      <div style="background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:14px">
+        <div style="font-weight:700;margin-bottom:8px;font-size:.85rem"><i class="fas fa-user-edit me-1" style="color:var(--accent)"></i> Manual Membership Override</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end">
+          <div><label style="font-size:.68rem;color:var(--dim)">Email</label><input id="mad-override-email" type="email" placeholder="member@email.com" style="width:100%;padding:6px 10px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:.78rem"></div>
+          <div><label style="font-size:.68rem;color:var(--dim)">Tier</label><select id="mad-override-tier" style="width:100%;padding:6px 10px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:.78rem">
+            <option value="M2_EarlyBird">M2 Early Bird</option>
+            <option value="M2_Premium">M2 Premium</option>
+            <option value="M1_Regular">M1 Regular</option>
+          </select></div>
+          <div><label style="font-size:.68rem;color:var(--dim)">Household</label><select id="mad-override-hh" style="width:100%;padding:6px 10px;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);font-size:.78rem">
+            <option value="family">Family</option>
+            <option value="couple">Couple</option>
+            <option value="individual">Individual</option>
+            <option value="student">Student</option>
+          </select></div>
+          <button onclick="madOverride()" style="padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.78rem;font-weight:600"><i class="fas fa-save me-1"></i>Override</button>
+        </div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+        <button onclick="madExportCSV()" style="padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer"><i class="fas fa-file-csv me-1"></i>Export CSV</button>
+        <button onclick="madRefresh()" style="padding:6px 14px;border-radius:8px;font-size:.72rem;font-weight:600;border:1px solid var(--line);background:var(--bg2);color:var(--text);cursor:pointer"><i class="fas fa-sync-alt me-1"></i>Refresh</button>
       </div>
     </div>
 
@@ -3705,6 +3808,7 @@ function navTo(panel){
   if (panel === 'qr-email-drive') { qrdInit(); }
   if (panel === 'event-reports') { initEventReports(); }
   if (panel === 'meta-social') { initMetaSocial(); }
+  if (panel === 'membership-acceptance') { madInit(); }
 }
 
 function adminComingSoon(panel) {
@@ -8780,12 +8884,307 @@ function qfsRestoreState() {
 // ═══════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════
+// MEMBERSHIP ACCEPTANCE DRIVE — Dashboard Panel JS
+// ═══════════════════════════════════════════════════════════
+
+var MAD_PRICING = {
+  M2_EarlyBird: { code: 'M2-EB', name: 'M2 Premium (Early Bird)', family: 375, couple: 330, individual: 205, student: 145 },
+  M2_Premium:   { code: 'M2',    name: 'M2 Premium',              family: 410, couple: 365, individual: 230, student: 165 },
+  M1_Regular:   { code: 'M1',    name: 'M1 Regular',              family: 280, couple: 255, individual: 140, student: 100 }
+};
+
+var MAD_MAPPINGS = [];
+var MAD_FILTER = 'all';
+var MAD_OVERRIDES = {};
+
+function madInit() {
+  // Load overrides from localStorage
+  try { MAD_OVERRIDES = JSON.parse(localStorage.getItem('banf_mad_overrides') || '{}'); } catch(e) { MAD_OVERRIDES = {}; }
+
+  MAD_MAPPINGS = [];
+  BOSONTO_CRM_DATA.forEach(function(m) {
+    var mapping = madMapPayment(m);
+    // Apply override if exists
+    var ov = MAD_OVERRIDES[m.email];
+    if (ov) {
+      mapping.recommendedTier = ov.tier;
+      mapping.recommendedHousehold = ov.household;
+      var tierData = MAD_PRICING[ov.tier];
+      mapping.recommendedPrice = tierData ? (tierData[ov.household] || 0) : 0;
+      mapping.confidence = 100;
+      mapping.mappingNote = 'Manual override by admin: ' + (ov.overriddenAt || '');
+      mapping.isOverride = true;
+    }
+    MAD_MAPPINGS.push(mapping);
+  });
+  madRender();
+}
+
+function madDetermineHH(m) {
+  var adults = parseInt(m.adults) || 1;
+  var kids = parseInt(m.kids) || 0;
+  var total = adults + kids;
+  if (m.householdType === 'student' || m.membership === 'student') return 'student';
+  if (total >= 3 || (adults >= 2 && kids >= 1)) return 'family';
+  if (adults === 2 && kids === 0) return 'couple';
+  if (adults === 1 && kids === 0) return 'individual';
+  return total >= 2 ? 'couple' : 'individual';
+}
+
+function madMapPayment(m) {
+  var amount = parseFloat(m.amount) || 0;
+  var paid = m.paymentStatus === 'paid' || m.paid;
+  var partial = m.paymentStatus === 'partial';
+  var hhType = madDetermineHH(m);
+  var adults = parseInt(m.adults) || 1;
+  var kids = parseInt(m.kids) || 0;
+
+  var result = {
+    email: m.email, name: m.name, adults: adults, kids: kids,
+    householdType: hhType, amountPaid: amount,
+    isPaid: paid || partial, isPartial: partial, isUnpaid: !paid && !partial,
+    exactMatch: null, possibleMatches: [], recommendedTier: null,
+    recommendedHousehold: null, recommendedPrice: 0,
+    balanceDue: 0, overpayment: 0, confidence: 0, mappingNote: '',
+    lastYearMembership: m.membership || '', isEC: m.isEC,
+    memberSince: m.memberSince || '', isOverride: false
+  };
+
+  if (result.isUnpaid) {
+    result.recommendedTier = 'M2_EarlyBird';
+    result.recommendedHousehold = hhType;
+    result.recommendedPrice = MAD_PRICING.M2_EarlyBird[hhType] || 0;
+    result.balanceDue = result.recommendedPrice;
+    result.confidence = 0;
+    result.mappingNote = 'No payment. Recommended M2-EB based on ' + adults + 'A+' + kids + 'K → ' + hhType;
+    return result;
+  }
+
+  var matches = [];
+  for (var tk in MAD_PRICING) {
+    var td = MAD_PRICING[tk];
+    ['family','couple','individual','student'].forEach(function(hh) {
+      var price = td[hh];
+      if (!price) return;
+      var diff = amount - price;
+      var score = 0;
+      if (diff === 0) score = 100;
+      else if (Math.abs(diff) <= 10) score = 90;
+      else if (Math.abs(diff) <= 30) score = 70;
+      else if (Math.abs(diff) <= 50) score = 50;
+      else score = 20;
+      if (hh === hhType) score += 15;
+      if (m.membership) {
+        var lt = m.membership.toLowerCase();
+        if (lt.includes('m2') && tk.includes('M2')) score += 10;
+        if (lt.includes('m1') && tk.includes('M1')) score += 10;
+        if (lt === hh) score += 5;
+      }
+      if (hh !== hhType) score -= 10;
+      score = Math.min(score, 100);
+      matches.push({ tierKey: tk, tierName: td.name, tierCode: td.code, householdType: hh, price: price, diff: diff, isExact: diff === 0, isOver: diff > 0, isUnder: diff < 0, score: score });
+    });
+  }
+  matches.sort(function(a,b){ return b.score - a.score; });
+  result.possibleMatches = matches.slice(0, 6);
+  var best = matches[0];
+  if (best) {
+    result.recommendedTier = best.tierKey;
+    result.recommendedHousehold = best.householdType;
+    result.recommendedPrice = best.price;
+    result.confidence = best.score;
+    if (best.isExact) { result.exactMatch = best; result.mappingNote = '✅ EXACT: $' + amount + ' = ' + best.tierName + ' (' + best.householdType + ')'; }
+    else if (best.isOver) { result.overpayment = best.diff; result.mappingNote = '💰 Over: $' + amount + ' > $' + best.price + ' (credit $' + best.diff + ')'; }
+    else { result.balanceDue = Math.abs(best.diff); result.mappingNote = '⚠️ Under: $' + amount + ' < $' + best.price + ' (due $' + Math.abs(best.diff) + ')'; }
+  }
+  return result;
+}
+
+function madGetFiltered() {
+  var list = MAD_MAPPINGS;
+  if (MAD_FILTER === 'paid') list = list.filter(function(m){ return m.isPaid && !m.isPartial; });
+  if (MAD_FILTER === 'exact') list = list.filter(function(m){ return m.exactMatch; });
+  if (MAD_FILTER === 'partial') list = list.filter(function(m){ return m.isPartial; });
+  if (MAD_FILTER === 'unpaid') list = list.filter(function(m){ return m.isUnpaid; });
+  if (MAD_FILTER === 'balance') list = list.filter(function(m){ return m.balanceDue > 0 && !m.isUnpaid; });
+  return list;
+}
+
+function madRender() {
+  var all = MAD_MAPPINGS;
+  var paid = all.filter(function(m){ return m.isPaid && !m.isPartial; });
+  var partial = all.filter(function(m){ return m.isPartial; });
+  var unpaid = all.filter(function(m){ return m.isUnpaid; });
+  var exact = all.filter(function(m){ return m.exactMatch; });
+  var rev = all.reduce(function(s,m){ return s + m.amountPaid; }, 0);
+
+  var el = function(id,v){ var e = document.getElementById(id); if(e) e.textContent = v; };
+  el('mad-paid', paid.length);
+  el('mad-partial', partial.length);
+  el('mad-unpaid', unpaid.length);
+  el('mad-exact', exact.length);
+  el('mad-total', all.length);
+  el('mad-revenue', '$' + rev);
+
+  var list = madGetFiltered();
+  var tbody = document.getElementById('mad-body');
+  var emptyEl = document.getElementById('mad-empty');
+  if (!tbody) return;
+  if (list.length === 0) {
+    tbody.innerHTML = '';
+    if (emptyEl) emptyEl.style.display = 'block';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  tbody.innerHTML = list.map(function(m, i) {
+    var tier = MAD_PRICING[m.recommendedTier] || {};
+    var statusBadge = m.exactMatch
+      ? '<span class="badge-s badge-green">✅ Exact</span>'
+      : m.isPaid && m.balanceDue > 0
+        ? '<span class="badge-s badge-yellow">⚠️ Due $' + m.balanceDue + '</span>'
+        : m.isPaid && m.overpayment > 0
+          ? '<span class="badge-s badge-cyan">💰 +$' + m.overpayment + '</span>'
+          : m.isPartial
+            ? '<span class="badge-s badge-yellow">⏳ Partial</span>'
+            : '<span class="badge-s badge-red">❌ Unpaid</span>';
+    var confColor = m.confidence >= 90 ? 'var(--green)' : m.confidence >= 70 ? 'var(--yellow)' : 'var(--red)';
+    var payBadge = m.amountPaid > 0
+      ? '<span class="badge-s badge-green">$' + m.amountPaid + '</span>'
+      : '<span class="badge-s badge-red">$0</span>';
+    var overrideBadge = m.isOverride ? ' <span title="Manual Override" style="color:var(--accent);font-size:.6rem">🔧</span>' : '';
+    return '<tr style="background:' + (m.exactMatch ? 'rgba(34,197,94,.04)' : m.isUnpaid ? 'rgba(239,68,68,.03)' : 'transparent') + '">' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)">' + (i+1) + '</td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)"><strong>' + m.name + '</strong>' + (m.isEC ? ' <span class="badge-s badge-cyan" style="font-size:.55rem">EC</span>' : '') + overrideBadge + '<br><span style="font-size:.66rem;color:var(--dim)">' + m.email + '</span></td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)">' + m.adults + 'A+' + m.kids + 'K</td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line);text-transform:capitalize">' + m.householdType + '</td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)">' + payBadge + '</td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line);font-size:.72rem">' + (tier.name || m.recommendedTier || '—') + '<br><span style="font-size:.62rem;color:var(--dim);text-transform:capitalize">' + (m.recommendedHousehold || '') + '</span></td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line);font-weight:700">$' + (m.recommendedPrice || 0) + '</td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)"><span style="color:' + confColor + ';font-weight:700">' + m.confidence + '%</span></td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)">' + statusBadge + '</td>' +
+      '<td style="padding:6px 10px;border-bottom:1px solid var(--line)">' +
+        (m.exactMatch ? '<span class="badge-s badge-green" style="font-size:.62rem"><i class="fas fa-check-double me-1"></i>Auto-Approved</span>'
+          : '<button class="btn-sm btn-primary" style="padding:3px 8px;font-size:.64rem" onclick="madApprove(\'' + m.email.replace(/'/g,"\\'") + '\')"><i class="fas fa-check me-1"></i>Approve</button>') +
+      '</td></tr>';
+  }).join('');
+}
+
+function madFilter(f, btn) {
+  MAD_FILTER = f;
+  document.querySelectorAll('.mad-filter').forEach(function(b){ b.style.background = 'var(--bg2)'; b.style.color = 'var(--text)'; });
+  if (btn) { btn.style.background = 'var(--accent)'; btn.style.color = '#fff'; }
+  madRender();
+}
+
+function madApprove(email) {
+  var m = MAD_MAPPINGS.find(function(x){ return x.email === email; });
+  if (!m) return;
+  var tier = MAD_PRICING[m.recommendedTier] || {};
+  var msg = 'Approve membership for ' + m.name + '?\n\nTier: ' + (tier.name || m.recommendedTier) + '\nHousehold: ' + (m.recommendedHousehold || '—') + '\nPrice: $' + m.recommendedPrice + '\nPaid: $' + m.amountPaid;
+  if (m.balanceDue > 0) msg += '\nBalance Due: $' + m.balanceDue;
+  if (!confirm(msg)) return;
+
+  // Save approval to localStorage
+  var approvals = JSON.parse(localStorage.getItem('banf_mad_approvals') || '{}');
+  approvals[email] = {
+    tier: m.recommendedTier,
+    household: m.recommendedHousehold,
+    price: m.recommendedPrice,
+    approvedBy: (window.ADMIN_SESSION || {}).name || 'Admin',
+    approvedAt: new Date().toISOString()
+  };
+  localStorage.setItem('banf_mad_approvals', JSON.stringify(approvals));
+
+  m.exactMatch = { approved: true };
+  m.confidence = 100;
+  m.mappingNote = 'Approved by admin';
+  madRender();
+  showToast('✅ ' + m.name + ' — Membership approved: ' + (tier.name || '') + ' (' + (m.recommendedHousehold || '') + ')', 'var(--green)');
+}
+
+function madOverride() {
+  var email = (document.getElementById('mad-override-email') || {}).value || '';
+  var tier = (document.getElementById('mad-override-tier') || {}).value || 'M2_EarlyBird';
+  var hh = (document.getElementById('mad-override-hh') || {}).value || 'individual';
+  if (!email) { showToast('Enter member email', 'var(--red)'); return; }
+
+  MAD_OVERRIDES[email] = { tier: tier, household: hh, overriddenAt: new Date().toISOString(), overriddenBy: (window.ADMIN_SESSION || {}).name || 'Admin' };
+  localStorage.setItem('banf_mad_overrides', JSON.stringify(MAD_OVERRIDES));
+
+  // Re-map
+  madInit();
+  showToast('🔧 Override applied: ' + email + ' → ' + tier + ' (' + hh + ')', 'var(--green)');
+  if (document.getElementById('mad-override-email')) document.getElementById('mad-override-email').value = '';
+}
+
+function madExportCSV() {
+  var list = madGetFiltered();
+  var headers = ['#','Name','Email','Adults','Kids','HH Type','Paid','Recommended Tier','Rec HH','Tier Price','Confidence','Balance Due','Overpayment','Status','Note'].join(',');
+  var rows = list.map(function(m, i) {
+    var tier = MAD_PRICING[m.recommendedTier] || {};
+    var status = m.exactMatch ? 'Exact Match' : m.isPaid && m.balanceDue > 0 ? 'Balance Due' : m.isPartial ? 'Partial' : m.isUnpaid ? 'Unpaid' : 'OK';
+    return [i+1, m.name, m.email, m.adults, m.kids, m.householdType, m.amountPaid, tier.name || '', m.recommendedHousehold || '', m.recommendedPrice, m.confidence, m.balanceDue, m.overpayment, status, m.mappingNote.replace(/,/g,';')].map(function(v){ return '"' + String(v).replace(/"/g,'""') + '"'; }).join(',');
+  });
+  var csv = headers + '\n' + rows.join('\n');
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'banf-membership-drive-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('CSV exported!', 'var(--blue)');
+}
+
+function madRefresh() { madInit(); showToast('Membership drive data refreshed', 'var(--cyan)'); }
+
+// Initialize on panel load (called from switchPanel)
+// ═══════════════════════════════════════════════════════════
+// END MEMBERSHIP ACCEPTANCE DRIVE
+// ═══════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
 // QR CAMERA SCANNER — uses jsQR for real-time QR code reading
 // ═══════════════════════════════════════════════════════════
 var QFS_CAMERA_STREAM = null;
 var QFS_CAMERA_TIMER = null;
 var QFS_LAST_SCAN = '';
 var QFS_DETAIL_CURRENT = null;
+
+// ── QR Security: HMAC-SHA256 Portal-Only Verification ──
+// Secret key shared between QR generator agents and admin portal.
+// External QR readers cannot verify/process codes without this key.
+var BANF_QR_SECRET = 'banf-bosonto-2026-ec-secure-qr-key';
+
+// HMAC-SHA256 using Web Crypto API (async)
+async function banfHmacSha256(message, secret) {
+  var enc = new TextEncoder();
+  var key = await crypto.subtle.importKey('raw', enc.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  var sig = await crypto.subtle.sign('HMAC', key, enc.encode(message));
+  return Array.from(new Uint8Array(sig)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+}
+
+// Synchronous HMAC for backward-compatible QR codes (no sig field)
+// Cross-references CRM data to verify authenticity
+function banfVerifyQRByCRM(payload) {
+  if (!payload || !payload.email) return { valid: false, reason: 'No email in QR payload' };
+  var crmMatch = BOSONTO_CRM_DATA.find(function(d) { return d.email === payload.email; });
+  if (!crmMatch) return { valid: false, reason: 'Email not found in CRM: ' + payload.email };
+  // Cross-check name (fuzzy match — first word)
+  var qrFirst = (payload.name || '').split(' ')[0].toLowerCase();
+  var crmFirst = (crmMatch.name || '').split(' ')[0].toLowerCase();
+  if (qrFirst && crmFirst && qrFirst !== crmFirst) return { valid: false, reason: 'Name mismatch: QR=' + payload.name + ', CRM=' + crmMatch.name };
+  return { valid: true, crmRecord: crmMatch };
+}
+
+// Verify HMAC signature on QR payloads that include a `sig` field
+async function banfVerifyQRSignature(payload) {
+  if (!payload.sig) return null; // No signature — fallback to CRM verification
+  var sigToVerify = payload.sig;
+  // Build the signing message (same as generator): type|email|regCode|event
+  var msg = [payload.type || '', payload.email || '', payload.regCode || '', payload.event || ''].join('|');
+  var expected = await banfHmacSha256(msg, BANF_QR_SECRET);
+  return expected === sigToVerify;
+}
 
 // Load jsQR library dynamically
 (function loadJsQR() {
@@ -8892,7 +9291,7 @@ function qfsCameraScanLoop() {
     var code = jsQR(imageData.data, canvas.width, canvas.height, { inversionAttempts: 'dontInvert' });
     if (code && code.data && code.data !== QFS_LAST_SCAN) {
       QFS_LAST_SCAN = code.data;
-      qfsProcessScannedQR(code.data);
+      qfsProcessScannedQR(code.data).catch(function(err) { console.error('[QR-SECURITY] Scan processing error:', err); });
       // Prevent re-scan of same code for 3 seconds
       setTimeout(function() { QFS_LAST_SCAN = ''; }, 3000);
     }
@@ -8901,46 +9300,89 @@ function qfsCameraScanLoop() {
   QFS_CAMERA_TIMER = requestAnimationFrame(qfsCameraScanLoop);
 }
 
-function qfsProcessScannedQR(data) {
+async function qfsProcessScannedQR(data) {
   // TIME-LOCK: Block processing before event
   if (qfsIsLocked()) {
     showToast('🔒 QR scanning locked until March 29, 2026 11:00 AM ET', 'var(--red)');
     qfsCameraStop();
     return;
   }
+
+  // ── SECURITY CHECK: Verify portal context ──
+  // QR codes can ONLY be processed within the BANF EC Admin Portal.
+  if (!window.ADMIN_SESSION && !window.CURRENT_ADMIN) {
+    showToast('🔒 ERROR: QR code processing requires EC Admin authentication. Please log in.', 'var(--red)');
+    return;
+  }
+
   var toast = document.getElementById('qfs-scan-toast');
   try {
     var payload = JSON.parse(data);
-    if (payload.type === 'BANF_FOOD_CHECK_IN' || payload.regCode) {
-      // Valid BANF QR code — match with local attendee data for enrichment
-      var match = QFS_ATTENDEES.find(function(a) { return a.email === payload.email; });
-      if (match) {
-        // Enrich payload with local data
-        payload.adults = payload.adults || match.adults;
-        payload.kids = payload.kids || match.kids;
-        payload.householdType = payload.householdType || match.householdType || match.tier;
-        payload.membershipTier = payload.membershipTier || match.membership;
-        payload.paid = payload.paid || match.paid || match.paymentStatus === 'paid';
-        payload.amount = payload.amount || match.amount;
-        payload.expectedAmount = payload.expectedAmount || match.expectedAmount;
-        payload.remainingBalance = payload.remainingBalance || match.remainingBalance;
-        payload.paymentStatus = payload.paymentStatus || match.paymentStatus || (match.paid ? 'PAID' : 'UNPAID');
-      }
-      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> QR Scanned: <strong>' + (payload.name || 'Unknown') + '</strong> — Opening details...'; }
-      qfsOpenDetail(payload);
-      // Play a beep
-      try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = 880; var g = ac.createGain(); g.gain.value = 0.1; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.15); } catch(e){}
-    } else {
-      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(251,191,36,.12)'; toast.style.color = 'var(--yellow)'; toast.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i> Unknown QR format — not a BANF food check-in code'; }
+
+    // ── SECURITY: Reject non-BANF QR codes ──
+    if (payload.type !== 'BANF_FOOD_CHECK_IN' && !payload.regCode) {
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-shield-alt me-1"></i> ⛔ REJECTED — Not a BANF QR code. Only BANF EC Admin Portal can process event QR codes.'; }
+      // Log security event
+      console.warn('[QR-SECURITY] Rejected non-BANF QR code:', data.substring(0, 80));
+      try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'square'; o.frequency.value = 200; var g = ac.createGain(); g.gain.value = 0.15; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.4); } catch(e){}
+      return;
     }
+
+    // ── SECURITY LAYER 1: HMAC Signature Verification (new QR codes) ──
+    if (payload.sig) {
+      var sigValid = await banfVerifyQRSignature(payload);
+      if (sigValid === false) {
+        if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.15)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i> ⛔ SECURITY ERROR — QR signature verification failed. This code may be tampered or forged. Code: ERR_QR_SIG_INVALID'; }
+        console.error('[QR-SECURITY] HMAC signature mismatch for: ' + (payload.email || 'unknown'));
+        try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'square'; o.frequency.value = 150; var g = ac.createGain(); g.gain.value = 0.2; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.6); } catch(e){}
+        return;
+      }
+    }
+
+    // ── SECURITY LAYER 2: CRM Cross-Reference Verification ──
+    var crmCheck = banfVerifyQRByCRM(payload);
+    if (!crmCheck.valid) {
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.15)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-user-shield me-1"></i> ⛔ VERIFICATION FAILED — ' + crmCheck.reason + '. This QR code is not recognized by the BANF system. Code: ERR_QR_CRM_MISMATCH'; }
+      console.error('[QR-SECURITY] CRM verification failed:', crmCheck.reason);
+      try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'square'; o.frequency.value = 180; var g = ac.createGain(); g.gain.value = 0.15; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.5); } catch(e){}
+      return;
+    }
+
+    // ── VERIFIED: Process BANF QR Code ──
+    var match = QFS_ATTENDEES.find(function(a) { return a.email === payload.email; });
+    if (match) {
+      // Enrich payload with local data
+      payload.adults = payload.adults || match.adults;
+      payload.kids = payload.kids || match.kids;
+      payload.householdType = payload.householdType || match.householdType || match.tier;
+      payload.membershipTier = payload.membershipTier || match.membership;
+      payload.paid = payload.paid || match.paid || match.paymentStatus === 'paid';
+      payload.amount = payload.amount || match.amount;
+      payload.expectedAmount = payload.expectedAmount || match.expectedAmount;
+      payload.remainingBalance = payload.remainingBalance || match.remainingBalance;
+      payload.paymentStatus = payload.paymentStatus || match.paymentStatus || (match.paid ? 'PAID' : 'UNPAID');
+    }
+    var secBadge = payload.sig ? '🔐 Signature Verified' : '✅ CRM Verified';
+    if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> ' + secBadge + ' — <strong>' + (payload.name || 'Unknown') + '</strong> — Opening details...'; }
+    qfsOpenDetail(payload);
+    // Play success beep
+    try { var ac = new AudioContext(); var o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = 880; var g = ac.createGain(); g.gain.value = 0.1; o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.15); } catch(e){}
+
   } catch(e) {
     // Not JSON — try to match as email or regCode
     var matchByCode = QFS_ATTENDEES.find(function(a) { return a.regCode === data || a.email === data; });
     if (matchByCode) {
-      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> Matched: <strong>' + matchByCode.name + '</strong>'; }
-      qfsOpenDetailByEmail(matchByCode.email, matchByCode.event);
+      // Still verify CRM cross-reference
+      var crmCheck2 = banfVerifyQRByCRM({ email: matchByCode.email, name: matchByCode.name });
+      if (crmCheck2.valid) {
+        if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(34,197,94,.12)'; toast.style.color = 'var(--green)'; toast.innerHTML = '<i class="fas fa-check-circle me-1"></i> ✅ CRM Verified — <strong>' + matchByCode.name + '</strong>'; }
+        qfsOpenDetailByEmail(matchByCode.email, matchByCode.event);
+      } else {
+        if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-user-shield me-1"></i> ⛔ CRM verification failed for ' + data.substring(0, 40) + '. Code: ERR_QR_CRM_MISMATCH'; }
+      }
     } else {
-      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-times-circle me-1"></i> Unrecognized QR: ' + data.substring(0, 60); }
+      if (toast) { toast.style.display = 'block'; toast.style.background = 'rgba(239,68,68,.12)'; toast.style.color = 'var(--red)'; toast.innerHTML = '<i class="fas fa-times-circle me-1"></i> ⛔ UNRECOGNIZED QR — This code is not registered in the BANF system. Only codes generated by BANF EC Admin Portal are accepted. Code: ERR_QR_UNKNOWN'; }
+      console.warn('[QR-SECURITY] Unrecognized QR code attempted:', data.substring(0, 80));
     }
   }
 }
