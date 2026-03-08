@@ -8899,6 +8899,12 @@ function qfsInit() {
     if (attended) QFS_ATTENDED = JSON.parse(attended);
   } catch(e) {}
 
+  // SERVER-FIRST: Load attendance from server and merge with local cache
+  // This ensures data survives device changes and browser clears
+  if (typeof qfsLoadAttendanceFromServer === 'function') {
+    qfsLoadAttendanceFromServer();
+  }
+
   // Build attendee list from real CRM data (Bosonto Utsob 2026)
   BOSONTO_CRM_DATA.forEach(function(d) {
     var exists = QFS_ATTENDEES.some(function(a) { return a.email === d.email && a.event === 'Bosonto Utsob 2026'; });
@@ -9101,14 +9107,37 @@ function qfsRenderAttended() {
 
 function qfsServe(email, event) {
   var key = email + '|' + event;
+  var adminName = (window.ADMIN_SESSION || {}).name || 'Admin';
+  var timeStr = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   QFS_STATE[key] = {
     checkedIn: true,
-    time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-    servedBy: (window.ADMIN_SESSION || {}).name || 'Admin'
+    time: timeStr,
+    servedBy: adminName
   };
   localStorage.setItem('banf_qfs_state', JSON.stringify(QFS_STATE));
   qfsRender();
   showToast('Checked in — food served!', 'var(--green)');
+
+  // Server-side sync — persist check-in to EventAttendance collection
+  var member = QFS_ATTENDED.find(function(m){ return m.email === email; }) || {};
+  fetch(API + '/admin_checkin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      adminKey: 'banf-bosonto-2026-live',
+      email: email,
+      event: event,
+      name: member.name || email,
+      checkinTime: new Date().toISOString(),
+      servedBy: adminName,
+      source: 'qfs-portal'
+    })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if (d.error) console.warn('[QFS] Server checkin warning:', d.error);
+    else console.log('[QFS] Server checkin synced:', email);
+  }).catch(function(e){
+    console.warn('[QFS] Server checkin failed (offline?):', e.message);
+  });
 }
 
 function qfsUndo(email, event) {
@@ -9116,6 +9145,26 @@ function qfsUndo(email, event) {
   localStorage.setItem('banf_qfs_state', JSON.stringify(QFS_STATE));
   qfsRender();
   showToast('Check-in undone', 'var(--yellow)');
+
+  // Server-side sync — mark as unchecked on server
+  fetch(API + '/admin_checkin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      adminKey: 'banf-bosonto-2026-live',
+      email: email,
+      event: event,
+      checkedIn: false,
+      uncheckedBy: (window.ADMIN_SESSION || {}).name || 'Admin',
+      uncheckedAt: new Date().toISOString(),
+      source: 'qfs-portal-undo'
+    })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if (d.error) console.warn('[QFS] Server undo warning:', d.error);
+    else console.log('[QFS] Server undo synced:', email);
+  }).catch(function(e){
+    console.warn('[QFS] Server undo failed (offline?):', e.message);
+  });
 }
 
 function qfsFilter(filter, btn) {
@@ -9891,7 +9940,7 @@ function qfsCameraScanLoop() {
 async function qfsProcessScannedQR(data) {
   // TIME-LOCK: Block processing before event
   if (qfsIsLocked()) {
-    showToast('🔒 QR scanning locked until March 29, 2026 11:00 AM ET', 'var(--red)');
+    showToast('🔒 QR scanning locked until March 7, 2026 11:00 AM ET', 'var(--red)');
     qfsCameraStop();
     return;
   }
@@ -10123,7 +10172,7 @@ function qfsSaveDetail() {
 function qfsApproveAttendance() {
   // TIME-LOCK: Prevent attendance approval before event
   if (qfsIsLocked()) {
-    showToast('🔒 Attendance approval locked until event day: March 29, 2026 at 11:00 AM ET', 'var(--red)');
+    showToast('🔒 Attendance approval locked until event day: March 7, 2026 at 11:00 AM ET', 'var(--red)');
     return;
   }
   if (!QFS_DETAIL_CURRENT) return;
@@ -10211,11 +10260,10 @@ function qfsApproveAttendance() {
   }, 1200);
 }
 
-// Sync attended record to backend CRM
+// Sync attended record to backend CRM — SERVER-FIRST (v2.0)
+// Uses EventAttendance collection endpoint (event-attendance.js backend)
 function qfsSyncAttendedToCRM(record) {
-  // Try to sync to Wix backend
   var payload = {
-    action: 'approve_attendance',
     adminKey: 'banf-bosonto-2026-live',
     record: {
       email: record.email,
@@ -10249,32 +10297,108 @@ function qfsSyncAttendedToCRM(record) {
     return resp.json();
   }).then(function(data) {
     if (data && data.success) {
-      // Mark as synced
       var key = record.email + '|' + record.event;
       if (QFS_ATTENDED[key]) {
         QFS_ATTENDED[key].crmSynced = true;
         QFS_ATTENDED[key].crmSyncedAt = new Date().toISOString();
         localStorage.setItem('banf_qfs_attended', JSON.stringify(QFS_ATTENDED));
       }
-      console.log('[QFS] CRM sync success for ' + record.email);
+      console.log('[QFS] Server sync SUCCESS for ' + record.email);
     } else {
-      console.warn('[QFS] CRM sync returned non-success for ' + record.email, data);
-      // Will retry on next sync
+      console.warn('[QFS] Server sync returned non-success for ' + record.email, data);
     }
   }).catch(function(err) {
-    console.warn('[QFS] CRM sync failed (offline mode) for ' + record.email + ':', err.message);
-    // Offline mode — record is saved locally, will sync when backend is available
+    console.warn('[QFS] Server sync failed (offline fallback) for ' + record.email + ':', err.message);
+    // Offline: record stays in localStorage, will sync on next bulk sync
   });
 }
 
-// Retry syncing all unsynced attended records
+// Load attendance records FROM SERVER and merge with localStorage
+// Server is source of truth; localStorage is offline fallback
+function qfsLoadAttendanceFromServer() {
+  var event = 'Bosonto Utsob 2026';
+  fetch(API + '/admin_attendance?event=' + encodeURIComponent(event))
+    .then(function(resp) { return resp.json(); })
+    .then(function(data) {
+      if (data && data.success && data.records) {
+        console.log('[QFS] Server returned ' + data.records.length + ' attendance records');
+        // Merge server records into local QFS_ATTENDED
+        var merged = 0;
+        data.records.forEach(function(rec) {
+          var key = (rec.email || '') + '|' + (rec.event || '');
+          if (!QFS_ATTENDED[key]) {
+            QFS_ATTENDED[key] = rec;
+            QFS_ATTENDED[key].crmSynced = true;
+            merged++;
+          } else if (!QFS_ATTENDED[key].crmSynced) {
+            // Local record not synced — server has it, mark synced
+            QFS_ATTENDED[key].crmSynced = true;
+            QFS_ATTENDED[key].crmSyncedAt = new Date().toISOString();
+          }
+        });
+        if (merged > 0) {
+          localStorage.setItem('banf_qfs_attended', JSON.stringify(QFS_ATTENDED));
+          console.log('[QFS] Merged ' + merged + ' server records into local cache');
+        }
+        // Also merge server records into QFS_STATE for checkin display
+        data.records.forEach(function(rec) {
+          if (rec.checkedIn) {
+            var stateKey = (rec.email || '') + '|' + (rec.event || '');
+            if (!QFS_STATE[stateKey]) {
+              QFS_STATE[stateKey] = {
+                checkedIn: true,
+                time: rec.checkedInAt ? new Date(rec.checkedInAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : '—',
+                servedBy: rec.checkedInBy || 'Server'
+              };
+            }
+          }
+        });
+        localStorage.setItem('banf_qfs_state', JSON.stringify(QFS_STATE));
+        // Re-render if QFS panel is visible
+        if (typeof qfsRender === 'function') qfsRender();
+      }
+    })
+    .catch(function(err) {
+      console.warn('[QFS] Server attendance load failed (using local cache):', err.message);
+    });
+}
+
+// Bulk sync all local records to server
 function qfsSyncAllPending() {
-  var pending = Object.keys(QFS_ATTENDED).filter(function(k) { return !QFS_ATTENDED[k].crmSynced; });
-  if (pending.length === 0) { showToast('All attended records already synced', 'var(--green)'); return; }
-  showToast('Syncing ' + pending.length + ' pending records...', 'var(--blue)');
-  pending.forEach(function(key) {
-    qfsSyncAttendedToCRM(QFS_ATTENDED[key]);
-  });
+  var allRecords = Object.values(QFS_ATTENDED);
+  var pending = allRecords.filter(function(r) { return !r.crmSynced; });
+  if (pending.length === 0 && allRecords.length > 0) {
+    showToast('All ' + allRecords.length + ' records already synced to server', 'var(--green)');
+    return;
+  }
+  if (allRecords.length === 0) {
+    showToast('No attendance records to sync', 'var(--yellow)');
+    return;
+  }
+  showToast('Bulk syncing ' + allRecords.length + ' records to server...', 'var(--blue)');
+
+  // Use bulk endpoint for efficiency
+  fetch(API + '/admin_attendance_bulk', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ adminKey: 'banf-bosonto-2026-live', records: allRecords })
+  }).then(function(resp) { return resp.json(); })
+    .then(function(data) {
+      if (data && data.success) {
+        showToast('✅ Bulk sync: ' + (data.results ? data.results.inserted + ' inserted, ' + data.results.updated + ' updated' : 'complete'), 'var(--green)');
+        // Mark all as synced locally
+        Object.keys(QFS_ATTENDED).forEach(function(key) {
+          QFS_ATTENDED[key].crmSynced = true;
+          QFS_ATTENDED[key].crmSyncedAt = new Date().toISOString();
+        });
+        localStorage.setItem('banf_qfs_attended', JSON.stringify(QFS_ATTENDED));
+      } else {
+        showToast('⚠️ Bulk sync: ' + (data.error || 'unknown error'), 'var(--yellow)');
+      }
+    })
+    .catch(function(err) {
+      showToast('❌ Bulk sync failed: ' + err.message, 'var(--red)');
+    });
 }
 
 // Export attended members as CSV
@@ -10299,7 +10423,7 @@ function qfsExportAttendedCSV() {
 
 function qfsServeFromDetail() {
   // TIME-LOCK
-  if (qfsIsLocked()) { showToast('🔒 Check-in locked until March 29, 2026 11:00 AM ET', 'var(--red)'); return; }
+  if (qfsIsLocked()) { showToast('🔒 Check-in locked until March 7, 2026 11:00 AM ET', 'var(--red)'); return; }
   if (!QFS_DETAIL_CURRENT) return;
   var email = QFS_DETAIL_CURRENT.email || '';
   var event = QFS_DETAIL_CURRENT.event || '';
