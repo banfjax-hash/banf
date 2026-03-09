@@ -1,0 +1,32 @@
+{
+  "id": "EventAttendance",
+  "displayName": "Event Attendance",
+  "fields": {
+    "compositeKey":              { "type": "text",     "displayName": "Composite Key (email|event)" },
+    "email":                     { "type": "text",     "displayName": "Email" },
+    "name":                      { "type": "text",     "displayName": "Name" },
+    "event":                     { "type": "text",     "displayName": "Event Name" },
+    "adults":                    { "type": "number",   "displayName": "Adults" },
+    "kids":                      { "type": "number",   "displayName": "Kids" },
+    "totalHeadcount":            { "type": "number",   "displayName": "Total Headcount" },
+    "dietary":                   { "type": "text",     "displayName": "Dietary Requirements" },
+    "paid":                      { "type": "boolean",  "displayName": "Paid" },
+    "amount":                    { "type": "number",   "displayName": "Amount Paid" },
+    "paymentStatus":             { "type": "text",     "displayName": "Payment Status" },
+    "expectedAmount":            { "type": "number",   "displayName": "Expected Amount" },
+    "remainingBalance":          { "type": "number",   "displayName": "Remaining Balance" },
+    "membership":                { "type": "text",     "displayName": "Membership Tier" },
+    "householdType":             { "type": "text",     "displayName": "Household Type" },
+    "membershipRecommendation":  { "type": "text",     "displayName": "Membership Recommendation" },
+    "verificationStatus":        { "type": "text",     "displayName": "Verification Status" },
+    "comments":                  { "type": "text",     "displayName": "Comments" },
+    "approvedAt":                { "type": "datetime", "displayName": "Approved At" },
+    "approvedBy":                { "type": "text",     "displayName": "Approved By" },
+    "regCode":                   { "type": "text",     "displayName": "Registration Code" },
+    "checkedIn":                 { "type": "boolean",  "displayName": "Checked In" },
+    "checkedInAt":               { "type": "datetime", "displayName": "Checked In At" },
+    "checkedInBy":               { "type": "text",     "displayName": "Checked In By" },
+    "crmSynced":                 { "type": "boolean",  "displayName": "CRM Synced" },
+    "source":                    { "type": "text",     "displayName": "Source" }
+  }
+}

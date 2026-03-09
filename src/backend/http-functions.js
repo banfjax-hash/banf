@@ -84,8 +84,7 @@ import {
     post_admin_reset_password, options_admin_reset_password,
     post_admin_signup_send_code, options_admin_signup_send_code,
     post_admin_signup_verify_code, options_admin_signup_verify_code,
-    post_admin_signup_direct, options_admin_signup_direct,
-    post_admin_sa_force_reset, options_admin_sa_force_reset
+    post_admin_signup_direct, options_admin_signup_direct
 } from 'backend/admin-api';
 
 import {
@@ -318,6 +317,14 @@ import {
     get_validate_session,       options_validate_session
 } from 'backend/banf-member-signup';
 
+import {
+    post_admin_approve_attendance, options_admin_approve_attendance,
+    get_admin_attendance,           options_admin_attendance,
+    post_admin_attendance_bulk,     options_admin_attendance_bulk,
+    post_admin_checkin,             options_admin_checkin,
+    get_admin_attendance_stats,     options_admin_attendance_stats
+} from 'backend/event-attendance';
+
 // Re-export all v5.7.0 endpoints so Wix CLI picks them up
 export {
     get_admin_dashboard, options_admin_dashboard,
@@ -367,7 +374,12 @@ export {
     post_admin_signup_send_code, options_admin_signup_send_code,
     post_admin_signup_verify_code, options_admin_signup_verify_code,
     post_admin_signup_direct, options_admin_signup_direct,
-    post_admin_sa_force_reset, options_admin_sa_force_reset,
+    // Event Attendance v5.13.0
+    post_admin_approve_attendance, options_admin_approve_attendance,
+    get_admin_attendance,           options_admin_attendance,
+    post_admin_attendance_bulk,     options_admin_attendance_bulk,
+    post_admin_checkin,             options_admin_checkin,
+    get_admin_attendance_stats,     options_admin_attendance_stats,
     get_member_profile, options_member_profile,
     post_member_profile_update, options_member_profile_update,
     get_member_payments, options_member_payments,
@@ -548,9 +560,9 @@ export function options_ec_send_all_invitations(request)      { return _ecSendIn
 export async function post_ec_signup_congratulations(request) { return _ecSignupCongrats(request); }
 export function options_ec_signup_congratulations(request)    { return _ecSignupCongratsOpts(request); }
 
-// ── Deploy canary endpoint ──
+// Canary test: if this shows 200 with "v5.14", Wix deployed correctly
 export function get_deploy_check(request) {
-    return ok({ body: JSON.stringify({ version: 'v5.12.0-ec-separated', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    return ok({ body: JSON.stringify({ version: 'v5.14.0-procurement-ecr-devboard', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
@@ -732,6 +744,65 @@ export function get_health(request) {
     });
 }
 export function options_health(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════╗
+// ║  DEV BOARD STATE API (Change Agent)          ║
+// ╚══════════════════════════════════════════════╝
+// GET  /_functions/dev_board_state  — Returns current dev board (tickets, CRs, sprints, log)
+// POST /_functions/dev_board_state  — Push updated state from Change Agent (requires admin key)
+
+export async function get_dev_board_state(request) {
+    try {
+        const result = await wixData.query('GoogleTokens').eq('key', 'dev_board_state').find(SA);
+        if (result.items.length === 0) {
+            return jsonResponse({
+                changeRequests: [], devTickets: [], sprints: [],
+                activityLog: [], settings: { stakeholderApprovalActive: false, autoCreateTicket: true },
+                _info: 'No board state found. Run Change Agent --push to populate.'
+            });
+        }
+        const item = result.items[0];
+        return jsonResponse(JSON.parse(item.value || '{}'));
+    } catch (e) {
+        return jsonResponse({
+            changeRequests: [], devTickets: [], sprints: [],
+            activityLog: [], settings: {},
+            _error: 'Board state query failed: ' + e.message
+        });
+    }
+}
+
+export async function post_dev_board_state(request) {
+    try {
+        const body = await request.body.json();
+        const adminKey = body.adminKey || request.query?.adminKey;
+        if (adminKey !== 'banf-bosonto-2026-live') {
+            return errorResponse('Unauthorized - admin key required', 403);
+        }
+        const stateData = body.state || body;
+        delete stateData.adminKey;
+        const stateJson = JSON.stringify(stateData);
+
+        const existing = await wixData.query('GoogleTokens').eq('key', 'dev_board_state').find(SA);
+        if (existing.items.length > 0) {
+            const item = existing.items[0];
+            item.value = stateJson;
+            item.updatedAt = new Date();
+            await wixData.update('GoogleTokens', item, SA);
+        } else {
+            await wixData.insert('GoogleTokens', {
+                key: 'dev_board_state',
+                value: stateJson,
+                updatedAt: new Date()
+            }, SA);
+        }
+        return jsonResponse({ success: true, message: 'Board state updated', updatedAt: new Date().toISOString() });
+    } catch (e) {
+        return errorResponse('Failed to update board state: ' + e.message, 500);
+    }
+}
+
+export function options_dev_board_state(request) { return handleCors(); }
 
 // ╔══════════════════════════════════════════════╗
 // ║  RAG QUERY ENDPOINT                          ║
@@ -1447,7 +1518,7 @@ async function sendViaWixEmail({ to, subject, body, body_html, toName, cc, bcc, 
         // unintended EC email sends, go straight to Gmail for all emails.
         // Re-enable Wix Triggered Emails ONLY after disabling Wix Dashboard
         // Automations that fire on contact creation/update.
-        // ══════════════════════════════════════════════════════════════════════════
+        // ════════════════════════════════════════════════════════════════════════
         let wixEmailSucceeded = false;
         /* --- Wix Triggered Emails BYPASSED (EC delink fix) ---
         try {
@@ -6836,6 +6907,290 @@ export function options_ec_onboard_dashboard_page(request) { return handleCors()
 export { post_bosonto_pipeline, options_bosonto_pipeline };
 
 // ╔══════════════════════════════════════════════════════════════╗
+// ║  Procurement / Reimbursement Workflow v1.0                    ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+// Helper: Load/save procurement data from GoogleTokens
+async function loadProcurementStore() {
+    const result = await wixData.query('GoogleTokens').eq('key', 'procurement_data').find(SA);
+    if (result.items.length === 0) return { requests: [], nextId: 1 };
+    return JSON.parse(result.items[0].value || '{"requests":[],"nextId":1}');
+}
+
+async function saveProcurementStore(store) {
+    const json = JSON.stringify(store);
+    const existing = await wixData.query('GoogleTokens').eq('key', 'procurement_data').find(SA);
+    if (existing.items.length > 0) {
+        const item = existing.items[0];
+        item.value = json;
+        item.updatedAt = new Date();
+        await wixData.update('GoogleTokens', item, SA);
+    } else {
+        await wixData.insert('GoogleTokens', { key: 'procurement_data', value: json, updatedAt: new Date() }, SA);
+    }
+}
+
+// GET /_functions/procurement_list — List all procurement requests
+export async function get_procurement_list(request) {
+    try {
+        const store = await loadProcurementStore();
+        return jsonResponse({ success: true, requests: store.requests });
+    } catch (e) {
+        return errorResponse('Failed to load procurement data: ' + e.message);
+    }
+}
+export function options_procurement_list(request) { return handleCors(); }
+
+// POST /_functions/procurement_create — Create a new procurement request
+export async function post_procurement_create(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadProcurementStore();
+        const id = 'PROC-' + String(store.nextId).padStart(4, '0');
+        store.nextId++;
+
+        const tier = body.amount < 100 ? 1 : body.amount < 500 ? 2 : 3;
+        const approvers = tier === 1 ? ['ranadhir.ghosh@gmail.com']
+            : tier === 2 ? ['ranadhir.ghosh@gmail.com', 'tanveer.a.chowdhury@gmail.com']
+            : ['ranadhir.ghosh@gmail.com', 'tanveer.a.chowdhury@gmail.com', 'deepa.shams@gmail.com'];
+
+        const newReq = {
+            id,
+            requester: body.requester || 'unknown',
+            category: body.category || 'other',
+            amount: body.amount || 0,
+            description: body.description || '',
+            vendor: body.vendor || '',
+            event: body.event || '',
+            urgent: body.urgent || false,
+            tier,
+            approvers: approvers.map(a => ({ email: a, status: 'pending', decidedAt: null })),
+            status: 'pending_approval',
+            createdAt: new Date().toISOString(),
+            actualAmount: null,
+            receiptNotes: null,
+            paymentMethod: null,
+            paidAt: null
+        };
+
+        store.requests.push(newReq);
+        await saveProcurementStore(store);
+
+        return jsonResponse({ success: true, id, tier, approvers: approvers.length, message: 'Procurement request created' });
+    } catch (e) {
+        return errorResponse('Failed to create procurement request: ' + e.message);
+    }
+}
+export function options_procurement_create(request) { return handleCors(); }
+
+// POST /_functions/procurement_approve — Approve or reject a request
+export async function post_procurement_approve(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadProcurementStore();
+        const req = store.requests.find(r => r.id === body.id);
+        if (!req) return errorResponse('Request not found: ' + body.id, 404);
+
+        const approverEntry = req.approvers.find(a => a.email === body.approver);
+        if (!approverEntry) return errorResponse('You are not an approver for this request', 403);
+
+        approverEntry.status = body.decision; // 'approved' or 'rejected'
+        approverEntry.decidedAt = new Date().toISOString();
+        approverEntry.reason = body.reason || '';
+
+        if (body.decision === 'rejected') {
+            req.status = 'rejected';
+        } else {
+            const allApproved = req.approvers.every(a => a.status === 'approved');
+            if (allApproved) req.status = 'approved';
+        }
+
+        await saveProcurementStore(store);
+        return jsonResponse({ success: true, id: body.id, newStatus: req.status });
+    } catch (e) {
+        return errorResponse('Failed to process approval: ' + e.message);
+    }
+}
+export function options_procurement_approve(request) { return handleCors(); }
+
+// POST /_functions/procurement_receipt — Submit receipt for an approved request
+export async function post_procurement_receipt(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadProcurementStore();
+        const req = store.requests.find(r => r.id === body.id);
+        if (!req) return errorResponse('Request not found: ' + body.id, 404);
+
+        req.actualAmount = body.actualAmount;
+        req.receiptNotes = body.notes || '';
+        req.receiptSubmittedAt = new Date().toISOString();
+
+        const variance = Math.abs(req.actualAmount - req.amount) / req.amount;
+        const varianceApprovalNeeded = variance > 0.1; // >10% variance needs approval
+
+        if (varianceApprovalNeeded) {
+            req.status = 'variance_review';
+        } else {
+            req.status = 'payment_pending';
+        }
+
+        await saveProcurementStore(store);
+        return jsonResponse({ success: true, id: body.id, newStatus: req.status, varianceApprovalNeeded });
+    } catch (e) {
+        return errorResponse('Failed to submit receipt: ' + e.message);
+    }
+}
+export function options_procurement_receipt(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  EC Member Replacement Agent — President Only                 ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+async function loadEcReplacementStore() {
+    const result = await wixData.query('GoogleTokens').eq('key', 'ec_replacement_data').find(SA);
+    if (result.items.length === 0) return { workflows: [], nextId: 1 };
+    return JSON.parse(result.items[0].value || '{"workflows":[],"nextId":1}');
+}
+
+async function saveEcReplacementStore(store) {
+    const json = JSON.stringify(store);
+    const existing = await wixData.query('GoogleTokens').eq('key', 'ec_replacement_data').find(SA);
+    if (existing.items.length > 0) {
+        const item = existing.items[0];
+        item.value = json;
+        item.updatedAt = new Date();
+        await wixData.update('GoogleTokens', item, SA);
+    } else {
+        await wixData.insert('GoogleTokens', { key: 'ec_replacement_data', value: json, updatedAt: new Date() }, SA);
+    }
+}
+
+const PRESIDENT_EMAIL = 'ranadhir.ghosh@gmail.com';
+const EC_MEMBER_MAP = {
+    'deepa.shams@gmail.com': 'Deepa Shams — Vice President',
+    'mollik1958@gmail.com': 'Imran Mollik — Secretary',
+    'prangon.ghosh@gmail.com': 'Prangon Ghosh — Joint Secretary',
+    'tanveer.a.chowdhury@gmail.com': 'Tanveer Chowdhury — Treasurer',
+    'tusher.ahmed77@gmail.com': 'Tusher Ahmed — Cultural Secretary',
+    'sajal.saha@gmail.com': 'Sajal Saha — Comms Lead'
+};
+
+// GET /_functions/ec_replacement_list — List all EC replacement workflows
+export async function get_ec_replacement_list(request) {
+    try {
+        const store = await loadEcReplacementStore();
+        return jsonResponse({ success: true, workflows: store.workflows });
+    } catch (e) {
+        return errorResponse('Failed to load EC replacement data: ' + e.message);
+    }
+}
+export function options_ec_replacement_list(request) { return handleCors(); }
+
+// POST /_functions/ec_replacement_initiate — Start resignation/suspension
+export async function post_ec_replacement_initiate(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+        if (body.president !== PRESIDENT_EMAIL) return errorResponse('Only the BANF President can initiate EC replacement workflows', 403);
+        if (!body.memberEmail || !EC_MEMBER_MAP[body.memberEmail]) return errorResponse('Invalid EC member', 400);
+        if (!body.actionType || !['resignation', 'suspension'].includes(body.actionType)) return errorResponse('Invalid action type', 400);
+
+        const store = await loadEcReplacementStore();
+        const id = 'ECR-' + String(store.nextId).padStart(4, '0');
+        store.nextId++;
+
+        // All other EC members need to reply
+        const otherMembers = Object.keys(EC_MEMBER_MAP).filter(e => e !== body.memberEmail);
+
+        const workflow = {
+            id,
+            memberEmail: body.memberEmail,
+            memberName: EC_MEMBER_MAP[body.memberEmail],
+            type: body.actionType,
+            reason: body.reason || '',
+            status: 'initiated',
+            initiatedAt: new Date().toISOString(),
+            passwordResetQueued: true,
+            replies: [],
+            expectedReplies: otherMembers.map(e => ({ email: e, name: EC_MEMBER_MAP[e], replied: false })),
+            emails: {
+                thankYouSent: false,
+                ecNotificationSent: false,
+                reimbursementNoticeSent: false,
+                finalizationSent: false
+            },
+            finalizedAt: null
+        };
+
+        store.workflows.push(workflow);
+        await saveEcReplacementStore(store);
+
+        return jsonResponse({
+            success: true, id,
+            message: body.actionType + ' workflow initiated for ' + EC_MEMBER_MAP[body.memberEmail],
+            passwordResetQueued: true,
+            emailsToSend: ['thankYou', 'ecNotification', 'reimbursementNotice'],
+            waitingRepliesFrom: otherMembers.length + ' EC members'
+        });
+    } catch (e) {
+        return errorResponse('Failed to initiate EC replacement: ' + e.message);
+    }
+}
+export function options_ec_replacement_initiate(request) { return handleCors(); }
+
+// POST /_functions/ec_replacement_finalize — Finalize a workflow after all replies
+export async function post_ec_replacement_finalize(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadEcReplacementStore();
+        const wf = store.workflows.find(w => w.id === body.id);
+        if (!wf) return errorResponse('Workflow not found: ' + body.id, 404);
+
+        wf.status = 'completed';
+        wf.finalizedAt = new Date().toISOString();
+        wf.emails.finalizationSent = true;
+
+        await saveEcReplacementStore(store);
+
+        return jsonResponse({ success: true, id: body.id, message: 'Workflow finalized', finalizedAt: wf.finalizedAt });
+    } catch (e) {
+        return errorResponse('Failed to finalize workflow: ' + e.message);
+    }
+}
+export function options_ec_replacement_finalize(request) { return handleCors(); }
+
+// POST /_functions/ec_replacement_reverse — Reverse a suspension
+export async function post_ec_replacement_reverse(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadEcReplacementStore();
+        const wf = store.workflows.find(w => w.id === body.id);
+        if (!wf) return errorResponse('Workflow not found: ' + body.id, 404);
+        if (wf.type !== 'suspension') return errorResponse('Can only reverse suspensions', 400);
+
+        wf.status = 'reversed';
+        wf.reversedAt = new Date().toISOString();
+
+        await saveEcReplacementStore(store);
+
+        return jsonResponse({ success: true, id: body.id, message: 'Suspension reversed', reversedAt: wf.reversedAt });
+    } catch (e) {
+        return errorResponse('Failed to reverse suspension: ' + e.message);
+    }
+}
+export function options_ec_replacement_reverse(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
 // ║  WhatsApp Announcement Ingestion v5.11.0                     ║
 // ╚══════════════════════════════════════════════════════════════╝
 // GET  /_functions/whatsapp_webhook           — Meta webhook verification
@@ -6851,10 +7206,3 @@ export {
     get_whatsapp_announcements,
     options_whatsapp_announcements
 };
-
-// ╔══════════════════════════════════════════════════════════════╗
-// ║  Chatbot LLM Proxy v1.0                                      ║
-// ║  POST /_functions/chat_llm — proxies HF Inference API        ║
-// ║  Token stored in SiteConfig collection (key=HF_API_TOKEN)    ║
-// ╚══════════════════════════════════════════════════════════════╝
-export { post_chat_llm, options_chat_llm } from 'backend/banf-chat-proxy';

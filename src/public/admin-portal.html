@@ -318,6 +318,12 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <div class="sb-group">Testing</div>
     <div class="sb-item" data-panel="e2e-test"><i class="fas fa-vial"></i><span>E2E Test Suite</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 4</span></div>
 
+    <div class="sb-group">Finance</div>
+    <div class="sb-item" data-panel="procurement"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+
+    <div class="sb-group" id="president-group" style="display:none">President</div>
+    <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+
     <div class="sb-group">Audit</div>
     <div class="sb-item" data-panel="activity"><i class="fas fa-history"></i><span>Activity Log</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
     <div class="sb-item" onclick="window.open('https://www.jaxbengali.org/unified-ecosystem-dashboard.html','_blank')"><i class="fas fa-atom"></i><span>Main Dashboard</span></div>
@@ -811,6 +817,207 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
       </div>
     </div>
 
+    <!-- ═══ PROCUREMENT / REIMBURSEMENT PANEL ═══ -->
+    <div class="portal-section" id="panel-procurement">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Finance — Procurement &amp; Reimbursement</div>
+
+      <!-- Create New Request -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-file-invoice-dollar"></i> New Procurement Request</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Submit a procurement or reimbursement request. Multi-tier approval based on amount.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Category</label>
+            <select id="proc-category" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+              <option value="supplies">Event Supplies</option>
+              <option value="venue">Venue / Rental</option>
+              <option value="food">Food &amp; Catering</option>
+              <option value="decoration">Decoration</option>
+              <option value="transport">Transportation</option>
+              <option value="tech">Technology / Equipment</option>
+              <option value="marketing">Marketing / Printing</option>
+              <option value="reimbursement">Reimbursement (Pre-paid)</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Amount ($)</label>
+            <input type="number" id="proc-amount" placeholder="0.00" min="0" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Description</label>
+          <textarea id="proc-desc" rows="3" placeholder="Describe the procurement item/service, vendor details, and justification..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem;resize:vertical"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Vendor / Store</label>
+            <input type="text" id="proc-vendor" placeholder="Amazon, Costco, etc." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Event / Purpose</label>
+            <input type="text" id="proc-event" placeholder="Bosonto Utsob 2026" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <input type="checkbox" id="proc-urgent" style="accent-color:var(--accent)">
+          <label for="proc-urgent" style="font-size:.82rem;color:var(--muted)">Urgent (needs expedited approval)</label>
+        </div>
+        <button onclick="submitProcurementRequest()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:.88rem;cursor:pointer">
+          <i class="fas fa-paper-plane me-1"></i>Submit Request
+        </button>
+        <div id="proc-submit-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
+      </div>
+
+      <!-- Approval Queue -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-clipboard-check"></i> Approval Queue</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Pending procurement requests awaiting your approval.</p>
+        <div id="proc-approval-queue" style="font-size:.82rem;color:var(--dim)">Loading...</div>
+      </div>
+
+      <!-- My Requests -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-receipt"></i> My Requests &amp; Receipts</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Track your submitted requests, upload receipts, and view reimbursement status.</p>
+        <div id="proc-my-requests" style="font-size:.82rem;color:var(--dim)">Loading...</div>
+      </div>
+
+      <!-- Receipt Upload -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-camera"></i> Upload Receipt</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Request ID</label>
+            <input type="text" id="proc-receipt-id" placeholder="PROC-XXXX" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Actual Amount ($)</label>
+            <input type="number" id="proc-receipt-amt" placeholder="0.00" min="0" step="0.01" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Receipt Notes</label>
+          <textarea id="proc-receipt-notes" rows="2" placeholder="Store name, date, any variance explanation..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem;resize:vertical"></textarea>
+        </div>
+        <button onclick="submitReceipt()" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:.88rem;cursor:pointer">
+          <i class="fas fa-upload me-1"></i>Submit Receipt
+        </button>
+        <div id="proc-receipt-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
+      </div>
+
+      <!-- Payment Tracker -->
+      <div class="card-a">
+        <h2><i class="fas fa-money-check-alt"></i> Payment Tracker</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Track reimbursement payments - Zelle, check, or cash.</p>
+        <table class="t"><thead><tr><th>ID</th><th>Requester</th><th>Amount</th><th>Status</th><th>Method</th><th>Date</th></tr></thead>
+        <tbody id="proc-payment-tracker"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ═══ EC REPLACEMENT PANEL (President Only) ═══ -->
+    <div class="portal-section" id="panel-ec-replacement">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--accent)"></i> President — EC Member Replacement</div>
+
+      <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(249,115,22,.3)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff"><i class="fas fa-shield-halved"></i></div>
+          <div>
+            <h2 style="margin:0;font-size:1rem"><i class="fas fa-user-shield me-1"></i>EC Member Replacement Agent</h2>
+            <p style="font-size:.72rem;color:var(--muted);margin:0">President-only workflow for resignation / suspension of EC members</p>
+          </div>
+        </div>
+        <div style="background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:10px;padding:12px;margin-bottom:16px;font-size:.8rem;color:var(--accent)">
+          <i class="fas fa-exclamation-triangle me-1"></i><strong>Restricted Access:</strong> Only the BANF President can initiate resignation or suspension workflows. All actions are fully logged and auditable.
+        </div>
+      </div>
+
+      <!-- Initiate Workflow -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-play-circle"></i> Initiate Workflow</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">EC Member</label>
+            <select id="ecr-member" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+              <option value="">Select EC Member...</option>
+              <option value="mukhopadhyay.partha@gmail.com">Partha Mukhopadhyay — Vice President</option>
+              <option value="amit.everywhere@gmail.com">Amit Chandak — Treasurer</option>
+              <option value="rajanya.ghosh@gmail.com">Rajanya Ghosh — General Secretary</option>
+              <option value="moumita.mukherje@gmail.com">Moumita Mukherjee — Cultural Secretary</option>
+              <option value="duttasoumyajit86@gmail.com">Soumyajit Dutta — Food Coordinator</option>
+              <option value="sumo475@gmail.com">Sumanta Datta — Event Coordinator</option>
+              <option value="rwitichoudhury@gmail.com">Rwiti Choudhury — Puja Coordinator</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Action Type</label>
+            <select id="ecr-action" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+              <option value="resignation">Resignation (Voluntary)</option>
+              <option value="suspension">Suspension (Administrative)</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Reason / Notes</label>
+          <textarea id="ecr-reason" rows="3" placeholder="Provide reason for resignation or suspension..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem;resize:vertical"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">New BANF Gmail Password</label>
+            <input type="password" id="ecr-new-password" placeholder="New password for banfjax@gmail.com" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Confirm Password</label>
+            <input type="password" id="ecr-confirm-password" placeholder="Confirm new password" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button onclick="initiateEcReplacement()" style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-weight:700;font-size:.88rem;cursor:pointer">
+            <i class="fas fa-gavel me-1"></i>Initiate Workflow
+          </button>
+          <span style="font-size:.75rem;color:var(--dim)">This will send emails and reset the gmail password immediately</span>
+        </div>
+        <div id="ecr-initiate-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
+      </div>
+
+      <!-- Active Workflows -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-tasks"></i> Active Workflows</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Track ongoing resignation/suspension processes and EC reply status.</p>
+        <div id="ecr-active-workflows" style="font-size:.82rem;color:var(--dim)">No active workflows</div>
+      </div>
+
+      <!-- Email Preview -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-envelope-open-text"></i> Email Templates Preview</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:var(--bg2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:6px"><i class="fas fa-heart me-1"></i>Thank You Email</div>
+            <p style="font-size:.72rem;color:var(--muted);line-height:1.5">Sent to departing member acknowledging service. Includes: appreciation message, pending reimbursement instructions, asset return deadline.</p>
+          </div>
+          <div style="background:var(--bg2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:6px"><i class="fas fa-bell me-1"></i>EC Notification</div>
+            <p style="font-size:.72rem;color:var(--muted);line-height:1.5">Sent to all EC members informing of change. Each asked to reply with: outstanding assets, shared docs, pending tasks from departing member.</p>
+          </div>
+          <div style="background:var(--bg2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:6px"><i class="fas fa-money-bill-wave me-1"></i>Reimbursement Notice</div>
+            <p style="font-size:.72rem;color:var(--muted);line-height:1.5">Instructions to departing member about submitting pending reimbursements within 14 days via the procurement workflow.</p>
+          </div>
+          <div style="background:var(--bg2);border-radius:10px;padding:12px">
+            <div style="font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:6px"><i class="fas fa-check-double me-1"></i>Finalization Email</div>
+            <p style="font-size:.72rem;color:var(--muted);line-height:1.5">Sent after all EC replies collected. Summary of assets, document handover, and formal resignation acknowledgment. Copy to president.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="card-a">
+        <h2><i class="fas fa-history"></i> Replacement History</h2>
+        <table class="t"><thead><tr><th>Member</th><th>Action</th><th>Initiated</th><th>Status</th><th>Finalized</th></tr></thead>
+        <tbody id="ecr-history"></tbody></table>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -920,31 +1127,78 @@ const EC_MEMBERS = [
 ];
 
 let FEEDBACK = [
-  {id:'FB-001',user:'Ranadhir Ghosh',role:'Technical Lead',section:'Data Model',type:'Design Change',body:'CRMMembers collection should include a "preferredLanguage" field for multilingual communication support. This enables the communication agent to send emails in the member\'s preferred language.',ts:'Feb 27, 2026 08:30',agentAnalysis:'Copilot CLI analysis: Low-risk schema addition. Requires: 1) Add field to CRMMembers, 2) Update crm-agent.js allowed fields, 3) Update email-templates.js for language selection.',designChange:'Add preferredLanguage TEXT field to CRMMembers; update 3 backend modules',boardStatus:'approved',techLeadApproval:'approved',devTicket:'TK-041',devStatus:'in-progress'},
-  {id:'FB-002',user:'Arun Sen',role:'EC President',section:'Overview',type:'Suggestion',body:'The overview dashboard should show upcoming events count and next EC meeting date for quick reference.',ts:'Feb 26, 2026 14:00',agentAnalysis:'Copilot CLI analysis: Requires integration with StreamingEvents collection. Medium complexity â€” needs new API endpoint.',designChange:'Add events widget to overview section; create /api/upcoming_events endpoint',boardStatus:'approved',techLeadApproval:'pending',devTicket:null,devStatus:null},
-  {id:'FB-003',user:'Priya Bose',role:'EC Treasurer',section:'Sprints',type:'Feedback',body:'Sprint velocity chart would help understand team capacity better. Can we add a burndown chart?',ts:'Feb 25, 2026 10:00',agentAnalysis:'Copilot CLI analysis: UI-only change. Data already exists in sprint board. Low risk.',designChange:'Add velocity + burndown charts to Sprint Board section',boardStatus:'pending',techLeadApproval:null,devTicket:null,devStatus:null},
+  // Change requests managed by Change Agent (banf-change-agent.js)
+  // Populated at runtime from dev-board-state.json via loadBoardState()
 ];
 
 let DEV_TICKETS = [
-  {id:'TK-041',origin:'FB-001',desc:'Add preferredLanguage to CRMMembers + update backend',assignee:'Backend Agent',sprint:'S1',priority:'Medium',status:'in-progress'},
-  {id:'TK-035',origin:'Backlog',desc:'HuggingFace circuit breaker implementation',assignee:'ML/AI Agent',sprint:'S1',priority:'High',status:'in-progress'},
-  {id:'TK-036',origin:'Backlog',desc:'OpenTelemetry trace integration',assignee:'DevOps Agent',sprint:'S2',priority:'Medium',status:'todo'},
+  // Dev tickets managed by Change Agent (banf-change-agent.js)
+  // Populated at runtime from dev-board-state.json via loadBoardState()
 ];
 
 let LOG = [
-  {ts:'Feb 27, 2026 09:00',act:'LOGIN',msg:'Super Admin login â€” Ranadhir Ghosh'},
-  {ts:'Feb 27, 2026 08:30',act:'FEEDBACK',msg:'FB-001: Ranadhir Ghosh submitted design change for Data Model'},
-  {ts:'Feb 27, 2026 08:35',act:'AGENT',msg:'Copilot CLI analyzed FB-001 â€” low-risk, 3 modules affected'},
-  {ts:'Feb 27, 2026 08:40',act:'APPROVAL',msg:'Board approved FB-001 design change'},
-  {ts:'Feb 27, 2026 08:45',act:'APPROVAL',msg:'Tech Lead approved FB-001 â†’ created TK-041'},
-  {ts:'Feb 26, 2026 16:30',act:'USER_ADD',msg:'Added EC President with stakeholder role'},
-  {ts:'Feb 26, 2026 14:00',act:'FEEDBACK',msg:'FB-002: Arun Sen submitted suggestion for Overview'},
-  {ts:'Feb 25, 2026 11:00',act:'EC_REMIND',msg:'Sent Round 2 reminders to 3 pending EC members'},
-  {ts:'Feb 24, 2026 10:00',act:'ROLE_DEF',msg:'Defined role: business-stakeholder'},
-  {ts:'Feb 23, 2026 09:00',act:'ROLE_DEF',msg:'Defined role: ec-member'},
-  {ts:'Feb 22, 2026 15:00',act:'DEPLOY',msg:'Deployed v5.10.1-ec-reminder to production'},
-  {ts:'Feb 20, 2026 09:00',act:'EC_INIT',msg:'Initialized EC Year FY2026-27 â€” 11 members imported'},
+  {ts:'Mar 9, 2026 01:01',act:'BOARD',msg:'Development board cleared — mock data removed. Real data loaded from Change Agent state.'},
+  {ts:'Mar 9, 2026 01:00',act:'DEPLOY',msg:'Change Agent + Design-Architecture Agent deployed — proper software engineering process activated.'},
 ];
+
+// ── Board State Loader — reads from Change Agent dev-board-state via API ──
+async function loadBoardState() {
+  try {
+    // Try primary Wix URL, fallback to custom domain
+    let resp;
+    try { resp = await fetch('https://banfwix.wixsite.com/banf1/_functions/dev_board_state'); }
+    catch(e) { resp = await fetch('https://www.jaxbengali.org/_functions/dev_board_state'); }
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    if (data && data.devTickets) {
+      DEV_TICKETS = data.devTickets.map(t => ({
+        id: t.id,
+        origin: t.changeRequestId || 'Board',
+        desc: t.title || t.description,
+        assignee: t.assignee || 'Unassigned',
+        sprint: t.sprint || 'S1',
+        priority: t.priority ? t.priority.charAt(0).toUpperCase() + t.priority.slice(1) : 'Medium',
+        status: t.status === 'done' ? 'done' : t.status === 'in_progress' ? 'in-progress' : t.status || 'todo'
+      }));
+    }
+    if (data && data.changeRequests) {
+      FEEDBACK = data.changeRequests.map(cr => ({
+        id: cr.id,
+        user: cr.requestedBy || 'System',
+        role: 'Change Agent',
+        section: cr.type || 'General',
+        type: 'Change Request',
+        body: cr.description || cr.title,
+        ts: cr.createdAt ? new Date(cr.createdAt).toLocaleString('en-US', {month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '',
+        agentAnalysis: cr.technicalReview ? 'Risk: ' + cr.technicalReview.risk + ' | Modules: ' + cr.technicalReview.modulesAffected + ' | Effort: ' + cr.technicalReview.effortEstimate : null,
+        designChange: cr.technicalReview && cr.technicalReview.affectedModules ? cr.technicalReview.affectedModules.map(m => m.name).join(', ') : null,
+        boardStatus: ['closed','deployed'].includes(cr.status) ? 'approved' : cr.status === 'rejected' ? 'rejected' : 'pending',
+        techLeadApproval: ['closed','deployed','ticket_created'].includes(cr.status) ? 'approved' : cr.status === 'rejected' ? 'rejected' : null,
+        devTicket: cr.devTicketId || null,
+        devStatus: cr.devTicketId ? (cr.status === 'closed' ? 'done' : cr.status) : null,
+      }));
+    }
+    if (data && data.activityLog) {
+      const boardLogs = data.activityLog.slice(0, 50).map(entry => ({
+        ts: new Date(entry.ts).toLocaleString('en-US', {month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'}),
+        act: entry.action || 'BOARD',
+        msg: entry.message || ''
+      }));
+      LOG = [...boardLogs, ...LOG];
+    }
+    if (data && data.settings) { window._boardSettings = data.settings; }
+    renderFeedback(); renderDevBoard(); renderAll();
+    addLog('BOARD', 'Board loaded: ' + DEV_TICKETS.length + ' tickets, ' + FEEDBACK.length + ' change requests from Change Agent');
+  } catch(e) {
+    console.warn('Board state load failed:', e.message);
+    addLog('BOARD', 'Board state API unavailable — using clean slate. Run Change Agent to populate.');
+  }
+}
+
+// Load board state after page load
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', function() { setTimeout(loadBoardState, 500); });
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 //  AUTH SYSTEM — Sign In / Sign Up / Forgot Password / Security Question
@@ -1088,6 +1342,15 @@ function enterPortal(displayName) {
     const initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
     avatarEl.textContent = initials;
   }
+  // President-only UI: show EC Replacement section only for president
+  const isPresident = CURRENT_ADMIN && CURRENT_ADMIN.email === 'ranadhir.ghosh@gmail.com';
+  const presGroup = document.getElementById('president-group');
+  const presItem = document.getElementById('president-ec-replace');
+  if (presGroup) presGroup.style.display = isPresident ? '' : 'none';
+  if (presItem) presItem.style.display = isPresident ? '' : 'none';
+  // Load procurement data on portal load
+  loadProcurementData();
+  if (isPresident) loadEcReplacementData();
   renderAll();
 }
 
@@ -1277,7 +1540,7 @@ async function forgotStep3() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard']); // Only dashboard is live in Phase 1
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','ec-replacement']); // Dashboard + Finance + President panels are live
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {
     adminComingSoon(panel);
@@ -2030,7 +2293,10 @@ function renderEC(){
   </tr>`).join('');
 }
 document.getElementById('btn-ec-gate').addEventListener('click',()=>{addLog('EC_CHECK','Ran EC gate check (membership_gate_check) â€” 7 passed, 3 pending, 1 failed');renderAll();alert('EC Gate Check completed. See Activity Log.');});
-document.getElementById('btn-ec-remind').addEventListener('click',()=>{addLog('EC_REMIND','Sent reminders to 3 pending EC members via sendGmail (ec-onboarding-gate.js buildReminderEmail)');renderAll();alert('Reminder emails sent via Communication Agent.');});
+document.getElementById('btn-ec-remind').addEventListener('click',()=>{
+  // EC email sending DISABLED — delinked from all drives
+  alert('\u26D4 EC Invitation/Reminder Sending is DISABLED.\n\nEC onboarding email sends have been delinked from all email drives.\nTo re-enable, set EC_EMAIL_SENDING_DISABLED = false in ec-onboarding-gate.js\nand redeploy the backend.');
+});
 document.getElementById('btn-ec-pending').addEventListener('click',()=>{alert('Pending EC Members:\n'+EC_MEMBERS.filter(m=>m.status==='pending').map(m=>`${m.name} (${m.title}) â€” ${m.email}`).join('\n'));});
 document.getElementById('btn-ec-complete').addEventListener('click',()=>{if(confirm('Mark EC year FY2026-27 complete?')){addLog('EC_COMPLETE','EC Year FY2026-27 marked complete by Super Admin');document.querySelectorAll('#ec-pipe .pipe-step').forEach(s=>s.className='pipe-step done');renderAll();alert('EC Year completed.');}});
 
@@ -2515,6 +2781,328 @@ function buildProgressBar(label, current, total, pct, color) {
     '<div style="display:flex;justify-content:space-between;font-size:.72rem;margin-bottom:3px"><span>'+label+'</span><span>'+current+'/'+total+' ('+pct+'%)</span></div>' +
     '<div style="background:var(--bg2);border-radius:999px;height:10px;overflow:hidden">' +
     '<div style="background:var(--'+color+');height:100%;width:'+pct+'%;border-radius:999px;transition:.3s"></div></div></div>';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PROCUREMENT / REIMBURSEMENT FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════
+
+let PROC_REQUESTS = [];
+
+async function loadProcurementData() {
+  try {
+    const resp = await fetch(API + '/procurement_list', { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+    const res = await resp.json();
+    if (res && res.requests) {
+      PROC_REQUESTS = res.requests;
+      renderProcurementApprovalQueue();
+      renderProcurementMyRequests();
+      renderProcurementPayments();
+    }
+  } catch(e) {
+    console.log('Procurement data load (offline mode):', e.message);
+    renderProcurementApprovalQueue();
+    renderProcurementMyRequests();
+    renderProcurementPayments();
+  }
+}
+
+function renderProcurementApprovalQueue() {
+  const el = document.getElementById('proc-approval-queue');
+  if (!el) return;
+  const pending = PROC_REQUESTS.filter(r => r.status === 'pending_approval' || r.status === 'variance_review');
+  if (pending.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-check-circle" style="font-size:2rem;margin-bottom:8px;display:block;color:var(--green)"></i>No pending approvals</div>';
+    return;
+  }
+  el.innerHTML = pending.map(r => {
+    const tierBadge = r.amount < 100 ? '<span class="badge-s badge-green">Tier 1</span>' : r.amount < 500 ? '<span class="badge-s badge-yellow">Tier 2</span>' : '<span class="badge-s badge-red">Tier 3</span>';
+    return '<div style="background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid var(--line)">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">' +
+      '<strong style="font-size:.85rem">' + (r.id || 'PROC-???') + '</strong>' + tierBadge +
+      '</div>' +
+      '<div style="font-size:.78rem;color:var(--muted);margin-bottom:4px">' + (r.description || '').substring(0,100) + '</div>' +
+      '<div style="display:flex;gap:12px;font-size:.72rem;color:var(--dim)">' +
+      '<span><i class="fas fa-user me-1"></i>' + (r.requester || 'Unknown') + '</span>' +
+      '<span><i class="fas fa-dollar-sign me-1"></i>$' + (r.amount || 0).toFixed(2) + '</span>' +
+      '<span><i class="fas fa-tag me-1"></i>' + (r.category || 'other') + '</span>' +
+      '</div>' +
+      '<div style="margin-top:8px;display:flex;gap:8px">' +
+      '<button onclick="approveProcurement(\'' + r.id + '\')" style="background:var(--green);color:#fff;border:none;padding:4px 14px;border-radius:6px;font-size:.75rem;cursor:pointer"><i class="fas fa-check me-1"></i>Approve</button>' +
+      '<button onclick="rejectProcurement(\'' + r.id + '\')" style="background:var(--red);color:#fff;border:none;padding:4px 14px;border-radius:6px;font-size:.75rem;cursor:pointer"><i class="fas fa-times me-1"></i>Reject</button>' +
+      '</div></div>';
+  }).join('');
+}
+
+function renderProcurementMyRequests() {
+  const el = document.getElementById('proc-my-requests');
+  if (!el) return;
+  const mine = PROC_REQUESTS.filter(r => CURRENT_ADMIN && r.requester === CURRENT_ADMIN.email);
+  if (mine.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:8px;display:block"></i>No requests submitted yet</div>';
+    return;
+  }
+  const statusColors = { pending_approval:'yellow', approved:'green', rejected:'red', receipt_submitted:'blue', variance_review:'orange', payment_pending:'cyan', completed:'green' };
+  el.innerHTML = mine.map(r => {
+    const sc = statusColors[r.status] || 'dim';
+    return '<div style="background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:8px;border-left:3px solid var(--' + sc + ')">' +
+      '<div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px"><strong>' + r.id + '</strong><span class="badge-s badge-' + sc + '">' + (r.status || '').replace(/_/g,' ') + '</span></div>' +
+      '<div style="font-size:.78rem;color:var(--muted)">' + (r.description || '').substring(0,80) + '</div>' +
+      '<div style="font-size:.72rem;color:var(--dim);margin-top:4px">$' + (r.amount||0).toFixed(2) + ' — ' + (r.category||'') + ' — ' + (r.createdAt || '') + '</div>' +
+      '</div>';
+  }).join('');
+}
+
+function renderProcurementPayments() {
+  const el = document.getElementById('proc-payment-tracker');
+  if (!el) return;
+  const payments = PROC_REQUESTS.filter(r => r.status === 'payment_pending' || r.status === 'completed');
+  if (payments.length === 0) {
+    el.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--dim)">No payment records yet</td></tr>';
+    return;
+  }
+  el.innerHTML = payments.map(r => {
+    const statusBadge = r.status === 'completed' ? '<span class="badge-s badge-green">Paid</span>' : '<span class="badge-s badge-yellow">Pending</span>';
+    return '<tr><td>' + r.id + '</td><td>' + (r.requester||'').split('@')[0] + '</td><td>$' + (r.actualAmount||r.amount||0).toFixed(2) + '</td><td>' + statusBadge + '</td><td>' + (r.paymentMethod||'—') + '</td><td>' + (r.paidAt||'—') + '</td></tr>';
+  }).join('');
+}
+
+async function submitProcurementRequest() {
+  const cat = document.getElementById('proc-category').value;
+  const amt = parseFloat(document.getElementById('proc-amount').value) || 0;
+  const desc = document.getElementById('proc-desc').value.trim();
+  const vendor = document.getElementById('proc-vendor').value.trim();
+  const event = document.getElementById('proc-event').value.trim();
+  const urgent = document.getElementById('proc-urgent').checked;
+  const msgEl = document.getElementById('proc-submit-msg');
+
+  if (!desc || amt <= 0) {
+    msgEl.style.display = 'block'; msgEl.style.color = 'var(--red)';
+    msgEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Please provide description and amount.';
+    return;
+  }
+
+  msgEl.style.display = 'block'; msgEl.style.color = 'var(--accent)';
+  msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Submitting request...';
+
+  try {
+    const result = await apiCall('procurement_create', {
+      adminKey: 'banf-bosonto-2026-live',
+      requester: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown',
+      category: cat, amount: amt, description: desc, vendor: vendor, event: event, urgent: urgent
+    });
+    if (result && result.success) {
+      msgEl.style.color = 'var(--green)';
+      msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Request ' + result.id + ' submitted! Approval emails sent.';
+      addLog('PROCUREMENT', 'Request ' + result.id + ' created — $' + amt.toFixed(2) + ' — ' + cat);
+      document.getElementById('proc-desc').value = '';
+      document.getElementById('proc-amount').value = '';
+      document.getElementById('proc-vendor').value = '';
+      loadProcurementData();
+    } else {
+      msgEl.style.color = 'var(--red)';
+      msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i>' + (result.error || 'Submission failed');
+    }
+  } catch(e) {
+    msgEl.style.color = 'var(--red)';
+    msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i>API error: ' + e.message;
+  }
+}
+
+async function approveProcurement(id) {
+  if (!confirm('Approve procurement request ' + id + '?')) return;
+  try {
+    const result = await apiCall('procurement_approve', {
+      adminKey: 'banf-bosonto-2026-live', id: id,
+      approver: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', decision: 'approved'
+    });
+    if (result && result.success) {
+      addLog('APPROVAL', 'Approved procurement ' + id);
+      loadProcurementData();
+    } else { alert(result.error || 'Approval failed'); }
+  } catch(e) { alert('API error: ' + e.message); }
+}
+
+async function rejectProcurement(id) {
+  const reason = prompt('Rejection reason for ' + id + ':');
+  if (!reason) return;
+  try {
+    const result = await apiCall('procurement_approve', {
+      adminKey: 'banf-bosonto-2026-live', id: id,
+      approver: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown', decision: 'rejected', reason: reason
+    });
+    if (result && result.success) {
+      addLog('APPROVAL', 'Rejected procurement ' + id + ' — ' + reason);
+      loadProcurementData();
+    } else { alert(result.error || 'Rejection failed'); }
+  } catch(e) { alert('API error: ' + e.message); }
+}
+
+async function submitReceipt() {
+  const id = document.getElementById('proc-receipt-id').value.trim();
+  const amt = parseFloat(document.getElementById('proc-receipt-amt').value) || 0;
+  const notes = document.getElementById('proc-receipt-notes').value.trim();
+  const msgEl = document.getElementById('proc-receipt-msg');
+
+  if (!id || amt <= 0) {
+    msgEl.style.display = 'block'; msgEl.style.color = 'var(--red)';
+    msgEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Please provide request ID and actual amount.';
+    return;
+  }
+
+  msgEl.style.display = 'block'; msgEl.style.color = 'var(--accent)';
+  msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Submitting receipt...';
+
+  try {
+    const result = await apiCall('procurement_receipt', {
+      adminKey: 'banf-bosonto-2026-live', id: id,
+      actualAmount: amt, notes: notes,
+      submitter: CURRENT_ADMIN ? CURRENT_ADMIN.email : 'unknown'
+    });
+    if (result && result.success) {
+      msgEl.style.color = 'var(--green)';
+      msgEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Receipt submitted! ' + (result.varianceApprovalNeeded ? 'Variance review required.' : 'Ready for payment.');
+      addLog('PROCUREMENT', 'Receipt for ' + id + ' — $' + amt.toFixed(2));
+      document.getElementById('proc-receipt-id').value = '';
+      document.getElementById('proc-receipt-amt').value = '';
+      document.getElementById('proc-receipt-notes').value = '';
+      loadProcurementData();
+    } else {
+      msgEl.style.color = 'var(--red)';
+      msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i>' + (result.error || 'Receipt submission failed');
+    }
+  } catch(e) {
+    msgEl.style.color = 'var(--red)';
+    msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i>API error: ' + e.message;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  EC REPLACEMENT FUNCTIONS (President Only)
+// ═══════════════════════════════════════════════════════════════════
+
+let ECR_WORKFLOWS = [];
+
+async function loadEcReplacementData() {
+  try {
+    const resp = await fetch(API + '/ec_replacement_list', { method: 'GET', headers: { 'Content-Type': 'application/json' } });
+    const res = await resp.json();
+    if (res && res.workflows) {
+      ECR_WORKFLOWS = res.workflows;
+      renderEcrActiveWorkflows();
+      renderEcrHistory();
+    }
+  } catch(e) {
+    console.log('EC Replacement data load (offline mode):', e.message);
+    renderEcrActiveWorkflows();
+    renderEcrHistory();
+  }
+}
+
+function renderEcrActiveWorkflows() {
+  const el = document.getElementById('ecr-active-workflows');
+  if (!el) return;
+  const active = ECR_WORKFLOWS.filter(w => w.status !== 'completed' && w.status !== 'reversed');
+  if (active.length === 0) {
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-check-circle" style="font-size:2rem;margin-bottom:8px;display:block;color:var(--green)"></i>No active workflows</div>';
+    return;
+  }
+  el.innerHTML = active.map(w => {
+    const typeBadge = w.type === 'resignation' ? '<span class="badge-s badge-yellow">Resignation</span>' : '<span class="badge-s badge-red">Suspension</span>';
+    const replies = (w.replies || []);
+    const totalMembers = 6; // Other EC members
+    return '<div style="background:var(--bg2);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid var(--line)">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+      '<strong>' + (w.memberName || w.memberEmail) + '</strong>' + typeBadge + '</div>' +
+      '<div style="font-size:.78rem;color:var(--muted);margin-bottom:6px">' + (w.reason || '') + '</div>' +
+      '<div style="display:flex;gap:16px;font-size:.72rem;color:var(--dim);margin-bottom:8px">' +
+      '<span><i class="fas fa-clock me-1"></i>Started: ' + (w.initiatedAt || '—') + '</span>' +
+      '<span><i class="fas fa-reply me-1"></i>Replies: ' + replies.length + '/' + totalMembers + '</span>' +
+      '</div>' +
+      buildProgressBar('EC Replies', replies.length, totalMembers, Math.round(replies.length/totalMembers*100), replies.length === totalMembers ? 'green' : 'yellow') +
+      (replies.length === totalMembers ? '<button onclick="finalizeEcWorkflow(\'' + w.id + '\')" style="background:var(--green);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.78rem;cursor:pointer;margin-top:4px"><i class="fas fa-gavel me-1"></i>Finalize</button>' : '') +
+      (w.type === 'suspension' ? '<button onclick="reverseEcSuspension(\'' + w.id + '\')" style="background:var(--accent);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.78rem;cursor:pointer;margin-top:4px;margin-left:8px"><i class="fas fa-undo me-1"></i>Reverse Suspension</button>' : '') +
+      '</div>';
+  }).join('');
+}
+
+function renderEcrHistory() {
+  const el = document.getElementById('ecr-history');
+  if (!el) return;
+  const history = ECR_WORKFLOWS.filter(w => w.status === 'completed' || w.status === 'reversed');
+  if (history.length === 0) {
+    el.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--dim)">No replacement history</td></tr>';
+    return;
+  }
+  el.innerHTML = history.map(w => {
+    const statusBadge = w.status === 'completed' ? '<span class="badge-s badge-green">Complete</span>' : '<span class="badge-s badge-blue">Reversed</span>';
+    return '<tr><td>' + (w.memberName || w.memberEmail) + '</td><td>' + (w.type||'') + '</td><td>' + (w.initiatedAt||'—') + '</td><td>' + statusBadge + '</td><td>' + (w.finalizedAt||'—') + '</td></tr>';
+  }).join('');
+}
+
+async function initiateEcReplacement() {
+  const member = document.getElementById('ecr-member').value;
+  const action = document.getElementById('ecr-action').value;
+  const reason = document.getElementById('ecr-reason').value.trim();
+  const newPw = document.getElementById('ecr-new-password').value;
+  const confirmPw = document.getElementById('ecr-confirm-password').value;
+  const msgEl = document.getElementById('ecr-initiate-msg');
+
+  if (!member) { showEcrMsg(msgEl, 'red', 'Please select an EC member.'); return; }
+  if (!reason) { showEcrMsg(msgEl, 'red', 'Please provide a reason.'); return; }
+  if (!newPw || newPw.length < 8) { showEcrMsg(msgEl, 'red', 'Password must be at least 8 characters.'); return; }
+  if (newPw !== confirmPw) { showEcrMsg(msgEl, 'red', 'Passwords do not match.'); return; }
+
+  if (!confirm('⚠️ CRITICAL ACTION: This will:\n\n1. Reset the BANF Gmail password\n2. Send thank-you email to ' + member + '\n3. Send notifications to all EC members\n4. Begin asset collection process\n\nAre you absolutely sure?')) return;
+
+  showEcrMsg(msgEl, 'var(--accent)', '<i class="fas fa-spinner fa-spin me-1"></i>Initiating ' + action + ' workflow...');
+
+  try {
+    const result = await apiCall('ec_replacement_initiate', {
+      adminKey: 'banf-bosonto-2026-live',
+      president: CURRENT_ADMIN ? CURRENT_ADMIN.email : '',
+      memberEmail: member, actionType: action,
+      reason: reason, newPassword: newPw
+    });
+    if (result && result.success) {
+      showEcrMsg(msgEl, 'var(--green)', '<i class="fas fa-check-circle me-1"></i>Workflow ' + result.id + ' initiated. Emails sent. Password reset queued.');
+      addLog('EC_REPLACE', action.toUpperCase() + ' initiated for ' + member);
+      document.getElementById('ecr-reason').value = '';
+      document.getElementById('ecr-new-password').value = '';
+      document.getElementById('ecr-confirm-password').value = '';
+      loadEcReplacementData();
+    } else {
+      showEcrMsg(msgEl, 'var(--red)', '<i class="fas fa-times-circle me-1"></i>' + (result.error || 'Initiation failed'));
+    }
+  } catch(e) {
+    showEcrMsg(msgEl, 'var(--red)', '<i class="fas fa-times-circle me-1"></i>API error: ' + e.message);
+  }
+}
+
+function showEcrMsg(el, color, html) {
+  el.style.display = 'block'; el.style.color = color; el.innerHTML = html;
+}
+
+async function finalizeEcWorkflow(id) {
+  if (!confirm('Finalize this EC replacement workflow? This sends the final resignation acknowledgment email.')) return;
+  try {
+    const result = await apiCall('ec_replacement_finalize', { adminKey: 'banf-bosonto-2026-live', id: id });
+    if (result && result.success) {
+      addLog('EC_REPLACE', 'Workflow ' + id + ' finalized');
+      loadEcReplacementData();
+    } else { alert(result.error || 'Finalization failed'); }
+  } catch(e) { alert('API error: ' + e.message); }
+}
+
+async function reverseEcSuspension(id) {
+  if (!confirm('Reverse this suspension? The EC member will be reinstated.')) return;
+  try {
+    const result = await apiCall('ec_replacement_reverse', { adminKey: 'banf-bosonto-2026-live', id: id });
+    if (result && result.success) {
+      addLog('EC_REPLACE', 'Suspension ' + id + ' reversed');
+      loadEcReplacementData();
+    } else { alert(result.error || 'Reversal failed'); }
+  } catch(e) { alert('API error: ' + e.message); }
 }
 
 function renderAll(){

@@ -1,0 +1,16 @@
+{
+  "id": "DevBoardState",
+  "displayName": "Dev Board State",
+  "fields": {
+    "stateKey":    { "type": "text",     "displayName": "State Key" },
+    "stateJson":   { "type": "text",     "displayName": "State JSON" },
+    "updatedAt":   { "type": "datetime", "displayName": "Updated At" }
+  },
+  "permissions": {
+    "read": "Anyone",
+    "create": "Admin",
+    "update": "Admin",
+    "delete": "Admin"
+  },
+  "revision": "1"
+}
