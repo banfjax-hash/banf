@@ -3341,7 +3341,7 @@ export function options_gmail_sync_status(request) { return handleCors(); }
  */
 export async function post_create_collections(request) {
     try {
-        const neededCollections = ['SentEmails', 'InboxMessages', 'GoogleTokens'];
+        const neededCollections = ['SentEmails', 'InboxMessages', 'GoogleTokens', 'FinancialLedger', 'ReimbursementTickets'];
         const statuses = {};
 
         for (const col of neededCollections) {
