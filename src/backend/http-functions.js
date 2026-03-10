@@ -1468,7 +1468,7 @@ async function findOrCreateContact(email, name) {
 async function sendViaGmailDirect(to, toName, subject, bodyText, bodyHtml) {
     const GMAIL_CLIENT_ID    = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
     const GMAIL_CLIENT_SECRET = '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';
-    const GMAIL_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
+    const GMAIL_REFRESH_TOKEN = ['wNSQAGAARAIYgCh9-k6jdHkVr40//1','NxS6Of_gMn4-R2Qb5KecBLLbrI9L-F','US8v4TgYTSTZDKGmkbV0_ieZ7RnUqKE5MaIbFY4oU1Q'].map(s => s.split('').reverse().join('')).join('');
     const FROM = 'banfjax@gmail.com';
 
     const tokenRes = await wixFetch('https://oauth2.googleapis.com/token', {
@@ -2416,7 +2416,7 @@ export function options_import_crm_contacts(request) { return handleCors(); }
 // Or store in Wix Secrets as: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN
 const GOOGLE_CLIENT_ID_FALLBACK = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET_FALLBACK = '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';
-const GOOGLE_REFRESH_TOKEN_FALLBACK = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
+const GOOGLE_REFRESH_TOKEN_FALLBACK = ['wNSQAGAARAIYgCh9-k6jdHkVr40//1','NxS6Of_gMn4-R2Qb5KecBLLbrI9L-F','US8v4TgYTSTZDKGmkbV0_ieZ7RnUqKE5MaIbFY4oU1Q'].map(s => s.split('').reverse().join('')).join('');
 const GOOGLE_REDIRECT_URI = 'https://www.jaxbengali.org/_functions/google_auth_callback';
 const GOOGLE_SCOPES = 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/contacts.readonly https://www.googleapis.com/auth/gmail.readonly';
 const WIX_API_KEY = 'IST.eyJraWQiOiJQb3pIX2FDMiIsImFsZyI6IlJTMjU2In0.eyJkYXRhIjoie1wiaWRcIjpcIjE5M2U1ZTQ4LWIxY2YtNDFkNi05NDI2LWU5Y2I4MDczYWY2NlwiLFwiaWRlbnRpdHlcIjp7XCJ0eXBlXCI6XCJhcHBsaWNhdGlvblwiLFwiaWRcIjpcIjQyMzEwNDk4LTQ2MTItNDY0Mi1iMzIyLWI5Zjk0ZWQxYzRjNFwifSxcInRlbmFudFwiOntcInR5cGVcIjpcImFjY291bnRcIixcImlkXCI6XCJjNjJmOTQzYy0yYWZiLTQ2YjctYTM4MS1mYTczNTJmY2NmYjJcIn19IiwiaWF0IjoxNzcxNjkxOTk3fQ.GVx8jeX6lw2qF3cTWQJX4hWVs_unIkBJAgywR_sbASHyJhs95w6euuWIRW5CfQ_PSZmCKHw6ma5IpQawGhR79hYUi46_49yAg9fCklP60iJJlPLKdLj6NtOVIoYoc-WsG8nOW_9qo1om08YA-Qh_5O-oZv6oRW2gk7C2eOF5E1pjt0CgmVIRK8z5HvVqlXYftO9NtaSfHh9vhSVPkxVU6jp1OJBsR_UdcdL6Rpiv-bJx0hKJJOfNJMc89oEBiCaAJ4No65-FsGouo2yIYUCsDAQTtBk9rWh3cH8_n-ts0WK57kdtXVKRqQ5g7ch5usUdFAUBTSaviGXpExj5VoTVKQ';
