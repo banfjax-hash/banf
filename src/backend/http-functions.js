@@ -7606,16 +7606,16 @@ export function options_reimbursement_events(request) { return handleCors(); }
 // GET /_functions/ledger_list — List ledger entries with optional filters
 export async function get_ledger_list(request) {
     try {
-        const url = new URL(request.url);
-        const key = request.headers.get('x-admin-key') || url.searchParams.get('key');
+        const qp = request.query || {};
+        const key = qp.key || (request.headers && request.headers['x-admin-key']);
         if (key !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
 
         let query = wixData.query('FinancialLedger').descending('entryDate');
-        const direction = url.searchParams.get('direction');
-        const category = url.searchParams.get('category');
-        const source = url.searchParams.get('source');
-        const from = url.searchParams.get('from');
-        const to = url.searchParams.get('to');
+        const direction = qp.direction;
+        const category = qp.category;
+        const source = qp.source;
+        const from = qp.from;
+        const to = qp.to;
 
         if (direction) query = query.eq('direction', direction);
         if (category) query = query.eq('category', category);
@@ -7687,8 +7687,8 @@ export function options_ledger_add(request) { return handleCors(); }
 // GET /_functions/ledger_summary — Daily/monthly income/expense summary
 export async function get_ledger_summary(request) {
     try {
-        const url = new URL(request.url);
-        const key = request.headers.get('x-admin-key') || url.searchParams.get('key');
+        const qp = request.query || {};
+        const key = qp.key || (request.headers && request.headers['x-admin-key']);
         if (key !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
 
         const result = await wixData.query('FinancialLedger').descending('entryDate').limit(1000).find(SA);
