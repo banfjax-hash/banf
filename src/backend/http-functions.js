@@ -562,7 +562,7 @@ export function options_ec_signup_congratulations(request)    { return _ecSignup
 
 // Canary test: if this shows 200 with "v5.14", Wix deployed correctly
 export function get_deploy_check(request) {
-    return ok({ body: JSON.stringify({ version: 'v5.15.0-reimbursement-workflow', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    return ok({ body: JSON.stringify({ version: 'v5.16.0-financial-ledger', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
@@ -7191,10 +7191,10 @@ export async function post_ec_replacement_reverse(request) {
 export function options_ec_replacement_reverse(request) { return handleCors(); }
 
 // ╔══════════════════════════════════════════════════════════════╗
-// ║  Reimbursement Workflow v1.0                                  ║
+// ║  Reimbursement Workflow v2.0 — Proper Collections            ║
 // ╚══════════════════════════════════════════════════════════════╝
 
-// Helper: Load/save reimbursement data from GoogleTokens (key-value store)
+// Helper: Load/save reimbursement data from GoogleTokens (key-value store) — legacy
 async function loadReimbursementStore() {
     const result = await wixData.query('GoogleTokens').eq('key', 'reimbursement_data').find(SA);
     if (result.items.length === 0) return { tickets: [], nextId: 1 };
@@ -7214,16 +7214,92 @@ async function saveReimbursementStore(store) {
     }
 }
 
-// BANF EC Year 2025-2026 completed events list
+// Helper: Write ticket to ReimbursementTickets collection (proper structured data)
+async function syncTicketToCollection(ticket) {
+    try {
+        const existing = await wixData.query('ReimbursementTickets').eq('ticketId', ticket.id).find(SA);
+        const row = {
+            ticketId: ticket.id,
+            requester: ticket.requester,
+            requesterName: ticket.requesterName || '',
+            eventId: ticket.eventId,
+            eventName: ticket.event,
+            totalAmount: ticket.totalAmount,
+            receiptsJson: JSON.stringify(ticket.receipts || []),
+            receiptCount: (ticket.receipts || []).length,
+            paidBy: ticket.paidBy || 'own_card',
+            budgetApprover: ticket.budgetApprover || '',
+            notes: ticket.notes || '',
+            status: ticket.status,
+            approvedBy: (ticket.approvals || []).filter(a => a.status === 'approved').map(a => a.role).join(', '),
+            approvedAt: ticket.approvals && ticket.approvals.every(a => a.status === 'approved') ? new Date(ticket.approvals[ticket.approvals.length - 1].decidedAt) : null,
+            paymentMethod: ticket.paymentMethod || null,
+            paymentRef: ticket.paymentReference || '',
+            paidAt: ticket.paymentMadeAt ? new Date(ticket.paymentMadeAt) : null,
+            confirmedAt: ticket.paymentConfirmedAt ? new Date(ticket.paymentConfirmedAt) : null,
+            createdAt: new Date(ticket.createdAt),
+            updatedAt: new Date(ticket.updatedAt)
+        };
+        if (existing.items.length > 0) {
+            await wixData.update('ReimbursementTickets', { ...existing.items[0], ...row }, SA);
+        } else {
+            await wixData.insert('ReimbursementTickets', row, SA);
+        }
+    } catch (e) {
+        console.error('syncTicketToCollection error:', e.message);
+    }
+}
+
+// Helper: Write to FinancialLedger (income/expense entry)
+async function addLedgerEntry(entry) {
+    try {
+        await wixData.insert('FinancialLedger', {
+            entryDate: entry.entryDate ? new Date(entry.entryDate) : new Date(),
+            entryType: entry.entryType || 'expense',         // 'income' | 'expense'
+            category: entry.category || 'reimbursement',     // 'reimbursement' | 'membership' | 'donation' | 'venue' | 'bank_statement'
+            description: entry.description || '',
+            amount: entry.amount || 0,
+            direction: entry.direction || 'debit',           // 'credit' (income) | 'debit' (expense)
+            eventId: entry.eventId || '',
+            eventName: entry.eventName || '',
+            payerOrPayee: entry.payerOrPayee || '',
+            paymentMethod: entry.paymentMethod || '',
+            reference: entry.reference || '',
+            source: entry.source || 'manual',                // 'reimbursement' | 'bank_statement' | 'zelle' | 'manual'
+            sourceId: entry.sourceId || '',
+            bankDate: entry.bankDate ? new Date(entry.bankDate) : null,
+            bankDescription: entry.bankDescription || '',
+            bankBalance: entry.bankBalance || null,
+            reconciled: entry.reconciled || false,
+            reconciledAt: null,
+            notes: entry.notes || '',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }, SA);
+    } catch (e) {
+        console.error('addLedgerEntry error:', e.message);
+    }
+}
+
+// BANF EC Year 2026-27 events list (SOURCE: membership_events.jpg — 17 events)
 const BANF_EVENTS_2025_26 = [
-    { id: 'bosonto-utsob-2026', name: 'Bosonto Utsob 2026', date: '2026-03-01' },
-    { id: 'saraswati-puja-2026', name: 'Saraswati Puja 2026', date: '2026-02-01' },
-    { id: 'republic-day-2026', name: 'Republic Day 2026', date: '2026-01-26' },
-    { id: 'christmas-party-2025', name: 'Christmas Party 2025', date: '2025-12-20' },
-    { id: 'diwali-kali-puja-2025', name: 'Diwali / Kali Puja 2025', date: '2025-11-01' },
-    { id: 'durga-puja-2025', name: 'Durga Puja 2025', date: '2025-10-01' },
-    { id: 'independence-day-2025', name: 'Independence Day 2025', date: '2025-08-15' },
-    { id: 'rabindra-nazrul-jayanti-2025', name: 'Rabindra Nazrul Jayanti 2025', date: '2025-05-08' }
+    { id: 'bosonto-utsob-2026', name: 'Bosonto Utsob', date: '2026-03-07', type: 'Cultural' },
+    { id: 'noboborsho-2026', name: 'Noboborsho', date: '2026-04-25', type: 'Cultural' },
+    { id: 'kids-summer-sports-2026', name: 'Kids Summer Sports Training', date: '2026-06-01', type: 'Educational' },
+    { id: 'summer-workshops-kids-2026', name: 'Summer Workshops — Kids', date: '2026-06-01', type: 'Educational' },
+    { id: 'summer-workshops-general-2026', name: 'Summer Workshops — General', date: '2026-06-01', type: 'Educational' },
+    { id: 'sports-day-2026', name: 'Sports Day', date: '2026-07-01', type: 'Social' },
+    { id: 'spondon-2026', name: 'Spondon', date: '2026-08-01', type: 'Cultural' },
+    { id: 'mahalaya-2026', name: 'Mahalaya', date: '2026-10-17', type: 'Religious' },
+    { id: 'durga-puja-2026', name: 'Durga Puja Day 1 & 2 + Lunch', date: '2026-10-24', type: 'Religious' },
+    { id: 'lakshmi-puja-2026', name: 'Lakshmi Puja', date: '2026-10-25', type: 'Religious' },
+    { id: 'bijoya-sonmiloni-2026', name: 'Bijoya Sonmiloni', date: '2026-10-25', type: 'Social' },
+    { id: 'artist-program-day1-2026', name: 'Artist Program Day 1 + Dinner', date: '2026-10-24', type: 'Cultural' },
+    { id: 'artist-program-day2-2026', name: 'Artist Program Day 2 + Dinner', date: '2026-10-25', type: 'Cultural' },
+    { id: 'kali-puja-2026', name: 'Kali Puja + Lunch', date: '2026-11-07', type: 'Religious' },
+    { id: 'natok-dinner-2026', name: 'Natok (Drama) + Dinner', date: '2026-11-07', type: 'Cultural' },
+    { id: 'winter-picnic-2027', name: 'Winter Picnic', date: '2027-01-11', type: 'Social' },
+    { id: 'saraswati-puja-2027', name: 'Saraswati Puja', date: '2027-02-27', type: 'Religious' }
 ];
 
 // Approver chain: Treasurer → Vice President → President
@@ -7319,6 +7395,27 @@ export async function post_reimbursement_create(request) {
         store.tickets.push(ticket);
         await saveReimbursementStore(store);
 
+        // Dual-write: sync to proper ReimbursementTickets collection
+        await syncTicketToCollection(ticket);
+
+        // Write expense entry to FinancialLedger
+        await addLedgerEntry({
+            entryDate: ticket.createdAt,
+            entryType: 'expense',
+            category: 'reimbursement',
+            description: 'Reimbursement ' + id + ' — ' + event.name + ' (' + receipts.length + ' receipt(s))',
+            amount: ticket.totalAmount,
+            direction: 'debit',
+            eventId: body.eventId,
+            eventName: event.name,
+            payerOrPayee: ticket.requesterName || ticket.requester,
+            paymentMethod: body.paidBy || 'own_card',
+            reference: id,
+            source: 'reimbursement',
+            sourceId: id,
+            notes: body.notes || ''
+        });
+
         return jsonResponse({
             success: true,
             id,
@@ -7395,6 +7492,7 @@ export async function post_reimbursement_approve(request) {
 
         ticket.updatedAt = new Date().toISOString();
         await saveReimbursementStore(store);
+        await syncTicketToCollection(ticket);
 
         return jsonResponse({
             success: true,
@@ -7439,6 +7537,7 @@ export async function post_reimbursement_payment(request) {
         });
 
         await saveReimbursementStore(store);
+        await syncTicketToCollection(ticket);
 
         return jsonResponse({
             success: true,
@@ -7480,6 +7579,7 @@ export async function post_reimbursement_confirm(request) {
         });
 
         await saveReimbursementStore(store);
+        await syncTicketToCollection(ticket);
 
         return jsonResponse({
             success: true,
@@ -7498,6 +7598,117 @@ export async function get_reimbursement_events(request) {
     return jsonResponse({ success: true, events: BANF_EVENTS_2025_26 });
 }
 export function options_reimbursement_events(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  Financial Ledger API v1.0                                    ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+// GET /_functions/ledger_list — List ledger entries with optional filters
+export async function get_ledger_list(request) {
+    try {
+        const url = new URL(request.url);
+        const key = request.headers.get('x-admin-key') || url.searchParams.get('key');
+        if (key !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        let query = wixData.query('FinancialLedger').descending('entryDate');
+        const direction = url.searchParams.get('direction');
+        const category = url.searchParams.get('category');
+        const source = url.searchParams.get('source');
+        const from = url.searchParams.get('from');
+        const to = url.searchParams.get('to');
+
+        if (direction) query = query.eq('direction', direction);
+        if (category) query = query.eq('category', category);
+        if (source) query = query.eq('source', source);
+        if (from) query = query.ge('entryDate', new Date(from));
+        if (to) query = query.le('entryDate', new Date(to));
+
+        const result = await query.limit(500).find(SA);
+        const entries = result.items.map(i => ({
+            id: i._id,
+            entryDate: i.entryDate,
+            entryType: i.entryType,
+            category: i.category,
+            description: i.description,
+            amount: i.amount,
+            direction: i.direction,
+            eventId: i.eventId,
+            eventName: i.eventName,
+            payerOrPayee: i.payerOrPayee,
+            paymentMethod: i.paymentMethod,
+            reference: i.reference,
+            source: i.source,
+            sourceId: i.sourceId,
+            bankDate: i.bankDate,
+            bankDescription: i.bankDescription,
+            bankBalance: i.bankBalance,
+            reconciled: i.reconciled,
+            notes: i.notes,
+            createdAt: i.createdAt
+        }));
+
+        const totalIncome = entries.filter(e => e.direction === 'credit').reduce((s, e) => s + (e.amount || 0), 0);
+        const totalExpense = entries.filter(e => e.direction === 'debit').reduce((s, e) => s + (e.amount || 0), 0);
+
+        return jsonResponse({
+            success: true,
+            count: entries.length,
+            totalIncome: Math.round(totalIncome * 100) / 100,
+            totalExpense: Math.round(totalExpense * 100) / 100,
+            netBalance: Math.round((totalIncome - totalExpense) * 100) / 100,
+            entries
+        });
+    } catch (e) {
+        return errorResponse('Failed to load ledger: ' + e.message);
+    }
+}
+export function options_ledger_list(request) { return handleCors(); }
+
+// POST /_functions/ledger_add — Add entry to financial ledger (bank statement, manual)
+export async function post_ledger_add(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const entries = body.entries || [body]; // Support batch or single
+        const results = [];
+        for (const entry of entries) {
+            await addLedgerEntry(entry);
+            results.push({ description: entry.description, amount: entry.amount, direction: entry.direction });
+        }
+
+        return jsonResponse({ success: true, added: results.length, entries: results });
+    } catch (e) {
+        return errorResponse('Failed to add ledger entry: ' + e.message);
+    }
+}
+export function options_ledger_add(request) { return handleCors(); }
+
+// GET /_functions/ledger_summary — Daily/monthly income/expense summary
+export async function get_ledger_summary(request) {
+    try {
+        const url = new URL(request.url);
+        const key = request.headers.get('x-admin-key') || url.searchParams.get('key');
+        if (key !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const result = await wixData.query('FinancialLedger').descending('entryDate').limit(1000).find(SA);
+        const daily = {};
+        for (const item of result.items) {
+            const d = item.entryDate ? new Date(item.entryDate).toISOString().slice(0, 10) : 'unknown';
+            if (!daily[d]) daily[d] = { date: d, income: 0, expense: 0, count: 0, entries: [] };
+            daily[d].count++;
+            if (item.direction === 'credit') daily[d].income += (item.amount || 0);
+            else daily[d].expense += (item.amount || 0);
+            daily[d].entries.push({ desc: item.description, amount: item.amount, dir: item.direction, cat: item.category });
+        }
+
+        const days = Object.values(daily).sort((a, b) => b.date.localeCompare(a.date));
+        return jsonResponse({ success: true, days, totalDays: days.length });
+    } catch (e) {
+        return errorResponse('Failed to generate summary: ' + e.message);
+    }
+}
+export function options_ledger_summary(request) { return handleCors(); }
 
 // ╔══════════════════════════════════════════════════════════════╗
 // ║  WhatsApp Announcement Ingestion v5.11.0                     ║

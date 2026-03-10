@@ -1,0 +1,32 @@
+{
+  "id": "ReimbursementTickets",
+  "displayName": "Reimbursement Tickets",
+  "permissions": {
+    "read": "ADMIN",
+    "insert": "ADMIN",
+    "update": "ADMIN",
+    "remove": "ADMIN"
+  },
+  "fields": [
+    { "key": "ticketId",        "displayName": "Ticket ID",       "type": "TEXT" },
+    { "key": "requester",       "displayName": "Requester Email",  "type": "TEXT" },
+    { "key": "requesterName",   "displayName": "Requester Name",   "type": "TEXT" },
+    { "key": "eventId",         "displayName": "Event ID",         "type": "TEXT" },
+    { "key": "eventName",       "displayName": "Event Name",       "type": "TEXT" },
+    { "key": "totalAmount",     "displayName": "Total Amount",     "type": "NUMBER" },
+    { "key": "receiptsJson",    "displayName": "Receipts JSON",    "type": "TEXT" },
+    { "key": "receiptCount",    "displayName": "Receipt Count",    "type": "NUMBER" },
+    { "key": "paidBy",          "displayName": "Paid By",          "type": "TEXT" },
+    { "key": "budgetApprover",  "displayName": "Budget Approver",  "type": "TEXT" },
+    { "key": "notes",           "displayName": "Notes",            "type": "TEXT" },
+    { "key": "status",          "displayName": "Status",           "type": "TEXT" },
+    { "key": "approvedBy",      "displayName": "Approved By",      "type": "TEXT" },
+    { "key": "approvedAt",      "displayName": "Approved At",      "type": "DATE_TIME" },
+    { "key": "paymentMethod",   "displayName": "Payment Method",   "type": "TEXT" },
+    { "key": "paymentRef",      "displayName": "Payment Ref",      "type": "TEXT" },
+    { "key": "paidAt",          "displayName": "Paid At",          "type": "DATE_TIME" },
+    { "key": "confirmedAt",     "displayName": "Confirmed At",     "type": "DATE_TIME" },
+    { "key": "createdAt",       "displayName": "Created At",       "type": "DATE_TIME" },
+    { "key": "updatedAt",       "displayName": "Updated At",       "type": "DATE_TIME" }
+  ]
+}

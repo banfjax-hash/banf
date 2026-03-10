@@ -1,0 +1,33 @@
+{
+  "id": "FinancialLedger",
+  "displayName": "Financial Ledger",
+  "permissions": {
+    "read": "ADMIN",
+    "insert": "ADMIN",
+    "update": "ADMIN",
+    "remove": "ADMIN"
+  },
+  "fields": [
+    { "key": "entryDate",       "displayName": "Entry Date",       "type": "DATE_TIME" },
+    { "key": "entryType",       "displayName": "Type",             "type": "TEXT" },
+    { "key": "category",        "displayName": "Category",         "type": "TEXT" },
+    { "key": "description",     "displayName": "Description",      "type": "TEXT" },
+    { "key": "amount",          "displayName": "Amount",           "type": "NUMBER" },
+    { "key": "direction",       "displayName": "Direction",        "type": "TEXT" },
+    { "key": "eventId",         "displayName": "Event ID",         "type": "TEXT" },
+    { "key": "eventName",       "displayName": "Event Name",       "type": "TEXT" },
+    { "key": "payerOrPayee",    "displayName": "Payer / Payee",    "type": "TEXT" },
+    { "key": "paymentMethod",   "displayName": "Payment Method",   "type": "TEXT" },
+    { "key": "reference",       "displayName": "Reference",        "type": "TEXT" },
+    { "key": "source",          "displayName": "Source",           "type": "TEXT" },
+    { "key": "sourceId",        "displayName": "Source ID",        "type": "TEXT" },
+    { "key": "bankDate",        "displayName": "Bank Date",        "type": "DATE_TIME" },
+    { "key": "bankDescription", "displayName": "Bank Description", "type": "TEXT" },
+    { "key": "bankBalance",     "displayName": "Bank Balance",     "type": "NUMBER" },
+    { "key": "reconciled",      "displayName": "Reconciled",       "type": "BOOLEAN" },
+    { "key": "reconciledAt",    "displayName": "Reconciled At",    "type": "DATE_TIME" },
+    { "key": "notes",           "displayName": "Notes",            "type": "TEXT" },
+    { "key": "createdAt",       "displayName": "Created At",       "type": "DATE_TIME" },
+    { "key": "updatedAt",       "displayName": "Updated At",       "type": "DATE_TIME" }
+  ]
+}

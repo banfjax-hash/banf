@@ -1394,15 +1394,25 @@ async function init() {
   } catch(e) {
     document.getElementById('chk-events').innerHTML = '<i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i> Events: <strong style="color:var(--yellow)">Using fallback list</strong>';
     log('warn', 'Event list not available from API (' + e.message + '), using fallback');
-    // Fallback events
+    // Fallback events (SOURCE: membership_events.jpg — 17 events for 2026-27)
     const fallback = [
-      { id: 'bosonto-2025', name: 'Bosonto Utsav 2025', date: '2025-04-05' },
-      { id: 'agomoni-2025', name: 'Agomoni 2025', date: '2025-09-27' },
-      { id: 'durga-puja-2025', name: 'Durga Puja 2025', date: '2025-10-04' },
-      { id: 'diwali-2025', name: 'Diwali 2025', date: '2025-10-20' },
-      { id: 'christmas-2025', name: 'Christmas Party 2025', date: '2025-12-20' },
-      { id: 'saraswati-2026', name: 'Saraswati Puja 2026', date: '2026-02-07' },
-      { id: 'test-event', name: 'TEST EVENT (Sandbox)', date: '2025-06-15' }
+      { id: 'bosonto-utsob-2026', name: 'Bosonto Utsob', date: '2026-03-07' },
+      { id: 'noboborsho-2026', name: 'Noboborsho', date: '2026-04-25' },
+      { id: 'kids-summer-sports-2026', name: 'Kids Summer Sports Training', date: '2026-06-01' },
+      { id: 'summer-workshops-kids-2026', name: 'Summer Workshops — Kids', date: '2026-06-01' },
+      { id: 'summer-workshops-general-2026', name: 'Summer Workshops — General', date: '2026-06-01' },
+      { id: 'sports-day-2026', name: 'Sports Day', date: '2026-07-01' },
+      { id: 'spondon-2026', name: 'Spondon', date: '2026-08-01' },
+      { id: 'mahalaya-2026', name: 'Mahalaya', date: '2026-10-17' },
+      { id: 'durga-puja-2026', name: 'Durga Puja Day 1 & 2 + Lunch', date: '2026-10-24' },
+      { id: 'lakshmi-puja-2026', name: 'Lakshmi Puja', date: '2026-10-25' },
+      { id: 'bijoya-sonmiloni-2026', name: 'Bijoya Sonmiloni', date: '2026-10-25' },
+      { id: 'artist-program-day1-2026', name: 'Artist Program Day 1 + Dinner', date: '2026-10-24' },
+      { id: 'artist-program-day2-2026', name: 'Artist Program Day 2 + Dinner', date: '2026-10-25' },
+      { id: 'kali-puja-2026', name: 'Kali Puja + Lunch', date: '2026-11-07' },
+      { id: 'natok-dinner-2026', name: 'Natok (Drama) + Dinner', date: '2026-11-07' },
+      { id: 'winter-picnic-2027', name: 'Winter Picnic', date: '2027-01-11' },
+      { id: 'saraswati-puja-2027', name: 'Saraswati Puja', date: '2027-02-27' }
     ];
     RMB_EVENTS = fallback;
     const sel = document.getElementById('rmb-event');
