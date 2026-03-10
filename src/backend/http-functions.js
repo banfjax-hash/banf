@@ -562,7 +562,7 @@ export function options_ec_signup_congratulations(request)    { return _ecSignup
 
 // Canary test: if this shows 200 with "v5.14", Wix deployed correctly
 export function get_deploy_check(request) {
-    return ok({ body: JSON.stringify({ version: 'v5.16.0-financial-ledger', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    return ok({ body: JSON.stringify({ version: 'v5.17.0-ec-fix-reimbursement', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
@@ -574,6 +574,7 @@ import { getHtml as getCrmAdminHtml } from 'backend/portals/crm-admin-html';
 import { getHtml as getMemberPortalHtml } from 'backend/portals/member-portal-html';
 import { getHtml as getUnifiedDashboardHtml } from 'backend/portals/unified-dashboard-html';
 import { getHtml as getLandingHtml } from 'backend/portals/landing-html';
+import { getHtml as getReimbursementHtml } from 'backend/portals/reimbursement-html';
 
 // Suppress auth for backend operations
 const SA = { suppressAuth: true };
@@ -6869,6 +6870,12 @@ export function options_crm_admin(request) { return handleCors(); }
 export function get_crm_admin_raw(request)     { return htmlPage(getCrmAdminHtml()); }
 export function options_crm_admin_raw(request) { return handleCors(); }
 
+// GET /_functions/reimbursement_page — Serve reimbursement HTML page
+export function get_reimbursement_page(request) {
+    return htmlPage(getReimbursementHtml());
+}
+export function options_reimbursement_page(request) { return handleCors(); }
+
 // GET /_functions/join   membership drive / new member onboarding
 export function get_join(request)          { return pageRedirect('/join.html'); }
 export function options_join(request)      { return handleCors(); }
@@ -7303,10 +7310,12 @@ const BANF_EVENTS_2025_26 = [
 ];
 
 // Approver chain: Treasurer → Vice President → President
+// SOURCE OF TRUTH: ec-seed-admin-roles.js, ec-onboard-status.json, ec-roster-seed-memory.js
+// NEVER change these without verifying against the EC roster files
 const REIMBURSEMENT_APPROVERS = [
-    { email: 'tanveer.a.chowdhury@gmail.com', role: 'Treasurer', order: 1 },
-    { email: 'deepa.shams@gmail.com', role: 'Vice President', order: 2 },
-    { email: 'ranadhir.ghosh@gmail.com', role: 'President', order: 3 }
+    { email: 'amit.everywhere@gmail.com', name: 'Amit Chandak', role: 'Treasurer', order: 1 },
+    { email: 'mukhopadhyay.partha@gmail.com', name: 'Partha Mukhopadhyay', role: 'Vice President', order: 2 },
+    { email: 'ranadhir.ghosh@gmail.com', name: 'Ranadhir Ghosh', role: 'President', order: 3 }
 ];
 
 // GET /_functions/reimbursement_list — List all reimbursement tickets
