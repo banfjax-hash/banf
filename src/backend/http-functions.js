@@ -7614,17 +7614,19 @@ export async function post_create_financial_collections(request) {
                 continue;
             } catch (e0) { steps.push({ step: 0, check: 'not-found', error: e0.message }); }
 
-            // Step 1: wix-data.v2 createDataCollection
+            // Step 1: wix-data.v2 createDataCollection with elevate()
             try {
+                const wixAuth = await import('wix-auth');
                 const { collections } = await import('wix-data.v2');
-                const cr = await collections.createDataCollection({
+                const elevatedCreate = wixAuth.elevate(collections.createDataCollection);
+                const cr = await elevatedCreate({
                     _id: colName,
                     displayName: colName
                 });
-                steps.push({ step: 1, method: 'wix-data-v2', ok: true, result: JSON.stringify(cr).slice(0, 300) });
-                results[colName] = { exists: true, method: 'wix-data-v2', steps };
+                steps.push({ step: 1, method: 'wix-data-v2-elevated', ok: true, result: JSON.stringify(cr).slice(0, 300) });
+                results[colName] = { exists: true, method: 'wix-data-v2-elevated', steps };
                 continue;
-            } catch (e1) { steps.push({ step: 1, method: 'wix-data-v2', ok: false, error: e1.message }); }
+            } catch (e1) { steps.push({ step: 1, method: 'wix-data-v2-elevated', ok: false, error: e1.message }); }
 
             // Step 2: wixFetch to REST API
             try {
