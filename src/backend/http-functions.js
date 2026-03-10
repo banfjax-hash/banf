@@ -562,7 +562,7 @@ export function options_ec_signup_congratulations(request)    { return _ecSignup
 
 // Canary test: if this shows 200 with "v5.14", Wix deployed correctly
 export function get_deploy_check(request) {
-    return ok({ body: JSON.stringify({ version: 'v5.14.0-procurement-ecr-devboard', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    return ok({ body: JSON.stringify({ version: 'v5.15.0-reimbursement-workflow', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
@@ -7189,6 +7189,315 @@ export async function post_ec_replacement_reverse(request) {
     }
 }
 export function options_ec_replacement_reverse(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  Reimbursement Workflow v1.0                                  ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+// Helper: Load/save reimbursement data from GoogleTokens (key-value store)
+async function loadReimbursementStore() {
+    const result = await wixData.query('GoogleTokens').eq('key', 'reimbursement_data').find(SA);
+    if (result.items.length === 0) return { tickets: [], nextId: 1 };
+    return JSON.parse(result.items[0].value || '{"tickets":[],"nextId":1}');
+}
+
+async function saveReimbursementStore(store) {
+    const json = JSON.stringify(store);
+    const existing = await wixData.query('GoogleTokens').eq('key', 'reimbursement_data').find(SA);
+    if (existing.items.length > 0) {
+        const item = existing.items[0];
+        item.value = json;
+        item.updatedAt = new Date();
+        await wixData.update('GoogleTokens', item, SA);
+    } else {
+        await wixData.insert('GoogleTokens', { key: 'reimbursement_data', value: json, updatedAt: new Date() }, SA);
+    }
+}
+
+// BANF EC Year 2025-2026 completed events list
+const BANF_EVENTS_2025_26 = [
+    { id: 'bosonto-utsob-2026', name: 'Bosonto Utsob 2026', date: '2026-03-01' },
+    { id: 'saraswati-puja-2026', name: 'Saraswati Puja 2026', date: '2026-02-01' },
+    { id: 'republic-day-2026', name: 'Republic Day 2026', date: '2026-01-26' },
+    { id: 'christmas-party-2025', name: 'Christmas Party 2025', date: '2025-12-20' },
+    { id: 'diwali-kali-puja-2025', name: 'Diwali / Kali Puja 2025', date: '2025-11-01' },
+    { id: 'durga-puja-2025', name: 'Durga Puja 2025', date: '2025-10-01' },
+    { id: 'independence-day-2025', name: 'Independence Day 2025', date: '2025-08-15' },
+    { id: 'rabindra-nazrul-jayanti-2025', name: 'Rabindra Nazrul Jayanti 2025', date: '2025-05-08' }
+];
+
+// Approver chain: Treasurer → Vice President → President
+const REIMBURSEMENT_APPROVERS = [
+    { email: 'tanveer.a.chowdhury@gmail.com', role: 'Treasurer', order: 1 },
+    { email: 'deepa.shams@gmail.com', role: 'Vice President', order: 2 },
+    { email: 'ranadhir.ghosh@gmail.com', role: 'President', order: 3 }
+];
+
+// GET /_functions/reimbursement_list — List all reimbursement tickets
+export async function get_reimbursement_list(request) {
+    try {
+        const store = await loadReimbursementStore();
+        return jsonResponse({
+            success: true,
+            tickets: store.tickets,
+            events: BANF_EVENTS_2025_26,
+            approvers: REIMBURSEMENT_APPROVERS.map(a => ({ role: a.role, order: a.order }))
+        });
+    } catch (e) {
+        return errorResponse('Failed to load reimbursement data: ' + e.message);
+    }
+}
+export function options_reimbursement_list(request) { return handleCors(); }
+
+// POST /_functions/reimbursement_create — Create a new reimbursement ticket
+export async function post_reimbursement_create(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadReimbursementStore();
+        const id = 'RMB-' + String(store.nextId).padStart(4, '0');
+        store.nextId++;
+
+        // Validate event
+        const event = BANF_EVENTS_2025_26.find(e => e.id === body.eventId);
+        if (!event) return errorResponse('Invalid event selected', 400);
+
+        // Parse receipts array
+        const receipts = (body.receipts || []).map((r, idx) => ({
+            index: idx + 1,
+            storeName: r.storeName || '',
+            date: r.date || '',
+            lineItems: (r.lineItems || []).map(li => ({
+                item: li.item || 'Unknown Item',
+                cost: parseFloat(li.cost) || 0
+            })),
+            totalCost: parseFloat(r.totalCost) || 0,
+            receiptMissing: r.receiptMissing || false,
+            missingReason: r.missingReason || '',
+            fileName: r.fileName || '',
+            fileType: r.fileType || '',
+            parseConfidence: r.parseConfidence || 'manual',
+            confirmedByUser: true
+        }));
+
+        const totalAmount = receipts.reduce((sum, r) => sum + r.totalCost, 0);
+
+        const ticket = {
+            id,
+            requester: body.requester || 'unknown',
+            requesterName: body.requesterName || '',
+            event: event.name,
+            eventId: body.eventId,
+            receipts,
+            totalAmount: Math.round(totalAmount * 100) / 100,
+            paidBy: body.paidBy || 'own_card', // 'own_card' or 'banf_card'
+            budgetApprover: body.budgetApprover || '', // President / VP / Treasurer
+            status: 'pending_treasurer', // First person in chain
+            approvals: REIMBURSEMENT_APPROVERS.map(a => ({
+                email: a.email,
+                role: a.role,
+                order: a.order,
+                status: 'pending',
+                decidedAt: null,
+                notes: ''
+            })),
+            paymentMade: false,
+            paymentMadeBy: null,
+            paymentMadeAt: null,
+            paymentMethod: null,
+            paymentConfirmedByRequester: false,
+            paymentConfirmedAt: null,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            notes: body.notes || '',
+            auditLog: [
+                { action: 'created', by: body.requester, at: new Date().toISOString(), detail: 'Ticket created with ' + receipts.length + ' receipt(s), total $' + totalAmount.toFixed(2) }
+            ]
+        };
+
+        store.tickets.push(ticket);
+        await saveReimbursementStore(store);
+
+        return jsonResponse({
+            success: true,
+            id,
+            totalAmount: ticket.totalAmount,
+            receipts: receipts.length,
+            message: 'Reimbursement ticket created — pending Treasurer approval'
+        });
+    } catch (e) {
+        return errorResponse('Failed to create reimbursement ticket: ' + e.message);
+    }
+}
+export function options_reimbursement_create(request) { return handleCors(); }
+
+// POST /_functions/reimbursement_approve — Approver action (approve/reject)
+export async function post_reimbursement_approve(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadReimbursementStore();
+        const ticket = store.tickets.find(t => t.id === body.ticketId);
+        if (!ticket) return errorResponse('Ticket not found: ' + body.ticketId, 404);
+
+        // Find this approver
+        const approverEntry = ticket.approvals.find(a => a.email === body.approver);
+        if (!approverEntry) return errorResponse('You are not an approver for this ticket', 403);
+
+        // Check order: previous approvers must have approved
+        const prevApprovers = ticket.approvals.filter(a => a.order < approverEntry.order);
+        const allPrevApproved = prevApprovers.every(a => a.status === 'approved');
+        if (!allPrevApproved) {
+            return errorResponse('Previous approver(s) must approve first. Current chain: ' +
+                prevApprovers.map(a => a.role + ':' + a.status).join(', '), 400);
+        }
+
+        approverEntry.status = body.decision; // 'approved' or 'rejected'
+        approverEntry.decidedAt = new Date().toISOString();
+        approverEntry.notes = body.notes || '';
+
+        // Update ticket status
+        if (body.decision === 'rejected') {
+            ticket.status = 'rejected';
+            ticket.auditLog.push({
+                action: 'rejected',
+                by: body.approver,
+                at: new Date().toISOString(),
+                detail: approverEntry.role + ' rejected: ' + (body.notes || 'no reason')
+            });
+        } else {
+            // Check if all approvers have approved
+            const allApproved = ticket.approvals.every(a => a.status === 'approved');
+            if (allApproved) {
+                ticket.status = 'pending_payment';
+                ticket.auditLog.push({
+                    action: 'fully_approved',
+                    by: body.approver,
+                    at: new Date().toISOString(),
+                    detail: 'All 3 approvers approved — awaiting payment'
+                });
+            } else {
+                // Move to next approver
+                const nextApprover = ticket.approvals.find(a => a.status === 'pending');
+                if (nextApprover) {
+                    ticket.status = 'pending_' + nextApprover.role.toLowerCase().replace(/\s+/g, '_');
+                }
+                ticket.auditLog.push({
+                    action: 'approved',
+                    by: body.approver,
+                    at: new Date().toISOString(),
+                    detail: approverEntry.role + ' approved — next: ' + (nextApprover ? nextApprover.role : 'payment')
+                });
+            }
+        }
+
+        ticket.updatedAt = new Date().toISOString();
+        await saveReimbursementStore(store);
+
+        return jsonResponse({
+            success: true,
+            ticketId: body.ticketId,
+            newStatus: ticket.status,
+            decision: body.decision,
+            approverRole: approverEntry.role
+        });
+    } catch (e) {
+        return errorResponse('Failed to process approval: ' + e.message);
+    }
+}
+export function options_reimbursement_approve(request) { return handleCors(); }
+
+// POST /_functions/reimbursement_payment — Treasurer/President marks payment made
+export async function post_reimbursement_payment(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadReimbursementStore();
+        const ticket = store.tickets.find(t => t.id === body.ticketId);
+        if (!ticket) return errorResponse('Ticket not found: ' + body.ticketId, 404);
+
+        if (ticket.status !== 'pending_payment') {
+            return errorResponse('Ticket must be in pending_payment status. Current: ' + ticket.status, 400);
+        }
+
+        ticket.paymentMade = true;
+        ticket.paymentMadeBy = body.payer || 'unknown';
+        ticket.paymentMadeAt = new Date().toISOString();
+        ticket.paymentMethod = body.method || 'zelle'; // zelle, check, cash
+        ticket.paymentReference = body.reference || '';
+        ticket.status = 'payment_made';
+        ticket.updatedAt = new Date().toISOString();
+
+        ticket.auditLog.push({
+            action: 'payment_made',
+            by: body.payer,
+            at: new Date().toISOString(),
+            detail: 'Payment of $' + ticket.totalAmount.toFixed(2) + ' made via ' + ticket.paymentMethod + (body.reference ? ' (ref: ' + body.reference + ')' : '')
+        });
+
+        await saveReimbursementStore(store);
+
+        return jsonResponse({
+            success: true,
+            ticketId: body.ticketId,
+            newStatus: 'payment_made',
+            amount: ticket.totalAmount,
+            method: ticket.paymentMethod
+        });
+    } catch (e) {
+        return errorResponse('Failed to record payment: ' + e.message);
+    }
+}
+export function options_reimbursement_payment(request) { return handleCors(); }
+
+// POST /_functions/reimbursement_confirm — Requester confirms payment received
+export async function post_reimbursement_confirm(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const store = await loadReimbursementStore();
+        const ticket = store.tickets.find(t => t.id === body.ticketId);
+        if (!ticket) return errorResponse('Ticket not found: ' + body.ticketId, 404);
+
+        if (ticket.status !== 'payment_made') {
+            return errorResponse('Ticket must be in payment_made status. Current: ' + ticket.status, 400);
+        }
+
+        ticket.paymentConfirmedByRequester = true;
+        ticket.paymentConfirmedAt = new Date().toISOString();
+        ticket.status = 'completed';
+        ticket.updatedAt = new Date().toISOString();
+
+        ticket.auditLog.push({
+            action: 'payment_confirmed',
+            by: body.requester,
+            at: new Date().toISOString(),
+            detail: 'Requester confirmed payment of $' + ticket.totalAmount.toFixed(2) + ' received — cycle complete'
+        });
+
+        await saveReimbursementStore(store);
+
+        return jsonResponse({
+            success: true,
+            ticketId: body.ticketId,
+            newStatus: 'completed',
+            completedAt: ticket.paymentConfirmedAt
+        });
+    } catch (e) {
+        return errorResponse('Failed to confirm payment: ' + e.message);
+    }
+}
+export function options_reimbursement_confirm(request) { return handleCors(); }
+
+// GET /_functions/reimbursement_events — Get list of available events for the EC year
+export async function get_reimbursement_events(request) {
+    return jsonResponse({ success: true, events: BANF_EVENTS_2025_26 });
+}
+export function options_reimbursement_events(request) { return handleCors(); }
 
 // ╔══════════════════════════════════════════════════════════════╗
 // ║  WhatsApp Announcement Ingestion v5.11.0                     ║
