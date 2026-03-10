@@ -1,6 +1,6 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (238336 bytes)
-// Generated: 2026-03-10T15:37:07.728Z
+// Source: admin-portal.html (238236 bytes)
+// Generated: 2026-03-10T17:05:05.734Z
 export function getHtml() { return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -390,15 +390,15 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group">Finance</div>
     <div class="sb-item" data-panel="procurement"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
-    <div class="sb-item" data-panel="reimbursement" id="rmb-nav-item" style="display:none"><i class="fas fa-receipt"></i><span>Reimbursement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="reimbursement" id="rmb-nav-item"><i class="fas fa-receipt"></i><span>Reimbursement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group" id="president-group" style="display:none">President</div>
     <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group">Audit</div>
     <div class="sb-item" data-panel="activity"><i class="fas fa-history"></i><span>Activity Log</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
-    <div class="sb-item" onclick="window.open('https://www.jaxbengali.org/unified-ecosystem-dashboard.html','_blank')"><i class="fas fa-atom"></i><span>Main Dashboard</span></div>
-    <div class="sb-item" onclick="window.open('https://www.jaxbengali.org/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
+    <div class="sb-item" onclick="window.open('https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html','_blank')"><i class="fas fa-atom"></i><span>Main Dashboard</span></div>
+    <div class="sb-item" onclick="window.open('https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html','_blank')"><i class="fas fa-route"></i><span>Requirements Journey</span></div>
 
     <div class="sb-user">
       <div class="sb-avatar">RG</div>
@@ -439,8 +439,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <h2><i class="fas fa-link"></i> Quick Actions</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn-primary" onclick="if(typeof banfChatToggle==='function')banfChatToggle()"><i class="fas fa-robot me-1"></i>BANF Admin Assistant</button>
-          <a href="https://www.jaxbengali.org/unified-ecosystem-dashboard.html" target="_blank" class="btn-secondary"><i class="fas fa-atom me-1"></i>Main Dashboard</a>
-          <a href="https://www.jaxbengali.org/stakeholder-requirements-journey.html" target="_blank" class="btn-secondary"><i class="fas fa-route me-1"></i>Requirements Journey</a>
+          <a href="https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html" target="_blank" class="btn-secondary"><i class="fas fa-atom me-1"></i>Main Dashboard</a>
+          <a href="https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html" target="_blank" class="btn-secondary"><i class="fas fa-route me-1"></i>Requirements Journey</a>
           <a href="https://www.jaxbengali.org" target="_blank" class="btn-secondary"><i class="fas fa-globe me-1"></i>Live Site</a>
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.78rem;color:var(--muted);">
@@ -1599,11 +1599,9 @@ function enterPortal(user, email) {
   var presItem = document.getElementById('president-ec-replace');
   if (presGroup) presGroup.style.display = isPresident ? '' : 'none';
   if (presItem) presItem.style.display = isPresident ? '' : 'none';
-  // Reimbursement: visible only for Treasurer, VP, President
-  var rmbRoles = ['Treasurer','Vice President','President'];
-  var canRmb = CURRENT_ADMIN && rmbRoles.includes(CURRENT_ADMIN.ecTitle);
+  // Reimbursement: visible for all logged-in EC members
   var rmbItem = document.getElementById('rmb-nav-item');
-  if (rmbItem) rmbItem.style.display = canRmb ? '' : 'none';
+  if (rmbItem) rmbItem.style.display = '';
   // Load procurement data on portal load
   loadProcurementData();
   if (isPresident) loadEcReplacementData();
@@ -2462,7 +2460,7 @@ function buildDriveInviteEmail(opts) {
   var name = opts.name, email = opts.email, roleName = opts.roleName;
   var dataViews = opts.dataViews, feedbackAbility = opts.feedbackAbility;
   var dashboardLink = opts.dashboardLink, unsubscribeLink = opts.unsubscribeLink;
-  var journeyLink = opts.journeyLink || 'https://www.jaxbengali.org/stakeholder-requirements-journey.html';
+  var journeyLink = opts.journeyLink || 'https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html';
   var customNote = opts.customNote;
   var year = new Date().getFullYear();
   var sentDate = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
@@ -2588,8 +2586,8 @@ document.getElementById('btn-send-drive').addEventListener('click',async()=>{
 
   const subject=document.getElementById('drive-subject').value.trim()||"BANF Stakeholder Invitation";
   const customNote=document.getElementById('drive-custom-note').value.trim();
-  const dashboardLink='https://www.jaxbengali.org/unified-ecosystem-dashboard.html';
-  const journeyLink='https://www.jaxbengali.org/stakeholder-requirements-journey.html';
+  const dashboardLink='https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html';
+  const journeyLink='https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html';
   let sent=0,failed=0;
 
   for(const d of eligible){
@@ -2650,8 +2648,8 @@ document.getElementById('btn-preview-drive-email').addEventListener('click',()=>
     roleName:'Technical Lead',
     dataViews:'Overview, Pipeline, Agents, Endpoints, Testing, Deployment, Data Model, Sprints, Requirements, Dev Status, Observability, Internals, Expert Review',
     feedbackAbility:'Full (Submit + Vote + Approve)',
-    dashboardLink:'https://www.jaxbengali.org/unified-ecosystem-dashboard.html',
-    journeyLink:'https://www.jaxbengali.org/stakeholder-requirements-journey.html',
+    dashboardLink:'https://banfjax-hash.github.io/banf/unified-ecosystem-dashboard.html',
+    journeyLink:'https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html',
     unsubscribeLink:'https://www.jaxbengali.org/_functions/unsubscribe?email=ranadhir.ghosh@gmail.com',
     customNote: customNote
   });
