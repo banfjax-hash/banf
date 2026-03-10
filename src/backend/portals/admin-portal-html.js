@@ -1,6 +1,6 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (238236 bytes)
-// Generated: 2026-03-10T17:05:05.734Z
+// Source: admin-portal.html (239690 bytes)
+// Generated: 2026-03-10T21:10:04.226Z
 export function getHtml() { return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -425,6 +425,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <tr><td><i class="fas fa-comments me-1" style="color:var(--cyan)"></i>Feedback â†’ Agent Pipeline</td><td><span class="badge-s badge-cyan">3. Review</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
               <tr><td><i class="fas fa-clipboard-list me-1" style="color:var(--orange)"></i>Dev Board / Approval</td><td><span class="badge-s badge-orange">4. Delivery</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
               <tr><td><i class="fas fa-vial me-1" style="color:var(--yellow)"></i>E2E Test Suite</td><td><span class="badge-s badge-yellow">5. QA</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
+              <tr style="background:rgba(34,197,94,.06)"><td><i class="fas fa-file-invoice-dollar me-1" style="color:var(--green)"></i><strong>Finance (Procurement + Reimbursement)</strong></td><td><span class="badge-s badge-green">LIVE</span></td><td><span class="badge-s badge-green" style="cursor:pointer" onclick="navTo('procurement')">Go →</span></td></tr>
             </tbody></table>
           </div>
         </div>
@@ -435,6 +436,16 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
           </div>
         </div>
       </div>
+      <!-- Finance Quick Access -->
+      <div class="card-a mt-3" style="border:1px solid rgba(34,197,94,.25)">
+        <h2><i class="fas fa-file-invoice-dollar" style="color:var(--green)"></i> Finance — Quick Access</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Submit procurement requests, upload receipts, or access the AI-powered reimbursement portal.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="navTo('procurement')" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer"><i class="fas fa-file-invoice-dollar me-1"></i>Procurement &amp; Requests</button>
+          <button onclick="navTo('reimbursement')" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer"><i class="fas fa-receipt me-1"></i>Reimbursement Portal</button>
+        </div>
+      </div>
+
       <div class="card-a mt-3">
         <h2><i class="fas fa-link"></i> Quick Actions</h2>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -445,7 +456,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.78rem;color:var(--muted);">
           <i class="fas fa-info-circle me-1" style="color:var(--accent)"></i>
-          <strong>Phase 1:</strong> Dashboard + AI Assistant are live. All other modules (Role Definitions, User Management, Identity Engine, Drives, Feedback, Dev Board, E2E, Audit) will be launched step-wise with security &amp; RBAC compliance.
+          <strong>Live Now:</strong> Dashboard, Finance (Procurement + AI Reimbursement), EC Replacement (President). Other modules (Role Definitions, User Management, Identity Engine, Drives, Feedback, Dev Board, E2E, Audit) will be launched step-wise.
         </div>
       </div>
     </div>
