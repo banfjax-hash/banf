@@ -562,7 +562,7 @@ export function options_ec_signup_congratulations(request)    { return _ecSignup
 
 // Canary test: if this shows 200 with "v5.14", Wix deployed correctly
 export function get_deploy_check(request) {
-    return ok({ body: JSON.stringify({ version: 'v5.17.0-ec-fix-reimbursement', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    return ok({ body: JSON.stringify({ version: 'v5.18.0-rmb-portal-auth-guide', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
@@ -575,6 +575,7 @@ import { getHtml as getMemberPortalHtml } from 'backend/portals/member-portal-ht
 import { getHtml as getUnifiedDashboardHtml } from 'backend/portals/unified-dashboard-html';
 import { getHtml as getLandingHtml } from 'backend/portals/landing-html';
 import { getHtml as getReimbursementHtml } from 'backend/portals/reimbursement-html';
+import { getHtml as getReimbursementGuideHtml } from 'backend/portals/reimbursement-guide-html';
 
 // Suppress auth for backend operations
 const SA = { suppressAuth: true };
@@ -6875,6 +6876,12 @@ export function get_reimbursement_page(request) {
     return htmlPage(getReimbursementHtml());
 }
 export function options_reimbursement_page(request) { return handleCors(); }
+
+// GET /_functions/reimbursement_guide — Serve step-by-step guide page
+export function get_reimbursement_guide(request) {
+    return htmlPage(getReimbursementGuideHtml());
+}
+export function options_reimbursement_guide(request) { return handleCors(); }
 
 // GET /_functions/join   membership drive / new member onboarding
 export function get_join(request)          { return pageRedirect('/join.html'); }
