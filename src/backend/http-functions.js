@@ -7632,7 +7632,7 @@ export async function post_create_financial_collections(request) {
                 const resp = await wixFetch('https://www.wixapis.com/wix-data/v2/collections', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ collection: { _id: colName, displayName: colName } })
+                    body: JSON.stringify({ collection: { id: colName, displayName: colName } })
                 });
                 const txt = await resp.text();
                 steps.push({ step: 2, method: 'rest-api', status: resp.status, body: txt.slice(0, 300) });
