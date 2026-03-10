@@ -7743,6 +7743,28 @@ export async function post_ledger_add(request) {
 }
 export function options_ledger_add(request) { return handleCors(); }
 
+// POST /_functions/ledger_delete — Delete ledger entries by filter
+export async function post_ledger_delete(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+        let query = wixData.query('FinancialLedger');
+        if (body.before) query = query.lt('entryDate', new Date(body.before));
+        if (body.after) query = query.gt('entryDate', new Date(body.after));
+        if (body.all === true) { /* no filter — delete all */ }
+        const result = await query.limit(500).find(SA);
+        let deleted = 0;
+        for (const item of result.items) {
+            await wixData.remove('FinancialLedger', item._id, SA);
+            deleted++;
+        }
+        return jsonResponse({ success: true, deleted, hadMore: result.totalCount > result.items.length });
+    } catch (e) {
+        return errorResponse('Failed to delete ledger entries: ' + e.message);
+    }
+}
+export function options_ledger_delete(request) { return handleCors(); }
+
 // GET /_functions/ledger_summary — Daily/monthly income/expense summary
 export async function get_ledger_summary(request) {
     try {
