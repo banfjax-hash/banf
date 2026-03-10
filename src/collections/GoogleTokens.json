@@ -1,0 +1,15 @@
+{
+  "id": "GoogleTokens",
+  "displayName": "Google Tokens",
+  "permissions": {
+    "read": "ADMIN",
+    "insert": "ADMIN",
+    "update": "ADMIN",
+    "remove": "ADMIN"
+  },
+  "fields": [
+    { "key": "key",       "displayName": "Key",        "type": "TEXT" },
+    { "key": "value",     "displayName": "Value",      "type": "TEXT" },
+    { "key": "updatedAt", "displayName": "Updated At", "type": "DATE_TIME" }
+  ]
+}

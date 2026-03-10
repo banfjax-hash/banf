@@ -1,6 +1,12 @@
 {
   "id": "EventAttendance",
   "displayName": "Event Attendance",
+  "permissions": {
+    "read": "ADMIN",
+    "insert": "ADMIN",
+    "update": "ADMIN",
+    "remove": "ADMIN"
+  },
   "fields": {
     "compositeKey":              { "type": "text",     "displayName": "Composite Key (email|event)" },
     "email":                     { "type": "text",     "displayName": "Email" },
