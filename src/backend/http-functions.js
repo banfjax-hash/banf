@@ -562,7 +562,7 @@ export function options_ec_signup_congratulations(request)    { return _ecSignup
 
 // Canary test: if this shows 200 with "v5.14", Wix deployed correctly
 export function get_deploy_check(request) {
-    return ok({ body: JSON.stringify({ version: 'v5.18.0-rmb-portal-auth-guide', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    return ok({ body: JSON.stringify({ version: 'v5.21.0-full-auth-portal', ts: Date.now(), site: 'jaxbengali' }), headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
 }
 
 import { ok, badRequest, serverError, notFound, forbidden, response as wixResponse } from 'wix-http-functions';
@@ -6827,10 +6827,12 @@ function pageRedirect(path) {
 
 function htmlPage(html) {
     // Use ok() helper for HTML responses - better Content-Type handling
-    // Note: Wix may still override on *.wixsite.com preview URLs
+    // Note: Wix adds restrictive CSP (default-src 'self') by default.
+    // We set a permissive CSP to override/prevent Wix's injection.
     return ok({
         headers: {
             'Content-Type': 'text/html; charset=utf-8',
+            'Content-Security-Policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: blob:; font-src * data:; connect-src *;",
             'Access-Control-Allow-Origin': '*',
             'Cache-Control': 'no-store, no-cache, must-revalidate',
             'X-Content-Type-Options': 'nosniff'
@@ -6856,7 +6858,21 @@ export function options_member_portal_raw(request) { return handleCors(); }
 // GET /_functions/admin_portal
 export function get_admin_portal(request)  { return wixResponse({ status: 302, headers: { 'Location': 'https://www.jaxbengali.org/home?portal=admin', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' }); }
 export function options_admin_portal(request) { return handleCors(); }
-export function get_admin_portal_raw(request)  { return htmlPage(getAdminPortalHtml()); }
+// GET /_functions/admin_portal_raw — Redirect to GitHub Pages (CSP-free)
+// Wix _functions endpoints inject restrictive CSP: default-src 'self'; script-src 'nonce-...'
+// This blocks ALL inline CSS, inline JS, and CDN resources, rendering pages unstyled.
+// Solution: Serve the HTML from GitHub Pages which has no CSP restrictions.
+export function get_admin_portal_raw(request) {
+    return wixResponse({
+        status: 302,
+        headers: {
+            'Location': 'https://banfjax-hash.github.io/banf/admin-portal.html',
+            'Access-Control-Allow-Origin': '*',
+            'Cache-Control': 'no-store'
+        },
+        body: ''
+    });
+}
 export function options_admin_portal_raw(request) { return handleCors(); }
 
 // GET /_functions/unified_dashboard

@@ -1,6 +1,4 @@
-// Auto-generated portal module for reimbursement page
-// Source: reimbursement-test.html
-export function getHtml() { return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1044,17 +1042,17 @@ async function ocrImage(imageDataUrl) {
 // RECEIPT TEXT PARSER (REGEX FALLBACK)
 // ═══════════════════════════════════════
 function parseReceiptText(text) {
-  const lines = text.split('\\n').map(l => l.trim()).filter(l => l);
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
   const storeName = lines.length > 0 ? lines[0] : '';
-  const dateMatch = text.match(/(\\d{1,2})[\\/\\-](\\d{1,2})[\\/\\-](\\d{2,4})/);
+  const dateMatch = text.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})/);
   const date = dateMatch ? dateMatch[0] : '';
   const lineItems = [];
-  const priceRegex = /\\$?\\s*(\\d+\\.\\d{2})\\s*$/;
+  const priceRegex = /\$?\s*(\d+\.\d{2})\s*$/;
   lines.forEach(line => {
     const m = line.match(priceRegex);
     if (m) {
       const cost = parseFloat(m[1]);
-      const item = line.replace(priceRegex, '').replace(/\\s+/g, ' ').trim();
+      const item = line.replace(priceRegex, '').replace(/\s+/g, ' ').trim();
       if (item && cost > 0 && !/total|subtotal|tax|change|cash|visa|mastercard|debit|credit/i.test(item)) {
         lineItems.push({ item, cost });
       }
@@ -1066,12 +1064,12 @@ function parseReceiptText(text) {
 }
 
 function extractTotal(text) {
-  const patterns = [/TOTAL\\s*:?\\s*\\$?\\s*(\\d+\\.\\d{2})/i, /GRAND\\s*TOTAL\\s*:?\\s*\\$?\\s*(\\d+\\.\\d{2})/i, /AMOUNT\\s*DUE\\s*:?\\s*\\$?\\s*(\\d+\\.\\d{2})/i, /BALANCE\\s*:?\\s*\\$?\\s*(\\d+\\.\\d{2})/i];
+  const patterns = [/TOTAL\s*:?\s*\$?\s*(\d+\.\d{2})/i, /GRAND\s*TOTAL\s*:?\s*\$?\s*(\d+\.\d{2})/i, /AMOUNT\s*DUE\s*:?\s*\$?\s*(\d+\.\d{2})/i, /BALANCE\s*:?\s*\$?\s*(\d+\.\d{2})/i];
   for (const p of patterns) {
     const m = text.match(p);
     if (m) return parseFloat(m[1]);
   }
-  const allPrices = [...text.matchAll(/\\$?\\s*(\\d+\\.\\d{2})/g)].map(m => parseFloat(m[1])).sort((a, b) => b - a);
+  const allPrices = [...text.matchAll(/\$?\s*(\d+\.\d{2})/g)].map(m => parseFloat(m[1])).sort((a, b) => b - a);
   return allPrices.length > 0 ? allPrices[0] : 0;
 }
 
@@ -1265,7 +1263,7 @@ async function qwenVisionParse(imageDataUrl, fileName) {
   const modelShort = cfg.modelId.split('/').pop();
   log('info', 'Image payload: ' + payloadKB + ' KB → sending to ' + cfg.provider + '/' + modelShort);
 
-  const receiptPrompt = 'Analyze this receipt image carefully. Extract ALL visible information and return ONLY valid JSON with no markdown formatting, no backticks, no explanation — just the raw JSON object:\\n{"storeName":"store or vendor name","date":"date in MM/DD/YYYY format","lineItems":[{"item":"item description","cost":12.99}],"totalCost":45.67,"confidence":"high"}\\n\\nRules:\\n- Include EVERY line item visible on the receipt\\n- For totalCost use the receipt TOTAL or GRAND TOTAL amount\\n- If subtotal/tax/tip are visible, include them as separate line items\\n- Date format must be MM/DD/YYYY\\n- confidence: "high" if receipt is clear, "medium" if partially readable, "low" if poor quality\\n- cost values must be numbers not strings';
+  const receiptPrompt = 'Analyze this receipt image carefully. Extract ALL visible information and return ONLY valid JSON with no markdown formatting, no backticks, no explanation — just the raw JSON object:\n{"storeName":"store or vendor name","date":"date in MM/DD/YYYY format","lineItems":[{"item":"item description","cost":12.99}],"totalCost":45.67,"confidence":"high"}\n\nRules:\n- Include EVERY line item visible on the receipt\n- For totalCost use the receipt TOTAL or GRAND TOTAL amount\n- If subtotal/tax/tip are visible, include them as separate line items\n- Date format must be MM/DD/YYYY\n- confidence: "high" if receipt is clear, "medium" if partially readable, "low" if poor quality\n- cost values must be numbers not strings';
 
   let url = cfg.url;
   let body;
@@ -1312,13 +1310,13 @@ async function qwenVisionParse(imageDataUrl, fileName) {
     } else {
       content = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
     }
-    log('info', cfg.provider + ' response (' + content.length + ' chars): ' + content.substring(0, 150).replace(/\\n/g, ' '));
+    log('info', cfg.provider + ' response (' + content.length + ' chars): ' + content.substring(0, 150).replace(/\n/g, ' '));
 
     const rawEl = document.getElementById('ocr-raw');
-    rawEl.textContent += '\\n\\n══ ' + fileName + ' (' + cfg.provider + ') ══\\n' + content;
+    rawEl.textContent += '\n\n══ ' + fileName + ' (' + cfg.provider + ') ══\n' + content;
 
-    let jsonStr = content.replace(/\`\`\`json\\s*/gi, '').replace(/\`\`\`\\s*/g, '').trim();
-    const jsonMatch = jsonStr.match(/\\{[\\s\\S]*\\}/);
+    let jsonStr = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error('No JSON found in model response');
 
     const parsed = JSON.parse(jsonMatch[0]);
@@ -1376,7 +1374,7 @@ async function runBenchmark() {
   const payloadKB = Math.round(resized.length / 1024);
   log('info', 'BENCHMARK: Testing ' + models.length + ' models on ' + cfg.provider + ' (' + payloadKB + 'KB)');
 
-  const receiptPrompt = 'Analyze this receipt image carefully. Extract ALL visible information and return ONLY valid JSON with no markdown formatting, no backticks, no explanation — just the raw JSON object:\\n{"storeName":"store or vendor name","date":"date in MM/DD/YYYY format","lineItems":[{"item":"item description","cost":12.99}],"totalCost":45.67,"confidence":"high"}\\n\\nRules:\\n- Include EVERY line item visible on the receipt\\n- For totalCost use the receipt TOTAL or GRAND TOTAL amount\\n- Date format must be MM/DD/YYYY\\n- confidence: "high" if receipt is clear, "medium" if partially readable, "low" if poor quality\\n- cost values must be numbers not strings';
+  const receiptPrompt = 'Analyze this receipt image carefully. Extract ALL visible information and return ONLY valid JSON with no markdown formatting, no backticks, no explanation — just the raw JSON object:\n{"storeName":"store or vendor name","date":"date in MM/DD/YYYY format","lineItems":[{"item":"item description","cost":12.99}],"totalCost":45.67,"confidence":"high"}\n\nRules:\n- Include EVERY line item visible on the receipt\n- For totalCost use the receipt TOTAL or GRAND TOTAL amount\n- Date format must be MM/DD/YYYY\n- confidence: "high" if receipt is clear, "medium" if partially readable, "low" if poor quality\n- cost values must be numbers not strings';
 
   for (let i = 0; i < models.length; i++) {
     const [modelId, modelLabel] = models[i];
@@ -1415,8 +1413,8 @@ async function runBenchmark() {
         else { content = (data.choices?.[0]?.message?.content) || ''; }
         entry.raw = content.substring(0, 200);
 
-        let jsonStr = content.replace(/\`\`\`json\\s*/gi, '').replace(/\`\`\`\\s*/g, '').trim();
-        const jsonMatch = jsonStr.match(/\\{[\\s\\S]*\\}/);
+        let jsonStr = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+        const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
           const parsed = JSON.parse(jsonMatch[0]);
           entry.fields = {
@@ -1429,7 +1427,7 @@ async function runBenchmark() {
           let score = 0;
           if (entry.fields.storeName && entry.fields.storeName.toLowerCase().includes('sunny')) score += 20;
           else if (entry.fields.storeName) score += 10;
-          if (/\\d{2}\\/\\d{2}\\/\\d{4}/.test(entry.fields.date)) score += 20;
+          if (/\d{2}\/\d{2}\/\d{4}/.test(entry.fields.date)) score += 20;
           else if (entry.fields.date) score += 10;
           if (entry.fields.lineItems >= 10) score += 30;
           else if (entry.fields.lineItems >= 6) score += 20;
@@ -1520,7 +1518,7 @@ function generateTestReceipt() {
     ctx.fillText('123 Main Street, Anytown', 40, 70);
     ctx.fillText('Date: 06/15/2025', 40, 95);
     ctx.fillText('Receipt #: 4821', 40, 115);
-    ctx.fillText('\\u2500'.repeat(35), 40, 140);
+    ctx.fillText('\u2500'.repeat(35), 40, 140);
     const items = [['Organic Milk 1gal',5.99],['Whole Wheat Bread',4.49],['Fresh Bananas 2lb',3.28],['Chicken Breast 3lb',14.97],['Cheddar Cheese 8oz',6.49],['Pasta Sauce 24oz',3.99],['Spaghetti 16oz',2.29],['Mixed Salad Bag',4.99],['Orange Juice 64oz',5.99],['Greek Yogurt 4pk',6.48]];
     let y = 165;
     items.forEach(([name, price]) => {
@@ -1529,11 +1527,11 @@ function generateTestReceipt() {
       y += 22;
     });
     y += 5;
-    ctx.fillText('\\u2500'.repeat(35), 40, y); y += 25;
+    ctx.fillText('\u2500'.repeat(35), 40, y); y += 25;
     ctx.font = '14px monospace';
     ctx.fillText('Subtotal:', 40, y); ctx.textAlign = 'right'; ctx.fillText('$58.96', 360, y); ctx.textAlign = 'left'; y += 22;
     ctx.fillText('Tax (8.5%):', 40, y); ctx.textAlign = 'right'; ctx.fillText('$5.01', 360, y); ctx.textAlign = 'left'; y += 22;
-    ctx.fillText('\\u2500'.repeat(35), 40, y); y += 25;
+    ctx.fillText('\u2500'.repeat(35), 40, y); y += 25;
     ctx.font = 'bold 16px monospace';
     ctx.fillText('TOTAL:', 40, y); ctx.textAlign = 'right'; ctx.fillText('$63.97', 360, y); ctx.textAlign = 'left'; y += 30;
     ctx.font = '12px monospace';
@@ -1601,7 +1599,7 @@ async function handleReceiptFiles(files) {
             updateReceiptStatus(receiptId, 'running', 'AI Vision failed — running Tesseract OCR...');
             const text = await ocrImage(imgUrl);
             const rawEl = document.getElementById('ocr-raw');
-            rawEl.textContent += '\\n\\n══ ' + file.name + ' (Tesseract fallback) ══\\n' + text;
+            rawEl.textContent += '\n\n══ ' + file.name + ' (Tesseract fallback) ══\n' + text;
             const elapsed2 = ((Date.now() - startTime) / 1000).toFixed(1);
             log('info', 'Tesseract OCR done (' + elapsed2 + 's, ' + text.length + ' chars)');
             parsed = parseReceiptText(text);
@@ -1675,8 +1673,8 @@ function populateReceiptCard(id, parsed, fileName, fileType) {
   parsed.lineItems.forEach((li, i) => {
     lineItemsHtml += '<div class="line-item-row" style="display:flex;gap:8px;margin-bottom:6px;align-items:center">' +
       '<input type="text" class="li-item" value="' + (li.item || '').replace(/"/g, '&quot;') + '" placeholder="Item name" style="flex:2;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem">' +
-      '<input type="number" class="li-cost" value="' + (li.cost || 0) + '" placeholder="Cost" step="0.01" min="0" style="width:100px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem" onchange="recalcReceiptTotal(\\'' + id + '\\')">' +
-      '<button onclick="this.parentElement.remove();recalcReceiptTotal(\\'' + id + '\\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem" title="Remove"><i class="fas fa-trash-alt"></i></button>' +
+      '<input type="number" class="li-cost" value="' + (li.cost || 0) + '" placeholder="Cost" step="0.01" min="0" style="width:100px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem" onchange="recalcReceiptTotal(\'' + id + '\')">' +
+      '<button onclick="this.parentElement.remove();recalcReceiptTotal(\'' + id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem" title="Remove"><i class="fas fa-trash-alt"></i></button>' +
       '</div>';
   });
 
@@ -1687,12 +1685,12 @@ function populateReceiptCard(id, parsed, fileName, fileType) {
     '</div>' +
     '<div style="margin-bottom:8px"><label class="form-label-sm">Line Items <span class="badge-s ' + confBadge + '" style="margin-left:6px">' + engineLabel + (parsed.confidence || 'manual') + '</span></label>' +
     '<div class="line-items-container">' + lineItemsHtml + '</div>' +
-    '<button onclick="addLineItem(\\'' + id + '\\')" style="background:none;border:1px dashed var(--line2);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;margin-top:4px"><i class="fas fa-plus me-1"></i>Add Line Item</button>' +
+    '<button onclick="addLineItem(\'' + id + '\')" style="background:none;border:1px dashed var(--line2);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;margin-top:4px"><i class="fas fa-plus me-1"></i>Add Line Item</button>' +
     '</div>' +
     '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--line)">' +
     '<div style="display:flex;align-items:center;gap:6px"><label style="font-size:.72rem;color:var(--muted)">TOTAL:</label>' +
     '<input type="number" class="r-total" value="' + (parsed.totalCost || 0) + '" step="0.01" min="0" style="width:120px;padding:6px 10px;border-radius:6px;border:1px solid var(--accent);background:var(--card);color:var(--green);font-size:.9rem;font-weight:700" onchange="updateRmbSummary();updateKPIs()"></div>' +
-    '<button onclick="confirmReceipt(\\'' + id + '\\')" class="btn-receipt-confirm" style="background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer"><i class="fas fa-check me-1"></i>Confirm Receipt</button>' +
+    '<button onclick="confirmReceipt(\'' + id + '\')" class="btn-receipt-confirm" style="background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer"><i class="fas fa-check me-1"></i>Confirm Receipt</button>' +
     '</div>';
 
   card.dataset.fileName = fileName;
@@ -1713,8 +1711,8 @@ function addLineItem(receiptId) {
   row.className = 'line-item-row';
   row.style.cssText = 'display:flex;gap:8px;margin-bottom:6px;align-items:center';
   row.innerHTML = '<input type="text" class="li-item" value="" placeholder="Item name" style="flex:2;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem">' +
-    '<input type="number" class="li-cost" value="0" placeholder="Cost" step="0.01" min="0" style="width:100px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem" onchange="recalcReceiptTotal(\\'' + receiptId + '\\')">' +
-    '<button onclick="this.parentElement.remove();recalcReceiptTotal(\\'' + receiptId + '\\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem" title="Remove"><i class="fas fa-trash-alt"></i></button>';
+    '<input type="number" class="li-cost" value="0" placeholder="Cost" step="0.01" min="0" style="width:100px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem" onchange="recalcReceiptTotal(\'' + receiptId + '\')">' +
+    '<button onclick="this.parentElement.remove();recalcReceiptTotal(\'' + receiptId + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem" title="Remove"><i class="fas fa-trash-alt"></i></button>';
   container.appendChild(row);
 }
 
@@ -1790,13 +1788,13 @@ function addMissingReceipt() {
     '<div style="margin-bottom:8px"><label class="form-label-sm">Line Items</label>' +
     '<div class="line-items-container"><div class="line-item-row" style="display:flex;gap:8px;margin-bottom:6px;align-items:center">' +
     '<input type="text" class="li-item" value="" placeholder="Item name" style="flex:2;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem">' +
-    '<input type="number" class="li-cost" value="0" placeholder="Cost" step="0.01" min="0" style="width:100px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem" onchange="recalcReceiptTotal(\\'' + id + '\\')">' +
-    '<button onclick="this.parentElement.remove();recalcReceiptTotal(\\'' + id + '\\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem" title="Remove"><i class="fas fa-trash-alt"></i></button></div></div>' +
-    '<button onclick="addLineItem(\\'' + id + '\\')" style="background:none;border:1px dashed var(--line2);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;margin-top:4px"><i class="fas fa-plus me-1"></i>Add Line Item</button></div>' +
+    '<input type="number" class="li-cost" value="0" placeholder="Cost" step="0.01" min="0" style="width:100px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.8rem" onchange="recalcReceiptTotal(\'' + id + '\')">' +
+    '<button onclick="this.parentElement.remove();recalcReceiptTotal(\'' + id + '\')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.8rem" title="Remove"><i class="fas fa-trash-alt"></i></button></div></div>' +
+    '<button onclick="addLineItem(\'' + id + '\')" style="background:none;border:1px dashed var(--line2);color:var(--accent);padding:4px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;margin-top:4px"><i class="fas fa-plus me-1"></i>Add Line Item</button></div>' +
     '<div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--line)">' +
     '<div style="display:flex;align-items:center;gap:6px"><label style="font-size:.72rem;color:var(--muted)">TOTAL:</label>' +
     '<input type="number" class="r-total" value="0" step="0.01" min="0" style="width:120px;padding:6px 10px;border-radius:6px;border:1px solid var(--accent);background:var(--card);color:var(--green);font-size:.9rem;font-weight:700" onchange="updateRmbSummary();updateKPIs()"></div>' +
-    '<button onclick="confirmReceipt(\\'' + id + '\\')" class="btn-receipt-confirm" style="background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer"><i class="fas fa-check me-1"></i>Confirm Receipt</button></div>';
+    '<button onclick="confirmReceipt(\'' + id + '\')" class="btn-receipt-confirm" style="background:linear-gradient(135deg,var(--green),#16a34a);color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer"><i class="fas fa-check me-1"></i>Confirm Receipt</button></div>';
 
   document.getElementById('rmb-receipts-container').style.display = 'block';
   document.getElementById('rmb-payment-info').style.display = 'block';
@@ -2037,4 +2035,3 @@ if (!checkExistingSession()) {
 </script>
 </body>
 </html>
-`; }
