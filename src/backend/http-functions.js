@@ -701,7 +701,7 @@ export function get_health(request) {
         success: true,
         status: 'healthy',
         timestamp: new Date().toISOString(),
-        version: '5.10.1-ec-reminder',
+        version: '5.16.0-financial-ledger',
         modules: {
             legacy: ['health', 'events', 'members', 'radio', 'sponsors', 'gallery',
                      'surveys', 'email_status', 'email_unread', 'email_inbox',
