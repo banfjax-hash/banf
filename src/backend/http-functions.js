@@ -7599,6 +7599,63 @@ export async function get_reimbursement_events(request) {
 }
 export function options_reimbursement_events(request) { return handleCors(); }
 
+// POST /_functions/create_financial_collections — Create FinancialLedger + ReimbursementTickets collections
+export async function post_create_financial_collections(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+        const results = {};
+        for (const colName of ['FinancialLedger', 'ReimbursementTickets']) {
+            const steps = [];
+            // Step 0: Check existence
+            try {
+                const q = await wixData.query(colName).limit(1).find(SA);
+                results[colName] = { exists: true, count: q.items.length };
+                continue;
+            } catch (e0) { steps.push({ step: 0, check: 'not-found', error: e0.message }); }
+
+            // Step 1: wix-data.v2 createDataCollection
+            try {
+                const { collections } = await import('wix-data.v2');
+                const cr = await collections.createDataCollection({
+                    _id: colName,
+                    displayName: colName
+                });
+                steps.push({ step: 1, method: 'wix-data-v2', ok: true, result: JSON.stringify(cr).slice(0, 300) });
+                results[colName] = { exists: true, method: 'wix-data-v2', steps };
+                continue;
+            } catch (e1) { steps.push({ step: 1, method: 'wix-data-v2', ok: false, error: e1.message }); }
+
+            // Step 2: wixFetch to REST API
+            try {
+                const wixFetch = (await import('wix-fetch')).fetch;
+                const resp = await wixFetch('https://www.wixapis.com/wix-data/v2/collections', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ collection: { _id: colName, displayName: colName } })
+                });
+                const txt = await resp.text();
+                steps.push({ step: 2, method: 'rest-api', status: resp.status, body: txt.slice(0, 300) });
+                if (resp.ok) { results[colName] = { exists: true, method: 'rest-api', steps }; continue; }
+            } catch (e2) { steps.push({ step: 2, method: 'rest-api', ok: false, error: e2.message }); }
+
+            // Step 3: direct insert (auto-create)
+            try {
+                const ins = await wixData.insert(colName, { _seed: true, createdAt: new Date() }, SA);
+                steps.push({ step: 3, method: 'insert-seed', ok: true, id: ins._id });
+                results[colName] = { exists: true, method: 'auto-created-insert', steps };
+                continue;
+            } catch (e3) { steps.push({ step: 3, method: 'insert-seed', ok: false, error: e3.message }); }
+
+            results[colName] = { exists: false, steps };
+        }
+        return jsonResponse({ success: true, results });
+    } catch (e) {
+        return errorResponse('create_financial_collections failed: ' + e.message);
+    }
+}
+export function options_create_financial_collections(request) { return handleCors(); }
+
 // ╔══════════════════════════════════════════════════════════════╗
 // ║  Financial Ledger API v1.0                                    ║
 // ╚══════════════════════════════════════════════════════════════╝
