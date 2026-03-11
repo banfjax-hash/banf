@@ -384,8 +384,10 @@ function aggregateEventExpenses(eventId, eventInfo, expenseData, ledger) {
   // 2. From ledger expense entries tagged with this event
   for (const entry of (ledger.entries || [])) {
     if (entry.type === 'expense') {
+      const eventName = eventId.replace(/_/g, ' ');
       const isForEvent = entry.eventId === eventId ||
-        (entry.memo && entry.memo.toLowerCase().includes(eventId.replace(/_/g, ' ')));
+        (entry.event && entry.event.toLowerCase().includes(eventName)) ||
+        (entry.memo && entry.memo.toLowerCase().includes(eventName));
 
       if (isForEvent) {
         const isDuplicate = items.some(i =>
@@ -394,7 +396,7 @@ function aggregateEventExpenses(eventId, eventInfo, expenseData, ledger) {
         if (!isDuplicate) {
           items.push({
             id: `EXP-LEDGER-${entry.id}`,
-            category: entry.purpose || 'miscellaneous',
+            category: entry.category || entry.purpose || 'miscellaneous',
             description: entry.memo || entry.comments || 'Expense',
             amount: entry.amount,
             vendor: entry.payerName || '',

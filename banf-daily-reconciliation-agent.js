@@ -160,15 +160,33 @@ async function gmailGetMessage(id, token) {
     const headers = msg.payload.headers || [];
     const getHeader = (name) => (headers.find(h => h.name.toLowerCase() === name.toLowerCase()) || {}).value || '';
 
-    // Decode body
-    let bodyText = '';
-    function extractText(part) {
-        if (part.body?.data) {
-            bodyText += Buffer.from(part.body.data, 'base64').toString('utf-8');
+    // Decode body — prefer HTML (WF Zelle emails are HTML-only), then text/plain
+    let bodyHtml = '';
+    let bodyPlain = '';
+    function extractParts(part) {
+        if (part.mimeType === 'text/html' && part.body?.data) {
+            bodyHtml += Buffer.from(part.body.data, 'base64url').toString('utf-8');
+        } else if (part.mimeType === 'text/plain' && part.body?.data) {
+            bodyPlain += Buffer.from(part.body.data, 'base64url').toString('utf-8');
+        } else if (part.body?.data && !part.mimeType?.startsWith('image')) {
+            bodyPlain += Buffer.from(part.body.data, 'base64url').toString('utf-8');
         }
-        if (part.parts) part.parts.forEach(extractText);
+        if (part.parts) part.parts.forEach(extractParts);
     }
-    extractText(msg.payload);
+    extractParts(msg.payload);
+
+    // Convert HTML to text for parsing
+    let bodyText = bodyPlain;
+    if (bodyHtml) {
+        bodyText = bodyHtml
+            .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+            .replace(/<[^>]+>/g, ' ')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&amp;/g, '&')
+            .replace(/&#(\d+);/g, (m, n) => String.fromCharCode(n))
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
 
     return {
         id: msg.id,
@@ -194,22 +212,40 @@ function parsePaymentEmail(msg) {
         memo: null, parsed: false
     };
 
-    // Zelle: "You received $XXX from Name"
-    let match = body.match(/(?:you\s+)?received?\s+\$?([\d,]+(?:\.\d{2})?)\s+from\s+(.+?)(?:\.|$)/i);
+    // Wells Fargo Zelle: "NAME sent you $AMOUNT Date: MM/DD/YYYY Confirmation: XXX Memo: ..."
+    let match = body.match(/([A-Za-z][A-Za-z.\s]+?)\s+sent you \$(\d[\d,]*(?:\.\d{2})?)(?:\s+Date:\s*(\d{2}\/\d{2}\/\d{4}))?/i);
     if (match) {
-        result.amount = parseFloat(match[1].replace(',', ''));
-        result.payerName = match[2].trim();
-        result.source = 'zelle';
+        result.amount = parseFloat(match[2].replace(',', ''));
+        result.payerName = match[1].trim();
+        result.source = 'zelle_wf';
         result.parsed = true;
+        if (match[3]) result.txDate = match[3];
+        // Extract confirmation
+        const confMatch = body.match(/Confirmation:\s*(\S+)/i);
+        if (confMatch) result.confirmation = confMatch[1];
     }
 
-    // Zelle subject: "You received $XXX"
+    // Zelle generic: "You received $XXX from Name"
     if (!result.parsed) {
-        match = subj.match(/received?\s+\$?([\d,]+(?:\.\d{2})?)/i);
+        match = body.match(/(?:you\s+)?received?\s+\$?([\d,]+(?:\.\d{2})?)\s+from\s+(.+?)(?:\.|Date|$)/i);
+        if (match) {
+            result.amount = parseFloat(match[1].replace(',', ''));
+            result.payerName = match[2].trim();
+            result.source = 'zelle';
+            result.parsed = true;
+        }
+    }
+
+    // Zelle subject: "You received money with Zelle" — extract amount from body
+    if (!result.parsed && /received money.*zelle/i.test(subj)) {
+        match = body.match(/\$(\d[\d,]*(?:\.\d{2})?)/i);
         if (match) {
             result.amount = parseFloat(match[1].replace(',', ''));
             result.source = 'zelle_subject';
             result.parsed = true;
+            // Try name from body: "96 NAME sent you"
+            const nameMatch = body.match(/\d+\s+([A-Za-z][A-Za-z.\s]+?)\s+sent you/i);
+            if (nameMatch) result.payerName = nameMatch[1].trim();
         }
     }
 
@@ -234,9 +270,13 @@ function parsePaymentEmail(msg) {
         }
     }
 
-    // Memo/note
-    match = body.match(/(?:memo|note|message|description)[:\s]+(.+?)(?:\n|$)/i);
+    // Memo/note — WF format: "Memo: ... We deposited"
+    match = body.match(/Memo:\s*(.+?)(?:\s+We deposited|\n|$)/i);
     if (match) result.memo = match[1].trim();
+    if (!result.memo) {
+        match = body.match(/(?:note|message|description)[:\s]+(.+?)(?:\n|$)/i);
+        if (match) result.memo = match[1].trim();
+    }
 
     // BANF-related?
     result.isBanf = /banf|bosonto|membership|dues|bengali|jaxbengali/i.test(body + subj);
@@ -476,6 +516,81 @@ function classifyAndBuildEntries(payments, members) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// AUTO-TAG: Map expenses to events and categories
+// ═══════════════════════════════════════════════════════════════
+
+const BANF_EVENTS = [
+    { name: 'Saraswati Puja 2026',  date: '2026-01-31', windowBefore: 30, windowAfter: 15 },
+    { name: 'Bosonto Utsob 2026',   date: '2026-03-07', windowBefore: 35, windowAfter: 7  },
+    { name: 'Noboborsho 2026',      date: '2026-04-25', windowBefore: 30, windowAfter: 7  },
+];
+
+/**
+ * Automatically assign event and category to an expense entry based on:
+ *   1. Explicit fields already present (expense.event, expense.eventId)
+ *   2. Date proximity to known BANF events
+ *   3. Merchant/memo keyword matching for category
+ */
+function autoTagExpense(expense) {
+    const result = { event: '', category: '' };
+
+    // ── Explicit event already set ──
+    if (expense.event)   result.event = expense.event;
+    if (expense.eventId) {
+        const match = BANF_EVENTS.find(e =>
+            e.name.toLowerCase().replace(/\s+/g,'_') === expense.eventId ||
+            e.name.toLowerCase().includes(expense.eventId.replace(/_/g,' '))
+        );
+        if (match) result.event = match.name;
+    }
+
+    // ── Date-based event matching ──
+    if (!result.event && expense.date) {
+        const expDate = new Date(expense.date);
+        if (!isNaN(expDate.getTime())) {
+            for (const ev of BANF_EVENTS) {
+                const evDate = new Date(ev.date);
+                const daysBefore = (evDate - expDate) / 86400000;
+                const daysAfter  = (expDate - evDate) / 86400000;
+                if (daysBefore >= 0 && daysBefore <= ev.windowBefore) { result.event = ev.name; break; }
+                if (daysAfter  >= 0 && daysAfter  <= ev.windowAfter)  { result.event = ev.name; break; }
+            }
+        }
+    }
+
+    // ── Explicit category already set ──
+    if (expense.category) { result.category = expense.category; return result; }
+
+    // ── Category from memo / merchant keywords ──
+    const memo   = (expense.description || expense.memo || '').toLowerCase();
+    const vendor = (expense.vendor || expense.payee || expense.payerName || '').toLowerCase();
+    const text   = `${memo} ${vendor}`;
+
+    if (/publix|walmart|apna\s*bazar|grocery|food|costco|aldi|winn.?dixie|sam.?s club/i.test(text)) {
+        result.category = 'Food & Grocery';
+    } else if (/supplies|water|cards|plates|cups|napkins|decoration/i.test(text)) {
+        result.category = 'Supplies';
+    } else if (/venue|hall|rental|lakeside|booking/i.test(text)) {
+        result.category = 'Venue';
+    } else if (/dj|sound|music|speaker|audio/i.test(text)) {
+        result.category = 'Entertainment';
+    } else if (/print|flyer|banner|poster|design/i.test(text)) {
+        result.category = 'Printing';
+    } else if (/reimburse/i.test(text)) {
+        result.category = 'Reimbursement';
+    } else if (memo === '' && expense.type === 'expense' && /zelle/i.test(expense.subj || expense.source || '')) {
+        // Zelle sent with no memo → likely reimbursement
+        result.category = 'Reimbursement';
+    } else if (/picnic|event|festival/i.test(text)) {
+        result.category = 'Event Expense';
+    } else {
+        result.category = 'Other';
+    }
+
+    return result;
+}
+
+// ═══════════════════════════════════════════════════════════════
 // PHASE 3: MERGE WITH EXISTING LEDGER + EXPENSES
 // ═══════════════════════════════════════════════════════════════
 
@@ -499,6 +614,7 @@ function mergeAndReconcile(newEntries, ledger) {
     let expensesAdded = 0;
     for (const expense of (expenseData.expenses || [])) {
         if (!existingExpenseIds.has(expense.id)) {
+            const tags = autoTagExpense(expense);
             ledger.entries.push({
                 id: expense.id || `EXP-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
                 type: 'expense',
@@ -509,7 +625,9 @@ function mergeAndReconcile(newEntries, ledger) {
                 payerName: expense.vendor || expense.payee || '',
                 memo: expense.description || expense.memo || '',
                 comments: expense.comments || '',
-                approvedBy: expense.approvedBy || 'EC'
+                approvedBy: expense.approvedBy || 'EC',
+                event: expense.event || tags.event,
+                category: expense.category || tags.category
             });
             expensesAdded++;
         }
