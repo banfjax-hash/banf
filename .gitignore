@@ -1,0 +1,11 @@
+# Secrets
+.banf-secrets.json
+
+# Node
+node_modules/
+
+# State files (contain runtime data)
+*.state.json
+
+# IDE
+.vscode/

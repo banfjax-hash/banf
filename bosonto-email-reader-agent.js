@@ -42,6 +42,22 @@ const compliance = require('./communication-compliance.js');
 const { classifyPayment, generatePaymentAcknowledgment, isMembershipPaidForFY, getFiscalYear }
     = require('./banf-payment-purpose-engine.js');
 
+// Delivery Failure Recovery Agent — bounce detection, spouse recovery, escalation
+const { scanDeliveryFailures, isEmailFlagged } = require('./banf-delivery-failure-agent.js');
+
+// Reinforcement Learning Feedback Engine — action recommendation from feedback
+const rl = require('./banf-rl-feedback-engine.js');
+
+// Event Manager Agent — YAML-driven drive lifecycle controller
+let eventManager;
+try { eventManager = require('./banf-event-manager.js'); } catch (e) { eventManager = null; }
+
+// Message Queue — file-backed FIFO with dedup, DLQ, retry
+const mq = require('./banf-message-queue.js');
+
+// Development Instruct Agent — email-driven dev workflow via GitHub CLI + Claude Opus
+const devInstruct = require('./banf-dev-instruct-agent.js');
+
 // ── Config ──────────────────────────────────────────────────────
 const WIX_ENDPOINT = 'https://banfwix.wixsite.com/banf1/_functions/bosonto_pipeline';
 const ADMIN_KEY = 'banf-bosonto-2026-live';
@@ -56,7 +72,7 @@ const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.go
 const GOOGLE_CLIENT_SECRET = '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';
 const PLAYGROUND_CLIENT_ID = '407408718192.apps.googleusercontent.com';
 const PLAYGROUND_SECRET = 'kd-_2_AUosoGGTNYyMJiFL3j';
-const GOOGLE_REFRESH_TOKEN = '1//043SvrPmUfXwUCgYIARAAGAQSNwF-L9IrmO-MD0-4ult4fEofYmx_TDhjylHHdxZ-N3Yqo_-2lIhsmvyiYqhuJJGrZ3JAyZAgLuk';
+const GOOGLE_REFRESH_TOKEN = require('./banf-gmail-config').REFRESH_TOKEN;
 
 const PRICING = {
   m2:       { family: 375, couple: 330, individual: 205, student: 145, name: 'M2 Premium' },
@@ -162,7 +178,23 @@ function httpsRequest(url, options = {}) {
   });
 }
 
+// Track token health — avoid hammering Google when token is expired
+let _tokenFailCount = 0;
+let _tokenLastFailTime = null;
+const TOKEN_FAIL_BACKOFF_CYCLES = 12; // After 12 consecutive failures, only retry every 12 cycles (1 hour at 5-min interval)
+const TOKEN_EXPIRY_NOTIFY_FILE = path.join(__dirname, 'gmail-token-expired.flag');
+
 async function getGmailToken() {
+  // If token has been failing repeatedly, implement exponential backoff
+  if (_tokenFailCount >= TOKEN_FAIL_BACKOFF_CYCLES) {
+    const hoursSinceLastFail = _tokenLastFailTime ? (Date.now() - _tokenLastFailTime) / 3600000 : 0;
+    if (hoursSinceLastFail < 1) {
+      throw new Error('Gmail token: expired/revoked (backoff — retry in ' + Math.ceil(60 - hoursSinceLastFail * 60) + ' min). Run: node gmail-oauth-refresh.js');
+    }
+    // Reset to allow retry after backoff
+    log('INFO', 'Token backoff period elapsed, retrying token refresh...');
+  }
+
   const credentials = [
     [GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET],
     [PLAYGROUND_CLIENT_ID, PLAYGROUND_SECRET]
@@ -175,9 +207,35 @@ async function getGmailToken() {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) },
       body
     });
-    if (resp.data.access_token) return resp.data.access_token;
+    if (resp.data.access_token) {
+      // Token works — reset failure tracking
+      if (_tokenFailCount > 0) {
+        log('INFO', `Gmail token recovered after ${_tokenFailCount} failures`);
+        try { if (fs.existsSync(TOKEN_EXPIRY_NOTIFY_FILE)) fs.unlinkSync(TOKEN_EXPIRY_NOTIFY_FILE); } catch {}
+      }
+      _tokenFailCount = 0;
+      _tokenLastFailTime = null;
+      return resp.data.access_token;
+    }
     lastError = resp.data.error_description || resp.data.error || 'Unknown error';
   }
+
+  // Token failed — track and notify
+  _tokenFailCount++;
+  _tokenLastFailTime = Date.now();
+
+  // Write flag file on first failure (for external monitoring)
+  if (_tokenFailCount === 1) {
+    try {
+      fs.writeFileSync(TOKEN_EXPIRY_NOTIFY_FILE, JSON.stringify({
+        error: lastError,
+        failedAt: new Date().toISOString(),
+        fix: 'Run: node gmail-oauth-refresh.js'
+      }, null, 2));
+    } catch {}
+    log('ERROR', `Gmail token expired/revoked! Run: node gmail-oauth-refresh.js`);
+  }
+
   throw new Error('Gmail token: ' + lastError);
 }
 
@@ -522,11 +580,11 @@ function guessCategoryFromAmount(amount, hhType) {
 // PHASE 1: INCREMENTAL EVITE SCAN
 // ═══════════════════════════════════════════════════════════════
 
-async function scanNewEviteEmails(state) {
+async function scanNewEviteEmails(state, existingToken) {
   log('INFO', 'Scanning Gmail for new Evite RSVP emails...');
 
-  const token = await getGmailToken();
-  log('INFO', 'Gmail token obtained');
+  const token = existingToken || await getGmailToken();
+  if (!existingToken) log('INFO', 'Gmail token obtained');
 
   const processedIds = new Set(state.processedEmailIds || []);
   const queries = [
@@ -907,6 +965,262 @@ async function processInstructions(instructions, state) {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// PHASE 2e: GITHUB ACTIONS FAILURE EMAIL SCAN
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Detect and classify GitHub Actions run failure notification emails.
+ * Routes them to the dev instruct pipeline for automated analysis/fix.
+ *
+ * GitHub notification emails typically come from:
+ *   - notifications@github.com
+ *   - noreply@github.com
+ * Subject patterns:
+ *   - "[owner/repo] Run failed: workflow-name - branch (hash)"
+ *   - "[owner/repo] Some check has failed on branch"
+ *   - "Re: [owner/repo] ..."
+ */
+
+const GITHUB_FAILURE_PATTERNS = [
+  /\brun failed\b/i,
+  /\bworkflow.*(failed|failure|error)\b/i,
+  /\bfailed\b.*\bgithub\b/i,
+  /\bcheck.*(failed|failure)\b/i,
+  /\bbuild.*(failed|broken|error)\b/i,
+  /\bci.*(failed|failure|broken)\b/i,
+  /\bdeploy.*(failed|failure|error)\b/i
+];
+
+const GITHUB_SENDER_PATTERNS = [
+  'notifications@github.com',
+  'noreply@github.com',
+  'github.com'
+];
+
+function isGitHubFailureEmail(from, subject, body) {
+  const fromLower = (from || '').toLowerCase();
+  const isGitHub = GITHUB_SENDER_PATTERNS.some(p => fromLower.includes(p));
+  if (!isGitHub) return { isFailure: false, reason: 'Not from GitHub' };
+
+  const subjectLower = (subject || '').toLowerCase();
+  const bodyLower = (body || '').toLowerCase().substring(0, 3000);
+  const combinedText = subjectLower + ' ' + bodyLower;
+
+  // Check for failure patterns
+  for (const pat of GITHUB_FAILURE_PATTERNS) {
+    if (pat.test(subject) || pat.test(body?.substring(0, 3000) || '')) {
+      // Extract workflow & repo info
+      const repoMatch = (subject || '').match(/\[([^\]]+)\]/);
+      const repo = repoMatch ? repoMatch[1] : 'unknown';
+      const workflowMatch = (subject || '').match(/:\s*(.+?)(?:\s*-\s*|\s*$)/);
+      const workflow = workflowMatch ? workflowMatch[1].trim() : '';
+      return {
+        isFailure: true,
+        repo,
+        workflow,
+        pattern: pat.toString(),
+        reason: `GitHub Actions failure: ${repo} — ${workflow || subject}`
+      };
+    }
+  }
+
+  // Also check for generic failure in body from GitHub
+  if (combinedText.includes('failed') || combinedText.includes('failure') || combinedText.includes('error')) {
+    if (combinedText.includes('action') || combinedText.includes('workflow') || combinedText.includes('run') || combinedText.includes('build')) {
+      const repoMatch = (subject || '').match(/\[([^\]]+)\]/);
+      return {
+        isFailure: true,
+        repo: repoMatch ? repoMatch[1] : 'unknown',
+        workflow: '',
+        pattern: 'generic_failure',
+        reason: `GitHub notification with failure indicators`
+      };
+    }
+  }
+
+  return { isFailure: false, reason: 'GitHub email but no failure pattern detected' };
+}
+
+async function scanGitHubFailureEmails(state, token) {
+  log('INFO', 'Scanning Gmail for GitHub Actions failure emails...');
+
+  if (!token) token = await getGmailToken();
+  const processedIds = new Set(state.processedGitHubFailureIds || []);
+
+  // Search for GitHub notification emails with failure-related content
+  const queries = [
+    `from:notifications@github.com "run failed" after:2026/01/01`,
+    `from:notifications@github.com "failed" after:2026/01/01`,
+    `from:noreply@github.com "failed" after:2026/01/01`,
+    `from:github.com subject:"failed" after:2026/01/01`
+  ];
+
+  const allIds = new Set();
+  for (const q of queries) {
+    try {
+      const ids = await gmailSearch(q, token, 50);
+      ids.forEach(id => allIds.add(id));
+    } catch (e) {
+      log('WARN', `GitHub failure query failed (${q.substring(0,50)}): ${e.message}`);
+    }
+  }
+
+  const newIds = [...allIds].filter(id => !processedIds.has(id));
+  log('INFO', `  GitHub notification emails: ${allIds.size} total, ${newIds.length} new`);
+
+  const results = [];
+  for (const id of newIds) {
+    try {
+      const msg = await gmailGetMessage(id, token);
+      const classification = isGitHubFailureEmail(msg.from, msg.subject, msg.body);
+
+      if (classification.isFailure) {
+        results.push({
+          gmailId: id,
+          from: msg.from,
+          subject: msg.subject,
+          body: (msg.body || '').substring(0, 5000),
+          date: msg.date,
+          repo: classification.repo,
+          workflow: classification.workflow,
+          pattern: classification.pattern,
+          detectedAt: new Date().toISOString()
+        });
+        log('INFO', `  🔴 GitHub Failure: ${classification.repo} — ${msg.subject.substring(0,80)}`);
+      }
+
+      processedIds.add(id);
+    } catch (e) {
+      log('WARN', `  Failed to fetch GitHub email ${id}: ${e.message}`);
+    }
+  }
+
+  state.processedGitHubFailureIds = [...processedIds];
+  log('INFO', `  GitHub failure scan complete: ${results.length} failures detected`);
+  return results;
+}
+
+/**
+ * Route GitHub failure emails to the dev instruct pipeline.
+ * Creates synthetic INSTRUCT emails from each failure so the dev agent can analyse and fix.
+ */
+async function routeGitHubFailuresToDevPipeline(failures) {
+  const routed = [];
+  for (const failure of failures) {
+    try {
+      // Create a synthetic instruction for the dev pipeline
+      const instructBody = `[AUTO-DETECTED GITHUB ACTIONS FAILURE]
+
+Repository: ${failure.repo}
+Workflow: ${failure.workflow || 'N/A'}
+Date: ${failure.date}
+Email Subject: ${failure.subject}
+
+FAILURE DETAILS:
+${failure.body.substring(0, 3000)}
+
+INSTRUCTIONS:
+1. Analyze the GitHub Actions run failure above
+2. Identify the root cause of the failure
+3. If it's a code issue, implement the fix
+4. If it's a configuration/infrastructure issue, document the fix steps
+5. Run relevant tests to verify
+6. Provide a summary of findings and actions taken`;
+
+      const syntheticEmail = {
+        from: `GitHub Actions <notifications@github.com>`,
+        subject: `INSTRUCT: Fix GitHub Actions failure in ${failure.repo}`,
+        body: instructBody,
+        gmailId: `github-failure-${failure.gmailId}`,
+        date: failure.date,
+        _instructType: 'github_failure',
+        _sourceRepo: failure.repo,
+        _sourceWorkflow: failure.workflow
+      };
+
+      await devInstruct.processInstruction(syntheticEmail);
+      routed.push({ ...failure, routed: true });
+      log('INFO', `  🔧 Routed to dev pipeline: ${failure.repo} failure`);
+    } catch (e) {
+      log('WARN', `  Failed to route GitHub failure to dev pipeline: ${e.message}`);
+      routed.push({ ...failure, routed: false, error: e.message });
+    }
+  }
+  return routed;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PHASE 2b-instruct: DEVELOPMENT INSTRUCT EMAIL SCAN
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Dedicated Gmail scan for INSTRUCT subject emails from president.
+ * These are routed to the Development Instruct Agent (banf-dev-instruct-agent.js)
+ * for GitHub CLI + Claude Opus execution.
+ *
+ * Detection: Subject is exactly "INSTRUCT" or reply to [BANF-DEV] INST-xxx
+ */
+async function scanDevInstructEmails(state, token) {
+  log('INFO', 'Scanning Gmail for INSTRUCT emails from president...');
+
+  if (!token) token = await getGmailToken();
+  const processedIds = new Set(state.processedDevInstructIds || []);
+
+  // Search for exact "INSTRUCT" subject OR [BANF-DEV] reply chain
+  const queries = [
+    `from:${ADMIN_EMAIL} subject:INSTRUCT after:2026/01/01`,
+    `from:${ADMIN_EMAIL} subject:"[BANF-DEV] INST-" after:2026/01/01`
+  ];
+
+  let allIds = new Set();
+  for (const q of queries) {
+    try {
+      const ids = await gmailSearch(q, token, 20);
+      ids.forEach(id => allIds.add(id));
+    } catch (e) {
+      log('WARN', `Dev instruct query failed (${q.substring(0,40)}): ${e.message}`);
+    }
+  }
+
+  const newIds = [...allIds].filter(id => !processedIds.has(id));
+  log('INFO', `Dev Instruct emails: ${allIds.size} total, ${newIds.length} new`);
+
+  const results = [];
+  for (const id of newIds) {
+    try {
+      const msg = await gmailGetMessage(id, token);
+      const email = {
+        gmailId: id,
+        from: msg.from || '',
+        subject: msg.subject || '',
+        body: (msg.body || '').trim(),
+        threadId: msg.threadId || null,
+        date: msg.date,
+        detectedAt: new Date().toISOString()
+      };
+
+      // Classify: new instruct or reply to existing
+      if (devInstruct.isInstructEmail(email)) {
+        email._instructType = 'new';
+        results.push(email);
+        log('INFO', `  🔧 NEW INSTRUCT: ${email.subject} from ${email.from}`);
+      } else if (devInstruct.isInstructReply(email)) {
+        email._instructType = 'reply';
+        results.push(email);
+        log('INFO', `  🔧 INSTRUCT REPLY: ${email.subject}`);
+      }
+
+      processedIds.add(id);
+    } catch (e) {
+      log('WARN', `Failed to fetch dev instruct email ${id}: ${e.message}`);
+    }
+  }
+
+  state.processedDevInstructIds = [...processedIds];
+  return results;
+}
+
+// ═══════════════════════════════════════════════════════════════
 // PHASE 2c: USER QUERY EMAIL DETECTION
 // ═══════════════════════════════════════════════════════════════
 
@@ -968,6 +1282,11 @@ function isMarketingEmail(from, subject, body) {
   const subjectLower = (subject || '').toLowerCase();
   const bodyLower = (body || '').toLowerCase().substring(0, 2000); // only check first 2KB
   
+  // 0. GitHub notification exemption — never treat as marketing (handled by Phase 2e)
+  if (senderDomain === 'github.com' || senderEmail.includes('github.com')) {
+    return { isMarketing: false, reason: 'GitHub notification (exempted — handled by GitHub failure scanner)' };
+  }
+
   // 1. Blocked domain check
   for (const blocked of MARKETING_BLOCKED_DOMAINS) {
     if (senderEmail.includes(blocked) || senderDomain.includes(blocked) || fromLower.includes(blocked)) {
@@ -1262,6 +1581,23 @@ async function processUserQueries(queries, state) {
   
   for (const query of queries) {
     try {
+      // ── RL Pre-Filter: ask the RL engine if we should even process this ──
+      const rlRec = rl.recommend({ from: query.from, subject: query.subject, body: query.body });
+      if (rlRec.action === 'DO_NOTHING' && rlRec.confidence >= 0.80) {
+        log('INFO', `    🤖 RL: ${query.subject.substring(0, 40)}... → DO_NOTHING (${(rlRec.confidence * 100).toFixed(0)}%) — silent drop`);
+        results.push({
+          query,
+          result: { skipped: true, reason: 'rl_do_nothing', rlRecommendation: rlRec },
+          processedAt: new Date().toISOString()
+        });
+        continue;
+      }
+      if (rlRec.action === 'NOTIFY_PRESIDENT' && rlRec.confidence >= 0.80) {
+        log('INFO', `    🤖 RL: ${query.subject.substring(0, 40)}... → NOTIFY_PRESIDENT (${(rlRec.confidence * 100).toFixed(0)}%) — flag only, no response`);
+        // Still process through pipeline but mark as president-notify-only
+        query.rlOverride = { action: 'NOTIFY_PRESIDENT', confidence: rlRec.confidence };
+      }
+
       // Extract sender email from the 'from' field
       const emailMatch = query.from.match(/<([^>]+)>/) || [null, query.from];
       const senderEmail = emailMatch[1] || query.from;
@@ -1495,6 +1831,21 @@ async function autoSendPaymentFollowups(newPayments, state) {
 
     log('INFO', `  💰 Payment $${payment.amount} from ${m.displayName} → ${isPartial ? 'PARTIAL' : 'FULL'} (${tier})`);
 
+    // Check if recipient email is flagged as non-deliverable
+    const flagCheck = isEmailFlagged(m.email);
+    if (flagCheck.flagged) {
+      log('WARN', `  ⚠️ Email ${m.email} is flagged: ${flagCheck.reason} (bounces: ${flagCheck.bounceCount})`);
+      if (flagCheck.recoveryTarget) {
+        log('INFO', `    → Recovery target: ${flagCheck.recoveryTarget}`);
+        memberData.email = flagCheck.recoveryTarget; // Redirect to recovery target
+        log('INFO', `    → Redirecting payment followup to ${flagCheck.recoveryTarget}`);
+      } else {
+        log('WARN', `    → No recovery target — skipping send`);
+        results.push({ payment, member: m.email, status: 'flagged', reason: flagCheck.reason });
+        continue;
+      }
+    }
+
     try {
       const payload = {
         adminKey: ADMIN_KEY,
@@ -1548,6 +1899,25 @@ async function autoSendNewMembers(newMembers, state) {
   }
 
   log('INFO', `Auto-sending emails to ${newMembers.length} new members...`);
+
+  // Filter out members with flagged emails (delivery failures)
+  const sendableMembers = [];
+  for (const m of newMembers) {
+    const flagCheck = isEmailFlagged(m.email);
+    if (flagCheck.flagged && !flagCheck.isTemporary) {
+      log('WARN', `  ⚠️ Skipping ${m.email} — flagged: ${flagCheck.reason}`);
+      if (flagCheck.recoveryTarget) {
+        log('INFO', `    → Would redirect to ${flagCheck.recoveryTarget} (manual action needed)`);
+      }
+      continue;
+    }
+    sendableMembers.push(m);
+  }
+
+  if (sendableMembers.length === 0) {
+    log('INFO', 'No sendable members after delivery failure filtering.');
+    return;
+  }
 
   // Load images
   let images = null;
@@ -1625,13 +1995,21 @@ function writePipelineStatus(state, cycleResult, elapsedSec) {
   const now = new Date();
   const nextPollAt = DO_POLL ? new Date(now.getTime() + POLL_INTERVAL_MIN * 60000).toISOString() : null;
 
-  // Active drives detection — based on what emails were found
-  const activeDrives = [];
-  if (state.newRsvps && state.newRsvps.length > 0) activeDrives.push('Evite RSVP Pipeline');
-  if (state.newPayments && state.newPayments.length > 0) activeDrives.push('Zelle Payment Pipeline');
-  if (state.instructionResults && state.instructionResults.length > 0) activeDrives.push('Admin Instruction Pipeline');
-  if (state.userQueryResults && state.userQueryResults.length > 0) activeDrives.push('User Query Pipeline');
-  if (activeDrives.length === 0) activeDrives.push('Monitoring (idle)');
+  // Active drives detection — use Event Manager if available, else fallback to heuristic
+  let activeDrives = [];
+  if (eventManager) {
+    try {
+      activeDrives = eventManager.getActiveDrives().map(d => `${d.driveId} (${d.type})`);
+    } catch (e) { /* fallback below */ }
+  }
+  if (activeDrives.length === 0) {
+    // Fallback: infer from state
+    if (state.newRsvps && state.newRsvps.length > 0) activeDrives.push('Evite RSVP Pipeline');
+    if (state.newPayments && state.newPayments.length > 0) activeDrives.push('Zelle Payment Pipeline');
+    if (state.instructionResults && state.instructionResults.length > 0) activeDrives.push('Admin Instruction Pipeline');
+    if (state.userQueryResults && state.userQueryResults.length > 0) activeDrives.push('User Query Pipeline');
+    if (activeDrives.length === 0) activeDrives.push('Monitoring (idle)');
+  }
 
   // Recent activity — last 10 events
   const recentActivity = [];
@@ -1670,7 +2048,13 @@ function writePipelineStatus(state, cycleResult, elapsedSec) {
       paymentFollowups: cycleResult.paymentFollowups,
       instructions: cycleResult.instructions,
       userQueries: cycleResult.userQueries,
+      deliveryFailures: cycleResult.deliveryFailures || 0,
     },
+    driveConfig: eventManager ? {
+      source: 'banf-drives.yaml',
+      totalDrives: eventManager.getActiveDrives().length + (eventManager.getAllDriveConfigs ? Object.keys(eventManager.getAllDriveConfigs()).length - eventManager.getActiveDrives().length : 0),
+      activeDriveCount: eventManager.getActiveDrives().length,
+    } : null,
     totals: {
       processedEmails: (state.processedEmailIds || []).length,
       totalRsvps: (state.newRsvps || []).length,
@@ -1696,24 +2080,183 @@ function writePipelineStatus(state, cycleResult, elapsedSec) {
 // MAIN POLLING LOOP
 // ═══════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════
+// MESSAGE QUEUE INTEGRATION — enqueue, process, ack/nack
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Enqueue all newly scanned emails into the message queue for tracking.
+ * Each email gets a queue name based on its scan phase.
+ * The MQ provides: dedup by emailId, retry on failure, DLQ for dead messages.
+ */
+function enqueueScannedEmails(phase, items) {
+  let enqueued = 0;
+  for (const item of items) {
+    const emailId = item.emailId || item.messageId || item.id || `${phase}-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    const result = mq.enqueue(phase, {
+      emailId,
+      phase,
+      from: item.from || item.payerName || item.guestName || 'unknown',
+      subject: item.subject || item.paymentSource || '',
+      data: item,
+      enqueuedAt: new Date().toISOString(),
+    }, { priority: item.priority || 'normal' });
+    if (result.enqueued) enqueued++;
+  }
+  return enqueued;
+}
+
+/**
+ * After processing, ack all completed messages in a queue.
+ * Failed items get nack'd → retry or DLQ.
+ */
+function ackProcessedMessages(phase, items, results) {
+  // For each processed item, ack or nack based on result
+  const queue = mq.getStatus();
+  const queueMsgs = queue.queues[phase];
+  if (!queueMsgs || queueMsgs.total === 0) return;
+
+  // Drain the queue — ack all since they've been processed by the scan functions
+  let acked = 0;
+  let msg;
+  while ((msg = mq.dequeue(phase))) {
+    mq.ack(phase, msg.id);
+    acked++;
+  }
+  if (acked > 0) {
+    log('INFO', `  📬 MQ: ${phase} — ${acked} messages acknowledged`);
+  }
+}
+
 async function runOnce(state) {
   const startTime = Date.now();
   state.pollCount = (state.pollCount || 0) + 1;
   log('INFO', `═══ Poll cycle #${state.pollCount} ═══`);
 
-  // Phase 1: Scan for new Evite RSVPs
-  const { newRsvps, token } = await scanNewEviteEmails(state);
+  // ── Sync drive states from YAML config ──
+  if (eventManager) {
+    try {
+      eventManager.syncDriveState();
+      const active = eventManager.getActiveDrives();
+      log('INFO', `  🎛️  Active drives: ${active.map(d => d.driveId).join(', ') || 'none'}`);
+    } catch (e) {
+      log('WARN', `Drive sync failed (continuing without drive gating): ${e.message}`);
+    }
+  }
 
-  // Phase 2: Scan for new payments
+  // Phase 1: Scan for new Evite RSVPs (EVENT_BOUND — gated by drive state)
+  let newRsvps = [], token = null;
+  const eviteActive = !eventManager || eventManager.isDriveActive('evite_rsvp');
+
+  // Acquire Gmail token first — if this fails, log error and skip all Gmail phases
+  try {
+    token = await getGmailToken();
+  } catch (tokenErr) {
+    log('ERROR', `Gmail token unavailable: ${tokenErr.message}`);
+    log('ERROR', `Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js`);
+    // Still save state and return — don't crash the poll loop
+    saveState(state);
+    return { rsvps: 0, payments: 0, instructions: 0, queries: 0, devInstruct: { newInstructions: 0, replies: 0 }, elapsed: Date.now() - startTime, tokenError: true };
+  }
+
+  if (eviteActive) {
+    ({ newRsvps } = await scanNewEviteEmails(state, token));
+    // If first RSVP detected and drive was dormant, auto-activate via Event Manager
+    if (newRsvps.length > 0 && eventManager) {
+      const driveState = eventManager.getDriveState('evite_rsvp');
+      if (driveState && driveState.status === 'dormant') {
+        const events = eventManager.getEvents();
+        const nextEvent = events.find(e => e.status === 'dormant');
+        if (nextEvent) eventManager.notifyFirstRsvp(nextEvent.id);
+      }
+    }
+  } else {
+    log('INFO', `  ⏸️  Evite RSVP drive is DORMANT — skipping Phase 1`);
+  }
+
+  // Phase 2: Scan for new payments (ALWAYS_ON)
   const newPayments = await scanNewPaymentEmails(state, token);
+  if (newPayments.length > 0) enqueueScannedEmails('payment', newPayments);
 
-  // Phase 2b: Scan for admin instruction emails
+  // Phase 2b: Scan for admin instruction emails (ALWAYS_ON)
   const newInstructions = await scanInstructionEmails(state, token);
+  if (newInstructions.length > 0) enqueueScannedEmails('admin_instruction', newInstructions);
   const instructionResults = await processInstructions(newInstructions, state);
+  ackProcessedMessages('admin_instruction', newInstructions, instructionResults);
 
-  // Phase 2c: Scan for user query emails (non-drive emails from members)
+  // Phase 2b-instruct: Development Instruct Agent (ALWAYS_ON)
+  // Detects emails with exact subject "INSTRUCT" from president → routes to dev instruct agent
+  let devInstructResults = { newInstructions: 0, replies: 0 };
+  try {
+    const instructEmails = newInstructions.filter(e => devInstruct.isInstructEmail(e));
+    const replyEmails = newInstructions.filter(e => devInstruct.isInstructReply(e));
+
+    // Also scan the user queries for instruct emails that may bypass instruction filter
+    const directInstructs = (await scanDevInstructEmails(state, token));
+
+    const allInstructs = [...instructEmails, ...directInstructs];
+    for (const email of allInstructs) {
+      try {
+        await devInstruct.processInstruction(email);
+        devInstructResults.newInstructions++;
+        log('INFO', `  🔧 Dev Instruct: processed new INSTRUCT email — ${email.subject}`);
+      } catch (e) {
+        log('WARN', `  Dev Instruct failed: ${e.message}`);
+      }
+    }
+
+    for (const reply of replyEmails) {
+      try {
+        await devInstruct.processReply(reply);
+        devInstructResults.replies++;
+        log('INFO', `  🔧 Dev Instruct: processed reply — ${reply.subject}`);
+      } catch (e) {
+        log('WARN', `  Dev Instruct reply failed: ${e.message}`);
+      }
+    }
+
+    if (allInstructs.length > 0 || replyEmails.length > 0) {
+      enqueueScannedEmails('dev_instruct', [...allInstructs, ...replyEmails]);
+    }
+  } catch (e) {
+    log('WARN', `Dev Instruct scan failed: ${e.message}`);
+  }
+
+  // Phase 2c: Scan for user query emails (ALWAYS_ON — with RL pre-filter)
   const userQueries = await scanUserQueryEmails(state, token);
+  if (userQueries.length > 0) enqueueScannedEmails('user_query', userQueries);
   const queryResults = await processUserQueries(userQueries, state);
+  ackProcessedMessages('user_query', userQueries, queryResults);
+
+  // Phase 2d: Scan for delivery failure emails (ALWAYS_ON)
+  let deliveryFailureResults = { bouncesFound: 0, recovered: 0, escalated: 0, flagged: 0 };
+  try {
+    deliveryFailureResults = await scanDeliveryFailures(null, token);
+    if (deliveryFailureResults.bouncesFound > 0) {
+      log('INFO', `  📛 Delivery failures: ${deliveryFailureResults.bouncesFound} bounces, ${deliveryFailureResults.recovered} recovered, ${deliveryFailureResults.escalated} escalated`);
+    }
+  } catch (e) {
+    log('WARN', `Delivery failure scan failed: ${e.message}`);
+  }
+
+  // Phase 2e: Scan for GitHub Actions failure emails (ALWAYS_ON)
+  let githubFailureResults = { detected: 0, routed: 0 };
+  try {
+    const ghFailures = await scanGitHubFailureEmails(state, token);
+    if (ghFailures.length > 0) {
+      const routed = await routeGitHubFailuresToDevPipeline(ghFailures);
+      githubFailureResults.detected = ghFailures.length;
+      githubFailureResults.routed = routed.filter(r => r.routed).length;
+      enqueueScannedEmails('github_failure', ghFailures);
+      log('INFO', `  🔴 GitHub failures: ${ghFailures.length} detected, ${githubFailureResults.routed} routed to dev pipeline`);
+    }
+  } catch (e) {
+    log('WARN', `GitHub failure scan failed: ${e.message}`);
+  }
+
+  // ── MQ: Enqueue RSVPs and ack payments ──
+  if (newRsvps.length > 0) enqueueScannedEmails('evite_rsvp', newRsvps);
+  if (newPayments.length > 0) ackProcessedMessages('payment', newPayments, []);
 
   // Phase 3: Cross-reference with CRM
   const { newMembers, updatedMembers } = processNewRsvps(newRsvps, state);
@@ -1756,6 +2299,9 @@ async function runOnce(state) {
     const successful = instructionResults.filter(r => r.success).length;
     log('INFO', `  Instructions processed: ${successful}/${newInstructions.length}`);
   }
+  if (devInstructResults.newInstructions > 0 || devInstructResults.replies > 0) {
+    log('INFO', `  🔧 Dev Instruct: ${devInstructResults.newInstructions} new, ${devInstructResults.replies} replies`);
+  }
   if (userQueries.length > 0) {
     const pendingApproval = queryResults.filter(r => r.result?.requiresApproval).length;
     const autoApproved = queryResults.filter(r => r.result?.autoApproved).length;
@@ -1765,13 +2311,30 @@ async function runOnce(state) {
     const sent = paymentFollowupResults.filter(r => r.status === 'sent').length;
     log('INFO', `  Payment followups sent: ${sent}/${paymentFollowupResults.length}`);
   }
+  if (deliveryFailureResults.bouncesFound > 0) {
+    log('INFO', `  Delivery failures: ${deliveryFailureResults.bouncesFound} (recovered: ${deliveryFailureResults.recovered}, escalated: ${deliveryFailureResults.escalated})`);
+  }
+  if (githubFailureResults.detected > 0) {
+    log('INFO', `  🔴 GitHub Actions failures: ${githubFailureResults.detected} detected, ${githubFailureResults.routed} routed to dev pipeline`);
+  }
   log('INFO', `  Total processed emails: ${state.processedEmailIds.length}`);
   if (AUTO_SEND && newMembers.length > 0) {
     log('INFO', `  RSVP emails auto-sent: ${newMembers.length} members`);
   }
 
+  // ── MQ: Ack RSVPs after processing ──
+  ackProcessedMessages('evite_rsvp', newRsvps, []);
+
+  // ── MQ: Status summary ──
+  const mqStatus = mq.getStatus() || {};
+  const mqPending = mqStatus.queues ? Object.values(mqStatus.queues).reduce((sum, q) => sum + (q.pending || 0), 0) : 0;
+  const mqDLQ = mqStatus.dlq ? mqStatus.dlq.total || 0 : 0;
+  if (mqPending > 0 || mqDLQ > 0) {
+    log('INFO', `  📬 MQ: ${mqPending} pending, ${mqDLQ} in DLQ`);
+  }
+
   // ── Write pipeline status JSON for EC admin portal ──
-  const cycleResult = { newRsvps: newRsvps.length, newPayments: newPayments.length, newMembers: newMembers.length, paymentFollowups: paymentFollowupResults.length, instructions: newInstructions.length, userQueries: userQueries.length };
+  const cycleResult = { newRsvps: newRsvps.length, newPayments: newPayments.length, newMembers: newMembers.length, paymentFollowups: paymentFollowupResults.length, instructions: newInstructions.length, devInstructs: devInstructResults.newInstructions, devInstructReplies: devInstructResults.replies, userQueries: userQueries.length, deliveryFailures: deliveryFailureResults.bouncesFound, githubFailures: githubFailureResults.detected, githubFailuresRouted: githubFailureResults.routed, mqPending, mqDLQ };
   writePipelineStatus(state, cycleResult, elapsed);
 
   return cycleResult;

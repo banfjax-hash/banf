@@ -61,7 +61,7 @@ const CONFIG = {
 const GMAIL = {
   CLIENT_ID: '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com',
   CLIENT_SECRET: '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',
-  REFRESH_TOKEN: '1//043SvrPmUfXwUCgYIARAAGAQSNwF-L9IrmO-MD0-4ult4fEofYmx_TDhjylHHdxZ-N3Yqo_-2lIhsmvyiYqhuJJGrZ3JAyZAgLuk'
+  REFRESH_TOKEN: require('./banf-gmail-config').REFRESH_TOKEN
 };
 
 // ── CLI Args ───────────────────────────────────────────────────────
@@ -84,8 +84,16 @@ if (!DRY_RUN && !DO_SEND && !LIST_ONLY) {
 // Everyone NOT in this list (from the 52 RSVP) will get the thank-you email.
 
 const NO_SHOW_EMAILS = [
-  // *** PLACEHOLDER — UPDATE WITH ACTUAL NO-SHOWS ***
-  // 'email@example.com',
+  'asokchaudhuri@gmail.com',        // Asok Chaudhuri
+  'atmadeep.mazumdar@gmail.com',     // Atmadeep Mazumdar
+  'reshmabhadra@gmail.com',          // Reshma Das
+  'tosanchari@gmail.com',            // Sanchari Bhattacharyya
+  'bidhan138@gmail.com',             // bidhan138
+  'tanmoy.banerjee2009@gmail.com',   // tanmoy.banerjee2009
+  'isindhu7@gmail.com',              // Indrani Sindhuvalli
+  'mailsrabasti@gmail.com',          // Srabasti Sengupta
+  'palsourav30@gmail.com',           // Sourav Pal
+  'trt.mondal@gmail.com',            // Tarit Mondal
 ];
 
 // ═══════════════════════════════════════════════════════════════════

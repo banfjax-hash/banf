@@ -68,7 +68,7 @@ const CONFIG = {
 const GMAIL = {
   CLIENT_ID: '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com',
   CLIENT_SECRET: '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',
-  REFRESH_TOKEN: '1//043SvrPmUfXwUCgYIARAAGAQSNwF-L9IrmO-MD0-4ult4fEofYmx_TDhjylHHdxZ-N3Yqo_-2lIhsmvyiYqhuJJGrZ3JAyZAgLuk'
+  REFRESH_TOKEN: require('./banf-gmail-config').REFRESH_TOKEN
 };
 
 const CRM_PATH = path.join(__dirname, 'banf-crm-reconciliation.json');
