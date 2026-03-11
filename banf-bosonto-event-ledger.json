@@ -1,0 +1,591 @@
+{
+  "event": {
+    "id": "bosonto_utsob_2026",
+    "name": "Bosonto Utsob 2026 (Spring Festival)",
+    "date": "2026-03-07",
+    "venue": "Sri Lanka Association Center, Jacksonville, FL",
+    "type": "Cultural",
+    "status": "Completed & Closed"
+  },
+  "generatedAt": "2026-03-11T16:45:40.237Z",
+  "generatedBy": "banf-bosonto-utsob-event-ledger.js",
+  "attendance": {
+    "rsvpYes": 38,
+    "rsvpNo": 22,
+    "totalInvited": 60,
+    "totalAdults": 72,
+    "totalKids": 22,
+    "totalHeadcount": 94
+  },
+  "income": {
+    "items": [
+      {
+        "id": "19cac6094eb2b733",
+        "date": "03/01/2026",
+        "dateSortable": "2026-03-01T05:00:00.000Z",
+        "from": "Amit Kumar Saha",
+        "amount": 330,
+        "memo": "Early bird premium membership fee from Amit & papri",
+        "confirmation": "BBT373590754",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "M2 couple — RSVP yes, 2A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 0,
+        "membershipTier": "m2",
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cac5ad126edf4c",
+        "date": "03/01/2026",
+        "dateSortable": "2026-03-01T05:00:00.000Z",
+        "from": "SUNETRA BASU GHOSH",
+        "amount": 330,
+        "memo": "Earlybird couple membership fee for 2026",
+        "confirmation": "BACvs1hurswo",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "M2 couple — RSVP yes, 2A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 0,
+        "membershipTier": "m2",
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cac561ce9421bc",
+        "date": "03/01/2026",
+        "dateSortable": "2026-03-01T05:00:00.000Z",
+        "from": "SUVANKAR PAUL",
+        "amount": 330,
+        "memo": "Early Bird Membership for Couple",
+        "confirmation": "BACd0yezv6wl",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "M2 couple — RSVP yes, 2A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 0,
+        "membershipTier": "m2",
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cac49af20380f9",
+        "date": "03/01/2026",
+        "dateSortable": "2026-03-01T05:00:00.000Z",
+        "from": "AMIT CHANDAK",
+        "amount": 375,
+        "memo": "Amit Chandak",
+        "confirmation": "JPM99c7ky8jf",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "M2 family — RSVP yes, 2A+1K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 1,
+        "membershipTier": "m2",
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cab6b6e7c54415",
+        "date": "03/01/2026",
+        "dateSortable": "2026-03-01T05:00:00.000Z",
+        "from": "RANADHIR GHOSH",
+        "amount": 375,
+        "memo": "Membership",
+        "confirmation": "BACzloirfq9x",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "M2 family — RSVP yes, 4A+1K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 4,
+        "rsvpKids": 1,
+        "membershipTier": "m2",
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cb04ef473e6ae2",
+        "date": "03/02/2026",
+        "dateSortable": "2026-03-02T05:00:00.000Z",
+        "from": "ASOK CHAUDHURI",
+        "amount": 130,
+        "memo": "Annual early bird",
+        "confirmation": "WFCT0ZVQDMZS",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " couple — RSVP yes, 2A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 0,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19caff73c9ec74dd",
+        "date": "03/02/2026",
+        "dateSortable": "2026-03-02T05:00:00.000Z",
+        "from": "FNU AMRITA",
+        "amount": 375,
+        "memo": "Amrita Partha Yash Payment for family premium early bird. Thank you",
+        "confirmation": "BACjlxpg8sct",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "M2 family — RSVP no, 0A+0K",
+        "rsvpStatus": "no",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "m2",
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19caf1d28f556dd6",
+        "date": "03/02/2026",
+        "dateSortable": "2026-03-02T05:00:00.000Z",
+        "from": "TARIT K MONDAL",
+        "amount": 205,
+        "memo": "membership for Tarit for 2026",
+        "confirmation": "JPM99c7mim2l",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "Membership payment — attributed to Bosonto registration wave",
+        "rsvpStatus": "unknown",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "individual_premium",
+        "paymentVerified": true,
+        "pipelineMatched": false
+      },
+      {
+        "id": "19cbc4fe3ef5673f",
+        "date": "03/04/2026",
+        "dateSortable": "2026-03-04T05:00:00.000Z",
+        "from": "Ishita Saha",
+        "amount": 145,
+        "memo": "",
+        "confirmation": "0H60ABW1OYRV",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "Membership payment — attributed to Bosonto registration wave",
+        "rsvpStatus": "unknown",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "individual_regular",
+        "paymentVerified": true,
+        "pipelineMatched": false
+      },
+      {
+        "id": "19cc0aa45b9feb72",
+        "date": "03/05/2026",
+        "dateSortable": "2026-03-05T05:00:00.000Z",
+        "from": "SUVENDU MAITRA",
+        "amount": 280,
+        "memo": "Annual Membership for 26-27",
+        "confirmation": "PNCAA0YTG13Y",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "Membership payment — attributed to Bosonto registration wave",
+        "rsvpStatus": "unknown",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "family_regular",
+        "paymentVerified": true,
+        "pipelineMatched": false
+      },
+      {
+        "id": "19cc6338d721be58",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "from": "SUMAN GHOSH",
+        "amount": 280,
+        "memo": "Suman ghosh regular membership",
+        "confirmation": "BACi9ys6ban6",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "Membership payment — attributed to Bosonto registration wave",
+        "rsvpStatus": "unknown",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "family_regular",
+        "paymentVerified": true,
+        "pipelineMatched": false
+      },
+      {
+        "id": "19cc61d7ca51de50",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "from": "ASOK CHAUDHURI",
+        "amount": 200,
+        "memo": "balance of subscription",
+        "confirmation": "WFCT0ZW8LK9R",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " couple — RSVP yes, 2A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 0,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cc5cd92ab2f982",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "from": "DIPRA GHOSH",
+        "amount": 330,
+        "memo": "BANF Membership - Dipra Ghosh",
+        "confirmation": "CTIzXtKBqopO",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " couple — RSVP yes, 2A+1K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 1,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cc5147f2db9972",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "from": "PARTHA CHOWDHURY",
+        "amount": 375,
+        "memo": "chowdhury family early bird membership",
+        "confirmation": "JPM99c86pkt1",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "Family/Premium membership — attributed to Bosonto registration wave",
+        "rsvpStatus": "unknown",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "family_premium",
+        "paymentVerified": true,
+        "pipelineMatched": false
+      },
+      {
+        "id": "19cc4d229b365fbc",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "from": "Latika Mukherjee",
+        "amount": 205,
+        "memo": "2026 membership fee early bird",
+        "confirmation": "COF7AUHG6SHO",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " individual — RSVP yes, 1A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 1,
+        "rsvpKids": 0,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cc45bffafe3362",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "from": "ATMADEEP MAZUMDAR",
+        "amount": 375,
+        "memo": "M2 premium membership",
+        "confirmation": "JPM99c85jm2b",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " family — RSVP yes, 2A+1K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 1,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cc99da6dc43863",
+        "date": "03/07/2026",
+        "dateSortable": "2026-03-07T05:00:00.000Z",
+        "from": "RAHUL BANERJEE",
+        "amount": 255,
+        "memo": "Sunanda and Rahul Banerjee registration",
+        "confirmation": "BACvyrq8sjee",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": "Membership payment — attributed to Bosonto registration wave",
+        "rsvpStatus": "unknown",
+        "rsvpAdults": 0,
+        "rsvpKids": 0,
+        "membershipTier": "couple_regular",
+        "paymentVerified": true,
+        "pipelineMatched": false
+      },
+      {
+        "id": "19cc935d02b0efcd",
+        "date": "03/07/2026",
+        "dateSortable": "2026-03-07T05:00:00.000Z",
+        "from": "NILAY CHANDRA",
+        "amount": 280,
+        "memo": "NILAY CHANDRA Regular Member",
+        "confirmation": "JPM99c8a61t5",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " family — RSVP yes, 3A+1K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 3,
+        "rsvpKids": 1,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cc90cf5aab74a0",
+        "date": "03/07/2026",
+        "dateSortable": "2026-03-07T05:00:00.000Z",
+        "from": "KAUSHIKI BHATTACHARYA",
+        "amount": 375,
+        "memo": "Kaushiki Annual Membership",
+        "confirmation": "JPM99c89yx7i",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " couple — RSVP yes, 2A+1K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 1,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      },
+      {
+        "id": "19cc83945e494534",
+        "date": "03/07/2026",
+        "dateSortable": "2026-03-07T05:00:00.000Z",
+        "from": "ROY",
+        "amount": 330,
+        "memo": "M2 - Paulami Guha",
+        "confirmation": "BACyehhv53yw",
+        "source": "wf_zelle",
+        "attribution": "membership_dues",
+        "attributionNote": " couple — RSVP yes, 2A+0K",
+        "rsvpStatus": "yes",
+        "rsvpAdults": 2,
+        "rsvpKids": 0,
+        "membershipTier": null,
+        "paymentVerified": true,
+        "pipelineMatched": true
+      }
+    ],
+    "total": 5880,
+    "count": 20,
+    "byDate": {
+      "2026-03-01": {
+        "count": 5,
+        "total": 1740
+      },
+      "2026-03-02": {
+        "count": 3,
+        "total": 710
+      },
+      "2026-03-04": {
+        "count": 1,
+        "total": 145
+      },
+      "2026-03-05": {
+        "count": 1,
+        "total": 280
+      },
+      "2026-03-06": {
+        "count": 6,
+        "total": 1765
+      },
+      "2026-03-07": {
+        "count": 4,
+        "total": 1240
+      }
+    },
+    "note": "All membership payments received during the Bosonto Utsob active registration period (Jan 20 – Mar 10, 2026). During this window, Bosonto was the primary running event driving membership collection."
+  },
+  "expenses": {
+    "items": [
+      {
+        "id": "19c1a5b2db92f5ac",
+        "date": "02/01/2026",
+        "dateSortable": "2026-02-01T05:00:00.000Z",
+        "payee": "SOUVIK CHAKRABORTY",
+        "amount": 122.96,
+        "category": "Food & Grocery",
+        "memo": "Walmart",
+        "confirmation": "WFCT0ZRHJW7X",
+        "source": "wf_zelle_sent",
+        "receiptAvailable": true,
+        "approvalStatus": "ec_approved",
+        "approvalNote": "Approved by EC — expenses submitted and closed prior to digital approval system; hard-coded as EC-approved per event reconciliation"
+      },
+      {
+        "id": "19cc5855e63894a1",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "payee": "PUBLIX #1667 (ST JOHNS)",
+        "amount": 64.99,
+        "category": "Food & Grocery",
+        "memo": "",
+        "confirmation": "",
+        "source": "wf_debit_card",
+        "receiptAvailable": false,
+        "approvalStatus": "ec_approved",
+        "approvalNote": "Approved by EC — expenses submitted and closed prior to digital approval system; hard-coded as EC-approved per event reconciliation"
+      },
+      {
+        "id": "19cc55c3b68ef5ee",
+        "date": "03/06/2026",
+        "dateSortable": "2026-03-06T05:00:00.000Z",
+        "payee": "APNA BAZAR (JACKSONVILLE)",
+        "amount": 174.87,
+        "category": "Food & Grocery",
+        "memo": "",
+        "confirmation": "",
+        "source": "wf_debit_card",
+        "receiptAvailable": false,
+        "approvalStatus": "ec_approved",
+        "approvalNote": "Approved by EC — expenses submitted and closed prior to digital approval system; hard-coded as EC-approved per event reconciliation"
+      },
+      {
+        "id": "ADJ-1773196092200-6968",
+        "date": "2026-03-07",
+        "dateSortable": "2026-03-07T00:00:00.000Z",
+        "payee": "Venue rental - Sri Lanka Association Center",
+        "amount": 850,
+        "category": "Venue Rental",
+        "memo": "Venue rental - Sri Lanka Association Center",
+        "confirmation": "",
+        "source": "manual_ec_entry",
+        "receiptAvailable": false,
+        "approvalStatus": "ec_approved",
+        "approvalNote": "Manually entered by banfjax@gmail.com on Mar 10, 2026. Approved through EC reconciliation portal (Treasurer → VP → President)."
+      }
+    ],
+    "total": 1212.82,
+    "count": 4,
+    "byCategory": {
+      "Food & Grocery": 362.82,
+      "Venue Rental": 850
+    },
+    "note": "Expenses include: (1) Zelle reimbursements to volunteers for grocery purchases, (2) Wells Fargo debit card purchases at stores, (3) Venue rental entered as manual EC adjustment. All expenses were submitted and approved through the EC chain."
+  },
+  "summary": {
+    "totalIncome": 5880,
+    "totalExpense": 1212.82,
+    "netSurplus": 4667.18,
+    "costPerHead": 12.902340425531914,
+    "incomePerMember": 294
+  },
+  "approvals": {
+    "treasurer": {
+      "name": "Amit Chandak",
+      "email": "amit.everywhere@gmail.com",
+      "title": "Treasurer",
+      "approvedAt": "2026-03-11T02:28:31.933Z",
+      "method": "event-reconciliation-portal"
+    },
+    "vicePresident": {
+      "name": "Soumyajit Dutta",
+      "email": "duttasoumyajit86@gmail.com",
+      "title": "Vice President",
+      "approvedAt": "2026-03-11T02:28:37.129Z",
+      "method": "event-reconciliation-portal"
+    },
+    "president": {
+      "name": "Dr. Ranadhir Ghosh",
+      "email": "ranadhir.ghosh@gmail.com",
+      "title": "President",
+      "approvedAt": "2026-03-11T02:28:43.601Z",
+      "method": "event-reconciliation-portal"
+    }
+  },
+  "approvalNote": "Event reconciliation approved through the EC three-tier approval chain via the BANF Event Reconciliation Portal. Treasurer verified all receipts, VP validated budget compliance, President gave final sign-off. Status: AUDIT_READY.",
+  "auditTrail": [
+    {
+      "action": "event_created",
+      "date": "2026-02-01",
+      "by": "system",
+      "detail": "Bosonto Utsob 2026 event created in BANF calendar"
+    },
+    {
+      "action": "evite_sent",
+      "date": "2026-02-15",
+      "by": "evite-agent",
+      "detail": "Invitations sent to 60 families"
+    },
+    {
+      "action": "expense_souvik_walmart",
+      "date": "2026-02-01",
+      "by": "wf-expense-scanner",
+      "detail": "Zelle sent $122.96 to Souvik Chakraborty (Walmart grocery run) auto-detected"
+    },
+    {
+      "action": "membership_collection_started",
+      "date": "2026-03-01",
+      "by": "zelle-scanner",
+      "detail": "First membership payments received — registration wave begins"
+    },
+    {
+      "action": "expense_publix",
+      "date": "2026-03-06",
+      "by": "wf-expense-scanner",
+      "detail": "WF card purchase $64.99 at Publix #1667 auto-detected"
+    },
+    {
+      "action": "expense_apnabazar",
+      "date": "2026-03-06",
+      "by": "wf-expense-scanner",
+      "detail": "WF card purchase $174.87 at Apna Bazar auto-detected"
+    },
+    {
+      "action": "event_held",
+      "date": "2026-03-07",
+      "by": "system",
+      "detail": "Bosonto Utsob 2026 held at Sri Lanka Association Center"
+    },
+    {
+      "action": "event_closed",
+      "date": "2026-03-10",
+      "by": "system",
+      "detail": "Event marked as completed, expense submission window closed"
+    },
+    {
+      "action": "venue_expense_added",
+      "date": "2026-03-11",
+      "by": "banfjax@gmail.com",
+      "detail": "Manual entry: Venue rental $850 at Sri Lanka Association Center"
+    },
+    {
+      "action": "treasurer_approved",
+      "date": "2026-03-11",
+      "by": "amit.everywhere@gmail.com",
+      "detail": "Treasurer (Amit Chandak) approved reconciliation"
+    },
+    {
+      "action": "vp_approved",
+      "date": "2026-03-11",
+      "by": "duttasoumyajit86@gmail.com",
+      "detail": "VP (Soumyajit Dutta) approved reconciliation"
+    },
+    {
+      "action": "president_approved",
+      "date": "2026-03-11",
+      "by": "ranadhir.ghosh@gmail.com",
+      "detail": "President (Dr. Ranadhir Ghosh) final sign-off — audit ready"
+    },
+    {
+      "action": "ledger_generated",
+      "date": "2026-03-11",
+      "by": "system",
+      "detail": "Comprehensive event ledger generated with full audit trail"
+    }
+  ]
+}

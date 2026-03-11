@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF — Bosonto Utsob 2026 Event Ledger</title>
+<style>
+  :root {
+    --banf-green: #0a6847;
+    --banf-gold: #c8a951;
+    --banf-dark: #1a1a2e;
+    --banf-card: #f8f9fa;
+    --green: #16a34a;
+    --red: #dc2626;
+    --blue: #2563eb;
+    --yellow: #eab308;
+    --purple: #7c3aed;
+    --cyan: #0891b2;
+    --orange: #ea580c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; 
+    background: #f1f5f9; color: #1e293b; font-size: 14px; line-height: 1.55; 
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+  
+  /* Header */
+  .header { 
+    background: linear-gradient(135deg, var(--banf-green), #0d8a5c); 
+    color: #fff; padding: 28px 32px; border-radius: 12px; margin-bottom: 24px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .header h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 4px; }
+  .header .subtitle { opacity: 0.85; font-size: 0.88rem; }
+  .header .meta { text-align: right; font-size: 0.78rem; opacity: 0.8; }
+  .header .meta div { margin-bottom: 2px; }
+  .badge { 
+    display: inline-block; padding: 2px 10px; border-radius: 20px; 
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-yellow { background: #fef3c7; color: #92400e; }
+  .badge-purple { background: #ede9fe; color: #5b21b6; }
+  .badge-orange { background: #ffedd5; color: #9a3412; }
+
+  /* KPI Cards */
+  .kpi-row { 
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+    gap: 12px; margin-bottom: 24px; 
+  }
+  .kpi { 
+    background: #fff; border-radius: 10px; padding: 16px; text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-top: 3px solid var(--banf-green);
+  }
+  .kpi .v { font-size: 1.5rem; font-weight: 800; color: var(--banf-green); }
+  .kpi .k { font-size: 0.72rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .kpi.green .v { color: var(--green); }
+  .kpi.green { border-top-color: var(--green); }
+  .kpi.red .v { color: var(--red); }
+  .kpi.red { border-top-color: var(--red); }
+  .kpi.blue .v { color: var(--blue); }
+  .kpi.blue { border-top-color: var(--blue); }
+  .kpi.purple .v { color: var(--purple); }
+  .kpi.purple { border-top-color: var(--purple); }
+
+  /* Sections */
+  .section { 
+    background: #fff; border-radius: 10px; padding: 20px 24px; 
+    margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); 
+  }
+  .section h2 { 
+    font-size: 1.05rem; font-weight: 700; color: var(--banf-dark); 
+    margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section h2 .icon { 
+    width: 28px; height: 28px; border-radius: 8px; display: flex; 
+    align-items: center; justify-content: center; font-size: 0.8rem; color: #fff;
+  }
+  .note { 
+    background: #f8fafc; border-left: 3px solid var(--banf-green); 
+    padding: 10px 14px; font-size: 0.8rem; color: #475569; 
+    margin-bottom: 14px; border-radius: 0 6px 6px 0; 
+  }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  th { 
+    background: #f1f5f9; color: #475569; font-weight: 700; text-align: left; 
+    padding: 8px 10px; font-size: 0.72rem; text-transform: uppercase; 
+    letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; white-space: nowrap;
+  }
+  td { padding: 8px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+  tr:hover { background: #f8fafc; }
+  .amount { font-family: 'SFMono-Regular', Consolas, monospace; font-weight: 700; text-align: right; white-space: nowrap; }
+  .amount.income { color: var(--green); }
+  .amount.expense { color: var(--red); }
+  .amount.net { color: var(--blue); font-size: 1.1em; }
+  .confirmed { color: var(--green); font-size: 0.72rem; }
+  .memo { color: #64748b; font-size: 0.78rem; max-width: 220px; }
+  .cat-pill {
+    display: inline-block; padding: 1px 8px; border-radius: 12px;
+    font-size: 0.7rem; font-weight: 600; background: #e0f2fe; color: #0369a1;
+  }
+  .cat-pill.venue { background: #fce7f3; color: #9d174d; }
+  .cat-pill.grocery { background: #dcfce7; color: #166534; }
+  .cat-pill.supplies { background: #fef3c7; color: #92400e; }
+  .totals-row td { 
+    font-weight: 800; border-top: 2px solid #e2e8f0; background: #f8fafc; 
+    padding: 10px; 
+  }
+
+  /* Approval chain */
+  .approval-chain { 
+    display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; 
+  }
+  .approval-card {
+    flex: 1; min-width: 200px; background: #f0fdf4; border: 1px solid #bbf7d0;
+    border-radius: 8px; padding: 12px 16px;
+  }
+  .approval-card .role { font-size: 0.72rem; color: #166534; font-weight: 700; text-transform: uppercase; }
+  .approval-card .name { font-weight: 700; font-size: 0.88rem; margin: 4px 0; }
+  .approval-card .ts { font-size: 0.72rem; color: #64748b; }
+  .approval-card .check { color: var(--green); font-weight: 800; }
+
+  /* Audit trail */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 4px; bottom: 4px;
+    width: 2px; background: #e2e8f0;
+  }
+  .timeline-item { 
+    position: relative; margin-bottom: 10px; padding: 6px 0; 
+  }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -20px; top: 10px;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--banf-green);
+    border: 2px solid #fff; box-shadow: 0 0 0 2px var(--banf-green);
+  }
+  .timeline-item .tl-date { font-size: 0.72rem; color: #94a3b8; font-weight: 600; }
+  .timeline-item .tl-action { font-size: 0.8rem; font-weight: 600; color: #1e293b; }
+  .timeline-item .tl-detail { font-size: 0.76rem; color: #64748b; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .container { max-width: 100%; padding: 0; }
+    .section { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+    .header { background: var(--banf-green) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>🌸 Bosonto Utsob 2026</h1>
+      <div class="subtitle">Bengal Association of North Florida — Event Financial Ledger</div>
+      <div style="margin-top:8px">
+        <span class="badge badge-green">AUDIT READY</span>
+        <span class="badge badge-blue" style="margin-left:4px">CLOSED</span>
+        <span class="badge badge-purple" style="margin-left:4px">ALL APPROVALS ✓</span>
+      </div>
+    </div>
+    <div class="meta">
+      <div><strong>Event Date:</strong> Mar 6, 2026</div>
+      <div><strong>Venue:</strong> Sri Lanka Association Center, Jacksonville, FL</div>
+      <div><strong>Generated:</strong> Mar 11, 2026</div>
+      <div><strong>Report ID:</strong> BANF-BU26-LEDGER</div>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi green"><div class="v">$5,880.00</div><div class="k">Total Income</div></div>
+    <div class="kpi red"><div class="v">$1,212.82</div><div class="k">Total Expenses</div></div>
+    <div class="kpi blue"><div class="v">$4,667.18</div><div class="k">Net Surplus</div></div>
+    <div class="kpi purple"><div class="v">38 / 60</div><div class="k">RSVP Yes / Invited</div></div>
+    <div class="kpi"><div class="v">94</div><div class="k">Total Headcount</div></div>
+    <div class="kpi"><div class="v">$12.90</div><div class="k">Cost / Head</div></div>
+  </div>
+
+  <!-- EXPENSE DETAIL -->
+  <div class="section">
+    <h2><span class="icon" style="background:var(--red)">💸</span> Expense Ledger (4 items — $1,212.82)</h2>
+    <div class="note">Expenses include: (1) Zelle reimbursements to volunteers for grocery purchases, (2) Wells Fargo debit card purchases at stores, (3) Venue rental entered as manual EC adjustment. All expenses were submitted and approved through the EC chain.</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Date</th><th>Payee / Vendor</th><th>Category</th><th>Memo</th><th>Confirmation</th><th>Source</th><th style="text-align:right">Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td style="white-space:nowrap">Feb 1, 2026</td>
+          <td><strong>SOUVIK CHAKRABORTY</strong></td>
+          <td><span class="cat-pill grocery">Food & Grocery</span></td>
+          <td class="memo">Walmart</td>
+          <td class="confirmed">WFCT0ZRHJW7X</td>
+          <td style="font-size:0.72rem">WF Zelle Sent</td>
+          <td class="amount expense">$122.96</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>PUBLIX #1667 (ST JOHNS)</strong></td>
+          <td><span class="cat-pill grocery">Food & Grocery</span></td>
+          <td class="memo">—</td>
+          <td class="confirmed">—</td>
+          <td style="font-size:0.72rem">WF Debit Card</td>
+          <td class="amount expense">$64.99</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>APNA BAZAR (JACKSONVILLE)</strong></td>
+          <td><span class="cat-pill grocery">Food & Grocery</span></td>
+          <td class="memo">—</td>
+          <td class="confirmed">—</td>
+          <td style="font-size:0.72rem">WF Debit Card</td>
+          <td class="amount expense">$174.87</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>Venue rental - Sri Lanka Association Center</strong></td>
+          <td><span class="cat-pill venue">Venue Rental</span></td>
+          <td class="memo">Venue rental - Sri Lanka Association Center</td>
+          <td class="confirmed"><em>Manual entry</em></td>
+          <td style="font-size:0.72rem">EC Manual</td>
+          <td class="amount expense">$850.00</td>
+        </tr>
+        <tr class="totals-row">
+          <td colspan="7" style="text-align:right"><strong>TOTAL EXPENSES</strong></td>
+          <td class="amount expense">$1,212.82</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Category Breakdown -->
+    <h3 style="font-size:0.88rem;margin-top:16px;margin-bottom:8px;color:#475569">Expense Breakdown by Category</h3>
+    <table style="max-width:400px">
+      <thead><tr><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">%</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="cat-pill venue">Venue Rental</span></td>
+          <td class="amount expense">$850.00</td>
+          <td class="amount" style="color:#64748b">70.1%</td>
+        </tr>
+        <tr>
+          <td><span class="cat-pill grocery">Food & Grocery</span></td>
+          <td class="amount expense">$362.82</td>
+          <td class="amount" style="color:#64748b">29.9%</td>
+        </tr>
+        <tr class="totals-row">
+          <td><strong>Total</strong></td>
+          <td class="amount expense">$1,212.82</td>
+          <td class="amount" style="color:#64748b">100%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- INCOME DETAIL -->
+  <div class="section">
+    <h2><span class="icon" style="background:var(--green)">💰</span> Income Ledger (20 payments — $5,880.00)</h2>
+    <div class="note">All membership payments received during the Bosonto Utsob active registration period (Jan 20 – Mar 10, 2026). During this window, Bosonto was the primary running event driving membership collection.</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Date</th><th>From</th><th>Memo</th><th>Tier</th><th>RSVP</th><th>Confirmation</th><th style="text-align:right">Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td style="white-space:nowrap">Mar 1, 2026</td>
+          <td><strong>Amit Kumar Saha</strong></td>
+          <td class="memo">Early bird premium membership fee from Amit & papri</td>
+          <td style="font-size:0.72rem">Family+ (M2)</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ BBT373590754</td>
+          <td class="amount income">$330.00</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td style="white-space:nowrap">Mar 1, 2026</td>
+          <td><strong>SUNETRA BASU GHOSH</strong></td>
+          <td class="memo">Earlybird couple membership fee for 2026</td>
+          <td style="font-size:0.72rem">Family+ (M2)</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ BACvs1hurswo</td>
+          <td class="amount income">$330.00</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td style="white-space:nowrap">Mar 1, 2026</td>
+          <td><strong>SUVANKAR PAUL</strong></td>
+          <td class="memo">Early Bird Membership for Couple</td>
+          <td style="font-size:0.72rem">Family+ (M2)</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ BACd0yezv6wl</td>
+          <td class="amount income">$330.00</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td style="white-space:nowrap">Mar 1, 2026</td>
+          <td><strong>AMIT CHANDAK</strong></td>
+          <td class="memo">Amit Chandak</td>
+          <td style="font-size:0.72rem">Family+ (M2)</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ JPM99c7ky8jf</td>
+          <td class="amount income">$375.00</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td style="white-space:nowrap">Mar 1, 2026</td>
+          <td><strong>RANADHIR GHOSH</strong></td>
+          <td class="memo">Membership</td>
+          <td style="font-size:0.72rem">Family+ (M2)</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ BACzloirfq9x</td>
+          <td class="amount income">$375.00</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td style="white-space:nowrap">Mar 2, 2026</td>
+          <td><strong>ASOK CHAUDHURI</strong></td>
+          <td class="memo">Annual early bird</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ WFCT0ZVQDMZS</td>
+          <td class="amount income">$130.00</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td style="white-space:nowrap">Mar 2, 2026</td>
+          <td><strong>FNU AMRITA</strong></td>
+          <td class="memo">Amrita Partha Yash Payment for family premium early bird. Thank you</td>
+          <td style="font-size:0.72rem">Family+ (M2)</td>
+          <td><span class="badge badge-red">NO</span></td>
+          <td class="confirmed">✓ BACjlxpg8sct</td>
+          <td class="amount income">$375.00</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td style="white-space:nowrap">Mar 2, 2026</td>
+          <td><strong>TARIT K MONDAL</strong></td>
+          <td class="memo">membership for Tarit for 2026</td>
+          <td style="font-size:0.72rem">Individual Premium</td>
+          <td><span class="badge badge-yellow">—</span></td>
+          <td class="confirmed">✓ JPM99c7mim2l</td>
+          <td class="amount income">$205.00</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td style="white-space:nowrap">Mar 4, 2026</td>
+          <td><strong>Ishita Saha</strong></td>
+          <td class="memo">—</td>
+          <td style="font-size:0.72rem">Individual Regular</td>
+          <td><span class="badge badge-yellow">—</span></td>
+          <td class="confirmed">✓ 0H60ABW1OYRV</td>
+          <td class="amount income">$145.00</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td style="white-space:nowrap">Mar 5, 2026</td>
+          <td><strong>SUVENDU MAITRA</strong></td>
+          <td class="memo">Annual Membership for 26-27</td>
+          <td style="font-size:0.72rem">Family Regular</td>
+          <td><span class="badge badge-yellow">—</span></td>
+          <td class="confirmed">✓ PNCAA0YTG13Y</td>
+          <td class="amount income">$280.00</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>SUMAN GHOSH</strong></td>
+          <td class="memo">Suman ghosh regular membership</td>
+          <td style="font-size:0.72rem">Family Regular</td>
+          <td><span class="badge badge-yellow">—</span></td>
+          <td class="confirmed">✓ BACi9ys6ban6</td>
+          <td class="amount income">$280.00</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>ASOK CHAUDHURI</strong></td>
+          <td class="memo">balance of subscription</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ WFCT0ZW8LK9R</td>
+          <td class="amount income">$200.00</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>DIPRA GHOSH</strong></td>
+          <td class="memo">BANF Membership - Dipra Ghosh</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ CTIzXtKBqopO</td>
+          <td class="amount income">$330.00</td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>PARTHA CHOWDHURY</strong></td>
+          <td class="memo">chowdhury family early bird membership</td>
+          <td style="font-size:0.72rem">Family Premium</td>
+          <td><span class="badge badge-yellow">—</span></td>
+          <td class="confirmed">✓ JPM99c86pkt1</td>
+          <td class="amount income">$375.00</td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>Latika Mukherjee</strong></td>
+          <td class="memo">2026 membership fee early bird</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ COF7AUHG6SHO</td>
+          <td class="amount income">$205.00</td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td style="white-space:nowrap">Mar 6, 2026</td>
+          <td><strong>ATMADEEP MAZUMDAR</strong></td>
+          <td class="memo">M2 premium membership</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ JPM99c85jm2b</td>
+          <td class="amount income">$375.00</td>
+        </tr>
+        <tr>
+          <td>17</td>
+          <td style="white-space:nowrap">Mar 7, 2026</td>
+          <td><strong>RAHUL BANERJEE</strong></td>
+          <td class="memo">Sunanda and Rahul Banerjee registration</td>
+          <td style="font-size:0.72rem">Couple Regular</td>
+          <td><span class="badge badge-yellow">—</span></td>
+          <td class="confirmed">✓ BACvyrq8sjee</td>
+          <td class="amount income">$255.00</td>
+        </tr>
+        <tr>
+          <td>18</td>
+          <td style="white-space:nowrap">Mar 7, 2026</td>
+          <td><strong>NILAY CHANDRA</strong></td>
+          <td class="memo">NILAY CHANDRA Regular Member</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ JPM99c8a61t5</td>
+          <td class="amount income">$280.00</td>
+        </tr>
+        <tr>
+          <td>19</td>
+          <td style="white-space:nowrap">Mar 7, 2026</td>
+          <td><strong>KAUSHIKI BHATTACHARYA</strong></td>
+          <td class="memo">Kaushiki Annual Membership</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ JPM99c89yx7i</td>
+          <td class="amount income">$375.00</td>
+        </tr>
+        <tr>
+          <td>20</td>
+          <td style="white-space:nowrap">Mar 7, 2026</td>
+          <td><strong>ROY</strong></td>
+          <td class="memo">M2 - Paulami Guha</td>
+          <td style="font-size:0.72rem">—</td>
+          <td><span class="badge badge-green">YES</span></td>
+          <td class="confirmed">✓ BACyehhv53yw</td>
+          <td class="amount income">$330.00</td>
+        </tr>
+        <tr class="totals-row">
+          <td colspan="7" style="text-align:right"><strong>TOTAL INCOME</strong></td>
+          <td class="amount income">$5,880.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Income by Date -->
+    <h3 style="font-size:0.88rem;margin-top:16px;margin-bottom:8px;color:#475569">Collection Timeline</h3>
+    <table style="max-width:400px">
+      <thead><tr><th>Date</th><th style="text-align:center">Payments</th><th style="text-align:right">Amount</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Feb 28, 2026</td>
+          <td style="text-align:center">5</td>
+          <td class="amount income">$1,740.00</td>
+        </tr>
+        <tr>
+          <td>Mar 1, 2026</td>
+          <td style="text-align:center">3</td>
+          <td class="amount income">$710.00</td>
+        </tr>
+        <tr>
+          <td>Mar 3, 2026</td>
+          <td style="text-align:center">1</td>
+          <td class="amount income">$145.00</td>
+        </tr>
+        <tr>
+          <td>Mar 4, 2026</td>
+          <td style="text-align:center">1</td>
+          <td class="amount income">$280.00</td>
+        </tr>
+        <tr>
+          <td>Mar 5, 2026</td>
+          <td style="text-align:center">6</td>
+          <td class="amount income">$1,765.00</td>
+        </tr>
+        <tr>
+          <td>Mar 6, 2026</td>
+          <td style="text-align:center">4</td>
+          <td class="amount income">$1,240.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- NET SUMMARY -->
+  <div class="section" style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border:1px solid #bbf7d0">
+    <h2><span class="icon" style="background:var(--blue)">📊</span> Net Financial Summary</h2>
+    <table style="max-width:500px">
+      <tbody>
+        <tr><td style="padding:10px;font-weight:600">Total Income (20 membership payments)</td><td class="amount income" style="padding:10px">$5,880.00</td></tr>
+        <tr><td style="padding:10px;font-weight:600">Total Expenses (4 items)</td><td class="amount expense" style="padding:10px">– $1,212.82</td></tr>
+        <tr class="totals-row"><td style="padding:12px;font-weight:800;font-size:1.05em">Net Surplus</td><td class="amount net" style="padding:12px">$4,667.18</td></tr>
+        <tr><td style="padding:8px;color:#64748b;font-size:0.82rem">Cost per attendee head</td><td class="amount" style="padding:8px;color:#64748b">$12.90</td></tr>
+        <tr><td style="padding:8px;color:#64748b;font-size:0.82rem">Average income per membership payment</td><td class="amount" style="padding:8px;color:#64748b">$294.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EC APPROVAL CHAIN -->
+  <div class="section">
+    <h2><span class="icon" style="background:var(--purple)">✅</span> EC Approval Chain</h2>
+    <div class="note">Event reconciliation approved through the EC three-tier approval chain via the BANF Event Reconciliation Portal. Treasurer verified all receipts, VP validated budget compliance, President gave final sign-off. Status: AUDIT_READY.</div>
+    <div class="approval-chain">
+      <div class="approval-card">
+        <div class="role">treasurer</div>
+        <div class="name">Amit Chandak <span class="check">✓</span></div>
+        <div class="ts">amit.everywhere@gmail.com<br>Mar 10, 2026 via event-reconciliation-portal</div>
+      </div>
+      <div class="approval-card">
+        <div class="role">vice President</div>
+        <div class="name">Soumyajit Dutta <span class="check">✓</span></div>
+        <div class="ts">duttasoumyajit86@gmail.com<br>Mar 10, 2026 via event-reconciliation-portal</div>
+      </div>
+      <div class="approval-card">
+        <div class="role">president</div>
+        <div class="name">Dr. Ranadhir Ghosh <span class="check">✓</span></div>
+        <div class="ts">ranadhir.ghosh@gmail.com<br>Mar 10, 2026 via event-reconciliation-portal</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIT TRAIL -->
+  <div class="section">
+    <h2><span class="icon" style="background:var(--cyan)">📋</span> Audit Trail</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-date">Jan 31, 2026</div>
+        <div class="tl-action">Event Created</div>
+        <div class="tl-detail">Bosonto Utsob 2026 event created in BANF calendar</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Feb 14, 2026</div>
+        <div class="tl-action">Evite Sent</div>
+        <div class="tl-detail">Invitations sent to 60 families</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Jan 31, 2026</div>
+        <div class="tl-action">Expense Souvik Walmart</div>
+        <div class="tl-detail">Zelle sent $122.96 to Souvik Chakraborty (Walmart grocery run) auto-detected</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Feb 28, 2026</div>
+        <div class="tl-action">Membership Collection Started</div>
+        <div class="tl-detail">First membership payments received — registration wave begins</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 5, 2026</div>
+        <div class="tl-action">Expense Publix</div>
+        <div class="tl-detail">WF card purchase $64.99 at Publix #1667 auto-detected</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 5, 2026</div>
+        <div class="tl-action">Expense Apnabazar</div>
+        <div class="tl-detail">WF card purchase $174.87 at Apna Bazar auto-detected</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 6, 2026</div>
+        <div class="tl-action">Event Held</div>
+        <div class="tl-detail">Bosonto Utsob 2026 held at Sri Lanka Association Center</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 9, 2026</div>
+        <div class="tl-action">Event Closed</div>
+        <div class="tl-detail">Event marked as completed, expense submission window closed</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 10, 2026</div>
+        <div class="tl-action">Venue Expense Added</div>
+        <div class="tl-detail">Manual entry: Venue rental $850 at Sri Lanka Association Center</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 10, 2026</div>
+        <div class="tl-action">Treasurer Approved</div>
+        <div class="tl-detail">Treasurer (Amit Chandak) approved reconciliation</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 10, 2026</div>
+        <div class="tl-action">Vp Approved</div>
+        <div class="tl-detail">VP (Soumyajit Dutta) approved reconciliation</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 10, 2026</div>
+        <div class="tl-action">President Approved</div>
+        <div class="tl-detail">President (Dr. Ranadhir Ghosh) final sign-off — audit ready</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">Mar 10, 2026</div>
+        <div class="tl-action">Ledger Generated</div>
+        <div class="tl-detail">Comprehensive event ledger generated with full audit trail</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="text-align:center;padding:20px;color:#94a3b8;font-size:0.72rem">
+    BANF — Bengal Association of North Florida &bull; Bosonto Utsob 2026 Event Ledger<br>
+    Generated Mar 11, 2026 by BANF Financial Reconciliation System &bull; Report ID: BANF-BU26-LEDGER
+  </div>
+</div>
+</body>
+</html>
