@@ -4,12 +4,12 @@
  *  BANF — Expense Review Processor
  * ═══════════════════════════════════════════════════════════════
  *
- *  Processes the President's expense review submission:
+ *  Processes the Treasurer's expense review submission:
  *    1. Reads the submitted review JSON
  *    2. Applies corrections to banf-ledger.json (re-tag events, remove, add)
  *    3. Stores learnings in agent-memory-store.json
  *    4. Regenerates the Bosonto Utsob event ledger
- *    5. Sends updated ledger to Treasurer for modification
+ *    5. Sends updated ledger to VP and President for approval
  *
  *  Usage:
  *    node banf-expense-review-processor.js [path-to-submission.json]
@@ -92,9 +92,9 @@ function applyCorrections(review) {
                     id: item.id,
                     payee: item.payee,
                     amount: item.amount,
-                    reason: item.presidentComment || 'Removed by President review',
+                    reason: item.treasurerComment || item.presidentComment || 'Removed by Treasurer review',
                 });
-                console.log(`  ✗ REMOVED: ${item.payee} ${fmt$(item.amount)} — ${item.presidentComment || 'no comment'}`);
+                console.log(`  \u2717 REMOVED: ${item.payee} ${fmt$(item.amount)} \u2014 ${item.treasurerComment || item.presidentComment || 'no comment'}`);
             }
             continue;
         }
@@ -111,7 +111,7 @@ function applyCorrections(review) {
                 amount: item.amount,
                 from: oldEvent,
                 to: item.assignedEvent,
-                reason: item.presidentComment || 'Reassigned by President',
+                reason: item.treasurerComment || item.presidentComment || 'Reassigned by Treasurer',
             });
             console.log(`  ↔ RETAGGED: ${item.payee} ${fmt$(item.amount)}: ${oldEvent} → ${item.assignedEvent}`);
         }
@@ -119,10 +119,11 @@ function applyCorrections(review) {
         // ACTION: MODIFY (update category, memo etc based on comment)
         if (item.action === 'modify' && entry) {
             // If comment mentions a category, try to update
-            if (item.presidentComment) {
-                const catMatch = item.presidentComment.match(/category:\s*(.+?)(?:,|\.|$)/i);
+            const comment = item.treasurerComment || item.presidentComment || '';
+            if (comment) {
+                const catMatch = comment.match(/category:\s*(.+?)(?:,|\.|$)/i);
                 if (catMatch) entry.category = catMatch[1].trim();
-                const memoMatch = item.presidentComment.match(/memo:\s*(.+?)(?:,|\.|$)/i);
+                const memoMatch = comment.match(/memo:\s*(.+?)(?:,|\.|$)/i);
                 if (memoMatch) entry.memo = memoMatch[1].trim();
             }
             modified++;
@@ -131,9 +132,9 @@ function applyCorrections(review) {
                 id: item.id,
                 payee: item.payee,
                 amount: item.amount,
-                comment: item.presidentComment,
+                comment: item.treasurerComment || item.presidentComment,
             });
-            console.log(`  ✎ MODIFIED: ${item.payee} — ${item.presidentComment}`);
+            console.log(`  \u270e MODIFIED: ${item.payee} \u2014 ${item.treasurerComment || item.presidentComment}`);
         }
 
         // NEW EXPENSES
@@ -209,8 +210,8 @@ function storeLearnings(review, corrections) {
         memory.push({
             id: 'MEM-' + Date.now() + '-review',
             type: 'learning',
-            content: `President review of Bosonto Utsob 2026 expenses: ${corrections.length} corrections applied. ${review.generalComments || 'No general comments.'}`,
-            tags: ['expense_review', 'bosonto_utsob_2026', 'president_input'],
+            content: `Treasurer review of Bosonto Utsob 2026 expenses: ${corrections.length} corrections applied. ${review.generalComments || 'No general comments.'}`,
+            tags: ['expense_review', 'bosonto_utsob_2026', 'treasurer_input'],
             context: {
                 event: 'Bosonto Utsob 2026',
                 reviewer: review.reviewedBy,
@@ -238,15 +239,16 @@ function extractRules(review) {
 
     // Extract learning rules from per-item comments
     for (const item of review.items) {
-        if (!item.presidentComment) continue;
-        const c = item.presidentComment.toLowerCase();
+        const comment = item.treasurerComment || item.presidentComment || '';
+        if (!comment) continue;
+        const c = comment.toLowerCase();
 
         if (item.assignedEvent !== item.event) {
             rules.push({
                 type: 'event_assignment',
                 trigger: { payee: item.payee, dateRange: item.date, category: item.category },
                 action: `Assign to ${item.assignedEvent} instead of ${item.event}`,
-                description: `${item.payee} expense on ${item.date} belongs to ${item.assignedEvent} (was ${item.event}): ${item.presidentComment}`,
+                description: `${item.payee} expense on ${item.date} belongs to ${item.assignedEvent} (was ${item.event}): ${comment}`,
                 confidence: 1.0,
             });
         }
@@ -255,16 +257,16 @@ function extractRules(review) {
                 type: 'exclusion',
                 trigger: { payee: item.payee, pattern: item.memo },
                 action: 'Exclude from event ledger',
-                description: `Exclude ${item.payee}: ${item.presidentComment}`,
+                description: `Exclude ${item.payee}: ${comment}`,
                 confidence: 1.0,
             });
         }
-        if (/venue|booking|paid.*personal|personal.*account/i.test(item.presidentComment)) {
+        if (/venue|booking|paid.*personal|personal.*account/i.test(comment)) {
             rules.push({
                 type: 'venue_payment',
                 trigger: { payee: item.payee },
                 action: 'Track as venue expense with personal payment note',
-                description: `Venue payment context: ${item.presidentComment}`,
+                description: `Venue payment context: ${comment}`,
                 confidence: 0.9,
             });
         }
@@ -277,7 +279,7 @@ function extractRules(review) {
                 type: 'payment_source',
                 trigger: { member: 'Suvankar Paul' },
                 action: 'Note: Suvankar sometimes pays from personal account — verify source',
-                description: `President noted Suvankar personal payments: ${comments.slice(0, 200)}`,
+                description: `Treasurer noted Suvankar personal payments: ${comments.slice(0, 200)}`,
                 confidence: 0.9,
             });
         }
@@ -312,24 +314,25 @@ function regenerateLedger() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  PHASE 5: EMAIL UPDATED LEDGER TO TREASURER
+//  PHASE 5: EMAIL UPDATED LEDGER TO VP AND PRESIDENT FOR APPROVAL
 // ═══════════════════════════════════════════════════════════════
 
-async function emailToTreasurer(review, corrections) {
-    console.log('\n═══ Phase 5: Emailing Updated Ledger to Treasurer ═══');
+async function emailForApproval(review, corrections) {
+    console.log('\n═══ Phase 5: Emailing Updated Ledger to VP & President for Approval ═══');
 
     const { getToken, sendEmail, sanitizeSubjectForMIME } = require('./banf-gmail-config');
 
-    // Load the generated JSON for summary numbers
     const ledgerData = loadJSON(path.join(__dirname, 'banf-bosonto-event-ledger.json'));
 
-    const treasurerEmail = 'amit.everywhere@gmail.com';
-    const treasurerName = 'Amit Chandak';
-    const presidentName = review.reviewedBy;
+    const VP_EMAIL = 'duttasoumyajit86@gmail.com';
+    const VP_NAME = 'Soumyajit Dutta';
+    const PRESIDENT_EMAIL = 'ranadhir.ghosh@gmail.com';
+    const PRESIDENT_NAME = 'Dr. Ranadhir Ghosh';
+    const treasurerName = review.reviewedBy;
 
     const changesHtml = corrections.map(c => {
         switch(c.type) {
-            case 'added': return `<li>➕ <strong>Added:</strong> ${c.payee} — ${fmt$(c.amount)} [${c.category}] ${c.note ? '(' + c.note + ')' : ''}</li>`;
+            case 'added': return `<li>➕ <strong>Added:</strong> ${c.payee} — ${fmt$(c.amount)} [${c.category}] ${c.procId ? '(Ticket: '+c.procId+')' : ''} ${c.note ? '('+c.note+')' : ''}</li>`;
             case 'removed': return `<li>✗ <strong>Removed:</strong> ${c.payee} — ${fmt$(c.amount)}. Reason: ${c.reason}</li>`;
             case 'retagged': return `<li>↔ <strong>Reassigned:</strong> ${c.payee} — ${fmt$(c.amount)} moved from ${c.from} → ${c.to}. ${c.reason}</li>`;
             case 'modified': return `<li>✎ <strong>Modified:</strong> ${c.payee} — ${c.comment}</li>`;
@@ -337,34 +340,35 @@ async function emailToTreasurer(review, corrections) {
         }
     }).join('\n');
 
-    const emailBody = `<!DOCTYPE html>
+    function buildEmailBody(recipientName, recipientRole) {
+        return `<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"></head>
 <body style="font-family:'Segoe UI',system-ui,sans-serif;color:#1e293b;line-height:1.6;max-width:700px;margin:0 auto;padding:20px">
   <div style="background:linear-gradient(135deg,#0a6847,#0d8a5c);color:#fff;padding:20px 24px;border-radius:10px;margin-bottom:20px">
-    <h2 style="margin:0;font-size:1.2rem">Bosonto Utsob 2026 - Updated Event Ledger</h2>
-    <p style="margin:4px 0 0;opacity:.85;font-size:.85rem">President's Review Applied - Ready for Treasurer Modification</p>
+    <h2 style="margin:0;font-size:1.2rem">Bosonto Utsob 2026 - Event Expense Ledger (${recipientRole} Approval)</h2>
+    <p style="margin:4px 0 0;opacity:.85;font-size:.85rem">Treasurer's Review Complete - ${recipientRole} Approval Required</p>
   </div>
 
-  <p>Dear <strong>${treasurerName}</strong>,</p>
+  <p>Dear <strong>${recipientName}</strong>,</p>
   
-  <p><strong>${presidentName}</strong> has completed the expense review for <strong>Bosonto Utsob 2026</strong>. 
-  The following changes have been applied to the event ledger:</p>
+  <p>Treasurer <strong>${treasurerName}</strong> has completed the itemized expense review for <strong>Bosonto Utsob 2026</strong>. 
+  Please review and approve the event expense ledger below.</p>
 
   ${corrections.length > 0 ? `
   <div style="background:#f8fafc;border-left:3px solid #0a6847;padding:12px 16px;border-radius:0 6px 6px 0;margin:16px 0">
-    <strong>Changes Applied (${corrections.length}):</strong>
+    <strong>Changes Applied by Treasurer (${corrections.length}):</strong>
     <ul style="margin:8px 0 0;padding-left:20px">${changesHtml}</ul>
-  </div>` : '<p><em>No corrections were made — all expenses confirmed as-is.</em></p>'}
+  </div>` : '<p><em>No corrections were made - all expenses confirmed as-is by the Treasurer.</em></p>'}
 
   ${review.generalComments ? `
   <div style="background:#fffbeb;border-left:3px solid #c8a951;padding:12px 16px;border-radius:0 6px 6px 0;margin:16px 0">
-    <strong>President's Comments:</strong><br>
+    <strong>Treasurer's Comments:</strong><br>
     <em>${review.generalComments.replace(/\n/g, '<br>')}</em>
   </div>` : ''}
 
   <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px;margin:16px 0">
-    <h3 style="margin:0 0 8px;color:#166534;font-size:1rem">Updated Financial Summary</h3>
+    <h3 style="margin:0 0 8px;color:#166534;font-size:1rem">Financial Summary</h3>
     <table style="border-collapse:collapse;font-size:.9rem">
       <tr><td style="padding:4px 16px 4px 0"><strong>Total Income:</strong></td><td style="color:#16a34a;font-weight:700">${ledgerData ? fmt$(ledgerData.summary.totalIncome) : 'N/A'}</td></tr>
       <tr><td style="padding:4px 16px 4px 0"><strong>Total Expenses:</strong></td><td style="color:#dc2626;font-weight:700">${ledgerData ? fmt$(ledgerData.summary.totalExpense) : 'N/A'}</td></tr>
@@ -372,35 +376,53 @@ async function emailToTreasurer(review, corrections) {
     </table>
   </div>
 
-  <p style="background:#dbeafe;padding:12px;border-radius:6px;font-size:.88rem">
-    <strong>Action Required:</strong> Please review the event ledger report below. If any modifications 
-    are needed, update the expenses and the system will regenerate the final audit-ready version.
-    The full report is also available at: <a href="https://banfjax-hash.github.io/banf/banf-bosonto-event-ledger.html">banf-bosonto-event-ledger.html</a>
+  <div style="background:#dbeafe;padding:12px;border-radius:6px;font-size:.88rem;margin:16px 0">
+    <strong>Approval Workflow:</strong><br>
+    Step 1: Treasurer (Amit Chandak) - Itemized review COMPLETE<br>
+    Step 2: Vice President (Soumyajit Dutta) - Approval ${recipientRole === 'Vice President' ? '<-- YOU ARE HERE' : ''}<br>
+    Step 3: President (Dr. Ranadhir Ghosh) - Final approval ${recipientRole === 'President' ? '<-- YOU ARE HERE' : ''}<br>
+    <em>After all approvals, the ledger becomes the official event expense record.</em>
+  </div>
+
+  <p style="background:#f0fdf4;padding:12px;border-radius:6px;font-size:.88rem">
+    <strong>Action Required:</strong> Please review the event ledger and reply to this email with <strong>"APPROVED"</strong> 
+    or provide specific feedback for correction. The full report is available at: 
+    <a href="https://banfjax-hash.github.io/banf/banf-bosonto-event-ledger.html">Event Ledger Report</a>
   </p>
 
   <p style="color:#64748b;font-size:.82rem;margin-top:20px">
     Thanks and Regards,<br>
     BANF Financial Reconciliation System<br>
-    <em>Auto-generated after President's expense review</em>
+    <em>Auto-generated after Treasurer's expense review</em>
   </p>
 </body>
 </html>`;
+    }
 
-    const subject = sanitizeSubjectForMIME('BANF Bosonto Utsob 2026 - Updated Event Ledger (President Reviewed)');
+    const subject = sanitizeSubjectForMIME('BANF Bosonto Utsob 2026 - Expense Ledger Approval Required');
 
     try {
         const token = await getToken();
-        const result = await sendEmail(token, treasurerEmail, null, subject, emailBody);
-        if (result.status === 200) {
-            console.log(`  ✅ Email sent to Treasurer (${treasurerEmail})`);
-            console.log(`  Message ID: ${result.data.id || 'sent'}`);
-            return true;
+
+        // Email VP
+        const vpResult = await sendEmail(token, VP_EMAIL, null, subject, buildEmailBody(VP_NAME, 'Vice President'));
+        if (vpResult.status === 200) {
+            console.log(`  ✅ Email sent to VP ${VP_NAME} (${VP_EMAIL}) — Message ID: ${vpResult.data.id || 'sent'}`);
         } else {
-            console.error(`  ❌ Email failed (HTTP ${result.status}):`, JSON.stringify(result.data));
-            return false;
+            console.error(`  ❌ VP email failed (HTTP ${vpResult.status}):`, JSON.stringify(vpResult.data));
         }
+
+        // Email President
+        const presResult = await sendEmail(token, PRESIDENT_EMAIL, null, subject, buildEmailBody(PRESIDENT_NAME, 'President'));
+        if (presResult.status === 200) {
+            console.log(`  ✅ Email sent to President ${PRESIDENT_NAME} (${PRESIDENT_EMAIL}) — Message ID: ${presResult.data.id || 'sent'}`);
+        } else {
+            console.error(`  ❌ President email failed (HTTP ${presResult.status}):`, JSON.stringify(presResult.data));
+        }
+
+        return (vpResult.status === 200 && presResult.status === 200);
     } catch (e) {
-        console.error('  ❌ Failed to email Treasurer:', e.message);
+        console.error('  ❌ Failed to email VP/President:', e.message);
         return false;
     }
 }
@@ -427,8 +449,8 @@ async function emailToTreasurer(review, corrections) {
     // 4. Regenerate event ledger
     const regen = regenerateLedger();
 
-    // 5. Email to Treasurer
-    const emailed = await emailToTreasurer(review, corrections);
+    // 5. Email to VP and President for approval
+    const emailed = await emailForApproval(review, corrections);
 
     console.log('\n╔═══════════════════════════════════════════════════╗');
     console.log('║  Processing Complete                              ║');
@@ -436,6 +458,7 @@ async function emailToTreasurer(review, corrections) {
     console.log(`║  Corrections applied: ${corrections.length.toString().padEnd(28)}║`);
     console.log(`║  Rules learned: ${learnings.rules.length.toString().padEnd(33)}║`);
     console.log(`║  Ledger regenerated: ${regen ? 'YES' : 'FAILED'}${' '.repeat(regen ? 28 : 25)}║`);
-    console.log(`║  Treasurer notified: ${emailed ? 'YES' : 'FAILED'}${' '.repeat(emailed ? 28 : 25)}║`);
+    console.log(`║  VP notified:        ${emailed ? 'YES' : 'FAILED'}${' '.repeat(emailed ? 28 : 25)}║`);
+    console.log(`║  President notified: ${emailed ? 'YES' : 'FAILED'}${' '.repeat(emailed ? 28 : 25)}║`);
     console.log('╚═══════════════════════════════════════════════════╝');
 })();
