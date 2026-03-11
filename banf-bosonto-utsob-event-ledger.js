@@ -108,11 +108,17 @@ function collectIncome(ledger, pipeline) {
     const windowEnd   = new Date(EVENT.incomeWindowEnd);
 
     // 1. From ledger — income entries in the Bosonto collection window
-    //    During this period Bosonto was the ONLY active event driving membership payments
+    //    During this period Bosonto was the ONLY active event driving membership payments.
+    //    Many Zelle memos explicitly mention "Bosonto" or "membership" during this wave.
+    //    Income attribution is by date proximity AND memo keyword analysis.
     for (const entry of (ledger.entries || [])) {
         if (entry.type !== 'income') continue;
         const dt = parseDate(entry.date);
         if (!dt || dt < windowStart || dt > windowEnd) continue;
+        // Check if memo mentions a DIFFERENT event — if so, skip
+        const memoLower = (entry.memo || '').toLowerCase();
+        if (/saraswati|puja/.test(memoLower) && !/bosonto/.test(memoLower)) continue;
+        if (/noboborsho|nabo.?borsho/.test(memoLower) && !/bosonto/.test(memoLower)) continue;
 
         // Cross-reference with pipeline for RSVP/payment match enrichment
         const pMatch = findPipelineMatch(entry, pipeline);

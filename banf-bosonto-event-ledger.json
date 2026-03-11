@@ -7,7 +7,7 @@
     "type": "Cultural",
     "status": "Completed & Closed"
   },
-  "generatedAt": "2026-03-11T16:45:40.237Z",
+  "generatedAt": "2026-03-11T17:09:31.789Z",
   "generatedBy": "banf-bosonto-utsob-event-ledger.js",
   "attendance": {
     "rsvpYes": 38,
@@ -413,20 +413,6 @@
   "expenses": {
     "items": [
       {
-        "id": "19c1a5b2db92f5ac",
-        "date": "02/01/2026",
-        "dateSortable": "2026-02-01T05:00:00.000Z",
-        "payee": "SOUVIK CHAKRABORTY",
-        "amount": 122.96,
-        "category": "Food & Grocery",
-        "memo": "Walmart",
-        "confirmation": "WFCT0ZRHJW7X",
-        "source": "wf_zelle_sent",
-        "receiptAvailable": true,
-        "approvalStatus": "ec_approved",
-        "approvalNote": "Approved by EC — expenses submitted and closed prior to digital approval system; hard-coded as EC-approved per event reconciliation"
-      },
-      {
         "id": "19cc5855e63894a1",
         "date": "03/06/2026",
         "dateSortable": "2026-03-06T05:00:00.000Z",
@@ -469,19 +455,19 @@
         "approvalNote": "Manually entered by banfjax@gmail.com on Mar 10, 2026. Approved through EC reconciliation portal (Treasurer → VP → President)."
       }
     ],
-    "total": 1212.82,
-    "count": 4,
+    "total": 1089.8600000000001,
+    "count": 3,
     "byCategory": {
-      "Food & Grocery": 362.82,
+      "Food & Grocery": 239.86,
       "Venue Rental": 850
     },
     "note": "Expenses include: (1) Zelle reimbursements to volunteers for grocery purchases, (2) Wells Fargo debit card purchases at stores, (3) Venue rental entered as manual EC adjustment. All expenses were submitted and approved through the EC chain."
   },
   "summary": {
     "totalIncome": 5880,
-    "totalExpense": 1212.82,
-    "netSurplus": 4667.18,
-    "costPerHead": 12.902340425531914,
+    "totalExpense": 1089.8600000000001,
+    "netSurplus": 4790.139999999999,
+    "costPerHead": 11.594255319148937,
     "incomePerMember": 294
   },
   "approvals": {

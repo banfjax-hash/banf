@@ -520,9 +520,21 @@ function classifyAndBuildEntries(payments, members) {
 // ═══════════════════════════════════════════════════════════════
 
 const BANF_EVENTS = [
-    { name: 'Saraswati Puja 2026',  date: '2026-01-31', windowBefore: 30, windowAfter: 15 },
-    { name: 'Bosonto Utsob 2026',   date: '2026-03-07', windowBefore: 35, windowAfter: 7  },
-    { name: 'Noboborsho 2026',      date: '2026-04-25', windowBefore: 30, windowAfter: 7  },
+    { name: 'Saraswati Puja 2026',  date: '2026-01-31', windowBefore: 30, windowAfter: 15, keywords: ['saraswati','puja'] },
+    { name: 'Bosonto Utsob 2026',   date: '2026-03-07', windowBefore: 35, windowAfter: 7,  keywords: ['bosonto','utsob','spring'] },
+    { name: 'Noboborsho 2026',      date: '2026-04-25', windowBefore: 30, windowAfter: 7,  keywords: ['noboborsho','nabo borsho','new year','poila'] },
+];
+
+// Current EC members (2025-26 term) — they actively purchase for upcoming events
+// Non-EC / previous-EC members typically get reimbursed for the JUST-FINISHED event
+const CURRENT_EC = [
+    'RANADHIR GHOSH',        // President
+    'SOUMYAJIT DUTTA',       // Vice President
+    'AMIT CHANDAK',          // Treasurer
+    'RWITI CHOUDHURY',       // General Secretary
+    'RAJANYA GHOSH',         // Cultural Secretary
+    'SUVANKAR PAUL',         // Joint Secretary
+    'PARTHA MUKHOPADHYAY',   // EC Member
 ];
 
 /**
@@ -544,16 +556,60 @@ function autoTagExpense(expense) {
         if (match) result.event = match.name;
     }
 
-    // ── Date-based event matching ──
+    // ── 1. Event-name keyword match in memo/description ──
+    //    If the Zelle memo explicitly mentions an event name, use that.
+    if (!result.event) {
+        const memoText = ((expense.memo || '') + ' ' + (expense.description || '')).toLowerCase();
+        for (const ev of BANF_EVENTS) {
+            if (ev.keywords && ev.keywords.some(kw => memoText.includes(kw))) {
+                result.event = ev.name;
+                break;
+            }
+        }
+    }
+
+    // ── 2. EC-aware date-proximity event matching ──
+    //    Key intelligence:
+    //    - Current EC members actively purchase for the UPCOMING/CURRENT event
+    //    - Non-EC / previous-EC members who get paid AFTER an event closed
+    //      → that payment is a reimbursement for the JUST-FINISHED event
+    //    - At event boundaries (when one event just ended and the next hasn't started),
+    //      non-EC post-event payments go to the completed event, not the next one
     if (!result.event && expense.date) {
         const expDate = new Date(expense.date);
         if (!isNaN(expDate.getTime())) {
+            const payeeName = ((expense.to || expense.payee || expense.payerName || '')).toUpperCase();
+            const isCurrentEC = CURRENT_EC.some(ec => payeeName.includes(ec) || ec.includes(payeeName.split(' ')[0]));
+
+            // Find all candidate events with their distance scores
+            const candidates = [];
             for (const ev of BANF_EVENTS) {
                 const evDate = new Date(ev.date);
-                const daysBefore = (evDate - expDate) / 86400000;
-                const daysAfter  = (expDate - evDate) / 86400000;
-                if (daysBefore >= 0 && daysBefore <= ev.windowBefore) { result.event = ev.name; break; }
-                if (daysAfter  >= 0 && daysAfter  <= ev.windowAfter)  { result.event = ev.name; break; }
+                const daysBefore = (evDate - expDate) / 86400000;  // positive = expense is before event
+                const daysAfter  = (expDate - evDate) / 86400000;  // positive = expense is after event
+
+                if (daysBefore >= 0 && daysBefore <= ev.windowBefore) {
+                    candidates.push({ ev, dist: daysBefore, position: 'before' });
+                }
+                if (daysAfter >= 0 && daysAfter <= ev.windowAfter) {
+                    candidates.push({ ev, dist: daysAfter, position: 'after' });
+                }
+            }
+
+            if (candidates.length === 1) {
+                result.event = candidates[0].ev.name;
+            } else if (candidates.length > 1) {
+                // Multiple events overlap at this date — use EC intelligence
+                if (isCurrentEC) {
+                    // EC members: prefer the UPCOMING event (they're prepping)
+                    const upcoming = candidates.filter(c => c.position === 'before');
+                    result.event = (upcoming.length ? upcoming.sort((a,b) => a.dist - b.dist)[0] : candidates[0]).ev.name;
+                } else {
+                    // Non-EC / previous EC: prefer the JUST-FINISHED event
+                    // (reimbursement for completed event)
+                    const past = candidates.filter(c => c.position === 'after');
+                    result.event = (past.length ? past.sort((a,b) => a.dist - b.dist)[0] : candidates[0]).ev.name;
+                }
             }
         }
     }
@@ -563,7 +619,7 @@ function autoTagExpense(expense) {
 
     // ── Category from memo / merchant keywords ──
     const memo   = (expense.description || expense.memo || '').toLowerCase();
-    const vendor = (expense.vendor || expense.payee || expense.payerName || '').toLowerCase();
+    const vendor = (expense.vendor || expense.payee || expense.payerName || expense.to || '').toLowerCase();
     const text   = `${memo} ${vendor}`;
 
     if (/publix|walmart|apna\s*bazar|grocery|food|costco|aldi|winn.?dixie|sam.?s club/i.test(text)) {
