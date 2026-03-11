@@ -50,7 +50,7 @@
   .form-grid label { font-size:.72rem; color:#64748b; font-weight:600; text-transform:uppercase; }
   .form-grid input, .form-grid select { margin-top:2px; }
 
-  /* President comment */
+  /* Treasurer comment */
   .president-box { background:#f0fdf4; border:2px solid #bbf7d0; border-radius:10px; padding:16px; margin-top:16px; }
   .president-box h3 { font-size:.92rem; font-weight:700; color:#166534; margin-bottom:8px; }
   .president-box textarea { min-height:100px; border-color:#86efac; }
@@ -80,11 +80,11 @@
   <div class="header">
     <h1>🌸 Bosonto Utsob 2026 — Expense Review Form</h1>
     <div class="sub">
-      For: <strong>Dr. Ranadhir Ghosh, President</strong> &nbsp;|&nbsp;
-      Bengal Association of North Florida
+      For: <strong>Amit Chandak, Treasurer</strong> &nbsp;|&nbsp;
+      Bengali Association of North Florida
     </div>
     <div style="margin-top:8px">
-      <span class="badge badge-yellow">REVIEW REQUIRED</span>
+      <span class="badge badge-yellow">TREASURER REVIEW REQUIRED</span>
       <span class="badge badge-blue">BOSONTO UTSOB ONLY</span>
     </div>
   </div>
@@ -92,7 +92,8 @@
   <div class="note">
     <strong>Instructions:</strong> Please review each expense below. You can change the event assignment, add comments,
     add missing expenses, or flag items for removal. Your comments will be used to automatically adjust the event ledger.
-    Once submitted, the updated ledger will be sent to the Treasurer for final review.
+    Once submitted, the updated ledger will be sent to the <strong>Vice President (Partha Mukhopadhyay)</strong> and
+    <strong>President (Dr. Ranadhir Ghosh)</strong> for final approval. After their sign-off, it becomes the official event expense record.
   </div>
 
   <div class="info" id="venue-info">
@@ -116,7 +117,7 @@
           <th>Current Event</th>
           <th>Assign To</th>
           <th>Action</th>
-          <th class="comment-cell">President Comment</th>
+          <th class="comment-cell">Treasurer Comment</th>
         </tr>
       </thead>
       <tbody id="expense-body">
@@ -124,44 +125,52 @@
       </tbody>
     </table>
 
-    <!-- Add New Expense -->
+    <!-- Add from Approved Reimbursement / Procurement -->
     <div class="add-expense">
-      <h3>➕ Add Missing Expense</h3>
-      <div class="form-grid">
-        <div><label>Date</label><input type="text" id="new-date" placeholder="MM/DD/YYYY"></div>
-        <div><label>Payee</label><input type="text" id="new-payee" placeholder="Name or Vendor"></div>
-        <div><label>Amount ($)</label><input type="text" id="new-amount" placeholder="0.00"></div>
-        <div><label>Category</label>
-          <select id="new-category">
-            <option value="Food & Grocery">Food & Grocery</option>
-            <option value="Venue Rental">Venue Rental</option>
-            <option value="Supplies">Supplies</option>
-            <option value="Entertainment">Entertainment</option>
-            <option value="Reimbursement">Reimbursement</option>
-            <option value="Event Expense">Event Expense</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+      <h3>➕ Include Approved Reimbursement / Procurement Item</h3>
+      <div class="note" style="margin-bottom:12px;background:#f0f9ff;border-left-color:#2563eb;color:#1e40af">
+        <strong>Important — No manual expense entry allowed.</strong><br>
+        Expenses can <strong>only</strong> be added to this event ledger from <strong>approved reimbursement or procurement tickets</strong>
+        that have completed the full BANF approval workflow (<code>banf-procurement-agent.js</code>).<br><br>
+        <strong>How it works:</strong>
+        <ul style="margin:6px 0 0;padding-left:18px;font-size:.8rem">
+          <li>The system <strong>automatically picks up</strong> all approved/completed procurement items tagged for this event and includes them in the expense table above.</li>
+          <li>If an approved item was <strong>not automatically included</strong> (e.g., tagged to a different event or missing event tag), you can select it below to add it to this event's ledger.</li>
+          <li>Only tickets with status <strong>"approved"</strong>, <strong>"completed"</strong>, <strong>"reimbursement_pending"</strong>, or <strong>"payment_sent"</strong> are available — pending or rejected tickets cannot be added.</li>
+          <li>To add a <strong>new expense</strong>, first submit a procurement/reimbursement request through the BANF Procurement System, get it approved, then it will appear here.</li>
+        </ul>
       </div>
-      <div class="form-grid" style="grid-template-columns:1fr 1fr">
-        <div><label>Memo / Description</label><input type="text" id="new-memo" placeholder="What was this for?"></div>
-        <div><label>Confirmation #</label><input type="text" id="new-conf" placeholder="Zelle conf or receipt #"></div>
+
+      <div style="margin-bottom:8px">
+        <label style="font-size:.72rem;color:#64748b;font-weight:600;text-transform:uppercase">Select Approved Ticket to Include</label>
+        <select id="proc-ticket-select" style="max-width:100%">
+          <option value="">— Select an approved reimbursement/procurement ticket —</option>
+        </select>
       </div>
-      <div style="margin-top:8px"><label style="font-size:.72rem;color:#64748b;font-weight:600">NOTE</label>
-        <textarea id="new-note" rows="2" placeholder="Any context about this expense (e.g., paid by Suvankar from personal account)"></textarea>
-      </div>
-      <button class="btn btn-secondary" style="margin-top:8px" onclick="addNewExpense()">+ Add Expense</button>
+      <div id="proc-ticket-detail" style="display:none;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:.82rem"></div>
+      <button class="btn btn-secondary" style="margin-top:4px" onclick="addFromProcurement()" id="add-proc-btn" disabled>+ Include in Event Ledger</button>
     </div>
   </div>
 
-  <!-- President General Comments -->
+  <!-- Treasurer General Comments -->
   <div class="president-box">
-    <h3>💬 President's General Comments</h3>
+    <h3>💬 Treasurer's General Comments</h3>
     <p style="font-size:.8rem;color:#475569;margin-bottom:8px">
       Any overall notes about the Bosonto Utsob 2026 expenses, event logistics, or corrections needed.
       These comments will be stored as learning context for future event ledger processing.
     </p>
     <textarea id="president-general-comments" placeholder="E.g.: Suvankar paid venue deposit from personal account. Actual venue was Sri Lanka Association Center, not COJ Parks. The $850 venue rental includes cleanup fee..."></textarea>
+  </div>
+
+  <!-- Approval Chain Info -->
+  <div class="info" style="margin-top:16px">
+    <strong>Approval Workflow:</strong><br>
+    <span style="font-size:.85rem">
+      Step 1: <strong>Treasurer (You)</strong> — Review & approve itemized expenses ← <em>current step</em><br>
+      Step 2: <strong>Vice President (Partha Mukhopadhyay)</strong> — Approval<br>
+      Step 3: <strong>President (Dr. Ranadhir Ghosh)</strong> — Final approval<br>
+      After Step 3, the ledger becomes the <strong>official event expense record</strong> (only President can modify after).
+    </span>
   </div>
 
   <!-- Submit -->
@@ -195,6 +204,20 @@ const EXPENSES = [
 ];
 
 let addedExpenses = [];
+
+// ═══════════════════════════════════════════════════════════
+//  APPROVED PROCUREMENT / REIMBURSEMENT TICKETS
+//  These are loaded from banf-procurement-status.json at build time.
+//  Only tickets with approved/completed/reimbursement_pending/payment_sent
+//  status are available for inclusion in the event ledger.
+// ═══════════════════════════════════════════════════════════
+const APPROVED_PROC_TICKETS = [
+  // Populated from banf-procurement-status.json (approved/completed items not already in expense table)
+  { procId:'PROC-001', description:'Event Supplies (Tier 1)', amount:332.50, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-A0EFDE08' },
+  { procId:'PROC-002', description:'Event Supplies (Tier 2)', amount:712.50, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-FE01C3B4' },
+  { procId:'PROC-003', description:'Event Supplies (Tier 3)', amount:1425.00, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-2D87F16A' },
+  { procId:'PROC-004', description:'Variance triggered supply', amount:250.00, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-9E4731CF' },
+];
 
 function catClass(cat) {
   if (/food|groc/i.test(cat)) return 'cat-food';
@@ -255,36 +278,75 @@ function updateTotals() {
   // Update header or footer with live total
   const badge = document.querySelector('.header .sub');
   if (badge) {
-    badge.innerHTML = `For: <strong>Dr. Ranadhir Ghosh, President</strong> &nbsp;|&nbsp; Bosonto Utsob Total: <strong style="color:#fef3c7">${fmt$(total)}</strong> (${bosonto.length} items)`;
+    badge.innerHTML = `For: <strong>Amit Chandak, Treasurer</strong> &nbsp;|&nbsp; Bosonto Utsob Total: <strong style="color:#fef3c7">${fmt$(total)}</strong> (${bosonto.length} items)`;
   }
 }
 
-function addNewExpense() {
-  const date = document.getElementById('new-date').value.trim();
-  const payee = document.getElementById('new-payee').value.trim();
-  const amount = parseFloat(document.getElementById('new-amount').value);
-  const category = document.getElementById('new-category').value;
-  const memo = document.getElementById('new-memo').value.trim();
-  const conf = document.getElementById('new-conf').value.trim();
-  const note = document.getElementById('new-note').value.trim();
+function addFromProcurement() {
+  const sel = document.getElementById('proc-ticket-select');
+  const procId = sel.value;
+  if (!procId) { alert('Please select an approved ticket first.'); return; }
 
-  if (!date || !payee || isNaN(amount) || amount <= 0) {
-    alert('Please fill in Date, Payee, and Amount.');
+  const ticket = APPROVED_PROC_TICKETS.find(t => t.procId === procId);
+  if (!ticket) return;
+
+  // Check if already added
+  if (addedExpenses.some(e => e.procId === procId) || EXPENSES.some(e => e.procId === procId)) {
+    alert('This ticket is already included in the expense table.');
     return;
   }
 
   addedExpenses.push({
-    id: 'NEW-' + Date.now() + '-' + Math.random().toString(36).slice(2,6),
-    date, payee, amount, category,
+    id: 'PROC-EXP-' + procId,
+    procId: ticket.procId,
+    date: ticket.approvedAt,
+    payee: ticket.submitter,
+    amount: ticket.amount,
+    category: ticket.category,
     event: 'Bosonto Utsob 2026',
-    memo: memo + (note ? ' [Note: ' + note + ']' : ''),
-    conf, source: 'president_review',
+    memo: `${ticket.description} [${ticket.procId}] Ref: ${ticket.paymentRef || 'N/A'}`,
+    conf: ticket.paymentRef || '',
+    source: 'procurement_ticket',
     isNew: true,
   });
 
-  // Clear form
-  ['new-date','new-payee','new-amount','new-memo','new-conf','new-note'].forEach(id => document.getElementById(id).value = '');
+  // Remove from dropdown & disable if none left
+  sel.querySelector(`option[value="${procId}"]`).remove();
+  document.getElementById('proc-ticket-detail').style.display = 'none';
+  sel.value = '';
+  document.getElementById('add-proc-btn').disabled = true;
   renderTable();
+}
+
+function populateProcDropdown() {
+  const sel = document.getElementById('proc-ticket-select');
+  // Filter out tickets already in the expense table
+  const existingIds = new Set(EXPENSES.map(e => e.procId).filter(Boolean));
+  const available = APPROVED_PROC_TICKETS.filter(t => !existingIds.has(t.procId));
+  available.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t.procId;
+    opt.textContent = `${t.procId} — ${t.description} — $${t.amount.toFixed(2)} (${t.status}) — ${t.submitter}`;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', () => {
+    const ticket = APPROVED_PROC_TICKETS.find(t => t.procId === sel.value);
+    const detail = document.getElementById('proc-ticket-detail');
+    const btn = document.getElementById('add-proc-btn');
+    if (ticket) {
+      detail.style.display = 'block';
+      detail.innerHTML = `<strong>${ticket.procId}</strong> — ${ticket.description}<br>
+        <span style="color:#64748b">Submitter:</span> ${ticket.submitter} (${ticket.submitterEmail})<br>
+        <span style="color:#64748b">Amount:</span> <strong>$${ticket.amount.toFixed(2)}</strong> | 
+        <span style="color:#64748b">Status:</span> <span class="badge badge-green">${ticket.status}</span> | 
+        <span style="color:#64748b">Approved:</span> ${ticket.approvedAt}<br>
+        <span style="color:#64748b">Payment Ref:</span> ${ticket.paymentRef || 'N/A'}`;
+      btn.disabled = false;
+    } else {
+      detail.style.display = 'none';
+      btn.disabled = true;
+    }
+  });
 }
 
 function collectFormData() {
@@ -297,13 +359,14 @@ function collectFormData() {
       ...e,
       assignedEvent: assignSel ? assignSel.value : e.event,
       action: actionSel ? actionSel.value : 'keep',
-      presidentComment: commentEl ? commentEl.value.trim() : '',
+      treasurerComment: commentEl ? commentEl.value.trim() : '',
     };
   });
   return {
-    reviewedBy: 'Dr. Ranadhir Ghosh',
-    reviewerEmail: 'ranadhir.ghosh@gmail.com',
-    reviewerRole: 'President',
+    reviewedBy: 'Amit Chandak',
+    reviewerEmail: 'amit.everywhere@gmail.com',
+    reviewerRole: 'Treasurer',
+    approvalStage: 'treasurer_review',
     reviewedAt: new Date().toISOString(),
     event: 'Bosonto Utsob 2026',
     items,
@@ -345,7 +408,7 @@ async function submitReview() {
 
     status.className = 'status success';
     status.innerHTML = `✅ Review saved! <strong>banf-expense-review-submission.json</strong> has been downloaded.<br>
-      The BANF system will now process your review, update the event ledger, and email it to the Treasurer.<br>
+      The BANF system will now process your review, update the event ledger, and send it to VP and President for approval.<br>
       <small>Run: <code>node banf-expense-review-processor.js</code> to process the submission.</small>`;
   } catch (err) {
     status.className = 'status error';
@@ -363,6 +426,7 @@ document.addEventListener('change', (e) => {
 
 // Init
 renderTable();
+populateProcDropdown();
 </script>
 </body>
 </html>
