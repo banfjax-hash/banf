@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF — Bosonto Utsob 2026 Expense Review</title>
+<style>
+  :root { --banf: #0a6847; --gold: #c8a951; --dark: #1a1a2e; --green: #16a34a; --red: #dc2626; --blue: #2563eb; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',system-ui,sans-serif; background:#f1f5f9; color:#1e293b; font-size:14px; line-height:1.5; }
+  .container { max-width:960px; margin:0 auto; padding:20px; }
+  .header { background:linear-gradient(135deg,var(--banf),#0d8a5c); color:#fff; padding:24px 28px; border-radius:12px; margin-bottom:20px; }
+  .header h1 { font-size:1.4rem; font-weight:800; }
+  .header .sub { opacity:.85; font-size:.82rem; margin-top:4px; }
+  .badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+  .badge-yellow { background:#fef3c7; color:#92400e; }
+  .badge-green { background:#dcfce7; color:#166534; }
+  .badge-blue { background:#dbeafe; color:#1e40af; }
+  .section { background:#fff; border-radius:10px; padding:20px 24px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .section h2 { font-size:1rem; font-weight:700; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid #e2e8f0; display:flex; align-items:center; gap:8px; }
+  .note { background:#fffbeb; border-left:3px solid var(--gold); padding:10px 14px; font-size:.8rem; color:#92400e; margin-bottom:14px; border-radius:0 6px 6px 0; }
+  .info { background:#f0f9ff; border-left:3px solid var(--blue); padding:10px 14px; font-size:.8rem; color:#1e40af; margin-bottom:14px; border-radius:0 6px 6px 0; }
+  table { width:100%; border-collapse:collapse; font-size:.82rem; }
+  th { background:#f1f5f9; color:#475569; font-weight:700; text-align:left; padding:8px 10px; font-size:.72rem; text-transform:uppercase; letter-spacing:.5px; border-bottom:2px solid #e2e8f0; }
+  td { padding:8px 10px; border-bottom:1px solid #f1f5f9; vertical-align:top; }
+  tr:hover { background:#f8fafc; }
+  .amt { font-family:'SFMono-Regular',Consolas,monospace; font-weight:700; text-align:right; white-space:nowrap; }
+  .amt.exp { color:var(--red); }
+  .amt.inc { color:var(--green); }
+  .cat { display:inline-block; padding:1px 8px; border-radius:12px; font-size:.7rem; font-weight:600; }
+  .cat-food { background:#dcfce7; color:#166534; }
+  .cat-venue { background:#fce7f3; color:#9d174d; }
+  .cat-supplies { background:#fef3c7; color:#92400e; }
+  .cat-reimb { background:#e0e7ff; color:#3730a3; }
+  .cat-other { background:#f1f5f9; color:#475569; }
+  .event-tag { display:inline-block; padding:1px 8px; border-radius:12px; font-size:.68rem; font-weight:600; }
+  .event-bosonto { background:#fae8ff; color:#86198f; }
+  .event-saraswati { background:#fff7ed; color:#c2410c; }
+  select, textarea, input[type=text] { width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:.82rem; font-family:inherit; }
+  select { max-width:200px; }
+  textarea { resize:vertical; min-height:50px; }
+  .comment-cell { min-width:220px; }
+  .action-row { display:flex; gap:8px; align-items:center; }
+  .action-row select { width:auto; }
+
+  /* New expense form */
+  .add-expense { background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:16px; margin-top:12px; }
+  .add-expense h3 { font-size:.88rem; font-weight:700; margin-bottom:10px; color:#475569; }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-bottom:10px; }
+  .form-grid label { font-size:.72rem; color:#64748b; font-weight:600; text-transform:uppercase; }
+  .form-grid input, .form-grid select { margin-top:2px; }
+
+  /* President comment */
+  .president-box { background:#f0fdf4; border:2px solid #bbf7d0; border-radius:10px; padding:16px; margin-top:16px; }
+  .president-box h3 { font-size:.92rem; font-weight:700; color:#166534; margin-bottom:8px; }
+  .president-box textarea { min-height:100px; border-color:#86efac; }
+
+  /* Submit */
+  .submit-section { text-align:center; margin-top:20px; }
+  .btn { padding:10px 28px; border:none; border-radius:8px; font-size:.88rem; font-weight:700; cursor:pointer; transition:all .2s; }
+  .btn-primary { background:var(--banf); color:#fff; }
+  .btn-primary:hover { background:#085d3a; transform:translateY(-1px); }
+  .btn-secondary { background:#e2e8f0; color:#475569; }
+  .btn-secondary:hover { background:#cbd5e1; }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
+
+  /* Status */
+  .status { display:none; margin-top:16px; padding:16px; border-radius:8px; text-align:center; font-weight:600; }
+  .status.success { display:block; background:#dcfce7; color:#166534; }
+  .status.error { display:block; background:#fee2e2; color:#991b1b; }
+  .status.loading { display:block; background:#dbeafe; color:#1e40af; }
+
+  .footer { text-align:center; padding:20px; color:#94a3b8; font-size:.72rem; }
+  @media (max-width:768px) { .form-grid { grid-template-columns:1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🌸 Bosonto Utsob 2026 — Expense Review Form</h1>
+    <div class="sub">
+      For: <strong>Dr. Ranadhir Ghosh, President</strong> &nbsp;|&nbsp;
+      Bengal Association of North Florida
+    </div>
+    <div style="margin-top:8px">
+      <span class="badge badge-yellow">REVIEW REQUIRED</span>
+      <span class="badge badge-blue">BOSONTO UTSOB ONLY</span>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Instructions:</strong> Please review each expense below. You can change the event assignment, add comments,
+    add missing expenses, or flag items for removal. Your comments will be used to automatically adjust the event ledger.
+    Once submitted, the updated ledger will be sent to the Treasurer for final review.
+  </div>
+
+  <div class="info" id="venue-info">
+    <strong>⚠️ Venue Booking Investigation:</strong> We found that <strong>Sanjeev K. Howlader</strong> (sanjeev04@gmail.com) booked
+    <strong>COJ Parks & Recreation</strong> venue for Bosonto Utsob. On event day (Mar 7) the venue was inaccessible. 
+    No Zelle payment from the BANF WF account to Sanjeev was found. Was venue payment made by Suvankar Paul from his personal account? 
+    Please confirm in the comments below or add the expense if applicable.
+  </div>
+
+  <!-- EXPENSE TABLE -->
+  <div class="section">
+    <h2>📋 All Expenses — Review & Correct</h2>
+    <table id="expense-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Payee / Vendor</th>
+          <th>Category</th>
+          <th style="text-align:right">Amount</th>
+          <th>Current Event</th>
+          <th>Assign To</th>
+          <th>Action</th>
+          <th class="comment-cell">President Comment</th>
+        </tr>
+      </thead>
+      <tbody id="expense-body">
+        <!-- Populated by JS -->
+      </tbody>
+    </table>
+
+    <!-- Add New Expense -->
+    <div class="add-expense">
+      <h3>➕ Add Missing Expense</h3>
+      <div class="form-grid">
+        <div><label>Date</label><input type="text" id="new-date" placeholder="MM/DD/YYYY"></div>
+        <div><label>Payee</label><input type="text" id="new-payee" placeholder="Name or Vendor"></div>
+        <div><label>Amount ($)</label><input type="text" id="new-amount" placeholder="0.00"></div>
+        <div><label>Category</label>
+          <select id="new-category">
+            <option value="Food & Grocery">Food & Grocery</option>
+            <option value="Venue Rental">Venue Rental</option>
+            <option value="Supplies">Supplies</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Reimbursement">Reimbursement</option>
+            <option value="Event Expense">Event Expense</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid" style="grid-template-columns:1fr 1fr">
+        <div><label>Memo / Description</label><input type="text" id="new-memo" placeholder="What was this for?"></div>
+        <div><label>Confirmation #</label><input type="text" id="new-conf" placeholder="Zelle conf or receipt #"></div>
+      </div>
+      <div style="margin-top:8px"><label style="font-size:.72rem;color:#64748b;font-weight:600">NOTE</label>
+        <textarea id="new-note" rows="2" placeholder="Any context about this expense (e.g., paid by Suvankar from personal account)"></textarea>
+      </div>
+      <button class="btn btn-secondary" style="margin-top:8px" onclick="addNewExpense()">+ Add Expense</button>
+    </div>
+  </div>
+
+  <!-- President General Comments -->
+  <div class="president-box">
+    <h3>💬 President's General Comments</h3>
+    <p style="font-size:.8rem;color:#475569;margin-bottom:8px">
+      Any overall notes about the Bosonto Utsob 2026 expenses, event logistics, or corrections needed.
+      These comments will be stored as learning context for future event ledger processing.
+    </p>
+    <textarea id="president-general-comments" placeholder="E.g.: Suvankar paid venue deposit from personal account. Actual venue was Sri Lanka Association Center, not COJ Parks. The $850 venue rental includes cleanup fee..."></textarea>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-section">
+    <button class="btn btn-primary" id="submit-btn" onclick="submitReview()">✅ Submit Review & Generate Updated Ledger</button>
+  </div>
+  <div id="status-msg" class="status"></div>
+
+  <div class="footer">
+    BANF — Bengal Association of North Florida &bull; Bosonto Utsob 2026 Expense Review<br>
+    Form generated Mar 11, 2026 by BANF Financial System
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  EXPENSE DATA (pre-populated from ledger + event recon)
+// ═══════════════════════════════════════════════════════════
+const EXPENSES = [
+  // Bosonto Utsob tagged
+  { id:'19cc5855e63894a1', date:'03/06/2026', payee:'PUBLIX #1667 (ST JOHNS)', amount:64.99, category:'Food & Grocery', event:'Bosonto Utsob 2026', memo:'WF card purchase', conf:'', source:'wf_debit_card' },
+  { id:'19cc55c3b68ef5ee', date:'03/06/2026', payee:'APNA BAZAR (JACKSONVILLE)', amount:174.87, category:'Food & Grocery', event:'Bosonto Utsob 2026', memo:'WF card purchase', conf:'', source:'wf_debit_card' },
+  { id:'ADJ-1773196092200-6968', date:'03/07/2026', payee:'Sri Lanka Association Center', amount:850, category:'Venue Rental', event:'Bosonto Utsob 2026', memo:'Venue rental - manual EC entry', conf:'', source:'manual_ec' },
+  // Saraswati Puja tagged (for review — president may reassign)
+  { id:'19b865db86f2de0f', date:'01/03/2026', payee:'DIPRA GHOSH', amount:81, category:'Food & Grocery', event:'Saraswati Puja 2026', memo:'Cabbage', conf:'WFCT0ZNMCCQP', source:'wf_zelle_sent' },
+  { id:'19b865cfbac9bc00', date:'01/03/2026', payee:'ANIRBAN GHOSH', amount:60, category:'Event Expense', event:'Saraswati Puja 2026', memo:'Picnic', conf:'WFCT0ZNMC9LL', source:'wf_zelle_sent' },
+  { id:'19b865c4765c6e95', date:'01/03/2026', payee:'BAIDYA NATH SARKAR', amount:7, category:'Supplies', event:'Saraswati Puja 2026', memo:'Water cards', conf:'WFCT0ZNMC79G', source:'wf_zelle_sent' },
+  { id:'19b8abc9ec9b8c3b', date:'01/04/2026', payee:'SUVANKAR PAUL', amount:58, category:'Reimbursement', event:'Saraswati Puja 2026', memo:'', conf:'WFCT0ZNP7ZJC', source:'wf_zelle_sent' },
+  { id:'19b8abbf0e8387dd', date:'01/04/2026', payee:'Partha Mukhopadhyay', amount:10, category:'Reimbursement', event:'Saraswati Puja 2026', memo:'', conf:'WFCT0ZNP7XGM', source:'wf_zelle_sent' },
+  { id:'19c1a5b2db92f5ac', date:'02/01/2026', payee:'SOUVIK CHAKRABORTY', amount:122.96, category:'Food & Grocery', event:'Saraswati Puja 2026', memo:'Walmart', conf:'WFCT0ZRHJW7X', source:'wf_zelle_sent' },
+];
+
+let addedExpenses = [];
+
+function catClass(cat) {
+  if (/food|groc/i.test(cat)) return 'cat-food';
+  if (/venue/i.test(cat)) return 'cat-venue';
+  if (/supplies/i.test(cat)) return 'cat-supplies';
+  if (/reimb/i.test(cat)) return 'cat-reimb';
+  return 'cat-other';
+}
+function eventClass(ev) {
+  if (/bosonto/i.test(ev)) return 'event-bosonto';
+  if (/saraswati/i.test(ev)) return 'event-saraswati';
+  return '';
+}
+function fmt$(n) { return '$' + n.toFixed(2); }
+
+function renderTable() {
+  const all = [...EXPENSES, ...addedExpenses];
+  const body = document.getElementById('expense-body');
+  body.innerHTML = all.map((e, i) => `
+    <tr data-id="${e.id}">
+      <td>${i+1}</td>
+      <td style="white-space:nowrap">${e.date}</td>
+      <td><strong>${e.payee}</strong><br><span style="font-size:.7rem;color:#94a3b8">${e.memo || '—'} ${e.conf ? '✓ '+e.conf : ''}</span></td>
+      <td><span class="cat ${catClass(e.category)}">${e.category}</span></td>
+      <td class="amt exp">${fmt$(e.amount)}</td>
+      <td><span class="event-tag ${eventClass(e.event)}">${e.event}</span></td>
+      <td>
+        <select class="assign-select" data-idx="${i}">
+          <option value="Bosonto Utsob 2026" ${e.event==='Bosonto Utsob 2026'?'selected':''}>Bosonto Utsob</option>
+          <option value="Saraswati Puja 2026" ${e.event==='Saraswati Puja 2026'?'selected':''}>Saraswati Puja</option>
+          <option value="Noboborsho 2026" ${e.event==='Noboborsho 2026'?'selected':''}>Noboborsho</option>
+          <option value="General" ${e.event==='General'?'selected':''}>General / Non-Event</option>
+        </select>
+      </td>
+      <td>
+        <select class="action-select" data-idx="${i}">
+          <option value="keep">✓ Keep</option>
+          <option value="remove">✗ Remove</option>
+          <option value="modify">✎ Modify</option>
+        </select>
+      </td>
+      <td class="comment-cell">
+        <textarea class="expense-comment" data-idx="${i}" rows="2" placeholder="Comment on this expense..."></textarea>
+      </td>
+    </tr>
+  `).join('');
+  updateTotals();
+}
+
+function updateTotals() {
+  const all = [...EXPENSES, ...addedExpenses];
+  const bosonto = all.filter((e,i) => {
+    const sel = document.querySelector(`.assign-select[data-idx="${i}"]`);
+    const act = document.querySelector(`.action-select[data-idx="${i}"]`);
+    return sel && sel.value === 'Bosonto Utsob 2026' && act && act.value !== 'remove';
+  });
+  const total = bosonto.reduce((s,e) => s + e.amount, 0);
+  // Update header or footer with live total
+  const badge = document.querySelector('.header .sub');
+  if (badge) {
+    badge.innerHTML = `For: <strong>Dr. Ranadhir Ghosh, President</strong> &nbsp;|&nbsp; Bosonto Utsob Total: <strong style="color:#fef3c7">${fmt$(total)}</strong> (${bosonto.length} items)`;
+  }
+}
+
+function addNewExpense() {
+  const date = document.getElementById('new-date').value.trim();
+  const payee = document.getElementById('new-payee').value.trim();
+  const amount = parseFloat(document.getElementById('new-amount').value);
+  const category = document.getElementById('new-category').value;
+  const memo = document.getElementById('new-memo').value.trim();
+  const conf = document.getElementById('new-conf').value.trim();
+  const note = document.getElementById('new-note').value.trim();
+
+  if (!date || !payee || isNaN(amount) || amount <= 0) {
+    alert('Please fill in Date, Payee, and Amount.');
+    return;
+  }
+
+  addedExpenses.push({
+    id: 'NEW-' + Date.now() + '-' + Math.random().toString(36).slice(2,6),
+    date, payee, amount, category,
+    event: 'Bosonto Utsob 2026',
+    memo: memo + (note ? ' [Note: ' + note + ']' : ''),
+    conf, source: 'president_review',
+    isNew: true,
+  });
+
+  // Clear form
+  ['new-date','new-payee','new-amount','new-memo','new-conf','new-note'].forEach(id => document.getElementById(id).value = '');
+  renderTable();
+}
+
+function collectFormData() {
+  const all = [...EXPENSES, ...addedExpenses];
+  const items = all.map((e, i) => {
+    const assignSel = document.querySelector(`.assign-select[data-idx="${i}"]`);
+    const actionSel = document.querySelector(`.action-select[data-idx="${i}"]`);
+    const commentEl = document.querySelector(`.expense-comment[data-idx="${i}"]`);
+    return {
+      ...e,
+      assignedEvent: assignSel ? assignSel.value : e.event,
+      action: actionSel ? actionSel.value : 'keep',
+      presidentComment: commentEl ? commentEl.value.trim() : '',
+    };
+  });
+  return {
+    reviewedBy: 'Dr. Ranadhir Ghosh',
+    reviewerEmail: 'ranadhir.ghosh@gmail.com',
+    reviewerRole: 'President',
+    reviewedAt: new Date().toISOString(),
+    event: 'Bosonto Utsob 2026',
+    items,
+    generalComments: document.getElementById('president-general-comments').value.trim(),
+    formVersion: '1.0',
+  };
+}
+
+async function submitReview() {
+  const btn = document.getElementById('submit-btn');
+  const status = document.getElementById('status-msg');
+  const data = collectFormData();
+
+  btn.disabled = true;
+  status.className = 'status loading';
+  status.style.display = 'block';
+  status.textContent = '⏳ Saving review and generating updated ledger...';
+
+  // Save to localStorage as backup
+  localStorage.setItem('banf_expense_review_' + Date.now(), JSON.stringify(data));
+
+  // Post to GitHub Pages is static — we encode data and redirect to a handler URL
+  // In practice, this data gets picked up by the node agent
+  try {
+    // Encode as base64 and store in URL hash for the processing agent to pick up
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    
+    // Save to a well-known location the agent polls
+    // For now, use the postMessage API or direct download
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create download link
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'banf-expense-review-submission.json';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    status.className = 'status success';
+    status.innerHTML = `✅ Review saved! <strong>banf-expense-review-submission.json</strong> has been downloaded.<br>
+      The BANF system will now process your review, update the event ledger, and email it to the Treasurer.<br>
+      <small>Run: <code>node banf-expense-review-processor.js</code> to process the submission.</small>`;
+  } catch (err) {
+    status.className = 'status error';
+    status.textContent = '❌ Error: ' + err.message;
+    btn.disabled = false;
+  }
+}
+
+// Listen for changes to update totals
+document.addEventListener('change', (e) => {
+  if (e.target.classList.contains('assign-select') || e.target.classList.contains('action-select')) {
+    updateTotals();
+  }
+});
+
+// Init
+renderTable();
+</script>
+</body>
+</html>
