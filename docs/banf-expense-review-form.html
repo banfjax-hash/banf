@@ -36,6 +36,10 @@
   .event-tag { display:inline-block; padding:1px 8px; border-radius:12px; font-size:.68rem; font-weight:600; }
   .event-bosonto { background:#fae8ff; color:#86198f; }
   .event-saraswati { background:#fff7ed; color:#c2410c; }
+  .event-none { background:#fee2e2; color:#991b1b; }
+  .untagged-section { background:#fff; border-radius:10px; padding:20px 24px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,.08); border-left:4px solid #f59e0b; }
+  .untagged-section h2 { font-size:1rem; font-weight:700; margin-bottom:12px; padding-bottom:8px; border-bottom:2px solid #fef3c7; display:flex; align-items:center; gap:8px; color:#92400e; }
+  .untagged-count { background:#fef3c7; color:#92400e; padding:2px 10px; border-radius:20px; font-size:.7rem; font-weight:700; }
   select, textarea, input[type=text] { width:100%; padding:6px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:.82rem; font-family:inherit; }
   select { max-width:200px; }
   textarea { resize:vertical; min-height:50px; }
@@ -124,7 +128,38 @@
         <!-- Populated by JS -->
       </tbody>
     </table>
+  </div>
 
+  <!-- Untagged Reimbursement / Procurement Items -->
+  <div class="untagged-section" id="untagged-section">
+    <h2>🏷️ Untagged Reimbursement / Expense Items <span class="untagged-count" id="untagged-count">0</span></h2>
+    <div class="note" style="margin-bottom:12px">
+      <strong>These are bank transactions (Zelle payments, card purchases) identified as reimbursements or expenses but could not be automatically tagged to a specific event.</strong><br>
+      The auto-tagger could not determine which event these belong to — usually because the payment date falls outside
+      all event windows, the memo is missing, or the payee is not in the current EC roster.<br><br>
+      <strong>Treasurer Action:</strong> Please assign each item to the correct event using the dropdown, or mark as "General / Non-Event" if it does not belong to any event.
+    </div>
+    <div id="untagged-empty" style="display:none;text-align:center;padding:20px;color:#64748b;font-size:.88rem">
+      ✅ <strong>All clear!</strong> Every reimbursement and expense item has been successfully auto-tagged to an event. No manual tagging needed.
+    </div>
+    <table id="untagged-table" style="display:none">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Payee / Vendor</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Memo / Source</th>
+          <th style="min-width:160px">Assign to Event</th>
+          <th class="comment-cell">Treasurer Comment</th>
+        </tr>
+      </thead>
+      <tbody id="untagged-body"></tbody>
+    </table>
+  </div>
+
+  <div class="section">
     <!-- Add from Approved Reimbursement / Procurement -->
     <div class="add-expense">
       <h3>➕ Include Approved Reimbursement / Procurement Item</h3>
@@ -206,6 +241,22 @@ const EXPENSES = [
 let addedExpenses = [];
 
 // ═══════════════════════════════════════════════════════════
+//  UNTAGGED ITEMS — expenses/reimbursements the auto-tagger
+//  could NOT assign to an event. Treasurer must tag them.
+//  Populated from banf-ledger.json at build time — items where
+//  event is empty, 'General', 'Unknown', or unset.
+// ═══════════════════════════════════════════════════════════
+const UNTAGGED_ITEMS = [
+  // Currently empty — all ledger expenses have been auto-tagged.
+  // When the daily reconciliation agent ingests new bank transactions
+  // that can't be tagged, they will appear here on form regeneration.
+  //
+  // Format:
+  // { id:'...', date:'MM/DD/YYYY', payee:'NAME', amount:0, category:'Reimbursement',
+  //   event:'', memo:'...', conf:'WFCT...', source:'wf_zelle_sent' },
+];
+
+// ═══════════════════════════════════════════════════════════
 //  APPROVED PROCUREMENT / REIMBURSEMENT TICKETS
 //  These are loaded from banf-procurement-status.json at build time.
 //  Only tickets with approved/completed/reimbursement_pending/payment_sent
@@ -281,6 +332,47 @@ function updateTotals() {
   if (badge) {
     badge.innerHTML = `For: <strong>Amit Chandak, Treasurer</strong> &nbsp;|&nbsp; Bosonto Utsob Total: <strong style="color:#fef3c7">${fmt$(total)}</strong> (${bosonto.length} items)`;
   }
+}
+
+function renderUntaggedTable() {
+  const section = document.getElementById('untagged-section');
+  const emptyMsg = document.getElementById('untagged-empty');
+  const table = document.getElementById('untagged-table');
+  const countBadge = document.getElementById('untagged-count');
+  const body = document.getElementById('untagged-body');
+
+  countBadge.textContent = UNTAGGED_ITEMS.length;
+
+  if (UNTAGGED_ITEMS.length === 0) {
+    emptyMsg.style.display = 'block';
+    table.style.display = 'none';
+    return;
+  }
+
+  emptyMsg.style.display = 'none';
+  table.style.display = 'table';
+  body.innerHTML = UNTAGGED_ITEMS.map((e, i) => `
+    <tr data-untagged-id="${e.id}">
+      <td>${i+1}</td>
+      <td style="white-space:nowrap">${e.date}</td>
+      <td><strong>${e.payee}</strong></td>
+      <td><span class="cat ${catClass(e.category)}">${e.category}</span></td>
+      <td class="amt exp">${fmt$(e.amount)}</td>
+      <td><span style="font-size:.75rem;color:#64748b">${e.memo || '—'} ${e.conf ? '✓ '+e.conf : ''}</span><br><span style="font-size:.68rem;color:#94a3b8">src: ${e.source || '—'}</span></td>
+      <td>
+        <select class="untagged-assign" data-untagged-idx="${i}">
+          <option value="" ${!e.event?'selected':''}>— Select Event —</option>
+          <option value="Bosonto Utsob 2026" ${e.event==='Bosonto Utsob 2026'?'selected':''}>Bosonto Utsob 2026</option>
+          <option value="Saraswati Puja 2026" ${e.event==='Saraswati Puja 2026'?'selected':''}>Saraswati Puja 2026</option>
+          <option value="Noboborsho 2026" ${e.event==='Noboborsho 2026'?'selected':''}>Noboborsho 2026</option>
+          <option value="General" ${e.event==='General'?'selected':''}>General / Non-Event</option>
+        </select>
+      </td>
+      <td class="comment-cell">
+        <textarea class="untagged-comment" data-untagged-idx="${i}" rows="2" placeholder="Why this belongs to the selected event..."></textarea>
+      </td>
+    </tr>
+  `).join('');
 }
 
 function addFromProcurement() {
@@ -385,6 +477,18 @@ function collectFormData() {
       treasurerComment: commentEl ? commentEl.value.trim() : '',
     };
   });
+  // Collect untagged items with Treasurer's event assignments
+  const untaggedItems = UNTAGGED_ITEMS.map((e, i) => {
+    const assignSel = document.querySelector(`.untagged-assign[data-untagged-idx="${i}"]`);
+    const commentEl = document.querySelector(`.untagged-comment[data-untagged-idx="${i}"]`);
+    return {
+      ...e,
+      assignedEvent: assignSel ? assignSel.value : '',
+      treasurerComment: commentEl ? commentEl.value.trim() : '',
+      wasUntagged: true,
+    };
+  });
+
   return {
     reviewedBy: 'Amit Chandak',
     reviewerEmail: 'amit.everywhere@gmail.com',
@@ -393,8 +497,9 @@ function collectFormData() {
     reviewedAt: new Date().toISOString(),
     event: 'Bosonto Utsob 2026',
     items,
+    untaggedItems,
     generalComments: document.getElementById('president-general-comments').value.trim(),
-    formVersion: '1.0',
+    formVersion: '1.1',
   };
 }
 
@@ -449,6 +554,7 @@ document.addEventListener('change', (e) => {
 
 // Init
 renderTable();
+renderUntaggedTable();
 populateProcDropdown();
 </script>
 </body>
