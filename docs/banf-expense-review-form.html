@@ -212,11 +212,12 @@ let addedExpenses = [];
 //  status are available for inclusion in the event ledger.
 // ═══════════════════════════════════════════════════════════
 const APPROVED_PROC_TICKETS = [
-  // Populated from banf-procurement-status.json (approved/completed items not already in expense table)
-  { procId:'PROC-001', description:'Event Supplies (Tier 1)', amount:332.50, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-A0EFDE08' },
-  { procId:'PROC-002', description:'Event Supplies (Tier 2)', amount:712.50, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-FE01C3B4' },
-  { procId:'PROC-003', description:'Event Supplies (Tier 3)', amount:1425.00, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-2D87F16A' },
-  { procId:'PROC-004', description:'Variance triggered supply', amount:250.00, category:'Event Supplies', event:'Bosonto Utsob 2026', submitter:'Soumyajit Dutta', submitterEmail:'duttasoumyajit86@gmail.com', status:'completed', approvedAt:'2026-03-09', paymentRef:'ZELLE-9E4731CF' },
+  // Populated from banf-procurement-status.json at build time.
+  // Only REAL approved/completed procurement & reimbursement tickets appear here.
+  // When a new procurement request is approved through banf-procurement-agent.js,
+  // regenerate this form to include it.
+  //
+  // Currently empty — no approved procurement/reimbursement tickets exist yet.
 ];
 
 function catClass(cat) {
@@ -320,9 +321,33 @@ function addFromProcurement() {
 
 function populateProcDropdown() {
   const sel = document.getElementById('proc-ticket-select');
+  const btn = document.getElementById('add-proc-btn');
+  const detail = document.getElementById('proc-ticket-detail');
+
+  // If no approved tickets exist, show empty state
+  if (APPROVED_PROC_TICKETS.length === 0) {
+    sel.innerHTML = '<option value="">— No approved procurement/reimbursement tickets available —</option>';
+    sel.disabled = true;
+    btn.disabled = true;
+    detail.style.display = 'block';
+    detail.innerHTML = '<span style="color:#64748b">No approved procurement or reimbursement tickets exist yet. ' +
+      'To add an expense, first submit a procurement/reimbursement request through the ' +
+      '<strong>BANF Procurement System</strong> (<code>banf-procurement-agent.js</code>), ' +
+      'get it approved, and then regenerate this form.</span>';
+    return;
+  }
+
   // Filter out tickets already in the expense table
   const existingIds = new Set(EXPENSES.map(e => e.procId).filter(Boolean));
   const available = APPROVED_PROC_TICKETS.filter(t => !existingIds.has(t.procId));
+
+  if (available.length === 0) {
+    sel.innerHTML = '<option value="">— All approved tickets are already included above —</option>';
+    sel.disabled = true;
+    btn.disabled = true;
+    return;
+  }
+
   available.forEach(t => {
     const opt = document.createElement('option');
     opt.value = t.procId;
@@ -331,8 +356,6 @@ function populateProcDropdown() {
   });
   sel.addEventListener('change', () => {
     const ticket = APPROVED_PROC_TICKETS.find(t => t.procId === sel.value);
-    const detail = document.getElementById('proc-ticket-detail');
-    const btn = document.getElementById('add-proc-btn');
     if (ticket) {
       detail.style.display = 'block';
       detail.innerHTML = `<strong>${ticket.procId}</strong> — ${ticket.description}<br>
