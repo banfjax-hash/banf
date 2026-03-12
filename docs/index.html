@@ -853,6 +853,12 @@
             opacity: 0.8;
         }
 
+        .sponsor-tier-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
         .pricing-body {
             padding: 2rem;
             background: rgba(255,255,255,0.05);
@@ -920,6 +926,130 @@
             font-size: 0.9rem;
             text-align: left;
             color: rgba(255,255,255,0.9);
+        }
+
+        /* EC LOGIN MODAL */
+        .ec-login-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .ec-login-overlay.show { display: flex; }
+        .ec-login-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        .ec-login-box .close-btn {
+            position: absolute; top: 1rem; right: 1rem;
+            background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;
+        }
+        .ec-login-box h3 { color: var(--navy); font-family: 'Playfair Display', serif; margin-bottom: 0.5rem; }
+        .ec-login-box .subtitle { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .ec-login-box input {
+            width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 8px;
+            font-size: 1rem; margin-bottom: 1rem; outline: none; transition: border 0.3s;
+        }
+        .ec-login-box input:focus { border-color: var(--gold); }
+        .ec-login-box .login-btn {
+            width: 100%; padding: 0.75rem; border: none; border-radius: 8px;
+            background: var(--gradient-gold); color: var(--navy); font-weight: 700;
+            font-size: 1rem; cursor: pointer; transition: transform 0.2s;
+        }
+        .ec-login-box .login-btn:hover { transform: translateY(-2px); }
+        .ec-login-box .login-error { color: #dc3545; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+
+        /* MEMBER LOGIN MODAL */
+        .member-login-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .member-login-overlay.show { display: flex; }
+
+        /* GALLERY */
+        .gallery-section { background: linear-gradient(135deg, #f8f9fa 0%, #fff 50%, #f0ebe4 100%); }
+        .gallery-year-tabs {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .gallery-year-tab {
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            border: 2px solid var(--navy);
+            background: transparent;
+            color: var(--navy);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .gallery-year-tab:hover { background: var(--navy); color: #fff; }
+        .gallery-year-tab.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-item .gallery-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #fff;
+            padding: 2rem 0.75rem 0.75rem;
+            font-size: 0.8rem;
+        }
+        .gallery-item .gallery-caption strong { display: block; font-size: 0.9rem; }
+        .gallery-event-group { margin-bottom: 2rem; }
+        .gallery-event-group h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        /* Gallery lightbox */
+        .gallery-lightbox {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.9); z-index: 10000;
+            align-items: center; justify-content: center;
+        }
+        .gallery-lightbox.show { display: flex; }
+        .gallery-lightbox img { max-width: 90%; max-height: 85vh; border-radius: 8px; }
+        .gallery-lightbox .lb-close {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            color: #fff; font-size: 2rem; cursor: pointer; background: none; border: none;
+        }
+        .gallery-lightbox .lb-caption {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            color: #fff; text-align: center; font-size: 1rem;
         }
 
         /* CONTACT */
@@ -1405,8 +1535,10 @@
             <a href="#ec-team">Leadership</a>
             <a href="#events">Events</a>
             <a href="#radio">Radio</a>
+            <a href="#gallery">Gallery</a>
             <a href="#membership">Membership</a>
             <a href="#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
         </div>
         <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
             <i class="fas fa-bars"></i>
@@ -1962,15 +2094,12 @@
                                 <h4 style="color: #fff;"><i class="fas fa-user-lock me-2" style="color: var(--gold);"></i>Member Portal</h4>
                                 <p style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
                                     <strong>Already a member?</strong> Log in to access your profile, payment history, event registrations, career network, and exclusive member content.
-                                    <br><span class="small">New member who has paid fees? Click "Sign Up" to create your account.</span>
+                                    <br><span class="small" style="color: rgba(255,255,255,0.6);"><i class="fas fa-info-circle me-1"></i>Member sign-up will be announced by the President. Stay tuned for instructions.</span>
                                 </p>
                             </div>
                             <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                                <button class="btn me-2" style="background: var(--gold); color: #1a1a2e; font-weight: 600;" onclick="openMemberPortal('login')">
-                                    <i class="fas fa-sign-in-alt me-1"></i> Login
-                                </button>
-                                <button class="btn btn-outline-light" onclick="openMemberPortal('signup')">
-                                    <i class="fas fa-user-plus me-1"></i> Sign Up
+                                <button class="btn" style="background: var(--gold); color: #1a1a2e; font-weight: 600;" onclick="openMemberLoginModal()">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Member Login
                                 </button>
                             </div>
                         </div>
@@ -2192,7 +2321,7 @@
                             <i class="fas fa-gem text-white"></i>
                         </div>
                         <h5 class="text-white mb-2">Platinum</h5>
-                        <div class="pricing-price text-warning mb-3">$5,000</div>
+                        <div class="sponsor-tier-price text-warning mb-3">$5,000</div>
                     </div>
                 </div>
                 
@@ -2203,7 +2332,7 @@
                             <i class="fas fa-crown text-white"></i>
                         </div>
                         <h5 class="text-white mb-2">Diamond</h5>
-                        <div class="pricing-price text-warning mb-3">$4,000</div>
+                        <div class="sponsor-tier-price text-warning mb-3">$4,000</div>
                     </div>
                 </div>
                 
@@ -2214,7 +2343,7 @@
                             <i class="fas fa-medal text-white"></i>
                         </div>
                         <h5 class="text-white mb-2">Gold</h5>
-                        <div class="pricing-price text-warning mb-3">$3,000</div>
+                        <div class="sponsor-tier-price text-warning mb-3">$3,000</div>
                     </div>
                 </div>
                 
@@ -2225,7 +2354,7 @@
                             <i class="fas fa-award text-white"></i>
                         </div>
                         <h5 class="text-white mb-2">Silver</h5>
-                        <div class="pricing-price text-warning mb-3">$2,000</div>
+                        <div class="sponsor-tier-price text-warning mb-3">$2,000</div>
                     </div>
                 </div>
                 
@@ -2236,7 +2365,7 @@
                             <i class="fas fa-trophy text-white"></i>
                         </div>
                         <h5 class="text-white mb-2">Bronze</h5>
-                        <div class="pricing-price text-warning mb-3">$1,000</div>
+                        <div class="sponsor-tier-price text-warning mb-3">$1,000</div>
                     </div>
                 </div>
             </div>
@@ -2379,6 +2508,23 @@
         </div>
     </section>
 
+    <!-- Photo Gallery Section -->
+    <section class="gallery-section py-5" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-images me-2"></i>Photo Gallery</h2>
+                <p>Memories from our community events across the years</p>
+            </div>
+            <!-- Year Tabs -->
+            <div class="gallery-year-tabs" id="galleryYearTabs"></div>
+            <!-- Gallery Grid -->
+            <div id="galleryContent"></div>
+            <div class="text-center mt-4">
+                <p class="text-muted"><i class="fas fa-camera me-1"></i>More photos on our <a href="https://facebook.com/banfofficial" target="_blank" style="color: #1877F2;">Facebook</a> and <a href="https://instagram.com/banf_jax" target="_blank" style="background: linear-gradient(45deg, #f09433, #dc2743); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:600;">Instagram</a></p>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="contact-section" id="contact">
         <div class="container">
@@ -2408,6 +2554,44 @@
         </div>
     </section>
 
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3">
+                <i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i>
+            </div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3">
+                <i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i>
+            </div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -2426,15 +2610,15 @@
                 <div class="footer-section">
                     <h5>Quick Links</h5>
                     <a href="#events"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="#gallery"><i class="fas fa-images me-2"></i>Photo Gallery</a>
                     <a href="#membership"><i class="fas fa-users me-2"></i>Membership</a>
                     <a href="#ec-team"><i class="fas fa-user-tie me-2"></i>Leadership</a>
                     <a href="#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
                 </div>
                 <div class="footer-section">
                     <h5>Members Portal</h5>
-                    <a href="#" onclick="openMemberPortal('login'); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
-                    <a href="#" onclick="openMemberPortal('careers'); return false;"><i class="fas fa-briefcase me-2"></i>Career Network</a>
-                    <a href="#" onclick="openMemberPortal('profile'); return false;"><i class="fas fa-id-card me-2"></i>My Profile</a>
+                    <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
+                    <a href="#" onclick="openEcLoginModal(); return false;"><i class="fas fa-user-shield me-2"></i>EC Admin Login</a>
                     <a href="#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
                 </div>
                 <div class="footer-section">
@@ -3022,10 +3206,223 @@
 
         // ── Member Portal Navigation ──
         function openMemberPortal(section) {
-            // Route through live Wix function endpoint (stable in production)
             const portalFn = 'https://www.jaxbengali.org/_functions/member_portal';
             const routeParam = section ? `?route=${encodeURIComponent(section)}` : '';
             window.open(portalFn + routeParam, '_blank');
+        }
+
+        // ── EC Admin Login Modal ──
+        function openEcLoginModal() {
+            document.getElementById('ecLoginOverlay').classList.add('show');
+            document.getElementById('ecLoginError').style.display = 'none';
+            document.getElementById('ecLoginEmail').value = '';
+            document.getElementById('ecLoginPassword').value = '';
+            document.getElementById('ecLoginEmail').focus();
+        }
+        function closeEcLogin() { document.getElementById('ecLoginOverlay').classList.remove('show'); }
+        function handleEcLogin(e) {
+            e.preventDefault();
+            var email = document.getElementById('ecLoginEmail').value;
+            var password = document.getElementById('ecLoginPassword').value;
+            // Route to Wix backend EC admin authentication
+            var portalFn = 'https://www.jaxbengali.org/_functions/ec_admin_login';
+            fetch(portalFn, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
+            }).then(function(r) { return r.json(); }).then(function(data) {
+                if (data && data.success) {
+                    closeEcLogin();
+                    window.open(data.redirectUrl || 'https://www.jaxbengali.org/_functions/ec_admin_portal', '_blank');
+                } else {
+                    document.getElementById('ecLoginError').style.display = 'block';
+                    document.getElementById('ecLoginError').textContent = (data && data.message) || 'Invalid credentials. EC members only.';
+                }
+            }).catch(function() {
+                document.getElementById('ecLoginError').style.display = 'block';
+                document.getElementById('ecLoginError').textContent = 'Login service temporarily unavailable. Please try again later.';
+            });
+            return false;
+        }
+
+        // ── Member Login Modal ──
+        function openMemberLoginModal() {
+            document.getElementById('memberLoginOverlay').classList.add('show');
+            document.getElementById('memberLoginError').style.display = 'none';
+            document.getElementById('memberLoginEmail').value = '';
+            document.getElementById('memberLoginPassword').value = '';
+            document.getElementById('memberLoginEmail').focus();
+        }
+        function closeMemberLogin() { document.getElementById('memberLoginOverlay').classList.remove('show'); }
+        function handleMemberLogin(e) {
+            e.preventDefault();
+            var email = document.getElementById('memberLoginEmail').value;
+            var password = document.getElementById('memberLoginPassword').value;
+            // Route to Wix backend member authentication
+            var portalFn = 'https://www.jaxbengali.org/_functions/member_login';
+            fetch(portalFn, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, password: password })
+            }).then(function(r) { return r.json(); }).then(function(data) {
+                if (data && data.success) {
+                    closeMemberLogin();
+                    window.open(data.redirectUrl || 'https://www.jaxbengali.org/_functions/member_portal', '_blank');
+                } else {
+                    var errEl = document.getElementById('memberLoginError');
+                    errEl.style.display = 'block';
+                    errEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>' + ((data && data.message) || 'Invalid credentials. Please check your email and password.');
+                }
+            }).catch(function() {
+                var errEl = document.getElementById('memberLoginError');
+                errEl.style.display = 'block';
+                errEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Login service temporarily unavailable. Please try again later.';
+            });
+            return false;
+        }
+
+        // ── Photo Gallery ──
+        var GALLERY_DATA = {
+            '2025': {
+                'Holi & Bosonto Utsav': [
+                    { src: 'event-images/holi-bosonto.jpg', caption: 'Holi & Bosonto Utsav celebration' }
+                ],
+                'Saraswati Puja': [
+                    { src: 'event-images/saraswati-puja.jpg', caption: 'Saraswati Puja ceremony' }
+                ],
+                'Annual Picnic': [
+                    { src: 'event-images/picnic.jpg', caption: 'BANF annual picnic' }
+                ],
+                'Sports Day': [
+                    { src: 'event-images/sports-day.jpg', caption: 'Annual sports tournament' },
+                    { src: 'event-images/kids-sports.jpg', caption: 'Kids sports activities' }
+                ],
+                'Noboborsho': [
+                    { src: 'event-images/noboborsho.jpg', caption: 'Bengali New Year celebration' }
+                ],
+                'Spondon Cultural Program': [
+                    { src: 'event-images/spondon-cultural.jpg', caption: 'Spondon cultural program' }
+                ],
+                'Mahalaya': [
+                    { src: 'event-images/mahalaya.jpg', caption: 'Mahalaya celebrations' }
+                ],
+                'Durga Puja': [
+                    { src: 'event-images/durga-puja.jpg', caption: 'Durga Puja celebrations' }
+                ],
+                'Lakshmi Puja': [
+                    { src: 'event-images/lakshmi-puja.jpg', caption: 'Lakshmi Puja prayers' }
+                ],
+                'Bijoya Sonmiloni': [
+                    { src: 'event-images/bijoya.jpg', caption: 'Bijoya Sonmiloni gathering' }
+                ],
+                'Artist Program': [
+                    { src: 'event-images/artist-program.jpg', caption: 'Artist program performance' }
+                ],
+                'Kali Puja': [
+                    { src: 'event-images/kali-puja.jpg', caption: 'Kali Puja ceremony' }
+                ],
+                'Natok (Drama)': [
+                    { src: 'event-images/natok-drama.jpg', caption: 'Drama performance' }
+                ]
+            },
+            '2024': {
+                'Durga Puja 2024': [
+                    { src: 'event-images/durga-puja.jpg', caption: 'Durga Puja 2024' }
+                ],
+                'Saraswati Puja 2024': [
+                    { src: 'event-images/saraswati-puja.jpg', caption: 'Saraswati Puja 2024' }
+                ],
+                'Holi 2024': [
+                    { src: 'event-images/holi-bosonto.jpg', caption: 'Holi celebration 2024' }
+                ],
+                'Annual Picnic 2024': [
+                    { src: 'event-images/picnic.jpg', caption: 'Annual community picnic 2024' }
+                ]
+            },
+            '2023': {
+                'Durga Puja 2023': [
+                    { src: 'event-images/durga-puja.jpg', caption: 'Durga Puja 2023' }
+                ],
+                'Cultural Night 2023': [
+                    { src: 'event-images/spondon-cultural.jpg', caption: 'Cultural night performances' }
+                ],
+                'Annual Picnic 2023': [
+                    { src: 'event-images/picnic.jpg', caption: 'Community picnic 2023' }
+                ]
+            },
+            '2022': {
+                'Durga Puja 2022': [
+                    { src: 'event-images/durga-puja.jpg', caption: 'Durga Puja 2022' }
+                ],
+                'Noboborsho 2022': [
+                    { src: 'event-images/noboborsho.jpg', caption: 'Bengali New Year 2022' }
+                ]
+            },
+            '2021': {
+                'Durga Puja 2021 (Virtual)': [
+                    { src: 'event-images/durga-puja.jpg', caption: 'Virtual Durga Puja celebration' }
+                ]
+            },
+            '2020': {
+                'Virtual Celebrations': [
+                    { src: 'event-images/mahalaya.jpg', caption: 'Virtual Mahalaya during pandemic' }
+                ]
+            }
+        };
+
+        function initGallery() {
+            var years = Object.keys(GALLERY_DATA).sort(function(a,b) { return b - a; });
+            var tabsEl = document.getElementById('galleryYearTabs');
+            var contentEl = document.getElementById('galleryContent');
+            if (!tabsEl || !contentEl) return;
+
+            tabsEl.innerHTML = years.map(function(y, i) {
+                return '<button class="gallery-year-tab' + (i === 0 ? ' active' : '') + '" data-year="' + y + '" onclick="showGalleryYear(\'' + y + '\')">' + y + '</button>';
+            }).join('');
+
+            showGalleryYear(years[0]);
+        }
+
+        function showGalleryYear(year) {
+            document.querySelectorAll('.gallery-year-tab').forEach(function(t) {
+                t.classList.toggle('active', t.dataset.year === year);
+            });
+            var data = GALLERY_DATA[year];
+            if (!data) return;
+            var contentEl = document.getElementById('galleryContent');
+            var html = '';
+            Object.keys(data).forEach(function(eventName) {
+                html += '<div class="gallery-event-group">';
+                html += '<h4><i class="fas fa-calendar-alt me-2" style="color: var(--gold);"></i>' + eventName + ' <span style="font-size:0.8rem;color:#999;">(' + year + ')</span></h4>';
+                html += '<div class="gallery-grid">';
+                data[eventName].forEach(function(photo) {
+                    html += '<div class="gallery-item" onclick="openLightbox(\'' + photo.src.replace(/'/g, "\\'") + '\', \'' + photo.caption.replace(/'/g, "\\'") + '\')">';
+                    html += '<img src="' + photo.src + '" alt="' + photo.caption + '" loading="lazy">';
+                    html += '<div class="gallery-caption"><strong>' + eventName + '</strong>' + photo.caption + '</div>';
+                    html += '</div>';
+                });
+                html += '</div></div>';
+            });
+            contentEl.innerHTML = html;
+        }
+
+        function openLightbox(src, caption) {
+            var lb = document.getElementById('galleryLightbox');
+            if (!lb) {
+                lb = document.createElement('div');
+                lb.id = 'galleryLightbox';
+                lb.className = 'gallery-lightbox';
+                lb.innerHTML = '<button class="lb-close" onclick="closeLightbox()">&times;</button><img id="lbImage" src="" alt=""><div class="lb-caption" id="lbCaption"></div>';
+                lb.onclick = function(e) { if (e.target === lb) closeLightbox(); };
+                document.body.appendChild(lb);
+            }
+            document.getElementById('lbImage').src = src;
+            document.getElementById('lbCaption').textContent = caption;
+            lb.classList.add('show');
+        }
+        function closeLightbox() {
+            var lb = document.getElementById('galleryLightbox');
+            if (lb) lb.classList.remove('show');
         }
 
         // ── BANF Multi-Channel Radio Player ──
@@ -3286,6 +3683,9 @@
 
             return { toggle: toggle, skip: skip, selectStation: selectStation, switchSource: switchSource };
         })();
+
+        // ── Init Gallery ──
+        initGallery();
 
         // ── Mobile nav: close on link click ──
         document.querySelectorAll('#nav-links a').forEach(function(a) {
