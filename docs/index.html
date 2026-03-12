@@ -3225,7 +3225,7 @@
                     var resp = await fetch('https://archive.org/metadata/' + collectionId, { signal: ctrl.signal });
                     var meta = await resp.json();
                     archivePlaylist = (meta.files || []).filter(function(f) {
-                        return f.name && f.name.endsWith('.mp3') && f.source === 'original';
+                        return f.name && f.name.endsWith('.mp3');
                     }).map(function(f) {
                         return {
                             name: (f.title || f.name.replace('.mp3', '')).replace(/_/g, ' '),
