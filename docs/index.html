@@ -3143,6 +3143,7 @@
                     updatePlayState(true);
                 });
                 audio.addEventListener('error', function() {
+                    if (!playing) return; // ignore errors during intentional stop
                     if (!audio._retry) audio._retry = 0;
                     audio._retry++;
                     if (audio._retry <= 2 && playing) {
@@ -3276,8 +3277,8 @@
 
             function toggle() {
                 if (playing) {
-                    if (audio) { audio.pause(); audio.src = ''; }
                     playing = false;
+                    if (audio) { audio.removeAttribute('src'); audio.pause(); }
                     updatePlayState(false);
                     var ch = currentChannel ? CHANNELS[currentChannel] : null;
                     updateUI(ch ? ch.icon + ' ' + currentChannel + ' — Paused' : '🎵 Click play to start', '', false, 'STOPPED');
