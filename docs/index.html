@@ -2520,7 +2520,7 @@
             <!-- Gallery Grid -->
             <div id="galleryContent"></div>
             <div class="text-center mt-4">
-                <p class="text-muted"><i class="fas fa-camera me-1"></i>More photos on our <a href="https://facebook.com/banfofficial" target="_blank" style="color: #1877F2;">Facebook</a> and <a href="https://instagram.com/banf_jax" target="_blank" style="background: linear-gradient(45deg, #f09433, #dc2743); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:600;">Instagram</a></p>
+                <p class="text-muted"><i class="fab fa-facebook me-1" style="color:#1877F2;"></i><i class="fab fa-instagram me-1" style="color:#E4405F;"></i> Photos sourced from our <a href="https://facebook.com/banfofficial" target="_blank" style="color: #1877F2;">Facebook</a> &amp; <a href="https://instagram.com/banf_jax" target="_blank" style="background: linear-gradient(45deg, #f09433, #dc2743); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:600;">Instagram</a> &mdash; follow us for more!</p>
             </div>
         </div>
     </section>
@@ -3281,21 +3281,66 @@
             return false;
         }
 
-        // ── Photo Gallery (Real BANF photos sourced from Wix CDN) ──
+        // ── Photo Gallery (Real BANF photos from Facebook, Instagram & Wix CDN) ──
         var GALLERY_DATA = {
-            '2025': {
-                'Spandan Cultural Program': [
-                    { src: 'gallery/spandan-flyer-2025.jpg', caption: 'Spandan cultural extravaganza - dance, song & fashion show' },
-                    { src: 'gallery/spandan-poster-2025.jpg', caption: 'Spandan cultural event program' }
+            '2026': {
+                'Anand Bazar 2026': [
+                    { src: 'gallery/anand-bazar-2026-fb-1.jpg', caption: 'Anand Bazar food festival' },
+                    { src: 'gallery/anand-bazar-2026-fb-2.jpg', caption: 'Anand Bazar food festival' },
+                    { src: 'gallery/anand-bazar-2026-fb-3.jpg', caption: 'Anand Bazar food festival' },
+                    { src: 'gallery/anand-bazar-2026-fb-4.jpg', caption: 'Anand Bazar food festival' },
+                    { src: 'gallery/anand-bazar-2026-fb-5.jpg', caption: 'Anand Bazar food festival' }
                 ],
-                'Sports Day': [
-                    { src: 'gallery/sports-day-2025.jpg', caption: 'BANF Sports Day competition results' }
+                'New Year 2026': [
+                    { src: 'gallery/new-year-2026-ig-1.jpg', caption: 'New Year celebration' }
+                ]
+            },
+            '2025': {
+                'Durga Puja 2025': [
+                    { src: 'gallery/durga-puja-2025-fb-1.jpg', caption: 'Durga Puja celebration' },
+                    { src: 'gallery/durga-puja-2025-fb-2.jpg', caption: 'Durga Puja celebration' },
+                    { src: 'gallery/durga-puja-2025-fb-3.jpg', caption: 'Durga Puja celebration' },
+                    { src: 'gallery/durga-puja-2025-ig-4.jpg', caption: 'Durga Puja celebration' },
+                    { src: 'gallery/durga-puja-2025-ig-5.jpg', caption: 'Durga Puja celebration' },
+                    { src: 'gallery/durga-puja-2025-ig-6.jpg', caption: 'Durga Puja fundraiser' }
+                ],
+                'Spandan 2025': [
+                    { src: 'gallery/spandan-2025-fb-1.jpg', caption: 'Spandan cultural program' },
+                    { src: 'gallery/spandan-2025-fb-2.jpg', caption: 'Spandan cultural program' },
+                    { src: 'gallery/spandan-2025-fb-3.jpg', caption: 'Spandan cultural program' },
+                    { src: 'gallery/spandan-2025-fb-4.jpg', caption: 'Spandan cultural program' },
+                    { src: 'gallery/spandan-2025-fb-5.jpg', caption: 'Spandan cultural program' },
+                    { src: 'gallery/spandan-flyer-2025.jpg', caption: 'Spandan cultural extravaganza flyer' },
+                    { src: 'gallery/spandan-poster-2025.jpg', caption: 'Spandan event program poster' }
+                ],
+                'Sports Day 2025': [
+                    { src: 'gallery/sports-day-2025-fb-1.jpg', caption: 'BANF Sports Day' },
+                    { src: 'gallery/sports-day-2025-fb-2.jpg', caption: 'BANF Sports Day' },
+                    { src: 'gallery/sports-day-2025-fb-3.jpg', caption: 'BANF Sports Day' },
+                    { src: 'gallery/sports-day-2025-fb-4.jpg', caption: 'BANF Sports Day' },
+                    { src: 'gallery/sports-day-2025-fb-5.jpg', caption: 'BANF Sports Day' },
+                    { src: 'gallery/sports-day-2025-fb-6.jpg', caption: 'BANF Sports Day' },
+                    { src: 'gallery/sports-day-2025.jpg', caption: 'BANF Sports Day results' }
+                ],
+                'Holi Gaan 2025': [
+                    { src: 'gallery/holi-gaan-2025-ig-1.jpg', caption: 'Holi Gaan musical evening' },
+                    { src: 'gallery/holi-gaan-2025-ig-2.jpg', caption: 'Holi Gaan musical evening' }
+                ],
+                'Kali Puja 2025': [
+                    { src: 'gallery/kali-puja-2025-ig-1.jpg', caption: 'Kali Puja celebration' }
+                ],
+                'Community Events': [
+                    { src: 'gallery/banf-2025-ig-1.jpg', caption: 'BANF community event' },
+                    { src: 'gallery/banf-2025-ig-2.jpg', caption: 'BANF community event' },
+                    { src: 'gallery/banf-2025-ig-3.jpg', caption: 'BANF community event' },
+                    { src: 'gallery/banf-event-fb-1.jpg', caption: 'BANF community event' },
+                    { src: 'gallery/banf-event-fb-2.jpg', caption: 'BANF community event' }
                 ],
                 'Tennis Summer Camp': [
                     { src: 'gallery/tennis-camp-flyer-2025.jpg', caption: 'BANF Tennis Summer Camp for youth' }
                 ],
                 'Event Roadmap': [
-                    { src: 'gallery/event-roadmap-2025.jpg', caption: 'BANF 2025 program roadmap and upcoming events' }
+                    { src: 'gallery/event-roadmap-2025.jpg', caption: 'BANF 2025 program roadmap' }
                 ]
             },
             '2024': {
@@ -3303,13 +3348,19 @@
                     { src: 'gallery/community-outing-2024.jpg', caption: 'Community outing at Jacksonville bridge' }
                 ],
                 'Beach Cleanup Drive': [
-                    { src: 'gallery/beach-cleanup-flyer-2024.jpg', caption: 'Beach cleanup program at Jacksonville Beach' }
+                    { src: 'gallery/beach-cleanup-flyer-2024.jpg', caption: 'Beach cleanup at Jacksonville Beach' }
                 ],
                 'Puja Celebrations': [
-                    { src: 'gallery/puja-celebrations-flyer-2024.jpg', caption: 'Mahalaya, Durga Puja & Lakshmi Puja celebrations' }
+                    { src: 'gallery/puja-celebrations-flyer-2024.jpg', caption: 'Mahalaya, Durga Puja & Lakshmi Puja' }
                 ]
             },
             '2023': {
+                'Anandadhara Returns 2023': [
+                    { src: 'gallery/anandadhara-2023-fb-1.jpg', caption: 'Anandadhara cultural festival' },
+                    { src: 'gallery/anandadhara-2023-fb-2.jpg', caption: 'Anandadhara cultural festival' },
+                    { src: 'gallery/anandadhara-2023-fb-3.jpg', caption: 'Anandadhara cultural festival' },
+                    { src: 'gallery/anandadhara-2023-fb-4.jpg', caption: 'Anandadhara cultural festival' }
+                ],
                 'Cultural Celebrations': [
                     { src: 'gallery/puja-celebration.jpg', caption: 'Puja celebration ceremony' },
                     { src: 'gallery/cultural-performance.jpg', caption: 'Cultural performance on stage' },
