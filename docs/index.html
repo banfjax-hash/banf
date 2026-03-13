@@ -966,6 +966,9 @@
         }
         .ec-login-box .login-btn:hover { transform: translateY(-2px); }
         .ec-login-box .login-error { color: #dc3545; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+        .ec-login-links { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; }
+        .ec-login-links a { color: var(--navy); font-size: 0.82rem; font-weight: 600; text-decoration: none; padding: 8px 14px; border-radius: 8px; background: #f0f0f5; border: 1px solid #ddd; display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s; }
+        .ec-login-links a:hover { background: var(--navy); color: #fff; border-color: var(--navy); transform: translateY(-1px); }
 
         /* MEMBER LOGIN MODAL */
         .member-login-overlay {
@@ -2569,7 +2572,12 @@
                 <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
             </form>
             <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
-            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
+            <div class="ec-login-links">
+                <a href="ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+            </div>
+            <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
         </div>
     </div>
 
