@@ -636,6 +636,16 @@ async function signupStep1() {
     return showError('signup-error-1', 'This email is not in the EC Members list. Only current EC members can sign up here.');
   }
 
+  // ── EC ROLE GATE: Only allow emails with admin or ec-member role ──
+  var _roles = AUTH_DB[email].roles || [];
+  var _hasEC = _roles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member' || r === 'super-admin'; });
+  if (!_hasEC) {
+    if (_roles.includes('business-stakeholder')) {
+      return showError('signup-error-1', '\u26D4 This portal is for EC members only. Stakeholders please use the <a href="stakeholder-login.html" style="color:var(--orange);font-weight:700">Stakeholder Login</a>.');
+    }
+    return showError('signup-error-1', '\u26D4 This email is not authorized for EC Admin signup. Contact the President.');
+  }
+
   showInfo('signup-info-1', 'Validating your email...');
 
   // Direct signup — no verification code email
@@ -710,8 +720,19 @@ async function signupStep2Submit() {
     // ────────────────────────────────────────────────────────────────────
 
     // AUTO-LOGIN: enter portal directly after signup — no second sign-in needed
-    enterPortal(user || { name: SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: ['ec-member'], ecTitle: SIGNUP_STATE.ecTitle || '' }, SIGNUP_STATE.email);
+    // Use AUTH_DB roles (never fabricate ec-member — prevents privilege escalation)
+    var _dbRoles = user ? user.roles : (AUTH_DB[SIGNUP_STATE.email] || {}).roles || [];
+    enterPortal(user || { name: SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: _dbRoles, ecTitle: SIGNUP_STATE.ecTitle || '' }, SIGNUP_STATE.email);
     return;
+  }
+
+  // ── Defense-in-depth: re-validate EC role before online signup completes ──
+  var _signupDbUser = AUTH_DB[SIGNUP_STATE.email];
+  if (_signupDbUser) {
+    var _sr = _signupDbUser.roles || [];
+    if (!_sr.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member' || r === 'super-admin'; })) {
+      return showError('signup-error-2', '\u26D4 This email is not authorized for EC Admin signup.');
+    }
   }
 
   const pwResult = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, password: pass });
@@ -742,7 +763,9 @@ async function signupStep2Submit() {
   })();
 
   // AUTO-LOGIN: enter portal directly after signup — no second sign-in needed
-  var user = dbUser || { name: [SIGNUP_STATE.firstName, SIGNUP_STATE.lastName].filter(Boolean).join(' ') || SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: ['ec-member'], ecTitle: SIGNUP_STATE.ecTitle || '' };
+  // Use AUTH_DB roles (never fabricate ec-member — prevents privilege escalation)
+  var _onlineRoles = dbUser ? dbUser.roles : (AUTH_DB[SIGNUP_STATE.email] || {}).roles || [];
+  var user = dbUser || { name: [SIGNUP_STATE.firstName, SIGNUP_STATE.lastName].filter(Boolean).join(' ') || SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: _onlineRoles, ecTitle: SIGNUP_STATE.ecTitle || '' };
   enterPortal(user, SIGNUP_STATE.email);
 }
 
