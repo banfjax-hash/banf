@@ -7,6 +7,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#060a10;--bg2:#0b1120;--panel:#111827;--card:#0f172a;--line:#1e293b;--line2:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#475569;--accent:#f97316;--accent2:#ea580c;--red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--yellow:#eab308;--pink:#ec4899;--lime:#84cc16;--teal:#14b8a6;--indigo:#6366f1;--radius:12px;--radius-sm:8px}
 *{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
@@ -382,6 +383,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <div class="sb-group">Finance</div>
     <div class="sb-item" data-panel="procurement"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="reimbursement" id="rmb-nav-item"><i class="fas fa-receipt"></i><span>Reimbursement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="ledger-report"><i class="fas fa-book"></i><span>Ledger Report</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="income-summary"><i class="fas fa-chart-pie"></i><span>Income Summary</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="event-expenses"><i class="fas fa-calendar-check"></i><span>Event Expenses</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group" id="president-group" style="display:none">President</div>
     <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
@@ -878,6 +882,158 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <div class="row g-3" style="margin-bottom:10px" id="drive-tier-kpis"></div>
         <table class="t"><thead><tr><th>Tier</th><th>Invites</th><th>Sent</th><th>Responses</th><th>Conversion</th></tr></thead>
         <tbody id="drive-tier-analytics"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ═══ LEDGER REPORT PANEL ═══ -->
+    <div class="portal-section" id="panel-ledger-report">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Financial Ledger Report</div>
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-book me-1"></i>Ledger Report — Income &amp; Expense</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">View all financial entries filtered by date range, type, and category. Totals update automatically.</p>
+        <!-- Date Range Presets -->
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="7d">Last 7 Days</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="30d">Last 30 Days</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="thisMonth">This Month</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="lastMonth">Last Month</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="thisQuarter">This Quarter</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="lastQuarter">Last Quarter</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn active" data-range="ytd">Year to Date</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="lastYear">Last Year</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="custom">Custom</button>
+        </div>
+        <!-- Custom date picker (hidden by default) -->
+        <div id="ledger-custom-dates" style="display:none;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+          <label style="font-size:.78rem;color:var(--muted)">From:</label>
+          <input type="date" id="ledger-date-from" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:4px 8px;border-radius:6px;font-size:.82rem">
+          <label style="font-size:.78rem;color:var(--muted)">To:</label>
+          <input type="date" id="ledger-date-to" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:4px 8px;border-radius:6px;font-size:.82rem">
+          <button class="btn btn-sm btn-info" onclick="applyCustomLedgerRange()">Apply</button>
+        </div>
+        <!-- Filters -->
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center">
+          <select id="ledger-type-filter" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadLedgerReport()">
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <select id="ledger-category-filter" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadLedgerReport()">
+            <option value="">All Categories</option>
+            <optgroup label="Income">
+              <option value="membership">Membership</option>
+              <option value="event_ticket">Event Ticket</option>
+              <option value="sponsorship">Sponsorship</option>
+              <option value="donation">Donation</option>
+              <option value="advertisement">Advertisement</option>
+              <option value="other_income">Other Income</option>
+            </optgroup>
+            <optgroup label="Expense">
+              <option value="venue">Venue</option>
+              <option value="catering">Catering</option>
+              <option value="decoration">Decoration</option>
+              <option value="photography">Photography</option>
+              <option value="printing">Printing</option>
+              <option value="sound_music">Sound/Music</option>
+              <option value="apparel">Apparel</option>
+              <option value="prasad">Prasad</option>
+              <option value="admin">Admin</option>
+              <option value="bank_fee">Bank Fee</option>
+              <option value="transport">Transport</option>
+              <option value="other_expense">Other Expense</option>
+            </optgroup>
+          </select>
+          <button class="btn btn-sm btn-outline-light" onclick="exportLedgerCSV()" title="Export to CSV"><i class="fas fa-download me-1"></i>CSV</button>
+        </div>
+        <!-- KPI Cards -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px" id="ledger-kpis">
+          <div class="kpi green"><div class="v" id="ledger-kpi-income">$0</div><div class="k">Total Income</div></div>
+          <div class="kpi red"><div class="v" id="ledger-kpi-expense">$0</div><div class="k">Total Expense</div></div>
+          <div class="kpi blue"><div class="v" id="ledger-kpi-net">$0</div><div class="k">Net</div></div>
+          <div class="kpi cyan"><div class="v" id="ledger-kpi-count">0</div><div class="k">Entries</div></div>
+        </div>
+        <!-- Table -->
+        <div style="overflow-x:auto">
+          <table class="t">
+            <thead><tr>
+              <th style="cursor:pointer" onclick="sortLedger('entryDate')">Date <i class="fas fa-sort"></i></th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th style="cursor:pointer;text-align:right" onclick="sortLedger('amount')">Amount <i class="fas fa-sort"></i></th>
+              <th>Event</th>
+              <th>Reconciled</th>
+            </tr></thead>
+            <tbody id="ledger-table-body"><tr><td colspan="7" style="text-align:center;color:var(--muted)">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div id="ledger-pagination" style="display:flex;justify-content:center;gap:6px;margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- ═══ INCOME SUMMARY PANEL ═══ -->
+    <div class="portal-section" id="panel-income-summary">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Income Summary</div>
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-chart-pie me-1"></i>Income Summary — Year Overview</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Total income by category for the selected year. Membership, sponsorship, tickets, donations at a glance.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <label style="font-size:.82rem;color:var(--muted)">Year:</label>
+          <select id="income-year-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadIncomeSummary()">
+          </select>
+        </div>
+        <!-- Income KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px" id="income-kpi-grid"></div>
+        <!-- Income Chart -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;position:relative;height:300px">
+            <canvas id="income-pie-chart"></canvas>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;position:relative;height:300px">
+            <canvas id="income-bar-chart"></canvas>
+          </div>
+        </div>
+        <!-- Income Table -->
+        <table class="t">
+          <thead><tr><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">% of Total</th><th style="text-align:right">Entries</th></tr></thead>
+          <tbody id="income-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ EVENT EXPENSES PANEL ═══ -->
+    <div class="portal-section" id="panel-event-expenses">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Event-wise Expense Breakdown</div>
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-calendar-check me-1"></i>Expense Breakdown by Event</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">All expenses grouped by event with per-category breakdowns. Includes unassigned expenses.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <label style="font-size:.82rem;color:var(--muted)">Year:</label>
+          <select id="event-exp-year-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadEventExpenses()">
+          </select>
+        </div>
+        <!-- Event Expense KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px" id="event-exp-kpis"></div>
+        <!-- Event Expense Chart -->
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px;position:relative;height:350px">
+          <canvas id="event-expense-chart"></canvas>
+        </div>
+        <!-- Event Expense Table -->
+        <div style="overflow-x:auto">
+          <table class="t">
+            <thead><tr>
+              <th>Event</th>
+              <th style="text-align:right">Total</th>
+              <th style="text-align:right">Venue</th>
+              <th style="text-align:right">Catering</th>
+              <th style="text-align:right">Decoration</th>
+              <th style="text-align:right">Photo</th>
+              <th style="text-align:right">Sound</th>
+              <th style="text-align:right">Other</th>
+            </tr></thead>
+            <tbody id="event-expense-table-body"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -1502,6 +1658,371 @@ async function apiCall(endpoint, body) {
   }
 }
 
+async function apiGet(endpoint, params) {
+  try {
+    const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+    const resp = await fetch(API + '/' + endpoint + qs);
+    return await resp.json();
+  } catch (e) {
+    return { success: false, error: 'Network error: ' + e.message };
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  FINANCIAL REPORTING — Ledger, Income Summary, Event Expenses
+// ═══════════════════════════════════════════════════════════════════════
+
+// --- Ledger Report State ---
+let _ledgerEntries = [];
+let _ledgerDateFrom = null;
+let _ledgerDateTo = null;
+let _ledgerSortField = 'entryDate';
+let _ledgerSortAsc = false;
+let _ledgerPage = 1;
+const LEDGER_PAGE_SIZE = 50;
+
+function getLedgerDateRange(range) {
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
+  let from, to = new Date(y, m, d, 23, 59, 59);
+  switch(range) {
+    case '7d': from = new Date(y, m, d - 7); break;
+    case '30d': from = new Date(y, m, d - 30); break;
+    case 'thisMonth': from = new Date(y, m, 1); break;
+    case 'lastMonth': from = new Date(y, m - 1, 1); to = new Date(y, m, 0, 23, 59, 59); break;
+    case 'thisQuarter': from = new Date(y, Math.floor(m/3)*3, 1); break;
+    case 'lastQuarter': { const qs = Math.floor(m/3)*3 - 3; from = new Date(y, qs, 1); to = new Date(y, qs + 3, 0, 23, 59, 59); break; }
+    case 'lastYear': from = new Date(y - 1, 0, 1); to = new Date(y - 1, 11, 31, 23, 59, 59); break;
+    case 'ytd': default: from = new Date(y, 0, 1); break;
+  }
+  return { from, to };
+}
+
+// Wire up range buttons
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.ledger-range-btn');
+  if (!btn) return;
+  document.querySelectorAll('.ledger-range-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const range = btn.dataset.range;
+  if (range === 'custom') {
+    document.getElementById('ledger-custom-dates').style.display = 'flex';
+    return;
+  }
+  document.getElementById('ledger-custom-dates').style.display = 'none';
+  const dr = getLedgerDateRange(range);
+  _ledgerDateFrom = dr.from;
+  _ledgerDateTo = dr.to;
+  _ledgerPage = 1;
+  loadLedgerReport();
+});
+
+function applyCustomLedgerRange() {
+  const f = document.getElementById('ledger-date-from').value;
+  const t = document.getElementById('ledger-date-to').value;
+  if (!f || !t) return;
+  _ledgerDateFrom = new Date(f + 'T00:00:00');
+  _ledgerDateTo = new Date(t + 'T23:59:59');
+  _ledgerPage = 1;
+  loadLedgerReport();
+}
+
+async function loadLedgerReport() {
+  if (!_ledgerDateFrom) {
+    const dr = getLedgerDateRange('ytd');
+    _ledgerDateFrom = dr.from;
+    _ledgerDateTo = dr.to;
+  }
+  const tbody = document.getElementById('ledger-table-body');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted)"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>';
+
+  const typeF = document.getElementById('ledger-type-filter').value;
+  const catF = document.getElementById('ledger-category-filter').value;
+  const year = _ledgerDateFrom.getFullYear();
+
+  const params = { year: year, limit: 1000 };
+  if (typeF) params.type = typeF;
+  if (catF) params.category = catF;
+  const data = await apiGet('ledger', params);
+
+  if (!data.success) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--red)">Error: ' + (data.error || 'Failed to load') + '</td></tr>';
+    return;
+  }
+
+  // Filter entries client-side by date range (API filters by year, we narrow to exact range)
+  _ledgerEntries = (data.entries || []).filter(e => {
+    const ed = new Date(e.entryDate);
+    return ed >= _ledgerDateFrom && ed <= _ledgerDateTo;
+  });
+
+  // If lastYear or cross-year custom range, might need to fetch previous year too
+  if (_ledgerDateTo.getFullYear() !== _ledgerDateFrom.getFullYear()) {
+    const params2 = { year: _ledgerDateTo.getFullYear(), limit: 1000 };
+    if (typeF) params2.type = typeF;
+    if (catF) params2.category = catF;
+    const data2 = await apiGet('ledger', params2);
+    if (data2.success && data2.entries) {
+      const more = data2.entries.filter(e => {
+        const ed = new Date(e.entryDate);
+        return ed >= _ledgerDateFrom && ed <= _ledgerDateTo;
+      });
+      _ledgerEntries = _ledgerEntries.concat(more);
+    }
+  }
+
+  // Sort
+  sortLedgerEntries();
+  // Render KPIs
+  renderLedgerKPIs();
+  // Render table
+  renderLedgerTable();
+}
+
+function sortLedger(field) {
+  if (_ledgerSortField === field) _ledgerSortAsc = !_ledgerSortAsc;
+  else { _ledgerSortField = field; _ledgerSortAsc = field === 'entryDate' ? false : true; }
+  sortLedgerEntries();
+  renderLedgerTable();
+}
+
+function sortLedgerEntries() {
+  _ledgerEntries.sort((a, b) => {
+    let va = a[_ledgerSortField], vb = b[_ledgerSortField];
+    if (_ledgerSortField === 'entryDate') { va = new Date(va).getTime(); vb = new Date(vb).getTime(); }
+    if (typeof va === 'number' && typeof vb === 'number') return _ledgerSortAsc ? va - vb : vb - va;
+    return _ledgerSortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+}
+
+function renderLedgerKPIs() {
+  const inc = _ledgerEntries.filter(e => e.type === 'income').reduce((s, e) => s + (e.amount || 0), 0);
+  const exp = _ledgerEntries.filter(e => e.type === 'expense').reduce((s, e) => s + (e.amount || 0), 0);
+  document.getElementById('ledger-kpi-income').textContent = '$' + inc.toLocaleString('en-US', {minimumFractionDigits:2});
+  document.getElementById('ledger-kpi-expense').textContent = '$' + exp.toLocaleString('en-US', {minimumFractionDigits:2});
+  document.getElementById('ledger-kpi-net').textContent = '$' + (inc - exp).toLocaleString('en-US', {minimumFractionDigits:2});
+  document.getElementById('ledger-kpi-count').textContent = _ledgerEntries.length;
+}
+
+function renderLedgerTable() {
+  const tbody = document.getElementById('ledger-table-body');
+  const start = (_ledgerPage - 1) * LEDGER_PAGE_SIZE;
+  const page = _ledgerEntries.slice(start, start + LEDGER_PAGE_SIZE);
+
+  if (!page.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted)">No entries found for this period.</td></tr>';
+    document.getElementById('ledger-pagination').innerHTML = '';
+    return;
+  }
+
+  tbody.innerHTML = page.map(e => {
+    const dt = new Date(e.entryDate);
+    const dateStr = dt.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+    const isInc = e.type === 'income';
+    const amtColor = isInc ? 'var(--green)' : 'var(--red)';
+    const sign = isInc ? '+' : '-';
+    const cat = (e.category || '').replace(/_/g, ' ');
+    const recon = e.reconciled ? '<i class="fas fa-check-circle" style="color:var(--green)"></i>' : '<i class="fas fa-times-circle" style="color:var(--dim)"></i>';
+    return '<tr>' +
+      '<td style="white-space:nowrap">' + dateStr + '</td>' +
+      '<td>' + (e.description || '-') + '</td>' +
+      '<td style="text-transform:capitalize">' + cat + '</td>' +
+      '<td><span style="color:' + amtColor + ';font-weight:600;text-transform:capitalize">' + e.type + '</span></td>' +
+      '<td style="text-align:right;color:' + amtColor + ';font-weight:600">' + sign + '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2}) + '</td>' +
+      '<td>' + (e.eventName || '-') + '</td>' +
+      '<td style="text-align:center">' + recon + '</td>' +
+      '</tr>';
+  }).join('');
+
+  // Pagination
+  const totalPages = Math.ceil(_ledgerEntries.length / LEDGER_PAGE_SIZE);
+  const pag = document.getElementById('ledger-pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  let pagHtml = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const active = i === _ledgerPage ? 'background:var(--accent);color:#fff;' : 'background:var(--bg2);color:var(--muted);';
+    pagHtml += '<button onclick="_ledgerPage=' + i + ';renderLedgerTable()" style="border:1px solid var(--line);' + active + 'padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.78rem">' + i + '</button>';
+  }
+  pag.innerHTML = pagHtml;
+}
+
+function exportLedgerCSV() {
+  if (!_ledgerEntries.length) return;
+  const headers = ['Date','Description','Category','Type','Amount','Event','Vendor','Payment Method','Reference','Reconciled'];
+  const rows = _ledgerEntries.map(e => [
+    new Date(e.entryDate).toISOString().split('T')[0],
+    '"' + (e.description || '').replace(/"/g, '""') + '"',
+    e.category || '',
+    e.type || '',
+    e.amount || 0,
+    '"' + (e.eventName || '').replace(/"/g, '""') + '"',
+    '"' + (e.vendorName || '').replace(/"/g, '""') + '"',
+    e.paymentMethod || '',
+    e.referenceNo || '',
+    e.reconciled ? 'Yes' : 'No'
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'BANF_Ledger_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// --- Income Summary ---
+let _incomePieChart = null;
+let _incomeBarChart = null;
+
+async function loadIncomeSummary() {
+  const yearSel = document.getElementById('income-year-select');
+  const year = yearSel.value || new Date().getFullYear();
+  const data = await apiGet('ledger', { year: year, type: 'income', limit: 1000 });
+  if (!data.success) return;
+
+  const entries = data.entries || [];
+  const INCOME_CATS = ['membership','event_ticket','sponsorship','donation','advertisement','other_income'];
+  const catTotals = {};
+  const catCounts = {};
+  let grandTotal = 0;
+  INCOME_CATS.forEach(c => { catTotals[c] = 0; catCounts[c] = 0; });
+  entries.forEach(e => {
+    const c = e.category || 'other_income';
+    if (!catTotals[c]) catTotals[c] = 0;
+    if (!catCounts[c]) catCounts[c] = 0;
+    catTotals[c] += e.amount || 0;
+    catCounts[c]++;
+    grandTotal += e.amount || 0;
+  });
+
+  // KPIs
+  const kpiGrid = document.getElementById('income-kpi-grid');
+  const kpiColors = {membership:'green',event_ticket:'blue',sponsorship:'purple',donation:'pink',advertisement:'yellow',other_income:'cyan'};
+  kpiGrid.innerHTML = INCOME_CATS.map(c => {
+    const label = c.replace(/_/g, ' ');
+    return '<div class="kpi ' + (kpiColors[c] || 'blue') + '"><div class="v">$' + (catTotals[c] || 0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k" style="text-transform:capitalize">' + label + '</div></div>';
+  }).join('') + '<div class="kpi green"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Grand Total</div></div>';
+
+  // Table
+  const tbody = document.getElementById('income-table-body');
+  tbody.innerHTML = INCOME_CATS.filter(c => catTotals[c] > 0).map(c => {
+    const pct = grandTotal > 0 ? ((catTotals[c] / grandTotal) * 100).toFixed(1) : '0.0';
+    return '<tr><td style="text-transform:capitalize">' + c.replace(/_/g,' ') + '</td><td style="text-align:right;color:var(--green);font-weight:600">$' + catTotals[c].toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">' + pct + '%</td><td style="text-align:right">' + catCounts[c] + '</td></tr>';
+  }).join('') + '<tr style="border-top:2px solid var(--line);font-weight:700"><td>Total</td><td style="text-align:right;color:var(--green)">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">100%</td><td style="text-align:right">' + entries.length + '</td></tr>';
+
+  // Charts
+  const activeLabels = INCOME_CATS.filter(c => catTotals[c] > 0);
+  const activeData = activeLabels.map(c => catTotals[c]);
+  const chartColors = ['#22c55e','#3b82f6','#a855f7','#ec4899','#eab308','#06b6d4'];
+  const bgColors = activeLabels.map((_, i) => chartColors[i % chartColors.length]);
+
+  if (_incomePieChart) _incomePieChart.destroy();
+  const pieCtx = document.getElementById('income-pie-chart').getContext('2d');
+  _incomePieChart = new Chart(pieCtx, {
+    type: 'doughnut',
+    data: { labels: activeLabels.map(c => c.replace(/_/g,' ')), datasets: [{ data: activeData, backgroundColor: bgColors, borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'bottom', labels:{color:'#94a3b8',font:{size:11}} }, title:{display:true,text:'Income by Category',color:'#e2e8f0'} } }
+  });
+
+  // Monthly bar chart
+  const months = Array.from({length:12}, (_,i) => i);
+  const monthLabels = months.map(i => new Date(2024,i).toLocaleString('en-US',{month:'short'}));
+  const monthData = months.map(mi => entries.filter(e => new Date(e.entryDate).getMonth() === mi).reduce((s,e) => s + (e.amount||0), 0));
+
+  if (_incomeBarChart) _incomeBarChart.destroy();
+  const barCtx = document.getElementById('income-bar-chart').getContext('2d');
+  _incomeBarChart = new Chart(barCtx, {
+    type: 'bar',
+    data: { labels: monthLabels, datasets: [{ label: 'Monthly Income', data: monthData, backgroundColor: '#22c55e88', borderColor: '#22c55e', borderWidth: 1 }] },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y:{ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}}, x:{ticks:{color:'#94a3b8'},grid:{display:false}} }, plugins: { legend:{display:false}, title:{display:true,text:'Monthly Income Trend',color:'#e2e8f0'} } }
+  });
+}
+
+// --- Event Expenses ---
+let _eventExpenseChart = null;
+
+async function loadEventExpenses() {
+  const yearSel = document.getElementById('event-exp-year-select');
+  const year = yearSel.value || new Date().getFullYear();
+  const data = await apiGet('ledger', { year: year, type: 'expense', limit: 1000 });
+  if (!data.success) return;
+
+  const entries = data.entries || [];
+  const events = {};
+  let grandTotal = 0;
+  entries.forEach(e => {
+    const ev = e.eventName || '(Unassigned)';
+    if (!events[ev]) events[ev] = { total: 0, venue:0, catering:0, decoration:0, photography:0, sound_music:0, other:0 };
+    const cat = e.category || 'other_expense';
+    const amt = e.amount || 0;
+    events[ev].total += amt;
+    grandTotal += amt;
+    if (['venue','catering','decoration','photography','sound_music'].includes(cat)) events[ev][cat] += amt;
+    else events[ev].other += amt;
+  });
+
+  // KPIs
+  const eventNames = Object.keys(events).sort((a,b) => events[b].total - events[a].total);
+  const kpiGrid = document.getElementById('event-exp-kpis');
+  kpiGrid.innerHTML = '<div class="kpi red"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Total Expenses</div></div>' +
+    '<div class="kpi orange"><div class="v">' + eventNames.length + '</div><div class="k">Events</div></div>' +
+    '<div class="kpi blue"><div class="v">' + entries.length + '</div><div class="k">Entries</div></div>' +
+    (eventNames.length > 0 ? '<div class="kpi purple"><div class="v">$' + (grandTotal / eventNames.length).toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Avg per Event</div></div>' : '');
+
+  // Table
+  const tbody = document.getElementById('event-expense-table-body');
+  tbody.innerHTML = eventNames.map(ev => {
+    const d = events[ev];
+    return '<tr><td>' + ev + '</td><td style="text-align:right;font-weight:600;color:var(--red)">$' + d.total.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
+      '<td style="text-align:right">$' + d.venue.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
+      '<td style="text-align:right">$' + d.catering.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
+      '<td style="text-align:right">$' + d.decoration.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
+      '<td style="text-align:right">$' + d.photography.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
+      '<td style="text-align:right">$' + d.sound_music.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
+      '<td style="text-align:right">$' + d.other.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td></tr>';
+  }).join('') + '<tr style="border-top:2px solid var(--line);font-weight:700"><td>Grand Total</td><td style="text-align:right;color:var(--red)">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td colspan="6"></td></tr>';
+
+  // Chart — stacked bar by event
+  const expCats = ['venue','catering','decoration','photography','sound_music','other'];
+  const catColors = ['#ef4444','#f97316','#eab308','#a855f7','#06b6d4','#6366f1'];
+  const datasets = expCats.map((cat, i) => ({
+    label: cat.replace(/_/g,' '), data: eventNames.map(ev => events[ev][cat] || 0),
+    backgroundColor: catColors[i], borderWidth: 0
+  }));
+
+  if (_eventExpenseChart) _eventExpenseChart.destroy();
+  const ctx = document.getElementById('event-expense-chart').getContext('2d');
+  _eventExpenseChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: eventNames.map(n => n.length > 20 ? n.slice(0,20)+'...' : n), datasets },
+    options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,ticks:{color:'#94a3b8'},grid:{display:false}}, y:{stacked:true,ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}} }, plugins: { legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11}}}, title:{display:true,text:'Expense Breakdown by Event',color:'#e2e8f0'} } }
+  });
+}
+
+// --- Populate year selectors & auto-load on panel visit ---
+let _financeYearsLoaded = false;
+async function loadFinanceYears() {
+  if (_financeYearsLoaded) return;
+  _financeYearsLoaded = true;
+  const data = await apiGet('ledger_years');
+  const years = (data.years || []).sort().reverse();
+  if (!years.length) years.push(new Date().getFullYear());
+  ['income-year-select','event-exp-year-select'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = years.map(y => '<option value="' + y + '"' + (y === new Date().getFullYear() ? ' selected' : '') + '>' + y + '</option>').join('');
+  });
+}
+
+// Hook into navTo for lazy-loading finance panels
+const _origNavTo = navTo;
+navTo = function(panel) {
+  _origNavTo(panel);
+  if (panel === 'ledger-report') { loadLedgerReport(); }
+  if (panel === 'income-summary') { loadFinanceYears().then(() => loadIncomeSummary()); }
+  if (panel === 'event-expenses') { loadFinanceYears().then(() => loadEventExpenses()); }
+};
+
 // ── SIGN IN (offline-first, matching ec-admin-login.html) ──
 document.getElementById('btn-login').addEventListener('click', async () => {
   var rawInput = (document.getElementById('login-email').value || '').trim();
@@ -1898,7 +2419,7 @@ async function forgotStep3() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement']); // Dashboard + Finance + President panels are live
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses']);
 let rmbIframeLoaded = false;
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {

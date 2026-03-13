@@ -11,6 +11,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     
     <style>
         :root {
@@ -1193,26 +1195,67 @@
             <section id="budget" class="content-section">
                 <div class="page-header">
                     <h2>Budget Reports</h2>
-                    <p>View BANF financial transparency reports</p>
+                    <p>BANF financial transparency — income, expenses, and event breakdowns</p>
                 </div>
-                
-                <div class="features-grid">
+
+                <!-- Year Selector -->
+                <div style="margin-bottom:16px;display:flex;gap:8px;align-items:center">
+                    <label style="font-weight:600">Year:</label>
+                    <select id="mbr-budget-year" class="form-select" style="width:auto" onchange="loadMemberBudget()"></select>
+                </div>
+
+                <!-- KPI Summary -->
+                <div class="features-grid" id="mbr-budget-kpis" style="margin-bottom:20px">
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: linear-gradient(135deg, #4CAF50, #8BC34A);"><i class="fas fa-file-invoice-dollar"></i></div>
-                        <h4>2026 Budget</h4>
-                        <p>Current fiscal year budget allocation and spending summary.</p>
-                        <button class="feature-btn" onclick="downloadBudget('2026')">
-                            <i class="fas fa-download"></i> Download PDF
-                        </button>
+                        <div class="feature-icon" style="background:linear-gradient(135deg,#4CAF50,#8BC34A)"><i class="fas fa-arrow-up"></i></div>
+                        <h4 id="mbr-kpi-income">$0</h4>
+                        <p>Total Income</p>
                     </div>
                     <div class="feature-card">
-                        <div class="feature-icon" style="background: linear-gradient(135deg, #607D8B, #455A64);"><i class="fas fa-archive"></i></div>
-                        <h4>2025 Annual Report</h4>
-                        <p>Complete financial summary and audit report for 2025.</p>
-                        <button class="feature-btn secondary" onclick="downloadBudget('2025')">
-                            <i class="fas fa-download"></i> Download PDF
-                        </button>
+                        <div class="feature-icon" style="background:linear-gradient(135deg,#ef4444,#f97316)"><i class="fas fa-arrow-down"></i></div>
+                        <h4 id="mbr-kpi-expense">$0</h4>
+                        <p>Total Expenses</p>
                     </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:linear-gradient(135deg,#3b82f6,#60a5fa)"><i class="fas fa-balance-scale"></i></div>
+                        <h4 id="mbr-kpi-net">$0</h4>
+                        <p>Net Balance</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background:linear-gradient(135deg,#a855f7,#c084fc)"><i class="fas fa-check-circle"></i></div>
+                        <h4 id="mbr-kpi-reconciled">0%</h4>
+                        <p>Reconciled</p>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+                    <div class="feature-card" style="padding:16px">
+                        <h4 style="margin-bottom:10px;font-size:.95rem"><i class="fas fa-chart-pie me-1"></i>Income by Category</h4>
+                        <div style="position:relative;height:260px"><canvas id="mbr-income-chart"></canvas></div>
+                    </div>
+                    <div class="feature-card" style="padding:16px">
+                        <h4 style="margin-bottom:10px;font-size:.95rem"><i class="fas fa-chart-bar me-1"></i>Expense by Event</h4>
+                        <div style="position:relative;height:260px"><canvas id="mbr-expense-chart"></canvas></div>
+                    </div>
+                </div>
+
+                <!-- Income Breakdown Table -->
+                <div class="data-table" style="margin-bottom:20px">
+                    <h4 style="margin-bottom:8px"><i class="fas fa-coins me-1"></i>Income Breakdown</h4>
+                    <table>
+                        <thead><tr><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">% of Total</th></tr></thead>
+                        <tbody id="mbr-income-table"></tbody>
+                    </table>
+                </div>
+
+                <!-- Event Expense Table -->
+                <div class="data-table">
+                    <h4 style="margin-bottom:8px"><i class="fas fa-calendar-alt me-1"></i>Event-wise Expenses</h4>
+                    <table>
+                        <thead><tr><th>Event</th><th style="text-align:right">Total</th><th style="text-align:right">Venue</th><th style="text-align:right">Catering</th><th style="text-align:right">Other</th></tr></thead>
+                        <tbody id="mbr-expense-table"></tbody>
+                    </table>
                 </div>
             </section>
             
@@ -1790,8 +1833,116 @@
         // ========== ACTIONS ==========
         
         function downloadBudget(year) {
-            comingSoon('Budget Reports');
+            loadMemberBudget();
         }
+
+        // ═══ Member Budget Report ═══
+        const FINANCE_API = 'https://www.jaxbengali.org/_functions';
+        let _mbrIncomeChart = null, _mbrExpenseChart = null, _mbrBudgetLoaded = false;
+
+        async function financeGet(endpoint, params) {
+            const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+            const resp = await fetch(FINANCE_API + '/' + endpoint + qs);
+            return resp.json();
+        }
+
+        async function initMemberBudget() {
+            if (_mbrBudgetLoaded) return;
+            _mbrBudgetLoaded = true;
+            const data = await financeGet('ledger_years');
+            const years = (data.years || []).sort().reverse();
+            if (!years.length) years.push(new Date().getFullYear());
+            const sel = document.getElementById('mbr-budget-year');
+            sel.innerHTML = years.map(y => '<option value="' + y + '"' + (y === new Date().getFullYear() ? ' selected' : '') + '>' + y + '</option>').join('');
+            loadMemberBudget();
+        }
+
+        async function loadMemberBudget() {
+            const year = document.getElementById('mbr-budget-year').value || new Date().getFullYear();
+            const [incData, expData] = await Promise.all([
+                financeGet('ledger', { year, type: 'income', limit: 1000 }),
+                financeGet('ledger', { year, type: 'expense', limit: 1000 })
+            ]);
+
+            const incEntries = (incData.success ? incData.entries : []) || [];
+            const expEntries = (expData.success ? expData.entries : []) || [];
+            const allEntries = [...incEntries, ...expEntries];
+
+            // KPIs
+            const totalInc = incEntries.reduce((s,e) => s + (e.amount||0), 0);
+            const totalExp = expEntries.reduce((s,e) => s + (e.amount||0), 0);
+            const reconciled = allEntries.filter(e => e.reconciled).length;
+            const reconPct = allEntries.length > 0 ? Math.round((reconciled / allEntries.length) * 100) : 0;
+
+            document.getElementById('mbr-kpi-income').textContent = '$' + totalInc.toLocaleString('en-US',{minimumFractionDigits:2});
+            document.getElementById('mbr-kpi-expense').textContent = '$' + totalExp.toLocaleString('en-US',{minimumFractionDigits:2});
+            document.getElementById('mbr-kpi-net').textContent = '$' + (totalInc - totalExp).toLocaleString('en-US',{minimumFractionDigits:2});
+            document.getElementById('mbr-kpi-reconciled').textContent = reconPct + '%';
+
+            // Income by category
+            const INCOME_CATS = ['membership','event_ticket','sponsorship','donation','advertisement','other_income'];
+            const incByCat = {};
+            INCOME_CATS.forEach(c => incByCat[c] = 0);
+            incEntries.forEach(e => { incByCat[e.category || 'other_income'] = (incByCat[e.category || 'other_income'] || 0) + (e.amount || 0); });
+
+            // Income table
+            const incTbody = document.getElementById('mbr-income-table');
+            incTbody.innerHTML = INCOME_CATS.filter(c => incByCat[c] > 0).map(c => {
+                const pct = totalInc > 0 ? ((incByCat[c]/totalInc)*100).toFixed(1) : '0.0';
+                return '<tr><td style="text-transform:capitalize">' + c.replace(/_/g,' ') + '</td><td style="text-align:right;color:#4CAF50;font-weight:600">$' + incByCat[c].toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">' + pct + '%</td></tr>';
+            }).join('') + '<tr style="border-top:2px solid #ddd;font-weight:700"><td>Total</td><td style="text-align:right;color:#4CAF50">$' + totalInc.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">100%</td></tr>';
+
+            // Income pie chart
+            const activeIncCats = INCOME_CATS.filter(c => incByCat[c] > 0);
+            const chartColors = ['#4CAF50','#2196F3','#9C27B0','#E91E63','#FFC107','#00BCD4'];
+            if (_mbrIncomeChart) _mbrIncomeChart.destroy();
+            const pieCtx = document.getElementById('mbr-income-chart').getContext('2d');
+            _mbrIncomeChart = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: { labels: activeIncCats.map(c => c.replace(/_/g,' ')), datasets: [{ data: activeIncCats.map(c => incByCat[c]), backgroundColor: chartColors.slice(0, activeIncCats.length), borderWidth: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'bottom', labels:{font:{size:11}} } } }
+            });
+
+            // Expense by event
+            const events = {};
+            expEntries.forEach(e => {
+                const ev = e.eventName || '(Unassigned)';
+                if (!events[ev]) events[ev] = { total:0, venue:0, catering:0, other:0 };
+                const amt = e.amount || 0;
+                events[ev].total += amt;
+                if (e.category === 'venue') events[ev].venue += amt;
+                else if (e.category === 'catering') events[ev].catering += amt;
+                else events[ev].other += amt;
+            });
+            const evNames = Object.keys(events).sort((a,b) => events[b].total - events[a].total);
+
+            // Expense table
+            const expTbody = document.getElementById('mbr-expense-table');
+            expTbody.innerHTML = evNames.map(ev => {
+                const d = events[ev];
+                return '<tr><td>' + ev + '</td><td style="text-align:right;color:#ef4444;font-weight:600">$' + d.total.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.venue.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.catering.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.other.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td></tr>';
+            }).join('') + (evNames.length ? '<tr style="border-top:2px solid #ddd;font-weight:700"><td>Total</td><td style="text-align:right;color:#ef4444">$' + totalExp.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td colspan="3"></td></tr>' : '<tr><td colspan="5" style="text-align:center;color:#888">No expense data</td></tr>');
+
+            // Expense bar chart
+            if (_mbrExpenseChart) _mbrExpenseChart.destroy();
+            const barCtx = document.getElementById('mbr-expense-chart').getContext('2d');
+            _mbrExpenseChart = new Chart(barCtx, {
+                type: 'bar',
+                data: { labels: evNames.map(n => n.length > 18 ? n.slice(0,18)+'...' : n), datasets: [
+                    { label: 'Venue', data: evNames.map(ev => events[ev].venue), backgroundColor: '#ef444488' },
+                    { label: 'Catering', data: evNames.map(ev => events[ev].catering), backgroundColor: '#f9731688' },
+                    { label: 'Other', data: evNames.map(ev => events[ev].other), backgroundColor: '#6366f188' }
+                ] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,grid:{display:false}}, y:{stacked:true,ticks:{callback:v=>'$'+v.toLocaleString()}} }, plugins: { legend:{position:'bottom',labels:{font:{size:11}}} } }
+            });
+        }
+
+        // Hook into showSection to lazy-load budget data
+        const _origShowSection = showSection;
+        showSection = function(sectionId, clickedNav) {
+            _origShowSection(sectionId, clickedNav);
+            if (sectionId === 'budget') initMemberBudget();
+        };
         
         function searchDirectory() {
             comingSoon('Member Directory Search');
