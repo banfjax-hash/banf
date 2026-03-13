@@ -564,11 +564,14 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   const email = resolveEmail(rawEmail);
   const localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
 
-  // 1. Offline credential check (localStorage creds survive code deploys)
-  const _secPw = localUser ? _getSecurePassword(email) : null;
-  if (localUser && _secPw === pass) {
-    enterPortal(localUser, email);
-    return;
+  // 1. Offline credential check — try localStorage password AND offlinePw default
+  if (localUser && pass) {
+    const _secPw = _getSecurePassword(email);          // localStorage or offlinePw
+    const _offPw = localUser.offlinePw;                 // hardcoded default
+    if (pass === _secPw || pass === _offPw) {
+      enterPortal(localUser, email);
+      return;
+    }
   }
 
   // 2. Try backend API
@@ -591,6 +594,8 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       roles: ['ec-member'], ecTitle: result.ecTitle || '',
       offlinePw: null
     };
+    // Persist backend-verified credentials to localStorage for future offline access
+    _saveCredsToLocalStorage(email, pass, '', '');
     enterPortal(user, email);
   } else if (localUser && !pass) {
     showError('login-error', 'Please enter your password.');
