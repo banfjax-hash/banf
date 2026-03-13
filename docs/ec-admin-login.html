@@ -684,6 +684,15 @@ async function signupStep2Submit() {
   if (!sq) return showError('signup-error-2', 'Please select a security question.');
   if (!sa || sa.length < 2) return showError('signup-error-2', 'Please provide a security answer (at least 2 characters).');
 
+  // ── Defense-in-depth: re-validate EC role before saving ANY credentials ──
+  // Blocks DevTools manipulation of SIGNUP_STATE.email to unauthorized addresses
+  var _s2db = AUTH_DB[SIGNUP_STATE.email];
+  if (!_s2db) return showError('signup-error-2', '\u26D4 This email is not authorized for EC Admin signup.');
+  var _s2roles = _s2db.roles || [];
+  if (!_s2roles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member' || r === 'super-admin'; })) {
+    return showError('signup-error-2', '\u26D4 This email is not authorized for EC Admin signup.');
+  }
+
   if (SIGNUP_STATE.offlineMode) {
     const user = AUTH_DB[SIGNUP_STATE.email];
     if (user) {
@@ -724,15 +733,6 @@ async function signupStep2Submit() {
     var _dbRoles = user ? user.roles : (AUTH_DB[SIGNUP_STATE.email] || {}).roles || [];
     enterPortal(user || { name: SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: _dbRoles, ecTitle: SIGNUP_STATE.ecTitle || '' }, SIGNUP_STATE.email);
     return;
-  }
-
-  // ── Defense-in-depth: re-validate EC role before online signup completes ──
-  var _signupDbUser = AUTH_DB[SIGNUP_STATE.email];
-  if (_signupDbUser) {
-    var _sr = _signupDbUser.roles || [];
-    if (!_sr.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member' || r === 'super-admin'; })) {
-      return showError('signup-error-2', '\u26D4 This email is not authorized for EC Admin signup.');
-    }
   }
 
   const pwResult = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, password: pass });
