@@ -831,9 +831,11 @@ async function forgotStep3() {
 
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
-    // Persist updated password to localStorage so all portals see the change
-    const _sq = FORGOT_STATE.user.securityQ || '';
-    const _sa = FORGOT_STATE.user.securityA || '';
+    // Persist updated password — use _getSecurityQA (localStorage-first) so user-set
+    // security Q/A survives page reloads (AUTH_DB resets to hardcoded defaults)
+    const _qa = _getSecurityQA(FORGOT_STATE.email);
+    const _sq = (_qa && _qa.q) || '';
+    const _sa = (_qa && _qa.a) || '';
     _saveCredsToLocalStorage(FORGOT_STATE.email, pass, _sq, _sa);
     // Background sync to backend so password works online too
     (async function() {
@@ -861,11 +863,14 @@ async function forgotStep3() {
 // can verify the same password without needing the Wix backend.
 function _saveCredsToLocalStorage(email, password, sq, sa) {
   const key = 'banf_ec_creds_' + email.toLowerCase();
+  // Merge: never wipe existing security Q/A when new values are empty
+  var existing = null;
+  try { existing = JSON.parse(localStorage.getItem(key) || 'null'); } catch(e) {}
   localStorage.setItem(key, JSON.stringify({
     email: email.toLowerCase(),
     password,            // plaintext offline — same auth model as offlinePw
-    securityQ: sq,
-    securityA: sa,
+    securityQ: sq || (existing && existing.securityQ) || '',
+    securityA: sa || (existing && existing.securityA) || '',
     savedAt: new Date().toISOString()
   }));
 }
