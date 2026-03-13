@@ -117,7 +117,7 @@ select{appearance:auto}
         <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
         <div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>After first signup, use your chosen password.</div>
         <div class="ec-member-list" style="margin-top:6px">
-          <strong>EC Members:</strong> ranadhir.ghosh · mukhopadhyay.partha · amit.chandak · rajanya.ghosh · moumita.mukherje · duttasoumyajit86 · sumo475 · rwitichoudhury
+          <strong>EC Members:</strong> ranadhir.ghosh · mukhopadhyay.partha · amit.everywhere · rajanya.ghosh · moumita.mukherje · duttasoumyajit86 · sumo475 · rwitichoudhury
         </div>
       </div>
     </div>
@@ -230,7 +230,11 @@ select{appearance:auto}
       <div class="auth-step" id="forgot-step-4">
         <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
         <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Password Reset Successfully!</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-bottom:20px;text-align:center">You can now sign in with your new password.</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">You can now sign in with your new password.</div>
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:.72rem;color:var(--muted);text-align:center">
+          <i class="fas fa-bookmark me-1" style="color:var(--cyan)"></i>Bookmark this link to reset your password anytime:<br>
+          <a id="forgot-reset-link" href="#" style="color:var(--accent);word-break:break-all;font-size:.68rem" target="_blank"></a>
+        </div>
         <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
       </div>
     </div>
@@ -250,15 +254,16 @@ select{appearance:auto}
         <div class="info-msg" id="fu-info-1"></div>
       </div>
 
-      <!-- Step 2: Verify code sent to found email -->
+      <!-- Step 2: Security Question Verification -->
       <div class="auth-step" id="fu-step-2">
-        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found! A verification code was sent to <strong id="fu-masked-email"></strong></div>
-        <div class="field-label">Enter 6-Digit Code</div>
-        <input type="text" id="fu-code" placeholder="Enter code" maxlength="6" style="text-align:center;letter-spacing:6px;font-size:1.2rem;font-weight:700">
-        <button class="btn-login" onclick="fuStep2()"><i class="fas fa-check-circle"></i>Verify & Reveal Email</button>
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found! Verify your identity to reveal your email.</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Your masked email: <strong id="fu-masked-email"></strong></div>
+        <div class="field-label">Security Question</div>
+        <div style="font-size:.88rem;color:var(--text);background:var(--bg2);padding:12px 16px;border-radius:8px;margin-bottom:12px" id="fu-sq-display"></div>
+        <div class="field-label">Your Answer</div>
+        <input type="text" id="fu-sa" placeholder="Type your answer (case-insensitive)">
+        <button class="btn-login" onclick="fuStep2()"><i class="fas fa-check"></i>Verify & Reveal Email</button>
         <div class="error-msg" id="fu-error-2"></div>
-        <div class="info-msg" id="fu-info-2"></div>
-        <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">Code expires in 10 min. <a href="#" onclick="fuResend();return false" style="color:var(--accent)">Resend</a></div>
       </div>
 
       <!-- Step 3: Show full email -->
@@ -600,9 +605,18 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   } else if (localUser && !pass) {
     showError('login-error', 'Please enter your password.');
   } else if (localUser) {
-    showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
+    // Distinguish network/service errors from wrong-password
+    if (result.error && (result.error.includes('Network error') || result.error.includes('unavailable'))) {
+      showError('login-error', 'Online login service is temporarily unavailable. Please use your offline password (default or signup password), or use Forgot Password to reset.');
+    } else {
+      showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
+    }
   } else {
-    showError('login-error', result.error || 'Account not found. Only EC members can sign in here. Check your email address.');
+    if (result.error && (result.error.includes('Network error') || result.error.includes('unavailable'))) {
+      showError('login-error', 'Login service temporarily unavailable. Please check your email address and try again, or use Forgot Password.');
+    } else {
+      showError('login-error', result.error || 'Account not found. Only EC members can sign in here. Check your email address.');
+    }
   }
 });
 
@@ -684,6 +698,14 @@ async function signupStep2Submit() {
           await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: tok, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() }).catch(function(){});
           await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: tok }).catch(function(){});
           console.log('[SYNC] ✅ Backend onboarding synced for ' + SIGNUP_STATE.email);
+          // Send welcome email with password reset link
+          var resetLink = window.location.origin + window.location.pathname + '?reset=true&email=' + encodeURIComponent(SIGNUP_STATE.email);
+          await apiCall('ec_send_welcome_email', {
+            email: SIGNUP_STATE.email,
+            name: (SIGNUP_STATE.firstName || '') + ' ' + (SIGNUP_STATE.lastName || ''),
+            ecTitle: SIGNUP_STATE.ecTitle || '',
+            resetLink: resetLink
+          }).catch(function(){});
         }
       } catch(e) { console.log('[SYNC] ⚠️ Backend sync failed (offline) — will retry on next login:', e.message); }
     })();
@@ -706,6 +728,20 @@ async function signupStep2Submit() {
 
   // EC congratulations email — DISABLED (completed task, super-admin only)
   // try { fetch(API + '/ec_signup_congratulations', ...) } catch(e) {}
+
+  // Send welcome email with password reset link (background, non-blocking)
+  (async function _sendWelcomeEmail() {
+    try {
+      var resetLink = window.location.origin + window.location.pathname + '?reset=true&email=' + encodeURIComponent(SIGNUP_STATE.email);
+      await apiCall('ec_send_welcome_email', {
+        email: SIGNUP_STATE.email,
+        name: (SIGNUP_STATE.firstName || '') + ' ' + (SIGNUP_STATE.lastName || ''),
+        ecTitle: SIGNUP_STATE.ecTitle || '',
+        resetLink: resetLink
+      });
+      console.log('[EMAIL] ✅ Welcome email with reset link sent to ' + SIGNUP_STATE.email);
+    } catch(e) { console.log('[EMAIL] ⚠️ Welcome email skipped:', e.message); }
+  })();
 
   // AUTO-LOGIN: enter portal directly after signup — no second sign-in needed
   var user = dbUser || { name: [SIGNUP_STATE.firstName, SIGNUP_STATE.lastName].filter(Boolean).join(' ') || SIGNUP_STATE.email.split('@')[0], firstName: SIGNUP_STATE.firstName || '', lastName: SIGNUP_STATE.lastName || '', roles: ['ec-member'], ecTitle: SIGNUP_STATE.ecTitle || '' };
@@ -788,14 +824,28 @@ async function forgotStep3() {
   if (!pass || pass.length < 8) return showError('forgot-error-3', 'Password must be at least 8 characters.');
   if (pass !== pass2) return showError('forgot-error-3', 'Passwords do not match.');
 
+  // Helper: populate the reset link on success screen
+  function _showResetLink(email) {
+    var rl = window.location.origin + window.location.pathname + '?reset=true&email=' + encodeURIComponent(email);
+    var el = document.getElementById('forgot-reset-link');
+    if (el) { el.href = rl; el.textContent = rl; }
+  }
+
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
     // Persist updated password to localStorage so all portals see the change
-    _saveCredsToLocalStorage(
-      FORGOT_STATE.email, pass,
-      FORGOT_STATE.user.securityQ || '',
-      FORGOT_STATE.user.securityA || ''
-    );
+    const _sq = FORGOT_STATE.user.securityQ || '';
+    const _sa = FORGOT_STATE.user.securityA || '';
+    _saveCredsToLocalStorage(FORGOT_STATE.email, pass, _sq, _sa);
+    // Background sync to backend so password works online too
+    (async function() {
+      try {
+        var res = await apiCall('admin_signup_direct', { email: FORGOT_STATE.email });
+        var tok = res.setupToken || '';
+        if (tok) await apiCall('admin_set_password', { email: FORGOT_STATE.email, token: tok, password: pass }).catch(function(){});
+      } catch(e) { console.log('[SYNC] Password reset backend sync skipped:', e.message); }
+    })();
+    _showResetLink(FORGOT_STATE.email);
     showStep('forgot', 4);
     return;
   }
@@ -804,6 +854,7 @@ async function forgotStep3() {
   if (!result.success) return showError('forgot-error-3', result.error || 'Failed to reset password.');
   // Persist to localStorage for cross-portal access
   _saveCredsToLocalStorage(FORGOT_STATE.email, pass, '', '');
+  _showResetLink(FORGOT_STATE.email);
   showStep('forgot', 4);
 }
 
@@ -870,52 +921,39 @@ async function fuStep1() {
   }
 
   const [email, user] = match;
-  FU_STATE = { email, user, offlineMode: true };
+  FU_STATE = { email, user };
 
   // Mask the email: pa***@gmail.com
   const [localPart, domain] = email.split('@');
   const masked = localPart.slice(0,2) + '***@' + domain;
   document.getElementById('fu-masked-email').textContent = masked;
 
-  showInfo('fu-info-1', 'Sending verification code...');
-  const result = await apiCall('admin_signup_send_code', { email });
-  hideMsg('fu-info-1');
-
-  if (!result.success) {
-    FU_STATE.offlineMode = true;
-    showInfo('fu-info-1', 'Offline mode: use code 123456');
-    setTimeout(() => fuShowStep(2), 1500);
-  } else {
-    FU_STATE.offlineMode = false;
+  // Show security question for identity verification
+  const qa = _getSecurityQA(email);
+  if (qa && qa.q) {
+    document.getElementById('fu-sq-display').textContent = SQ_LABELS[qa.q] || qa.q;
+    FU_STATE._securityA = qa.a;
     fuShowStep(2);
+  } else if (user.securityQ) {
+    document.getElementById('fu-sq-display').textContent = SQ_LABELS[user.securityQ] || user.securityQ;
+    FU_STATE._securityA = user.securityA;
+    fuShowStep(2);
+  } else {
+    return showError('fu-error-1', 'No security question configured for this account. Contact Super Admin (banfjax@gmail.com).');
   }
-}
-
-async function fuResend() {
-  hideMsg('fu-error-2'); hideMsg('fu-info-2');
-  showInfo('fu-info-2', 'Resending code...');
-  const result = await apiCall('admin_signup_send_code', { email: FU_STATE.email });
-  hideMsg('fu-info-2');
-  if (result.success) showInfo('fu-info-2', 'New code sent!');
-  else showInfo('fu-info-2', 'Offline mode: use code 123456');
 }
 
 async function fuStep2() {
-  const code = (document.getElementById('fu-code').value || '').trim();
-  hideMsg('fu-error-2'); hideMsg('fu-info-2');
-  if (!code || code.length !== 6) return showError('fu-error-2', 'Enter the 6-digit code.');
+  const answer = (document.getElementById('fu-sa').value || '').trim();
+  hideMsg('fu-error-2');
+  if (!answer) return showError('fu-error-2', 'Please enter your answer.');
 
-  if (FU_STATE.offlineMode) {
-    if (code !== '123456') return showError('fu-error-2', 'Invalid code. Use 123456 for offline mode.');
+  if (answer.toLowerCase() === (FU_STATE._securityA || '').toLowerCase()) {
+    document.getElementById('fu-revealed-email').textContent = FU_STATE.email;
+    fuShowStep(3);
   } else {
-    showInfo('fu-info-2', 'Verifying...');
-    const result = await apiCall('admin_signup_verify_code', { email: FU_STATE.email, code });
-    hideMsg('fu-info-2');
-    if (!result.success) return showError('fu-error-2', result.error || 'Invalid code.');
+    return showError('fu-error-2', 'Incorrect answer. Please try again.');
   }
-
-  document.getElementById('fu-revealed-email').textContent = FU_STATE.email;
-  fuShowStep(3);
 }
 
 // ── AUTO-LOGIN CHECK + URL PARAM HANDLER ──
@@ -935,8 +973,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedEmail = localStorage.getItem('banf_ec_admin_email');
   if (savedEmail) document.getElementById('login-email').value = savedEmail;
 
-  // ── Handle ?signup=true&email=X&expires=Y links from reminder emails ──
   const params = new URLSearchParams(window.location.search);
+
+  // ── Handle ?reset=true&email=X — password reset link (from signup/onboarding email) ──
+  if (params.get('reset') === 'true') {
+    const resetEmail = decodeURIComponent(params.get('email') || '');
+    showAuth('forgot');
+    if (resetEmail) {
+      document.getElementById('forgot-email').value = resetEmail;
+      // Auto-trigger Find My Account
+      setTimeout(() => forgotStep1(), 300);
+    }
+    return;
+  }
+
+  // ── Handle ?signup=true&email=X&expires=Y links from reminder emails ──
   if (params.get('signup') === 'true') {
     const expires = parseInt(params.get('expires') || '0', 10);
     const email   = decodeURIComponent(params.get('email') || '');
