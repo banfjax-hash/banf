@@ -294,6 +294,26 @@ const API = 'https://www.jaxbengali.org/_functions';
 let SIGNUP_STATE = {};
 let FORGOT_STATE = {};
 
+// ── BRUTE FORCE PROTECTION ──
+var _loginAttempts = 0;
+var _lockoutUntil = 0;
+var _MAX_ATTEMPTS = 5;
+var _LOCKOUT_MS = 60000;
+function _checkLockout() {
+  if (Date.now() < _lockoutUntil) {
+    var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+    showError('login-error', '\u26D4 Too many failed attempts. Please wait ' + secs + ' seconds.');
+    return true;
+  }
+  if (_lockoutUntil > 0 && Date.now() >= _lockoutUntil) { _loginAttempts = 0; _lockoutUntil = 0; }
+  return false;
+}
+function _recordFailedAttempt() {
+  _loginAttempts++;
+  if (_loginAttempts >= _MAX_ATTEMPTS) { _lockoutUntil = Date.now() + _LOCKOUT_MS; }
+}
+function _resetAttempts() { _loginAttempts = 0; _lockoutUntil = 0; }
+
 const SQ_LABELS = {
   city_born: 'What city were you born in?',
   pet_name: 'What is the name of your first pet?',
@@ -562,6 +582,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
   const pass = document.getElementById('login-pass').value;
   hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
 
+  if (_checkLockout()) return;
   if (!rawEmail) return showError('login-error', 'Please enter your EC email address.');
 
   const email = resolveEmail(rawEmail);
@@ -572,6 +593,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     const _secPw = _getSecurePassword(email);          // localStorage or offlinePw
     const _offPw = localUser.offlinePw;                 // hardcoded default
     if (pass === _secPw || pass === _offPw) {
+      _resetAttempts();
       enterPortal(localUser, email);
       return;
     }
@@ -598,11 +620,13 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       offlinePw: null
     };
     // Persist backend-verified credentials to localStorage for future offline access
+    _resetAttempts();
     _saveCredsToLocalStorage(email, pass, '', '');
     enterPortal(user, email);
   } else if (localUser && !pass) {
     showError('login-error', 'Please enter your password.');
   } else if (localUser) {
+    _recordFailedAttempt();
     // Distinguish network/service errors from wrong-password
     if (result.error && (result.error.includes('Network error') || result.error.includes('unavailable'))) {
       showError('login-error', 'Online login service is temporarily unavailable. Please use your offline password (default or signup password), or use Forgot Password to reset.');
@@ -610,6 +634,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
     }
   } else {
+    _recordFailedAttempt();
     if (result.error && (result.error.includes('Network error') || result.error.includes('unavailable'))) {
       showError('login-error', 'Login service temporarily unavailable. Please check your email address and try again, or use Forgot Password.');
     } else {

@@ -109,11 +109,9 @@ select{appearance:auto}
         <i class="fas fa-lock me-1"></i>BANF Stakeholder Portal &mdash; Business Partners &amp; Sponsors
       </div>
 
-      <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Stakeholder Test Accounts</div>
-        <div>Sponsor: <code>sponsor1@banf.org</code> / <code>banf-sh-2026</code></div>
-        <div>BANF Official: <code>banfjax@gmail.com</code> / <code>banf-sh-2026</code></div>
-        <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">Only business stakeholders and sponsors can sign in here.</div>
+      <div style="background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:.72rem;color:var(--muted)">
+        <div class="fw-bold mb-1"><i class="fas fa-lock me-1"></i>Stakeholder Access</div>
+        <div>Only authorized business stakeholders and sponsors can sign in here.</div>
       </div>
       <div style="margin-top:12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center">
         <a href="ec-admin-login.html" style="color:var(--blue);font-size:.78rem;text-decoration:none"><i class="fas fa-users-cog me-1"></i>EC Admin? Login here instead</a>
@@ -248,6 +246,26 @@ select{appearance:auto}
 const API = 'https://www.jaxbengali.org/_functions';
 let SIGNUP_STATE = {};
 let FORGOT_STATE = {};
+
+// ── BRUTE FORCE PROTECTION ──
+var _loginAttempts = 0;
+var _lockoutUntil = 0;
+var _MAX_ATTEMPTS = 5;
+var _LOCKOUT_MS = 60000;
+function _checkLockout() {
+  if (Date.now() < _lockoutUntil) {
+    var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+    showError('login-error', '\u26D4 Too many failed attempts. Please wait ' + secs + ' seconds.');
+    return true;
+  }
+  if (_lockoutUntil > 0 && Date.now() >= _lockoutUntil) { _loginAttempts = 0; _lockoutUntil = 0; }
+  return false;
+}
+function _recordFailedAttempt() {
+  _loginAttempts++;
+  if (_loginAttempts >= _MAX_ATTEMPTS) { _lockoutUntil = Date.now() + _LOCKOUT_MS; }
+}
+function _resetAttempts() { _loginAttempts = 0; _lockoutUntil = 0; }
 
 const SQ_LABELS = {
   city_born: 'What city were you born in?',
@@ -388,6 +406,28 @@ function _getSecurePassword(email) {
   return dbUser ? dbUser.offlinePw : null;
 }
 
+function _saveCredsToLocalStorage(email, password, sq, sa) {
+  var key = 'banf_ec_creds_' + email.toLowerCase();
+  var existing = null;
+  try { existing = JSON.parse(localStorage.getItem(key) || 'null'); } catch(e) {}
+  localStorage.setItem(key, JSON.stringify({
+    email: email.toLowerCase(),
+    password: password,
+    securityQ: sq || (existing && existing.securityQ) || '',
+    securityA: sa || (existing && existing.securityA) || '',
+    savedAt: new Date().toISOString()
+  }));
+}
+
+function _getSecurityQA(email) {
+  var key = 'banf_ec_creds_' + email.toLowerCase();
+  try {
+    var stored = JSON.parse(localStorage.getItem(key) || 'null');
+    if (stored) return { q: stored.securityQ || '', a: stored.securityA || '' };
+  } catch(e) {}
+  return { q: '', a: '' };
+}
+
 // ── UTILITY FUNCTIONS ──
 function showAuth(screen) {
   document.querySelectorAll('.auth-screen').forEach(function(s) { s.classList.remove('active'); });
@@ -524,6 +564,7 @@ document.getElementById('btn-login').addEventListener('click', async function() 
   var pass = document.getElementById('login-pass').value;
   hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
 
+  if (_checkLockout()) return;
   if (!rawEmail) return showError('login-error', 'Please enter your email address.');
 
   var email = resolveEmail(rawEmail);
@@ -532,6 +573,7 @@ document.getElementById('btn-login').addEventListener('click', async function() 
   // 1. Offline credential check (localStorage creds survive code deploys)
   var _secPw = localUser ? _getSecurePassword(email) : null;
   if (localUser && _secPw === pass) {
+    _resetAttempts();
     enterPortal(localUser, email);
     return;
   }
@@ -550,6 +592,7 @@ document.getElementById('btn-login').addEventListener('click', async function() 
       showInfo('login-info', 'Your account needs a password. Please use Sign Up to set your password and security question.');
       return;
     }
+    _resetAttempts();
     var user = localUser || {
       name: [result.firstName, result.lastName].filter(Boolean).join(' ') || email,
       firstName: result.firstName || '', lastName: result.lastName || '',
@@ -560,8 +603,10 @@ document.getElementById('btn-login').addEventListener('click', async function() 
   } else if (localUser && !pass) {
     showError('login-error', 'Please enter your password.');
   } else if (localUser) {
+    _recordFailedAttempt();
     showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
   } else {
+    _recordFailedAttempt();
     showError('login-error', result.error || 'Account not found. Only authorized stakeholders and sponsors can sign in.');
   }
 });
@@ -586,6 +631,18 @@ async function signupStep1() {
   hideMsg('signup-info-1');
 
   if (result.success) {
+    // ── Stakeholder role gate (server path) ──
+    var _srvRoles = result.roles || (result.adminRole ? [result.adminRole] : []);
+    var _localU = AUTH_DB[email];
+    var _allRoles = _localU ? (_localU.roles || []) : _srvRoles;
+    if (!_allRoles.includes('business-stakeholder')) {
+      if (_allRoles.some(function(r){ return r==='super-admin'||r==='super_admin'; })) {
+        return showError('signup-error-1', '\u26D4 Super Admin — please use the Super Admin portal.');
+      } else if (_allRoles.some(function(r){ return r==='admin'||r==='ec-member'; })) {
+        return showError('signup-error-1', '\u26D4 EC Members — please use the EC Admin portal.');
+      }
+      return showError('signup-error-1', '\u26D4 This signup is for authorized business stakeholders only.');
+    }
     SIGNUP_STATE = { email: email, token: result.setupToken };
     var welcomeName = [result.firstName, result.lastName].filter(Boolean).join(' ') || email.split('@')[0];
     var el1 = document.getElementById('signup-welcome-name');
@@ -593,9 +650,18 @@ async function signupStep1() {
     document.getElementById('signup-confirmed-email').textContent = email;
     showStep('signup', 2);
   } else {
+    // ── Offline fallback — only for business-stakeholder emails ──
     var user = AUTH_DB[email];
     if (!user) {
       return showError('signup-error-1', result.error || 'This email is not in the authorized stakeholder list. Contact the Super Admin.');
+    }
+    if (!(user.roles || []).includes('business-stakeholder')) {
+      if ((user.roles || []).some(function(r){ return r==='super-admin'||r==='super_admin'; })) {
+        return showError('signup-error-1', '\u26D4 Super Admin — please use the Super Admin portal.');
+      } else if ((user.roles || []).some(function(r){ return r==='admin'||r==='ec-member'; })) {
+        return showError('signup-error-1', '\u26D4 EC Members — please use the EC Admin portal.');
+      }
+      return showError('signup-error-1', '\u26D4 This signup is for authorized business stakeholders only.');
     }
     SIGNUP_STATE = { email: email, offlineMode: true, token: 'offline-token' };
     var nameStr = user.name || email.split('@')[0];
@@ -619,12 +685,20 @@ async function signupStep2Submit() {
   if (!sq) return showError('signup-error-2', 'Please select a security question.');
   if (!sa || sa.length < 2) return showError('signup-error-2', 'Please provide a security answer (at least 2 characters).');
 
+  // ── Defense-in-depth: re-validate stakeholder role ──
+  var _s2db = AUTH_DB[SIGNUP_STATE.email];
+  if (_s2db && !((_s2db.roles || []).includes('business-stakeholder'))) {
+    return showError('signup-error-2', '\u26D4 Only authorized business stakeholders can complete signup here.');
+  }
+
   if (SIGNUP_STATE.offlineMode) {
     var user = AUTH_DB[SIGNUP_STATE.email];
     if (user) {
       user.offlinePw = pass;
       user.securityQ = sq;
       user.securityA = sa.toLowerCase();
+      // Persist to localStorage so creds survive page reload
+      _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
     }
     showStep('signup', 3);
     return;
@@ -651,8 +725,14 @@ async function forgotStep1() {
   if (localUser) {
     FORGOT_STATE = { email: email, user: localUser };
     document.getElementById('forgot-found-name').textContent = localUser.name;
-    if (localUser.securityQ) {
-      document.getElementById('forgot-sq-display').textContent = SQ_LABELS[localUser.securityQ] || localUser.securityQ;
+    // Use localStorage security Q/A if available (user may have changed it during signup)
+    var _storedQA = _getSecurityQA(email);
+    var _useQ = _storedQA.q || localUser.securityQ;
+    var _useA = _storedQA.a || localUser.securityA;
+    if (_useQ) {
+      FORGOT_STATE.effectiveQ = _useQ;
+      FORGOT_STATE.effectiveA = _useA;
+      document.getElementById('forgot-sq-display').textContent = SQ_LABELS[_useQ] || _useQ;
       showStep('forgot', 2);
     } else {
       showError('forgot-error-1', 'No security question configured. Contact the Super Admin.');
@@ -685,8 +765,8 @@ async function forgotStep2() {
 
   if (!answer) return showError('forgot-error-2', 'Please enter your answer.');
 
-  if (FORGOT_STATE.user && FORGOT_STATE.user.securityA) {
-    if (answer.toLowerCase() === FORGOT_STATE.user.securityA) {
+  if (FORGOT_STATE.user && FORGOT_STATE.effectiveA) {
+    if (answer.toLowerCase() === FORGOT_STATE.effectiveA) {
       showStep('forgot', 3);
       return;
     } else {
@@ -711,6 +791,8 @@ async function forgotStep3() {
 
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
+    // Persist to localStorage so creds survive page reload
+    _saveCredsToLocalStorage(FORGOT_STATE.email, pass, '', '');
     showStep('forgot', 4);
     return;
   }

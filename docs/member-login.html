@@ -185,6 +185,27 @@
           return email === 'ranadhir.ghosh@gmail.com' ? 'banf-super-2026' : 'banf-ec-2026';
         }
 
+        // ── BRUTE FORCE PROTECTION ──
+        var _loginAttempts = 0;
+        var _lockoutUntil = 0;
+        var _MAX_ATTEMPTS = 5;
+        var _LOCKOUT_MS = 60000;
+        function _checkLockout(errEl) {
+          if (Date.now() < _lockoutUntil) {
+            var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+            errEl.textContent = '\u26D4 Too many failed attempts. Please wait ' + secs + ' seconds.';
+            errEl.style.display = 'block';
+            return true;
+          }
+          if (_lockoutUntil > 0 && Date.now() >= _lockoutUntil) { _loginAttempts = 0; _lockoutUntil = 0; }
+          return false;
+        }
+        function _recordFailedAttempt() {
+          _loginAttempts++;
+          if (_loginAttempts >= _MAX_ATTEMPTS) { _lockoutUntil = Date.now() + _LOCKOUT_MS; }
+        }
+        function _resetAttempts() { _loginAttempts = 0; _lockoutUntil = 0; }
+
         // Detect EC email and show/hide password field dynamically
         function detectEcEmail(email) {
           const e = (email || '').trim().toLowerCase();
@@ -193,7 +214,7 @@
           if (EC_ROSTER[e]) {
             pwField.style.display = 'block';
             const creds = _loadCredsFromLocalStorage(e);
-            pwHint.textContent = creds ? '(account set up ✔)' : '(default: ' + getDefaultPw(e) + ')';
+            pwHint.textContent = creds ? '(account set up \u2714)' : '(use default or sign up via EC Admin portal)';
           } else {
             pwField.style.display = 'none';
           }
@@ -268,6 +289,8 @@
                 return;
             }
 
+            if (_checkLockout(errEl)) return;
+
             // 0. If already logged in from EC Admin portal, bridge to member portal seamlessly
             try {
                 const existing = sessionStorage.getItem('banf_admin_session');
@@ -303,14 +326,16 @@
                 const expectedPw = storedCreds ? storedCreds.password : getDefaultPw(email);
 
                 if (pass !== expectedPw) {
+                    _recordFailedAttempt();
                     errEl.textContent = 'Incorrect password. ' +
                         (storedCreds ? 'Use the password you set during EC signup.' :
-                         'Default is ' + getDefaultPw(email) + '. Or complete signup to set your own.');
+                         'Use your default password, or sign up via the EC Admin portal to set your own.');
                     errEl.style.display = 'block';
                     return;
                 }
 
                 // Password matches — create member session
+                _resetAttempts();
                 const memberData = {
                     name: ecMember.name, firstName: ecMember.firstName, lastName: ecMember.lastName,
                     email: email, phone: '', membershipType: 'EC Member',

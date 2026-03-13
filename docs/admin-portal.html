@@ -191,15 +191,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <i class="fas fa-lock me-1"></i>BANF EC Admin Auth System
       </div>
 
-      <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Default Offline Passwords (before first signup)</div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">President:</span> <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">Senior Officers (VP/Treasurer/Sec):</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:6px;font-size:.68rem;color:#555a6e"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>After first signup, use your chosen password.</div>
-        <div class="ec-member-list" style="margin-top:6px">
-          <strong>EC Members:</strong> ranadhir.ghosh &middot; mukhopadhyay.partha &middot; amit.everywhere &middot; rajanya.ghosh &middot; moumita.mukherje &middot; duttasoumyajit86 &middot; sumo475 &middot; rwitichoudhury
-        </div>
+      <div style="background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:.72rem;color:var(--muted)">
+        <div class="fw-bold mb-1"><i class="fas fa-lock me-1"></i>EC Admin Access</div>
+        <div>Only authorized EC members can sign in here. Contact the President for access.</div>
       </div>
     </div>
 
@@ -1139,6 +1133,26 @@ const API = 'https://www.jaxbengali.org/_functions';
 let CURRENT_ADMIN = null; // { email, role, firstName, lastName, ecTitle, roles }
 let SIGNUP_STATE = {}; // temp state for signup flow
 let FORGOT_STATE = {}; // temp state for forgot flow
+
+// ── BRUTE FORCE PROTECTION ──
+var _loginAttempts = 0;
+var _lockoutUntil = 0;
+var _MAX_ATTEMPTS = 5;
+var _LOCKOUT_MS = 60000;
+function _checkLockout() {
+  if (Date.now() < _lockoutUntil) {
+    var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+    showError('login-error', '\u26D4 Too many failed attempts. Please wait ' + secs + ' seconds.');
+    return true;
+  }
+  if (_lockoutUntil > 0 && Date.now() >= _lockoutUntil) { _loginAttempts = 0; _lockoutUntil = 0; }
+  return false;
+}
+function _recordFailedAttempt() {
+  _loginAttempts++;
+  if (_loginAttempts >= _MAX_ATTEMPTS) { _lockoutUntil = Date.now() + _LOCKOUT_MS; }
+}
+function _resetAttempts() { _loginAttempts = 0; _lockoutUntil = 0; }
 const SQ_LABELS = {
   city_born: 'What city were you born in?',
   pet_name: 'What is the name of your first pet?',
@@ -1252,11 +1266,8 @@ function _getSecurityQA(email) {
   return dbUser ? { q: dbUser.securityQ, a: dbUser.securityA } : null;
 }
 
-// Legacy CREDS kept only for backward compat — primary auth is AUTH_DB
-const CREDS = {
-  'ranadhir.ghosh':{pw:'banf-super-2026',name:'Ranadhir Ghosh',initials:'RG'},
-  'admin':{pw:'banf-admin-2026',name:'Admin',initials:'AD'}
-};
+// Legacy CREDS removed — all auth uses AUTH_DB + localStorage
+const CREDS = {};
 
 // CRM Members â€” realistic dataset matching CRMMembers collection schema
 const CRM = [
@@ -1499,13 +1510,13 @@ document.getElementById('btn-login').addEventListener('click', async () => {
 
   hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
 
+  if (_checkLockout()) return;
   if (!email) return showError('login-error', 'Please enter your email address.');
-
-  // ── OFFLINE-FIRST: check localStorage → AUTH_DB.offlinePw ──
   var storedPw = _getSecurePassword(email);
   if (storedPw && pass === storedPw) {
     var dbUser = AUTH_DB[email];
     if (dbUser) {
+      _resetAttempts();
       CURRENT_ADMIN = {
         email: email, roles: dbUser.roles, role: dbUser.roles[0] || 'ec-member',
         firstName: dbUser.firstName, lastName: dbUser.lastName,
@@ -1516,21 +1527,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     }
   }
 
-  // ── LEGACY CREDS fallback (admin/ranadhir.ghosh username login) ──
-  for (var uname in CREDS) {
-    if ((email === uname || email === uname + '@gmail.com') && CREDS[uname].pw === pass) {
-      var cred = CREDS[uname];
-      var resolvedEmail = uname.includes('@') ? uname : uname + '@gmail.com';
-      var dbEntry = AUTH_DB[resolvedEmail];
-      CURRENT_ADMIN = dbEntry
-        ? { email: resolvedEmail, roles: dbEntry.roles, role: dbEntry.roles[0], firstName: dbEntry.firstName, lastName: dbEntry.lastName, ecTitle: dbEntry.ecTitle, name: dbEntry.name }
-        : { email: resolvedEmail, roles: ['admin'], role: 'super_admin', firstName: cred.name.split(' ')[0], lastName: cred.name.split(' ').slice(1).join(' '), ecTitle: 'Super Admin', name: cred.name };
-      enterPortal(CURRENT_ADMIN, resolvedEmail);
-      return;
-    }
-  }
-
-  // ── BACKEND API (last resort) ──
+  // ── BACKEND API ──
   var btn = document.getElementById('btn-login');
   btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Signing in...';
 
@@ -1544,6 +1541,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       return;
     }
     // Save credentials to localStorage for future offline login
+    _resetAttempts();
     _saveCredsToLocalStorage(email, pass, '', '');
     var dbU = AUTH_DB[email];
     CURRENT_ADMIN = {
@@ -1558,6 +1556,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     SIGNUP_STATE.email = email;
     SIGNUP_STATE.token = result.setupToken;
   } else {
+    _recordFailedAttempt();
     showError('login-error', result.error || 'Login failed.');
   }
 });
@@ -3512,11 +3511,19 @@ function renderAll(){
   try {
     var session = JSON.parse(sessionStorage.getItem('banf_admin_session') || 'null');
     if (session && session.email) {
+      // Re-validate: session email must exist in AUTH_DB with a valid EC/admin role
       var dbUser = AUTH_DB[session.email];
+      var validRoles = ['super-admin','admin','ec-member','business-stakeholder'];
+      var sessionRoles = session.roles || (dbUser ? dbUser.roles : []);
+      var hasValidRole = sessionRoles.some(function(r) { return validRoles.indexOf(r) >= 0; });
+      if (!dbUser && !hasValidRole) {
+        sessionStorage.removeItem('banf_admin_session');
+        return; // Forged session — reject
+      }
       CURRENT_ADMIN = {
         email: session.email,
-        roles: session.roles || (dbUser ? dbUser.roles : ['ec-member']),
-        role: (session.roles || [])[0] || (dbUser ? dbUser.roles[0] : 'ec-member'),
+        roles: dbUser ? dbUser.roles : sessionRoles,
+        role: (dbUser ? dbUser.roles[0] : sessionRoles[0]) || 'ec-member',
         firstName: session.firstName || (dbUser ? dbUser.firstName : ''),
         lastName: session.lastName || (dbUser ? dbUser.lastName : ''),
         ecTitle: session.ecTitle || (dbUser ? dbUser.ecTitle : ''),

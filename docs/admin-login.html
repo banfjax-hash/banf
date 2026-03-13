@@ -111,10 +111,8 @@ select{appearance:auto}
         <i class="fas fa-lock me-1"></i>BANF Super Admin — System Administration Only
       </div>
 
-      <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Super Admin Credentials</div>
-        <div>Super Admin: <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
-        <div style="margin-top:4px;font-size:.68rem;color:var(--dim)">Only the system Super Admin can sign in here.</div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-top:14px;font-size:.72rem;color:var(--dim);text-align:center">
+        <i class="fas fa-shield-alt me-1" style="color:var(--red)"></i>Super Admin access requires multi-factor authentication.
       </div>
       <div style="margin-top:12px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center">
         <a href="ec-admin-login.html" style="color:var(--blue);font-size:.78rem;text-decoration:none"><i class="fas fa-users-cog me-1"></i>EC Admin? Login here instead</a>
@@ -469,6 +467,33 @@ function checkPwdStrength(pwd, barId) {
   bar.style.background = colors[score] || '#ef4444';
 }
 
+// ── BRUTE FORCE PROTECTION ──
+var _loginAttempts = 0;
+var _lockoutUntil = 0;
+var _MAX_ATTEMPTS = 5;
+var _LOCKOUT_MS = 60000; // 1 minute lockout
+
+function _checkLockout() {
+  if (_loginAttempts >= _MAX_ATTEMPTS && Date.now() < _lockoutUntil) {
+    var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+    return 'Too many failed attempts. Please wait ' + secs + ' seconds before trying again.';
+  }
+  if (Date.now() >= _lockoutUntil) { _loginAttempts = 0; }
+  return null;
+}
+function _recordFailedAttempt() {
+  _loginAttempts++;
+  if (_loginAttempts >= _MAX_ATTEMPTS) { _lockoutUntil = Date.now() + _LOCKOUT_MS; }
+}
+function _resetAttempts() { _loginAttempts = 0; _lockoutUntil = 0; }
+
+// ── SUPER ADMIN MFA CONFIGURATION ──
+var SA_MFA = {
+  email: 'ranadhir.ghosh@gmail.com',
+  phone: '9044023967',  // last 4 digits used for verification
+  phoneLast4: '3967'
+};
+
 async function apiCall(endpoint, body) {
   try {
     const resp = await fetch(API + '/' + endpoint, {
@@ -562,13 +587,21 @@ document.getElementById('btn-login').addEventListener('click', async () => {
 
   if (!rawEmail) return showError('login-error', 'Please enter your email address.');
 
+  // ── Brute force check ──
+  var lockMsg = _checkLockout();
+  if (lockMsg) return showError('login-error', lockMsg);
+
   const email = resolveEmail(rawEmail);
   const localUser = AUTH_DB[email] || AUTH_DB[rawEmail.toLowerCase()];
 
   // 1. Offline credential check (localStorage creds survive code deploys)
   const _secPw = localUser ? _getSecurePassword(email) : null;
-  if (localUser && _secPw === pass) {
-    enterPortal(localUser, email);
+  if (localUser && pass && _secPw === pass) {
+    _resetAttempts();
+    // ── MFA: Super Admin must verify identity ──
+    _pendingMfaUser = localUser;
+    _pendingMfaEmail = email;
+    _showMfaChallenge();
     return;
   }
 
@@ -586,6 +619,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       showInfo('login-info', 'Your account needs a password. Please use Sign Up to set your password and security question.');
       return;
     }
+    _resetAttempts();
     // Build user from API result + local role data
     const user = localUser || {
       name: [result.firstName, result.lastName].filter(Boolean).join(' ') || email,
@@ -593,14 +627,18 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       roles: [result.adminRole || 'ec-member'], ecTitle: result.ecTitle || '',
       offlinePw: null
     };
-    enterPortal(user, email);
+    // ── MFA: Super Admin must verify identity ──
+    _pendingMfaUser = user;
+    _pendingMfaEmail = email;
+    _showMfaChallenge();
   } else if (localUser && !pass) {
-    // User exists locally but no password entered
     showError('login-error', 'Please enter your password.');
   } else if (localUser) {
+    _recordFailedAttempt();
     showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
   } else {
-    showError('login-error', result.error || 'Account not found. Only authorized admins, EC members, and stakeholders can sign in.');
+    _recordFailedAttempt();
+    showError('login-error', result.error || 'Account not found. Only the Super Admin can sign in here.');
   }
 });
 
@@ -611,12 +649,115 @@ document.getElementById('login-email').addEventListener('keypress', e => {
   if (e.key === 'Enter') document.getElementById('login-pass').focus();
 });
 
-// ── SIGN UP FLOW (Direct — no email verification code) ──
+// ── MFA (Multi-Factor Authentication) for Super Admin ──
+var _pendingMfaUser = null;
+var _pendingMfaEmail = null;
+
+function _showMfaChallenge() {
+  // Show MFA verification modal — requires phone last-4 + email confirmation
+  var overlay = document.getElementById('mfa-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'mfa-overlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    overlay.innerHTML = '<div style="background:var(--bg2,#1a1d27);border:1px solid var(--border,#2a2d3a);border-radius:16px;padding:28px 24px;max-width:380px;width:90%;text-align:center;">' +
+      '<div style="font-size:1.5rem;color:var(--red,#ef4444);margin-bottom:8px"><i class="fas fa-shield-alt"></i></div>' +
+      '<div style="font-weight:700;font-size:.95rem;color:var(--text,#e1e4ed);margin-bottom:4px">Multi-Factor Verification</div>' +
+      '<div style="font-size:.75rem;color:var(--muted,#7c819a);margin-bottom:16px">Super Admin access requires identity verification</div>' +
+      '<div style="text-align:left;margin-bottom:12px">' +
+        '<label style="font-size:.72rem;color:var(--muted,#7c819a);display:block;margin-bottom:4px"><i class="fas fa-phone me-1"></i>Last 4 digits of your phone number</label>' +
+        '<input type="text" id="mfa-phone" maxlength="4" placeholder="XXXX" style="width:100%;padding:10px;background:var(--bg,#0f1117);border:1px solid var(--border,#2a2d3a);border-radius:8px;color:var(--text,#e1e4ed);font-size:.9rem;text-align:center;letter-spacing:6px" autocomplete="off">' +
+      '</div>' +
+      '<div style="text-align:left;margin-bottom:12px">' +
+        '<label style="font-size:.72rem;color:var(--muted,#7c819a);display:block;margin-bottom:4px"><i class="fas fa-envelope me-1"></i>Confirm your email address</label>' +
+        '<input type="email" id="mfa-email" placeholder="your-email@example.com" style="width:100%;padding:10px;background:var(--bg,#0f1117);border:1px solid var(--border,#2a2d3a);border-radius:8px;color:var(--text,#e1e4ed);font-size:.85rem" autocomplete="off">' +
+      '</div>' +
+      '<div class="error-msg" id="mfa-error" style="display:none;margin-bottom:10px"></div>' +
+      '<button onclick="_verifyMfa()" style="width:100%;padding:10px;background:var(--red,#ef4444);color:#fff;border:none;border-radius:8px;font-weight:700;font-size:.85rem;cursor:pointer"><i class="fas fa-lock me-1"></i>Verify & Enter Portal</button>' +
+      '<button onclick="_cancelMfa()" style="width:100%;padding:8px;background:transparent;color:var(--muted,#7c819a);border:1px solid var(--border,#2a2d3a);border-radius:8px;font-size:.78rem;cursor:pointer;margin-top:8px">Cancel</button>' +
+    '</div>';
+    document.body.appendChild(overlay);
+    // Enter key triggers verify
+    overlay.addEventListener('keypress', function(e) { if (e.key === 'Enter') _verifyMfa(); });
+  }
+  overlay.style.display = 'flex';
+  var phoneInput = document.getElementById('mfa-phone');
+  if (phoneInput) { phoneInput.value = ''; phoneInput.focus(); }
+  var emailInput = document.getElementById('mfa-email');
+  if (emailInput) emailInput.value = '';
+  var errEl = document.getElementById('mfa-error');
+  if (errEl) errEl.style.display = 'none';
+}
+
+var _mfaAttempts = 0;
+function _verifyMfa() {
+  var phone4 = (document.getElementById('mfa-phone').value || '').trim();
+  var email = (document.getElementById('mfa-email').value || '').trim().toLowerCase();
+  var errEl = document.getElementById('mfa-error');
+
+  if (!phone4 || phone4.length !== 4) {
+    errEl.textContent = 'Enter the last 4 digits of your registered phone number.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    errEl.textContent = 'Please enter your email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  _mfaAttempts++;
+  if (_mfaAttempts > 5) {
+    errEl.textContent = '\u26D4 Too many failed MFA attempts. Please refresh and try again.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Verify: phone last-4 must match AND email must match the pending login email AND SA_MFA email
+  if (phone4 !== SA_MFA.phoneLast4) {
+    errEl.textContent = 'Incorrect phone digits. Please try again.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (email !== SA_MFA.email || email !== _pendingMfaEmail) {
+    errEl.textContent = 'Email does not match the Super Admin account.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // MFA passed
+  var overlay = document.getElementById('mfa-overlay');
+  if (overlay) overlay.style.display = 'none';
+  _mfaAttempts = 0;
+  enterPortal(_pendingMfaUser, _pendingMfaEmail);
+}
+
+function _cancelMfa() {
+  var overlay = document.getElementById('mfa-overlay');
+  if (overlay) overlay.style.display = 'none';
+  _pendingMfaUser = null;
+  _pendingMfaEmail = null;
+}
+
+// ── SIGN UP FLOW (Direct — Super Admin only) ──
 async function signupStep1() {
   const email = resolveEmail(document.getElementById('signup-email').value);
   hideMsg('signup-error-1'); hideMsg('signup-info-1');
 
   if (!email || !email.includes('@')) return showError('signup-error-1', 'Please enter a valid email address.');
+
+  // ── SUPER ADMIN GATE: Only the designated super-admin email can sign up ──
+  var _dbUser = AUTH_DB[email];
+  if (!_dbUser) return showError('signup-error-1', '\u26D4 This email is not authorized. Only the Super Admin can sign up here.');
+  if (!((_dbUser.roles || []).includes('super-admin'))) {
+    if ((_dbUser.roles || []).includes('admin') || (_dbUser.roles || []).includes('ec-member')) {
+      return showError('signup-error-1', '\u26D4 EC members should use the <a href="ec-admin-login.html" style="color:var(--accent);font-weight:700">EC Admin Login</a> portal.');
+    }
+    if ((_dbUser.roles || []).includes('business-stakeholder')) {
+      return showError('signup-error-1', '\u26D4 Stakeholders should use the <a href="stakeholder-login.html" style="color:var(--orange);font-weight:700">Stakeholder Login</a> portal.');
+    }
+    return showError('signup-error-1', '\u26D4 This email is not authorized for Super Admin signup.');
+  }
 
   showInfo('signup-info-1', 'Validating your email...');
 
@@ -632,10 +773,10 @@ async function signupStep1() {
     document.getElementById('signup-confirmed-email').textContent = email;
     showStep('signup', 2);
   } else {
-    // Offline fallback — only for emails known locally in AUTH_DB
+    // Offline fallback — only for super-admin email
     var user = AUTH_DB[email];
-    if (!user) {
-      return showError('signup-error-1', result.error || 'This email is not in the authorized admin/EC/stakeholder list. Contact the Super Admin.');
+    if (!user || !(user.roles || []).includes('super-admin')) {
+      return showError('signup-error-1', '\u26D4 Only the Super Admin email can sign up here.');
     }
     SIGNUP_STATE = { email, offlineMode: true, token: 'offline-token' };
     var nameStr = user.name || email.split('@')[0];
@@ -658,6 +799,12 @@ async function signupStep2Submit() {
   if (pass !== pass2) return showError('signup-error-2', 'Passwords do not match.');
   if (!sq) return showError('signup-error-2', 'Please select a security question.');
   if (!sa || sa.length < 2) return showError('signup-error-2', 'Please provide a security answer (at least 2 characters).');
+
+  // ── Defense-in-depth: re-validate super-admin role ──
+  var _s2db = AUTH_DB[SIGNUP_STATE.email];
+  if (!_s2db || !((_s2db.roles || []).includes('super-admin'))) {
+    return showError('signup-error-2', '\u26D4 Only the Super Admin email can complete signup here.');
+  }
 
   if (SIGNUP_STATE.offlineMode) {
     const user = AUTH_DB[SIGNUP_STATE.email];
