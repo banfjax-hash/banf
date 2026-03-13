@@ -47,9 +47,9 @@ input::placeholder{color:var(--dim)}
 .error-msg{color:var(--red);font-size:.78rem;margin-top:6px;display:none;text-align:center}
 .success-msg{color:var(--green);font-size:.78rem;margin-top:6px;display:none;text-align:center}
 .info-msg{color:var(--blue);font-size:.78rem;margin-top:6px;display:none;text-align:center}
-.auth-links{display:flex;gap:16px;justify-content:center;margin-top:14px}
-.auth-links a{color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:none;transition:.2s}
-.auth-links a:hover{color:var(--accent)}
+.auth-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.auth-links a{color:var(--text);font-size:.82rem;cursor:pointer;text-decoration:none;transition:.25s;padding:8px 16px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.auth-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(59,130,246,.08);transform:translateY(-1px)}
 .auth-screen{display:none}
 .auth-screen.active{display:block}
 .auth-step{display:none}
@@ -102,22 +102,19 @@ select{appearance:auto}
       <div class="success-msg" id="login-success"></div>
       <div class="info-msg" id="login-info"></div>
       <div class="auth-links">
-        <a onclick="showAuth('forgot')"><i class="fas fa-key me-1"></i>Forgot Password?</a>
-        <a onclick="showAuth('forgot-username')"><i class="fas fa-user-question me-1"></i>Forgot Email?</a>
-        <a onclick="showAuth('signup')"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+        <a onclick="showAuth('forgot')"><i class="fas fa-key"></i>Forgot Password?</a>
+        <a onclick="showAuth('forgot-username')"><i class="fas fa-envelope-open-text"></i>Forgot Email?</a>
+        <a onclick="showAuth('signup')"><i class="fas fa-user-plus"></i>Sign Up</a>
       </div>
       <div style="margin-top:14px;font-size:.7rem;color:var(--dim);text-align:center">
         <i class="fas fa-lock me-1"></i>BANF EC Admin Auth System
       </div>
 
-      <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Default Offline Passwords (before first signup)</div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">President:</span> <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">Senior Officers (VP/Treasurer/Sec):</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:6px;font-size:.68rem;color:var(--dim)"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>After first signup, use your chosen password.</div>
-        <div class="ec-member-list" style="margin-top:6px">
-          <strong>EC Members:</strong> ranadhir.ghosh · mukhopadhyay.partha · amit.everywhere · rajanya.ghosh · moumita.mukherje · duttasoumyajit86 · sumo475 · rwitichoudhury
+      <div class="test-creds" style="text-align:center">
+        <div style="font-size:.75rem;color:var(--muted);line-height:1.7">
+          <i class="fas fa-info-circle me-1" style="color:var(--blue)"></i>First time? Use <strong style="color:var(--accent)">Sign Up</strong> to create your account.<br>
+          <i class="fas fa-question-circle me-1" style="color:var(--cyan)"></i>Forgot credentials? Use the links above to recover access.<br>
+          <i class="fas fa-headset me-1" style="color:var(--green)"></i>Need help? Contact Super Admin at <strong>banfjax@gmail.com</strong>
         </div>
       </div>
     </div>
