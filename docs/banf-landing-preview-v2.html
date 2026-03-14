@@ -2239,13 +2239,9 @@
                     <img src="banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
                 </div>
                 <p>© 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
-                <p>Platform Version 3.0 — EC 2026-2028 | FY Budget: $50,000</p>
             </div>
         </div>
     </footer>
-
-    <!-- Version Badge -->
-    <div class="version-badge"><i class="fas fa-rocket me-2"></i>Preview v3 — CRM Powered</div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -2266,7 +2262,7 @@
                 phone: '',
                 linkedin: 'https://linkedin.com/in/dr-ranadhir-ghosh-bbb7b827/',
                 interests: ['AI & Machine Learning', 'Fintech Innovation', 'Data Engineering', 'Bengali Literature', 'Rabindra Sangeet'],
-                yearJoined: 2020,
+                yearJoined: 2021,
                 gradient: 'linear-gradient(135deg, #8B1A1A, #6B1020)'
             },
             {
@@ -2335,19 +2331,19 @@
                 gradient: 'linear-gradient(135deg, #9C27B0, #E91E63)'
             },
             {
-                id: 'banty',
-                name: 'Banty Dutta',
+                id: 'food-tba',
+                name: 'TBA',
                 role: 'Food Coordinator',
-                initials: 'BD',
+                initials: 'FC',
                 photoUrl: null,
-                summary: 'Coordinating authentic Bengali cuisine for all BANF events.',
-                fullBio: 'Coordinates authentic Bengali cuisine for all BANF events, managing vendor relationships and menu planning. Ensuring delicious, traditional food at every community gathering.',
+                summary: 'To be announced.',
+                fullBio: 'The Food Coordinator position is currently open. This role manages vendor relationships and menu planning for all BANF events.',
                 profession: 'Food & Catering Coordinator',
                 email: 'food@jaxbengali.org',
                 phone: '',
                 linkedin: '',
                 interests: ['Bengali Cuisine', 'Event Catering', 'Vendor Management'],
-                yearJoined: 2023,
+                yearJoined: null,
                 gradient: 'linear-gradient(135deg, #FF5722, #FF9800)'
             },
             {
@@ -2769,15 +2765,11 @@
                     // Footer bottom
                     const footerBottom = document.getElementById('footer-bottom');
                     if (footerBottom && c.footerCopyright) {
-                        const budgetLine = d.budget
-                            ? ` | FY Budget: $${d.budget.totalBudget.toLocaleString()}`
-                            : '';
                         footerBottom.innerHTML = `
                             <div style="margin-bottom: 1rem;">
                                 <img src="banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
                             </div>
-                            <p>${esc(c.footerCopyright)}</p>
-                            <p>Platform Version 3.0 — CRM Powered${budgetLine}</p>`;
+                            <p>${esc(c.footerCopyright)}</p>`;
                     }
                 }
 
