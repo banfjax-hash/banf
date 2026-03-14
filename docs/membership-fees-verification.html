@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF Membership Fees — Verification</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #e2e8f0; padding: 24px; }
+  h1 { text-align: center; margin-bottom: 8px; color: #f97316; }
+  .subtitle { text-align: center; color: #94a3b8; font-size: .88rem; margin-bottom: 24px; }
+  .note { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: .85rem; color: #fbbf24; }
+  .note i { margin-right: 6px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+  th { background: #1e293b; color: #94a3b8; font-size: .75rem; text-transform: uppercase; letter-spacing: .5px; padding: 10px 12px; text-align: left; border-bottom: 2px solid #334155; }
+  th.price { text-align: right; }
+  td { padding: 9px 12px; border-bottom: 1px solid #1e293b; font-size: .88rem; }
+  td.price { text-align: right; font-weight: 700; font-family: 'Courier New', monospace; }
+  td.price.income { color: #22c55e; }
+  tr:hover { background: rgba(249,115,22,.06); }
+  .plan-header { background: linear-gradient(90deg, #1e293b, transparent); padding: 10px 14px; font-weight: 700; font-size: .95rem; color: #f97316; border-left: 4px solid #f97316; margin-bottom: 0; }
+  .plan-header.earlybird { color: #22c55e; border-left-color: #22c55e; }
+  .plan-header.regular { color: #3b82f6; border-left-color: #3b82f6; }
+  .plan-header.culture { color: #a855f7; border-left-color: #a855f7; }
+  .plan-header.puja-celeb { color: #ec4899; border-left-color: #ec4899; }
+  .plan-header.puja-core { color: #06b6d4; border-left-color: #06b6d4; }
+  .plan-header.premium { color: #eab308; border-left-color: #eab308; }
+  .desc { font-size: .78rem; color: #64748b; margin-top: 2px; }
+  .section { margin-bottom: 24px; border: 1px solid #1e293b; border-radius: 10px; overflow: hidden; }
+  .footer { text-align: center; margin-top: 32px; color: #475569; font-size: .78rem; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: .7rem; font-weight: 600; }
+  .badge-eb { background: rgba(34,197,94,.15); color: #22c55e; }
+  .badge-std { background: rgba(59,130,246,.15); color: #3b82f6; }
+  .source-img { text-align: center; margin-bottom: 20px; }
+  .source-img img { max-width: 100%; border-radius: 10px; border: 1px solid #334155; }
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h1><i class="fas fa-receipt"></i> BANF Membership Fees — Verification</h1>
+<p class="subtitle">Extracted from <code>member_fees.png</code> via GPT-4.1-mini Vision — please verify all numbers below</p>
+
+<div class="note">
+  <i class="fas fa-info-circle"></i>
+  <strong>Early bird discount available to all members till 31st May, 2026.</strong>
+  All prices in USD. "Family" = family of any size. "Student" = valid student ID required.
+</div>
+
+<div class="source-img">
+  <details>
+    <summary style="cursor:pointer;color:#94a3b8;margin-bottom:8px"><i class="fas fa-image"></i> Click to view original source image</summary>
+    <img src="member_fees.png" alt="Source: member_fees.png">
+  </details>
+</div>
+
+<!-- Earlybird Premium -->
+<div class="section">
+  <div class="plan-header earlybird">
+    <i class="fas fa-star"></i> Earlybird Premium <span class="badge badge-eb">Until May 31</span>
+    <div class="desc">All 17 events included — discounted early bird pricing</div>
+  </div>
+  <table>
+    <thead><tr><th>Category</th><th class="price">Annual Fee</th></tr></thead>
+    <tbody>
+      <tr><td><i class="fas fa-users"></i> Family</td><td class="price income">$375</td></tr>
+      <tr><td><i class="fas fa-user-friends"></i> Couple</td><td class="price income">$330</td></tr>
+      <tr><td><i class="fas fa-user"></i> Individual</td><td class="price income">$205</td></tr>
+      <tr><td><i class="fas fa-graduation-cap"></i> Student</td><td class="price income">$145</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Premium (Standard) -->
+<div class="section">
+  <div class="plan-header premium">
+    <i class="fas fa-crown"></i> Premium
+    <div class="desc">All 17 events included — standard pricing</div>
+  </div>
+  <table>
+    <thead><tr><th>Category</th><th class="price">Annual Fee</th></tr></thead>
+    <tbody>
+      <tr><td><i class="fas fa-users"></i> Family</td><td class="price income">$410</td></tr>
+      <tr><td><i class="fas fa-user-friends"></i> Couple</td><td class="price income">$365</td></tr>
+      <tr><td><i class="fas fa-user"></i> Individual</td><td class="price income">$230</td></tr>
+      <tr><td><i class="fas fa-graduation-cap"></i> Student</td><td class="price income">$165</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Regular -->
+<div class="section">
+  <div class="plan-header regular">
+    <i class="fas fa-check-circle"></i> Regular
+    <div class="desc">11 events included — discounted rate for other events</div>
+  </div>
+  <table>
+    <thead><tr><th>Category</th><th class="price">Annual Fee</th></tr></thead>
+    <tbody>
+      <tr><td><i class="fas fa-users"></i> Family</td><td class="price income">$280</td></tr>
+      <tr><td><i class="fas fa-user-friends"></i> Couple</td><td class="price income">$255</td></tr>
+      <tr><td><i class="fas fa-user"></i> Individual</td><td class="price income">$140</td></tr>
+      <tr><td><i class="fas fa-graduation-cap"></i> Student</td><td class="price income">$100</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Culture Special Pass -->
+<div class="section">
+  <div class="plan-header culture">
+    <i class="fas fa-masks-theater"></i> Culture Special Pass
+    <div class="desc">Cultural events only</div>
+  </div>
+  <table>
+    <thead><tr><th>Category</th><th class="price">Annual Fee</th></tr></thead>
+    <tbody>
+      <tr><td><i class="fas fa-users"></i> Family</td><td class="price income">$200</td></tr>
+      <tr><td><i class="fas fa-user-friends"></i> Couple</td><td class="price income">$175</td></tr>
+      <tr><td><i class="fas fa-user"></i> Individual</td><td class="price income">$100</td></tr>
+      <tr><td><i class="fas fa-graduation-cap"></i> Student</td><td class="price income">$75</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Durga Puja Celebration Pass -->
+<div class="section">
+  <div class="plan-header puja-celeb">
+    <i class="fas fa-om"></i> Durga Puja Celebration Pass
+    <div class="desc">Durga Puja + artist performances for both days</div>
+  </div>
+  <table>
+    <thead><tr><th>Category</th><th class="price">Annual Fee</th></tr></thead>
+    <tbody>
+      <tr><td><i class="fas fa-users"></i> Family</td><td class="price income">$210</td></tr>
+      <tr><td><i class="fas fa-user-friends"></i> Couple</td><td class="price income">$175</td></tr>
+      <tr><td><i class="fas fa-user"></i> Individual</td><td class="price income">$110</td></tr>
+      <tr><td><i class="fas fa-graduation-cap"></i> Student</td><td class="price income">$80</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Durga Puja Core Pass -->
+<div class="section">
+  <div class="plan-header puja-core">
+    <i class="fas fa-pray"></i> Durga Puja Core Pass
+    <div class="desc">Durga Puja events only (No artist performances)</div>
+  </div>
+  <table>
+    <thead><tr><th>Category</th><th class="price">Annual Fee</th></tr></thead>
+    <tbody>
+      <tr><td><i class="fas fa-users"></i> Family</td><td class="price income">$150</td></tr>
+      <tr><td><i class="fas fa-user-friends"></i> Couple</td><td class="price income">$125</td></tr>
+      <tr><td><i class="fas fa-user"></i> Individual</td><td class="price income">$80</td></tr>
+      <tr><td><i class="fas fa-graduation-cap"></i> Student</td><td class="price income">$60</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Summary Table -->
+<h2 style="margin:24px 0 12px;color:#f97316"><i class="fas fa-table"></i> Full Comparison Matrix</h2>
+<div style="overflow-x:auto">
+<table>
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th class="price">Family</th>
+      <th class="price">Couple</th>
+      <th class="price">Individual</th>
+      <th class="price">Student</th>
+      <th>Events</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><span class="badge badge-eb">Earlybird</span> Premium</td><td class="price income">$375</td><td class="price income">$330</td><td class="price income">$205</td><td class="price income">$145</td><td>All 17</td></tr>
+    <tr><td>Premium</td><td class="price income">$410</td><td class="price income">$365</td><td class="price income">$230</td><td class="price income">$165</td><td>All 17</td></tr>
+    <tr><td>Regular</td><td class="price income">$280</td><td class="price income">$255</td><td class="price income">$140</td><td class="price income">$100</td><td>11 (+discount)</td></tr>
+    <tr><td>Culture Special</td><td class="price income">$200</td><td class="price income">$175</td><td class="price income">$100</td><td class="price income">$75</td><td>Cultural only</td></tr>
+    <tr><td>Puja Celebration</td><td class="price income">$210</td><td class="price income">$175</td><td class="price income">$110</td><td class="price income">$80</td><td>Puja + Artist</td></tr>
+    <tr><td>Puja Core</td><td class="price income">$150</td><td class="price income">$125</td><td class="price income">$80</td><td class="price income">$60</td><td>Puja only</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="footer">
+  <p>Extracted from <code>member_fees.png</code> via GPT-4.1-mini Vision API on March 14, 2026</p>
+  <p style="margin-top:6px">Please verify all numbers against the source image above. Once approved, these will be applied to the landing page.</p>
+</div>
+
+</body>
+</html>
