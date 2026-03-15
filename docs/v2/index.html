@@ -228,11 +228,11 @@
                 <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
                 <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
             </form>
-            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+            <div class="login-error" id="ecLoginError"></div>
+            <div id="ecSignupNotice" style="display:none;margin-top:1rem;"></div>
             <div class="ec-login-links">
                 <a href="../ec-admin-login.html#forgot" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
-                <a href="../ec-admin-login.html#forgot-username" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
-                <a href="../ec-admin-login.html#signup" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+                <a href="#" onclick="return handleEcSignup(event)"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
             </div>
             <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
         </div>
@@ -251,10 +251,23 @@
                 <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
             </form>
             <div class="login-error" id="memberLoginError"></div>
-            <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; border: 1px solid rgba(59,130,246,0.2);">
-                <p style="margin: 0; color: var(--navy); font-size: 0.85rem; text-align: center;"><i class="fas fa-bullhorn me-1" style="color: var(--gold);"></i><strong>Member onboarding drive starting soon!</strong></p>
-                <p style="margin: 0.5rem 0 0; color: #6c757d; font-size: 0.78rem; text-align: center;">The President will announce the member portal sign-up drive. Stay tuned for updates.</p>
-            </div>
+            <div id="memberDriveNotice" style="display:none;margin-top:1rem;"></div>
+        </div>
+    </div>
+
+    <!-- Editor Login Modal -->
+    <div class="ec-login-overlay" id="editorLoginOverlay" onclick="if(event.target===this)closeEditorLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEditorLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-pen-nib" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Editor Login</h3>
+            <p class="subtitle text-center">Jagriti Magazine Editor</p>
+            <form onsubmit="return false" style="display:none;">
+                <input type="email" id="editorLoginEmail" placeholder="Editor Email Address" autocomplete="email">
+                <input type="password" id="editorLoginPassword" placeholder="Password" autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div id="editorDriveNotice" style="margin-top:1rem;"></div>
         </div>
     </div>
 
@@ -282,6 +295,7 @@
                     <h5>Members Portal</h5>
                     <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
                     <a href="#" onclick="openEcLoginModal(); return false;"><i class="fas fa-user-shield me-2"></i>EC Admin Login</a>
+                    <a href="#" onclick="openEditorLoginModal(); return false;"><i class="fas fa-pen-nib me-2"></i>Editor Login</a>
                     <a href="events.html#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
                 </div>
                 <div class="footer-section">
