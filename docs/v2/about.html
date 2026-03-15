@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About BANF - President's Message & Strategic Vision</title>
+    <meta name="description" content="Learn about BANF's mission, read the President's welcome message, and explore our strategic vision for the future.">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active" style="color: var(--gold);">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- President's Message Section -->
+    <section id="about" class="py-5" style="background: #f0f4f8;">
+        <div class="container">
+            <div class="section-header">
+                <h2>সভাপতির বার্তা</h2>
+                <p class="text-muted mt-3">President's Welcome Message</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="president-welcome">
+                        <div class="president-header">
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-3">
+                                <img src="../ec-photos/ranadhir-ghosh.jpg" alt="Dr. Ranadhir Ghosh" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid white;">
+                                <div class="text-start text-md-start text-center">
+                                    <h4 class="mb-1"><i class="fas fa-crown me-2"></i>Dr. Ranadhir Ghosh</h4>
+                                    <p class="mb-0 opacity-90">President, BANF 2025-26</p>
+                                </div>
+                            </div>
+                            <!-- Language Toggle -->
+                            <div class="lang-toggle">
+                                <button type="button" class="btn btn-light btn-sm active" onclick="toggleLanguage('bengali')" id="btn-bengali">
+                                    <i class="fas fa-language me-1"></i>বাংলা
+                                </button>
+                                <button type="button" class="btn btn-outline-light btn-sm" onclick="toggleLanguage('english')" id="btn-english">
+                                    <i class="fas fa-globe me-1"></i>English
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Bengali Version -->
+                        <div class="president-body bengali-text" id="message-bengali">
+                            <p class="lead fw-bold">প্রিয় BANF পরিবার,</p>
+                            
+                            <p>BANF শুধু একটি সংগঠন নয়—এটি আমাদের সবার স্বপ্ন, পরিশ্রম ও সাংস্কৃতিক বন্ধনের প্রতিফলন। আমরা প্রত্যেকে ভিন্ন ভিন্ন জায়গা থেকে এসেছি—কেউ নতুন, কেউ বহু বছর ধরে এখানে আছেন। আমাদের একে অপরের প্রতি ভালোবাসা ও শ্রদ্ধা একইভাবে গভীর।</p>
+
+                            <p>আমাদের যাত্রার শুরু হয়েছিল কিছু মানুষের হাত ধরে—যারা শূন্য থেকে চিন্তা-ভাবনা করে এই ক্লাবের প্রাণ প্রতিষ্ঠা করেছিলেন। তাঁদের অক্লান্ত পরিশ্রম, দৃঢ় মনোবল এবং দায়িত্ববোধ আজ আমাদের পথ দেখায়।</p>
+
+                            <div class="alert" style="background:linear-gradient(135deg,#e8f5e8,#f0f8f0);border-left:5px solid #28a745;border-radius:10px;padding:20px;margin:25px 0;">
+                                <p class="mb-0 fw-bold" style="color:#155724;">আমাদের মূল বিশ্বাস—BANF-এর সদস্যদের মধ্যে সংযোগ, সমন্বয় এবং সহমর্মিতা বজায় রাখা ও বৃদ্ধি করা।</p>
+                            </div>
+
+                            <p>এখনই সময়—আরও বড় স্বপ্ন দেখার, এবং আমাদের সংস্কৃতি ও মূল্যবোধকে ভবিষ্যৎ প্রজন্মের হাতে সঠিকভাবে তুলে দেওয়ার। আমরা চাই তারা শৃঙ্খলা, সততা এবং সহানুভূতির পাঠ গ্রহণ করুক।</p>
+
+                            <div class="poem-section">
+                                <p class="mb-2">তব চরণ নিম্নে উৎসবময়ী শ্যামধরনী সরসা</p>
+                                <p class="mb-2">ঊর্ধ্বে চাহো অগণিত মণি রঞ্জিত নভঃ নীলাঞ্চলা,</p>
+                                <p class="mb-0">সৌম্য মধুর দিব্যাঙ্গনা শান্ত-কুশল-দরশা॥</p>
+                            </div>
+
+                            <p>আমরা একসাথে পথ চলতে চাই, হাতে হাত রেখে, লক্ষ্য এক রেখে—BANF-কে শুধু একটি সংগঠন নয়, একটি পরিবার হিসেবে গড়ে তুলতে।</p>
+
+                            <div class="text-end mt-4 pt-3" style="border-top:2px solid #dee2e6;">
+                                <p class="mb-1 fw-bold" style="color:#2c3e50;">— ডঃ রণধীর ঘোষ</p>
+                                <p class="mb-0 text-muted">সভাপতি, BANF</p>
+                            </div>
+                        </div>
+                        
+                        <!-- English Version (Hidden by default) -->
+                        <div class="president-body" id="message-english" style="display:none;">
+                            <p class="lead fw-bold">Dear BANF Family,</p>
+                            
+                            <p>BANF is not just an organization—it is a reflection of all our dreams, hard work, and cultural bonds. Each of us has come from different places—some are new, some have been here for many years. Our love and respect for each other remains equally deep.</p>
+
+                            <p>Our journey began with the hands of a few individuals—who built the soul of this club from nothing through their thoughts and vision. Their tireless efforts, strong determination, and sense of responsibility guide us today.</p>
+
+                            <div class="alert" style="background:linear-gradient(135deg,#e8f5e8,#f0f8f0);border-left:5px solid #28a745;border-radius:10px;padding:20px;margin:25px 0;">
+                                <p class="mb-0 fw-bold" style="color:#155724;">Our core belief—to maintain and strengthen the connection, coordination, and compassion among BANF members.</p>
+                            </div>
+
+                            <p>Now is the time—to dream bigger, and to properly pass on our culture and values to future generations. We want them to learn lessons of discipline, honesty, and empathy.</p>
+
+                            <div class="poem-section">
+                                <p class="mb-2"><em>At your feet lies the festive, verdant, flowing Earth,</em></p>
+                                <p class="mb-2"><em>Above, gaze upon the countless jewel-adorned blue sky,</em></p>
+                                <p class="mb-0"><em>The gentle, sweet divine maiden, bestowing peace and welfare.</em></p>
+                            </div>
+
+                            <p>We want to walk together, hand in hand, with one goal—to build BANF not just as an organization, but as a family.</p>
+
+                            <div class="text-end mt-4 pt-3" style="border-top:2px solid #dee2e6;">
+                                <p class="mb-1 fw-bold" style="color:#2c3e50;">— Dr. Ranadhir Ghosh</p>
+                                <p class="mb-0 text-muted">President, BANF</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Strategic Vision -->
+                    <div class="strategic-vision">
+                        <h3><i class="fas fa-compass me-2"></i>Strategic Vision — FY 2026-27 and Beyond</h3>
+                        <p class="mb-4 opacity-90">Three Strategic Pillars for Organizational Growth and Community Impact</p>
+                        
+                        <div class="row g-4">
+                            <div class="col-lg-4">
+                                <div class="pillar-card">
+                                    <div class="pillar-icon">🖥️</div>
+                                    <h5>PILLAR 1: Digital Transformation & Process Automation</h5>
+                                    <ul>
+                                        <li>Digitize organizational archives — historical records, financial documents, and cultural artifacts</li>
+                                        <li>Automate membership management with online enrollment, renewals, and tier selection</li>
+                                        <li>Implement digital event registration and ticketing system with QR-based check-in</li>
+                                        <li>Streamline financial reporting and treasury management with automated dashboards</li>
+                                        <li>Build a centralized knowledge base for institutional memory and succession planning</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="pillar-card">
+                                    <div class="pillar-icon">🤝</div>
+                                    <h5>PILLAR 2: Diversifying Membership Engagement</h5>
+                                    <ul>
+                                        <li>Youth engagement — targeted programs, mentorship, and leadership roles for next-generation Bengalis</li>
+                                        <li>Senior & parent outreach — culturally relevant social, wellness, and community-health programs</li>
+                                        <li>Non-Bengali Hindu families — welcoming broader South Asian community with shared cultural values</li>
+                                        <li>Bangladeshi Bengali community — inclusive cultural bridge-building through shared language and heritage</li>
+                                        <li>Cross-club collaboration — partnerships with Bengali associations across Central Florida</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="pillar-card">
+                                    <div class="pillar-icon">🌍</div>
+                                    <h5>PILLAR 3: Expanding Social & Cultural Outreach</h5>
+                                    <ul>
+                                        <li>Establish BANF as a recognized cultural anchor and civic partner in Greater Jacksonville</li>
+                                        <li>Pursue interfaith and multicultural partnerships to foster cross-community dialogue</li>
+                                        <li>Develop community service initiatives — from food drives to cultural education</li>
+                                        <li>Collaborate with local arts councils, schools, libraries, and civic organizations</li>
+                                        <li>Build a sustainable outreach model that celebrates heritage while engaging diverse audiences</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p class="vision-quote">"Preserving heritage, building bridges, and fostering a more connected and inclusive community"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+            <div class="ec-login-links">
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+            </div>
+            <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="gallery.html#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Members Portal</h5>
+                    <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
+                    <a href="#" onclick="openEcLoginModal(); return false;"><i class="fas fa-user-shield me-2"></i>EC Admin Login</a>
+                    <a href="events.html#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="#"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>
+                    <a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@banfjax.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                    <p><i class="fas fa-globe me-2"></i>www.banfjax.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom" id="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script>
+        function toggleLanguage(lang) {
+            var bn = document.getElementById('message-bengali');
+            var en = document.getElementById('message-english');
+            var btnBn = document.getElementById('btn-bengali');
+            var btnEn = document.getElementById('btn-english');
+            if (lang === 'english') {
+                bn.style.display = 'none';
+                en.style.display = 'block';
+                btnBn.className = 'btn btn-outline-light btn-sm';
+                btnEn.className = 'btn btn-light btn-sm active';
+            } else {
+                bn.style.display = 'block';
+                en.style.display = 'none';
+                btnBn.className = 'btn btn-light btn-sm active';
+                btnEn.className = 'btn btn-outline-light btn-sm';
+            }
+        }
+    </script>
+</body>
+</html>

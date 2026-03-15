@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery & Contact - BANF Jacksonville</title>
+    <meta name="description" content="BANF Jacksonville photo gallery spanning 2018-2025 community events, and contact information.">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="gallery.html" class="active" style="color: var(--gold);">Gallery</a>
+            <a href="#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Advertisement Section -->
+    <section class="ads-section" id="advertisements" style="padding-top: 100px;">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-ad me-2"></i>Community Partners & Sponsors</h2>
+                <p class="text-muted">Support our community and promote your business</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="ad-slot" id="ad-slot-1">
+                        <div class="ad-slot-placeholder">
+                            <i class="fas fa-bullhorn"></i>
+                            <h5>Advertisement Space</h5>
+                            <p class="small mb-0">Reach 100+ Bengali families in Jacksonville</p>
+                            <a href="mailto:sponsorship@jaxbengali.org?subject=Advertisement%20Inquiry" class="ad-contact-btn">
+                                <i class="fas fa-envelope me-1"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="ad-slot" id="ad-slot-2">
+                        <div class="ad-slot-placeholder">
+                            <i class="fas fa-store"></i>
+                            <h5>Promote Your Business</h5>
+                            <p class="small mb-0">Local restaurants, services, and shops welcome</p>
+                            <a href="mailto:sponsorship@jaxbengali.org?subject=Advertisement%20Inquiry" class="ad-contact-btn">
+                                <i class="fas fa-envelope me-1"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="ad-slot" id="ad-slot-3">
+                        <div class="ad-slot-placeholder">
+                            <i class="fas fa-handshake"></i>
+                            <h5>Partner With BANF</h5>
+                            <p class="small mb-0">Corporate sponsorships and collaborations</p>
+                            <a href="mailto:sponsorship@jaxbengali.org?subject=Partnership%20Inquiry" class="ad-contact-btn">
+                                <i class="fas fa-envelope me-1"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="text-muted mb-2"><i class="fas fa-info-circle me-1"></i>To know more about advertising opportunities, please contact us</p>
+                <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-primary">
+                    <i class="fas fa-envelope me-2"></i>sponsorship@jaxbengali.org
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="gallery-section py-5" id="gallery">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-images me-2"></i>Photo Gallery</h2>
+                <p>Memories from our community events across the years</p>
+            </div>
+            <!-- Year Tabs -->
+            <div class="gallery-year-tabs" id="galleryYearTabs"></div>
+            <!-- Gallery Grid -->
+            <div id="galleryContent"></div>
+            <div class="text-center mt-4">
+                <p class="text-muted"><i class="fab fa-facebook me-1" style="color:#1877F2;"></i><i class="fab fa-instagram me-1" style="color:#E4405F;"></i> Photos sourced from our <a href="https://facebook.com/banfofficial" target="_blank" style="color: #1877F2;">Facebook</a> &amp; <a href="https://instagram.com/banf_jax" target="_blank" style="background: linear-gradient(45deg, #f09433, #dc2743); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:600;">Instagram</a> &mdash; follow us for more!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Get in Touch</h2>
+                <p>Have questions? We'd love to hear from you</p>
+            </div>
+            <form class="contact-form" onsubmit="return handleContactForm(event)">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" class="form-control" placeholder="Enter your name" required id="cf-name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="Enter your email" required id="cf-email">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" class="form-control" placeholder="What is this about?" required id="cf-subject">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea class="form-control" placeholder="Your message..." required id="cf-message"></textarea>
+                </div>
+                <button type="submit" class="submit-btn"><i class="fas fa-paper-plane me-2"></i>Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="#gallery"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@jaxbengali.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script src="gallery-data.js"></script>
+    <script>
+        // Gallery image path prefix (gallery-data.js uses paths relative to docs/)
+        var GALLERY_PATH_PREFIX = '../';
+
+        function initGallery() {
+            var years = Object.keys(GALLERY_DATA).sort(function(a, b) { return b - a; });
+            var tabsEl = document.getElementById('galleryYearTabs');
+            var contentEl = document.getElementById('galleryContent');
+            if (!tabsEl || !contentEl) return;
+
+            tabsEl.innerHTML = years.map(function(y, i) {
+                return '<button class="gallery-year-tab' + (i === 0 ? ' active' : '') + '" data-year="' + y + '" onclick="showGalleryYear(\'' + y + '\')">' + y + '</button>';
+            }).join('');
+
+            showGalleryYear(years[0]);
+        }
+
+        function showGalleryYear(year) {
+            document.querySelectorAll('.gallery-year-tab').forEach(function(t) {
+                t.classList.toggle('active', t.dataset.year === year);
+            });
+            var data = GALLERY_DATA[year];
+            if (!data) return;
+            var contentEl = document.getElementById('galleryContent');
+            var html = '';
+            Object.keys(data).forEach(function(eventName) {
+                html += '<div class="gallery-event-group">';
+                html += '<h4><i class="fas fa-calendar-alt me-2" style="color: var(--gold);"></i>' + eventName + ' <span style="font-size:0.8rem;color:#999;">(' + year + ')</span></h4>';
+                html += '<div class="gallery-grid">';
+                data[eventName].forEach(function(photo) {
+                    var imgSrc = GALLERY_PATH_PREFIX + photo.src;
+                    html += '<div class="gallery-item" onclick="openLightbox(\'' + imgSrc.replace(/'/g, "\\'") + '\', \'' + photo.caption.replace(/'/g, "\\'") + '\')">';
+                    html += '<img src="' + imgSrc + '" alt="' + photo.caption + '" loading="lazy">';
+                    html += '<div class="gallery-caption"><strong>' + photo.caption + '</strong></div>';
+                    html += '</div>';
+                });
+                html += '</div></div>';
+            });
+            contentEl.innerHTML = html;
+        }
+
+        function openLightbox(src, caption) {
+            var lb = document.getElementById('galleryLightbox');
+            if (!lb) {
+                lb = document.createElement('div');
+                lb.id = 'galleryLightbox';
+                lb.className = 'gallery-lightbox';
+                lb.innerHTML = '<button class="lb-close" onclick="closeLightbox()">&times;</button><img id="lbImage" src="" alt=""><div class="lb-caption" id="lbCaption"></div>';
+                lb.onclick = function(e) { if (e.target === lb) closeLightbox(); };
+                document.body.appendChild(lb);
+            }
+            document.getElementById('lbImage').src = src;
+            document.getElementById('lbCaption').textContent = caption;
+            lb.classList.add('show');
+        }
+
+        function closeLightbox() {
+            var lb = document.getElementById('galleryLightbox');
+            if (lb) lb.classList.remove('show');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeLightbox(); closeEcLogin(); closeMemberLogin(); }
+        });
+
+        // Initialize gallery on page load
+        initGallery();
+    </script>
+</body>
+</html>

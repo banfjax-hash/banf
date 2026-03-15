@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANF Jacksonville - Bengali Association of North Florida</title>
+    <meta name="description" content="Bengali Association of North Florida (BANF) — Preserving Bengali culture, traditions, and heritage in Jacksonville since 2008.">
+    <meta property="og:title" content="BANF Jacksonville — Bengali Association of North Florida">
+    <meta property="og:description" content="Preserving Bengali culture, traditions, and heritage in Jacksonville — Building bridges between generations through community, celebration, and service.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.jaxbengali.org">
+    <meta property="og:image" content="https://www.jaxbengali.org/banf-header.jpg">
+    <meta property="og:site_name" content="BANF Jacksonville">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="canonical" href="https://www.jaxbengali.org">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html" class="active" style="color: var(--gold);">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div style="margin-bottom: 2rem;">
+                <img src="../banf-header.jpg" alt="BANF - Bengali Association of North Florida" 
+                     style="max-width: 800px; width: 90%; border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.4); border: 2px solid rgba(200,162,60,0.4);">
+            </div>
+            <div class="hero-badge" id="hero-badge"><i class="fas fa-star me-2"></i>Since 2008 — 17 Years of Heritage</div>
+            <p class="hero-bengali bengali-text" id="hero-bengali">স্বাগতম | আমাদের পরিবারে আপনাকে স্বাগত</p>
+            <h1 id="hero-title" style="font-size: clamp(2rem, 5vw, 3.5rem);">Bengali Association of<br>North Florida</h1>
+            <p class="hero-subtitle" id="hero-subtitle">Preserving Bengali culture, traditions, and heritage in Jacksonville — Building bridges between generations through community, celebration, and service.</p>
+            <div class="hero-buttons">
+                <a href="membership.html" class="btn-primary-custom"><i class="fas fa-user-plus me-2"></i>Become a Member</a>
+                <a href="events.html" class="btn-outline-custom"><i class="fas fa-calendar me-2"></i>Upcoming Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row" id="stats-row">
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">80+</div>
+                        <div class="stat-label">Active Families</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Events Yearly</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">17</div>
+                        <div class="stat-label">Years Strong</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">45+</div>
+                        <div class="stat-label">Sponsors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section class="announcements-section" id="announcements">
+        <div class="container">
+            <div class="section-header mb-4">
+                <h2><i class="fas fa-bullhorn me-2"></i>Important Announcements</h2>
+                <p>Priority updates from BANF communications pipeline</p>
+            </div>
+            <div class="announcement-ticker" aria-label="Live announcement ticker">
+                <div class="announcement-ticker-track" id="announcement-ticker-track"></div>
+            </div>
+            <div class="row g-3" id="announcements-list"></div>
+        </div>
+    </section>
+
+    <!-- Quick Navigation Cards -->
+    <section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-compass me-2"></i>Explore BANF</h2>
+                <p>Navigate to the section you're interested in</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href="about.html" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(139,26,26,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fas fa-scroll" style="font-size: 2.5rem; color: var(--banf-deep-red);"></i></div>
+                            <h5 class="text-dark">About Us</h5>
+                            <p class="text-muted mb-0 small">President's Message & Vision</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href="leadership.html" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(15,27,61,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fas fa-user-tie" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+                            <h5 class="text-dark">Leadership</h5>
+                            <p class="text-muted mb-0 small">Meet our Executive Committee</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href="events.html" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(200,162,60,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fas fa-calendar-alt" style="font-size: 2.5rem; color: var(--gold);"></i></div>
+                            <h5 class="text-dark">Events</h5>
+                            <p class="text-muted mb-0 small">17 events & BANF Radio</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href="membership.html" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,106,78,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fas fa-id-card" style="font-size: 2.5rem; color: var(--banf-green);"></i></div>
+                            <h5 class="text-dark">Membership</h5>
+                            <p class="text-muted mb-0 small">Plans, Pricing & Sponsorship</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href="gallery.html" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(106,17,203,0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fas fa-images" style="font-size: 2.5rem; color: #6a11cb;"></i></div>
+                            <h5 class="text-dark">Gallery</h5>
+                            <p class="text-muted mb-0 small">Photos & Contact Us</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="py-5" id="social-media">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-share-alt me-2"></i>Connect With Us</h2>
+                <p>Stay updated — Follow BANF on social media for the latest news, photos & event updates</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://facebook.com/banfofficial" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(24,119,242,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-facebook-f" style="font-size: 2.5rem; color: #1877F2;"></i></div>
+                            <h5 class="text-dark">Facebook</h5>
+                            <p class="text-muted mb-2">@banfofficial</p>
+                            <span class="btn btn-sm" style="background: #1877F2; color: white; border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Follow Us</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://instagram.com/banf_jax" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(225,48,108,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-instagram" style="font-size: 2.5rem; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i></div>
+                            <h5 class="text-dark">Instagram</h5>
+                            <p class="text-muted mb-2">@banf_jax</p>
+                            <span class="btn btn-sm text-white" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Follow Us</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://youtube.com/@banfjacksonville" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(255,0,0,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-youtube" style="font-size: 2.5rem; color: #FF0000;"></i></div>
+                            <h5 class="text-dark">YouTube</h5>
+                            <p class="text-muted mb-2">@banfjacksonville</p>
+                            <span class="btn btn-sm" style="background: #FF0000; color: white; border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Subscribe</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+            <div class="ec-login-links">
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+            </div>
+            <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="gallery.html#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Members Portal</h5>
+                    <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
+                    <a href="#" onclick="openEcLoginModal(); return false;"><i class="fas fa-user-shield me-2"></i>EC Admin Login</a>
+                    <a href="events.html#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="#"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>
+                    <a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@banfjax.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                    <p><i class="fas fa-globe me-2"></i>www.banfjax.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom" id="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script>
+        // Announcements data (defaults)
+        var DEFAULT_ANNOUNCEMENTS = [
+            {
+                title: 'BANF Kids & Youth Engagement Initiative',
+                message: '',
+                priority: 'high',
+                category: 'program',
+                source: 'email',
+                imageUrl: '../announcement-banner.jpg',
+                effectiveOn: '2026-03-03',
+                expiresOn: '2026-07-31',
+                pinned: true,
+                order: 1,
+                active: true
+            },
+            {
+                title: 'Young Venture Builder — Registration Open',
+                message: 'Registration is now open for the week long game / learning experience program as part of BANF\'s kids and youth engagement initiative.',
+                priority: 'high',
+                category: 'program',
+                source: 'email',
+                linkUrl: 'https://banf-young-venture-builder.lovable.app/',
+                linkText: 'Register — Young Venture Builder',
+                effectiveOn: '2026-03-03',
+                expiresOn: '2026-07-31',
+                pinned: true,
+                order: 2,
+                active: true
+            },
+            {
+                title: 'Youth Civic Design Lab — Competition for Grade 6-10',
+                message: 'Registration is now open for competition for grade 6 - grade 10 students.',
+                priority: 'high',
+                category: 'program',
+                source: 'email',
+                linkUrl: 'https://banf-youth-civ-design-lab.lovable.app/',
+                linkText: 'Register — Youth Civic Design Lab',
+                effectiveOn: '2026-03-03',
+                expiresOn: '2026-07-31',
+                pinned: true,
+                order: 3,
+                active: true
+            }
+        ];
+
+        function renderAnnouncements(items) {
+            var announcements = Array.isArray(items) ? items : [];
+            var list = document.getElementById('announcements-list');
+            var ticker = document.getElementById('announcement-ticker-track');
+            if (!list || !ticker) return;
+            var visible = announcements
+                .filter(function(a) { return a && a.active !== false; })
+                .sort(function(a, b) { return (b.pinned === true) - (a.pinned === true) || (Number(a.order) || 999) - (Number(b.order) || 999); });
+            if (!visible.length) {
+                list.innerHTML = '<div class="col-12"><div class="announcement-item low"><p class="announcement-text">No announcements available yet.</p></div></div>';
+                ticker.innerHTML = '<span><i class="fas fa-bullhorn me-2"></i>Stay tuned for announcements...</span>';
+                return;
+            }
+            list.innerHTML = visible.slice(0, 6).map(function(a) {
+                var level = (a.priority || 'medium').toLowerCase();
+                var imgHtml = a.imageUrl ? '<img class="announcement-img" src="' + esc(a.imageUrl) + '" alt="' + esc(a.title || 'Announcement') + '">' : '';
+                var linkHtml = a.linkUrl ? '<a class="announcement-link" href="' + esc(a.linkUrl) + '" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-1"></i>' + esc(a.linkText || 'Learn More') + '</a>' : '';
+                return '<div class="col-lg-4 col-md-6"><div class="announcement-item ' + esc(level) + '">' + imgHtml + '<div class="announcement-meta">' + esc(a.category || 'general') + ' • ' + esc(level) + '</div><h5 class="announcement-title">' + esc(a.title || 'Announcement') + '</h5>' + (a.message ? '<p class="announcement-text">' + esc(a.message) + '</p>' : '') + linkHtml + '</div></div>';
+            }).join('');
+            var tickerItems = visible.filter(function(a) { return a.title; }).map(function(a) { return '<span><i class="fas fa-circle-info me-2"></i>' + esc(a.title) + (a.message ? ' — ' + esc(a.message).substring(0, 80) : '') + '</span>'; });
+            ticker.innerHTML = tickerItems.concat(tickerItems).join('');
+        }
+
+        // Render on load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderAnnouncements(DEFAULT_ANNOUNCEMENTS);
+        });
+
+        // CRM override for home page
+        window.addEventListener('banf-crm-data', function(e) {
+            var d = e.detail;
+            if (d.siteContent) {
+                var c = d.siteContent;
+                if (c.heroBadge) setHTML('hero-badge', '<i class="fas fa-star me-2"></i>' + esc(c.heroBadge));
+                if (c.heroBengali) setHTML('hero-bengali', esc(c.heroBengali));
+                if (c.heroTitle) setHTML('hero-title', c.heroTitle);
+                if (c.heroSubtitle) setHTML('hero-subtitle', esc(c.heroSubtitle));
+            }
+            if (d.stats && d.stats.length) {
+                var row = document.getElementById('stats-row');
+                if (row) {
+                    row.innerHTML = d.stats.map(function(s) {
+                        return '<div class="col-6 col-md-3"><div class="stat-item"><div class="stat-number">' + esc(s.value) + '</div><div class="stat-label">' + esc(s.label) + '</div></div></div>';
+                    }).join('');
+                }
+            }
+            if (d.announcements && d.announcements.length) {
+                renderAnnouncements(d.announcements);
+            }
+        });
+    </script>
+</body>
+</html>

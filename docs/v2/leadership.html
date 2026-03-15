@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leadership - BANF Executive Committee 2026-2028</title>
+    <meta name="description" content="Meet the BANF Executive Committee — 8 dedicated leaders serving the Bengali community in Jacksonville, FL.">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html" class="active" style="color: var(--gold);">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Executive Committee Section -->
+    <section class="ec-section" id="ec-team">
+        <div class="container">
+            <div class="section-header">
+                <h2>Executive Committee</h2>
+                <p>2026-2028 Leadership Team | 8 Positions</p>
+            </div>
+            
+            <div class="row g-4" id="ec-grid">
+                <!-- EC cards rendered by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- EC Profile Modal -->
+    <div class="ec-modal-overlay" id="ecModalOverlay" onclick="if(event.target===this)closeEcModal()">
+        <div class="ec-modal" id="ecModalContent"></div>
+    </div>
+
+    <!-- Social Media Section -->
+    <section class="py-5" id="social-media" style="background: #f0f4f8;">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-share-alt me-2"></i>Connect With Us</h2>
+                <p>Follow BANF on social media for the latest news, photos & event updates</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://facebook.com/banfofficial" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(24,119,242,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-facebook-f" style="font-size: 2.5rem; color: #1877F2;"></i></div>
+                            <h5 class="text-dark">Facebook</h5>
+                            <p class="text-muted mb-2">@banfofficial</p>
+                            <span class="btn btn-sm" style="background: #1877F2; color: white; border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Follow Us</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://instagram.com/banf_jax" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(225,48,108,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-instagram" style="font-size: 2.5rem; background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i></div>
+                            <h5 class="text-dark">Instagram</h5>
+                            <p class="text-muted mb-2">@banf_jax</p>
+                            <span class="btn btn-sm text-white" style="background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Follow Us</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="https://youtube.com/@banfjacksonville" target="_blank" class="text-decoration-none">
+                        <div class="card h-100 text-center p-4 rounded-4 border-0 shadow-sm" style="transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(255,0,0,0.25)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+                            <div class="mb-3"><i class="fab fa-youtube" style="font-size: 2.5rem; color: #FF0000;"></i></div>
+                            <h5 class="text-dark">YouTube</h5>
+                            <p class="text-muted mb-2">@banfjacksonville</p>
+                            <span class="btn btn-sm" style="background: #FF0000; color: white; border-radius: 20px;"><i class="fas fa-external-link-alt me-1"></i>Subscribe</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+            <div class="ec-login-links">
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+            </div>
+            <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="gallery.html#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Members Portal</h5>
+                    <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
+                    <a href="#" onclick="openEcLoginModal(); return false;"><i class="fas fa-user-shield me-2"></i>EC Admin Login</a>
+                    <a href="events.html#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="#"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>
+                    <a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@banfjax.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                    <p><i class="fas fa-globe me-2"></i>www.banfjax.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom" id="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script>
+        // EC Members Data
+        var EC_MEMBERS = [
+            {
+                id: 'rana',
+                name: 'Dr. Ranadhir Ghosh',
+                role: 'President',
+                initials: 'RG',
+                photoUrl: '../ec-photos/ranadhir-ghosh.jpg',
+                summary: 'AI Thought Leader. Expert in fintech space with a rich mix of finance, technology and management.',
+                fullBio: 'Dynamic and innovative AI Solution Architect with extensive experience driving digital transformation initiatives through advanced analytics, machine learning, and data engineering. Proven track record of leading teams, managing end-to-end AI/ML ecosystems, and delivering impactful solutions that align with business strategies. Possess strong mentorship skills, passionate about building and cultivating talent in data science. Adept at exploring emerging technologies and fostering a culture of AI awareness and application within organizations.<br><br>Published more than 80 research papers. 50 patents (Published and Under review).',
+                education: 'Ph.D., Computer Science',
+                profession: 'AI Solution Architect — Fintech & Digital Transformation',
+                email: 'ranadhir.ghosh@gmail.com',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/dr-ranadhir-ghosh-bbb7b827/',
+                interests: ['AI & Machine Learning', 'Fintech Innovation', 'Data Engineering', 'Bengali Literature', 'Rabindra Sangeet'],
+                yearJoined: 2021,
+                gradient: 'linear-gradient(135deg, #8B1A1A, #6B1020)'
+            },
+            {
+                id: 'partha',
+                name: 'Partha Mukhopadhyay',
+                role: 'Vice President',
+                initials: 'PM',
+                photoUrl: null,
+                summary: 'Deputy Executive overseeing operations and strategic planning.',
+                fullBio: 'Deputy executive overseeing operations and strategic planning for BANF community initiatives. Leading coordination across all committees.',
+                profession: 'Operations Leader',
+                email: 'vp@jaxbengali.org',
+                phone: '',
+                linkedin: '',
+                interests: ['Community Service', 'Strategic Planning', 'Operations Management'],
+                yearJoined: 2021,
+                gradient: 'linear-gradient(135deg, #006A4E, #00856F)'
+            },
+            {
+                id: 'amit',
+                name: 'Amit Chandak',
+                role: 'Treasurer',
+                initials: 'AC',
+                photoUrl: '../ec-photos/amit-chandak.jpg',
+                summary: 'Financial management with transparency and accountability.',
+                fullBio: 'Managing BANF\'s financial operations including budgeting, payments, sponsorship accounting, and financial reporting with full transparency.',
+                profession: 'Finance Professional',
+                email: 'treasurer@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/amit-chandak-97304b4a',
+                interests: ['Financial Planning', 'Community Volunteering', 'Budget Management'],
+                yearJoined: 2022,
+                gradient: 'linear-gradient(135deg, #D4AF37, #E5C158)'
+            },
+            {
+                id: 'rajanya',
+                name: 'Rajanya Ghosh',
+                role: 'General Secretary',
+                initials: 'RG',
+                photoUrl: '../ec-photos/rajanya-ghosh.jpg',
+                summary: 'Classical dancer & hospitality leader with 15 years in Bharatanatyam & Kathak.',
+                fullBio: 'Passionate leader dedicated to bridging generations within the Bengali community. Classical dancer trained in Bharatanatyam & Kathak for 15+ years. Hospitality industry professional driving organizational excellence and community engagement.',
+                profession: 'Hospitality Professional & Classical Dancer',
+                email: 'secretary@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/rajanya-ghosh-mba',
+                interests: ['Bharatanatyam', 'Kathak', 'Cultural Arts', 'Youth Leadership', 'Community Outreach'],
+                yearJoined: 2023,
+                gradient: 'linear-gradient(135deg, #8B0000, #a52a2a)'
+            },
+            {
+                id: 'moumita',
+                name: 'Dr. Moumita Ghosh',
+                role: 'Cultural Secretary',
+                initials: 'MG',
+                photoUrl: null,
+                summary: 'Creative visionary, educator, and cultural program director.',
+                fullBio: 'A creative visionary and educator who directs BANF\'s cultural programs — from Rabindra Jayanti to Durga Puja cultural evenings. Curating vibrant cultural experiences that preserve and celebrate Bengali heritage.',
+                education: 'Ph.D., Education',
+                profession: 'Educator & Cultural Director',
+                email: 'cultural@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/dr-moumita-ghosh',
+                interests: ['Dance', 'Rabindra Sangeet', 'Cultural Programming', 'Education'],
+                yearJoined: 2021,
+                gradient: 'linear-gradient(135deg, #9C27B0, #E91E63)'
+            },
+            {
+                id: 'food-tba',
+                name: 'TBA',
+                role: 'Food Coordinator',
+                initials: 'FC',
+                photoUrl: null,
+                summary: 'To be announced.',
+                fullBio: 'The Food Coordinator position is currently open. This role manages vendor relationships and menu planning for all BANF events.',
+                profession: 'Food & Catering Coordinator',
+                email: 'food@jaxbengali.org',
+                phone: '',
+                linkedin: '',
+                interests: ['Bengali Cuisine', 'Event Catering', 'Vendor Management'],
+                yearJoined: null,
+                gradient: 'linear-gradient(135deg, #FF5722, #FF9800)'
+            },
+            {
+                id: 'sumanta',
+                name: 'Dr. Sumanta Ghosh',
+                role: 'Event Coordinator',
+                initials: 'SG',
+                photoUrl: '../ec-photos/sumanta-ghosh.jpg',
+                summary: 'Postdoctoral Research Fellow at Mayo Clinic — Biophysics & neurodegeneration.',
+                fullBio: 'Postdoctoral Research Fellow at Mayo Clinic specializing in biophysics and neurodegeneration research. Manages end-to-end event planning and logistics for BANF\'s community gatherings and celebrations.',
+                education: 'Ph.D., Biophysics',
+                profession: 'Postdoctoral Research Fellow — Mayo Clinic',
+                email: 'events@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/sumantaghosh1989',
+                interests: ['Biophysics', 'Neurodegeneration Research', 'Event Management', 'Community Building'],
+                yearJoined: 2022,
+                gradient: 'linear-gradient(135deg, #2196F3, #03A9F4)'
+            },
+            {
+                id: 'rwiti',
+                name: 'Rwiti Choudhury',
+                role: 'Puja Coordinator',
+                initials: 'RC',
+                photoUrl: null,
+                summary: 'Financial Aid Counselor at Edward Waters University.',
+                fullBio: 'Financial Aid Counselor at Edward Waters University. Coordinates Durga Puja and other religious/cultural ceremonies for the BANF community with devotion and organizational skill.',
+                profession: 'Financial Aid Counselor — Edward Waters University',
+                email: 'puja@jaxbengali.org',
+                phone: '',
+                linkedin: 'https://linkedin.com/in/rwiti-choudhury-763775180',
+                interests: ['Puja Organization', 'Cultural Traditions', 'Volunteer Management', 'Higher Education'],
+                yearJoined: 2023,
+                gradient: 'linear-gradient(135deg, #673AB7, #9C27B0)'
+            }
+        ];
+
+        function renderECCards() {
+            var grid = document.getElementById('ec-grid');
+            if (!grid) return;
+            grid.innerHTML = EC_MEMBERS.map(function(m) {
+                return '<div class="col-lg-3 col-md-4 col-6">' +
+                    '<div class="ec-card" onclick="openEcModal(\'' + m.id + '\')">' +
+                    (m.photoUrl
+                        ? '<img src="' + m.photoUrl + '" alt="' + m.name + '" class="ec-avatar-img" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">' +
+                          '<div class="ec-avatar" style="display:none;background:' + m.gradient + '">' + m.initials + '</div>'
+                        : '<div class="ec-avatar" style="background:' + m.gradient + '">' + m.initials + '</div>') +
+                    '<span class="ec-position mb-2">' + m.role + '</span>' +
+                    '<h6 class="mt-2">' + m.name + '</h6>' +
+                    '<p class="ec-short-bio">' + m.summary + '</p>' +
+                    '</div></div>';
+            }).join('');
+        }
+
+        function openEcModal(memberId) {
+            var m = EC_MEMBERS.find(function(x) { return x.id === memberId; });
+            if (!m) return;
+            var interestsHtml = (m.interests || []).map(function(i) { return '<span class="badge">' + i + '</span>'; }).join('');
+            
+            document.getElementById('ecModalContent').innerHTML =
+                '<div class="ec-modal-header">' +
+                    '<div class="ec-modal-avatar">' +
+                    (m.photoUrl
+                        ? '<img src="' + m.photoUrl + '" alt="' + m.name + '" onerror="this.parentElement.innerHTML=\'<div class=ec-modal-avatar-initials style=background:' + m.gradient.replace(/[()]/g, '') + '>' + m.initials + '</div>\'">'
+                        : '<div class="ec-modal-avatar-initials" style="background:' + m.gradient + '">' + m.initials + '</div>') +
+                    '</div>' +
+                    '<div>' +
+                        '<h4 class="ec-modal-name">' + m.name + '</h4>' +
+                        '<span class="ec-modal-role">' + m.role + '</span>' +
+                    '</div>' +
+                    '<button class="ec-modal-close" onclick="closeEcModal()">&times;</button>' +
+                '</div>' +
+                '<div class="ec-modal-body">' +
+                    '<h6><i class="fas fa-user me-2"></i>About</h6>' +
+                    '<p>' + m.fullBio + '</p>' +
+                    (m.education ? '<div class="ec-modal-detail"><i class="fas fa-graduation-cap"></i><span>' + m.education + '</span></div>' : '') +
+                    (m.profession ? '<div class="ec-modal-detail"><i class="fas fa-briefcase"></i><span>' + m.profession + '</span></div>' : '') +
+                    (m.yearJoined ? '<div class="ec-modal-detail"><i class="fas fa-calendar-alt"></i><span>Member since ' + m.yearJoined + '</span></div>' : '') +
+                    (interestsHtml ? '<h6 class="mt-3"><i class="fas fa-heart me-2"></i>Interests</h6><div class="ec-modal-interests">' + interestsHtml + '</div>' : '') +
+                '</div>' +
+                '<div class="ec-modal-footer">' +
+                    '<a href="mailto:' + m.email + '" class="ec-modal-btn-email"><i class="fas fa-envelope"></i>' + m.email + '</a>' +
+                    (m.phone ? '<a href="tel:' + m.phone + '" class="ec-modal-btn-phone"><i class="fas fa-phone"></i>' + m.phone + '</a>' : '') +
+                    (m.linkedin ? '<a href="' + m.linkedin + '" target="_blank" class="ec-modal-btn-phone"><i class="fab fa-linkedin-in"></i>LinkedIn</a>' : '') +
+                '</div>';
+            document.getElementById('ecModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeEcModal() {
+            document.getElementById('ecModalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeEcModal();
+        });
+
+        // Render on load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderECCards();
+        });
+
+        // CRM override for EC photos
+        window.addEventListener('banf-crm-data', function(e) {
+            var d = e.detail;
+            if (d.ecPhotos && d.ecPhotos.length) {
+                d.ecPhotos.forEach(function(p) {
+                    var m = EC_MEMBERS.find(function(x) { return x.id === p.memberId; });
+                    if (m && p.photoUrl) m.photoUrl = p.photoUrl;
+                });
+                renderECCards();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership & Sponsorship - BANF Jacksonville</title>
+    <meta name="description" content="BANF Jacksonville membership plans, sponsorship tiers, and payment information for FY 2026-27.">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html" class="active" style="color: var(--gold);">Membership</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Membership & Sponsorship Section -->
+    <section class="membership-section" id="membership" style="padding-top: 100px;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Membership & Sponsorship</h2>
+                <p style="color: rgba(255,255,255,0.8);">Join our community or support our mission &bull; 2026-2027 Season</p>
+            </div>
+
+            <!-- Early Bird Alert Banner -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="p-3 rounded-3 text-center" style="background: linear-gradient(135deg, #28a745, #20c997); color: #fff;">
+                        <i class="fas fa-clock fa-lg me-2"></i>
+                        <strong>⏰ Early Bird Pricing Available!</strong> Save on Earlybird Premium — Family $375, Couple $330, Individual $205, Student $145 — Until May 31, 2026
+                        <button class="btn btn-sm btn-light ms-3" onclick="openEventsMatrix()">
+                            <i class="fas fa-table me-1"></i>View Events Matrix
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Portal Access Box -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="p-4 rounded-4" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 2px solid var(--gold);">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 style="color: #fff;"><i class="fas fa-user-lock me-2" style="color: var(--gold);"></i>Member Portal</h4>
+                                <p style="color: rgba(255,255,255,0.85); margin-bottom: 0;">
+                                    <strong>Already a member?</strong> Log in to access your profile, payment history, event registrations, career network, and exclusive member content.
+                                    <br><span class="small" style="color: rgba(255,255,255,0.6);"><i class="fas fa-info-circle me-1"></i>Member sign-up will be announced by the President. Stay tuned for instructions.</span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <button class="btn" style="background: var(--gold); color: #1a1a2e; font-weight: 600;" onclick="openMemberLoginModal()">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Member Login
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membership Plans -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-12 text-center mb-3">
+                    <h3 class="text-white"><i class="fas fa-users me-2"></i>Membership Plans — FY 2026-27</h3>
+                    <p class="text-white-50">17 Events &bull; 80 Target Members &bull; Choose the plan that fits your needs</p>
+                </div>
+            </div>
+
+            <!-- Row 1: Membership Fees -->
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 text-center mb-2">
+                    <h5 style="color: var(--gold);"><i class="fas fa-id-card me-2"></i>Membership Fees</h5>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <!-- 1. M2 Premium (Early Bird) - Featured -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card featured">
+                        <div class="pricing-header">
+                            <span class="badge bg-warning text-dark mb-2"><i class="fas fa-clock me-1"></i>Available until May 31st, 2026</span>
+                            <h4 style="color: #fff;"><i class="fas fa-bolt me-2"></i>M2 Premium (Early Bird)</h4>
+                            <p class="mb-2 opacity-75">All 17 events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong style="color: var(--gold);">$375</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$330</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$205</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$145</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>All 17 events included</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>Early Bird — save vs M2 Premium</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-info-circle me-1" style="color:var(--gold);"></i>EB discount valid until May 31st, 2026</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn w-100" style="background: var(--gradient-primary); color: white; border: none;">Select Plan</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 2. M2 Premium -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);">
+                            <h4><i class="fas fa-crown me-2"></i>M2 Premium</h4>
+                            <p class="mb-2 opacity-75">All 17 events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$410</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$365</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$230</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$165</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>All 17 events included</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-info-circle me-1" style="color:var(--gold);"></i>Regular price — available after May 31st</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Plan</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 3. M1 Regular -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%);">
+                            <h4><i class="fas fa-id-badge me-2"></i>M1 Regular</h4>
+                            <p class="mb-2 opacity-75">11 events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$280</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$255</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$140</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$100</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>11 events included (excludes 6 premium events)</div>
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>Best value for selective attendees</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Plan</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Special Passes -->
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 text-center mb-2">
+                    <h5 style="color: var(--gold);"><i class="fas fa-theater-masks me-2"></i>Special Passes</h5>
+                    <p class="text-white-50 small">Can't attend all events? Choose the pass that fits your interests!</p>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <!-- 4. Culture Special Pass -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #e83e8c 0%, #c2185b 100%);">
+                            <h4><i class="fas fa-music me-2"></i>Culture Special Pass</h4>
+                            <p class="mb-2 opacity-75">4 cultural events included</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$200</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$175</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$100</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$75</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>4 cultural events included</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Pass</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5. Durga Puja Celebration Pass -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);">
+                            <h4 style="color: #1a1a2e;"><i class="fas fa-om me-2"></i>Durga Puja Celebration</h4>
+                            <p class="mb-2" style="color: rgba(0,0,0,0.6);">5 events — Puja + Artist performances</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$210</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$175</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$110</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$80</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>5 events: Puja + Artist (both days)</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Pass</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 6. Durga Puja Core Pass -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header" style="background: linear-gradient(135deg, #20c997 0%, #198754 100%);">
+                            <h4><i class="fas fa-pray me-2"></i>Durga Puja Core Pass</h4>
+                            <p class="mb-2 opacity-75">3 events — Puja only (no artist)</p>
+                        </div>
+                        <div class="pricing-body">
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-users me-2 text-warning"></i>Family <small class="opacity-60 ms-1">(Couple + Children)</small></span><strong>$150</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-heart me-2 text-info"></i>Couple <small class="opacity-60 ms-1">(Two Adults)</small></span><strong>$125</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-user me-2 text-light"></i>Individual <small class="opacity-60 ms-1">(One Adult)</small></span><strong>$80</strong></div>
+                            <div class="pricing-feature d-flex justify-content-between align-items-start"><span><i class="fas fa-graduation-cap me-2 text-success"></i>Student <small class="opacity-60 ms-1">(Full-time)</small></span><strong>$60</strong></div>
+                            <hr style="border-color: rgba(255,255,255,0.2); margin: 0.5rem 0;">
+                            <div class="pricing-feature small opacity-75"><i class="fas fa-check-circle me-1"></i>3 Puja events (no artist programs)</div>
+                        </div>
+                        <div class="pricing-footer">
+                            <a href="mailto:membership@jaxbengali.org" class="btn btn-outline-light w-100">Select Pass</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10">
+                    <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
+                        <p class="text-white mb-2"><i class="fas fa-info-circle me-2" style="color: var(--gold);"></i><strong>Important Notes</strong></p>
+                        <p class="text-white-50 mb-1 small">****** Early bird discount will be available to all members till 31st May, 2026 ******</p>
+                        <p class="text-white-50 mb-0 small" style="font-style: italic;">Celebrate our culture, strengthen our community, and preserve our heritage!<br>Join us to keep our Bengali roots alive, to connect, and to celebrate together!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Benefits Summary -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="p-4 rounded-3" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
+                        <h5 class="text-center mb-4" style="color: #fff;"><i class="fas fa-calendar-check me-2"></i>What's Included in Your Membership</h5>
+                        <div class="row g-3 text-center">
+                            <div class="col-6 col-md-4">
+                                <div class="p-2" style="color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-calendar-alt fa-2x mb-2" style="color: var(--gold);"></i>
+                                    <h6 class="mb-0" style="font-size:0.85rem;">Cultural Events</h6>
+                                    <small class="opacity-75">Bosonto, Durga Puja &amp; more</small>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-2" style="color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-utensils fa-2x mb-2" style="color: var(--gold);"></i>
+                                    <h6 class="mb-0" style="font-size:0.85rem;">Puja Dinner</h6>
+                                    <small class="opacity-75">M2 Premium &amp; M2 Premium (EB) plans</small>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4">
+                                <div class="p-2" style="color: rgba(255,255,255,0.9);">
+                                    <i class="fas fa-music fa-2x mb-2" style="color: var(--gold);"></i>
+                                    <h6 class="mb-0" style="font-size:0.85rem;">Artist Performances</h6>
+                                    <small class="opacity-75">M2 Premium &amp; Durga Puja Celebration</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sponsorship Tiers -->
+            <div class="row mb-4">
+                <div class="col-12 text-center mb-4">
+                    <h3 class="text-white"><i class="fas fa-handshake me-2"></i>Become a Sponsor</h3>
+                    <p class="text-white-50">Support our community events and cultural programs</p>
+                </div>
+            </div>
+            <div class="row mb-4 justify-content-center">
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="sponsorship-tier-card text-center py-4">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"><i class="fas fa-gem text-white"></i></div>
+                        <h5 class="text-white mb-2">Platinum</h5>
+                        <div class="sponsor-tier-price text-warning mb-3">$5,000</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="sponsorship-tier-card text-center py-4">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);"><i class="fas fa-crown text-white"></i></div>
+                        <h5 class="text-white mb-2">Diamond</h5>
+                        <div class="sponsor-tier-price text-warning mb-3">$4,000</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="sponsorship-tier-card text-center py-4">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #f7931e 0%, #f5af19 100%);"><i class="fas fa-medal text-white"></i></div>
+                        <h5 class="text-white mb-2">Gold</h5>
+                        <div class="sponsor-tier-price text-warning mb-3">$3,000</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="sponsorship-tier-card text-center py-4">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);"><i class="fas fa-award text-white"></i></div>
+                        <h5 class="text-white mb-2">Silver</h5>
+                        <div class="sponsor-tier-price text-warning mb-3">$2,000</div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                    <div class="sponsorship-tier-card text-center py-4">
+                        <div class="tier-icon" style="background: linear-gradient(135deg, #cd7f32 0%, #b8860b 100%);"><i class="fas fa-trophy text-white"></i></div>
+                        <h5 class="text-white mb-2">Bronze</h5>
+                        <div class="sponsor-tier-price text-warning mb-3">$1,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sponsorship Contact -->
+            <div class="row mb-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <p class="text-white-50 mb-2">For sponsorship details and benefits:</p>
+                    <a href="mailto:sponsorship@jaxbengali.org" class="btn btn-outline-light"><i class="fas fa-envelope me-2"></i>Contact Us</a>
+                </div>
+            </div>
+
+            <!-- Payment Info -->
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card bg-white text-dark p-4 rounded-4">
+                        <h4 class="mb-4 text-center" style="color: var(--banf-deep-red);"><i class="fas fa-credit-card me-2"></i>Payment Information</h4>
+                        <div class="row text-center justify-content-center">
+                            <div class="col-md-6 mb-3">
+                                <h6><i class="fas fa-university me-2" style="color: #6d1ed4;"></i>Zelle</h6>
+                                <p class="mb-0" style="font-family: monospace; font-size: 1.1rem;">banfjax@gmail.com</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="text-center text-muted mb-0"><i class="fas fa-file-alt me-2"></i>BANF is a 501(c)(3) tax-deductible organization</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Matrix Modal -->
+    <div class="matrix-modal-overlay" id="eventsMatrixOverlay" onclick="if(event.target===this)closeEventsMatrix()">
+        <div class="matrix-modal">
+            <div class="matrix-modal-header">
+                <div>
+                    <h4 class="mb-0"><i class="fas fa-table me-2"></i>Event Access by Membership Category</h4>
+                    <small>FY 2026-27 | ✓ = Included • $ = Add-on price • — = Not available</small>
+                </div>
+                <button class="matrix-modal-close" onclick="closeEventsMatrix()">&times;</button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th><th>Date</th><th>Type</th><th>M2 🏆</th><th>M1 📋</th><th>Cultural 🎭</th><th>DP-1 🙏</th><th>DP-2 🙏</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="event-name">Bosonto Utsob</td><td>Mar 7</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Noboborsho</td><td>Apr 14</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$30</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Kids Summer Sports Training</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$45</td><td class="matrix-price">$50</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Summer Workshops – Kids</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-price">$40</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Summer Workshops – General</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-price">$40</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Sports Day</td><td>Jul</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-price">$20</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Spondon</td><td>Aug</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Mohaloya</td><td>Oct 17</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Durga Puja Day 1&2 + Lunch</td><td>Oct 24–25</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Lakshmi Puja</td><td>Oct 24</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Bijoya Sonmiloni</td><td>Oct 25</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Artist Program – Day 1 + Dinner</td><td>Oct 24</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Artist Program – Day 2 + Dinner</td><td>Oct 25</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Kali Puja + Lunch</td><td>Nov 14</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Natok (Drama) + Dinner</td><td>Nov 14</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Winter Picnic</td><td>Jan 11/27</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Saraswati Puja</td><td>Feb 27</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="matrix-legend">
+                <strong>Event Counts:</strong> M2 Premium: 17 | M1 Regular: 11 | Cultural Special: 5 | DP Special-1: 6 | DP Special-2: 4<br>
+                <small class="text-muted">💡 M2 Premium includes ALL 17 events. Cultural Special covers 12 events at 3.5× value. DP Specials offer focused Durga Puja access from $150.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="gallery.html#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@jaxbengali.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script>
+        function openEventsMatrix() {
+            document.getElementById('eventsMatrixOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeEventsMatrix() {
+            document.getElementById('eventsMatrixOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeEventsMatrix(); closeEcLogin(); closeMemberLogin(); }
+        });
+    </script>
+</body>
+</html>

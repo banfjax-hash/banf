@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Radio - BANF Jacksonville</title>
+    <meta name="description" content="BANF Jacksonville 2026-27 Event Calendar — 17 cultural, educational, religious & social events plus BANF Radio.">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html" class="active" style="color: var(--gold);">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Page Header -->
+    <section style="padding: 120px 0 40px; background: var(--gradient-primary); text-align: center;">
+        <div class="container">
+            <h1 style="color: #fff; font-family: 'Playfair Display', serif;">2026-27 Event Calendar</h1>
+            <p style="color: rgba(255,255,255,0.8);">17 events throughout the year — Cultural, Educational, Religious & Social</p>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="py-5" id="events">
+        <div class="container">
+            <div class="row g-3" id="events-row">
+                <!-- 1. Bosonto Utsob (Completed) -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card" style="position: relative;">
+                        <div class="event-image" style="background: url('../event-images/holi-bosonto.jpg') center/cover no-repeat;"></div>
+                        <span class="badge bg-success" style="position: absolute; top: 10px; right: 10px; font-size: 0.65rem;"><i class="fas fa-check me-1"></i>Done</span>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Mar 7</span>
+                            <h4 style="font-size: 0.95rem;">Bosonto Utsob</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 2. Noboborsho -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card" style="position: relative;">
+                        <div class="event-image" style="background: url('../event-images/noboborsho.jpg') center/cover no-repeat;"></div>
+                        <span class="badge" style="position: absolute; top: 10px; right: 10px; font-size: 0.65rem; background: #6f42c1;"><i class="fas fa-clock me-1"></i>Next</span>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Apr 25</span>
+                            <h4 style="font-size: 0.95rem;">Noboborsho</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 3. Kids Summer Sports Training -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/kids-sports.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jun-Jul</span>
+                            <h4 style="font-size: 0.95rem;">Kids Summer Sports</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-graduation-cap me-1"></i>Educational</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 4. Summer Workshops - Kids -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/workshop-kids.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jun-Jul</span>
+                            <h4 style="font-size: 0.95rem;">Summer Workshops (Kids)</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-graduation-cap me-1"></i>Educational</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5. Summer Workshops - General -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/workshop-general.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jun-Jul</span>
+                            <h4 style="font-size: 0.95rem;">Summer Workshops (General)</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-graduation-cap me-1"></i>Educational</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 6. Sports Day -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/sports-day.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jul</span>
+                            <h4 style="font-size: 0.95rem;">Sports Day</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-users me-1"></i>Social</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 7. Spondon -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/spondon-cultural.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Aug</span>
+                            <h4 style="font-size: 0.95rem;">Spondon</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 8. Mohaloya -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/mahalaya.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 17</span>
+                            <h4 style="font-size: 0.95rem;">Mohaloya</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 9. Durga Puja Day 1&2 + Lunch (Flagship) -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card" style="border: 2px solid var(--gold);">
+                        <div class="event-image" style="background: url('../event-images/durga-puja.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 24-25</span>
+                            <h4 style="font-size: 0.95rem;">Durga Puja Day 1&amp;2</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-trophy me-1" style="color: var(--gold);"></i>Flagship + Lunch</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 10. Lakshmi Puja -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/lakshmi-puja.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 25</span>
+                            <h4 style="font-size: 0.95rem;">Lakshmi Puja</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 11. Bijoya Sonmiloni -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/bijoya.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 25</span>
+                            <h4 style="font-size: 0.95rem;">Bijoya Sonmiloni</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-users me-1"></i>Social</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 12. Artist Program Day 1 + Dinner -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/artist-program.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 24</span>
+                            <h4 style="font-size: 0.95rem;">Artist Program Day 1</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural + Dinner</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 13. Artist Program Day 2 + Dinner -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/artist-program.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Oct 25</span>
+                            <h4 style="font-size: 0.95rem;">Artist Program Day 2</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural + Dinner</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 14. Kali Puja + Lunch -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/kali-puja.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Nov 7</span>
+                            <h4 style="font-size: 0.95rem;">Kali Puja + Lunch</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 15. Natok (Drama) + Dinner -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/natok-drama.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Nov 7</span>
+                            <h4 style="font-size: 0.95rem;">Natok (Drama) + Dinner</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-palette me-1"></i>Cultural</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 16. Winter Picnic -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/picnic.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Jan 11/27</span>
+                            <h4 style="font-size: 0.95rem;">Winter Picnic</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-users me-1"></i>Social</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 17. Saraswati Puja 2027 -->
+                <div class="col-lg-3 col-md-4 col-6">
+                    <div class="event-card">
+                        <div class="event-image" style="background: url('../event-images/saraswati-puja.jpg') center/cover no-repeat;"></div>
+                        <div class="event-content">
+                            <span class="event-date"><i class="fas fa-calendar me-1"></i>Feb 27</span>
+                            <h4 style="font-size: 0.95rem;">Saraswati Puja 2027</h4>
+                            <p class="event-location" style="font-size:0.8rem;"><i class="fas fa-om me-1"></i>Religious</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Matrix Button -->
+            <div class="text-center mt-4">
+                <button class="btn" style="background: var(--gradient-primary); color: white; border: none; padding: 12px 30px;" onclick="openEventsMatrix()">
+                    <i class="fas fa-table me-2"></i>View Full Events Matrix
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Radio Section -->
+    <section class="radio-section" id="radio">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: #fff;">BANF Radio</h2>
+                <p style="color: rgba(255,255,255,0.8);">Live Bengali radio stations & Archive collections</p>
+            </div>
+            <div class="radio-player">
+                <div class="channel-tabs" id="channelTabs"></div>
+                <div class="radio-status">
+                    <div class="live-dot" id="radioLiveDot"></div>
+                    <span id="radioStatusText">SELECT A STATION</span>
+                </div>
+                <h3 class="now-playing" id="nowPlaying">🎵 Bengali Music — Click play to start</h3>
+                <div class="now-playing-sub" id="nowPlayingSub">Select a station to start listening</div>
+                <div class="radio-equalizer" id="radioEqualizer">
+                    <div class="eq-bar" style="animation-delay:0s"></div>
+                    <div class="eq-bar" style="animation-delay:0.15s"></div>
+                    <div class="eq-bar" style="animation-delay:0.3s"></div>
+                    <div class="eq-bar" style="animation-delay:0.45s"></div>
+                    <div class="eq-bar" style="animation-delay:0.6s"></div>
+                    <div class="eq-bar" style="animation-delay:0.2s"></div>
+                    <div class="eq-bar" style="animation-delay:0.5s"></div>
+                </div>
+                <div class="radio-controls">
+                    <button class="radio-btn skip-btn" title="Previous Station" onclick="banfRadio.skip(-1)"><i class="fas fa-backward"></i></button>
+                    <button class="radio-btn play-btn" id="radioPlayBtn" title="Play/Stop" onclick="banfRadio.toggle()"><i class="fas fa-play" id="radioPlayIcon"></i></button>
+                    <button class="radio-btn skip-btn" title="Next Station" onclick="banfRadio.skip(1)"><i class="fas fa-forward"></i></button>
+                </div>
+                <div class="radio-station-info" id="radioStationInfo">📻 LIVE RADIO</div>
+                <div class="radio-source-tabs">
+                    <div class="radio-source-tab active" data-source="live" onclick="banfRadio.switchSource('live')">📻 Live</div>
+                    <div class="radio-source-tab" data-source="archive" onclick="banfRadio.switchSource('archive')">📚 Archive</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Matrix Modal -->
+    <div class="matrix-modal-overlay" id="eventsMatrixOverlay" onclick="if(event.target===this)closeEventsMatrix()">
+        <div class="matrix-modal">
+            <div class="matrix-modal-header">
+                <div>
+                    <h4 class="mb-0"><i class="fas fa-table me-2"></i>Event Access by Membership Category</h4>
+                    <small>FY 2026-27 | ✓ = Included • $ = Add-on price • — = Not available</small>
+                </div>
+                <button class="matrix-modal-close" onclick="closeEventsMatrix()">&times;</button>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="matrix-table">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>M2 🏆</th>
+                            <th>M1 📋</th>
+                            <th>Cultural 🎭</th>
+                            <th>DP-1 🙏</th>
+                            <th>DP-2 🙏</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="event-name">Bosonto Utsob</td><td>Mar 7</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Noboborsho</td><td>Apr 14</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$30</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Kids Summer Sports Training</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$45</td><td class="matrix-price">$50</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Summer Workshops – Kids</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-price">$40</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Summer Workshops – General</td><td>Jun–Jul</td><td>Educ</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-price">$40</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Sports Day</td><td>Jul</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-price">$20</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Spondon</td><td>Aug</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Mohaloya</td><td>Oct 17</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Durga Puja Day 1&2 + Lunch</td><td>Oct 24–25</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Lakshmi Puja</td><td>Oct 24</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Bijoya Sonmiloni</td><td>Oct 25</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td></tr>
+                        <tr><td class="event-name">Artist Program – Day 1 + Dinner</td><td>Oct 24</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Artist Program – Day 2 + Dinner</td><td>Oct 25</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-price">$35</td><td class="matrix-na">—</td><td class="matrix-check">✓</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Kali Puja + Lunch</td><td>Nov 14</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Natok (Drama) + Dinner</td><td>Nov 14</td><td>Cult</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Winter Picnic</td><td>Jan 11/27</td><td>Soci</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                        <tr><td class="event-name">Saraswati Puja</td><td>Feb 27</td><td>Reli</td><td class="matrix-check">✓</td><td class="matrix-check">✓</td><td class="matrix-na">—</td><td class="matrix-na">—</td><td class="matrix-na">—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="matrix-legend">
+                <strong>Event Counts:</strong> M2 Premium: 17 | M1 Regular: 11 | Cultural Special: 5 | DP Special-1: 6 | DP Special-2: 4<br>
+                <small class="text-muted">💡 M2 Premium includes ALL 17 events. Cultural Special covers 12 events at 3.5× value. DP Specials offer focused Durga Puja access from $150.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="gallery.html#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@jaxbengali.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script>
+        // Events Matrix
+        function openEventsMatrix() {
+            document.getElementById('eventsMatrixOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeEventsMatrix() {
+            document.getElementById('eventsMatrixOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // BANF Radio
+        var banfRadio = (function() {
+            var STATIONS = [
+                { name: 'AIR Maitree Kolkata', url: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio245/hlspbaudio24564kbps.m3u8', icon: '🎵', genre: 'Rabindra Sangeet', archive: ['ClassicSongVolume1', 'RanarRanar', 'TomarHoloShuru', 'EklaCholoRe'] },
+                { name: 'AIR Geetanjali Kolkata', url: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio055/hlspbaudio05564kbps.m3u8', icon: '🎵', genre: 'Rabindra Sangeet', archive: [] },
+                { name: 'Radio Bhumi 92.8 FM', url: 'https://stream.zeno.fm/ybf1umk1k18uv', icon: '🎶', genre: 'Bengali Adhunik', archive: ['BengaliBestEverSongs'] },
+                { name: 'Rajshahi FM', url: 'https://stream.zeno.fm/nxfshdayjrdvv', icon: '🎶', genre: 'Bengali Adhunik', archive: [] },
+                { name: 'Radio GoonGoon', url: 'https://audio.streamcast.xyz/listen/radiogoongoon/radio.mp3', icon: '🎶', genre: 'Bengali Adhunik', archive: [] },
+                { name: 'A2Z Radio Bangladesh', url: 'https://listen.radioking.com/radio/1743/stream/125', icon: '🎶', genre: 'Bengali Adhunik', archive: [] },
+                { name: 'AIR FM Rainbow Kolkata', url: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio058/hlspbaudio05864kbps.m3u8', icon: '🎶', genre: 'Bengali Adhunik', archive: [] },
+                { name: 'Radio Quarantine Kolkata', url: 'https://stream-173.zeno.fm/krk4kw830tzuv', icon: '🎶', genre: 'Bengali Adhunik', archive: [] },
+                { name: 'Ankora Radio', url: 'https://stream-153.zeno.fm/xush70b1cbruv', icon: '🎸', genre: 'Bangla Band', archive: [] },
+                { name: 'Kirtan Archive', url: null, icon: '🙏', genre: 'Kirtan', archive: ['purvaraga'] },
+                { name: 'AIR FM Gold Kolkata', url: 'https://airhlspush.pc.cdn.bitgravity.com/httppush/hlspbaudio057/hlspbaudio05764kbps.m3u8', icon: '🪕', genre: 'Folk Song', archive: ['ClassicSongVolume1'] },
+                { name: 'Radio Bangla Net', url: 'https://playerservices.streamtheworld.com/api/livestream-redirect/SP_R3563475_SC', icon: '🪕', genre: 'Folk Song', archive: [] },
+                { name: 'Radio Vivid Voice', url: 'https://stream.zeno.fm/xuin6ocdc2juv', icon: '📻', genre: 'Others', archive: [] },
+                { name: 'SomaFM Suburbs of Goa', url: 'https://ice4.somafm.com/suburbsofgoa-128-aac', icon: '📻', genre: 'Others', archive: [] },
+                { name: 'Radio Udaan', url: 'https://stream.radioudaan.com/listen/radio_udaan/radio.mp3', icon: '📻', genre: 'Others', archive: [] },
+                { name: 'Radio Shadhin 92.4 FM', url: 'https://stream.zeno.fm/67r5mgg0cg8uv', icon: '📻', genre: 'Others', archive: [] }
+            ];
+            var audio = null, playing = false, stationIdx = 0;
+            var radioSource = 'live', archivePlaylist = [], archiveIdx = 0;
+            function el(id) { return document.getElementById(id); }
+            function buildTabs() {
+                var tabs = el('channelTabs');
+                if (!tabs) return;
+                tabs.innerHTML = STATIONS.map(function(s, i) {
+                    return '<div class="channel-tab" data-station="' + i + '" onclick="banfRadio.selectStation(' + i + ')">' + s.icon + ' ' + s.name + '</div>';
+                }).join('');
+            }
+            function updateUI(nowText, subText, isPlay, statusText) {
+                var np = el('nowPlaying'); if (np) np.textContent = nowText;
+                var ns = el('nowPlayingSub'); if (ns) ns.textContent = subText || '';
+                var icon = el('radioPlayIcon');
+                if (icon) icon.className = isPlay ? 'fas fa-pause' : 'fas fa-play';
+                var dot = el('radioLiveDot');
+                if (dot) dot.style.background = isPlay ? 'var(--gold)' : '#999';
+                var st = el('radioStatusText');
+                if (st) st.textContent = statusText || (isPlay ? 'PLAYING' : 'STOPPED');
+                var eq = el('radioEqualizer');
+                if (eq) eq.classList.toggle('playing', isPlay);
+            }
+            function selectStation(idx) {
+                stationIdx = idx;
+                archivePlaylist = []; archiveIdx = 0;
+                document.querySelectorAll('.channel-tab').forEach(function(t) {
+                    t.classList.toggle('active', parseInt(t.dataset.station) === idx);
+                });
+                var activeTab = document.querySelector('.channel-tab.active');
+                if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                var s = STATIONS[idx]; if (!s) return;
+                if (!s.url && s.archive && s.archive.length > 0) radioSource = 'archive';
+                else if (s.url && radioSource === 'archive' && (!s.archive || s.archive.length === 0)) radioSource = 'live';
+                updateSourceTabs();
+                if (playing) { playStation(); } else {
+                    var hasLive = !!s.url, hasArchive = s.archive && s.archive.length > 0;
+                    var info = s.genre;
+                    if (hasLive && hasArchive) info += ' — Live + Archive';
+                    else if (hasLive) info += ' — Live stream';
+                    else if (hasArchive) info += ' — Archive only';
+                    updateUI(s.icon + ' ' + s.name, info + ' — Press play', false, 'READY');
+                }
+            }
+            function updateSourceTabs() {
+                document.querySelectorAll('.radio-source-tab').forEach(function(t) {
+                    t.classList.toggle('active', t.dataset.source === radioSource);
+                });
+            }
+            function updatePlayState(isPlay) {
+                var icon = el('radioPlayIcon');
+                if (icon) icon.className = isPlay ? 'fas fa-pause' : 'fas fa-play';
+                var dot = el('radioLiveDot');
+                if (dot) dot.style.background = isPlay ? 'var(--gold)' : '#999';
+                var st = el('radioStatusText');
+                if (st) st.textContent = isPlay ? 'PLAYING' : 'STOPPED';
+                var eq = el('radioEqualizer');
+                if (eq) eq.classList.toggle('playing', isPlay);
+            }
+            function initAudio() {
+                if (audio) return;
+                audio = new Audio(); audio.volume = 0.8;
+                audio.addEventListener('playing', function() { playing = true; audio._retry = 0; updatePlayState(true); });
+                audio.addEventListener('error', function() {
+                    if (!playing) return;
+                    if (!audio._retry) audio._retry = 0; audio._retry++;
+                    if (audio._retry <= 2 && playing) { skip(1); }
+                    else { audio._retry = 0; playing = false; updateUI('Stream unavailable — try another station', '', false, 'ERROR'); el('radioLiveDot').style.background = '#dc3545'; }
+                });
+                audio.addEventListener('ended', function() {
+                    if (radioSource === 'archive' && archivePlaylist.length > 0) { archiveIdx = (archiveIdx + 1) % archivePlaylist.length; playArchiveTrack(); }
+                });
+            }
+            function playStation() {
+                var s = STATIONS[stationIdx]; if (!s) return;
+                initAudio();
+                if (radioSource === 'archive') {
+                    if (s.archive && s.archive.length > 0) { var pick = s.archive[Math.floor(Math.random() * s.archive.length)]; loadArchive(pick); }
+                    else { updateUI('No archive for ' + s.name, 'Switch to Live', false, 'UNAVAILABLE'); }
+                    return;
+                }
+                if (!s.url) {
+                    if (s.archive && s.archive.length > 0) { radioSource = 'archive'; updateSourceTabs(); playStation(); }
+                    else { updateUI('No stream for ' + s.name, 'Try another station', false, 'UNAVAILABLE'); }
+                    return;
+                }
+                audio.src = s.url; audio.play().catch(function() {}); playing = true;
+                updateUI('📻 ' + s.name, s.genre, true, 'LIVE');
+                el('radioStationInfo').textContent = '📻 ' + s.name + ' — ' + s.genre;
+            }
+            async function loadArchive(collectionId) {
+                updateUI('⏳ Loading archive...', '', true, 'LOADING');
+                try {
+                    var ctrl = new AbortController(); setTimeout(function() { ctrl.abort(); }, 8000);
+                    var resp = await fetch('https://archive.org/metadata/' + collectionId, { signal: ctrl.signal });
+                    var meta = await resp.json();
+                    archivePlaylist = (meta.files || []).filter(function(f) { return f.name && f.name.endsWith('.mp3'); }).map(function(f) {
+                        return { name: (f.title || f.name.replace('.mp3', '')).replace(/_/g, ' '), url: 'https://archive.org/download/' + collectionId + '/' + encodeURIComponent(f.name) };
+                    });
+                    for (var i = archivePlaylist.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = archivePlaylist[i]; archivePlaylist[i] = archivePlaylist[j]; archivePlaylist[j] = tmp; }
+                    archiveIdx = 0;
+                    if (archivePlaylist.length > 0) playArchiveTrack();
+                    else updateUI('No tracks found', 'Try live radio', false, 'EMPTY');
+                } catch(e) { updateUI('Archive unavailable — try live radio', '', false, 'ERROR'); }
+            }
+            function playArchiveTrack() {
+                if (archivePlaylist.length === 0) return;
+                var track = archivePlaylist[archiveIdx]; var s = STATIONS[stationIdx];
+                initAudio(); audio.src = track.url; audio.play().catch(function() {}); playing = true;
+                updateUI('🎵 ' + track.name, 'Track ' + (archiveIdx + 1) + '/' + archivePlaylist.length + ' — ' + (s ? s.name : 'Archive'), true, 'ARCHIVE');
+                el('radioStationInfo').textContent = '📚 ' + (s ? s.name : 'Archive');
+            }
+            function switchSource(src) { radioSource = src; updateSourceTabs(); if (playing) playStation(); }
+            function toggle() {
+                if (playing) { playing = false; if (audio) { audio.removeAttribute('src'); audio.pause(); } updatePlayState(false);
+                    var s = STATIONS[stationIdx]; updateUI(s ? s.icon + ' ' + s.name + ' — Paused' : '🎵 Click play to start', '', false, 'STOPPED'); return;
+                }
+                playStation();
+            }
+            function skip(dir) {
+                if (radioSource === 'archive' && archivePlaylist.length > 0) { archiveIdx = (archiveIdx + dir + archivePlaylist.length) % archivePlaylist.length; if (playing) playArchiveTrack(); return; }
+                stationIdx = (stationIdx + dir + STATIONS.length) % STATIONS.length; selectStation(stationIdx);
+            }
+            async function discover() {
+                var tags = ['bengali', 'bangla', 'kolkata', 'rabindra']; var found = 0; var existing = new Set();
+                STATIONS.forEach(function(s) { if (s.url) existing.add(s.url); });
+                for (var t = 0; t < tags.length; t++) {
+                    try { var ctrl = new AbortController(); setTimeout(function() { ctrl.abort(); }, 5000);
+                        var resp = await fetch('https://de1.api.radio-browser.info/json/stations/search?tag=' + tags[t] + '&limit=5&order=clickcount&reverse=true&hidebroken=true', { signal: ctrl.signal });
+                        var data = await resp.json();
+                        data.forEach(function(s) { var url = s.url_resolved || s.url; if (!url || !url.startsWith('https://') || existing.has(url)) return; if (s.codec && ['MP3','AAC','AAC+'].indexOf(s.codec) < 0) return;
+                            existing.add(url); STATIONS.push({ name: (s.name || 'Bengali Radio').substring(0, 35), url: url, icon: '📻', genre: 'Discovered', archive: [] }); found++;
+                        });
+                    } catch(e) {}
+                }
+                if (found > 0) { buildTabs(); }
+            }
+            buildTabs(); discover();
+            return { toggle: toggle, skip: skip, selectStation: selectStation, switchSource: switchSource };
+        })();
+
+        // Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeEventsMatrix(); closeEcLogin(); }
+        });
+    </script>
+</body>
+</html>
