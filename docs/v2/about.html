@@ -28,6 +28,7 @@
             <a href="membership.html">Membership</a>
             <a href="gallery.html">Gallery</a>
             <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-user me-1"></i>Member Login</a>
             <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
         </div>
         <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
@@ -175,6 +176,40 @@
         </div>
     </section>
 
+    <!-- Governance & Bylaws Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-gavel me-2"></i>Governance & Bylaws</h2>
+                <p>Transparency and accountability guide everything we do</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div style="background: #fff; border-radius: 20px; padding: 2.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 2px solid rgba(200,162,60,0.2);">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--navy), var(--navy-light)); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-file-contract" style="font-size: 1.5rem; color: var(--gold);"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; color: var(--navy); font-size: 1.3rem;">BANF Constitution & Bylaws</h4>
+                                <p style="margin: 0; color: #6c757d; font-size: 0.9rem;">Official governing document of the Bengali Association of North Florida</p>
+                            </div>
+                        </div>
+                        <p style="color: #555; line-height: 1.7; margin-bottom: 1.5rem;">
+                            Our bylaws define the organizational structure, membership policies, election procedures, fiscal responsibilities, and the rights and duties of EC members. Every BANF member is encouraged to review this document.
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <a href="../BANFbylaws.docx" download class="btn-primary-custom" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.95rem;">
+                                <i class="fas fa-download"></i> Download Bylaws
+                            </a>
+                            <span style="font-size: 0.8rem; color: #999;"><i class="fas fa-file-word me-1"></i>DOCX format</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- EC Admin Login Modal -->
     <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
         <div class="ec-login-box">
@@ -189,9 +224,9 @@
             </form>
             <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
             <div class="ec-login-links">
-                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
-                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
-                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+                <a href="../ec-admin-login.html#forgot" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="../ec-admin-login.html#forgot-username" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="../ec-admin-login.html#signup" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
             </div>
             <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
         </div>
@@ -210,7 +245,10 @@
                 <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
             </form>
             <div class="login-error" id="memberLoginError"></div>
-            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+            <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; border: 1px solid rgba(59,130,246,0.2);">
+                <p style="margin: 0; color: var(--navy); font-size: 0.85rem; text-align: center;"><i class="fas fa-bullhorn me-1" style="color: var(--gold);"></i><strong>Member onboarding drive starting soon!</strong></p>
+                <p style="margin: 0.5rem 0 0; color: #6c757d; font-size: 0.78rem; text-align: center;">The President will announce the member portal sign-up drive. Stay tuned for updates.</p>
+            </div>
         </div>
     </div>
 

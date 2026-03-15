@@ -1024,6 +1024,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedEmail = localStorage.getItem('banf_ec_admin_email');
   if (savedEmail) document.getElementById('login-email').value = savedEmail;
 
+  // ── Handle hash-based deep-links (#forgot, #forgot-username, #signup) ──
+  var hash = (window.location.hash || '').replace('#', '');
+  if (hash === 'forgot') { showAuth('forgot'); return; }
+  if (hash === 'forgot-username' || hash === 'forgot-email') { showAuth('forgot-username'); return; }
+  if (hash === 'signup') { showAuth('signup'); return; }
+
   const params = new URLSearchParams(window.location.search);
 
   // ── Handle ?reset=true&email=X — password reset link (from signup/onboarding email) ──

@@ -36,6 +36,7 @@
             <a href="membership.html">Membership</a>
             <a href="gallery.html">Gallery</a>
             <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-user me-1"></i>Member Login</a>
             <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
         </div>
         <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
@@ -220,9 +221,9 @@
             </form>
             <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
             <div class="ec-login-links">
-                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
-                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
-                <a href="../ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+                <a href="../ec-admin-login.html#forgot" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="../ec-admin-login.html#forgot-username" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="../ec-admin-login.html#signup" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
             </div>
             <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
         </div>
@@ -241,7 +242,10 @@
                 <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
             </form>
             <div class="login-error" id="memberLoginError"></div>
-            <p class="text-center mt-3" style="color: #999; font-size: 0.8rem;"><i class="fas fa-info-circle me-1"></i>Member sign-up drive will be announced by the President</p>
+            <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; border: 1px solid rgba(59,130,246,0.2);">
+                <p style="margin: 0; color: var(--navy); font-size: 0.85rem; text-align: center;"><i class="fas fa-bullhorn me-1" style="color: var(--gold);"></i><strong>Member onboarding drive starting soon!</strong></p>
+                <p style="margin: 0.5rem 0 0; color: #6c757d; font-size: 0.78rem; text-align: center;">The President will announce the member portal sign-up drive. Stay tuned for updates.</p>
+            </div>
         </div>
     </div>
 
