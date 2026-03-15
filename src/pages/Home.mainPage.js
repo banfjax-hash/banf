@@ -5,5 +5,5 @@ import wixLocation from 'wix-location';
 
 $w.onReady(function () {
     // Immediate redirect — user sees the full GitHub Pages landing, no Wix chrome
-    wixLocation.to("https://banfjax-hash.github.io/banf/");
+    wixLocation.to("https://banfjax-hash.github.io/banf/v2/");
 });
