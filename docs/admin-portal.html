@@ -389,6 +389,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group" id="president-group" style="display:none">President</div>
     <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="ec-revoke" id="president-ec-revoke" style="display:none"><i class="fas fa-ban"></i><span>Revoke EC Role</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group">Audit</div>
     <div class="sb-item" data-panel="activity"><i class="fas fa-history"></i><span>Activity Log</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
@@ -1204,7 +1205,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <option value="rajanya.ghosh@gmail.com">Rajanya Ghosh — General Secretary</option>
               <option value="moumita.mukherje@gmail.com">Moumita Mukherjee — Cultural Secretary</option>
               <option value="duttasoumyajit86@gmail.com">Soumyajit Dutta — Food Coordinator</option>
-              <option value="sumo475@gmail.com">Sumanta Datta — Event Coordinator</option>
+              <option value="sumo475@gmail.com">Dr. Sumanta Ghosh — Event Coordinator</option>
               <option value="rwitichoudhury@gmail.com">Rwiti Choudhury — Puja Coordinator</option>
             </select>
           </div>
@@ -1274,6 +1275,49 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <h2><i class="fas fa-history"></i> Replacement History</h2>
         <table class="t"><thead><tr><th>Member</th><th>Action</th><th>Initiated</th><th>Status</th><th>Finalized</th></tr></thead>
         <tbody id="ecr-history"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ═══ REVOKE EC ADMIN ROLE PANEL (President Only) ═══ -->
+    <div class="portal-section" id="panel-ec-revoke">
+      <div class="stg-label"><i class="fas fa-circle" style="color:#dc2626"></i> President — Revoke EC Admin Role</div>
+
+      <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(220,38,38,.3)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff"><i class="fas fa-ban"></i></div>
+          <div>
+            <h2 style="margin:0;font-size:1rem"><i class="fas fa-user-slash me-1"></i>Revoke EC Admin Access</h2>
+            <p style="font-size:.72rem;color:var(--muted);margin:0">President-only: immediately revoke an EC member's admin portal access</p>
+          </div>
+        </div>
+        <div style="background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.15);border-radius:10px;padding:12px;margin-bottom:16px;font-size:.8rem;color:#dc2626">
+          <i class="fas fa-exclamation-triangle me-1"></i><strong>Restricted Access:</strong> Only the BANF President can revoke EC admin roles. The member will immediately lose access to the admin portal and see a "role revoked" notification on their next login attempt.
+        </div>
+      </div>
+
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-user-minus"></i> Revoke Access</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">EC Member to Revoke</label>
+            <select id="revoke-member" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+              <option value="">Select EC Member...</option>
+              <option value="mukhopadhyay.partha@gmail.com">Partha Mukhopadhyay — Vice President</option>
+              <option value="amit.everywhere@gmail.com">Amit Chandak — Treasurer</option>
+              <option value="rajanya.ghosh@gmail.com">Rajanya Ghosh — General Secretary</option>
+              <option value="moumita.mukherje@gmail.com">Dr. Moumita Ghosh — Cultural Secretary</option>
+              <option value="duttasoumyajit86@gmail.com">Soumyajit Dutta — Food Coordinator</option>
+              <option value="sumo475@gmail.com">Dr. Sumanta Ghosh — Event Coordinator</option>
+              <option value="rwitichoudhury@gmail.com">Rwiti Chowdhury — Puja Coordinator</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Reason</label>
+            <input type="text" id="revoke-reason" placeholder="e.g. Term ended, Role change..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem;box-sizing:border-box">
+          </div>
+        </div>
+        <button onclick="revokeEcAdminRole()" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600"><i class="fas fa-ban me-1"></i>Revoke EC Admin Role</button>
+        <div id="revoke-msg" style="margin-top:12px;font-size:.82rem;display:none;padding:10px 14px;border-radius:8px"></div>
       </div>
     </div>
 
@@ -2076,6 +2120,8 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     showInfo('login-info', 'Your account needs setup. Please use Sign Up to complete your account.');
     SIGNUP_STATE.email = email;
     SIGNUP_STATE.token = result.setupToken;
+  } else if (result.error && result.error.toLowerCase().indexOf('revoked') !== -1) {
+    showError('login-error', '<i class="fas fa-ban me-1"></i>' + result.error);
   } else {
     _recordFailedAttempt();
     showError('login-error', result.error || 'Login failed.');
@@ -2121,12 +2167,14 @@ function enterPortal(user, email) {
     var initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
     avatarEl.textContent = initials;
   }
-  // President-only UI: show EC Replacement section only for president
+  // President-only UI: show EC Replacement and Revoke sections only for president
   var isPresident = CURRENT_ADMIN && CURRENT_ADMIN.email === 'ranadhir.ghosh@gmail.com';
   var presGroup = document.getElementById('president-group');
   var presItem = document.getElementById('president-ec-replace');
+  var presRevoke = document.getElementById('president-ec-revoke');
   if (presGroup) presGroup.style.display = isPresident ? '' : 'none';
   if (presItem) presItem.style.display = isPresident ? '' : 'none';
+  if (presRevoke) presRevoke.style.display = isPresident ? '' : 'none';
   // Reimbursement: visible for all logged-in EC members
   var rmbItem = document.getElementById('rmb-nav-item');
   if (rmbItem) rmbItem.style.display = '';
@@ -4009,6 +4057,46 @@ async function reverseEcSuspension(id) {
       loadEcReplacementData();
     } else { alert(result.error || 'Reversal failed'); }
   } catch(e) { alert('API error: ' + e.message); }
+}
+
+// ── Revoke EC Admin Role (President Only) ──
+async function revokeEcAdminRole() {
+  var member = document.getElementById('revoke-member').value;
+  var reason = document.getElementById('revoke-reason').value.trim();
+  var msgEl = document.getElementById('revoke-msg');
+
+  if (!CURRENT_ADMIN || CURRENT_ADMIN.email !== 'ranadhir.ghosh@gmail.com') {
+    showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-lock me-1"></i>Only the BANF President can revoke EC admin roles.');
+    return;
+  }
+  if (!member) { showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-exclamation-circle me-1"></i>Please select an EC member.'); return; }
+  if (!reason) { showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-exclamation-circle me-1"></i>Please provide a reason.'); return; }
+
+  if (!confirm('⚠️ REVOKE EC ADMIN ROLE\n\nThis will immediately revoke admin portal access for:\n' + member + '\n\nReason: ' + reason + '\n\nThe member will see a "role revoked" message on their next login attempt.\n\nAre you sure?')) return;
+
+  showRevokeMsg(msgEl, 'var(--accent)', '<i class="fas fa-spinner fa-spin me-1"></i>Revoking EC admin role...');
+
+  try {
+    var result = await apiCall('admin_role_revoke', {
+      adminKey: 'banf-bosonto-2026-live',
+      presidentEmail: CURRENT_ADMIN.email,
+      email: member,
+      reason: reason
+    });
+    if (result && result.success) {
+      showRevokeMsg(msgEl, 'var(--green)', '<i class="fas fa-check-circle me-1"></i>EC admin role revoked for ' + member + '. They will no longer be able to log in to the admin portal.');
+      addLog('EC_REVOKE', 'Role revoked for ' + member + ' — Reason: ' + reason);
+      document.getElementById('revoke-reason').value = '';
+      document.getElementById('revoke-member').value = '';
+    } else {
+      showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-times-circle me-1"></i>' + (result.error || 'Revocation failed.'));
+    }
+  } catch(e) {
+    showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-times-circle me-1"></i>API error: ' + e.message);
+  }
+}
+function showRevokeMsg(el, color, html) {
+  el.style.display = 'block'; el.style.color = color; el.innerHTML = html;
 }
 
 function renderAll(){

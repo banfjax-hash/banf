@@ -67,6 +67,9 @@ function handleEcLogin(e) {
         } else if (data && data.needsOnboarding) {
             errEl.style.display = 'block';
             errEl.innerHTML = '<i class="fas fa-info-circle me-1"></i>Your account setup is not yet complete. <a href="../ec-admin-login.html#signup" target="_blank" style="color:var(--gold);text-decoration:underline;">Complete Sign Up</a>';
+        } else if (data && data.error && data.error.toLowerCase().indexOf('revoked') !== -1) {
+            errEl.style.display = 'block';
+            errEl.innerHTML = '<i class="fas fa-ban me-1" style="color:#dc2626"></i><span style="color:#dc2626">' + data.error + '</span>';
         } else {
             errEl.style.display = 'block';
             errEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>' + ((data && (data.message || data.error)) || 'Invalid credentials. EC members only.');
