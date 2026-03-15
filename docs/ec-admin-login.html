@@ -879,20 +879,35 @@ async function forgotStep3() {
 
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
-    // Persist updated password — use _getSecurityQA (localStorage-first) so user-set
-    // security Q/A survives page reloads (AUTH_DB resets to hardcoded defaults)
     const _qa = _getSecurityQA(FORGOT_STATE.email);
     const _sq = (_qa && _qa.q) || '';
     const _sa = (_qa && _qa.a) || '';
     _saveCredsToLocalStorage(FORGOT_STATE.email, pass, _sq, _sa);
-    // Background sync to backend so password works online too
-    (async function() {
-      try {
-        var res = await apiCall('admin_signup_direct', { email: FORGOT_STATE.email });
-        var tok = res.setupToken || '';
-        if (tok) await apiCall('admin_set_password', { email: FORGOT_STATE.email, token: tok, password: pass }).catch(function(){});
-      } catch(e) { console.log('[SYNC] Password reset backend sync skipped:', e.message); }
-    })();
+    // Await backend sync (not fire-and-forget)
+    showInfo('forgot-error-3', '<i class="fas fa-spinner fa-spin me-1"></i>Updating password...');
+    var backendOk = false;
+    try {
+      var secAnswer = (FORGOT_STATE._securityA || '').toLowerCase();
+      if (secAnswer) {
+        var ansResult = await apiCall('admin_verify_security_answer', { email: FORGOT_STATE.email, answer: secAnswer });
+        if (ansResult.resetToken) {
+          var rr = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: ansResult.resetToken, password: pass });
+          if (rr.success) backendOk = true;
+        }
+      }
+      if (!backendOk) {
+        var tokenResult = await apiCall('admin_request_reset_token', { email: FORGOT_STATE.email, adminKey: 'banf-bosonto-2026-live' });
+        if (tokenResult.setupToken) {
+          var pwR = await apiCall('admin_set_password', { email: FORGOT_STATE.email, token: tokenResult.setupToken, password: pass });
+          if (pwR.success) {
+            backendOk = true;
+            if (_sq) await apiCall('admin_save_profile', { email: FORGOT_STATE.email, token: tokenResult.setupToken, phone: 'N/A', securityQuestion: _sq, securityAnswer: _sa.toLowerCase() }).catch(function(){});
+          }
+        }
+      }
+    } catch(e) { console.log('[SYNC] Password reset backend sync error:', e.message); }
+    hideMsg('forgot-error-3');
+    if (!backendOk) showInfo('forgot-error-3', '<i class="fas fa-exclamation-triangle me-1" style="color:#fbbf24"></i>Password saved locally. Server sync may have failed.');
     _showResetLink(FORGOT_STATE.email);
     showStep('forgot', 4);
     return;

@@ -922,6 +922,29 @@ async function forgotStep3() {
   // Offline update
   if (FORGOT_STATE.user) {
     FORGOT_STATE.user.offlinePw = pass;
+    _saveCredsToLocalStorage(FORGOT_STATE.email, pass, '', '');
+    // Await backend sync (not fire-and-forget)
+    showInfo('forgot-error-3', '<i class="fas fa-spinner fa-spin me-1"></i>Updating password...');
+    var backendOk = false;
+    try {
+      var secAnswer = (FORGOT_STATE.user.securityA || '').toLowerCase();
+      if (secAnswer) {
+        var ansResult = await apiCall('admin_verify_security_answer', { email: FORGOT_STATE.email, answer: secAnswer });
+        if (ansResult.resetToken) {
+          var rr = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: ansResult.resetToken, password: pass });
+          if (rr.success) backendOk = true;
+        }
+      }
+      if (!backendOk) {
+        var tokenResult = await apiCall('admin_request_reset_token', { email: FORGOT_STATE.email, adminKey: 'banf-bosonto-2026-live' });
+        if (tokenResult.setupToken) {
+          var pwR = await apiCall('admin_set_password', { email: FORGOT_STATE.email, token: tokenResult.setupToken, password: pass });
+          if (pwR.success) backendOk = true;
+        }
+      }
+    } catch(e) {}
+    hideMsg('forgot-error-3');
+    if (!backendOk) showInfo('forgot-error-3', '<i class="fas fa-exclamation-triangle me-1" style="color:#fbbf24"></i>Password saved locally. Server sync may have failed.');
     showStep('forgot', 4);
     return;
   }
