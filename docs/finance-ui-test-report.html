@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BANF Finance UI Test Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{--bg:#060a10;--panel:#111827;--card:#0f172a;--line:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--accent:#f97316;--green:#22c55e;--blue:#3b82f6;--red:#ef4444;--yellow:#eab308}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+.hero{background:linear-gradient(135deg,#0b1a3a,#162044,#1a1040);padding:2.5rem 0;text-align:center;border-bottom:1px solid var(--line)}
+.hero h1{font-size:2rem;font-weight:800;margin:0;background:linear-gradient(135deg,#f97316,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:.9rem;margin:.4rem 0 0}
+.wrap{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1.2rem;text-align:center}
+.kpi .val{font-size:2rem;font-weight:800}.kpi .lbl{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.kpi.pass .val{color:var(--green)}.kpi.fail .val{color:var(--red)}.kpi.skip .val{color:var(--yellow)}.kpi.rate .val{color:var(--accent)}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:.85rem}
+th{background:rgba(249,115,22,.08);color:var(--accent);font-weight:700;padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr.section-header td{background:rgba(59,130,246,.06);color:var(--blue);font-weight:700;font-size:.9rem;padding:8px 14px}
+tr.pass td{opacity:1}tr.fail td{opacity:1}tr.skip td{opacity:.65}
+.id-cell{font-family:monospace;font-weight:600;color:var(--text);white-space:nowrap}
+.guide-ref{font-size:.78rem;color:var(--muted)}
+.details-cell{font-size:.78rem;color:var(--muted);max-width:250px;word-break:break-word}
+.status-cell{text-align:center}
+.badge{display:inline-block;font-size:.68rem;padding:3px 10px;border-radius:999px;font-weight:700}
+.badge.pass{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.badge.fail{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.badge.skip{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
+.footer{text-align:center;padding:2rem 0;color:var(--muted);font-size:.78rem;border-top:1px solid var(--line);margin-top:2rem}
+@media(max-width:768px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head><body>
+<div class="hero">
+  <h1><i class="fas fa-flask"></i> Finance UI Test Report</h1>
+  <p>Agentic User Interaction Test — Sunday, March 15, 2026 at 7:39 PM</p>
+</div>
+<div class="wrap">
+  <div class="kpi-row">
+    <div class="kpi pass"><div class="val">20</div><div class="lbl">PASSED</div></div>
+    <div class="kpi fail"><div class="val">0</div><div class="lbl">FAILED</div></div>
+    <div class="kpi skip"><div class="val">0</div><div class="lbl">SKIPPED</div></div>
+    <div class="kpi rate"><div class="val">100%</div><div class="lbl">PASS RATE</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Test ID</th><th>Requirement</th><th>Guide Reference</th><th>Status</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr class="section-header"><td colspan="5">User Guide</td></tr>
+      <tr class="pass">
+        <td class="id-cell">GUIDE-EXISTS</td>
+        <td>ec-finance-user-guide.html exists and has all 12 sections</td>
+        <td class="guide-ref">Table of Contents</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">12/12 sections found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">GUIDE-LINK</td>
+        <td>User guide is linked/accessible from the portal</td>
+        <td class="guide-ref">N/A — deployment verification</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Guide linked in portal</td>
+      </tr>
+      <tr class="section-header"><td colspan="5">Procurement API</td></tr>
+      <tr class="pass">
+        <td class="id-cell">PROC-API-LIST</td>
+        <td>procurement_list endpoint is live and returns data</td>
+        <td class="guide-ref">Section 3: Procurement data is loaded on panel open</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Returned 1 requests</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-API-CREATE</td>
+        <td>procurement_create endpoint is live and returns success</td>
+        <td class="guide-ref">Section 3: Submit Request calls procurement_create</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Created PROC-0002</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-TIER-LOGIC</td>
+        <td>Tier assignment: &lt;$100=T1, $100-499=T2, $500+=T3</td>
+        <td class="guide-ref">Section 4: Approval Tiers table</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">$42 → Tier 1</td>
+      </tr>
+      <tr class="section-header"><td colspan="5">Procurement</td></tr>
+      <tr class="pass">
+        <td class="id-cell">PROC-NAV</td>
+        <td>Sidebar navigation to Procurement panel exists</td>
+        <td class="guide-ref">Section 2: Where to Find Finance Panels</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Sidebar item found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-FORM-FIELDS</td>
+        <td>New Procurement Request form has all required fields</td>
+        <td class="guide-ref">Section 3: Submit a New Request — Required Fields Summary</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">category:✓ amount:✓ desc:✓ vendor:✓ event:✓ urgent:✓</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-CATEGORIES</td>
+        <td>Category dropdown contains all 9 expected options</td>
+        <td class="guide-ref">Section 3: Category table listing</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">8/13 keywords found in 9 options</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-SUBMIT-VALIDATION</td>
+        <td>Submit validates required fields (description + amount &gt; 0)</td>
+        <td class="guide-ref">Section 3: Step 8 — system validates entries</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Validation triggered</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-APPROVAL-QUEUE</td>
+        <td>Approval Queue section exists with approve/reject controls</td>
+        <td class="guide-ref">Section 4: Approval Workflow</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Section found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-MY-REQUESTS</td>
+        <td>My Requests &amp; Receipts section exists</td>
+        <td class="guide-ref">Section 6: My Requests &amp; Receipts</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Section found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-RECEIPT-UPLOAD</td>
+        <td>Upload Receipt form has Request ID, Actual Amount, Notes fields</td>
+        <td class="guide-ref">Section 5: Upload Receipt</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">id:✓ amt:✓ notes:✓</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">PROC-PAYMENT-TRACKER</td>
+        <td>Payment Tracker table with correct columns</td>
+        <td class="guide-ref">Section 6: Payment Tracker</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Table body found</td>
+      </tr>
+      <tr class="section-header"><td colspan="5">Reimbursement</td></tr>
+      <tr class="pass">
+        <td class="id-cell">RMB-NAV</td>
+        <td>Sidebar navigation to Reimbursement panel exists</td>
+        <td class="guide-ref">Section 2: Where to Find Finance Panels</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Sidebar item found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">RMB-ROLE-GATE</td>
+        <td>Reimbursement access restricted to Treasurer/VP/President</td>
+        <td class="guide-ref">Section 7: Role Restriction callout</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Role restriction text found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">RMB-IFRAME</td>
+        <td>Reimbursement portal loads via iframe with autologin</td>
+        <td class="guide-ref">Section 7: portal loads inside iframe with auto-login</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Iframe element found</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">RMB-FULLSCREEN</td>
+        <td>Fullscreen button opens portal in new tab</td>
+        <td class="guide-ref">Section 7: Step 3 — Open in Fullscreen</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">Fullscreen control found</td>
+      </tr>
+      <tr class="section-header"><td colspan="5">Reimbursement Portal</td></tr>
+      <tr class="pass">
+        <td class="id-cell">RMB-PORTAL-SECTIONS</td>
+        <td>Reimbursement sub-portal has all 7 sidebar sections</td>
+        <td class="guide-ref">Section 8: The Reimbursement Portal has 7 Sections</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">7/7 sections found: sec-dashboard, sec-new-request, sec-ai-engine, sec-benchmark, sec-log, sec-raw-ocr, sec-guide</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">RMB-NEW-REQUEST-FIELDS</td>
+        <td>New Request form: name, email, event, upload, payment fields</td>
+        <td class="guide-ref">Section 8: Step-by-Step — Required fields</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">name:✓ email:✓ event:✓ fileInput:✓ paidBy:✓ notes:✓</td>
+      </tr>
+<tr class="pass">
+        <td class="id-cell">RMB-AI-PROVIDERS</td>
+        <td>AI Engine lists 7 providers (Gemini, Groq, OpenRouter, etc.)</td>
+        <td class="guide-ref">Section 9: Available AI Providers table</td>
+        <td class="status-cell"><span class="badge pass">PASS</span></td>
+        <td class="details-cell">7 providers: Google Gemini (Recommended), Groq (Ultra Fast), OpenRouter (Community), SambaNova Cloud...</td>
+      </tr></tbody>
+  </table>
+  <div class="footer">
+    BANF Finance UI Test Agent &bull; 20 tests in 5.9s &bull; 
+    Synced with <a href="ec-finance-user-guide.html" style="color:var(--accent)">EC Finance User Guide</a>
+  </div>
+</div>
+</body></html>

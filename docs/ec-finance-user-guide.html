@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BANF — EC Finance User Guide: Procurement & Reimbursement</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060a10;--bg2:#0b1120;--panel:#111827;--card:#0f172a;--line:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--accent:#f97316;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--red:#ef4444;--yellow:#eab308;--radius:14px}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:#334155 transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.7}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+
+/* ── Hero ── */
+.hero{background:linear-gradient(135deg,#0b1a3a 0%,#162044 40%,#1a1040 100%);border-bottom:1px solid var(--line);padding:3.5rem 0 3rem;text-align:center}
+.hero h1{font-size:2.4rem;font-weight:800;margin:0;background:linear-gradient(135deg,#f97316,#fb923c,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--muted);font-size:1.05rem;margin:.6rem 0 0}
+.hero .badge-row{margin-top:1.2rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.hero .badge-row span{font-size:.72rem;padding:5px 14px;border-radius:999px;font-weight:600;border:1px solid rgba(249,115,22,.25);color:var(--accent);background:rgba(249,115,22,.08)}
+
+/* ── Layout ── */
+.guide-wrap{max-width:1060px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.toc{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem 2rem;margin-bottom:2.5rem}
+.toc h2{font-size:1.1rem;margin:0 0 .8rem;color:var(--accent)}
+.toc ol{margin:0;padding-left:1.4rem;columns:2;column-gap:2rem}
+.toc li{margin:.3rem 0;font-size:.88rem;color:var(--muted)}
+.toc li a{color:var(--blue)}
+
+/* ── Sections ── */
+.section{margin-bottom:2.8rem}
+.section h2{font-size:1.5rem;font-weight:700;margin:0 0 .4rem;color:#fff;display:flex;align-items:center;gap:.6rem}
+.section h2 .num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ea580c);color:#fff;font-size:.85rem;font-weight:800;flex-shrink:0}
+.section h3{font-size:1.1rem;font-weight:700;margin:1.6rem 0 .5rem;color:var(--cyan)}
+.section p,.section li{font-size:.92rem;color:var(--muted)}
+.section li{margin:.25rem 0}
+.section .card-block{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem;margin:1rem 0}
+.section .card-block h4{font-size:.95rem;font-weight:700;margin:0 0 .6rem;color:var(--text)}
+.section .card-block p{margin:.3rem 0}
+
+/* ── Step cards ── */
+.step-flow{display:flex;flex-direction:column;gap:1rem;margin:1rem 0}
+.step{display:flex;gap:1rem;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem 1.4rem}
+.step .sn{display:flex;align-items:center;justify-content:center;min-width:38px;height:38px;border-radius:10px;font-weight:800;font-size:.85rem;color:#fff;flex-shrink:0}
+.step .sn.orange{background:linear-gradient(135deg,var(--accent),#ea580c)}
+.step .sn.blue{background:linear-gradient(135deg,var(--blue),#60a5fa)}
+.step .sn.green{background:linear-gradient(135deg,var(--green),#4ade80)}
+.step .sn.purple{background:linear-gradient(135deg,var(--purple),#c084fc)}
+.step .sn.cyan{background:linear-gradient(135deg,var(--cyan),#22d3ee)}
+.step .sn.red{background:linear-gradient(135deg,var(--red),#f87171)}
+.step .sn.yellow{background:linear-gradient(135deg,var(--yellow),#facc15)}
+.step .step-content{flex:1}
+.step .step-content h5{font-size:.95rem;font-weight:700;margin:0 0 .3rem;color:#fff}
+.step .step-content p{margin:0;font-size:.85rem;color:var(--muted)}
+
+/* ── Field tables ── */
+.field-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.85rem;background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+.field-table th{background:rgba(249,115,22,.1);color:var(--accent);font-weight:700;padding:10px 14px;text-align:left;border-bottom:1px solid var(--line)}
+.field-table td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--muted)}
+.field-table tr:last-child td{border-bottom:none}
+.field-table td:first-child{color:var(--text);font-weight:600}
+
+/* ── Status badges ── */
+.status{display:inline-block;font-size:.72rem;padding:3px 10px;border-radius:999px;font-weight:700}
+.status.pending{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
+.status.approved{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.status.rejected{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.status.paid{background:rgba(59,130,246,.12);color:var(--blue);border:1px solid rgba(59,130,246,.25)}
+.status.variance{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.25)}
+
+/* ── Callout boxes ── */
+.callout{border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;font-size:.88rem;display:flex;gap:.8rem;align-items:flex-start}
+.callout i{font-size:1.1rem;margin-top:2px;flex-shrink:0}
+.callout.info{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);color:var(--blue)}
+.callout.warn{background:rgba(234,179,8,.08);border:1px solid rgba(234,179,8,.2);color:var(--yellow)}
+.callout.success{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green)}
+.callout.danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:var(--red)}
+
+/* ── Screenshots placeholder ── */
+.screenshot{background:var(--panel);border:2px dashed var(--line);border-radius:var(--radius);padding:2.5rem 1.5rem;text-align:center;color:var(--muted);font-size:.82rem;margin:1rem 0}
+.screenshot i{font-size:2rem;display:block;margin-bottom:.6rem;color:var(--line)}
+
+/* ── Nav path ── */
+.nav-path{display:inline-flex;align-items:center;gap:.4rem;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:5px 12px;font-size:.78rem;font-weight:600;color:var(--blue);margin:.4rem 0}
+.nav-path i{font-size:.65rem;color:var(--muted)}
+
+/* ── Workflow diagram ── */
+.workflow-diagram{display:flex;align-items:center;gap:.3rem;flex-wrap:wrap;margin:1rem 0;padding:1.2rem;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+.wf-box{padding:8px 16px;border-radius:8px;font-size:.78rem;font-weight:700;text-align:center;white-space:nowrap}
+.wf-arrow{color:var(--muted);font-size:.8rem}
+.wf-box.pending-a{background:rgba(234,179,8,.15);color:var(--yellow);border:1px solid rgba(234,179,8,.3)}
+.wf-box.approved-a{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.wf-box.rejected-a{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.wf-box.receipt-a{background:rgba(59,130,246,.15);color:var(--blue);border:1px solid rgba(59,130,246,.3)}
+.wf-box.paid-a{background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3)}
+.wf-box.variance-a{background:rgba(234,100,8,.15);color:var(--accent);border:1px solid rgba(234,100,8,.3)}
+
+/* ── Tier badges ── */
+.tier{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;padding:3px 10px;border-radius:999px;font-weight:700}
+.tier.t1{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.tier.t2{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
+.tier.t3{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .hero h1{font-size:1.6rem}
+  .toc ol{columns:1}
+  .workflow-diagram{flex-direction:column;gap:.5rem}
+  .wf-arrow{transform:rotate(90deg)}
+  .step{flex-direction:column;gap:.6rem}
+}
+
+/* ── Print ── */
+@media print{
+  body{background:#fff;color:#222}
+  .hero{background:#f5f5f5;border-bottom:2px solid #ddd}
+  .hero h1{-webkit-text-fill-color:#c2410c}
+  .section .card-block,.step,.toc,.field-table,.callout{break-inside:avoid}
+}
+
+/* ── Back to portal button ── */
+.back-btn{position:fixed;bottom:1.5rem;right:1.5rem;background:linear-gradient(135deg,var(--accent),#ea580c);color:#fff;border:none;padding:12px 20px;border-radius:12px;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 8px 25px rgba(249,115,22,.3);z-index:100;display:flex;align-items:center;gap:6px;transition:.2s}
+.back-btn:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(249,115,22,.4)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="container">
+    <h1><i class="fas fa-book-open" style="margin-right:.4rem"></i> EC Finance User Guide</h1>
+    <p>Procurement &amp; Reimbursement — Step-by-Step Workflows</p>
+    <div class="badge-row">
+      <span><i class="fas fa-shield-alt"></i> EC Members Only</span>
+      <span><i class="fas fa-file-invoice-dollar"></i> Procurement</span>
+      <span><i class="fas fa-receipt"></i> AI Reimbursement</span>
+      <span><i class="fas fa-check-double"></i> Approval Tiers</span>
+    </div>
+  </div>
+</div>
+
+<div class="guide-wrap">
+
+<!-- ═══════════════════ TABLE OF CONTENTS ═══════════════════ -->
+<div class="toc">
+  <h2><i class="fas fa-list"></i> Table of Contents</h2>
+  <ol>
+    <li><a href="#sec-overview">Overview &amp; Portal Access</a></li>
+    <li><a href="#sec-nav">Where to Find Finance Panels</a></li>
+    <li><a href="#sec-proc-submit">Procurement — Submit a Request</a></li>
+    <li><a href="#sec-proc-approve">Procurement — Approval Workflow</a></li>
+    <li><a href="#sec-proc-receipt">Procurement — Upload Receipt</a></li>
+    <li><a href="#sec-proc-track">Procurement — Payment Tracker</a></li>
+    <li><a href="#sec-rmb-access">Reimbursement — Access the Portal</a></li>
+    <li><a href="#sec-rmb-submit">Reimbursement — Submit a Request</a></li>
+    <li><a href="#sec-rmb-ai">Reimbursement — AI Receipt Scanner</a></li>
+    <li><a href="#sec-rmb-approval">Reimbursement — Approval Flow</a></li>
+    <li><a href="#sec-roles">Roles &amp; Permissions</a></li>
+    <li><a href="#sec-faq">FAQ &amp; Troubleshooting</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════ 1. OVERVIEW ═══════════════════ -->
+<div class="section" id="sec-overview">
+  <h2><span class="num">1</span> Overview &amp; Portal Access</h2>
+  <p>The BANF EC Admin Portal provides two separate finance modules for managing organization expenses:</p>
+
+  <div class="card-block">
+    <h4><i class="fas fa-file-invoice-dollar" style="color:var(--accent);margin-right:.4rem"></i> Procurement</h4>
+    <p>For <strong>pre-approved purchases</strong> — submit requests before spending, get tiered approval, then upload receipts after purchase. Built directly into the Admin Portal.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-receipt" style="color:var(--cyan);margin-right:.4rem"></i> Reimbursement</h4>
+    <p>For <strong>after-the-fact reimbursements</strong> — upload receipts for expenses already paid with personal funds. Features AI-powered receipt scanning with 7 free vision providers. Runs as a dedicated sub-portal embedded via iframe.</p>
+  </div>
+
+  <h3>How to Access the Admin Portal</h3>
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn blue">1</div>
+      <div class="step-content">
+        <h5>Open the Admin Portal</h5>
+        <p>Navigate to <strong>banfjax-hash.github.io/banf/v2/admin-portal.html</strong> or click "Admin Portal" from the main BANF website.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn blue">2</div>
+      <div class="step-content">
+        <h5>Log In with EC Credentials</h5>
+        <p>Enter your registered email and password. If this is your first time, complete the signup flow. Use "Forgot Password" if needed — the system now persists reset credentials to the backend.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">3</div>
+      <div class="step-content">
+        <h5>You're In!</h5>
+        <p>After login, you'll see the Dashboard. Finance panels are in the sidebar under <strong>Finance</strong>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 2. WHERE TO FIND ═══════════════════ -->
+<div class="section" id="sec-nav">
+  <h2><span class="num">2</span> Where to Find Finance Panels</h2>
+  <p>After logging in, look at the <strong>left sidebar</strong>. Finance items are grouped together:</p>
+
+  <table class="field-table">
+    <thead><tr><th>Sidebar Item</th><th>Icon</th><th>What It Does</th></tr></thead>
+    <tbody>
+      <tr><td>Procurement</td><td><i class="fas fa-file-invoice-dollar" style="color:var(--accent)"></i></td><td>Submit purchase requests, approve/reject, upload receipts, track payments</td></tr>
+      <tr><td>Reimbursement</td><td><i class="fas fa-receipt" style="color:var(--cyan)"></i></td><td>AI-powered receipt scanning, reimbursement request submission</td></tr>
+      <tr><td>Ledger Report</td><td><i class="fas fa-book" style="color:var(--blue)"></i></td><td>View full financial ledger across all transactions</td></tr>
+      <tr><td>Income Summary</td><td><i class="fas fa-chart-pie" style="color:var(--green)"></i></td><td>Revenue breakdown by event and category</td></tr>
+      <tr><td>Event Expenses</td><td><i class="fas fa-calendar-check" style="color:var(--purple)"></i></td><td>Per-event expense tracking and budget analysis</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout info">
+    <i class="fas fa-info-circle"></i>
+    <div><strong>Navigation:</strong> Click any sidebar item to open its panel. The active panel is highlighted in orange. On mobile, tap the hamburger menu (☰) to open the sidebar.</div>
+  </div>
+
+  <h3>Navigation Paths</h3>
+  <p>For Procurement:</p>
+  <div class="nav-path">
+    <i class="fas fa-home"></i> Dashboard <i class="fas fa-chevron-right"></i> Sidebar <i class="fas fa-chevron-right"></i> <strong>Procurement</strong>
+  </div>
+
+  <p>For Reimbursement:</p>
+  <div class="nav-path">
+    <i class="fas fa-home"></i> Dashboard <i class="fas fa-chevron-right"></i> Sidebar <i class="fas fa-chevron-right"></i> <strong>Reimbursement</strong>
+  </div>
+</div>
+
+<!-- ═══════════════════ 3. PROCUREMENT SUBMIT ═══════════════════ -->
+<div class="section" id="sec-proc-submit">
+  <h2><span class="num">3</span> Procurement — Submit a New Request</h2>
+  <p>Use procurement when you need to <strong>pre-approve a purchase</strong> before buying. This ensures budget oversight and proper authorization.</p>
+
+  <h3>Step-by-Step: Creating a Procurement Request</h3>
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn orange">1</div>
+      <div class="step-content">
+        <h5>Navigate to Procurement</h5>
+        <p>Click <strong>"Procurement"</strong> in the sidebar under Finance. The panel shows 4 sections: New Request, Approval Queue, My Requests, and Upload Receipt.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">2</div>
+      <div class="step-content">
+        <h5>Select a Category</h5>
+        <p>In the "New Procurement Request" card, choose a category from the dropdown. Available categories:</p>
+      </div>
+    </div>
+  </div>
+
+  <table class="field-table">
+    <thead><tr><th>Category</th><th>Use When</th></tr></thead>
+    <tbody>
+      <tr><td>Event Supplies</td><td>Decorations, plates, napkins, craft supplies</td></tr>
+      <tr><td>Venue / Rental</td><td>Facility bookings, equipment rental, chairs/tables</td></tr>
+      <tr><td>Food &amp; Catering</td><td>Catering orders, groceries, beverages</td></tr>
+      <tr><td>Decoration</td><td>Stage setup, flowers, banners, lighting</td></tr>
+      <tr><td>Transportation</td><td>Delivery fees, vehicle rental, fuel</td></tr>
+      <tr><td>Technology / Equipment</td><td>Microphones, projectors, cables, software</td></tr>
+      <tr><td>Marketing / Printing</td><td>Flyers, banners, social media ads, printing costs</td></tr>
+      <tr><td>Reimbursement (Pre-paid)</td><td>When someone already paid and you want to track it as procurement</td></tr>
+      <tr><td>Other</td><td>Anything not covered above</td></tr>
+    </tbody>
+  </table>
+
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn orange">3</div>
+      <div class="step-content">
+        <h5>Enter Amount</h5>
+        <p>Type the estimated dollar amount. This determines the <strong>approval tier</strong> (see below).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">4</div>
+      <div class="step-content">
+        <h5>Write a Description</h5>
+        <p>Describe what you're buying, the vendor/store, and why it's needed. Be specific — approvers need context to make a decision.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">5</div>
+      <div class="step-content">
+        <h5>Vendor / Store</h5>
+        <p>Enter the vendor name (e.g., "Amazon", "Costco", "Party City"). This helps with tracking and budgeting.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">6</div>
+      <div class="step-content">
+        <h5>Event / Purpose</h5>
+        <p>Specify which event this purchase is for (e.g., "Bosonto Utsob 2026") or the general purpose (e.g., "Office Supplies").</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">7</div>
+      <div class="step-content">
+        <h5>Mark as Urgent (Optional)</h5>
+        <p>Check the "Urgent" box if the purchase needs expedited approval. Urgent requests are highlighted for approvers.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">8</div>
+      <div class="step-content">
+        <h5>Click "Submit Request"</h5>
+        <p>The system validates your entries (description required, amount must be greater than $0) and submits to the backend. You'll see a success message with your <strong>request ID</strong> (e.g., PROC-0001).</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Required Fields Summary</h3>
+  <table class="field-table">
+    <thead><tr><th>Field</th><th>Required?</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td>Category</td><td>Yes</td><td>Select from dropdown</td></tr>
+      <tr><td>Amount ($)</td><td>Yes</td><td>Must be greater than $0.00</td></tr>
+      <tr><td>Description</td><td>Yes</td><td>Cannot be empty</td></tr>
+      <tr><td>Vendor / Store</td><td>No</td><td>Recommended for tracking</td></tr>
+      <tr><td>Event / Purpose</td><td>No</td><td>Recommended for budgeting</td></tr>
+      <tr><td>Urgent</td><td>No</td><td>Checkbox, default unchecked</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════ 4. PROCUREMENT APPROVAL ═══════════════════ -->
+<div class="section" id="sec-proc-approve">
+  <h2><span class="num">4</span> Procurement — Approval Workflow</h2>
+
+  <h3>Approval Tiers</h3>
+  <p>BANF uses a <strong>tiered approval system</strong> based on the requested amount. Higher amounts require more approvers.</p>
+
+  <table class="field-table">
+    <thead><tr><th>Amount Range</th><th>Tier</th><th>Required Approvers</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Under $100</td>
+        <td><span class="tier t1"><i class="fas fa-shield-alt"></i> Tier 1</span></td>
+        <td>President (Ranadhir) only</td>
+      </tr>
+      <tr>
+        <td>$100 – $499</td>
+        <td><span class="tier t2"><i class="fas fa-shield-alt"></i> Tier 2</span></td>
+        <td>President + Treasurer (Amit)</td>
+      </tr>
+      <tr>
+        <td>$500+</td>
+        <td><span class="tier t3"><i class="fas fa-shield-alt"></i> Tier 3</span></td>
+        <td>President + Treasurer + Vice President (Partha)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Request Status Flow</h3>
+  <div class="workflow-diagram">
+    <div class="wf-box pending-a"><i class="fas fa-clock"></i> Pending Approval</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box approved-a"><i class="fas fa-check"></i> Approved</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box receipt-a"><i class="fas fa-receipt"></i> Receipt Submitted</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box paid-a"><i class="fas fa-money-bill"></i> Payment Pending</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box approved-a"><i class="fas fa-check-double"></i> Completed</div>
+  </div>
+
+  <p style="margin-top:.3rem;font-size:.82rem;color:var(--muted)">Alternative paths:</p>
+  <div class="workflow-diagram">
+    <div class="wf-box pending-a"><i class="fas fa-clock"></i> Pending</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box rejected-a"><i class="fas fa-times"></i> Rejected</div>
+  </div>
+  <div class="workflow-diagram" style="margin-top:.3rem">
+    <div class="wf-box receipt-a"><i class="fas fa-receipt"></i> Receipt</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box variance-a"><i class="fas fa-exclamation-triangle"></i> Variance Review</div>
+    <div style="font-size:.75rem;color:var(--muted);margin-left:.4rem">(if actual amount differs by &gt;10%)</div>
+  </div>
+
+  <h3>How to Approve or Reject (Approvers Only)</h3>
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn blue">1</div>
+      <div class="step-content">
+        <h5>Go to the Approval Queue</h5>
+        <p>In the Procurement panel, scroll to the "Approval Queue" card. Pending requests appear here with tier badges.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn blue">2</div>
+      <div class="step-content">
+        <h5>Review the Request</h5>
+        <p>Check the category, amount, description, vendor, event, and requester name. Urgent requests have a highlighted badge.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">3</div>
+      <div class="step-content">
+        <h5>Click "Approve" or "Reject"</h5>
+        <p><strong>Approve:</strong> Confirms the purchase is authorized. The requester can proceed with buying.<br>
+        <strong>Reject:</strong> You'll be prompted to enter a reason. The requester will see the rejection reason.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <i class="fas fa-exclamation-triangle"></i>
+    <div><strong>Important:</strong> Only the designated approvers for each tier can approve/reject requests. The system validates your role before processing.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 5. PROCUREMENT RECEIPT ═══════════════════ -->
+<div class="section" id="sec-proc-receipt">
+  <h2><span class="num">5</span> Procurement — Upload Receipt</h2>
+  <p>After making an approved purchase, you must upload the receipt to complete the procurement cycle.</p>
+
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn orange">1</div>
+      <div class="step-content">
+        <h5>Find the "Upload Receipt" Card</h5>
+        <p>In the Procurement panel, scroll down to the "Upload Receipt" section.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">2</div>
+      <div class="step-content">
+        <h5>Enter the Request ID</h5>
+        <p>Type your procurement request ID (e.g., <strong>PROC-0001</strong>). This was provided when you originally submitted the request.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">3</div>
+      <div class="step-content">
+        <h5>Enter the Actual Amount</h5>
+        <p>Type the <strong>actual amount paid</strong> on the receipt. This may differ from the originally requested amount.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn orange">4</div>
+      <div class="step-content">
+        <h5>Add Receipt Notes (Optional)</h5>
+        <p>Add any notes about the purchase — e.g., if you got a discount, bought from a different vendor, or need to explain a price difference.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">5</div>
+      <div class="step-content">
+        <h5>Click "Submit Receipt"</h5>
+        <p>The system processes the receipt and checks for <strong>variance</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <i class="fas fa-exclamation-triangle"></i>
+    <div>
+      <strong>Variance Detection:</strong> If the actual amount differs from the requested amount by more than <strong>10%</strong>, the request moves to "Variance Review" instead of "Payment Pending". The Treasurer will need to review and approve the discrepancy.
+      <br><br>
+      <em>Example: Requested $100, actual $115 → 15% variance → flagged for review.</em>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 6. PROCUREMENT TRACKER ═══════════════════ -->
+<div class="section" id="sec-proc-track">
+  <h2><span class="num">6</span> Procurement — Payment Tracker</h2>
+  <p>The Payment Tracker table shows all requests that have been approved and are awaiting or have completed payment.</p>
+
+  <table class="field-table">
+    <thead><tr><th>Column</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>ID</td><td>Procurement request ID (PROC-XXXX)</td></tr>
+      <tr><td>Requester</td><td>Name of EC member who submitted the request</td></tr>
+      <tr><td>Amount</td><td>Approved dollar amount</td></tr>
+      <tr><td>Status</td><td><span class="status paid">Payment Pending</span> or <span class="status approved">Completed</span></td></tr>
+      <tr><td>Method</td><td>Payment method (Zelle, check, etc.)</td></tr>
+      <tr><td>Date</td><td>Date of last status update</td></tr>
+    </tbody>
+  </table>
+
+  <h3>"My Requests &amp; Receipts" Section</h3>
+  <p>This section shows <strong>only your own requests</strong>, filtered by your email. Each request card uses a color-coded left border to indicate status:</p>
+  <ul>
+    <li><span class="status pending">Pending</span> — Awaiting approval</li>
+    <li><span class="status approved">Approved</span> — Ready to purchase</li>
+    <li><span class="status rejected">Rejected</span> — Not approved (check reason)</li>
+    <li><span class="status paid">Payment Pending</span> — Receipt submitted, awaiting payment</li>
+    <li><span class="status variance">Variance Review</span> — Amount discrepancy flagged</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════ 7. REIMBURSEMENT ACCESS ═══════════════════ -->
+<div class="section" id="sec-rmb-access">
+  <h2><span class="num">7</span> Reimbursement — Access the Portal</h2>
+  <p>The Reimbursement module is an <strong>AI-powered sub-portal</strong> embedded in the Admin Portal. It provides receipt scanning using free AI vision models.</p>
+
+  <div class="callout danger">
+    <i class="fas fa-lock"></i>
+    <div><strong>Role Restriction:</strong> Only <strong>Treasurer</strong>, <strong>Vice President</strong>, and <strong>President</strong> can access the Reimbursement module. Other EC members will see a restricted-access notice.</div>
+  </div>
+
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn cyan">1</div>
+      <div class="step-content">
+        <h5>Click "Reimbursement" in Sidebar</h5>
+        <p>Under the Finance section in the sidebar. The portal loads inside an iframe with auto-login (no second sign-in needed).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn cyan">2</div>
+      <div class="step-content">
+        <h5>Wait for Portal to Load</h5>
+        <p>A loading overlay appears briefly while the sub-portal initializes. Your name, email, and role are passed automatically.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn cyan">3</div>
+      <div class="step-content">
+        <h5>Optional: Open in Fullscreen</h5>
+        <p>Click the <i class="fas fa-expand"></i> <strong>fullscreen button</strong> in the panel header to open the reimbursement portal in a new browser tab for a larger view.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 8. REIMBURSEMENT SUBMIT ═══════════════════ -->
+<div class="section" id="sec-rmb-submit">
+  <h2><span class="num">8</span> Reimbursement — Submit a Request</h2>
+  <p>Use reimbursement when you've <strong>already paid for something out of pocket</strong> and need to be reimbursed by BANF.</p>
+
+  <h3>The Reimbursement Portal has 7 Sections:</h3>
+  <table class="field-table">
+    <thead><tr><th>Section</th><th>Icon</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Dashboard</td><td><i class="fas fa-chart-pie" style="color:var(--accent)"></i></td><td>KPIs, system status, processing pipeline, quick actions</td></tr>
+      <tr><td>New Request</td><td><i class="fas fa-file-invoice-dollar" style="color:var(--accent)"></i></td><td>Create and submit a reimbursement request</td></tr>
+      <tr><td>AI Engine</td><td><i class="fas fa-robot" style="color:var(--cyan)"></i></td><td>Configure AI provider and model for receipt scanning</td></tr>
+      <tr><td>Benchmark</td><td><i class="fas fa-flask" style="color:var(--purple)"></i></td><td>Test AI models against a synthetic receipt</td></tr>
+      <tr><td>System Log</td><td><i class="fas fa-terminal" style="color:var(--green)"></i></td><td>Real-time activity feed for debugging</td></tr>
+      <tr><td>Raw OCR</td><td><i class="fas fa-code" style="color:var(--muted)"></i></td><td>Raw AI/OCR output dump</td></tr>
+      <tr><td>How It Works</td><td><i class="fas fa-book-open" style="color:var(--blue)"></i></td><td>Built-in 8-step guide with FAQ</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Step-by-Step: Creating a Reimbursement Request</h3>
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn cyan">1</div>
+      <div class="step-content">
+        <h5>Go to "New Request"</h5>
+        <p>Click <strong>"New Request"</strong> in the sub-portal sidebar (or click "New Reimbursement" on the Dashboard). Your name and email are auto-filled.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn cyan">2</div>
+      <div class="step-content">
+        <h5>Select the Event</h5>
+        <p>Choose which event this expense is for from the "Select Event" dropdown. Options include all BANF events (Bosonto 2026, Durga Puja 2026, etc.) plus general categories like "General Operations", "Website & Technology", and "Other".</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn cyan">3</div>
+      <div class="step-content">
+        <h5>Upload Receipt(s)</h5>
+        <p>Drag &amp; drop receipt images/PDFs into the drop zone, or click to browse. Supports <strong>JPG, PNG, and PDF</strong>. You can upload multiple receipts for one request.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn purple">4</div>
+      <div class="step-content">
+        <h5>AI Scans Your Receipt Automatically</h5>
+        <p>The system sends your receipt image to the configured AI vision model. It extracts: <strong>store name</strong>, <strong>date</strong>, <strong>line items with costs</strong>, and <strong>total amount</strong>. This usually takes 5–15 seconds.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn cyan">5</div>
+      <div class="step-content">
+        <h5>Review &amp; Edit Extracted Data</h5>
+        <p>Each receipt gets a card showing extracted fields. <strong>Review carefully</strong> — you can edit the store name, date, line items, and total if the AI got anything wrong. Click "Add Line Item" to add missing items.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">6</div>
+      <div class="step-content">
+        <h5>Confirm Each Receipt</h5>
+        <p>Click the <strong>"Confirm Receipt"</strong> button on each card. The button turns green when confirmed. You must confirm all receipts before submitting.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn cyan">7</div>
+      <div class="step-content">
+        <h5>Fill Payment Details</h5>
+        <p>In the "Payment & Submission" card:</p>
+      </div>
+    </div>
+  </div>
+
+  <table class="field-table">
+    <thead><tr><th>Field</th><th>Required?</th><th>Options / Details</th></tr></thead>
+    <tbody>
+      <tr><td>Paid By</td><td>Yes</td><td>Personal Funds (Reimbursement), BANF Card, Cash, Other</td></tr>
+      <tr><td>Budget Pre-Approved By</td><td>No</td><td>President, Treasurer, Vice President, or leave blank</td></tr>
+      <tr><td>Additional Notes</td><td>No</td><td>Context for the Treasurer</td></tr>
+    </tbody>
+  </table>
+
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn green">8</div>
+      <div class="step-content">
+        <h5>Click "Submit Reimbursement Request"</h5>
+        <p>The system validates: event selected, name/email filled, at least 1 receipt uploaded, and all receipts confirmed. On success, you'll see a confirmation message and the pipeline progresses to the "Submit" step.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <i class="fas fa-info-circle"></i>
+    <div><strong>Missing Receipt?</strong> Click "Add Missing Receipt" to create a receipt entry without an image. You'll need to provide a reason explaining why the receipt is missing.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 9. AI RECEIPT SCANNER ═══════════════════ -->
+<div class="section" id="sec-rmb-ai">
+  <h2><span class="num">9</span> Reimbursement — AI Receipt Scanner</h2>
+  <p>The portal uses AI vision models to automatically extract receipt data. All providers offer <strong>free tiers</strong>.</p>
+
+  <h3>Available AI Providers</h3>
+  <table class="field-table">
+    <thead><tr><th>Provider</th><th>Speed</th><th>Free Tier</th><th>Recommended Models</th></tr></thead>
+    <tbody>
+      <tr><td style="color:var(--green)"><i class="fas fa-star"></i> Google Gemini</td><td>Recommended</td><td>15 RPM</td><td>Gemini 2.0 Flash, Flash Lite</td></tr>
+      <tr><td style="color:var(--cyan)"><i class="fas fa-bolt"></i> Groq</td><td>Ultra Fast</td><td>30 RPM</td><td>Llama 4 Scout 17B, Maverick 17B</td></tr>
+      <tr><td>OpenRouter</td><td>Community</td><td>Free models</td><td>Gemma 3 27B, Mistral 3.1 24B</td></tr>
+      <tr><td>SambaNova</td><td>High Accuracy</td><td>Free</td><td>Llama 3.2 90B Vision</td></tr>
+      <tr><td>Together.ai</td><td>Free Tier</td><td>$1 credit</td><td>Llama Vision Free</td></tr>
+      <tr><td>Hyperbolic</td><td>Free Tier</td><td>Free</td><td>Qwen2.5-VL 72B</td></tr>
+      <tr><td>Cerebras</td><td>Speed Record</td><td>Free</td><td>Llama 3.2 11B Vision</td></tr>
+    </tbody>
+  </table>
+
+  <h3>How to Configure the AI Engine</h3>
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn purple">1</div>
+      <div class="step-content">
+        <h5>Go to "AI Engine" Section</h5>
+        <p>Click "AI Engine" in the reimbursement portal sidebar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn purple">2</div>
+      <div class="step-content">
+        <h5>Select a Provider</h5>
+        <p>Choose from the dropdown. Google Gemini and Groq are pre-configured with API keys — they work out of the box.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn purple">3</div>
+      <div class="step-content">
+        <h5>Select a Model</h5>
+        <p>The model dropdown updates based on the selected provider. Each model has different speed/accuracy tradeoffs.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">4</div>
+      <div class="step-content">
+        <h5>Test Connection</h5>
+        <p>Click "Test Connection" to verify the API key and model work correctly. A green status dot confirms the engine is ready.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <i class="fas fa-check-circle"></i>
+    <div><strong>Fallback OCR:</strong> If the AI vision model fails, the system automatically falls back to <strong>Tesseract.js</strong> (browser-based OCR). You'll always get some extraction, even if the AI is down.</div>
+  </div>
+
+  <h3>AI Scanning Pipeline</h3>
+  <div class="workflow-diagram">
+    <div class="wf-box receipt-a"><i class="fas fa-cloud-upload-alt"></i> Upload</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box paid-a"><i class="fas fa-robot"></i> AI OCR</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box pending-a"><i class="fas fa-edit"></i> Review</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box approved-a"><i class="fas fa-paper-plane"></i> Submit</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box variance-a"><i class="fas fa-user-check"></i> Treasurer</div>
+    <div class="wf-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="wf-box approved-a"><i class="fas fa-check-double"></i> Approved</div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 10. REIMBURSEMENT APPROVAL ═══════════════════ -->
+<div class="section" id="sec-rmb-approval">
+  <h2><span class="num">10</span> Reimbursement — Approval Flow</h2>
+
+  <p>After you submit a reimbursement request:</p>
+  <div class="step-flow">
+    <div class="step">
+      <div class="sn green">1</div>
+      <div class="step-content">
+        <h5>Ticket Created</h5>
+        <p>A reimbursement ticket is created with a unique ID. The pipeline advances to "Submit" (step 4).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn yellow">2</div>
+      <div class="step-content">
+        <h5>Treasurer Review</h5>
+        <p>The Treasurer (Amit Chandak) reviews the request. Email notifications are sent to the Treasurer, Vice President, and President.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn green">3</div>
+      <div class="step-content">
+        <h5>Approved / Paid</h5>
+        <p>Once approved, the status changes from <span class="status pending">Pending</span> → <span class="status approved">Approved</span> → <span class="status paid">Paid</span>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 11. ROLES ═══════════════════ -->
+<div class="section" id="sec-roles">
+  <h2><span class="num">11</span> Roles &amp; Permissions</h2>
+
+  <table class="field-table">
+    <thead><tr><th>Role</th><th>Procurement</th><th>Reimbursement</th><th>Approval Authority</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>President</strong><br><span style="font-size:.75rem;color:var(--muted)">Dr. Ranadhir Ghosh</span></td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Full access</td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Full access</td>
+        <td>All tiers (T1, T2, T3)</td>
+      </tr>
+      <tr>
+        <td><strong>Vice President</strong><br><span style="font-size:.75rem;color:var(--muted)">Partha Mukhopadhyay</span></td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Full access</td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Full access</td>
+        <td>Tier 3 only ($500+)</td>
+      </tr>
+      <tr>
+        <td><strong>Treasurer</strong><br><span style="font-size:.75rem;color:var(--muted)">Amit Chandak</span></td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Full access</td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Full access</td>
+        <td>Tier 2 &amp; Tier 3 ($100+)</td>
+      </tr>
+      <tr>
+        <td><strong>Other EC Members</strong><br><span style="font-size:.75rem;color:var(--muted)">Secretary, Cultural Sec, etc.</span></td>
+        <td><i class="fas fa-check" style="color:var(--green)"></i> Submit &amp; view own</td>
+        <td><i class="fas fa-times" style="color:var(--red)"></i> No access</td>
+        <td>None</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════ 12. FAQ ═══════════════════ -->
+<div class="section" id="sec-faq">
+  <h2><span class="num">12</span> FAQ &amp; Troubleshooting</h2>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> What's the difference between Procurement and Reimbursement?</h4>
+    <p><strong>Procurement</strong> = Get approval BEFORE spending. Submit a request → get approved → make the purchase → upload receipt.<br>
+    <strong>Reimbursement</strong> = Already spent your own money. Upload receipt(s) → AI scans them → submit for review → get reimbursed.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> I can't access the Reimbursement panel?</h4>
+    <p>Only the <strong>Treasurer, Vice President, and President</strong> can access Reimbursement. If you're another EC member, use the <strong>Procurement</strong> panel with the "Reimbursement (Pre-paid)" category.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> My receipt scan failed or looks wrong — what do I do?</h4>
+    <p>The AI extraction is not always perfect. You can <strong>manually edit</strong> every field (store name, date, line items, total). Just correct the values and click "Confirm Receipt".</p>
+    <p>If AI keeps failing, try switching to a different provider in the AI Engine settings. Google Gemini and Groq have the best success rate.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> What happens if my actual purchase amount differs from what I requested?</h4>
+    <p>When you upload a receipt, if the actual amount differs from the requested amount by more than <strong>10%</strong>, the request enters "Variance Review" status. The Treasurer must approve the discrepancy before payment can proceed.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> I lost my receipt — can I still submit?</h4>
+    <p>In the Reimbursement portal, click <strong>"Add Missing Receipt"</strong>. You'll need to manually enter the store, amount, and explain why the receipt is missing. Missing-receipt requests may face additional scrutiny during approval.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> How do I track the status of my request?</h4>
+    <p><strong>Procurement:</strong> Check "My Requests & Receipts" in the Procurement panel — color-coded borders show status instantly.<br>
+    <strong>Reimbursement:</strong> The Dashboard shows KPIs (submitted, parsed, confirmed) and the processing pipeline shows which step your request is at.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> Can I submit both procurement and reimbursement for the same expense?</h4>
+    <p>No — use one or the other. If you got pre-approval via procurement, upload the receipt there. If you paid out-of-pocket without prior approval, use reimbursement.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<div style="text-align:center;padding:2rem 0;border-top:1px solid var(--line);margin-top:2rem">
+  <p style="font-size:.82rem;color:var(--muted)">
+    <i class="fas fa-shield-alt" style="color:var(--accent);margin-right:.3rem"></i>
+    BANF EC Finance User Guide — Generated for Executive Committee Members<br>
+    <span style="color:var(--dim)">Last Updated: <span id="guide-date"></span> • Version 2.0</span>
+  </p>
+  <div style="margin-top:.8rem;display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap">
+    <a href="admin-portal.html" style="font-size:.82rem;padding:6px 16px;border-radius:8px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);color:var(--accent);font-weight:600;text-decoration:none">
+      <i class="fas fa-arrow-left"></i> Back to Admin Portal
+    </a>
+    <a href="https://www.jaxbengali.org/_functions/reimbursement_guide" target="_blank" style="font-size:.82rem;padding:6px 16px;border-radius:8px;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.2);color:var(--cyan);font-weight:600;text-decoration:none">
+      <i class="fas fa-external-link-alt"></i> Official Reimbursement Guide
+    </a>
+  </div>
+</div>
+
+</div><!-- end guide-wrap -->
+
+<!-- Back to portal floating button -->
+<button class="back-btn" onclick="window.location.href='admin-portal.html'">
+  <i class="fas fa-arrow-left"></i> Admin Portal
+</button>
+
+<script>
+document.getElementById('guide-date').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+</script>
+
+</body>
+</html>
