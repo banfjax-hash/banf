@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jagriti Magazine - BANF Literary &amp; Cultural E-Magazine</title>
+    <meta name="description" content="Jagriti — BANF's annual Bengali literary and cultural e-magazine. Browse year-wise archives, submit articles, poetry, stories, and artwork.">
+    <link rel="icon" type="image/jpeg" href="../banf-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="shared-styles.css" rel="stylesheet">
+    <style>
+        /* Jagriti-specific styles */
+        .jagriti-hero {
+            background: linear-gradient(135deg, #E65100 0%, #FF6D00 30%, #FF8F00 60%, #FFA000 100%);
+            color: #fff;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .jagriti-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('../banf-header.jpg') center/cover;
+            opacity: 0.12;
+        }
+        .jagriti-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--cream), transparent);
+        }
+        .jagriti-hero .container { position: relative; z-index: 2; }
+        .jagriti-hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; text-shadow: 2px 4px 15px rgba(0,0,0,0.3); }
+        .jagriti-hero .bengali-title { font-size: 2.2rem; color: rgba(255,255,255,0.9); margin-bottom: 1rem; }
+        .jagriti-hero .lead { font-size: 1.2rem; color: rgba(255,255,255,0.9); max-width: 700px; }
+        .jagriti-stat { background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 16px; padding: 1.2rem; text-align: center; border: 1px solid rgba(255,255,255,0.2); }
+        .jagriti-stat .num { font-size: 1.8rem; font-weight: 700; }
+        .jagriti-stat .label { font-size: 0.85rem; opacity: 0.9; }
+
+        /* Archive cards */
+        .magazine-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            height: 100%;
+        }
+        .magazine-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+        .magazine-cover {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+        }
+        .magazine-cover .year-badge {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+        }
+        .magazine-body { padding: 1.5rem; }
+        .magazine-body h4 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+        .magazine-body .stats-row { display: flex; gap: 1rem; margin: 0.75rem 0; flex-wrap: wrap; }
+        .magazine-body .stats-row span { font-size: 0.82rem; color: #666; display: flex; align-items: center; gap: 4px; }
+        .magazine-body .stats-row i { color: var(--gold); font-size: 0.75rem; }
+        .magazine-actions { padding: 0 1.5rem 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .btn-read { background: linear-gradient(135deg, #E65100, #FF6D00); color: #fff; border: none; padding: 8px 20px; border-radius: 25px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-read:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(230,81,0,0.4); color: #fff; }
+        .btn-download { background: #f0f0f5; color: var(--navy); border: none; padding: 8px 20px; border-radius: 25px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-download:hover { background: var(--navy); color: #fff; }
+        .coming-soon-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            backdrop-filter: blur(2px);
+            border-radius: 20px;
+        }
+
+        /* Submission section */
+        .submission-section { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); }
+        .submission-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            height: 100%;
+        }
+        .submission-card h4 { color: var(--navy); margin-bottom: 1rem; }
+        .submission-card .icon-wrap {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .category-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 1rem 0; }
+        .category-badges .badge {
+            background: rgba(230,81,0,0.08);
+            color: #E65100;
+            border: 1px solid rgba(230,81,0,0.2);
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.78rem;
+        }
+
+        /* Submission form */
+        .submission-form { display: none; }
+        .submission-form.active { display: block; }
+        .submission-form label { font-weight: 600; color: var(--navy); font-size: 0.9rem; margin-bottom: 0.3rem; display: block; }
+        .submission-form input, .submission-form select, .submission-form textarea {
+            width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px;
+            font-size: 0.95rem; margin-bottom: 1rem; outline: none; transition: border 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        .submission-form input:focus, .submission-form select:focus, .submission-form textarea:focus { border-color: #E65100; }
+        .submission-form textarea { min-height: 150px; resize: vertical; }
+
+        /* Kids corner */
+        .kids-corner {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 2px dashed #4CAF50;
+        }
+        .kids-corner h3 { color: #2E7D32; }
+
+        /* Editor section */
+        .editor-section { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); }
+        .editor-portal { display: none; }
+        .editor-portal.active { display: block; }
+
+        /* Submission queue */
+        .submission-item {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            border-left: 4px solid #E65100;
+        }
+        .submission-item.reviewed { border-left-color: #4CAF50; opacity: 0.7; }
+        .submission-item .meta { font-size: 0.82rem; color: #666; }
+        .submission-item h5 { font-size: 1rem; margin: 0.5rem 0; }
+        .review-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+        .review-actions button {
+            padding: 6px 16px; border-radius: 8px; border: none;
+            font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-approve { background: #E8F5E9; color: #2E7D32; }
+        .btn-approve:hover { background: #4CAF50; color: #fff; }
+        .btn-reject { background: #FFEBEE; color: #C62828; }
+        .btn-reject:hover { background: #EF5350; color: #fff; }
+        .btn-comment { background: #E3F2FD; color: #1565C0; }
+        .btn-comment:hover { background: #42A5F5; color: #fff; }
+
+        /* Email template cards */
+        .template-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .template-card:hover { border-color: #E65100; transform: translateY(-2px); }
+        .template-card.selected { border-color: #E65100; background: #FFF3E0; }
+        .template-card h5 { font-size: 0.95rem; color: var(--navy); margin-bottom: 0.3rem; }
+        .template-card p { font-size: 0.82rem; color: #666; margin: 0; }
+
+        /* AI compliance */
+        .compliance-result {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-size: 0.88rem;
+            display: none;
+        }
+        .compliance-result.pass { background: #E8F5E9; color: #2E7D32; border: 1px solid #A5D6A7; }
+        .compliance-result.warn { background: #FFF3E0; color: #E65100; border: 1px solid #FFCC80; }
+        .compliance-result.fail { background: #FFEBEE; color: #C62828; border: 1px solid #EF9A9A; }
+
+        /* Printed edition notice */
+        .print-notice {
+            background: linear-gradient(135deg, var(--navy), var(--navy-light));
+            color: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .print-notice h4 { color: var(--gold-light); }
+        .print-notice p { color: rgba(255,255,255,0.85); }
+
+        /* Ad rates table */
+        .ad-rates-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 12px; overflow: hidden; }
+        .ad-rates-table th { background: var(--navy); color: var(--gold-light); padding: 12px 16px; font-weight: 600; font-size: 0.9rem; }
+        .ad-rates-table td { padding: 10px 16px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        .ad-rates-table tr:last-child td { border-bottom: none; }
+        .ad-rates-table tr:nth-child(even) td { background: #f9f9fb; }
+
+        /* Editor login modal */
+        .editor-login-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        .editor-login-overlay.show { display: flex; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="banf-navbar" id="banf-nav">
+        <a href="index.html" class="nav-brand">
+            <img src="../banf-logo.jpg" alt="BANF">
+            <span>BANF Jacksonville</span>
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="leadership.html">Leadership</a>
+            <a href="events.html">Events</a>
+            <a href="membership.html">Membership</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="gallery.html#contact">Contact</a>
+            <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-user me-1"></i>Member Login</a>
+            <a href="#" onclick="openEcLoginModal(); return false;" style="color: var(--gold);"><i class="fas fa-user-shield me-1"></i>EC Login</a>
+        </div>
+        <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('show')" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Jagriti Hero -->
+    <section class="jagriti-hero">
+        <div class="container text-center">
+            <div class="bengali-title bengali-text">জাগৃতি</div>
+            <h1>Jagriti Magazine</h1>
+            <p class="lead mx-auto">BANF's annual Bengali literary and cultural e-magazine — Poetry, short stories, essays, artwork, and community voices since 2022.</p>
+            <div class="row g-3 mt-4 justify-content-center">
+                <div class="col-6 col-md-3"><div class="jagriti-stat"><div class="num">3</div><div class="label">Issues Published</div></div></div>
+                <div class="col-6 col-md-3"><div class="jagriti-stat"><div class="num">46</div><div class="label">Latest Contributions</div></div></div>
+                <div class="col-6 col-md-3"><div class="jagriti-stat"><div class="num">22</div><div class="label">Advertisers</div></div></div>
+                <div class="col-6 col-md-3"><div class="jagriti-stat"><div class="num">14</div><div class="label">Article Categories</div></div></div>
+            </div>
+            <div class="mt-4">
+                <a href="#archives" class="btn-read" style="font-size: 1rem; padding: 12px 28px;"><i class="fas fa-book-open me-2"></i>Browse Archives</a>
+                <a href="#submit" class="btn-download" style="font-size: 1rem; padding: 12px 28px; margin-left: 0.5rem;"><i class="fas fa-pen-fancy me-2"></i>Submit Article</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Year-Wise Magazine Archives -->
+    <section class="py-5" id="archives">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-archive me-2"></i>Magazine Archives</h2>
+                <p>Browse all published issues of Jagriti — year by year</p>
+            </div>
+            <div class="row g-4">
+                <!-- 2024-25 Issue (Latest) -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="magazine-card">
+                        <div class="magazine-cover" style="background: linear-gradient(135deg, #E65100, #FF6D00);">
+                            <i class="fas fa-book-open"></i>
+                            <span class="year-badge"><i class="fas fa-star me-1"></i>Latest</span>
+                        </div>
+                        <div class="magazine-body">
+                            <h4>Jagriti 2024-25</h4>
+                            <p class="text-muted mb-1">Annual Literary &amp; Cultural Edition</p>
+                            <div class="stats-row">
+                                <span><i class="fas fa-pen-nib"></i> 46 Contributions</span>
+                                <span><i class="fas fa-ad"></i> 22 Advertisements</span>
+                            </div>
+                            <div class="category-badges">
+                                <span class="badge">Poetry</span>
+                                <span class="badge">Short Stories</span>
+                                <span class="badge">Essays</span>
+                                <span class="badge">Artwork</span>
+                                <span class="badge">Community News</span>
+                            </div>
+                        </div>
+                        <div class="magazine-actions">
+                            <a href="https://www.jaxbengali.org/jagriti-2024-25" target="_blank" class="btn-read"><i class="fas fa-external-link-alt"></i> Read Online</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2023 Issue -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="magazine-card">
+                        <div class="magazine-cover" style="background: linear-gradient(135deg, #BF360C, #E65100);">
+                            <i class="fas fa-book"></i>
+                            <span class="year-badge">2023</span>
+                        </div>
+                        <div class="magazine-body">
+                            <h4>Jagriti 2023</h4>
+                            <p class="text-muted mb-1">Bengali Literary Collection</p>
+                            <div class="stats-row">
+                                <span><i class="fas fa-pen-nib"></i> Contributors</span>
+                                <span><i class="fas fa-ad"></i> Advertisements</span>
+                            </div>
+                            <div class="category-badges">
+                                <span class="badge">Poetry</span>
+                                <span class="badge">Culture</span>
+                                <span class="badge">Stories</span>
+                            </div>
+                        </div>
+                        <div class="magazine-actions">
+                            <a href="https://www.jaxbengali.org/jagriti-2023" target="_blank" class="btn-read"><i class="fas fa-external-link-alt"></i> Read Online</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2022 Issue -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="magazine-card">
+                        <div class="magazine-cover" style="background: linear-gradient(135deg, #4E342E, #795548);">
+                            <i class="fas fa-book"></i>
+                            <span class="year-badge">2022</span>
+                        </div>
+                        <div class="magazine-body">
+                            <h4>Jagriti 2022</h4>
+                            <p class="text-muted mb-1">Inaugural Edition</p>
+                            <div class="stats-row">
+                                <span><i class="fas fa-pen-nib"></i> Contributors</span>
+                                <span><i class="fas fa-ad"></i> Advertisements</span>
+                            </div>
+                            <div class="category-badges">
+                                <span class="badge">Poetry</span>
+                                <span class="badge">Culture</span>
+                                <span class="badge">Community</span>
+                            </div>
+                        </div>
+                        <div class="magazine-actions">
+                            <a href="https://www.jaxbengali.org/jagriti-2022" target="_blank" class="btn-read"><i class="fas fa-external-link-alt"></i> Read Online</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2026 Issue (Coming Soon) -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="magazine-card" style="position: relative;">
+                        <div class="magazine-cover" style="background: linear-gradient(135deg, #1565C0, #42A5F5);">
+                            <i class="fas fa-rocket"></i>
+                            <span class="year-badge"><i class="fas fa-clock me-1"></i>Upcoming</span>
+                        </div>
+                        <div class="magazine-body">
+                            <h4>Jagriti 2026</h4>
+                            <p class="text-muted mb-1">Next Annual Edition — Digital + Print</p>
+                            <div class="stats-row">
+                                <span><i class="fas fa-laptop"></i> Online Digital Edition</span>
+                            </div>
+                            <div class="stats-row">
+                                <span><i class="fas fa-print"></i> Traditional Puja Print Edition</span>
+                            </div>
+                            <p class="mt-2" style="font-size: 0.85rem; color: #1565C0;"><i class="fas fa-info-circle me-1"></i>Starting 2026, Jagriti will also have a traditional printed Puja edition alongside the digital magazine.</p>
+                        </div>
+                        <div class="magazine-actions">
+                            <a href="#submit" class="btn-read"><i class="fas fa-pen-fancy"></i> Submit Your Article</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Print Edition Notice (2026+) -->
+    <section class="py-4">
+        <div class="container">
+            <div class="print-notice">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center mb-3 mb-md-0">
+                        <i class="fas fa-print" style="font-size: 3rem; color: var(--gold-light);"></i>
+                    </div>
+                    <div class="col-md-10 text-md-start">
+                        <h4><i class="fas fa-newspaper me-2"></i>Introducing Printed Puja Edition — Starting 2026</h4>
+                        <p class="mb-0">From 2026, Jagriti will feature a traditional printed Puja edition in addition to the online digital magazine. The Puja edition will be distributed during Durga Puja celebrations. The online edition will continue year-round with regular submissions and community contributions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Submission Section -->
+    <section class="submission-section py-5" id="submit">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-pen-fancy me-2"></i>Submit Your Work</h2>
+                <p>Share your creative writing, poetry, essays, artwork, and stories with the BANF community</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Member Submission -->
+                <div class="col-lg-6">
+                    <div class="submission-card">
+                        <div class="icon-wrap" style="background: linear-gradient(135deg, #E65100, #FF6D00); color: #fff;">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <h4><i class="fas fa-lock me-1" style="color: #E65100;"></i> Member Submission</h4>
+                        <p class="text-muted">Submit articles directly through the portal. Requires BANF member login.</p>
+                        <div class="category-badges">
+                            <span class="badge">Poetry / কবিতা</span>
+                            <span class="badge">Short Story / গল্প</span>
+                            <span class="badge">Essay / প্রবন্ধ</span>
+                            <span class="badge">Recipe / রেসিপি</span>
+                            <span class="badge">Travel / ভ্রমণ</span>
+                            <span class="badge">Opinion / মতামত</span>
+                            <span class="badge">Youth / তরুণ</span>
+                            <span class="badge">Culture / সংস্কৃতি</span>
+                            <span class="badge">Community News</span>
+                            <span class="badge">Health / স্বাস্থ্য</span>
+                            <span class="badge">Education / শিক্ষা</span>
+                            <span class="badge">Artwork / শিল্প</span>
+                        </div>
+
+                        <!-- Login gate -->
+                        <div id="member-gate">
+                            <p style="font-size: 0.88rem; color: #E65100; margin: 1rem 0 0.5rem;"><i class="fas fa-info-circle me-1"></i>You must be logged in as a BANF member to submit articles.</p>
+                            <button class="btn-read" onclick="openMemberLoginForSubmission()" style="width: 100%; justify-content: center;"><i class="fas fa-sign-in-alt me-1"></i>Member Login to Submit</button>
+                        </div>
+
+                        <!-- Submission form (shown after login) -->
+                        <div class="submission-form" id="member-submission-form">
+                            <div style="background: #E8F5E9; padding: 0.75rem 1rem; border-radius: 10px; margin-bottom: 1rem; font-size: 0.88rem; color: #2E7D32;">
+                                <i class="fas fa-check-circle me-1"></i>Logged in as <strong id="submission-member-name"></strong>
+                            </div>
+                            <label>Article Title</label>
+                            <input type="text" id="sub-title" placeholder="Enter your article title">
+                            <label>Category</label>
+                            <select id="sub-category">
+                                <option value="">— Select Category —</option>
+                                <option value="poetry">Poetry / কবিতা</option>
+                                <option value="short_story">Short Story / গল্প</option>
+                                <option value="essay">Essay / প্রবন্ধ</option>
+                                <option value="recipe">Recipe / রেসিপি</option>
+                                <option value="travel">Travel / ভ্রমণ</option>
+                                <option value="opinion">Opinion / মতামত</option>
+                                <option value="youth">Youth / তরুণ</option>
+                                <option value="culture">Culture / সংস্কৃতি</option>
+                                <option value="community_news">Community News</option>
+                                <option value="health">Health / স্বাস্থ্য</option>
+                                <option value="education">Education / শিক্ষা</option>
+                                <option value="artwork">Artwork / শিল্প</option>
+                            </select>
+                            <label>Author Name</label>
+                            <input type="text" id="sub-author" placeholder="Your name as you'd like it published">
+                            <label>Short Bio (optional)</label>
+                            <input type="text" id="sub-bio" placeholder="A brief bio (1-2 sentences)">
+                            <label>Article Content</label>
+                            <textarea id="sub-content" placeholder="Write or paste your article content here. Bengali (বাংলা) text is welcome."></textarea>
+                            <p style="font-size: 0.82rem; color: #666; margin-bottom: 1rem;"><i class="fas fa-info-circle me-1"></i>For artwork or images, please email them to <strong>banfjax@gmail.com</strong> with subject "MAGAZINE - [Your Title]"</p>
+                            <button class="btn-read" onclick="submitMemberArticle()" style="width: 100%; justify-content: center;" id="btn-submit-article"><i class="fas fa-paper-plane me-1"></i>Submit for Review</button>
+                            <div id="submission-result" style="margin-top: 1rem; font-size: 0.88rem; display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Non-Member / Email Submission -->
+                <div class="col-lg-6">
+                    <div class="submission-card">
+                        <div class="icon-wrap" style="background: linear-gradient(135deg, #1565C0, #42A5F5); color: #fff;">
+                            <i class="fas fa-envelope-open-text"></i>
+                        </div>
+                        <h4><i class="fas fa-envelope me-1" style="color: #1565C0;"></i> Email Submission</h4>
+                        <p class="text-muted">Non-members and those who prefer email can submit articles directly to the editor.</p>
+                        <div style="background: #E3F2FD; border-radius: 12px; padding: 1.25rem; margin: 1rem 0;">
+                            <p style="margin: 0 0 0.75rem; font-weight: 600; color: var(--navy);"><i class="fas fa-paper-plane me-2"></i>How to Submit via Email</p>
+                            <ol style="margin: 0; padding-left: 1.2rem; font-size: 0.9rem; color: #444;">
+                                <li>Compose an email to <strong>banfjax@gmail.com</strong></li>
+                                <li>Subject line: <code style="background: #fff; padding: 2px 8px; border-radius: 4px;">MAGAZINE - [Your Article Title]</code></li>
+                                <li>Include: your name, brief bio, article category</li>
+                                <li>Attach your article as a document or write in the email body</li>
+                                <li>Images and artwork: attach as JPEG/PNG files</li>
+                            </ol>
+                        </div>
+                        <a href="mailto:banfjax@gmail.com?subject=MAGAZINE%20-%20%5BArticle%20Title%5D&body=Dear%20Jagriti%20Editor%2C%0A%0APlease%20find%20my%20article%20submission%20for%20Jagriti%20Magazine.%0A%0AArticle%20Title%3A%20%0ACategory%3A%20%0AAuthor%20Name%3A%20%0ABrief%20Bio%3A%20%0A%0A---%20Article%20Content%20Below%20---%0A%0A" class="btn-read" style="width: 100%; justify-content: center; margin-top: 1rem;"><i class="fas fa-envelope me-1"></i>Open Email Template</a>
+
+                        <!-- Advertisement info -->
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                            <h5 style="color: var(--navy); font-size: 1rem;"><i class="fas fa-ad me-2" style="color: var(--gold);"></i>Advertise in Jagriti</h5>
+                            <p style="font-size: 0.88rem; color: #666;">Support Jagriti by placing an advertisement. Rates below:</p>
+                            <table class="ad-rates-table">
+                                <thead><tr><th>Ad Size</th><th>Rate</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Quarter Page</td><td>$125</td></tr>
+                                    <tr><td>Half Page</td><td>$250</td></tr>
+                                    <tr><td>Full Page</td><td>$400</td></tr>
+                                    <tr><td>2 Full Center Pages</td><td>$450</td></tr>
+                                    <tr><td>Inside Cover (Front/Back)</td><td>$500</td></tr>
+                                    <tr><td>Back Cover</td><td>$700</td></tr>
+                                </tbody>
+                            </table>
+                            <p style="font-size: 0.82rem; color: #888; margin-top: 0.5rem;"><i class="fas fa-info-circle me-1"></i>Contact <strong>banfjax@gmail.com</strong> for ad placement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kids Corner -->
+    <section class="py-5">
+        <div class="container">
+            <div class="kids-corner">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center mb-3 mb-md-0">
+                        <span style="font-size: 4rem;">✏️</span>
+                    </div>
+                    <div class="col-md-10">
+                        <h3><i class="fas fa-child me-2"></i>Kids Corner — ছোটদের জাগৃতি</h3>
+                        <p style="font-size: 1.05rem; color: #333; margin: 1rem 0;">We warmly encourage children of all ages to submit their writing and drawings to Jagriti! Share your poems, stories, art, and thoughts with the BANF community.</p>
+                        <div class="category-badges" style="margin-bottom: 1rem;">
+                            <span class="badge" style="background: rgba(46,125,50,0.1); color: #2E7D32; border-color: rgba(46,125,50,0.3);">Drawing / ছবি আঁকা</span>
+                            <span class="badge" style="background: rgba(46,125,50,0.1); color: #2E7D32; border-color: rgba(46,125,50,0.3);">Poetry / কবিতা</span>
+                            <span class="badge" style="background: rgba(46,125,50,0.1); color: #2E7D32; border-color: rgba(46,125,50,0.3);">Short Story / ছোট গল্প</span>
+                            <span class="badge" style="background: rgba(46,125,50,0.1); color: #2E7D32; border-color: rgba(46,125,50,0.3);">Essay / রচনা</span>
+                            <span class="badge" style="background: rgba(46,125,50,0.1); color: #2E7D32; border-color: rgba(46,125,50,0.3);">My Thoughts / আমার ভাবনা</span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: #555;">Parents: please help your child submit by emailing to <strong>banfjax@gmail.com</strong> with subject <code style="background: #fff; padding: 2px 8px; border-radius: 4px;">MAGAZINE KIDS - [Child's Name]</code>. Include the child's age and a parent contact.</p>
+                        <a href="mailto:banfjax@gmail.com?subject=MAGAZINE%20KIDS%20-%20%5BChild%27s%20Name%5D&body=Dear%20Jagriti%20Editor%2C%0A%0APlease%20find%20my%20child%27s%20submission%20for%20Jagriti%20Kids%20Corner.%0A%0AChild%27s%20Name%3A%20%0AChild%27s%20Age%3A%20%0ACategory%3A%20Drawing%20%2F%20Poetry%20%2F%20Story%20%2F%20Essay%0AParent%20Name%3A%20%0AParent%20Email%3A%20%0A%0APlease%20attach%20drawings%20as%20images%20and%20writing%20below%3A%0A%0A" class="btn-read" style="background: linear-gradient(135deg, #2E7D32, #4CAF50);"><i class="fas fa-paper-plane me-1"></i>Submit Kids' Work</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Magazine Editor Section -->
+    <section class="editor-section py-5" id="editor">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-user-edit me-2"></i>Magazine Editor Portal</h2>
+                <p>Editor tools for reviewing submissions, managing issues, and communicating with contributors</p>
+            </div>
+
+            <!-- Editor Login -->
+            <div id="editor-login-section" class="text-center">
+                <div style="max-width: 500px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 2.5rem; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
+                    <div style="width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, #1565C0, #42A5F5); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 1.7rem; color: #fff;"><i class="fas fa-user-edit"></i></div>
+                    <h4 style="color: var(--navy);">Editor Sign In</h4>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1.5rem;">Access restricted to authorized Jagriti Magazine editors</p>
+                    <input type="email" id="editor-email" placeholder="Editor email address" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; margin-bottom: 0.75rem; outline: none;">
+                    <div style="position: relative;">
+                        <input type="password" id="editor-password" placeholder="Password" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; margin-bottom: 0.75rem; outline: none; padding-right: 40px;">
+                        <i class="fas fa-eye" style="position: absolute; right: 14px; top: 14px; color: #999; cursor: pointer;" onclick="toggleEditorPwd()"></i>
+                    </div>
+                    <button class="btn-read" onclick="handleEditorLogin()" style="width: 100%; justify-content: center; padding: 12px; font-size: 1rem;" id="btn-editor-login"><i class="fas fa-sign-in-alt me-1"></i>Editor Login</button>
+                    <div id="editor-login-error" style="color: #dc3545; font-size: 0.85rem; margin-top: 0.75rem; display: none;"></div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 1rem;">
+                        <a href="../jagriti-editor-login.html#forgot" target="_blank" style="color: var(--navy); font-size: 0.82rem; font-weight: 600; text-decoration: none; padding: 8px 14px; border-radius: 8px; background: #f0f0f5; border: 1px solid #ddd;"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                        <a href="../jagriti-editor-login.html#signup" target="_blank" style="color: var(--navy); font-size: 0.82rem; font-weight: 600; text-decoration: none; padding: 8px 14px; border-radius: 8px; background: #f0f0f5; border: 1px solid #ddd;"><i class="fas fa-user-plus me-1"></i>Editor Sign Up</a>
+                    </div>
+                    <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 12px; border: 1px solid rgba(59,130,246,0.2);">
+                        <p style="margin: 0; color: var(--navy); font-size: 0.85rem;"><i class="fas fa-bullhorn me-1" style="color: var(--gold);"></i><strong>Editor onboarding to be set up by the President.</strong></p>
+                        <p style="margin: 0.5rem 0 0; color: #6c757d; font-size: 0.78rem;">New editors will be invited by the President. Contact banfjax@gmail.com for inquiries.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editor Portal (shown after login) -->
+            <div class="editor-portal" id="editor-portal">
+                <div style="background: #E8F5E9; padding: 1rem 1.5rem; border-radius: 12px; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <i class="fas fa-check-circle me-1" style="color: #2E7D32;"></i>
+                        <strong id="editor-welcome-name"></strong> — Jagriti Magazine Editor
+                    </div>
+                    <button onclick="editorLogout()" style="background: none; border: 1px solid #C62828; color: #C62828; padding: 6px 16px; border-radius: 8px; font-size: 0.85rem; cursor: pointer;"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-4" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-submissions"><i class="fas fa-inbox me-1"></i>Submissions</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-email-templates"><i class="fas fa-envelope me-1"></i>Email Templates</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-guidelines"><i class="fas fa-book me-1"></i>Guidelines</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Submissions Tab -->
+                    <div class="tab-pane fade show active" id="tab-submissions">
+                        <h4 style="color: var(--navy);"><i class="fas fa-inbox me-2"></i>Submission Queue</h4>
+                        <p class="text-muted" style="font-size: 0.9rem;">Review and manage submitted articles. Approved articles will be published in the next Jagriti issue.</p>
+                        <div id="submission-queue">
+                            <!-- Populated by JS -->
+                        </div>
+                        <div id="no-submissions" style="text-align: center; padding: 3rem; color: #999;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                            <p>No pending submissions at this time.</p>
+                        </div>
+                    </div>
+
+                    <!-- Email Templates Tab -->
+                    <div class="tab-pane fade" id="tab-email-templates">
+                        <h4 style="color: var(--navy); margin-bottom: 1.5rem;"><i class="fas fa-envelope me-2"></i>Jagriti Email Templates</h4>
+                        <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1.5rem;"><i class="fas fa-info-circle me-1"></i>Select a template below and enter the recipient's details. The AI compliance agent will review your comments before sending.</p>
+
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h5 style="color: var(--navy); margin-bottom: 1rem;"><i class="fas fa-file-alt me-2"></i>Available Templates</h5>
+                                <div class="template-card" onclick="selectTemplate('invitation')" id="tmpl-invitation">
+                                    <h5><i class="fas fa-paper-plane me-1" style="color: #E65100;"></i>Call for Submissions</h5>
+                                    <p>Invite members and community to submit articles for the next Jagriti issue</p>
+                                </div>
+                                <div class="template-card" onclick="selectTemplate('acknowledgement')" id="tmpl-acknowledgement">
+                                    <h5><i class="fas fa-check-circle me-1" style="color: #4CAF50;"></i>Submission Acknowledgement</h5>
+                                    <p>Auto-acknowledge receipt of a submitted article</p>
+                                </div>
+                                <div class="template-card" onclick="selectTemplate('review-accept')" id="tmpl-review-accept">
+                                    <h5><i class="fas fa-thumbs-up me-1" style="color: #2196F3;"></i>Review — Accepted</h5>
+                                    <p>Notify contributor their article has been accepted for publication</p>
+                                </div>
+                                <div class="template-card" onclick="selectTemplate('review-revision')" id="tmpl-review-revision">
+                                    <h5><i class="fas fa-edit me-1" style="color: #FF9800;"></i>Review — Revision Needed</h5>
+                                    <p>Request revisions with editor comments</p>
+                                </div>
+                                <div class="template-card" onclick="selectTemplate('review-decline')" id="tmpl-review-decline">
+                                    <h5><i class="fas fa-times-circle me-1" style="color: #F44336;"></i>Review — Declined</h5>
+                                    <p>Politely decline a submission with constructive feedback</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 style="color: var(--navy); margin-bottom: 1rem;"><i class="fas fa-eye me-2"></i>Template Preview</h5>
+                                <div id="template-preview" style="background: #fff; border-radius: 12px; padding: 1.5rem; min-height: 300px; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+                                    <p style="color: #999; text-align: center; padding-top: 3rem;"><i class="fas fa-hand-pointer" style="font-size: 2rem; display: block; margin-bottom: 1rem;"></i>Select a template to preview</p>
+                                </div>
+
+                                <!-- Editor comments area (for revision/decline) -->
+                                <div id="editor-comments-area" style="display: none; margin-top: 1rem;">
+                                    <label style="font-weight: 600; color: var(--navy); font-size: 0.9rem;">Editor Comments</label>
+                                    <textarea id="editor-comments" placeholder="Enter your review comments here. The AI compliance agent will verify the tone and content before sending." style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px; font-size: 0.9rem; min-height: 100px; outline: none; resize: vertical; font-family: 'Inter',sans-serif;"></textarea>
+                                    <button class="btn-read" onclick="checkCompliance()" style="margin-top: 0.5rem;"><i class="fas fa-robot me-1"></i>AI Compliance Check</button>
+                                    <div class="compliance-result" id="compliance-result"></div>
+                                </div>
+
+                                <!-- Send area -->
+                                <div id="template-send-area" style="display: none; margin-top: 1rem;">
+                                    <label style="font-weight: 600; color: var(--navy); font-size: 0.9rem;">Recipient Email</label>
+                                    <input type="email" id="template-recipient" placeholder="contributor@email.com" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px; font-size: 0.9rem; margin-bottom: 0.75rem; outline: none;">
+                                    <label style="font-weight: 600; color: var(--navy); font-size: 0.9rem;">Contributor Name</label>
+                                    <input type="text" id="template-name" placeholder="Contributor's name" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px; font-size: 0.9rem; margin-bottom: 0.75rem; outline: none;">
+                                    <label style="font-weight: 600; color: var(--navy); font-size: 0.9rem;">Article Title (if applicable)</label>
+                                    <input type="text" id="template-article-title" placeholder="Article title" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #ddd; border-radius: 10px; font-size: 0.9rem; margin-bottom: 0.75rem; outline: none;">
+                                    <button class="btn-read" onclick="sendTemplate()" style="width: 100%; justify-content: center;" id="btn-send-template"><i class="fas fa-paper-plane me-1"></i>Send via Email</button>
+                                    <p style="font-size: 0.78rem; color: #888; margin-top: 0.5rem;"><i class="fas fa-info-circle me-1"></i>Opens your default email client with the template pre-filled. All emails are sent from banfjax@gmail.com.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guidelines Tab -->
+                    <div class="tab-pane fade" id="tab-guidelines">
+                        <h4 style="color: var(--navy);"><i class="fas fa-book me-2"></i>Editor Guidelines</h4>
+                        <div style="background: #fff; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06);">
+                            <h5 style="color: #E65100;">Editorial Standards</h5>
+                            <ul style="line-height: 2; color: #444;">
+                                <li>Review all submissions for originality and quality</li>
+                                <li>Ensure content is appropriate for a community family magazine</li>
+                                <li>Respect both English and Bengali (বাংলা) submissions equally</li>
+                                <li>Provide constructive feedback for revisions — never harsh or personal</li>
+                                <li>Use only the provided email templates for communication</li>
+                                <li>All emails must go through the AI compliance check before sending</li>
+                                <li>Flag inappropriate or offensive content to the President immediately</li>
+                                <li>Maintain equal representation across categories when possible</li>
+                                <li>Encourage youth and children's submissions</li>
+                            </ul>
+                            <div style="margin-top: 1.5rem; padding: 1rem; background: #FFF3E0; border-radius: 10px; border-left: 4px solid #E65100;">
+                                <p style="margin: 0; font-weight: 600; color: #E65100;"><i class="fas fa-exclamation-triangle me-1"></i>Important</p>
+                                <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: #555;">Editors must use only the fixed email templates provided. Custom emails are not allowed. The AI compliance agent monitors all editorial communications for tone, purpose, and compliance with BANF's community standards.</p>
+                            </div>
+                            <div style="margin-top: 1rem; padding: 1rem; background: #FFEBEE; border-radius: 10px; border-left: 4px solid #C62828;">
+                                <p style="margin: 0; font-weight: 600; color: #C62828;"><i class="fas fa-shield-alt me-1"></i>Offensive Content Protocol</p>
+                                <p style="margin: 0.5rem 0 0; font-size: 0.9rem; color: #555;">If any submission contains offensive, hateful, or inappropriate content, immediately flag it — the system will notify the President (Dr. Ranadhir Ghosh) automatically. Do not engage with the submitter about offensive content directly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EC Admin Login Modal -->
+    <div class="ec-login-overlay" id="ecLoginOverlay" onclick="if(event.target===this)closeEcLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeEcLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-user-shield" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">EC Admin Login</h3>
+            <p class="subtitle text-center">Executive Committee members only</p>
+            <form onsubmit="return handleEcLogin(event)">
+                <input type="email" id="ecLoginEmail" placeholder="EC Email Address" required autocomplete="email">
+                <input type="password" id="ecLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="ecLoginError"><i class="fas fa-exclamation-circle me-1"></i>Invalid credentials. EC members only.</div>
+            <div class="ec-login-links">
+                <a href="../ec-admin-login.html#forgot" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
+                <a href="../ec-admin-login.html#forgot-username" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
+                <a href="../ec-admin-login.html#signup" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+            </div>
+            <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
+        </div>
+    </div>
+
+    <!-- Member Login Modal -->
+    <div class="member-login-overlay" id="memberLoginOverlay" onclick="if(event.target===this)closeMemberLogin()">
+        <div class="ec-login-box">
+            <button class="close-btn" onclick="closeMemberLogin()">&times;</button>
+            <div class="text-center mb-3"><i class="fas fa-users" style="font-size: 2.5rem; color: var(--navy);"></i></div>
+            <h3 class="text-center">Member Login</h3>
+            <p class="subtitle text-center">BANF registered members</p>
+            <form onsubmit="return handleMemberLogin(event)">
+                <input type="email" id="memberLoginEmail" placeholder="Email Address" required autocomplete="email">
+                <input type="password" id="memberLoginPassword" placeholder="Password" required autocomplete="current-password">
+                <button type="submit" class="login-btn"><i class="fas fa-sign-in-alt me-2"></i>Log In</button>
+            </form>
+            <div class="login-error" id="memberLoginError"></div>
+            <div style="margin-top: 1rem; padding: 1rem; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; border: 1px solid rgba(59,130,246,0.2);">
+                <p style="margin: 0; color: var(--navy); font-size: 0.85rem; text-align: center;"><i class="fas fa-bullhorn me-1" style="color: var(--gold);"></i><strong>Member onboarding drive starting soon!</strong></p>
+                <p style="margin: 0.5rem 0 0; color: #6c757d; font-size: 0.78rem; text-align: center;">The President will announce the member portal sign-up drive. Stay tuned for updates.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-section">
+                    <h5>About BANF</h5>
+                    <p>Bengali Association of North Florida has been serving the Bengali community in Jacksonville since 2008.</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com/banfofficial" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/banf_jax" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://youtube.com/@banfjacksonville" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <a href="events.html"><i class="fas fa-calendar me-2"></i>Events</a>
+                    <a href="membership.html"><i class="fas fa-users me-2"></i>Membership</a>
+                    <a href="leadership.html"><i class="fas fa-user-tie me-2"></i>Leadership</a>
+                    <a href="gallery.html#contact"><i class="fas fa-envelope me-2"></i>Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Members Portal</h5>
+                    <a href="#" onclick="openMemberLoginModal(); return false;"><i class="fas fa-sign-in-alt me-2"></i>Member Login</a>
+                    <a href="#" onclick="openEcLoginModal(); return false;"><i class="fas fa-user-shield me-2"></i>EC Admin Login</a>
+                    <a href="events.html#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <a href="jagriti.html"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>
+                    <a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-envelope me-2"></i>info@banfjax.org</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Jacksonville, FL</p>
+                    <p><i class="fas fa-globe me-2"></i>www.banfjax.org</p>
+                </div>
+            </div>
+            <div class="footer-bottom" id="footer-bottom">
+                <div style="margin-bottom: 1rem;">
+                    <img src="../banf-logo.jpg" alt="BANF Logo" style="height: 60px; width: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">
+                </div>
+                <p>&copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="shared.js"></script>
+    <script>
+    // ═══════════════════════════════════════════════════════════════
+    //  JAGRITI MAGAZINE — Page Script
+    //  Member submissions, editor portal, email templates, AI compliance
+    // ═══════════════════════════════════════════════════════════════
+
+    // ── Editor Auth DB ──
+    var EDITOR_AUTH_DB = {
+        'ranadhir.ghosh@gmail.com': {
+            name: 'Dr. Ranadhir Ghosh', role: 'Chief Editor',
+            offlinePw: 'jagriti-editor-2026',
+            securityQ: 'city_born', securityA: 'kolkata'
+        },
+        'moumita.mukherje@gmail.com': {
+            name: 'Dr. Moumita Ghosh', role: 'Editor (Cultural)',
+            offlinePw: 'jagriti-editor-2026',
+            securityQ: 'city_born', securityA: 'kolkata'
+        }
+    };
+
+    // Merge any localStorage-saved editor passwords
+    (function() {
+        var saved = localStorage.getItem('jagriti_editor_passwords');
+        if (saved) {
+            try {
+                var pwMap = JSON.parse(saved);
+                Object.keys(pwMap).forEach(function(email) {
+                    if (EDITOR_AUTH_DB[email]) {
+                        EDITOR_AUTH_DB[email].offlinePw = pwMap[email];
+                    }
+                });
+            } catch(e) {}
+        }
+    })();
+
+    // ── Brute force protection ──
+    var _editorAttempts = 0;
+    var _editorLockout = 0;
+
+    // ── Editor password toggle ──
+    function toggleEditorPwd() {
+        var inp = document.getElementById('editor-password');
+        var icon = inp.nextElementSibling;
+        if (inp.type === 'password') { inp.type = 'text'; icon.className = 'fas fa-eye-slash'; }
+        else { inp.type = 'password'; icon.className = 'fas fa-eye'; }
+    }
+
+    // ── Editor Login ──
+    function handleEditorLogin() {
+        if (Date.now() < _editorLockout) {
+            var secs = Math.ceil((_editorLockout - Date.now()) / 1000);
+            showEditorError('Too many failed attempts. Wait ' + secs + ' seconds.');
+            return;
+        }
+        var email = document.getElementById('editor-email').value.trim().toLowerCase();
+        var pw = document.getElementById('editor-password').value;
+        if (!email || !pw) { showEditorError('Please enter email and password.'); return; }
+
+        var user = EDITOR_AUTH_DB[email];
+        if (!user || user.offlinePw !== pw) {
+            _editorAttempts++;
+            if (_editorAttempts >= 5) { _editorLockout = Date.now() + 60000; }
+            showEditorError('Invalid credentials. Authorized editors only.');
+            return;
+        }
+
+        _editorAttempts = 0;
+        _editorLockout = 0;
+        sessionStorage.setItem('jagriti_editor', JSON.stringify({ email: email, name: user.name, role: user.role }));
+        document.getElementById('editor-login-section').style.display = 'none';
+        document.getElementById('editor-portal').classList.add('active');
+        document.getElementById('editor-welcome-name').textContent = user.name;
+        loadSubmissionQueue();
+    }
+
+    function showEditorError(msg) {
+        var el = document.getElementById('editor-login-error');
+        el.style.display = 'block';
+        el.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>' + esc(msg);
+    }
+
+    function editorLogout() {
+        sessionStorage.removeItem('jagriti_editor');
+        document.getElementById('editor-portal').classList.remove('active');
+        document.getElementById('editor-login-section').style.display = '';
+        document.getElementById('editor-email').value = '';
+        document.getElementById('editor-password').value = '';
+    }
+
+    // ── Check editor session on load ──
+    (function() {
+        var stored = sessionStorage.getItem('jagriti_editor');
+        if (stored) {
+            try {
+                var ed = JSON.parse(stored);
+                document.getElementById('editor-login-section').style.display = 'none';
+                document.getElementById('editor-portal').classList.add('active');
+                document.getElementById('editor-welcome-name').textContent = ed.name;
+                loadSubmissionQueue();
+            } catch(e) {}
+        }
+    })();
+
+    // ── Submission Queue (localStorage-based) ──
+    function getSubmissions() {
+        try { return JSON.parse(localStorage.getItem('jagriti_submissions') || '[]'); } catch(e) { return []; }
+    }
+    function saveSubmissions(arr) { localStorage.setItem('jagriti_submissions', JSON.stringify(arr)); }
+
+    function loadSubmissionQueue() {
+        var subs = getSubmissions();
+        var queue = document.getElementById('submission-queue');
+        var noSubs = document.getElementById('no-submissions');
+        if (subs.length === 0) {
+            queue.innerHTML = '';
+            noSubs.style.display = '';
+            return;
+        }
+        noSubs.style.display = 'none';
+        queue.innerHTML = subs.map(function(s, i) {
+            var statusLabel = s.status === 'approved' ? '<span style="color:#2E7D32;font-weight:600"><i class="fas fa-check-circle me-1"></i>Approved</span>' :
+                             s.status === 'declined' ? '<span style="color:#C62828;font-weight:600"><i class="fas fa-times-circle me-1"></i>Declined</span>' :
+                             s.status === 'revision' ? '<span style="color:#E65100;font-weight:600"><i class="fas fa-edit me-1"></i>Revision Requested</span>' :
+                             '<span style="color:#1565C0;font-weight:600"><i class="fas fa-clock me-1"></i>Pending Review</span>';
+            return '<div class="submission-item' + (s.status !== 'pending' ? ' reviewed' : '') + '">' +
+                '<div class="meta">' + statusLabel + ' &middot; ' + esc(s.category) + ' &middot; Submitted ' + esc(s.date) + '</div>' +
+                '<h5>' + esc(s.title) + '</h5>' +
+                '<div class="meta">By ' + esc(s.author) + (s.email ? ' (' + esc(s.email) + ')' : '') + '</div>' +
+                '<p style="font-size:0.88rem;color:#444;margin:0.5rem 0;max-height:100px;overflow:hidden">' + esc(s.content ? s.content.substring(0, 300) : '') + (s.content && s.content.length > 300 ? '...' : '') + '</p>' +
+                (s.status === 'pending' ?
+                    '<div class="review-actions">' +
+                        '<button class="btn-approve" onclick="reviewSubmission(' + i + ',\'approved\')"><i class="fas fa-check me-1"></i>Approve</button>' +
+                        '<button class="btn-comment" onclick="reviewSubmission(' + i + ',\'revision\')"><i class="fas fa-edit me-1"></i>Request Revision</button>' +
+                        '<button class="btn-reject" onclick="reviewSubmission(' + i + ',\'declined\')"><i class="fas fa-times me-1"></i>Decline</button>' +
+                        '<button class="btn-comment" onclick="flagOffensive(' + i + ')" style="background:#FFEBEE;color:#C62828"><i class="fas fa-flag me-1"></i>Flag Offensive</button>' +
+                    '</div>' : '') +
+                '</div>';
+        }).join('');
+    }
+
+    function reviewSubmission(index, decision) {
+        var subs = getSubmissions();
+        if (!subs[index]) return;
+        subs[index].status = decision;
+        subs[index].reviewedAt = new Date().toISOString();
+        saveSubmissions(subs);
+        loadSubmissionQueue();
+    }
+
+    function flagOffensive(index) {
+        var subs = getSubmissions();
+        if (!subs[index]) return;
+        subs[index].status = 'flagged';
+        subs[index].flaggedAt = new Date().toISOString();
+        saveSubmissions(subs);
+        loadSubmissionQueue();
+
+        // Notify president
+        var s = subs[index];
+        var subject = encodeURIComponent('URGENT: Offensive Content Flagged in Jagriti Submission');
+        var body = encodeURIComponent(
+            'Dear President,\n\n' +
+            'An offensive submission has been flagged by the Jagriti editor.\n\n' +
+            'Article Title: ' + s.title + '\n' +
+            'Author: ' + s.author + '\n' +
+            'Category: ' + s.category + '\n' +
+            'Submitted: ' + s.date + '\n\n' +
+            'Please review this submission and take appropriate action.\n\n' +
+            'Regards,\nJagriti Editorial System\nBANF Jacksonville'
+        );
+        window.open('mailto:ranadhir.ghosh@gmail.com?subject=' + subject + '&body=' + body, '_self');
+    }
+
+    // ── Member Submission ──
+    var _memberSession = null;
+
+    function openMemberLoginForSubmission() {
+        openMemberLoginModal();
+        sessionStorage.setItem('jagriti_submit_intent', '1');
+    }
+
+    // Override member login success to show submission form
+    var _origHandleMemberLogin = handleMemberLogin;
+    handleMemberLogin = function(e) {
+        e.preventDefault();
+        var email = document.getElementById('memberLoginEmail').value;
+        var password = document.getElementById('memberLoginPassword').value;
+        var portalFn = 'https://www.jaxbengali.org/_functions/member_login';
+        fetch(portalFn, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password })
+        }).then(function(r) { return r.json(); }).then(function(data) {
+            if (data && data.success) {
+                closeMemberLogin();
+                _memberSession = { email: email, name: data.name || email.split('@')[0] };
+                sessionStorage.setItem('jagriti_member', JSON.stringify(_memberSession));
+                showSubmissionForm();
+            } else {
+                var errEl = document.getElementById('memberLoginError');
+                errEl.style.display = 'block';
+                errEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>' + ((data && data.message) || 'Invalid credentials.');
+            }
+        }).catch(function() {
+            var errEl = document.getElementById('memberLoginError');
+            errEl.style.display = 'block';
+            errEl.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Login service temporarily unavailable.';
+        });
+        return false;
+    };
+
+    function showSubmissionForm() {
+        document.getElementById('member-gate').style.display = 'none';
+        document.getElementById('member-submission-form').classList.add('active');
+        var name = _memberSession ? _memberSession.name : 'Member';
+        document.getElementById('submission-member-name').textContent = name;
+        document.getElementById('sub-author').value = name;
+    }
+
+    // Check for existing member session
+    (function() {
+        var stored = sessionStorage.getItem('jagriti_member');
+        if (stored) {
+            try {
+                _memberSession = JSON.parse(stored);
+                showSubmissionForm();
+            } catch(e) {}
+        }
+    })();
+
+    function submitMemberArticle() {
+        var title = document.getElementById('sub-title').value.trim();
+        var category = document.getElementById('sub-category').value;
+        var author = document.getElementById('sub-author').value.trim();
+        var bio = document.getElementById('sub-bio').value.trim();
+        var content = document.getElementById('sub-content').value.trim();
+
+        if (!title || !category || !author || !content) {
+            showSubmissionResult('error', 'Please fill in all required fields (title, category, author, content).');
+            return;
+        }
+
+        var submission = {
+            id: 'sub_' + Date.now(),
+            title: title,
+            category: category,
+            author: author,
+            bio: bio,
+            content: content,
+            email: _memberSession ? _memberSession.email : '',
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+            status: 'pending'
+        };
+
+        var subs = getSubmissions();
+        subs.unshift(submission);
+        saveSubmissions(subs);
+
+        // Clear form
+        document.getElementById('sub-title').value = '';
+        document.getElementById('sub-category').value = '';
+        document.getElementById('sub-content').value = '';
+        document.getElementById('sub-bio').value = '';
+
+        showSubmissionResult('success', 'Your article "' + esc(title) + '" has been submitted for review! The editor will review it and you\'ll be notified via email once a decision is made.');
+    }
+
+    function showSubmissionResult(type, msg) {
+        var el = document.getElementById('submission-result');
+        el.style.display = 'block';
+        el.style.background = type === 'success' ? '#E8F5E9' : '#FFEBEE';
+        el.style.color = type === 'success' ? '#2E7D32' : '#C62828';
+        el.style.padding = '1rem';
+        el.style.borderRadius = '10px';
+        el.innerHTML = '<i class="fas fa-' + (type === 'success' ? 'check-circle' : 'exclamation-circle') + ' me-1"></i>' + msg;
+    }
+
+    // ═══ EMAIL TEMPLATES ═══
+    var EMAIL_TEMPLATES = {
+        'invitation': {
+            subject: 'Call for Submissions — Jagriti Magazine {YEAR}',
+            body: 'Dear {NAME},\n\n' +
+                'We are excited to announce that submissions are now open for the next edition of Jagriti — BANF\'s annual Bengali literary and cultural e-magazine!\n\n' +
+                'We welcome contributions in the following categories:\n' +
+                '• Poetry (কবিতা)\n• Short Stories (গল্প)\n• Essays (প্রবন্ধ)\n• Recipes (রেসিপি)\n• Travel Writing (ভ্রমণ)\n• Opinion Pieces (মতামত)\n• Youth Submissions (তরুণ)\n• Artwork & Drawings (শিল্প)\n• Community News\n\n' +
+                'Both English and Bengali submissions are welcome!\n\n' +
+                'How to Submit:\n' +
+                '1. Visit https://banfjax-hash.github.io/banf/v2/jagriti.html and log in as a member\n' +
+                '2. Or email your submission to banfjax@gmail.com with subject "MAGAZINE - [Your Article Title]"\n\n' +
+                'We especially encourage children to submit their writing and drawings!\n\n' +
+                'Deadline: Please submit by the end of the month.\n\n' +
+                'Warm regards,\nJagriti Editorial Team\nBANF Jacksonville\nbanfjax@gmail.com'
+        },
+        'acknowledgement': {
+            subject: 'Submission Received — Jagriti Magazine',
+            body: 'Dear {NAME},\n\n' +
+                'Thank you for submitting your article "{ARTICLE}" to Jagriti Magazine!\n\n' +
+                'Your submission has been received and is now in the editorial review queue. Our editor will review your work and provide feedback within 2-3 weeks.\n\n' +
+                'You will receive an email notification once a review decision has been made.\n\n' +
+                'Thank you for contributing to BANF\'s literary community!\n\n' +
+                'Warm regards,\nJagriti Editorial Team\nBANF Jacksonville\nbanfjax@gmail.com'
+        },
+        'review-accept': {
+            subject: 'Congratulations! Your Article Has Been Accepted — Jagriti Magazine',
+            body: 'Dear {NAME},\n\n' +
+                'We are delighted to inform you that your article "{ARTICLE}" has been accepted for publication in the next edition of Jagriti Magazine!\n\n' +
+                'Your contribution adds wonderful value to our literary community. The article will be included in the upcoming issue.\n\n' +
+                'Thank you for sharing your creative work with the BANF community!\n\n' +
+                'Warm regards,\nJagriti Editorial Team\nBANF Jacksonville\nbanfjax@gmail.com'
+        },
+        'review-revision': {
+            subject: 'Revision Requested — Jagriti Magazine Submission',
+            body: 'Dear {NAME},\n\n' +
+                'Thank you for your submission "{ARTICLE}" to Jagriti Magazine.\n\n' +
+                'After careful review, we believe your work has great potential but would benefit from some revisions before publication.\n\n' +
+                'Editor\'s Comments:\n{COMMENTS}\n\n' +
+                'Please submit your revised version by replying to this email or resubmitting through the portal.\n\n' +
+                'We look forward to including your work in Jagriti!\n\n' +
+                'Warm regards,\nJagriti Editorial Team\nBANF Jacksonville\nbanfjax@gmail.com'
+        },
+        'review-decline': {
+            subject: 'Jagriti Magazine Submission Update',
+            body: 'Dear {NAME},\n\n' +
+                'Thank you for submitting "{ARTICLE}" to Jagriti Magazine. We appreciate your effort in contributing to our literary community.\n\n' +
+                'After careful consideration, we are unable to include this particular piece in the upcoming edition. This decision reflects the volume of submissions and editorial considerations for this issue, not a judgment of your writing.\n\n' +
+                'Editor\'s Feedback:\n{COMMENTS}\n\n' +
+                'We sincerely encourage you to continue writing and to submit again for future editions. Your voice is valued in our community.\n\n' +
+                'Warm regards,\nJagriti Editorial Team\nBANF Jacksonville\nbanfjax@gmail.com'
+        }
+    };
+
+    var _selectedTemplate = null;
+
+    function selectTemplate(key) {
+        _selectedTemplate = key;
+        // Highlight selected card
+        document.querySelectorAll('.template-card').forEach(function(c) { c.classList.remove('selected'); });
+        var card = document.getElementById('tmpl-' + key);
+        if (card) card.classList.add('selected');
+
+        var tmpl = EMAIL_TEMPLATES[key];
+        if (!tmpl) return;
+
+        // Show preview
+        var preview = document.getElementById('template-preview');
+        preview.innerHTML =
+            '<div style="margin-bottom:1rem"><strong style="color:var(--navy)">Subject:</strong><br><span style="color:#444">' + esc(tmpl.subject) + '</span></div>' +
+            '<div style="margin-bottom:1rem"><strong style="color:var(--navy)">Body:</strong></div>' +
+            '<pre style="white-space:pre-wrap;font-family:Inter,sans-serif;font-size:0.88rem;color:#444;background:#f9f9fb;padding:1rem;border-radius:8px;max-height:300px;overflow-y:auto">' + esc(tmpl.body) + '</pre>';
+
+        // Show/hide comments area
+        var needsComments = (key === 'review-revision' || key === 'review-decline');
+        document.getElementById('editor-comments-area').style.display = needsComments ? 'block' : 'none';
+        document.getElementById('template-send-area').style.display = 'block';
+
+        // Reset compliance result
+        var cr = document.getElementById('compliance-result');
+        cr.style.display = 'none';
+        cr.className = 'compliance-result';
+    }
+
+    // ═══ AI COMPLIANCE AGENT ═══
+    var OFFENSIVE_PATTERNS = [
+        /\b(stupid|idiot|fool|dumb|incompetent|useless|worthless|terrible|awful|hate|disgusting|pathetic)\b/i,
+        /\b(shut\s*up|go\s*away|don't\s*bother|waste\s*of\s*time|never\s*submit)\b/i,
+        /\b(racist|sexist|bigot|offensive|slur|profanity)\b/i
+    ];
+    var UNPROFESSIONAL_PATTERNS = [
+        /!!{2,}/,
+        /[A-Z]{5,}/,
+        /\b(lol|lmao|omg|wtf|smh)\b/i,
+        /\b(you\s+always|you\s+never|your\s+problem)\b/i
+    ];
+    var HARSH_PATTERNS = [
+        /\b(reject|rejected|terrible writing|poor quality|badly written|not good enough|give up)\b/i,
+        /\b(don't\s+write|stop\s+writing|no\s+talent|no\s+skill)\b/i
+    ];
+
+    function checkCompliance() {
+        var comments = document.getElementById('editor-comments').value.trim();
+        var resultEl = document.getElementById('compliance-result');
+
+        if (!comments) {
+            resultEl.style.display = 'block';
+            resultEl.className = 'compliance-result warn';
+            resultEl.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>Please enter your comments to run compliance check.';
+            return;
+        }
+
+        var issues = [];
+
+        // Check offensive patterns
+        OFFENSIVE_PATTERNS.forEach(function(p) {
+            if (p.test(comments)) {
+                issues.push({ severity: 'critical', msg: 'Potentially offensive language detected. Please rephrase.' });
+            }
+        });
+
+        // Check unprofessional patterns
+        UNPROFESSIONAL_PATTERNS.forEach(function(p) {
+            if (p.test(comments)) {
+                issues.push({ severity: 'warning', msg: 'Unprofessional tone detected. Please use formal language.' });
+            }
+        });
+
+        // Check harsh patterns
+        HARSH_PATTERNS.forEach(function(p) {
+            if (p.test(comments)) {
+                issues.push({ severity: 'warning', msg: 'Harsh criticism detected. Please provide constructive feedback.' });
+            }
+        });
+
+        // Check minimum length
+        if (comments.length < 20) {
+            issues.push({ severity: 'warning', msg: 'Comments are too brief. Please provide substantive feedback.' });
+        }
+
+        // Check if comments have constructive elements
+        var constructive = /\b(suggest|consider|perhaps|improve|try|recommend|strengthen|enhance|potential|promising)\b/i;
+        if (!constructive.test(comments) && _selectedTemplate !== 'review-accept') {
+            issues.push({ severity: 'info', msg: 'Consider adding constructive suggestions for the contributor.' });
+        }
+
+        resultEl.style.display = 'block';
+
+        var hasCritical = issues.some(function(i) { return i.severity === 'critical'; });
+        var hasWarning = issues.some(function(i) { return i.severity === 'warning'; });
+
+        if (hasCritical) {
+            resultEl.className = 'compliance-result fail';
+            resultEl.innerHTML = '<i class="fas fa-times-circle me-1"></i><strong>Compliance Check Failed</strong><br>' +
+                issues.map(function(i) { return '<span style="display:block;margin:4px 0">&bull; ' + esc(i.msg) + '</span>'; }).join('') +
+                '<br><strong>Please revise your comments.</strong> If this content is offensive, the President will be notified.';
+
+            // Auto-notify president for critical issues
+            notifyPresidentOffensive(comments);
+        } else if (hasWarning) {
+            resultEl.className = 'compliance-result warn';
+            resultEl.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i><strong>Compliance Warnings</strong><br>' +
+                issues.map(function(i) { return '<span style="display:block;margin:4px 0">&bull; ' + esc(i.msg) + '</span>'; }).join('') +
+                '<br>Consider revising for a more professional tone.';
+        } else {
+            resultEl.className = 'compliance-result pass';
+            resultEl.innerHTML = '<i class="fas fa-check-circle me-1"></i><strong>Compliance Check Passed</strong><br>Your comments meet BANF editorial standards. You may proceed with sending.';
+        }
+    }
+
+    function notifyPresidentOffensive(comments) {
+        var editor = JSON.parse(sessionStorage.getItem('jagriti_editor') || '{}');
+        var subject = encodeURIComponent('ALERT: Offensive Editorial Comments Detected — Jagriti');
+        var body = encodeURIComponent(
+            'Dear President,\n\n' +
+            'The AI compliance agent has detected potentially offensive or inappropriate content in editorial comments.\n\n' +
+            'Editor: ' + (editor.name || 'Unknown') + '\n' +
+            'Email: ' + (editor.email || 'Unknown') + '\n' +
+            'Comments: ' + comments.substring(0, 500) + '\n\n' +
+            'Please review and take appropriate action.\n\n' +
+            'Regards,\nJagriti AI Compliance System\nBANF Jacksonville'
+        );
+        // Silent notification — opens in background
+        var link = document.createElement('a');
+        link.href = 'mailto:ranadhir.ghosh@gmail.com?subject=' + subject + '&body=' + body;
+        link.target = '_blank';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        // Note: Auto-opening mailto may be blocked by browsers. Log the attempt.
+        console.warn('[JAGRITI COMPLIANCE] Critical issue detected. President notification generated.');
+    }
+
+    // ═══ SEND TEMPLATE ═══
+    function sendTemplate() {
+        if (!_selectedTemplate) return;
+
+        var recipient = document.getElementById('template-recipient').value.trim();
+        var name = document.getElementById('template-name').value.trim();
+        var articleTitle = document.getElementById('template-article-title').value.trim();
+        var comments = document.getElementById('editor-comments') ? document.getElementById('editor-comments').value.trim() : '';
+
+        if (!recipient || !name) {
+            alert('Please enter the recipient email and contributor name.');
+            return;
+        }
+
+        // For revision/decline templates, require compliance check
+        if ((_selectedTemplate === 'review-revision' || _selectedTemplate === 'review-decline') && comments) {
+            var cr = document.getElementById('compliance-result');
+            if (cr.style.display === 'none' || cr.classList.contains('fail')) {
+                alert('Please run the AI Compliance Check on your comments first. Sending is blocked until compliance passes.');
+                return;
+            }
+        }
+
+        var tmpl = EMAIL_TEMPLATES[_selectedTemplate];
+        var year = new Date().getFullYear();
+        var subject = tmpl.subject
+            .replace('{YEAR}', year)
+            .replace('{NAME}', name)
+            .replace('{ARTICLE}', articleTitle);
+        var body = tmpl.body
+            .replace(/{NAME}/g, name)
+            .replace(/{ARTICLE}/g, articleTitle)
+            .replace(/{YEAR}/g, year)
+            .replace(/{COMMENTS}/g, comments || '(No additional comments)');
+
+        var mailto = 'mailto:' + encodeURIComponent(recipient) +
+            '?subject=' + encodeURIComponent(subject) +
+            '&body=' + encodeURIComponent(body);
+
+        window.location.href = mailto;
+    }
+
+    // ── Navigate to editor section from hash ──
+    if (window.location.hash === '#editor') {
+        setTimeout(function() {
+            var el = document.getElementById('editor');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+    }
+    </script>
+</body>
+</html>

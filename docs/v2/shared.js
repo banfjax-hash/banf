@@ -161,7 +161,7 @@ function hydrateFooter(siteContent) {
             '<div class="footer-section">' +
                 '<h5>Resources</h5>' +
                 '<a href="events.html#radio"><i class="fas fa-radio me-2"></i>BANF Radio</a>' +
-                '<a href="#"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>' +
+                '<a href="jagriti.html"><i class="fas fa-book me-2"></i>Jagriti Magazine</a>' +
                 '<a href="gallery.html"><i class="fas fa-images me-2"></i>Photo Gallery</a>' +
             '</div>' +
             '<div class="footer-section">' +

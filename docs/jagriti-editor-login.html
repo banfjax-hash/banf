@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<!-- v1.0.0 - Jagriti Magazine Editor Login with Forgot Password/Email + Signup -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jagriti Editor Login - BANF</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1117;--bg2:#1a1d27;--card:#21242f;--line:#2a2d3a;
+  --text:#e1e4ed;--muted:#8b8fa3;--dim:#555a6e;
+  --accent:#E65100;--accent2:#FF6D00;
+  --green:#22c55e;--red:#ef4444;--blue:#3b82f6;--cyan:#06b6d4;
+  --purple:#a855f7;--yellow:#eab308;--orange:#f97316;
+}
+*{font-family:'Inter',system-ui,sans-serif;box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.login-container{width:440px;max-width:94vw}
+.login-box{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:2.5rem 2rem;box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  animation:slideUp .5s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:#fff;margin:0 auto 1.2rem}
+h1{font-size:1.15rem;font-weight:700;text-align:center;margin-bottom:4px}
+.sub{text-align:center;font-size:.78rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
+.role-badge{font-size:.7rem;padding:4px 14px;border-radius:999px;font-weight:600;border:1px solid;display:inline-flex;align-items:center;gap:4px;margin:0 auto 1.5rem;color:var(--orange);border-color:rgba(230,81,0,.3);background:rgba(230,81,0,.08)}
+.role-badge-wrap{text-align:center}
+input,select{width:100%;padding:11px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:.88rem;margin-bottom:10px;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(230,81,0,.12)}
+input::placeholder{color:var(--dim)}
+.pwd-toggle{position:relative}
+.pwd-toggle input{padding-right:40px}
+.toggle-eye{position:absolute;right:12px;top:12px;color:var(--dim);cursor:pointer;font-size:.85rem}
+.toggle-eye:hover{color:var(--muted)}
+.btn-login{
+  width:100%;padding:12px;border:none;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-size:.92rem;font-weight:700;cursor:pointer;
+  margin-top:6px;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px
+}
+.btn-login:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 20px rgba(230,81,0,.3)}
+.btn-login:disabled{opacity:.5;transform:none}
+.error-msg{color:var(--red);font-size:.78rem;margin-top:6px;display:none;text-align:center}
+.success-msg{color:var(--green);font-size:.78rem;margin-top:6px;display:none;text-align:center}
+.info-msg{color:var(--blue);font-size:.78rem;margin-top:6px;display:none;text-align:center}
+.auth-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}
+.auth-links a{color:var(--text);font-size:.82rem;cursor:pointer;text-decoration:none;transition:.25s;padding:8px 16px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.auth-links a:hover{color:var(--accent);border-color:var(--accent);background:rgba(230,81,0,.08);transform:translateY(-1px)}
+.auth-screen{display:none}
+.auth-screen.active{display:block}
+.auth-step{display:none}
+.auth-step.active{display:block}
+.back-link{font-size:.78rem;color:var(--muted);cursor:pointer;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.back-link:hover{color:var(--accent)}
+.field-label{font-size:.75rem;color:var(--muted);margin-bottom:4px;font-weight:600}
+.auth-divider{border-top:1px solid var(--line);margin:14px 0}
+.pwd-strength{height:4px;background:var(--bg2);border-radius:999px;margin:2px 0 10px;overflow:hidden}
+.pwd-strength .bar{height:100%;width:0;transition:.3s;border-radius:999px}
+.bottom-links{text-align:center;margin-top:1.5rem}
+.bottom-links a{color:rgba(255,255,255,.5);font-size:.78rem;text-decoration:none;transition:.2s;margin:0 8px}
+.bottom-links a:hover{color:rgba(255,255,255,.8)}
+.test-creds{
+  background:var(--bg2);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin-top:14px;font-size:.72rem;color:var(--muted)
+}
+.test-creds code{background:var(--bg);padding:1px 6px;border-radius:4px;font-size:.7rem;color:var(--cyan)}
+select{appearance:auto}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <div class="login-box">
+    <div class="logo"><i class="fas fa-pen-fancy"></i></div>
+    <h1>Jagriti Magazine Editor Portal</h1>
+    <div class="sub">Editor access to Jagriti — BANF's literary &amp; cultural e-magazine</div>
+    <div class="role-badge-wrap">
+      <span class="role-badge"><i class="fas fa-user-edit me-1"></i>Magazine Editor</span>
+    </div>
+
+    <!-- ══ SIGN IN ══ -->
+    <div class="auth-screen active" id="auth-signin">
+      <input type="email" id="login-email" placeholder="Your editor email address" autocomplete="email" autofocus>
+      <div class="pwd-toggle">
+        <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password">
+        <i class="fas fa-eye toggle-eye" onclick="togglePwd('login-pass',this)"></i>
+      </div>
+      <button class="btn-login" id="btn-login" onclick="doLogin()"><i class="fas fa-user-edit"></i>Editor Sign In</button>
+      <div class="error-msg" id="login-error"></div>
+      <div class="success-msg" id="login-success"></div>
+      <div class="info-msg" id="login-info"></div>
+      <div class="auth-links">
+        <a onclick="showAuth('forgot')"><i class="fas fa-key"></i>Forgot Password?</a>
+        <a onclick="showAuth('forgot-username')"><i class="fas fa-envelope-open-text"></i>Forgot Email?</a>
+        <a onclick="showAuth('signup')"><i class="fas fa-user-plus"></i>Sign Up</a>
+      </div>
+      <div style="margin-top:14px;font-size:.7rem;color:var(--dim);text-align:center">
+        <i class="fas fa-lock me-1"></i>Jagriti Editor Auth System
+      </div>
+      <div class="test-creds" style="text-align:center">
+        <div style="font-size:.75rem;color:var(--muted);line-height:1.7">
+          <i class="fas fa-info-circle me-1" style="color:var(--accent)"></i>First time? Use <strong style="color:var(--accent)">Sign Up</strong> to create your editor account.<br>
+          <i class="fas fa-question-circle me-1" style="color:var(--cyan)"></i>Forgot credentials? Use the links above to recover access.<br>
+          <i class="fas fa-headset me-1" style="color:var(--green)"></i>Need help? Contact the President at <strong>banfjax@gmail.com</strong>
+        </div>
+        <div style="margin-top:8px;padding:8px;background:rgba(230,81,0,0.06);border-radius:8px;border:1px solid rgba(230,81,0,0.15)">
+          <i class="fas fa-bullhorn me-1" style="color:var(--accent)"></i><strong style="color:var(--accent)">Editor onboarding is managed by the President.</strong><br>
+          <span style="font-size:.7rem;color:var(--dim)">New editors will be invited and added to the system by Dr. Ranadhir Ghosh.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SIGN UP ══ -->
+    <div class="auth-screen" id="auth-signup">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Editor Sign Up</h1>
+
+      <!-- Step 1: Email -->
+      <div class="auth-step active" id="signup-step-1">
+        <div class="field-label">Your Email (must be in authorized editors list)</div>
+        <input type="email" id="signup-email" placeholder="your-email@example.com" autocomplete="email">
+        <button class="btn-login" onclick="signupStep1()"><i class="fas fa-user-plus me-1"></i>Begin Signup</button>
+        <div class="error-msg" id="signup-error-1"></div>
+        <div class="info-msg" id="signup-info-1"></div>
+        <div style="margin-top:8px;font-size:.7rem;color:var(--dim)">Only authorized editors can sign up. The President manages editor invitations.</div>
+      </div>
+
+      <!-- Step 2: Password + Security Question -->
+      <div class="auth-step" id="signup-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:6px"><i class="fas fa-check-circle me-1"></i>Welcome, <strong id="signup-welcome-name"></strong>!</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Email confirmed: <strong id="signup-confirmed-email"></strong></div>
+        <div class="field-label">Create Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="signup-pass" placeholder="Minimum 8 characters" oninput="checkPwdStrength(this.value,'signup-strength')">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('signup-pass',this)"></i>
+        </div>
+        <div class="pwd-strength"><div class="bar" id="signup-strength"></div></div>
+        <div class="field-label">Confirm Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="signup-pass2" placeholder="Re-enter password">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('signup-pass2',this)"></i>
+        </div>
+        <div class="auth-divider"></div>
+        <div class="field-label">Security Question</div>
+        <select id="signup-sq">
+          <option value="">— Select a security question —</option>
+          <option value="city_born">What city were you born in?</option>
+          <option value="pet_name">What is the name of your first pet?</option>
+          <option value="mother_maiden">What is your mother's maiden name?</option>
+          <option value="school_name">What was the name of your first school?</option>
+          <option value="fav_teacher">Who was your favorite teacher?</option>
+          <option value="childhood_friend">What is the name of your childhood best friend?</option>
+        </select>
+        <div class="field-label">Security Answer</div>
+        <input type="text" id="signup-sa" placeholder="Your answer (case-insensitive)">
+        <button class="btn-login" onclick="signupStep2()"><i class="fas fa-user-edit"></i>Create Editor Account</button>
+        <div class="error-msg" id="signup-error-2"></div>
+      </div>
+
+      <!-- Step 3: Success -->
+      <div class="auth-step" id="signup-step-3">
+        <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Editor Account Created!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">Your Jagriti Magazine editor account is ready. You can now sign in to manage submissions and publish content.</div>
+        <div style="background:var(--bg2);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.78rem;color:var(--text);text-align:left">
+          <div style="font-weight:600;margin-bottom:6px"><i class="fas fa-clipboard-check me-1" style="color:var(--green)"></i>Your access includes:</div>
+          <div style="margin:4px 0"><i class="fas fa-inbox me-1" style="color:var(--accent)"></i><strong>Submission Review</strong> &mdash; Review, approve, or request revisions</div>
+          <div style="margin:4px 0"><i class="fas fa-envelope me-1" style="color:var(--green)"></i><strong>Email Templates</strong> &mdash; Communication via fixed templates</div>
+          <div style="margin:4px 0"><i class="fas fa-robot me-1" style="color:var(--blue)"></i><strong>AI Compliance</strong> &mdash; Automated content checking</div>
+        </div>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Sign In Now</button>
+      </div>
+    </div>
+
+    <!-- ══ FORGOT PASSWORD ══ -->
+    <div class="auth-screen" id="auth-forgot">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:14px"><i class="fas fa-key me-1"></i>Reset Password</h1>
+
+      <!-- Step 1: Find account -->
+      <div class="auth-step active" id="forgot-step-1">
+        <div class="field-label">Enter your editor email</div>
+        <input type="text" id="forgot-email" placeholder="your-email@example.com" autocomplete="email">
+        <button class="btn-login" onclick="forgotStep1()"><i class="fas fa-search"></i>Find My Account</button>
+        <div class="error-msg" id="forgot-error-1"></div>
+      </div>
+
+      <!-- Step 2: Security question -->
+      <div class="auth-step" id="forgot-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found: <strong id="forgot-found-name"></strong></div>
+        <div class="field-label">Security Question</div>
+        <div style="font-size:.88rem;color:var(--text);background:var(--bg2);padding:12px 16px;border-radius:8px;margin-bottom:12px" id="forgot-sq-display"></div>
+        <div class="field-label">Your Answer</div>
+        <input type="text" id="forgot-sa" placeholder="Type your answer (case-insensitive)">
+        <button class="btn-login" onclick="forgotStep2()"><i class="fas fa-check"></i>Verify Answer</button>
+        <div class="error-msg" id="forgot-error-2"></div>
+      </div>
+
+      <!-- Step 3: New password -->
+      <div class="auth-step" id="forgot-step-3">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:14px"><i class="fas fa-check-circle me-1"></i>Identity verified!</div>
+        <div class="field-label">New Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="forgot-newpass" placeholder="Minimum 8 characters" oninput="checkPwdStrength(this.value,'forgot-strength')">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('forgot-newpass',this)"></i>
+        </div>
+        <div class="pwd-strength"><div class="bar" id="forgot-strength"></div></div>
+        <div class="field-label">Confirm New Password</div>
+        <div class="pwd-toggle">
+          <input type="password" id="forgot-newpass2" placeholder="Re-enter password">
+          <i class="fas fa-eye toggle-eye" onclick="togglePwd('forgot-newpass2',this)"></i>
+        </div>
+        <button class="btn-login" onclick="forgotStep3()"><i class="fas fa-save"></i>Reset Password</button>
+        <div class="error-msg" id="forgot-error-3"></div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="auth-step" id="forgot-step-4">
+        <div style="font-size:2rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-check-circle"></i></div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--green);margin-bottom:8px;text-align:center">Password Reset Successfully!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:12px;text-align:center">You can now sign in with your new password.</div>
+        <button class="btn-login" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+      </div>
+    </div>
+
+    <!-- ══ FORGOT EMAIL ══ -->
+    <div class="auth-screen" id="auth-forgot-username">
+      <div class="back-link" onclick="showAuth('signin')"><i class="fas fa-arrow-left"></i> Back to Sign In</div>
+      <h1 style="font-size:1rem;margin-bottom:4px"><i class="fas fa-envelope-open-text me-1"></i>Forgot Your Editor Email?</h1>
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:14px">Enter your full name and we'll find your account.</div>
+
+      <!-- Step 1: Name lookup -->
+      <div class="auth-step active" id="fu-step-1">
+        <div class="field-label">Your Full Name</div>
+        <input type="text" id="fu-name" placeholder="e.g. Moumita Ghosh">
+        <button class="btn-login" onclick="fuStep1()"><i class="fas fa-search"></i>Find My Account</button>
+        <div class="error-msg" id="fu-error-1"></div>
+      </div>
+
+      <!-- Step 2: Security Question -->
+      <div class="auth-step" id="fu-step-2">
+        <div style="font-size:.82rem;color:var(--green);margin-bottom:8px"><i class="fas fa-check-circle me-1"></i>Account found! Verify your identity.</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px">Masked email: <strong id="fu-masked-email"></strong></div>
+        <div class="field-label">Security Question</div>
+        <div style="font-size:.88rem;color:var(--text);background:var(--bg2);padding:12px 16px;border-radius:8px;margin-bottom:12px" id="fu-sq-display"></div>
+        <div class="field-label">Your Answer</div>
+        <input type="text" id="fu-sa" placeholder="Type your answer (case-insensitive)">
+        <button class="btn-login" onclick="fuStep2()"><i class="fas fa-check"></i>Verify &amp; Reveal Email</button>
+        <div class="error-msg" id="fu-error-2"></div>
+      </div>
+
+      <!-- Step 3: Reveal email -->
+      <div class="auth-step" id="fu-step-3">
+        <div style="font-size:1.5rem;color:var(--green);margin-bottom:10px;text-align:center"><i class="fas fa-envelope-open-text"></i></div>
+        <div style="font-size:.88rem;font-weight:700;color:var(--green);margin-bottom:6px;text-align:center">Email Address Found!</div>
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px;text-align:center">Your Jagriti Editor email is:</div>
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;font-size:1rem;font-weight:700;color:var(--accent)" id="fu-revealed-email"></div>
+        <button class="btn-login" style="margin-top:14px" onclick="showAuth('signin')"><i class="fas fa-sign-in-alt"></i>Go to Sign In</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-links">
+    <a href="v2/jagriti.html"><i class="fas fa-arrow-left me-1"></i>Back to Jagriti Magazine</a>
+    <a href="v2/index.html"><i class="fas fa-home me-1"></i>BANF Home</a>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  JAGRITI EDITOR LOGIN — BANF
+//  Dedicated login for Jagriti Magazine editors
+//  Security questions, signup, forgot flows, brute force protection
+// ═══════════════════════════════════════════════════════════════
+
+// ── EDITOR AUTH DB ──
+var AUTH_DB = {
+  'ranadhir.ghosh@gmail.com': {
+    name: 'Dr. Ranadhir Ghosh', firstName: 'Ranadhir', lastName: 'Ghosh',
+    role: 'Chief Editor', ecTitle: 'President',
+    offlinePw: 'jagriti-editor-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  },
+  'moumita.mukherje@gmail.com': {
+    name: 'Dr. Moumita Ghosh', firstName: 'Moumita', lastName: 'Ghosh',
+    role: 'Editor (Cultural)', ecTitle: 'Cultural Secretary',
+    offlinePw: 'jagriti-editor-2026',
+    securityQ: 'city_born', securityA: 'kolkata'
+  }
+};
+
+// Merge localStorage-saved passwords
+(function() {
+  var saved = localStorage.getItem('jagriti_editor_passwords');
+  if (saved) {
+    try {
+      var map = JSON.parse(saved);
+      Object.keys(map).forEach(function(email) {
+        if (AUTH_DB[email]) AUTH_DB[email].offlinePw = map[email];
+      });
+    } catch(e) {}
+  }
+  // Also merge security Q/A from localStorage
+  var savedSQ = localStorage.getItem('jagriti_editor_security');
+  if (savedSQ) {
+    try {
+      var sqMap = JSON.parse(savedSQ);
+      Object.keys(sqMap).forEach(function(email) {
+        if (AUTH_DB[email]) {
+          AUTH_DB[email].securityQ = sqMap[email].q;
+          AUTH_DB[email].securityA = sqMap[email].a;
+        }
+      });
+    } catch(e) {}
+  }
+})();
+
+var SQ_LABELS = {
+  city_born: 'What city were you born in?',
+  pet_name: 'What is the name of your first pet?',
+  mother_maiden: "What is your mother's maiden name?",
+  school_name: 'What was the name of your first school?',
+  fav_teacher: 'Who was your favorite teacher?',
+  childhood_friend: 'What is the name of your childhood best friend?'
+};
+
+// ── BRUTE FORCE PROTECTION ──
+var _loginAttempts = 0;
+var _lockoutUntil = 0;
+var _MAX_ATTEMPTS = 5;
+var _LOCKOUT_MS = 60000;
+
+// ── STATE ──
+var SIGNUP_STATE = {};
+var FORGOT_STATE = {};
+
+// ── UTILITIES ──
+function showAuth(screen) {
+  document.querySelectorAll('.auth-screen').forEach(function(s) { s.classList.remove('active'); });
+  var el = document.getElementById('auth-' + screen);
+  if (el) el.classList.add('active');
+  if (screen === 'signup') resetSteps('signup');
+  if (screen === 'forgot') resetSteps('forgot');
+  if (screen === 'forgot-username') { resetSteps('fu'); }
+  document.querySelectorAll('.error-msg,.success-msg,.info-msg').forEach(function(m) { m.style.display = 'none'; });
+}
+
+function resetSteps(prefix) {
+  var container = document.getElementById('auth-' + (prefix === 'fu' ? 'forgot-username' : prefix));
+  if (!container) return;
+  container.querySelectorAll('.auth-step').forEach(function(s) { s.classList.remove('active'); });
+  var step1 = document.getElementById(prefix + '-step-1');
+  if (step1) step1.classList.add('active');
+}
+
+function showStep(prefix, num) {
+  var container = document.getElementById('auth-' + (prefix === 'fu' ? 'forgot-username' : prefix));
+  if (!container) return;
+  container.querySelectorAll('.auth-step').forEach(function(s) { s.classList.remove('active'); });
+  var step = document.getElementById(prefix + '-step-' + num);
+  if (step) step.classList.add('active');
+}
+
+function showError(id, msg) { var el = document.getElementById(id); if (el) { el.textContent = msg; el.style.display = 'block'; } }
+function hideMsg(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; }
+
+function togglePwd(inputId, icon) {
+  var inp = document.getElementById(inputId);
+  if (inp.type === 'password') { inp.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
+  else { inp.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
+}
+
+function checkPwdStrength(pwd, barId) {
+  var bar = document.getElementById(barId);
+  if (!bar) return;
+  var score = 0;
+  if (pwd.length >= 8) score++;
+  if (pwd.length >= 12) score++;
+  if (/[A-Z]/.test(pwd)) score++;
+  if (/[0-9]/.test(pwd)) score++;
+  if (/[^A-Za-z0-9]/.test(pwd)) score++;
+  var pct = Math.min(score * 20, 100);
+  var colors = ['#ef4444','#ef4444','#eab308','#eab308','#22c55e','#22c55e'];
+  bar.style.width = pct + '%';
+  bar.style.background = colors[score] || '#ef4444';
+}
+
+function maskEmail(email) {
+  var parts = email.split('@');
+  var name = parts[0];
+  return name[0] + '***' + name[name.length - 1] + '@' + parts[1];
+}
+
+function savePassword(email, pw) {
+  var map = {};
+  try { map = JSON.parse(localStorage.getItem('jagriti_editor_passwords') || '{}'); } catch(e) {}
+  map[email] = pw;
+  localStorage.setItem('jagriti_editor_passwords', JSON.stringify(map));
+  AUTH_DB[email].offlinePw = pw;
+}
+
+function saveSecurity(email, q, a) {
+  var map = {};
+  try { map = JSON.parse(localStorage.getItem('jagriti_editor_security') || '{}'); } catch(e) {}
+  map[email] = { q: q, a: a };
+  localStorage.setItem('jagriti_editor_security', JSON.stringify(map));
+  AUTH_DB[email].securityQ = q;
+  AUTH_DB[email].securityA = a;
+}
+
+// ── SIGN IN ──
+function doLogin() {
+  if (Date.now() < _lockoutUntil) {
+    var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+    showError('login-error', 'Too many failed attempts. Wait ' + secs + ' seconds.');
+    return;
+  }
+  hideMsg('login-error');
+
+  var email = (document.getElementById('login-email').value || '').trim().toLowerCase();
+  var pass = document.getElementById('login-pass').value;
+
+  if (!email) { showError('login-error', 'Please enter your editor email.'); return; }
+  if (!pass) { showError('login-error', 'Please enter your password.'); return; }
+
+  var user = AUTH_DB[email];
+  if (!user) {
+    _loginAttempts++;
+    if (_loginAttempts >= _MAX_ATTEMPTS) _lockoutUntil = Date.now() + _LOCKOUT_MS;
+    showError('login-error', 'Account not found. Only authorized editors can sign in.');
+    return;
+  }
+
+  if (user.offlinePw !== pass) {
+    _loginAttempts++;
+    if (_loginAttempts >= _MAX_ATTEMPTS) _lockoutUntil = Date.now() + _LOCKOUT_MS;
+    showError('login-error', 'Incorrect password. Try again or use Forgot Password.');
+    return;
+  }
+
+  // Success
+  _loginAttempts = 0;
+  _lockoutUntil = 0;
+  sessionStorage.setItem('jagriti_editor', JSON.stringify({ email: email, name: user.name, role: user.role }));
+  window.location.href = 'v2/jagriti.html#editor';
+}
+
+document.getElementById('login-pass').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+document.getElementById('login-email').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') document.getElementById('login-pass').focus();
+});
+
+// ── SIGNUP ──
+function signupStep1() {
+  var email = (document.getElementById('signup-email').value || '').trim().toLowerCase();
+  hideMsg('signup-error-1');
+
+  if (!email || !email.includes('@')) { showError('signup-error-1', 'Please enter a valid email address.'); return; }
+  if (!AUTH_DB[email]) { showError('signup-error-1', 'This email is not in the authorized editors list. Only editors invited by the President can sign up.'); return; }
+
+  SIGNUP_STATE = { email: email };
+  document.getElementById('signup-welcome-name').textContent = AUTH_DB[email].name;
+  document.getElementById('signup-confirmed-email').textContent = email;
+  showStep('signup', 2);
+}
+
+function signupStep2() {
+  var pass = document.getElementById('signup-pass').value;
+  var pass2 = document.getElementById('signup-pass2').value;
+  var sq = document.getElementById('signup-sq').value;
+  var sa = document.getElementById('signup-sa').value.trim();
+  hideMsg('signup-error-2');
+
+  if (!pass || pass.length < 8) { showError('signup-error-2', 'Password must be at least 8 characters.'); return; }
+  if (pass !== pass2) { showError('signup-error-2', 'Passwords do not match.'); return; }
+  if (!sq) { showError('signup-error-2', 'Please select a security question.'); return; }
+  if (!sa) { showError('signup-error-2', 'Please enter a security answer.'); return; }
+
+  savePassword(SIGNUP_STATE.email, pass);
+  saveSecurity(SIGNUP_STATE.email, sq, sa.toLowerCase());
+  showStep('signup', 3);
+}
+
+// ── FORGOT PASSWORD ──
+function forgotStep1() {
+  var email = (document.getElementById('forgot-email').value || '').trim().toLowerCase();
+  hideMsg('forgot-error-1');
+
+  if (!email) { showError('forgot-error-1', 'Please enter your email.'); return; }
+  var user = AUTH_DB[email];
+  if (!user) { showError('forgot-error-1', 'Account not found.'); return; }
+
+  FORGOT_STATE = { email: email };
+  document.getElementById('forgot-found-name').textContent = user.name;
+  document.getElementById('forgot-sq-display').textContent = SQ_LABELS[user.securityQ] || 'Security question not set';
+  showStep('forgot', 2);
+}
+
+function forgotStep2() {
+  var answer = (document.getElementById('forgot-sa').value || '').trim().toLowerCase();
+  hideMsg('forgot-error-2');
+
+  var user = AUTH_DB[FORGOT_STATE.email];
+  if (!user) return;
+
+  if (answer !== (user.securityA || '').toLowerCase()) {
+    showError('forgot-error-2', 'Incorrect answer. Please try again.');
+    return;
+  }
+
+  showStep('forgot', 3);
+}
+
+function forgotStep3() {
+  var pass = document.getElementById('forgot-newpass').value;
+  var pass2 = document.getElementById('forgot-newpass2').value;
+  hideMsg('forgot-error-3');
+
+  if (!pass || pass.length < 8) { showError('forgot-error-3', 'Password must be at least 8 characters.'); return; }
+  if (pass !== pass2) { showError('forgot-error-3', 'Passwords do not match.'); return; }
+
+  savePassword(FORGOT_STATE.email, pass);
+  showStep('forgot', 4);
+}
+
+// ── FORGOT EMAIL ──
+function fuStep1() {
+  var name = (document.getElementById('fu-name').value || '').trim().toLowerCase();
+  hideMsg('fu-error-1');
+
+  if (!name) { showError('fu-error-1', 'Please enter your name.'); return; }
+
+  var found = null;
+  var foundEmail = null;
+  Object.keys(AUTH_DB).forEach(function(email) {
+    var u = AUTH_DB[email];
+    var fullName = (u.name || '').toLowerCase();
+    if (fullName.includes(name) || name.includes(fullName) ||
+        ((u.firstName || '').toLowerCase() + ' ' + (u.lastName || '').toLowerCase()).includes(name)) {
+      found = u;
+      foundEmail = email;
+    }
+  });
+
+  if (!found) { showError('fu-error-1', 'No account found with that name.'); return; }
+
+  FORGOT_STATE = { email: foundEmail };
+  document.getElementById('fu-masked-email').textContent = maskEmail(foundEmail);
+  document.getElementById('fu-sq-display').textContent = SQ_LABELS[found.securityQ] || 'Security question not set';
+  showStep('fu', 2);
+}
+
+function fuStep2() {
+  var answer = (document.getElementById('fu-sa').value || '').trim().toLowerCase();
+  hideMsg('fu-error-2');
+
+  var user = AUTH_DB[FORGOT_STATE.email];
+  if (!user) return;
+
+  if (answer !== (user.securityA || '').toLowerCase()) {
+    showError('fu-error-2', 'Incorrect answer.');
+    return;
+  }
+
+  document.getElementById('fu-revealed-email').textContent = FORGOT_STATE.email;
+  showStep('fu', 3);
+}
+
+// ── HASH ROUTING ──
+(function() {
+  var hash = window.location.hash.replace('#', '');
+  if (hash === 'forgot') showAuth('forgot');
+  else if (hash === 'forgot-username' || hash === 'forgot-email') showAuth('forgot-username');
+  else if (hash === 'signup') showAuth('signup');
+})();
+</script>
+</body>
+</html>
