@@ -2175,9 +2175,11 @@ function enterPortal(user, email) {
   if (presGroup) presGroup.style.display = isPresident ? '' : 'none';
   if (presItem) presItem.style.display = isPresident ? '' : 'none';
   if (presRevoke) presRevoke.style.display = isPresident ? '' : 'none';
-  // Reimbursement: visible for all logged-in EC members
+  // Reimbursement: visible ONLY for Treasurer, VP, President
+  var rmbPrivilegedRoles = ['President', 'Vice President', 'Treasurer'];
+  var isRmbPrivileged = CURRENT_ADMIN && rmbPrivilegedRoles.includes(CURRENT_ADMIN.ecTitle);
   var rmbItem = document.getElementById('rmb-nav-item');
-  if (rmbItem) rmbItem.style.display = '';
+  if (rmbItem) rmbItem.style.display = isRmbPrivileged ? '' : 'none';
   // Load procurement data on portal load
   loadProcurementData();
   if (isPresident) loadEcReplacementData();
@@ -2518,9 +2520,14 @@ function navTo(panel){
     adminComingSoon(panel);
     return;
   }
-  // Lazy-load reimbursement iframe on first visit
-  if (panel === 'reimbursement' && !rmbIframeLoaded) {
-    loadRmbIframe();
+  // Reimbursement: enforce Treasurer/VP/President role gate
+  if (panel === 'reimbursement') {
+    var rmbRoles = ['President', 'Vice President', 'Treasurer'];
+    if (!CURRENT_ADMIN || !rmbRoles.includes(CURRENT_ADMIN.ecTitle)) {
+      alert('Access Restricted: Only Treasurer, Vice President, and President can access the Reimbursement module.\n\nOther EC members must use the Procurement panel first to get budget approval, then submit reimbursement through the approved procurement ticket.');
+      return;
+    }
+    if (!rmbIframeLoaded) loadRmbIframe();
   }
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
   const target = document.querySelector(`.sb-item[data-panel="${panel}"]`);

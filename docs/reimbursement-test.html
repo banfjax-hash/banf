@@ -429,12 +429,41 @@ a:hover{color:var(--accent2)}
       </div>
     </div>
 
+    <!-- Procurement Gate Warning (for non-privileged roles) -->
+    <div id="rmb-procurement-gate" class="card-panel" style="display:none;margin-bottom:20px;border:1px solid rgba(239,68,68,.3)">
+      <div class="card-body" style="text-align:center;padding:2rem">
+        <i class="fas fa-lock" style="font-size:2rem;color:var(--red);margin-bottom:12px;display:block"></i>
+        <h3 style="color:var(--red);font-size:1rem;margin-bottom:8px">Procurement Approval Required</h3>
+        <p style="color:var(--muted);font-size:.85rem;max-width:500px;margin:0 auto 16px">As an EC member, you must have an <strong>approved procurement ticket</strong> before submitting a reimbursement. Please go to the <strong>Procurement</strong> panel first, get your request approved, then return here with your PROC-XXXX ticket ID.</p>
+        <p style="color:var(--dim);font-size:.75rem">Only Treasurer, Vice President, and President can submit manual reimbursements without procurement approval.</p>
+      </div>
+    </div>
+
+    <!-- Privileged Override Warning (for Treasurer/VP/President without procurement) -->
+    <div id="rmb-privilege-warning" class="card-panel" style="display:none;margin-bottom:20px;border:1px solid rgba(234,179,8,.3)">
+      <div class="card-body" style="padding:12px 16px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <i class="fas fa-exclamation-triangle" style="color:var(--yellow);font-size:1.2rem"></i>
+          <div>
+            <strong style="color:var(--yellow);font-size:.85rem">Manual Reimbursement Mode</strong>
+            <p style="color:var(--muted);font-size:.78rem;margin:2px 0 0">You are submitting without a procurement ticket. This will be flagged for audit review. Enter a procurement ID below if available.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Payment Info & Submit -->
     <div id="rmb-payment-info" class="card-panel" style="display:none;margin-bottom:20px">
       <div class="card-header">
         <h3><i class="fas fa-credit-card"></i> Payment & Submission</h3>
       </div>
       <div class="card-body">
+        <!-- Procurement Ticket Reference -->
+        <div id="rmb-proc-ref-row" style="margin-bottom:16px;padding:12px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:8px">
+          <label class="form-label-sm" style="color:var(--blue)"><i class="fas fa-link me-1"></i>Linked Procurement Ticket <span id="rmb-proc-required-badge" style="font-size:.65rem;color:var(--red);font-weight:700">(REQUIRED)</span></label>
+          <input type="text" id="rmb-proc-id" class="form-input" placeholder="PROC-0001 — Enter your approved procurement ticket ID" style="font-family:monospace">
+          <p style="font-size:.68rem;color:var(--muted);margin-top:4px">All item categorizations are model-suggested. The Treasurer will verify and re-label as needed.</p>
+        </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
           <div>
             <label class="form-label-sm">Paid By</label>
@@ -843,6 +872,8 @@ function attemptLogin() {
   showPortal();
 }
 
+const PRIVILEGED_ROLES = ['President', 'Vice President', 'Treasurer'];
+
 function showPortal() {
   document.getElementById('loginOverlay').style.display = 'none';
   document.getElementById('portal').style.display = 'block';
@@ -861,6 +892,21 @@ function showPortal() {
   // Pre-fill requester info
   document.getElementById('req-name').value = currentUser.name;
   document.getElementById('req-email').value = currentUser.email;
+
+  // Role-based reimbursement access control
+  const isPrivileged = PRIVILEGED_ROLES.includes(currentUser.role);
+  const gateEl = document.getElementById('rmb-procurement-gate');
+  const warnEl = document.getElementById('rmb-privilege-warning');
+  const procBadge = document.getElementById('rmb-proc-required-badge');
+  if (!isPrivileged) {
+    // Non-privileged: show gate warning, procurement ID is REQUIRED
+    if (gateEl) gateEl.style.display = 'block';
+    if (procBadge) procBadge.style.display = '';
+  } else {
+    // Privileged: show manual override warning, procurement ID optional
+    if (warnEl) warnEl.style.display = 'block';
+    if (procBadge) { procBadge.textContent = '(optional)'; procBadge.style.color = 'var(--muted)'; }
+  }
 
   // Initialize the application
   init();
@@ -1851,10 +1897,27 @@ async function submitReimbursement() {
   const notes = document.getElementById('rmb-notes').value.trim();
   const reqName = document.getElementById('req-name').value.trim();
   const reqEmail = document.getElementById('req-email').value.trim();
+  const procId = (document.getElementById('rmb-proc-id') || {}).value ? document.getElementById('rmb-proc-id').value.trim() : '';
   const msgEl = document.getElementById('rmb-submit-msg');
 
   if (!eventId) { showMsg(msgEl, 'red', 'Please select an event.'); log('err', 'Submit blocked: no event'); return; }
   if (!reqName || !reqEmail) { showMsg(msgEl, 'red', 'Please enter your name and email.'); log('err', 'Submit blocked: missing requester info'); return; }
+
+  // Procurement-first gate for non-privileged members
+  const isPrivileged = currentUser && PRIVILEGED_ROLES.includes(currentUser.role);
+  if (!isPrivileged && !procId) {
+    showMsg(msgEl, 'red', '<i class="fas fa-lock me-1"></i>Procurement ticket ID is required. Please enter your approved PROC-XXXX ticket ID.');
+    log('err', 'Submit blocked: non-privileged user without procurement ticket');
+    return;
+  }
+
+  // Warning for privileged users submitting without procurement
+  if (isPrivileged && !procId) {
+    if (!confirm('⚠️ Manual Reimbursement Warning\n\nYou are submitting a reimbursement WITHOUT a linked procurement ticket. This will be flagged for audit.\n\nContinue?')) {
+      log('info', 'User cancelled manual reimbursement');
+      return;
+    }
+  }
 
   const receiptCards = document.querySelectorAll('#rmb-receipts-list > div');
   if (receiptCards.length === 0) { showMsg(msgEl, 'red', 'Please upload at least one receipt.'); log('err', 'Submit blocked: no receipts'); return; }
@@ -1891,7 +1954,8 @@ async function submitReimbursement() {
   const payload = {
     adminKey: ADMIN_KEY, requester: reqEmail, requesterName: reqName,
     eventId: eventId, receipts: receipts, paidBy: paidBy,
-    budgetApprover: budgetApprover, notes: notes
+    budgetApprover: budgetApprover, notes: notes,
+    procurementId: procId || ''
   };
 
   log('info', 'POST ' + API + '/reimbursement_create');
@@ -1905,8 +1969,11 @@ async function submitReimbursement() {
     const result = await resp.json();
 
     if (result && result.success) {
-      showMsg(msgEl, 'green', '<i class="fas fa-check-circle me-1"></i>Ticket <strong>' + result.id + '</strong> created! Total: <strong>$' + result.totalAmount.toFixed(2) + '</strong> — Pending Treasurer approval.');
-      log('ok', 'SUCCESS! Ticket ' + result.id + ' created — $' + result.totalAmount.toFixed(2));
+      let successMsg = '<i class="fas fa-check-circle me-1"></i>Ticket <strong>' + result.id + '</strong> created! Total: <strong>$' + result.totalAmount.toFixed(2) + '</strong> — Pending Treasurer approval.';
+      if (result.bypassWarning) successMsg += '<br><span style="color:var(--yellow)"><i class="fas fa-exclamation-triangle me-1"></i>Flagged: Manual reimbursement without procurement ticket.</span>';
+      if (result.isPriorEcEvent) successMsg += '<br><span style="color:var(--yellow)"><i class="fas fa-history me-1"></i>Note: This event belongs to the prior EC term. Treasurer review required.</span>';
+      showMsg(msgEl, 'green', successMsg);
+      log('ok', 'SUCCESS! Ticket ' + result.id + ' created — $' + result.totalAmount.toFixed(2) + (result.bypassWarning ? ' [MANUAL BYPASS]' : '') + (result.isPriorEcEvent ? ' [PRIOR EC EVENT]' : ''));
       renderPipeline(4);
       document.getElementById('btn-submit').disabled = true;
       document.getElementById('btn-submit').style.opacity = '0.5';

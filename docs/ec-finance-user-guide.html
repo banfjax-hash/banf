@@ -176,6 +176,22 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
     <p>For <strong>after-the-fact reimbursements</strong> — upload receipts for expenses already paid with personal funds. Features AI-powered receipt scanning with 7 free vision providers. Runs as a dedicated sub-portal embedded via iframe.</p>
   </div>
 
+  <div class="callout danger">
+    <i class="fas fa-exclamation-circle"></i>
+    <div>
+      <strong>IMPORTANT — Procurement-First Rule:</strong><br>
+      Regular EC members <strong>MUST</strong> have an approved procurement ticket before submitting a reimbursement. No reimbursement is allowed without an approved PROC-XXXX ticket.<br><br>
+      Only the <strong>Treasurer, Vice President, and President</strong> can submit manual reimbursements without procurement — a warning notification will be triggered when they do so.
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <i class="fas fa-history"></i>
+    <div>
+      <strong>Prior-EC Events Excluded:</strong> Saraswati Puja 2026 and Sri Lankan Rental belong to the previous EC term and are excluded from current reimbursement approval. All item categorizations are <strong>model-suggested</strong> — the Treasurer should verify and re-label as needed.
+    </div>
+  </div>
+
   <h3>How to Access the Admin Portal</h3>
   <div class="step-flow">
     <div class="step">
@@ -211,7 +227,7 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
     <thead><tr><th>Sidebar Item</th><th>Icon</th><th>What It Does</th></tr></thead>
     <tbody>
       <tr><td>Procurement</td><td><i class="fas fa-file-invoice-dollar" style="color:var(--accent)"></i></td><td>Submit purchase requests, approve/reject, upload receipts, track payments</td></tr>
-      <tr><td>Reimbursement</td><td><i class="fas fa-receipt" style="color:var(--cyan)"></i></td><td>AI-powered receipt scanning, reimbursement request submission</td></tr>
+      <tr><td>Reimbursement</td><td><i class="fas fa-receipt" style="color:var(--cyan)"></i></td><td>AI-powered receipt scanning, reimbursement request submission<br><span style="font-size:.72rem;color:var(--red)"><i class="fas fa-lock"></i> Treasurer / VP / President only — other EC members use Procurement first</span></td></tr>
       <tr><td>Ledger Report</td><td><i class="fas fa-book" style="color:var(--blue)"></i></td><td>View full financial ledger across all transactions</td></tr>
       <tr><td>Income Summary</td><td><i class="fas fa-chart-pie" style="color:var(--green)"></i></td><td>Revenue breakdown by event and category</td></tr>
       <tr><td>Event Expenses</td><td><i class="fas fa-calendar-check" style="color:var(--purple)"></i></td><td>Per-event expense tracking and budget analysis</td></tr>
@@ -506,7 +522,8 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
 
   <div class="callout danger">
     <i class="fas fa-lock"></i>
-    <div><strong>Role Restriction:</strong> Only <strong>Treasurer</strong>, <strong>Vice President</strong>, and <strong>President</strong> can access the Reimbursement module. Other EC members will see a restricted-access notice.</div>
+    <div><strong>Role Restriction:</strong> Only <strong>Treasurer</strong>, <strong>Vice President</strong>, and <strong>President</strong> can access the Reimbursement module. Other EC members will see a restricted-access notice.<br><br>
+    <strong>Procurement-First Rule:</strong> Even within the Reimbursement portal, non-privileged EC members must provide an approved procurement ticket ID (PROC-XXXX). Treasurer, VP, and President can submit without one, but a <strong>warning notification</strong> is triggered.</div>
   </div>
 
   <div class="step-flow">
@@ -554,6 +571,12 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
   </table>
 
   <h3>Step-by-Step: Creating a Reimbursement Request</h3>
+
+  <div class="callout warn">
+    <i class="fas fa-tag"></i>
+    <div><strong>Treasurer Re-Label:</strong> All receipt item categorizations are <strong>model-suggested</strong>. The Treasurer can re-label any receipt item with a note stating exactly what the item is for. This ensures accurate financial records.</div>
+  </div>
+
   <div class="step-flow">
     <div class="step">
       <div class="sn cyan">1</div>
@@ -609,6 +632,7 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
   <table class="field-table">
     <thead><tr><th>Field</th><th>Required?</th><th>Options / Details</th></tr></thead>
     <tbody>
+      <tr><td style="color:var(--blue)">Procurement Ticket ID</td><td><strong style="color:var(--red)">Yes*</strong></td><td>PROC-XXXX — your approved procurement ticket. <strong>Required for regular EC members.</strong> Optional for Treasurer/VP/President (manual reimbursement triggers warning).</td></tr>
       <tr><td>Paid By</td><td>Yes</td><td>Personal Funds (Reimbursement), BANF Card, Cash, Other</td></tr>
       <tr><td>Budget Pre-Approved By</td><td>No</td><td>President, Treasurer, Vice President, or leave blank</td></tr>
       <tr><td>Additional Notes</td><td>No</td><td>Context for the Treasurer</td></tr>
@@ -761,7 +785,7 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
       <tr>
         <td><strong>Other EC Members</strong><br><span style="font-size:.75rem;color:var(--muted)">Secretary, Cultural Sec, etc.</span></td>
         <td><i class="fas fa-check" style="color:var(--green)"></i> Submit &amp; view own</td>
-        <td><i class="fas fa-times" style="color:var(--red)"></i> No access</td>
+        <td><i class="fas fa-times" style="color:var(--red)"></i> No direct access<br><span style="font-size:.72rem">Must use Procurement first</span></td>
         <td>None</td>
       </tr>
     </tbody>
@@ -780,7 +804,23 @@ a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
 
   <div class="card-block">
     <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> I can't access the Reimbursement panel?</h4>
-    <p>Only the <strong>Treasurer, Vice President, and President</strong> can access Reimbursement. If you're another EC member, use the <strong>Procurement</strong> panel with the "Reimbursement (Pre-paid)" category.</p>
+    <p>Only the <strong>Treasurer, Vice President, and President</strong> can access the Reimbursement panel directly. Other EC members must:</p>
+    <ol style="margin:.5rem 0;padding-left:1.5rem">
+      <li>Go to <strong>Procurement</strong> and submit a request</li>
+      <li>Wait for approval (PROC-XXXX ticket must be approved)</li>
+      <li>Contact the Treasurer with the approved procurement ticket ID for reimbursement processing</li>
+    </ol>
+    <p>The Treasurer, VP, or President can process the reimbursement on your behalf using the approved ticket reference.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> What about Saraswati Puja 2026 and Sri Lankan Rental expenses?</h4>
+    <p>These events belong to the <strong>prior EC term</strong> and are excluded from current reimbursement approval. If you have pending expenses from these events, contact the Treasurer directly — they require special handling and verification.</p>
+  </div>
+
+  <div class="card-block">
+    <h4><i class="fas fa-question-circle" style="color:var(--blue);margin-right:.4rem"></i> The AI categorized my receipt items incorrectly — what happens?</h4>
+    <p>All categorizations are <strong>model-suggested</strong>. The Treasurer has the ability to <strong>re-label any receipt item</strong> with a note stating exactly what the item is for. This is part of the normal review process — just submit as-is and the Treasurer will verify.</p>
   </div>
 
   <div class="card-block">
