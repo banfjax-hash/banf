@@ -106,8 +106,8 @@ const STAKEHOLDERS = [
     name: 'Suvankar Paul',
     firstName: 'Suvankar',
     email: 'suvankar.paul@gmail.com',
-    familyName: 'Suvankar & Paramita Paul',
-    spouseName: 'Paramita Paul',
+    familyName: 'Suvankar Paul & Sharmistha Poddar',
+    spouseName: 'Sharmistha Poddar',
     roles: ['Member', 'President (2022-2026)', 'Joint Secretary (2026-2028)'],
     memberSince: '2022',
     crmFields: {

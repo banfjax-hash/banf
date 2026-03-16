@@ -102,7 +102,7 @@ const STAKEHOLDERS = [
     scenario: 'existing_member',
     roles: ['Member', 'President (2022-2026)', 'Joint Secretary (2026-2028)'],
     stakeholderRole: 'Business Stakeholder',
-    familyName: 'Suvankar & Paramita Paul',
+    familyName: 'Suvankar Paul & Sharmistha Poddar',
     memberSince: '2022'
   }
 ];
