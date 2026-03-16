@@ -24,10 +24,10 @@ const CONFIG = {
   BANF_EMAIL: 'banfjax@gmail.com',
   BANF_ORG: 'BANF - Bengali Association of North Florida',
   BANF_WEBSITE: 'https://www.jaxbengali.org',
-  STAKEHOLDER_PORTAL_URL: 'https://banfjax-hash.github.io/banf/v2/BANF_STAKEHOLDER_PORTAL.html',
+  STAKEHOLDER_PORTAL_URL: 'https://banfjax-hash.github.io/banf/BANF_STAKEHOLDER_PORTAL.html',
   MEMBER_PORTAL_URL: 'https://banfwix.wixsite.com/banf1/_functions/member_portal',
-  EC_ADMIN_PORTAL_URL: 'https://banfjax-hash.github.io/banf/v2/BANF_SUPER_ADMIN_PORTAL.html',
-  SIGNUP_URL: 'https://banfjax-hash.github.io/banf/v2/BANF_STAKEHOLDER_PORTAL.html#signup',
+  EC_ADMIN_PORTAL_URL: 'https://banfjax-hash.github.io/banf/BANF_SUPER_ADMIN_PORTAL.html',
+  SIGNUP_URL: 'https://banfjax-hash.github.io/banf/BANF_STAKEHOLDER_PORTAL.html#signup',
   TEST_EMAIL: 'ranadhir.ghosh@gmail.com',
   SEND_DELAY_MS: 2000
 };
@@ -81,6 +81,28 @@ const STAKEHOLDERS = [
     roles: ['Member'],
     stakeholderRole: 'Business Stakeholder',
     familyName: 'Swarnendu & Sreya Sen',
+    memberSince: '2022'
+  },
+  {
+    name: 'Saugata Das',
+    firstName: 'Saugata',
+    email: 'mrsaugatadas@gmail.com',
+    username: 'saugata.das',
+    scenario: 'existing_member',
+    roles: ['Member', 'EC Member (2024-25)'],
+    stakeholderRole: 'Business Stakeholder',
+    familyName: 'Saugata & Reshma Das',
+    memberSince: '2022'
+  },
+  {
+    name: 'Suvankar Paul',
+    firstName: 'Suvankar',
+    email: 'suvankar.paul@gmail.com',
+    username: 'suvankar.paul',
+    scenario: 'existing_member',
+    roles: ['Member', 'Joint Secretary', 'EC Member'],
+    stakeholderRole: 'Business Stakeholder',
+    familyName: 'Suvankar & Paramita Paul',
     memberSince: '2022'
   }
 ];
