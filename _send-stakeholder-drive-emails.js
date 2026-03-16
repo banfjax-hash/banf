@@ -100,7 +100,7 @@ const STAKEHOLDERS = [
     email: 'suvankar.paul@gmail.com',
     username: 'suvankar.paul',
     scenario: 'existing_member',
-    roles: ['Member', 'Joint Secretary', 'EC Member'],
+    roles: ['Member', 'President (2022-2026)', 'Joint Secretary (2026-2028)'],
     stakeholderRole: 'Business Stakeholder',
     familyName: 'Suvankar & Paramita Paul',
     memberSince: '2022'

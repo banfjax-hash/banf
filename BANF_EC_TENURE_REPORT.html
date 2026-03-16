@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF EC Members - Tenure Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#333;min-height:100vh}
+.header{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:#fff;padding:32px 24px;text-align:center}
+.header h1{font-size:1.8rem;font-weight:700;margin-bottom:6px}
+.header p{opacity:.85;font-size:.95rem}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+.meta-bar{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.meta-card{background:#fff;border-radius:10px;padding:16px 20px;flex:1;min-width:200px;box-shadow:0 2px 8px rgba(0,0,0,.08);text-align:center}
+.meta-card .num{font-size:2rem;font-weight:700;color:#2563eb}
+.meta-card .label{font-size:.82rem;color:#666;margin-top:4px}
+.tenure-section{margin-bottom:32px}
+.tenure-header{background:linear-gradient(135deg,#1e40af,#3b82f6);color:#fff;padding:18px 24px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.tenure-header h2{font-size:1.2rem;font-weight:700}
+.tenure-header .badge{background:rgba(255,255,255,.2);padding:4px 14px;border-radius:20px;font-size:.82rem;font-weight:600}
+.tenure-header.past-1{background:linear-gradient(135deg,#7c3aed,#a78bfa)}
+.tenure-header.past-2{background:linear-gradient(135deg,#059669,#34d399)}
+.tenure-body{background:#fff;border-radius:0 0 12px 12px;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.tenure-info{padding:14px 24px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:.88rem;color:#555}
+.tenure-info strong{color:#1e40af}
+table{width:100%;border-collapse:collapse}
+th{background:#f1f5f9;padding:12px 16px;text-align:left;font-size:.82rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+td{padding:12px 16px;border-bottom:1px solid #f1f5f9;font-size:.9rem}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#f8fafc}
+.role-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.78rem;font-weight:600}
+.role-president{background:#dbeafe;color:#1e40af}
+.role-vp{background:#e0e7ff;color:#4338ca}
+.role-secretary{background:#fef3c7;color:#92400e}
+.role-treasurer{background:#d1fae5;color:#065f46}
+.role-coordinator{background:#fce7f3;color:#9d174d}
+.role-member{background:#f1f5f9;color:#475569}
+.email-link{color:#2563eb;text-decoration:none;font-size:.85rem}
+.email-link:hover{text-decoration:underline}
+.member-num{color:#94a3b8;font-weight:600;font-size:.82rem}
+.source-note{padding:16px 24px;background:#fffbeb;border-top:1px solid #fde68a;font-size:.82rem;color:#92400e}
+.footer{text-align:center;padding:24px;color:#94a3b8;font-size:.82rem}
+.highlight{background:#eff6ff}
+.search-bar{margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap}
+.search-bar input{flex:1;min-width:250px;padding:10px 16px;border:2px solid #e2e8f0;border-radius:8px;font-size:.92rem;outline:none}
+.search-bar input:focus{border-color:#3b82f6}
+.search-bar select{padding:10px 16px;border:2px solid #e2e8f0;border-radius:8px;font-size:.92rem;outline:none;background:#fff;cursor:pointer}
+.hidden{display:none!important}
+.member-name{font-weight:600;color:#1e293b}
+.tenure-tag{font-size:.75rem;background:#e2e8f0;color:#475569;padding:2px 8px;border-radius:8px;margin-left:6px}
+@media(max-width:700px){
+  .meta-bar{flex-direction:column}
+  .tenure-header{flex-direction:column;text-align:center}
+  td,th{padding:8px 10px;font-size:.82rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>BANF Executive Committee - Tenure Report</h1>
+  <p>Bengali Association of North Florida &mdash; EC Members Across All Tenures</p>
+</div>
+
+<div class="container">
+
+<div class="meta-bar">
+  <div class="meta-card"><div class="num" id="totalMembers">0</div><div class="label">Total EC Positions</div></div>
+  <div class="meta-card"><div class="num" id="totalTerms">3</div><div class="label">EC Terms Documented</div></div>
+  <div class="meta-card"><div class="num" id="uniqueMembers">0</div><div class="label">Unique Individuals</div></div>
+  <div class="meta-card"><div class="num" id="multiTerm">0</div><div class="label">Multi-Term Members</div></div>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Search by name, role, or email..." oninput="filterMembers()">
+  <select id="termFilter" onchange="filterMembers()">
+    <option value="all">All Terms</option>
+    <option value="2026-2028">2026-2028</option>
+    <option value="2024-2026">2024-2026</option>
+    <option value="2022-2024">2022-2024</option>
+  </select>
+</div>
+
+<div id="tenureSections"></div>
+
+<div class="footer">
+  <p>Generated from BANF Knowledge Base, CRM data, and Google Drive records</p>
+  <p>Last updated: <span id="genDate"></span></p>
+  <p style="margin-top:8px">&copy; BANF - Bengali Association of North Florida</p>
+</div>
+
+</div>
+
+<script>
+// ============================================================
+//  BANF EC Data — consolidated from Knowledge Base + CRM + GDrive
+// ============================================================
+const EC_DATA = [
+  {
+    term: '2026-2028',
+    label: '2026 - 2028 (Current)',
+    electedAt: 'GBM February 22, 2026',
+    status: 'current',
+    headerClass: '',
+    members: [
+      { name: 'Dr. Ranadhir Ghosh',        role: 'President / IT Lead',    email: 'ranadhir.ghosh@gmail.com',        note: 'Also VP (2022-2024)' },
+      { name: 'Partha Mukhopadhyay',       role: 'Vice President',          email: 'mukhopadhyay.partha@gmail.com',   note: 'Gen Sec (2024-2026)' },
+      { name: 'Amit Chandak',              role: 'Treasurer',               email: 'amit.everywhere@gmail.com',       note: '' },
+      { name: 'Rajanya Ghosh',             role: 'General Secretary',       email: 'rajanya.ghosh@gmail.com',         note: '' },
+      { name: 'Dr. Moumita Ghosh',         role: 'Cultural Secretary',      email: 'moumita.mukherje@gmail.com',      note: '' },
+      { name: 'Soumyajit Dutta (Banty)',   role: 'Food Coordinator',        email: 'duttasoumyajit86@gmail.com',      note: '' },
+      { name: 'Dr. Sumanta Ghosh',         role: 'Event Coordinator',       email: 'sumo475@gmail.com',               note: '' },
+      { name: 'Rwiti Choudhury',           role: 'Puja Coordinator',        email: 'rwitichoudhury@gmail.com',        note: '' },
+      { name: 'Suvankar Paul',             role: 'Joint Secretary',         email: 'suvankar.paul@gmail.com',         note: 'President (2022-2026)' }
+    ]
+  },
+  {
+    term: '2024-2026',
+    label: '2024 - 2026',
+    electedAt: 'GBM March 31, 2024',
+    status: 'past',
+    headerClass: 'past-1',
+    members: [
+      { name: 'Suvankar Paul',             role: 'President',               email: 'suvankar.paul@gmail.com',         note: 'Served 2 consecutive terms as President' },
+      { name: 'Anita Mandal',              role: 'Vice President',          email: '',                                note: '' },
+      { name: 'Tanay Bhaduri',             role: 'Vice President',          email: '',                                note: '' },
+      { name: 'Partha Mukhopadhyay',       role: 'General Secretary',       email: 'mukhopadhyay.partha@gmail.com',   note: 'Now VP (2026-2028)' },
+      { name: 'Sreya Ghosh',               role: 'Treasurer',               email: '',                                note: '' },
+      { name: 'Sudip Roy',                 role: 'EC Member',               email: 'roysu2000@gmail.com',             note: 'Family: Sudip & Ipshita Roy' },
+      { name: 'Saugata Das',               role: 'EC Member',               email: 'mrsaugatadas@gmail.com',          note: 'Family: Saugata & Reshma Das' },
+      { name: 'Swarnendu Sen',             role: 'EC Member',               email: 'swarnendu.sen@gmail.com',         note: 'Family: Swarnendu & Sreya Sen' }
+    ]
+  },
+  {
+    term: '2022-2024',
+    label: '2022 - 2024',
+    electedAt: 'GBM 2022',
+    status: 'past',
+    headerClass: 'past-2',
+    members: [
+      { name: 'Suvankar Paul',             role: 'President',               email: 'suvankar.paul@gmail.com',         note: 'First of 2 consecutive terms' },
+      { name: 'Dr. Ranadhir Ghosh',        role: 'Vice President',          email: 'ranadhir.ghosh@gmail.com',        note: 'Now President (2026-2028)' }
+      // Additional members to be populated from Google Drive archive records
+    ]
+  }
+];
+
+// ============================================================
+//  Rendering
+// ============================================================
+function roleClass(role) {
+  const r = role.toLowerCase();
+  if (r.includes('president') && !r.includes('vice')) return 'role-president';
+  if (r.includes('vice')) return 'role-vp';
+  if (r.includes('secretary')) return 'role-secretary';
+  if (r.includes('treasurer')) return 'role-treasurer';
+  if (r.includes('coordinator')) return 'role-coordinator';
+  return 'role-member';
+}
+
+function renderSections(data) {
+  const container = document.getElementById('tenureSections');
+  container.innerHTML = '';
+  let totalPositions = 0;
+  const allNames = new Set();
+  const nameTerms = {};
+
+  data.forEach(term => {
+    term.members.forEach(m => {
+      const key = m.name.replace(/^Dr\.\s*/, '').trim();
+      allNames.add(key);
+      if (!nameTerms[key]) nameTerms[key] = [];
+      nameTerms[key].push(term.term);
+      totalPositions++;
+    });
+  });
+
+  const multiTermCount = Object.values(nameTerms).filter(t => t.length > 1).length;
+
+  document.getElementById('totalMembers').textContent = totalPositions;
+  document.getElementById('uniqueMembers').textContent = allNames.size;
+  document.getElementById('multiTerm').textContent = multiTermCount;
+
+  data.forEach(term => {
+    const section = document.createElement('div');
+    section.className = 'tenure-section';
+    section.dataset.term = term.term;
+
+    const statusBadge = term.status === 'current'
+      ? '<span class="badge">CURRENT TERM</span>'
+      : '<span class="badge">COMPLETED</span>';
+
+    let rows = '';
+    term.members.forEach((m, i) => {
+      const emailCell = m.email
+        ? `<a class="email-link" href="mailto:${esc(m.email)}">${esc(m.email)}</a>`
+        : '<span style="color:#cbd5e1">Not on file</span>';
+      const noteCell = m.note
+        ? `<span style="color:#64748b;font-size:.82rem">${esc(m.note)}</span>`
+        : '';
+      rows += `<tr class="member-row" data-search="${esc((m.name + ' ' + m.role + ' ' + m.email + ' ' + m.note).toLowerCase())}">
+        <td class="member-num">${i + 1}</td>
+        <td class="member-name">${esc(m.name)}</td>
+        <td><span class="role-badge ${roleClass(m.role)}">${esc(m.role)}</span></td>
+        <td>${emailCell}</td>
+        <td>${noteCell}</td>
+      </tr>`;
+    });
+
+    section.innerHTML = `
+      <div class="tenure-header ${term.headerClass}">
+        <h2>EC Term: ${esc(term.label)}</h2>
+        <div>
+          ${statusBadge}
+          <span class="badge">${term.members.length} Members</span>
+        </div>
+      </div>
+      <div class="tenure-body">
+        <div class="tenure-info">
+          Elected at: <strong>${esc(term.electedAt)}</strong> &nbsp;|&nbsp;
+          Term: <strong>${esc(term.term)}</strong> &nbsp;|&nbsp;
+          Members: <strong>${term.members.length}</strong>
+        </div>
+        <table>
+          <thead><tr><th>#</th><th>Name</th><th>Role</th><th>Email</th><th>Notes</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        ${term.term === '2022-2024' ? '<div class="source-note">Note: This term\'s roster is partially documented. Additional members will be populated from Google Drive archive records (banf-data_ingest/data/22-24EC/).</div>' : ''}
+      </div>
+    `;
+    container.appendChild(section);
+  });
+}
+
+function filterMembers() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const termFilter = document.getElementById('termFilter').value;
+
+  document.querySelectorAll('.tenure-section').forEach(sec => {
+    if (termFilter !== 'all' && sec.dataset.term !== termFilter) {
+      sec.classList.add('hidden');
+      return;
+    }
+    sec.classList.remove('hidden');
+
+    let anyVisible = false;
+    sec.querySelectorAll('.member-row').forEach(row => {
+      const match = !q || row.dataset.search.includes(q);
+      row.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+    if (!anyVisible && q) sec.classList.add('hidden');
+  });
+}
+
+function esc(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Init
+document.getElementById('genDate').textContent = new Date().toLocaleDateString('en-US', {
+  year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+});
+renderSections(EC_DATA);
+</script>
+</body>
+</html>
