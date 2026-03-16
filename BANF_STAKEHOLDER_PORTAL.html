@@ -116,11 +116,49 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <div class="logo">S</div>
     <h1>BANF Stakeholder Portal</h1>
     <div class="sub">Read-only access &mdash; Visualize, monitor, and approve requirements</div>
-    <input type="text" id="login-user" placeholder="Username or Email">
-    <input type="password" id="login-pass" placeholder="Password">
-    <button class="btn-login" id="btn-login"><i class="fas fa-eye me-1"></i>Sign In as Stakeholder</button>
-    <div class="error-msg" id="login-error">Invalid credentials.</div>
-    <div style="margin-top:14px;font-size:.72rem;color:var(--dim)"><i class="fas fa-lock me-1"></i>Read-only stakeholder access</div>
+    <!-- SIGN IN FORM -->
+    <div id="signin-form">
+      <input type="text" id="login-user" placeholder="Username or Email">
+      <input type="password" id="login-pass" placeholder="Password">
+      <button class="btn-login" id="btn-login"><i class="fas fa-eye me-1"></i>Sign In as Stakeholder</button>
+      <div class="error-msg" id="login-error">Invalid credentials.</div>
+      <div style="margin-top:14px;font-size:.72rem;color:var(--dim)"><i class="fas fa-lock me-1"></i>Read-only stakeholder access</div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted)">
+        New stakeholder? <a href="#" id="show-signup" style="color:var(--accent);font-weight:600">Sign up here</a>
+      </div>
+      <div style="margin-top:8px;font-size:.68rem;color:var(--dim)">
+        <i class="fas fa-info-circle me-1"></i>Same credentials work for Member Portal, EC Admin Portal &amp; Stakeholder Portal
+      </div>
+    </div>
+    <!-- SIGN UP FORM -->
+    <div id="signup-form" style="display:none">
+      <div style="font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:14px"><i class="fas fa-user-plus me-1"></i>Stakeholder Sign Up</div>
+      <input type="text" id="signup-name" placeholder="Full Name (e.g. Sudip Roy)">
+      <input type="email" id="signup-email" placeholder="Email Address">
+      <input type="text" id="signup-username" placeholder="Username (e.g. sudip.roy)">
+      <input type="password" id="signup-pw" placeholder="Create Password (min 6 chars)">
+      <input type="password" id="signup-pw2" placeholder="Confirm Password">
+      <div style="margin:6px 0;text-align:left">
+        <label style="font-size:.72rem;color:var(--muted);display:block;margin-bottom:4px"><i class="fas fa-shield-alt me-1"></i>Security Question (for password recovery)</label>
+        <select id="signup-sq" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:10px 14px;border-radius:8px;font-size:.84rem;margin-bottom:8px">
+          <option value="">-- Select a security question --</option>
+          <option value="What is your mother's maiden name?">What is your mother's maiden name?</option>
+          <option value="What city were you born in?">What city were you born in?</option>
+          <option value="What was the name of your first pet?">What was the name of your first pet?</option>
+          <option value="What is your favorite book?">What is your favorite book?</option>
+          <option value="What school did you attend for sixth grade?">What school did you attend for sixth grade?</option>
+        </select>
+        <input type="text" id="signup-sa" placeholder="Your answer to the security question">
+      </div>
+      <button class="btn-login" id="btn-signup" style="background:linear-gradient(135deg,#22c55e,#16a34a)"><i class="fas fa-user-plus me-1"></i>Create Account</button>
+      <div class="error-msg" id="signup-error"></div>
+      <div id="signup-success" style="display:none;margin-top:10px;padding:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:8px;font-size:.82rem;color:#4ade80">
+        <i class="fas fa-check-circle me-1"></i>Account created! You can now sign in.
+      </div>
+      <div style="margin-top:14px;font-size:.78rem;color:var(--muted)">
+        Already have an account? <a href="#" id="show-signin" style="color:var(--accent);font-weight:600">Sign in</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -837,14 +875,31 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 <script>
 // =================== AUTH ===================
 const CREDS = {
-  'stakeholder':{pw:'banf-view-2026',name:'Stakeholder User',initials:'SH'},
-  'arun.sen':{pw:'banf-view-2026',name:'Arun Sen',initials:'AS'},
-  'priya.bose':{pw:'banf-view-2026',name:'Priya Bose',initials:'PB'},
-  'ranadhir.ghosh':{pw:'banf-super-2026',name:'Ranadhir Ghosh',initials:'RG'}
+  'stakeholder':{pw:'banf-view-2026',name:'Stakeholder User',initials:'SH',roles:['stakeholder']},
+  'arun.sen':{pw:'banf-view-2026',name:'Arun Sen',initials:'AS',roles:['stakeholder']},
+  'priya.bose':{pw:'banf-view-2026',name:'Priya Bose',initials:'PB',roles:['stakeholder']},
+  'ranadhir.ghosh':{pw:'banf-super-2026',name:'Ranadhir Ghosh',initials:'RG',roles:['stakeholder','ec-admin','super-admin','member']},
+  'sudip.roy':{pw:'banf-view-2026',name:'Sudip Roy',initials:'SR',roles:['stakeholder','member']},
+  'swarnendu.sen':{pw:'banf-view-2026',name:'Swarnendu Sen',initials:'SS',roles:['stakeholder','member']}
 };
 
+// Load any locally-registered stakeholders from localStorage
+const SH_STORAGE_KEY = 'banf_stakeholder_accounts';
+function loadLocalAccounts(){
+  try { const d=JSON.parse(localStorage.getItem(SH_STORAGE_KEY)||'{}'); Object.assign(CREDS,d); } catch(e){}
+}
+function saveLocalAccount(username,rec){
+  try {
+    const d=JSON.parse(localStorage.getItem(SH_STORAGE_KEY)||'{}');
+    d[username]=rec;
+    localStorage.setItem(SH_STORAGE_KEY,JSON.stringify(d));
+  } catch(e){}
+}
+loadLocalAccounts();
+
+// Sign-in
 document.getElementById('btn-login').addEventListener('click', () => {
-  const u = document.getElementById('login-user').value.trim();
+  const u = document.getElementById('login-user').value.trim().toLowerCase();
   const p = document.getElementById('login-pass').value;
   const c = CREDS[u];
   if(c && c.pw === p){
@@ -858,6 +913,55 @@ document.getElementById('btn-login').addEventListener('click', () => {
   }
 });
 document.getElementById('login-pass').addEventListener('keypress',e=>{if(e.key==='Enter')document.getElementById('btn-login').click()});
+
+// Toggle signin/signup forms
+document.getElementById('show-signup').addEventListener('click',e=>{
+  e.preventDefault();
+  document.getElementById('signin-form').style.display='none';
+  document.getElementById('signup-form').style.display='block';
+  document.getElementById('signup-error').style.display='none';
+  document.getElementById('signup-success').style.display='none';
+});
+document.getElementById('show-signin').addEventListener('click',e=>{
+  e.preventDefault();
+  document.getElementById('signup-form').style.display='none';
+  document.getElementById('signin-form').style.display='block';
+});
+
+// Sign-up handler
+document.getElementById('btn-signup').addEventListener('click',()=>{
+  const name=document.getElementById('signup-name').value.trim();
+  const email=document.getElementById('signup-email').value.trim();
+  const username=document.getElementById('signup-username').value.trim().toLowerCase();
+  const pw=document.getElementById('signup-pw').value;
+  const pw2=document.getElementById('signup-pw2').value;
+  const sq=document.getElementById('signup-sq').value;
+  const sa=document.getElementById('signup-sa').value.trim();
+  const errEl=document.getElementById('signup-error');
+  errEl.style.display='none';
+  function showErr(msg){errEl.textContent=msg;errEl.style.display='block';}
+  if(!name||!email||!username||!pw) return showErr('All fields are required.');
+  if(pw.length<6) return showErr('Password must be at least 6 characters.');
+  if(pw!==pw2) return showErr('Passwords do not match.');
+  if(!sq) return showErr('Please select a security question.');
+  if(!sa) return showErr('Please provide an answer to the security question.');
+  if(CREDS[username]) return showErr('Username already taken. Try a different one.');
+  if(!/^[a-z0-9._-]+$/.test(username)) return showErr('Username can only contain letters, numbers, dots, hyphens.');
+  const initials=(name.split(' ').map(w=>w[0]||'').join('').substring(0,2)||'??').toUpperCase();
+  const rec={pw:pw,name:name,initials:initials,roles:['stakeholder','member'],email:email,securityQuestion:sq,securityAnswer:sa.toLowerCase()};
+  CREDS[username]=rec;
+  saveLocalAccount(username,rec);
+  document.getElementById('signup-success').style.display='block';
+  document.getElementById('signup-error').style.display='none';
+  // Pre-fill sign-in
+  setTimeout(()=>{
+    document.getElementById('signup-form').style.display='none';
+    document.getElementById('signin-form').style.display='block';
+    document.getElementById('login-user').value=username;
+    document.getElementById('login-pass').value='';
+    document.getElementById('login-pass').focus();
+  },1800);
+});
 
 // =================== NAV ===================
 document.querySelectorAll('.sb-item[data-panel]').forEach(item=>{
