@@ -1,4 +1,4 @@
-﻿/**
+/**
  * BANF Wix HTTP Functions — v5.12.0 EC-Separated
  * ==================================================
  * All endpoints use wixData directly. NO .jsw imports.
