@@ -24,6 +24,7 @@ import wixData from 'wix-data';
 import { collections as wixCollections } from 'wix-data.v2';
 import { elevate } from 'wix-auth';
 import { fetch as wixFetch } from 'wix-fetch';
+import { contacts } from 'wix-crm-backend';
 
 const createEviteCollectionElevated = elevate(wixCollections.createDataCollection);
 
@@ -1471,24 +1472,30 @@ export async function post_evite_send_invites(request) {
                 recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'president' });
             }
         } else if (recipientType === 'all_members') {
-            // Try CRMMembers first, fall back to Members (legacy) if empty
-            let membersResult = await wixData.query('CRMMembers')
-                .limit(500)
-                .find(SA)
-                .catch(() => ({ items: [] }));
-            if (!membersResult.items || membersResult.items.length === 0) {
-                membersResult = await wixData.query('Members')
-                    .limit(500)
-                    .find(SA)
-                    .catch(() => ({ items: [] }));
+            // Primary: native Wix CRM contacts (~175 members)
+            try {
+                const results = await contacts.queryContacts().limit(500).find(SA);
+                recipients = results.items
+                    .filter(c => c.info && c.info.emails && c.info.emails.length > 0 && c.info.emails[0].email)
+                    .map(c => ({
+                        name: ((c.info.name && c.info.name.first || '') + ' ' + (c.info.name && c.info.name.last || '')).trim() || c.info.emails[0].email.split('@')[0],
+                        email: c.info.emails[0].email,
+                        role: 'member'
+                    }));
+            } catch (_) {
+                // Fallback: CRMMembers then Members collection
+                let membersResult = await wixData.query('CRMMembers').limit(500).find(SA).catch(() => ({ items: [] }));
+                if (!membersResult.items || membersResult.items.length === 0) {
+                    membersResult = await wixData.query('Members').limit(500).find(SA).catch(() => ({ items: [] }));
+                }
+                recipients = membersResult.items
+                    .filter(m => m.email && m.isActive !== false)
+                    .map(m => ({
+                        name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
+                        email: m.email,
+                        role: 'member'
+                    }));
             }
-            recipients = membersResult.items
-                .filter(m => m.email && m.isActive !== false)
-                .map(m => ({
-                    name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
-                    email: m.email,
-                    role: 'member'
-                }));
         }
 
         if (recipients.length === 0) return jsonErr('No recipients found');
@@ -2022,24 +2029,30 @@ export async function get_evite_recipients(request) {
                 recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'President' });
             }
         } else if (type === 'all_members') {
-            // Try CRMMembers first, fall back to Members (legacy) if empty
-            let membersResult = await wixData.query('CRMMembers')
-                .limit(500)
-                .find(SA)
-                .catch(() => ({ items: [] }));
-            if (!membersResult.items || membersResult.items.length === 0) {
-                membersResult = await wixData.query('Members')
-                    .limit(500)
-                    .find(SA)
-                    .catch(() => ({ items: [] }));
+            // Primary: native Wix CRM contacts (~175 members)
+            try {
+                const results = await contacts.queryContacts().limit(500).find(SA);
+                recipients = results.items
+                    .filter(c => c.info && c.info.emails && c.info.emails.length > 0 && c.info.emails[0].email)
+                    .map(c => ({
+                        name: ((c.info.name && c.info.name.first || '') + ' ' + (c.info.name && c.info.name.last || '')).trim() || c.info.emails[0].email.split('@')[0],
+                        email: c.info.emails[0].email,
+                        role: 'member'
+                    }));
+            } catch (_) {
+                // Fallback: CRMMembers then Members collection
+                let membersResult = await wixData.query('CRMMembers').limit(500).find(SA).catch(() => ({ items: [] }));
+                if (!membersResult.items || membersResult.items.length === 0) {
+                    membersResult = await wixData.query('Members').limit(500).find(SA).catch(() => ({ items: [] }));
+                }
+                recipients = membersResult.items
+                    .filter(m => m.email && m.isActive !== false)
+                    .map(m => ({
+                        name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
+                        email: m.email,
+                        role: 'member'
+                    }));
             }
-            recipients = membersResult.items
-                .filter(m => m.email && m.isActive !== false)
-                .map(m => ({
-                    name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
-                    email: m.email,
-                    role: 'member'
-                }));
         }
         return jsonOk({ members: recipients, total: recipients.length });
     } catch (e) {
