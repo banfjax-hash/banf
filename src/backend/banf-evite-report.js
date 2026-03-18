@@ -1472,10 +1472,16 @@ export async function post_evite_send_invites(request) {
                 recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'president' });
             }
         } else if (recipientType === 'all_members') {
-            // Primary: native Wix CRM contacts (~175 members)
+            // Primary: native Wix CRM contacts — paginate to get all
             try {
-                const results = await contacts.queryContacts().limit(500).find(SA);
-                recipients = results.items
+                let allContacts = [];
+                let results = await contacts.queryContacts().limit(100).find(SA);
+                allContacts = allContacts.concat(results.items);
+                while (results.hasNext()) {
+                    results = await results.next();
+                    allContacts = allContacts.concat(results.items);
+                }
+                recipients = allContacts
                     .filter(c => c.info && c.info.emails && c.info.emails.length > 0 && c.info.emails[0].email)
                     .map(c => ({
                         name: ((c.info.name && c.info.name.first || '') + ' ' + (c.info.name && c.info.name.last || '')).trim() || c.info.emails[0].email.split('@')[0],
@@ -2029,10 +2035,16 @@ export async function get_evite_recipients(request) {
                 recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'President' });
             }
         } else if (type === 'all_members') {
-            // Primary: native Wix CRM contacts (~175 members)
+            // Primary: native Wix CRM contacts — paginate to get all
             try {
-                const results = await contacts.queryContacts().limit(500).find(SA);
-                recipients = results.items
+                let allContacts = [];
+                let results = await contacts.queryContacts().limit(100).find(SA);
+                allContacts = allContacts.concat(results.items);
+                while (results.hasNext()) {
+                    results = await results.next();
+                    allContacts = allContacts.concat(results.items);
+                }
+                recipients = allContacts
                     .filter(c => c.info && c.info.emails && c.info.emails.length > 0 && c.info.emails[0].email)
                     .map(c => ({
                         name: ((c.info.name && c.info.name.first || '') + ' ' + (c.info.name && c.info.name.last || '')).trim() || c.info.emails[0].email.split('@')[0],
