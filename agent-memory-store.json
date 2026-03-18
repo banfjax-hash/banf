@@ -1,0 +1,336 @@
+[
+  {
+    "id": "MEM-1773623720596-565d18",
+    "type": "experience",
+    "content": "Email scan: 50 new emails. Filtered: 18 marketing, 3 already-replied, 1 drive. Passed: 6 user queries.",
+    "tags": [
+      "email_scan",
+      "filtering"
+    ],
+    "context": {
+      "skippedMarketing": 18,
+      "skippedReplied": 3,
+      "skippedDrive": 1,
+      "userQueryCount": 6,
+      "source": "email_reader_agent"
+    },
+    "source": "unknown",
+    "impact": "low",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:15:20.596Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773623721171-7ecb05",
+    "type": "experience",
+    "content": "Processed email from programs@aauc.us: subject=\"Town Hall Meeting: In Challenging Times, Our Voices Matter\", category=event_info, confidence=0.7333333333333334, needsHuman=true, approvalId=QA-1773623720615-zt2l",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "programs@aauc.us",
+      "subject": "Town Hall Meeting: In Challenging Times, Our Voices Matter",
+      "category": "event_info",
+      "confidence": 0.7333333333333334,
+      "approvalId": "QA-1773623720615-zt2l",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:15:21.171Z",
+    "accessCount": 2,
+    "lastAccessed": "2026-03-16T01:22:28.418Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773623721671-8e3554",
+    "type": "experience",
+    "content": "Processed email from jacqueline.ottosen@stjohns.k12.fl.us: subject=\"RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)\", category=asset_rental, confidence=0.6, needsHuman=true, approvalId=QA-1773623721182-pud7",
+    "tags": [
+      "asset_rental",
+      "email_processed"
+    ],
+    "context": {
+      "email": "jacqueline.ottosen@stjohns.k12.fl.us",
+      "subject": "RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)",
+      "category": "asset_rental",
+      "confidence": 0.6,
+      "approvalId": "QA-1773623721182-pud7",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:15:21.671Z",
+    "accessCount": 1,
+    "lastAccessed": "2026-03-16T01:22:29.089Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773623722225-bdc5a3",
+    "type": "experience",
+    "content": "Processed email from volunteerprogram@feedingnefl.org: subject=\"Volunteer Shift Reminder - Feeding Northeast Florida\", category=thank_you, confidence=0.7333333333333334, needsHuman=true, approvalId=QA-1773623721682-wwfr",
+    "tags": [
+      "thank_you",
+      "email_processed"
+    ],
+    "context": {
+      "email": "volunteerprogram@feedingnefl.org",
+      "subject": "Volunteer Shift Reminder - Feeding Northeast Florida",
+      "category": "thank_you",
+      "confidence": 0.7333333333333334,
+      "approvalId": "QA-1773623721682-wwfr",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:15:22.225Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773623723015-d2105c",
+    "type": "experience",
+    "content": "Processed email from security@mail.instagram.com: subject=\"New login to Instagram from Instagram on Apple iPhone\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773623722242-2b1u",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "security@mail.instagram.com",
+      "subject": "New login to Instagram from Instagram on Apple iPhone",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1773623722242-2b1u",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:15:23.015Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773623724056-4f405d",
+    "type": "experience",
+    "content": "Processed email from programs@aauc.us: subject=\"Town Hall Meeting: In Challenging Times, Our Voices Matter\", category=event_info, confidence=0.7333333333333334, needsHuman=true, approvalId=QA-1773623723022-8wpb",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "programs@aauc.us",
+      "subject": "Town Hall Meeting: In Challenging Times, Our Voices Matter",
+      "category": "event_info",
+      "confidence": 0.7333333333333334,
+      "approvalId": "QA-1773623723022-8wpb",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:15:24.056Z",
+    "accessCount": 1,
+    "lastAccessed": "2026-03-16T01:22:28.418Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773624148396-68891f",
+    "type": "experience",
+    "content": "Email scan: 20 new emails. Filtered: 8 marketing, 2 already-replied, 1 drive. Passed: 2 user queries.",
+    "tags": [
+      "email_scan",
+      "filtering"
+    ],
+    "context": {
+      "skippedMarketing": 0,
+      "skippedReplied": 0,
+      "skippedDrive": 0,
+      "userQueryCount": 1,
+      "source": "email_reader_agent"
+    },
+    "source": "unknown",
+    "impact": "low",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:22:28.397Z",
+    "accessCount": 8,
+    "lastAccessed": "2026-03-17T23:55:07.307Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773624149069-c3962b",
+    "type": "experience",
+    "content": "Processed email from programs@aauc.us: subject=\"Town Hall Meeting: In Challenging Times, Our Voices Matter\", category=event_info, confidence=0.7333333333333334, needsHuman=true, approvalId=QA-1773624148421-oum4",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "programs@aauc.us",
+      "subject": "Town Hall Meeting: In Challenging Times, Our Voices Matter",
+      "category": "event_info",
+      "confidence": 0.7333333333333334,
+      "approvalId": "QA-1773624148421-oum4",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:22:29.069Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773624149651-72ef6d",
+    "type": "experience",
+    "content": "Processed email from jacqueline.ottosen@stjohns.k12.fl.us: subject=\"RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)\", category=asset_rental, confidence=0.6, needsHuman=true, approvalId=QA-1773624149092-33jj",
+    "tags": [
+      "asset_rental",
+      "email_processed"
+    ],
+    "context": {
+      "email": "jacqueline.ottosen@stjohns.k12.fl.us",
+      "subject": "RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)",
+      "category": "asset_rental",
+      "confidence": 0.6,
+      "approvalId": "QA-1773624149092-33jj",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T01:22:29.651Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773680675941-f74247",
+    "type": "experience",
+    "content": "Processed email from sumo475@gmail.com: subject=\"Re: URGENT: BANF Membership Fees Verification — Please Reply ASAP\", category=profile_update, confidence=0.85, needsHuman=true, approvalId=QA-1773680675483-lnsi",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "sumo475@gmail.com",
+      "subject": "Re: URGENT: BANF Membership Fees Verification — Please Reply ASAP",
+      "category": "profile_update",
+      "confidence": 0.85,
+      "approvalId": "QA-1773680675483-lnsi",
+      "memberName": "Sumanta Ghosh",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-16T17:04:35.941Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773730299031-9a23ae",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Make Big Money Move\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773730298374-fhit",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "💰 Bucs Make Big Money Move",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1773730298374-fhit",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-17T06:51:39.031Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773766582928-f0d0f6",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"Buccaneers Make Massive Contract Change With $90 Million Starter...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773766582422-4zuf",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "Buccaneers Make Massive Contract Change With $90 Million Starter...",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1773766582422-4zuf",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-17T16:56:22.928Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1773791708110-96b763",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "😑 Bucs Lose Unsung Hero",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1773791707337-rll3",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-17T23:55:08.110Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  }
+]

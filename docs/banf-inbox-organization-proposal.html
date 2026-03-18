@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BANF Email Inbox Organization Proposal — President Review</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0f172a; color:#e2e8f0; font-family:'Segoe UI',system-ui,-apple-system,sans-serif; line-height:1.6; }
+  .hero { background:linear-gradient(135deg,#1e293b 0%,#0f172a 50%,#1e1b4b 100%); padding:48px 32px; text-align:center; border-bottom:2px solid #334155; }
+  .hero h1 { font-size:28px; font-weight:800; background:linear-gradient(90deg,#38bdf8,#818cf8,#c084fc); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; }
+  .hero .subtitle { color:#94a3b8; font-size:14px; }
+  .hero .badge { display:inline-block; background:#1e3a5f; color:#38bdf8; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:600; margin-top:12px; }
+  .container { max-width:1100px; margin:0 auto; padding:32px 24px; }
+  .section { margin-bottom:36px; }
+  .section-title { font-size:18px; font-weight:700; color:#f1f5f9; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .section-title .dot { width:10px; height:10px; border-radius:50%; background:#38bdf8; }
+
+  /* Stats cards */
+  .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-bottom:32px; }
+  .stat-card { background:#1e293b; border:1px solid #334155; border-radius:12px; padding:20px; text-align:center; }
+  .stat-card .num { font-size:32px; font-weight:800; color:#f1f5f9; }
+  .stat-card .label { font-size:12px; color:#94a3b8; text-transform:uppercase; letter-spacing:0.5px; margin-top:4px; }
+  .stat-card.highlight { border-color:#38bdf8; background:linear-gradient(135deg,#1e293b,#172554); }
+  .stat-card.highlight .num { color:#38bdf8; }
+
+  /* Category cards */
+  .cat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+  .cat-card { background:#1e293b; border:1px solid #334155; border-radius:12px; overflow:hidden; transition:border-color 0.2s; }
+  .cat-card:hover { border-color:#475569; }
+  .cat-header { padding:16px 20px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #334155; }
+  .cat-icon { font-size:24px; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:10px; flex-shrink:0; }
+  .cat-name { font-size:15px; font-weight:700; color:#f1f5f9; }
+  .cat-count { font-size:13px; color:#94a3b8; margin-top:2px; }
+  .cat-count strong { color:#f1f5f9; }
+  .cat-body { padding:14px 20px; }
+  .cat-desc { font-size:12px; color:#94a3b8; margin-bottom:10px; }
+  .cat-pipeline { font-size:11px; padding:3px 10px; border-radius:12px; display:inline-block; margin-bottom:10px; }
+  .cat-rule { font-size:11px; color:#64748b; margin-bottom:2px; font-family:'Cascadia Code','Fira Code',monospace; }
+  .cat-rule code { color:#a5b4fc; }
+  .cat-samples { margin-top:10px; }
+  .sample { background:#0f172a; border-radius:6px; padding:8px 12px; margin-bottom:6px; font-size:11px; }
+  .sample .from { color:#38bdf8; font-weight:600; }
+  .sample .subj { color:#cbd5e1; }
+  .sample .date { color:#64748b; float:right; }
+  .sample .tag { font-size:9px; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600; }
+  .tag-history { background:#854d0e; color:#fbbf24; }
+  .tag-active { background:#166534; color:#4ade80; }
+
+  /* Flow diagram */
+  .flow { background:#1e293b; border:1px solid #334155; border-radius:12px; padding:24px; margin-bottom:32px; }
+  .flow-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+  .flow-box { padding:8px 16px; border-radius:8px; font-size:12px; font-weight:600; white-space:nowrap; }
+  .flow-arrow { color:#64748b; font-size:18px; }
+  .flow-inbox { background:#1e3a5f; color:#38bdf8; border:1px solid #2563eb; }
+  .flow-classify { background:#312e81; color:#a5b4fc; border:1px solid #4338ca; }
+  .flow-label { border:1px solid #334155; color:#e2e8f0; }
+  .flow-pipeline { background:#14532d; color:#4ade80; border:1px solid #166534; font-size:11px; }
+  .flow-history { background:#78350f; color:#fbbf24; border:1px solid #92400e; }
+  .flow-note { color:#64748b; font-size:11px; font-style:italic; margin-left:16px; }
+
+  /* Approval section */
+  .approval { background:linear-gradient(135deg,#1e293b,#1e1b4b); border:2px solid #6366f1; border-radius:16px; padding:32px; text-align:center; }
+  .approval h2 { color:#a5b4fc; font-size:20px; margin-bottom:12px; }
+  .approval p { color:#94a3b8; font-size:13px; max-width:600px; margin:0 auto 20px; }
+  .approval .actions { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  .btn { padding:12px 28px; border-radius:10px; font-size:14px; font-weight:700; border:none; cursor:pointer; text-decoration:none; display:inline-block; transition:opacity 0.2s; }
+  .btn:hover { opacity:0.85; }
+  .btn-approve { background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; }
+  .btn-modify { background:#334155; color:#e2e8f0; border:1px solid #475569; }
+
+  /* Table */
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { background:#334155; color:#e2e8f0; padding:10px 12px; text-align:left; font-weight:600; }
+  td { padding:8px 12px; border-bottom:1px solid #1e293b; }
+  tr:hover td { background:#1e293b; }
+  .bar { height:8px; border-radius:4px; display:inline-block; vertical-align:middle; }
+
+  @media(max-width:640px) {
+    .cat-grid { grid-template-columns:1fr; }
+    .stats { grid-template-columns:repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📧 BANF Email Inbox Organization Proposal</h1>
+  <p class="subtitle">Smart categorization plan for banfjax@gmail.com — March 17, 2026</p>
+  <div class="badge">🔒 For President Review — Awaiting Approval</div>
+</div>
+
+<div class="container">
+
+  <!-- Executive Summary -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Executive Summary</div>
+    <div class="stats">
+      <div class="stat-card highlight">
+        <div class="num">11,640</div>
+        <div class="label">Total Inbox Emails</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">11,240</div>
+        <div class="label">Pre Feb-20 → History</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">400</div>
+        <div class="label">Post Feb-20 → Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">14</div>
+        <div class="label">Proposed Labels</div>
+      </div>
+    </div>
+    <p style="color:#94a3b8;font-size:13px;max-width:800px">
+      The inbox currently has <strong style="color:#f1f5f9">11,640 unorganized emails</strong> spanning from 2019 to present. 
+      This proposal creates a smart, rule-based classifier that sorts emails into <strong style="color:#f1f5f9">14 Gmail labels</strong>, 
+      routes actionable emails through existing BANF pipelines, and archives everything before Feb 20, 2026 under a <strong style="color:#fbbf24">History</strong> label. 
+      After your approval, the agent runs automatically — no manual effort required.
+    </p>
+  </div>
+
+  <!-- Processing Flow -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Processing Flow</div>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-box flow-inbox">📥 Gmail Inbox</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box flow-classify">🤖 Smart Classifier Agent</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box flow-label">📂 Gmail Labels</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-box flow-pipeline">⚡ Pipeline (if applicable)</div>
+      </div>
+      <div class="flow-row" style="margin-top:4px">
+        <span class="flow-note">Step 1: Check date → if before Feb 20, 2026 → apply "History" label + category label</span>
+      </div>
+      <div class="flow-row" style="margin-top:0">
+        <span class="flow-note">Step 2: Classify by sender domain/email patterns → apply category label</span>
+      </div>
+      <div class="flow-row" style="margin-top:0">
+        <span class="flow-note">Step 3: Route to existing BANF pipeline if email is actionable (payments, RSVPs, etc.)</span>
+      </div>
+      <div class="flow-row" style="margin-top:0">
+        <span class="flow-note">Step 4: Remove from Inbox (moved to label folders) — keeps inbox clean</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Distribution Table -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Inbox Distribution Analysis</div>
+    <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;overflow:hidden">
+      <table>
+        <thead>
+          <tr>
+            <th>Label</th>
+            <th>Count</th>
+            <th>Distribution</th>
+            <th style="text-align:center">Pre Feb-20<br>(→ History)</th>
+            <th style="text-align:center">Post Feb-20<br>(→ Active)</th>
+            <th>Pipeline</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🎉 <strong>Evite/RSVP</strong></td>
+            <td><strong>~3,500</strong></td>
+            <td><span class="bar" style="width:200px;background:#e91e63"></span></td>
+            <td style="text-align:center">~3,350</td>
+            <td style="text-align:center">~150</td>
+            <td><span style="color:#4ade80">→ Bosonto Pipeline</span></td>
+          </tr>
+          <tr>
+            <td>📣 <strong>Social/Promo</strong></td>
+            <td><strong>~2,400</strong></td>
+            <td><span class="bar" style="width:140px;background:#9c27b0"></span></td>
+            <td style="text-align:center">~2,300</td>
+            <td style="text-align:center">~100</td>
+            <td><span style="color:#64748b">Archive only</span></td>
+          </tr>
+          <tr>
+            <td>🏦 <strong>Wells Fargo</strong></td>
+            <td><strong>~762</strong></td>
+            <td><span class="bar" style="width:44px;background:#d71e28"></span></td>
+            <td style="text-align:center">717</td>
+            <td style="text-align:center">45</td>
+            <td><span style="color:#4ade80">→ WF Zelle Scanner + Statement Parser</span></td>
+          </tr>
+          <tr>
+            <td>👥 <strong>Members/Personal</strong></td>
+            <td><strong>~520</strong></td>
+            <td><span class="bar" style="width:30px;background:#f59e0b"></span></td>
+            <td style="text-align:center">474</td>
+            <td style="text-align:center">46</td>
+            <td><span style="color:#4ade80">→ User Query Agent</span></td>
+          </tr>
+          <tr>
+            <td>🌏 <strong>Community Orgs</strong></td>
+            <td><strong>~316</strong></td>
+            <td><span class="bar" style="width:18px;background:#06b6d4"></span></td>
+            <td style="text-align:center">~290</td>
+            <td style="text-align:center">~26</td>
+            <td><span style="color:#64748b">Archive only</span></td>
+          </tr>
+          <tr>
+            <td>🔧 <strong>Wix Platform</strong></td>
+            <td><strong>~218</strong></td>
+            <td><span class="bar" style="width:13px;background:#3b82f6"></span></td>
+            <td style="text-align:center">186</td>
+            <td style="text-align:center">32</td>
+            <td><span style="color:#64748b">Admin notification</span></td>
+          </tr>
+          <tr>
+            <td>💰 <strong>Payments</strong></td>
+            <td><strong>~149</strong></td>
+            <td><span class="bar" style="width:8px;background:#00bcd4"></span></td>
+            <td style="text-align:center">144</td>
+            <td style="text-align:center">5</td>
+            <td><span style="color:#4ade80">→ Payment Purpose Engine</span></td>
+          </tr>
+          <tr>
+            <td>🔴 <strong>EC Members</strong></td>
+            <td><strong>~81</strong></td>
+            <td><span class="bar" style="width:5px;background:#ef4444"></span></td>
+            <td style="text-align:center">52</td>
+            <td style="text-align:center">29</td>
+            <td><span style="color:#fbbf24">⚡ Priority — stays in Inbox too</span></td>
+          </tr>
+          <tr>
+            <td>🧊 <strong>Zoom/Meetings</strong></td>
+            <td><strong>~68</strong></td>
+            <td><span class="bar" style="width:4px;background:#6366f1"></span></td>
+            <td style="text-align:center">67</td>
+            <td style="text-align:center">1</td>
+            <td><span style="color:#64748b">Archive only</span></td>
+          </tr>
+          <tr>
+            <td>🔐 <strong>Google/Admin</strong></td>
+            <td><strong>~60</strong></td>
+            <td><span class="bar" style="width:4px;background:#4285f4"></span></td>
+            <td style="text-align:center">54</td>
+            <td style="text-align:center">6</td>
+            <td><span style="color:#64748b">Admin notification</span></td>
+          </tr>
+          <tr>
+            <td>🏫 <strong>Schools/Venue</strong></td>
+            <td><strong>~37</strong></td>
+            <td><span class="bar" style="width:3px;background:#4caf50"></span></td>
+            <td style="text-align:center">22</td>
+            <td style="text-align:center">15</td>
+            <td><span style="color:#fbbf24">⚡ Priority — stays in Inbox too</span></td>
+          </tr>
+          <tr>
+            <td>🛡️ <strong>Insurance/Services</strong></td>
+            <td><strong>~24</strong></td>
+            <td><span class="bar" style="width:2px;background:#795548"></span></td>
+            <td style="text-align:center">23</td>
+            <td style="text-align:center">1</td>
+            <td><span style="color:#64748b">Admin notification</span></td>
+          </tr>
+          <tr>
+            <td>💻 <strong>Dev</strong></td>
+            <td><strong>~20</strong></td>
+            <td><span class="bar" style="width:2px;background:#238636"></span></td>
+            <td style="text-align:center">13</td>
+            <td style="text-align:center">7</td>
+            <td><span style="color:#64748b">Dev ops only</span></td>
+          </tr>
+          <tr style="background:#1e1b4b">
+            <td>📜 <strong style="color:#fbbf24">History</strong></td>
+            <td><strong style="color:#fbbf24">11,240</strong></td>
+            <td colspan="3" style="color:#94a3b8;font-size:11px">
+              All emails before Feb 20, 2026 get <strong>both</strong> the category label AND the History label.
+              Removed from Inbox — accessible via "History" label search.
+            </td>
+            <td><span style="color:#64748b">Archive</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:#64748b;font-size:11px;margin-top:8px">* Counts are from live scan of 11,640 inbox messages. ~5,400 messages had rate-limited metadata (estimated as 60% Evite, 25% Promo, 15% Other based on full-data samples).</p>
+  </div>
+
+  <!-- Proposed Labels Detail -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Proposed Gmail Labels &amp; Classification Rules</div>
+    <div class="cat-grid">
+
+      <!-- Wells Fargo -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#fecaca">🏦</div>
+          <div>
+            <div class="cat-name">Wells Fargo</div>
+            <div class="cat-count"><strong>762</strong> emails • 45 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Bank statements, Zelle payment notifications, card alerts, account updates</div>
+          <div class="cat-pipeline" style="background:#14532d;color:#4ade80">⚡ Payment Pipeline: WF Zelle Scanner → Payment Purpose Engine → CRM Update</div>
+          <div class="cat-rule">Sender: <code>*@wellsfargo.com</code>, <code>*@notify.wellsfargo.com</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 16, 2026</span>
+              <span class="from">Wells Fargo</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Wells Fargo card was used for a purchase online, by phone...</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 15, 2026</span>
+              <span class="from">Wells Fargo</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">You received money with Zelle(R)</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 14, 2026</span>
+              <span class="from">Wells Fargo</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Account update</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Evite/RSVP -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#fce7f3">🎉</div>
+          <div>
+            <div class="cat-name">Evite/RSVP</div>
+            <div class="cat-count"><strong>~3,500</strong> emails • ~150 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Evite invitations, RSVP notifications, guest responses for all BANF events</div>
+          <div class="cat-pipeline" style="background:#14532d;color:#4ade80">⚡ Bosonto Pipeline: Email Reader → RSVP Parser → CRM + Smart Tier Resolution</div>
+          <div class="cat-rule">Sender: <code>*@evite.com</code>, <code>*@mailva.evite.com</code></div>
+          <div class="cat-rule">Subject: <code>New RSVP from</code>, <code>Evite update</code>, <code>RSVP</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 17, 2026</span>
+              <span class="from">Evite</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Evite update | New RSVP from Lmukhe@yahoo.com</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 16, 2026</span>
+              <span class="from">Evite</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Evite update | New RSVP from Ritabhattacharjee</span>
+            </div>
+            <div class="sample">
+              <span class="date">Oct 12, 2024</span>
+              <span class="from">Evite</span><span class="tag tag-history">HISTORY</span><br>
+              <span class="subj">This just in! You got a new RSVP from Mousumi Ghosh</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EC Members -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#fee2e2">🔴</div>
+          <div>
+            <div class="cat-name">EC Members</div>
+            <div class="cat-count"><strong>81</strong> emails • 29 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Direct emails from EC members — always high priority, stays in Inbox + gets label</div>
+          <div class="cat-pipeline" style="background:#78350f;color:#fbbf24">⚡ PRIORITY: Remains in Inbox (not archived) + labeled for tracking</div>
+          <div class="cat-rule">Sender: <code>ranadhir.ghosh@</code>, <code>partha*</code>, <code>amitchandak*</code>,</div>
+          <div class="cat-rule"><code>rajanya*</code>, <code>moumita*</code>, <code>soumyajit*</code>, <code>sumantaghosh*</code>, <code>rwiti*</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 17, 2026</span>
+              <span class="from">Ranadhir Ghosh</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Email address for new member chirodeb</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 16, 2026</span>
+              <span class="from">Ghosh, Ranadhir</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Quick Question – Online Notarization for Release Form</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 14, 2026</span>
+              <span class="from">Sumanta Ghosh</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Re: URGENT: BANF Membership Fees Verification</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schools/Venue -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#dcfce7">🏫</div>
+          <div>
+            <div class="cat-name">Schools/Venue</div>
+            <div class="cat-count"><strong>37</strong> emails • 15 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">SJCSD, Mill Creek Academy, Facilitron — venue booking correspondence</div>
+          <div class="cat-pipeline" style="background:#78350f;color:#fbbf24">⚡ PRIORITY: Remains in Inbox (not archived) + labeled for tracking</div>
+          <div class="cat-rule">Sender: <code>*@stjohns.k12.fl.us</code>, <code>*@facilitron.com</code>, <code>*.edu</code></div>
+          <div class="cat-rule">Subject: <code>facility use</code>, <code>venue</code>, <code>Mill Creek</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 17, 2026</span>
+              <span class="from">Jacqueline Ottosen</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">RE: Facility Use Request – Bengali Association of NF</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 17, 2026</span>
+              <span class="from">Ghosh, Ranadhir</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">RE: Facility Use Request – Bengali Association of NF</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 12, 2026</span>
+              <span class="from">Dr. Kenneth Goodwin</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Re: Community Event Venue Rental at Mill Creek Academy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Members/Personal -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#fef9c3">👥</div>
+          <div>
+            <div class="cat-name">Members/Personal</div>
+            <div class="cat-count"><strong>520</strong> emails • 46 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Personal emails from BANF members, volunteers, and community contacts</div>
+          <div class="cat-pipeline" style="background:#14532d;color:#4ade80">⚡ User Query Agent → member support / EC escalation</div>
+          <div class="cat-rule">Sender: <code>*@gmail.com</code>, <code>*@yahoo.com</code>, <code>*@hotmail.com</code>,</div>
+          <div class="cat-rule"><code>*@outlook.com</code>, <code>*@aol.com</code>, <code>*@icloud.com</code> (not EC)</div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 16, 2026</span>
+              <span class="from">Bengali Association of NF</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">JAGRITI2025_Final Version</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 14, 2026</span>
+              <span class="from">Jacksonville Local Spirit Events</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Fwd: Venue booking request - 25th April (9 am to 5 pm)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payments -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#cffafe">💰</div>
+          <div>
+            <div class="cat-name">Payments</div>
+            <div class="cat-count"><strong>149</strong> emails • 5 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">PayPal, invoices, receipts, payment notifications (non-Wells Fargo)</div>
+          <div class="cat-pipeline" style="background:#14532d;color:#4ade80">⚡ Payment Purpose Engine → classify + CRM Update</div>
+          <div class="cat-rule">Sender: <code>*@paypal.com</code>, <code>*@venmo.com</code>, <code>*@square.com</code></div>
+          <div class="cat-rule">Subject: <code>you received $</code>, <code>payment of $</code>, <code>invoice</code>, <code>receipt</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 10, 2026</span>
+              <span class="from">Bengali Association of NF</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">receipt check for reimbursement module</span>
+            </div>
+            <div class="sample">
+              <span class="date">Feb 25, 2026</span>
+              <span class="from">Ranadhir Ghosh</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Fwd: Your Instacart order receipt</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wix Platform -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#dbeafe">🔧</div>
+          <div>
+            <div class="cat-name">Wix Platform</div>
+            <div class="cat-count"><strong>218</strong> emails • 32 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Wix login codes, site stats, CRM notifications, new subscriber alerts, Wix Forms</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Admin / Notifications only</div>
+          <div class="cat-rule">Sender: <code>*@wix.com</code>, <code>*@wixsite.com</code>, <code>*@wixforms.com</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 15, 2026</span>
+              <span class="from">Wix Studio</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Start earning revenue share as a Partner</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 12, 2026</span>
+              <span class="from">Wix.com</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Here's your login confirmation code</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Orgs -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#e0f2fe">🌏</div>
+          <div>
+            <div class="cat-name">Community Orgs</div>
+            <div class="cat-count"><strong>~316</strong> emails • ~26 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">NABC, DesiConnect, AAUC, Heartfulness, Indian community organizations</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Archive — reference only</div>
+          <div class="cat-rule">Sender: <code>*nabc*</code>, <code>*desiconnect*</code>, <code>*aauc*</code>,</div>
+          <div class="cat-rule"><code>*heartfulness*</code>, <code>*asamunity*</code>, <code>*mea.gov.in</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 2, 2026</span>
+              <span class="from">NABC 2026</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Register Early &amp; Support NABC 2026 - Let's Build History</span>
+            </div>
+            <div class="sample">
+              <span class="date">Feb 24, 2026</span>
+              <span class="from">DesiConnect USA</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Happy Women's Day from DesiConnectEvents</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social/Promo -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#f3e8ff">📣</div>
+          <div>
+            <div class="cat-name">Social/Promo</div>
+            <div class="cat-count"><strong>~2,400</strong> emails • ~100 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Instagram, newsletters, Harbor Freight, marketing, promotional emails, subscriptions</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Archive — no action needed</div>
+          <div class="cat-rule">Sender: <code>*instagram*</code>, <code>*facebook*</code>, <code>*linkedin*</code>,</div>
+          <div class="cat-rule"><code>*harborfreight*</code>, <code>*neven*</code>, <code>*bartesian*</code>, etc.</div>
+          <div class="cat-rule">Subject: <code>unsubscribe</code>, <code>newsletter</code>, <code>% off</code>, <code>sale</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 16, 2026</span>
+              <span class="from">Instagram</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">banf_jax, see abpanandatv, pritom_gh01 and more in Feed</span>
+            </div>
+            <div class="sample">
+              <span class="date">Mar 14, 2026</span>
+              <span class="from">Harbor Freight</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">BENGALI, DON'T FORGET: YOUR 20% OFF COUPON EXPIRES SOON!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google/Admin -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#dbeafe">🔐</div>
+          <div>
+            <div class="cat-name">Google/Admin</div>
+            <div class="cat-count"><strong>60</strong> emails • 6 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Google security alerts, sign-in verification, account notifications</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Admin notification</div>
+          <div class="cat-rule">Sender: <code>*@accounts.google.com</code>, <code>no-reply@google.com</code></div>
+          <div class="cat-rule">Subject: <code>Security alert</code>, <code>sign-in</code>, <code>verification</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 15, 2026</span>
+              <span class="from">Google</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Security alert</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insurance -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#efebe9">🛡️</div>
+          <div>
+            <div class="cat-name">Insurance/Services</div>
+            <div class="cat-count"><strong>24</strong> emails • 1 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Event insurance, liability certificates, policy renewals</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Admin notification</div>
+          <div class="cat-rule">Sender: <code>*eventsured*</code>, <code>*insurance*</code>, <code>*geico*</code></div>
+          <div class="cat-rule">Subject: <code>insurance</code>, <code>policy</code>, <code>certificate</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 3, 2026</span>
+              <span class="from">Ranadhir Ghosh</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Fwd: Event Insurance Policy - Certificate #TM50992</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zoom -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#e0e7ff">🧊</div>
+          <div>
+            <div class="cat-name">Zoom/Meetings</div>
+            <div class="cat-count"><strong>68</strong> emails • 1 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">Zoom meeting notifications, marketing, meeting notes</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Archive only</div>
+          <div class="cat-rule">Sender: <code>*@zoom.us</code>, <code>*@zoom.com</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Feb 25, 2026</span>
+              <span class="from">Zoom</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Wait! You just missed free AI meeting notes.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dev -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#d1fae5">💻</div>
+          <div>
+            <div class="cat-name">Dev</div>
+            <div class="cat-count"><strong>20</strong> emails • 7 active <span style="color:#4ade80;font-size:11px">(already exists)</span></div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">GitHub Actions, CI/CD, Wix deploys, domain/SSL — label already exists and is active</div>
+          <div class="cat-pipeline" style="background:#1e293b;color:#94a3b8">Dev ops only</div>
+          <div class="cat-rule">Sender: <code>*@github.com</code>, <code>*wix*</code> (deploy/stats)</div>
+          <div class="cat-rule">Subject: <code>[GitHub]</code>, <code>workflow run</code>, <code>dependabot</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Mar 16, 2026</span>
+              <span class="from">banfjax-hash (GitHub)</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compliance -->
+      <div class="cat-card">
+        <div class="cat-header">
+          <div class="cat-icon" style="background:#fef3c7">📋</div>
+          <div>
+            <div class="cat-name">Compliance/Legal</div>
+            <div class="cat-count"><strong>~49</strong> emails • ~5 active</div>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="cat-desc">501(c)(3) filings, Florida annual reports, tax-exempt status</div>
+          <div class="cat-pipeline" style="background:#78350f;color:#fbbf24">⚡ Important — stays in Inbox too</div>
+          <div class="cat-rule">Sender: <code>*501c3center*</code>, <code>*fileflorida*</code></div>
+          <div class="cat-rule">Subject: <code>tax-exempt</code>, <code>annual report</code>, <code>501(c)(3)</code></div>
+          <div class="cat-samples">
+            <div class="sample">
+              <span class="date">Feb 28, 2026</span>
+              <span class="from">my501c3center.com</span><span class="tag tag-active">ACTIVE</span><br>
+              <span class="subj">Keep Your Tax-Exempt Status Active</span>
+            </div>
+            <div class="sample">
+              <span class="date">Feb 15, 2026</span>
+              <span class="from">fileflorida.com</span><span class="tag tag-history">HISTORY</span><br>
+              <span class="subj">Reminder: 31 days left for Bengali Association Of North Flor...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Special Rules -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Special Processing Rules</div>
+    <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px">
+      <table>
+        <thead>
+          <tr><th style="width:30%">Rule</th><th>Behavior</th><th style="width:20%">Reason</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:#fbbf24">📜 History Label</strong></td>
+            <td>All emails before Feb 20, 2026 get <code style="color:#a5b4fc">History</code> label + their category label + <strong>removed from Inbox</strong></td>
+            <td>Declutter inbox</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#ef4444">🔴 EC Members — KEEP</strong></td>
+            <td>EC member emails are labeled but <strong style="color:#4ade80">NOT removed from Inbox</strong> (active ones only)</td>
+            <td>President must see these</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#4caf50">🏫 Schools/Venue — KEEP</strong></td>
+            <td>School/venue emails are labeled but <strong style="color:#4ade80">NOT removed from Inbox</strong> (active ones only)</td>
+            <td>Active venue negotiations</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#fbbf24">📋 Compliance — KEEP</strong></td>
+            <td>501(c)(3) and filing emails are labeled but <strong style="color:#4ade80">NOT removed from Inbox</strong></td>
+            <td>Legal deadlines</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#d71e28">🏦 Wells Fargo — PIPELINE</strong></td>
+            <td>Zelle notifications → WF Zelle Scanner → Payment Purpose Engine → CRM update</td>
+            <td>Auto payment tracking</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#e91e63">🎉 Evite — PIPELINE</strong></td>
+            <td>New RSVPs → Bosonto Email Reader → RSVP Parser → CRM member matching</td>
+            <td>Auto RSVP tracking</td>
+          </tr>
+          <tr>
+            <td><strong>📣 Social/Promo — ARCHIVE</strong></td>
+            <td>Label + remove from Inbox immediately. No pipeline processing needed.</td>
+            <td>Noise reduction</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- What Changes -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> What Changes After Approval</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px">
+        <h3 style="color:#ef4444;font-size:14px;margin-bottom:12px">❌ Before (Current State)</h3>
+        <ul style="color:#94a3b8;font-size:12px;padding-left:16px">
+          <li>11,640 emails piled up in Inbox</li>
+          <li>Wells Fargo alerts mixed with Harbor Freight spam</li>
+          <li>EC member emails buried under Evite notifications</li>
+          <li>No way to quickly find venue/school correspondence</li>
+          <li>Only 1 label exists (Dev — just created)</li>
+          <li>Important compliance emails lost in noise</li>
+        </ul>
+      </div>
+      <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px">
+        <h3 style="color:#4ade80;font-size:14px;margin-bottom:12px">✅ After (Post-Approval)</h3>
+        <ul style="color:#94a3b8;font-size:12px;padding-left:16px">
+          <li>Clean inbox — only priority items visible</li>
+          <li>14 organized Gmail labels for easy navigation</li>
+          <li>11,240 old emails archived under "History" label</li>
+          <li>Wells Fargo payments auto-processed via pipeline</li>
+          <li>School/Venue &amp; EC emails always visible in Inbox</li>
+          <li>Agent runs automatically on schedule</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Execution Plan -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span> Execution Plan (After Approval)</div>
+    <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px">
+      <table>
+        <thead><tr><th>Phase</th><th>Action</th><th style="width:15%">Est. Time</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong style="color:#38bdf8">Phase 1</strong></td>
+            <td>Create all 14 Gmail labels</td>
+            <td>~5 seconds</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#38bdf8">Phase 2</strong></td>
+            <td>Process all 11,640 inbox emails: classify → label → archive (except priority categories)</td>
+            <td>~15-20 min</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#38bdf8">Phase 3</strong></td>
+            <td>Verify: count emails per label, confirm priority items still in Inbox</td>
+            <td>~1 min</td>
+          </tr>
+          <tr>
+            <td><strong style="color:#38bdf8">Phase 4</strong></td>
+            <td>Enable ongoing mode: agent polls inbox every 30 min for new emails</td>
+            <td>Continuous</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Approval -->
+  <div class="section">
+    <div class="approval">
+      <h2>🗳️ Presidential Approval Required</h2>
+      <p>
+        This plan will organize <strong>11,640 inbox emails</strong> into <strong>14 labeled categories</strong>, 
+        archive 11,240 historical emails, and keep your inbox clean going forward. 
+        No emails will be deleted — only labeled and optionally archived from Inbox view.
+      </p>
+      <p style="color:#a5b4fc;font-size:12px;margin-bottom:20px">
+        <strong>Safe operation:</strong> All emails remain accessible via their labels. 
+        "Archive" = removed from Inbox view, not deleted. Fully reversible.
+      </p>
+      <div class="actions">
+        <span class="btn btn-approve">✅ Approve — Run the Agent</span>
+        <span class="btn btn-modify">✏️ Request Modifications</span>
+      </div>
+      <p style="color:#64748b;font-size:11px;margin-top:16px">
+        Generated: March 17, 2026 | Agent: banf-email-inbox-cleanup-agent.js (enhanced) | Scan: 11,640 messages analyzed
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div style="background:#0f172a;padding:24px;text-align:center;border-top:1px solid #1e293b">
+  <p style="color:#475569;font-size:11px">BANF Agentic Platform • Email Inbox Organization Module • Confidential</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "totalEnqueued": 29,
+  "totalProcessed": 12,
+  "totalFailed": 0,
+  "totalDLQ": 0,
+  "totalDeduplicated": 0,
+  "totalRetried": 0,
+  "byQueue": {
+    "general": {
+      "enqueued": 17,
+      "processed": 0,
+      "failed": 0
+    },
+    "user_query": {
+      "enqueued": 12,
+      "processed": 12,
+      "failed": 0
+    }
+  },
+  "lastUpdated": "2026-03-17T23:55:08.113Z",
+  "createdAt": "2026-03-16T01:15:00.835Z"
+}

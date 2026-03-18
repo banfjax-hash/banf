@@ -1,0 +1,29 @@
+[
+  {
+    "timestamp": "2026-03-18T01:33:12.646Z",
+    "mode": "live",
+    "scanned": 11640,
+    "moved": 7167,
+    "errors": 1582,
+    "historyCount": 11240,
+    "uncategorized": 2891,
+    "elapsed": 3701.4,
+    "categories": {
+      "EC Members": 69,
+      "Schools/Venue": 15,
+      "Compliance": 46,
+      "Wells Fargo": 764,
+      "Dev": 0,
+      "Payments": 196,
+      "Insurance": 16,
+      "Zoom": 199,
+      "Google/Admin": 302,
+      "Wix": 407,
+      "Evite/RSVP": 3605,
+      "Community Orgs": 536,
+      "Social/Promo": 1258,
+      "Members": 1336,
+      "Uncategorized": 2891
+    }
+  }
+]

@@ -1,0 +1,520 @@
+{
+  "timestamp": "2026-03-13T18:40:30.225Z",
+  "total": 60,
+  "passed": 60,
+  "failed": 0,
+  "passRate": "100.0%",
+  "suites": {
+    "ENDPOINT HEALTH & REGISTRATION CHECKS": {
+      "passed": 13,
+      "failed": 0,
+      "tests": [
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_role_add: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_role_revoke: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_roles: registered (not 404)",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_signup_direct: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_set_password: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_save_profile: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_onboard_complete: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_verify_login: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_onboard_verify: registered (not 404)",
+          "status": "PASS",
+          "actual": "400",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "ec_send_all_invitations: registered (not 404)",
+          "status": "PASS",
+          "actual": "403",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "ec_signup_congratulations: registered (not 404)",
+          "status": "PASS",
+          "actual": "403",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "admin_dashboard: registered (not 404)",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "≠404",
+          "details": ""
+        },
+        {
+          "suite": "ENDPOINT HEALTH & REGISTRATION CHECKS",
+          "test": "seed_system: registered (not 404)",
+          "status": "PASS",
+          "actual": "403",
+          "expected": "≠404",
+          "details": ""
+        }
+      ]
+    },
+    "EC MEMBER ONBOARDING PIPELINE": {
+      "passed": 32,
+      "failed": 0,
+      "tests": [
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add → success = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add → has 'setupToken'",
+          "status": "PASS",
+          "actual": "DS8ZRnQYTPHUn3qanvwjeWMGvyXG8QfpaE3k",
+          "expected": "defined",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add → has 'onboardUrl'",
+          "status": "PASS",
+          "actual": "https://banfjax-hash.github.io/banf/admin-portal.html?email=ranadhir.ghosh%40gmail.com&token=DS8ZRnQYTPHUn3qanvwjeWMGvyXG8QfpaE3k",
+          "expected": "defined",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add[EC] → emailSent = false",
+          "status": "PASS",
+          "actual": "false",
+          "expected": "false",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add[EC] → has 'emailSkipped'",
+          "status": "PASS",
+          "actual": "EC members receive invitation via ec_send_all_invitations endpoint",
+          "expected": "defined",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add[EC] → emailSkipped contains 'ec_send_all_invitations'",
+          "status": "PASS",
+          "actual": "EC members receive invitation via ec_send_all_invitations endpoint",
+          "expected": "contains 'ec_send_all_invitations'",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add[EC] → message contains 'ec_send_all_invitations'",
+          "status": "PASS",
+          "actual": "EC role ec_member assigned to ranadhir.ghosh@gmail.com. Use ec_send_all_invitations to send the EC onboarding email.",
+          "expected": "contains 'ec_send_all_invitations'",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_role_add → onboardUrl contains 'banfjax-hash.github.io/banf/'",
+          "status": "PASS",
+          "actual": "https://banfjax-hash.github.io/banf/admin-portal.html?email=ranadhir.ghosh%40gmail.com&token=DS8ZRnQYTPHUn3qanvwjeWMGvyX",
+          "expected": "contains 'banfjax-hash.github.io/banf/'",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "ec_send_all_invitations: endpoint reachable",
+          "status": "PASS",
+          "actual": "DISABLED (403)",
+          "expected": "reachable",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_signup_direct → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_signup_direct → success = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_signup_direct → has 'setupToken'",
+          "status": "PASS",
+          "actual": "9Ga4zjuBzpFm7aPh8UPqdaW6MfEvHnhpr56s",
+          "expected": "defined",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_signup_direct → role = ec_member",
+          "status": "PASS",
+          "actual": "ec_member",
+          "expected": "ec_member",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_signup_direct → ecTitle = President",
+          "status": "PASS",
+          "actual": "President",
+          "expected": "President",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_set_password → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_set_password → success = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_save_profile → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_save_profile → success = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_onboard_complete → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_onboard_complete → success = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_onboard_complete → has 'portalUrl'",
+          "status": "PASS",
+          "actual": "https://banfjax-hash.github.io/banf/admin-portal.html?email=ranadhir.ghosh%40gmail.com",
+          "expected": "defined",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_onboard_complete → portalUrl contains 'banfjax-hash.github.io/banf/'",
+          "status": "PASS",
+          "actual": "https://banfjax-hash.github.io/banf/admin-portal.html?email=ranadhir.ghosh%40gmail.com",
+          "expected": "contains 'banfjax-hash.github.io/banf/'",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_verify_login → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_verify_login → success = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_verify_login → adminRole = ec_member",
+          "status": "PASS",
+          "actual": "ec_member",
+          "expected": "ec_member",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "admin_verify_login → ecTitle = President",
+          "status": "PASS",
+          "actual": "President",
+          "expected": "President",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "ec_signup_congratulations: endpoint reachable",
+          "status": "PASS",
+          "actual": "DISABLED (403)",
+          "expected": "reachable",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "DB: record exists",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "DB → role = ec_member",
+          "status": "PASS",
+          "actual": "ec_member",
+          "expected": "ec_member",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "DB → isActive = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "EC MEMBER ONBOARDING PIPELINE",
+          "test": "DB → ecTitle = President",
+          "status": "PASS",
+          "actual": "President",
+          "expected": "President",
+          "details": ""
+        }
+      ]
+    },
+    "STAKEHOLDER ADMIN VERIFICATION PIPELINE": {
+      "passed": 5,
+      "failed": 0,
+      "tests": [
+        {
+          "suite": "STAKEHOLDER ADMIN VERIFICATION PIPELINE",
+          "test": "stakeholder_login_check → HTTP 200",
+          "status": "PASS",
+          "actual": "200",
+          "expected": "200",
+          "details": ""
+        },
+        {
+          "suite": "STAKEHOLDER ADMIN VERIFICATION PIPELINE",
+          "test": "stakeholder: valid response",
+          "status": "PASS",
+          "actual": "{\"success\":true,\"noPassword\":true}",
+          "expected": "success OR needsOnboarding OR noPassword",
+          "details": ""
+        },
+        {
+          "suite": "STAKEHOLDER ADMIN VERIFICATION PIPELINE",
+          "test": "DB: record exists",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        },
+        {
+          "suite": "STAKEHOLDER ADMIN VERIFICATION PIPELINE",
+          "test": "DB → role = super_admin",
+          "status": "PASS",
+          "actual": "super_admin",
+          "expected": "super_admin",
+          "details": ""
+        },
+        {
+          "suite": "STAKEHOLDER ADMIN VERIFICATION PIPELINE",
+          "test": "DB → isActive = true",
+          "status": "PASS",
+          "actual": "true",
+          "expected": "true",
+          "details": ""
+        }
+      ]
+    },
+    "EC ↔ STAKEHOLDER ISOLATION TESTS": {
+      "passed": 7,
+      "failed": 0,
+      "tests": [
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "EC isolation: no generic email sent",
+          "status": "PASS",
+          "actual": "false",
+          "expected": "false",
+          "details": "EC members must NOT receive the stakeholder role_welcome email"
+        },
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "EC isolation: emailSkipped present",
+          "status": "PASS",
+          "actual": "EC members receive invitation via ec_send_all_invitations endpoint",
+          "expected": "present",
+          "details": ""
+        },
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "EC isolation: message references EC endpoint",
+          "status": "PASS",
+          "actual": "EC role ec_member assigned to ranadhir.ghosh@gmail.com. Use ec_send_all_invitations to send the EC o",
+          "expected": "contains ec_send_all_invitations",
+          "details": ""
+        },
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "URL: uses GitHub Pages",
+          "status": "PASS",
+          "actual": "https://banfjax-hash.github.io/banf/admin-portal.html?email=ranadhir.ghosh%40gmail.com&token=Ba8vccyQy9YccKMCdBAQFeAt48re3QVpGUCk",
+          "expected": "contains banfjax-hash.github.io",
+          "details": ""
+        },
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "URL: no old jaxbengali.org",
+          "status": "PASS",
+          "actual": "https://banfjax-hash.github.io/banf/admin-portal.html?email=ranadhir.ghosh%40gmail.com&token=Ba8vccyQy9YccKMCdBAQFeAt48re3QVpGUCk",
+          "expected": "must NOT contain www.jaxbengali.org",
+          "details": ""
+        },
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "ec_send_all_invitations: not 404",
+          "status": "PASS",
+          "actual": "403",
+          "expected": "not 404",
+          "details": ""
+        },
+        {
+          "suite": "EC ↔ STAKEHOLDER ISOLATION TESTS",
+          "test": "ec_signup_congratulations: not 404",
+          "status": "PASS",
+          "actual": "403",
+          "expected": "not 404",
+          "details": ""
+        }
+      ]
+    },
+    "GITHUB ACTIONS BUILD STATUS": {
+      "passed": 3,
+      "failed": 0,
+      "tests": [
+        {
+          "suite": "GITHUB ACTIONS BUILD STATUS",
+          "test": "GitHub Pages build → latest completed",
+          "status": "PASS",
+          "actual": "success",
+          "expected": "success",
+          "details": "Last build success. URL: https://github.com/banfjax-hash/banf/actions/runs/23064273512"
+        },
+        {
+          "suite": "GITHUB ACTIONS BUILD STATUS",
+          "test": "GitHub Pages build → conclusion = success",
+          "status": "PASS",
+          "actual": "success",
+          "expected": "success",
+          "details": ""
+        },
+        {
+          "suite": "GITHUB ACTIONS BUILD STATUS",
+          "test": "GitHub E2E tests → conclusion",
+          "status": "PASS",
+          "actual": "success",
+          "expected": "logged (informational)",
+          "details": ""
+        }
+      ]
+    }
+  },
+  "failures": []
+}

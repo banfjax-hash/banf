@@ -1786,36 +1786,92 @@ export async function get_evite_invite_status(request) {
             .catch(() => ({ items: [] }));
 
         const invitations = invResult.items;
+        const attending = invitations.filter(i => i.rsvpStatus === 'yes');
+
+        // Attendance summary
+        const totalAdults = attending.reduce((s, i) => s + (i.adults || 0), 0);
+        const totalKids = attending.reduce((s, i) => s + (i.kids || 0), 0);
+
+        // Food summary
+        const totalVeg = attending.reduce((s, i) => s + (i.vegCount || 0), 0);
+        const totalNonVeg = attending.reduce((s, i) => s + (i.nonVegCount || 0), 0);
+        const foodSpecial = attending.filter(i => i.dietary && !['unknown', 'vegetarian', 'non_vegetarian', 'mixed'].includes(i.dietary));
+        const dietaryNotes = attending.filter(i => i.notes).map(i => ({ name: i.recipientName, note: i.notes }));
+
+        // Cultural summary
+        const culturalParticipants = invitations.filter(i => i.culturalParticipant);
+        const performances = [];
+        culturalParticipants.forEach(inv => {
+            try {
+                const cd = inv.culturalData ? JSON.parse(inv.culturalData) : null;
+                if (cd && cd.performances) {
+                    cd.performances.forEach(p => {
+                        performances.push({
+                            performer: inv.recipientName,
+                            email: inv.recipientEmail,
+                            category: p.category || '',
+                            mode: p.mode || '',
+                            ageGroup: p.ageGroup || '',
+                            language: p.language || '',
+                            description: p.description || '',
+                            memberCount: p.memberCount || 1,
+                            memberNames: p.memberNames || []
+                        });
+                    });
+                }
+            } catch (_) {}
+        });
+
         const summary = {
             total: invitations.length,
             sent: invitations.filter(i => i.emailSent).length,
             opened: invitations.filter(i => i.opened).length,
             responded: invitations.filter(i => i.responded).length,
-            attending: invitations.filter(i => i.rsvpStatus === 'yes').length,
+            attending: attending.length,
             declined: invitations.filter(i => i.rsvpStatus === 'no').length,
             maybe: invitations.filter(i => i.rsvpStatus === 'maybe').length,
-            totalAdults: invitations.filter(i => i.rsvpStatus === 'yes').reduce((s, i) => s + (i.adults || 0), 0),
-            totalKids: invitations.filter(i => i.rsvpStatus === 'yes').reduce((s, i) => s + (i.kids || 0), 0)
+            pending: invitations.filter(i => !i.responded).length,
+            totalAdults,
+            totalKids,
+            totalGuests: totalAdults + totalKids,
+            food: {
+                veg: totalVeg,
+                nonVeg: totalNonVeg,
+                special: foodSpecial.length,
+                dietaryNotes
+            },
+            cultural: {
+                participants: culturalParticipants.length,
+                totalPerformances: performances.length,
+                performances
+            }
         };
 
         return jsonOk({
             summary,
-            invitations: invitations.map(inv => ({
-                recipientName: inv.recipientName,
-                recipientEmail: inv.recipientEmail,
-                recipientRole: inv.recipientRole,
-                sentAt: inv.sentAt,
-                emailSent: inv.emailSent,
-                opened: inv.opened,
-                openedAt: inv.openedAt,
-                responded: inv.responded,
-                rsvpStatus: inv.rsvpStatus,
-                adults: inv.adults || 0,
-                kids: inv.kids || 0,
-                dietary: inv.dietary || '',
-                notes: inv.notes || '',
-                respondedAt: inv.respondedAt
-            }))
+            invitations: invitations.map(inv => {
+                let cultural = null;
+                try { cultural = inv.culturalData ? JSON.parse(inv.culturalData) : null; } catch (_) {}
+                return {
+                    recipientName: inv.recipientName,
+                    recipientEmail: inv.recipientEmail,
+                    recipientRole: inv.recipientRole,
+                    sentAt: inv.sentAt,
+                    emailSent: inv.emailSent,
+                    opened: inv.opened,
+                    responded: inv.responded,
+                    rsvpStatus: inv.rsvpStatus,
+                    adults: inv.adults || 0,
+                    kids: inv.kids || 0,
+                    vegCount: inv.vegCount || 0,
+                    nonVegCount: inv.nonVegCount || 0,
+                    dietary: inv.dietary || '',
+                    notes: inv.notes || '',
+                    culturalParticipant: inv.culturalParticipant || false,
+                    cultural,
+                    respondedAt: inv.respondedAt
+                };
+            })
         });
 
     } catch (e) {

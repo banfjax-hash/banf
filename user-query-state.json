@@ -1,0 +1,269 @@
+{
+  "processedEmails": {},
+  "pendingApprovals": [
+    {
+      "id": "QA-1773623720615-zt2l",
+      "timestamp": "2026-03-16T01:15:20.615Z",
+      "email": {
+        "from": "programs@aauc.us",
+        "subject": "Town Hall Meeting: In Challenging Times, Our Voices Matter",
+        "body": "http://aauc.us?utm_source=AAUC_2026&utm_campaign=68addf2152-EMAIL_CAMPAIGN_2026_01_13_08_13_COPY_01&utm_medium=email&utm_term=0_-f8a133a269-646753843\r\n\r\nDear Friends,\r\n\r\nPlease join us for AAUC's next town hall meeting, “In Challenging Times, Our Voices Matter,” on Thursday, March 19th, at 1 PM Eastern. Register here (https://us02web.zoom.us/meeting/register/pEMGKU_qQMCxjFNlwkatDw?utm_source=AAUC_2026&utm_campaign=68addf2152-EMAIL_CAMPAIGN_2026_01_13_08_13_COPY_01&utm_medium=email&utm_term=0_-f8a133a269-646753843#/registration) .\r\n\r\nMany Asian Americans are feeling the weight of today’s global conflicts, especially with the war in Iran. The news is painful and the uncertainty is real, leaving us searching for clarity and a sense of grounding.\r\n\r\nAt moments like this, it becomes even more important to remember who we are as a community and the role we have played and continue to play in shaping America’s values, resilience, and moral leadership.\r\n\r\nThat is why we invite you to join us a"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.7333333333333334,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623720615-zt2l&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623720615-zt2l&action=reject"
+    },
+    {
+      "id": "QA-1773623721182-pud7",
+      "timestamp": "2026-03-16T01:15:21.182Z",
+      "email": {
+        "from": "Jacqueline.Ottosen@stjohns.k12.fl.us",
+        "subject": "RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)",
+        "body": "I will not be on campus tomorrow – but I will return on Tuesday if you would like to stop by then.\r\n\r\nThank you,\r\n\r\nJacque Ottosen\r\nVice Principal/LEA\r\nMill Creek Academy\r\n3750 International Golf Parkway\r\nSt. Augustine, Florida 32092\r\n(904) 547-3720\r\nwww.mca.stjohns.k12.fl.us<http://www.mca.stjohns.k12.fl.us/>\r\n\r\n**Notice of Procedural Safeguards**<http://www.fldoe.org/core/fileparse.php/7690/urlt/0070135-procedural.pdf>\r\n\r\n[cid:image001.png@01DCB24E.3E505EC0]\r\n\r\nAll correspondence sent to and from St. Johns County School District is subject to the public records law of Florida.  This law provides that any records made or received by any public agency in the course of its official business are available for inspection, unless specifically exempted by the Legislature.\r\n\r\nConfidentiality Notice: This email message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure o"
+      },
+      "classification": {
+        "category": "asset_rental",
+        "categoryType": "human_required",
+        "confidence": 0.6,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Asset availability requires manual verification",
+        "priority": "medium"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding asset rental.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Asset availability requires manual verification",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623721182-pud7&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623721182-pud7&action=reject"
+    },
+    {
+      "id": "QA-1773623721682-wwfr",
+      "timestamp": "2026-03-16T01:15:21.682Z",
+      "email": {
+        "from": "volunteerprogram@feedingnefl.org",
+        "subject": "Volunteer Shift Reminder - Feeding Northeast Florida",
+        "body": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n\t\t<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n\t\t<head>\r\n\t\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\r\n\t\t</head>\r\n\t\t<body>\r\n\t\t<p><span style=\"color: #339966;\"><span style=\"color: rgb(56, 118, 29);\"><strong>Hi Banf-jax!</strong></span></span></p>\r\n<p><span style=\"color: #339966;\"><span style=\"color: rgb(0, 0, 1);\">Reminder that you are registered to volunteer with Warehouse Opportunities on <strong>Mar 13, 2026 @ 1:00pm <span style='font-size: smaller;'>EST</span></strong>.</span></span></p><p><span style=\"color: #339966;\"><span style=\"color: rgb(0, 0, 1);\">If you cannot attend, please remove yourself from the shift by navigating to the opportunity page for that shift, click \"Manage my Responses\", and deselect the shifts you no longer can attend. Accurate attendance ensures a smooth and safe operation. Additionally, this makes room for any"
+      },
+      "classification": {
+        "category": "thank_you",
+        "categoryType": "safe",
+        "confidence": 0.7333333333333334,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "low"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question. Low-risk category - safe to auto-respond",
+      "suggestedResponse": "Dear there,\n\nThank you so much for your kind words! We truly appreciate your support and engagement with BANF.\n\nIt is members like you who make our community special. We look forward to continuing to serve you.\n\nWarm regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623721682-wwfr&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623721682-wwfr&action=reject"
+    },
+    {
+      "id": "QA-1773623722242-2b1u",
+      "timestamp": "2026-03-16T01:15:22.242Z",
+      "email": {
+        "from": "security@mail.instagram.com",
+        "subject": "New login to Instagram from Instagram on Apple iPhone",
+        "body": "Facebook We noticed a new login, banf_jax We noticed a login from a device you dont usually use. Apple iPhone · Instagram · Jacksonville, FL, United States March 11 at 11:33 AM (PDT) If this was you, you won’t be able to access certain security and account settings for a few days. You can still access these settings from a device you’ve logged in with in the past. If this wasn’t you, you can secure your account from a device you’ve logged in with in the past. Learn more © Instagram. Meta Platforms, Inc., 1601 Willow Road, Menlo Park, CA 94025 This message was sent to banfjaxgmail.com and intended for banf_jax. Not your account? Remove your email from this account."
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- Changes noted from your email (will be reviewed by our team)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623722242-2b1u&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623722242-2b1u&action=reject"
+    },
+    {
+      "id": "QA-1773623723022-8wpb",
+      "timestamp": "2026-03-16T01:15:23.022Z",
+      "email": {
+        "from": "programs@aauc.us",
+        "subject": "Town Hall Meeting: In Challenging Times, Our Voices Matter",
+        "body": "http://aauc.us?utm_source=AAUC_2026&utm_campaign=d4a77decb9-EMAIL_CAMPAIGN_2026_01_13_08_13_COPY_01&utm_medium=email&utm_term=0_-f8a133a269-646753843\r\n\r\nDear Friends,\r\n\r\nPlease join us for AAUC's next town hall meeting, “In Challenging Times, Our Voices Matter,” on Thursday, March 19th, at 1 PM Eastern. Register here (https://us02web.zoom.us/meeting/register/pEMGKU_qQMCxjFNlwkatDw?utm_source=AAUC_2026&utm_campaign=d4a77decb9-EMAIL_CAMPAIGN_2026_01_13_08_13_COPY_01&utm_medium=email&utm_term=0_-f8a133a269-646753843#/registration) .\r\n\r\nMany Asian Americans are feeling the weight of today’s global conflicts, especially with the war in Iran. The news is painful and the uncertainty is real, leaving us searching for clarity and a sense of grounding.\r\n\r\nAt moments like this, it becomes even more important to remember who we are as a community and the role we have played and continue to play in shaping America’s values, resilience, and moral leadership.\r\n\r\nThat is why we invite you to join us a"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.7333333333333334,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623723022-8wpb&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773623723022-8wpb&action=reject"
+    },
+    {
+      "id": "QA-1773624148421-oum4",
+      "timestamp": "2026-03-16T01:22:28.421Z",
+      "email": {
+        "from": "programs@aauc.us",
+        "subject": "Town Hall Meeting: In Challenging Times, Our Voices Matter",
+        "body": "http://aauc.us?utm_source=AAUC_2026&utm_campaign=68addf2152-EMAIL_CAMPAIGN_2026_01_13_08_13_COPY_01&utm_medium=email&utm_term=0_-f8a133a269-646753843\r\n\r\nDear Friends,\r\n\r\nPlease join us for AAUC's next town hall meeting, “In Challenging Times, Our Voices Matter,” on Thursday, March 19th, at 1 PM Eastern. Register here (https://us02web.zoom.us/meeting/register/pEMGKU_qQMCxjFNlwkatDw?utm_source=AAUC_2026&utm_campaign=68addf2152-EMAIL_CAMPAIGN_2026_01_13_08_13_COPY_01&utm_medium=email&utm_term=0_-f8a133a269-646753843#/registration) .\r\n\r\nMany Asian Americans are feeling the weight of today’s global conflicts, especially with the war in Iran. The news is painful and the uncertainty is real, leaving us searching for clarity and a sense of grounding.\r\n\r\nAt moments like this, it becomes even more important to remember who we are as a community and the role we have played and continue to play in shaping America’s values, resilience, and moral leadership.\r\n\r\nThat is why we invite you to join us a"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.7333333333333334,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773624148421-oum4&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773624148421-oum4&action=reject"
+    },
+    {
+      "id": "QA-1773624149092-33jj",
+      "timestamp": "2026-03-16T01:22:29.092Z",
+      "email": {
+        "from": "Jacqueline.Ottosen@stjohns.k12.fl.us",
+        "subject": "RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)",
+        "body": "I will not be on campus tomorrow – but I will return on Tuesday if you would like to stop by then.\r\n\r\nThank you,\r\n\r\nJacque Ottosen\r\nVice Principal/LEA\r\nMill Creek Academy\r\n3750 International Golf Parkway\r\nSt. Augustine, Florida 32092\r\n(904) 547-3720\r\nwww.mca.stjohns.k12.fl.us<http://www.mca.stjohns.k12.fl.us/>\r\n\r\n**Notice of Procedural Safeguards**<http://www.fldoe.org/core/fileparse.php/7690/urlt/0070135-procedural.pdf>\r\n\r\n[cid:image001.png@01DCB24E.3E505EC0]\r\n\r\nAll correspondence sent to and from St. Johns County School District is subject to the public records law of Florida.  This law provides that any records made or received by any public agency in the course of its official business are available for inspection, unless specifically exempted by the Legislature.\r\n\r\nConfidentiality Notice: This email message, including any attachments, is for the sole use of the intended recipient(s) and may contain confidential and privileged information. Any unauthorized review, use, disclosure o"
+      },
+      "classification": {
+        "category": "asset_rental",
+        "categoryType": "human_required",
+        "confidence": 0.6,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Asset availability requires manual verification",
+        "priority": "medium"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding asset rental.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Asset availability requires manual verification",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773624149092-33jj&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773624149092-33jj&action=reject"
+    },
+    {
+      "id": "QA-1773680675483-lnsi",
+      "timestamp": "2026-03-16T17:04:35.483Z",
+      "email": {
+        "from": "sumo475@gmail.com",
+        "subject": "Re: URGENT: BANF Membership Fees Verification — Please Reply ASAP",
+        "body": "I think few of the values in Early bird premium and premium as well are\r\nwrong. Please follow the amounts shown in the attached picture.\r\n\r\n*Sumanta Ghosh*\r\n*​Post doctoral research fellow*\r\n*Mayo Clinic*\r\n*Jacksonville, FL*\r\n*Email id- ​g <sghosh4@mdanderson.org>​hosh.sumanta@mayo.edu\r\n<hosh.sumanta@mayo.edu>*\r\n*Phone- 737-781-5682*\r\n\r\n\r\nOn Mon, Mar 16, 2026 at 12:56 PM BANF - Bengali Association of North\r\nFlorida <banfjax@gmail.com> wrote:\r\n\r\n> BANF Membership Fees — Verification Request\r\n>\r\n> FY 2026-27 • 6 Tiers • 4 Member Types\r\n>\r\n> Dear *Sumanta*,\r\n>\r\n> As *Event Coordinator* of the current BANF EC (2026-2028), we need your\r\n> help to verify the membership fee structure currently published on our\r\n> website.\r\n> ⚠️ Action Required — Please Reply ASAP\r\n>\r\n> Please review the fee table below and reply to this email with:\r\n>\r\n>    - *\"All numbers are correct\"* — if everything looks good\r\n>    - *Which category/tier* has the wrong number, and *what the correct\r\n>    value should be*\r"
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.85,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Member reply with update/correction request",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is a known member: Sumanta Ghosh. Email contains clear request/question",
+      "suggestedResponse": "Dear Sumanta,\n\nThank you for your update request. We have noted the following changes:\n\n- **Phone:** Updated to 737-781-5682\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773680675483-lnsi&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773680675483-lnsi&action=reject"
+    },
+    {
+      "id": "QA-1773730298374-fhit",
+      "timestamp": "2026-03-17T06:51:38.374Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "💰 Bucs Make Big Money Move",
+        "body": "Buccaneers Make Massive Contract Change With $90 Million Starter [https://heavy.com/sports/nfl/tampa-bay-buccaneers/massive-contract-change-luke-goedeke/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/massive-contract-change-luke-goedeke/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Bucs Could Turn to Struggling 1st-Round Talent to Fill Backup QB Role [https://heavy.com/sports/nfl/tampa-bay-buccaneers/bucs-could-turn-to-colts-castoff-to-fill-backup-qb-role/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers’ Split With Mike Evans Took ‘Weird’ Turn: Insider [https://heavy.com/sports/nfl/tampa-bay-buccaneers/split-with-mike-evans-took-weird-turn/?adt_ei=banfjax@gmail.com&lctg=] Bucs Predicted to Make Surprise Move With Disappointing 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fifth-year-option-calijah-kancey/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Bring Back Fan Favorite TE in Unusual Fashion ["
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- Changes noted from your email (will be reviewed by our team)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773730298374-fhit&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773730298374-fhit&action=reject"
+    },
+    {
+      "id": "QA-1773766582422-4zuf",
+      "timestamp": "2026-03-17T16:56:22.422Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "Buccaneers Make Massive Contract Change With $90 Million Starter...",
+        "body": "317&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />317&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />317&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />317&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />317&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />           SCHEDULE [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#season_schedule]  |   STATS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#team_stats]  |   DEPTH CHART [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#depth_chart]  |   INJURIES [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\nWant more Buccaneers news? Sign up for Buccaneers alerts HERE↗️. [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#subscribe-form]\r\n\r\nBuccaneers Make Massive Contract Change With $90 Million Starter [https://heavy.com/sports/nfl/tampa-bay-buccaneers/massive-contr"
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- Changes noted from your email (will be reviewed by our team)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773766582422-4zuf&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773766582422-4zuf&action=reject"
+    },
+    {
+      "id": "QA-1773791707337-rll3",
+      "timestamp": "2026-03-17T23:55:07.337Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "😑 Bucs Lose Unsung Hero",
+        "body": "Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Bucs Could Turn to Struggling 1st-Round Talent to Fill Backup QB Role [https://heavy.com/sports/nfl/tampa-bay-buccaneers/bucs-could-turn-to-colts-castoff-to-fill-backup-qb-role/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers’ Split With Mike Evans Took ‘Weird’ Turn: Insider [https://heavy.com/sports/nfl/tampa-bay-buccaneers/split-with-mike-evans-took-weird-turn/?adt_ei=banfjax@gmail.com&lctg=] Bucs Predicted to Make Surprise Move With Disappointing 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fifth-year-option-calijah-kancey/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make Massive Contract Change With $90 Million Starter ["
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- Changes noted from your email (will be reviewed by our team)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773791707337-rll3&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773791707337-rll3&action=reject"
+    }
+  ],
+  "approvedResponses": [],
+  "rejectedResponses": [],
+  "statistics": {
+    "totalProcessed": 11,
+    "totalApproved": 0,
+    "totalRejected": 0,
+    "totalAutoResponded": 0,
+    "categoryStats": {}
+  },
+  "trainingStartDate": "2026-03-16T01:15:20.615Z",
+  "autoModeEnabled": false
+}

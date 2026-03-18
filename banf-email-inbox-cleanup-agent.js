@@ -148,12 +148,18 @@ async function createLabel(token, name) {
         })
     });
     if (r.data && r.data.id) return r.data;
+    // 409 = label already exists — find it
+    if (r.status === 409 || (r.data && r.data.error && r.data.error.code === 409)) {
+        const labels = await listLabels(token);
+        const match = labels.find(l => l.name.toLowerCase() === name.toLowerCase());
+        if (match) return match;
+    }
     throw new Error('Failed to create label: ' + JSON.stringify(r.data));
 }
 
 async function getOrCreateDevLabel(token) {
     const labels = await listLabels(token);
-    const existing = labels.find(l => l.name === DEV_LABEL_NAME);
+    const existing = labels.find(l => l.name.toLowerCase() === DEV_LABEL_NAME.toLowerCase());
     if (existing) {
         log('INFO', `Label "${DEV_LABEL_NAME}" already exists (id: ${existing.id})`);
         return existing.id;

@@ -1,0 +1,665 @@
+{
+  "processedBounceIds": [
+    "19cdbffd483a1f43",
+    "19cd85b16f985967",
+    "19cd644cf726d0d9",
+    "19cd644b988850f1",
+    "19cd626f918ce09e",
+    "19cd343f4bc6d525",
+    "19cd337955cc78de",
+    "19cd3326de0df325",
+    "19cd3110c6196c5c",
+    "19cd3110a33fb8cb",
+    "19cd31108d6b4c50",
+    "19cd311056a7d3c2",
+    "19cd2fa3865b234b",
+    "19cd24397ccc046b",
+    "19cd1cf444facc58",
+    "19cd1c2909e6dcb3",
+    "19cd1bee8defe5b1",
+    "19cd1b6068ad823c",
+    "19cd1b0f04c1ba44",
+    "19cd1a90175a6ac7",
+    "19cd1a84edbd2bfe",
+    "19cd18e0e56bddbc",
+    "19cd17adfe67730f",
+    "19cd1795bbade611",
+    "19cd15ff7944e7c9",
+    "19cd149c90b68d55",
+    "19cd13e192ade832",
+    "19cd13231dbffdc4",
+    "19cd125c922268bc",
+    "19cd11fdf1ab3cb5",
+    "19cd115a14f7373a",
+    "19cd10f93cdebed8",
+    "19cd108f4fa0efc8",
+    "19cd101fe62a8edf",
+    "19cd1013de62380c",
+    "19cd0d8f4fd55834",
+    "19cd0c8844028e5a",
+    "19cd0c5f821d7535",
+    "19cd0aca661daa3e",
+    "19cd0a9e39473129",
+    "19cd085fdd8e401c",
+    "19cfcec6fec98d4d",
+    "19cfd12d1908f6bf",
+    "19cfd1ed8141ff82",
+    "19cfd2c0c03284dd"
+  ],
+  "flaggedEmails": {
+    "rajanya.ghosh@gmail.com": {
+      "reason": "mailbox_full",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-12T00:40:14.013Z",
+      "lastBounce": "2026-03-17T19:03:58.978Z",
+      "bounceCount": 38,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-12T00:40:14.014Z"
+    },
+    "deepa.shams@gmail.com": {
+      "reason": "address_not_found",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-12T00:40:14.013Z",
+      "lastBounce": "2026-03-12T00:40:14.013Z",
+      "bounceCount": 2,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-12T00:40:14.013Z"
+    },
+    "aroyc001@netzero.com": {
+      "reason": "unknown",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-12T00:40:14.013Z",
+      "lastBounce": "2026-03-12T00:40:14.013Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-12T00:40:14.013Z"
+    },
+    "jayanta0@yahoo.com": {
+      "reason": "unknown",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-12T00:40:14.013Z",
+      "lastBounce": "2026-03-12T00:40:14.013Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-12T00:40:14.013Z"
+    },
+    "bharatiart2000@yahoo.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-12T00:40:14.013Z",
+      "lastBounce": "2026-03-12T00:40:14.013Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-12T00:40:14.013Z"
+    },
+    "mitaghosh1@yahoo.com": {
+      "reason": "unknown",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-12T00:40:14.013Z",
+      "lastBounce": "2026-03-12T00:40:14.013Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-12T00:40:14.013Z"
+    },
+    "jacqueline.ottosen@stjohns.k12.fl.us": {
+      "reason": "rejected",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-17T18:33:59.258Z",
+      "lastBounce": "2026-03-17T18:33:59.258Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-17T18:33:59.258Z"
+    }
+  },
+  "recoveryActions": [
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.012Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "deepa.shams@gmail.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "deepa.shams@gmail.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "aroyc001@netzero.com",
+      "bounceReason": "unknown",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "jayanta0@yahoo.com",
+      "bounceReason": "unknown",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "bharatiart2000@yahoo.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "mitaghosh1@yahoo.com",
+      "bounceReason": "unknown",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.013Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "rajanya.ghosh@gmail.com",
+      "bounceReason": "mailbox_full",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-12T00:40:14.014Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "jacqueline.ottosen@stjohns.k12.fl.us",
+      "bounceReason": "rejected",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-17T18:33:59.258Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    }
+  ],
+  "escalations": [],
+  "spouseVerifications": [],
+  "stats": {
+    "totalBouncesProcessed": 45,
+    "totalRecovered": 0,
+    "totalEscalated": 42,
+    "totalFlagged": 42
+  },
+  "createdAt": "2026-03-12T00:40:03.652Z",
+  "lastSaved": "2026-03-17T19:03:58.978Z"
+}

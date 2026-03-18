@@ -1,0 +1,1 @@
+const { execSync } = require('child_process');try {  execSync('npx @wix/cli publish -y', {    cwd: 'C:\\projects\\banf\\banf1-wix',    stdio: 'inherit',    shell: 'cmd.exe',    timeout: 300000  });  console.log('Publish completed successfully.');} catch (err) {  console.error('Publish failed:', err.message);  process.exit(1);}

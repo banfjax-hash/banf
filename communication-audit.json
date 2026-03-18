@@ -1,0 +1,253 @@
+{
+  "entries": [
+    {
+      "id": "AUDIT-1773623720752-ghlr",
+      "timestamp": "2026-03-16T01:15:20.752Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1773623720615-zt2l]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1773623720615-zt2l]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzczNjIzNzIwNjE1LXp0Mmxd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773623721254-yj68",
+      "timestamp": "2026-03-16T01:15:21.254Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: asset_rental [QA-1773623721182-pud7]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: asset_rental [QA-1773623721182-pud7]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBhc3NldF9yZW50?=\r\n =?UTF-8?B?YWwgW1FBLTE3NzM2MjM3MjExODItcHVkN10=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773623721742-w8ie",
+      "timestamp": "2026-03-16T01:15:21.742Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: thank_you [QA-1773623721682-wwfr]",
+      "complianceScore": 85,
+      "complianceLevel": "good",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "BROKEN_HTML: Significant mismatch in HTML open/close tags",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: thank_you [QA-1773623721682-wwfr]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiB0aGFua195b3Ug?=\r\n =?UTF-8?B?W1FBLTE3NzM2MjM3MjE2ODItd3dmcl0=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773623722306-xiue",
+      "timestamp": "2026-03-16T01:15:22.306Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1773623722242-2b1u]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1773623722242-2b1u]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3MzYyMzcyMjI0Mi0yYjF1XQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773623723088-vwgd",
+      "timestamp": "2026-03-16T01:15:23.088Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1773623723022-8wpb]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1773623723022-8wpb]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzczNjIzNzIzMDIyLTh3cGJd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773624148645-xmfi",
+      "timestamp": "2026-03-16T01:22:28.645Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1773624148421-oum4]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1773624148421-oum4]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzczNjI0MTQ4NDIxLW91bTRd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773624149202-ajs3",
+      "timestamp": "2026-03-16T01:22:29.202Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: asset_rental [QA-1773624149092-33jj]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: asset_rental [QA-1773624149092-33jj]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBhc3NldF9yZW50?=\r\n =?UTF-8?B?YWwgW1FBLTE3NzM2MjQxNDkwOTItMzNqal0=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773680675564-udlx",
+      "timestamp": "2026-03-16T17:04:35.564Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1773680675483-lnsi]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1773680675483-lnsi]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3MzY4MDY3NTQ4My1sbnNpXQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773730298505-q8tj",
+      "timestamp": "2026-03-17T06:51:38.505Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1773730298374-fhit]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1773730298374-fhit]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3MzczMDI5ODM3NC1maGl0XQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773766582531-zc9f",
+      "timestamp": "2026-03-17T16:56:22.531Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1773766582422-4zuf]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1773766582422-4zuf]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3Mzc2NjU4MjQyMi00enVmXQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1773791707665-vgjn",
+      "timestamp": "2026-03-17T23:55:07.665Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1773791707337-rll3]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1773791707337-rll3]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3Mzc5MTcwNzMzNy1ybGwzXQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    }
+  ],
+  "stats": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0,
+    "warnings": 11
+  }
+}

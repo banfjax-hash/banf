@@ -1,0 +1,1 @@
+{  "name": "banf-production",  "version": "1.0.0",  "description": "BANF Web Platform - Backend Services for Production Site (www.jaxbengali.org)",  "main": "src/backend/index.js",  "scripts": {    "dev": "wix dev",    "build": "wix build",    "preview": "wix preview",    "publish": "wix publish"  },  "devDependencies": {    "@wix/cli": "^1.1.90"  }}

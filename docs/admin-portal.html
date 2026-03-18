@@ -1515,6 +1515,58 @@ We will try our best to accommodate every request. If demand exceeds the allotte
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Previously created events and their invite/RSVP status.</p>
         <div id="ev-events-list" style="font-size:.82rem;color:var(--dim)">Click &ldquo;Refresh Events&rdquo; to load.</div>
       </div>
+
+      <!-- RSVP Dashboard -->
+      <div class="card-a" id="ev-dashboard-card">
+        <h2><i class="fas fa-chart-bar"></i> RSVP Dashboard</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Live summary &amp; detail view of invitation responses for the selected event.</p>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <button onclick="eviteLoadDashboard()" class="btn-primary"><i class="fas fa-sync-alt me-1"></i>Load / Refresh Dashboard</button>
+          <button onclick="eviteExportDashboard()" class="btn-secondary"><i class="fas fa-download me-1"></i>Export CSV</button>
+          <label style="font-size:.75rem;color:var(--muted);margin-left:auto;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="ev-dash-auto-refresh" style="accent-color:var(--accent)"> Auto-refresh (30s)</label>
+        </div>
+        <div id="ev-dash-msg" style="font-size:.82rem;display:none;margin-bottom:10px"></div>
+
+        <!-- Summary KPIs -->
+        <div id="ev-dash-summary" style="display:none">
+          <h3><i class="fas fa-poll me-1"></i> Response Summary</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-response"></div>
+
+          <h3><i class="fas fa-users me-1"></i> Attendance</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-attendance"></div>
+
+          <h3><i class="fas fa-utensils me-1"></i> Food Preferences</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-food"></div>
+          <div id="ev-dash-dietary-notes" style="display:none;margin-bottom:14px"></div>
+
+          <h3><i class="fas fa-music me-1"></i> Cultural Program</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-cultural"></div>
+          <div id="ev-dash-performances" style="display:none;margin-bottom:14px"></div>
+        </div>
+
+        <!-- Detail Table -->
+        <div id="ev-dash-detail" style="display:none;margin-top:14px">
+          <h3><i class="fas fa-list-alt me-1"></i> Individual Responses</h3>
+          <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+            <button onclick="eviteDashFilter('all')" class="btn-secondary ev-df-btn active" style="padding:3px 10px;font-size:.72rem">All</button>
+            <button onclick="eviteDashFilter('yes')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Attending</button>
+            <button onclick="eviteDashFilter('no')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Declined</button>
+            <button onclick="eviteDashFilter('maybe')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Maybe</button>
+            <button onclick="eviteDashFilter('pending')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Pending</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="t" id="ev-dash-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Name</th><th>Email</th><th>Status</th><th>Adults</th><th>Kids</th>
+                  <th>Veg</th><th>Non-Veg</th><th>Dietary</th><th>Cultural</th><th>Notes</th><th>Responded</th>
+                </tr>
+              </thead>
+              <tbody id="ev-dash-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -4419,6 +4471,217 @@ async function eviteLoadRecipientPreview() {
     countEl.textContent = '';
     previewEl.innerHTML = 'Error loading members: ' + e.message;
   }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  EVITE DASHBOARD FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════
+
+let EVITE_DASH_DATA = null;
+let EVITE_DASH_FILTER = 'all';
+let EVITE_DASH_TIMER = null;
+
+function eviteDashMsg(msg, isError) {
+  const el = document.getElementById('ev-dash-msg');
+  el.style.display = 'block';
+  el.style.color = isError ? '#ef4444' : 'var(--green)';
+  el.innerHTML = (isError ? '<i class="fas fa-times-circle me-1"></i>' : '<i class="fas fa-check-circle me-1"></i>') + msg;
+  if (!isError) setTimeout(() => { el.style.display = 'none'; }, 5000);
+}
+
+async function eviteLoadDashboard() {
+  if (!EVITE_CURRENT_EVENT_ID) return eviteDashMsg('Select an event first (use Refresh Events above).', true);
+  const msgEl = document.getElementById('ev-dash-msg');
+  msgEl.style.display = 'block';
+  msgEl.style.color = 'var(--muted)';
+  msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading dashboard...';
+  try {
+    const resp = await fetch(API + '/evite_invite_status?eventId=' + encodeURIComponent(EVITE_CURRENT_EVENT_ID));
+    const data = await resp.json();
+    if (data.error) return eviteDashMsg(data.error, true);
+    EVITE_DASH_DATA = data;
+    eviteRenderDashboard();
+    msgEl.style.display = 'none';
+
+    // auto-refresh
+    const autoEl = document.getElementById('ev-dash-auto-refresh');
+    if (autoEl.checked && !EVITE_DASH_TIMER) {
+      EVITE_DASH_TIMER = setInterval(eviteLoadDashboard, 30000);
+    }
+  } catch (e) {
+    eviteDashMsg('API error: ' + e.message, true);
+  }
+}
+
+document.getElementById('ev-dash-auto-refresh')?.addEventListener('change', function() {
+  if (this.checked) {
+    if (!EVITE_DASH_TIMER && EVITE_CURRENT_EVENT_ID) {
+      EVITE_DASH_TIMER = setInterval(eviteLoadDashboard, 30000);
+    }
+  } else {
+    clearInterval(EVITE_DASH_TIMER);
+    EVITE_DASH_TIMER = null;
+  }
+});
+
+function eviteKpi(value, label, colorClass) {
+  return '<div class="kpi ' + colorClass + '"><div class="v">' + value + '</div><div class="k">' + label + '</div></div>';
+}
+
+function eviteRenderDashboard() {
+  if (!EVITE_DASH_DATA) return;
+  const s = EVITE_DASH_DATA.summary;
+  const inv = EVITE_DASH_DATA.invitations || [];
+
+  // Response KPIs
+  document.getElementById('ev-dash-kpi-response').innerHTML =
+    eviteKpi(s.total, 'Total Invited', 'blue') +
+    eviteKpi(s.sent, 'Emails Sent', 'cyan') +
+    eviteKpi(s.responded, 'Responded', 'green') +
+    eviteKpi(s.pending, 'Pending', 'yellow') +
+    eviteKpi(s.attending, 'Attending', 'green') +
+    eviteKpi(s.declined, 'Declined', 'red') +
+    eviteKpi(s.maybe, 'Maybe', 'orange');
+
+  // Attendance KPIs
+  document.getElementById('ev-dash-kpi-attendance').innerHTML =
+    eviteKpi(s.totalGuests, 'Total Guests', 'purple') +
+    eviteKpi(s.totalAdults, 'Adults', 'blue') +
+    eviteKpi(s.totalKids, 'Kids', 'cyan');
+
+  // Food KPIs
+  var totalMeals = s.food.veg + s.food.nonVeg;
+  document.getElementById('ev-dash-kpi-food').innerHTML =
+    eviteKpi(totalMeals, 'Total Meals', 'orange') +
+    eviteKpi(s.food.veg, 'Vegetarian', 'green') +
+    eviteKpi(s.food.nonVeg, 'Non-Vegetarian', 'red') +
+    eviteKpi(s.food.special, 'Special Diet', 'purple');
+
+  // Dietary notes
+  var dnEl = document.getElementById('ev-dash-dietary-notes');
+  if (s.food.dietaryNotes && s.food.dietaryNotes.length > 0) {
+    dnEl.style.display = 'block';
+    var dnHtml = '<div style="font-size:.78rem;color:var(--muted);margin-top:6px"><strong>Dietary Notes:</strong><ul style="margin:4px 0 0 18px;padding:0">';
+    s.food.dietaryNotes.forEach(function(dn) {
+      dnHtml += '<li><strong>' + esc(dn.name) + ':</strong> ' + esc(dn.note) + '</li>';
+    });
+    dnHtml += '</ul></div>';
+    dnEl.innerHTML = dnHtml;
+  } else {
+    dnEl.style.display = 'none';
+  }
+
+  // Cultural KPIs
+  document.getElementById('ev-dash-kpi-cultural').innerHTML =
+    eviteKpi(s.cultural.participants, 'Participants', 'purple') +
+    eviteKpi(s.cultural.totalPerformances, 'Performances', 'pink');
+
+  // Performance details
+  var pfEl = document.getElementById('ev-dash-performances');
+  if (s.cultural.performances && s.cultural.performances.length > 0) {
+    pfEl.style.display = 'block';
+    var pfHtml = '<table class="t" style="font-size:.78rem;margin-top:6px"><thead><tr><th>Performer</th><th>Category</th><th>Mode</th><th>Age Group</th><th>Language</th><th>Description</th><th>Members</th></tr></thead><tbody>';
+    s.cultural.performances.forEach(function(p) {
+      pfHtml += '<tr><td>' + esc(p.performer) + '</td><td>' + esc(p.category) + '</td><td>' + esc(p.mode) + '</td><td>' + esc(p.ageGroup) + '</td><td>' + esc(p.language) + '</td><td>' + esc(p.description) + '</td><td>' + (p.memberCount || 1) + (p.memberNames && p.memberNames.length ? ' (' + p.memberNames.map(esc).join(', ') + ')' : '') + '</td></tr>';
+    });
+    pfHtml += '</tbody></table>';
+    pfEl.innerHTML = pfHtml;
+  } else {
+    pfEl.style.display = 'none';
+  }
+
+  document.getElementById('ev-dash-summary').style.display = 'block';
+  document.getElementById('ev-dash-detail').style.display = 'block';
+
+  // Render detail table
+  eviteRenderDetailTable();
+}
+
+function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function eviteRenderDetailTable() {
+  if (!EVITE_DASH_DATA) return;
+  var inv = EVITE_DASH_DATA.invitations || [];
+  var filter = EVITE_DASH_FILTER;
+  var filtered = inv;
+  if (filter === 'yes') filtered = inv.filter(function(i) { return i.rsvpStatus === 'yes'; });
+  else if (filter === 'no') filtered = inv.filter(function(i) { return i.rsvpStatus === 'no'; });
+  else if (filter === 'maybe') filtered = inv.filter(function(i) { return i.rsvpStatus === 'maybe'; });
+  else if (filter === 'pending') filtered = inv.filter(function(i) { return !i.responded; });
+
+  var tbody = document.getElementById('ev-dash-tbody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--dim);padding:20px">No responses matching this filter.</td></tr>';
+    return;
+  }
+
+  var html = '';
+  filtered.forEach(function(inv, idx) {
+    var statusBadge = '';
+    if (inv.rsvpStatus === 'yes') statusBadge = '<span class="badge-s badge-green">Attending</span>';
+    else if (inv.rsvpStatus === 'no') statusBadge = '<span class="badge-s badge-red">Declined</span>';
+    else if (inv.rsvpStatus === 'maybe') statusBadge = '<span class="badge-s badge-yellow">Maybe</span>';
+    else statusBadge = '<span class="badge-s badge-dim">Pending</span>';
+
+    var culturalInfo = '';
+    if (inv.culturalParticipant && inv.cultural && inv.cultural.performances) {
+      culturalInfo = '<span class="badge-s badge-purple">Yes (' + inv.cultural.performances.length + ')</span>';
+    } else if (inv.culturalParticipant) {
+      culturalInfo = '<span class="badge-s badge-purple">Yes</span>';
+    } else if (inv.responded) {
+      culturalInfo = '<span class="badge-s badge-dim">No</span>';
+    } else {
+      culturalInfo = '—';
+    }
+
+    var respondedAt = inv.respondedAt ? new Date(inv.respondedAt).toLocaleString() : '—';
+    var dietary = inv.dietary ? inv.dietary.replace(/_/g, ' ') : '—';
+
+    html += '<tr>' +
+      '<td>' + (idx + 1) + '</td>' +
+      '<td>' + esc(inv.recipientName) + '</td>' +
+      '<td style="font-size:.75rem">' + esc(inv.recipientEmail) + '</td>' +
+      '<td>' + statusBadge + '</td>' +
+      '<td style="text-align:center">' + (inv.adults || '—') + '</td>' +
+      '<td style="text-align:center">' + (inv.kids || '—') + '</td>' +
+      '<td style="text-align:center">' + (inv.vegCount || '—') + '</td>' +
+      '<td style="text-align:center">' + (inv.nonVegCount || '—') + '</td>' +
+      '<td>' + dietary + '</td>' +
+      '<td>' + culturalInfo + '</td>' +
+      '<td style="max-width:150px;font-size:.75rem;word-break:break-word">' + esc(inv.notes) + '</td>' +
+      '<td style="font-size:.72rem;white-space:nowrap">' + respondedAt + '</td></tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function eviteDashFilter(f) {
+  EVITE_DASH_FILTER = f;
+  document.querySelectorAll('.ev-df-btn').forEach(function(btn) { btn.classList.remove('active'); });
+  event.target.classList.add('active');
+  eviteRenderDetailTable();
+}
+
+function eviteExportDashboard() {
+  if (!EVITE_DASH_DATA || !EVITE_DASH_DATA.invitations) return eviteDashMsg('Load the dashboard first.', true);
+  var inv = EVITE_DASH_DATA.invitations;
+  var csv = 'Name,Email,Status,Adults,Kids,Veg,NonVeg,Dietary,Cultural Participant,Notes,Responded At\n';
+  inv.forEach(function(i) {
+    csv += '"' + (i.recipientName || '').replace(/"/g, '""') + '","' +
+      (i.recipientEmail || '') + '",' +
+      (i.rsvpStatus || 'pending') + ',' +
+      (i.adults || 0) + ',' + (i.kids || 0) + ',' +
+      (i.vegCount || 0) + ',' + (i.nonVegCount || 0) + ',"' +
+      (i.dietary || '').replace(/"/g, '""') + '",' +
+      (i.culturalParticipant ? 'Yes' : 'No') + ',"' +
+      (i.notes || '').replace(/"/g, '""') + '",' +
+      (i.respondedAt ? new Date(i.respondedAt).toLocaleString() : '') + '\n';
+  });
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'evite-rsvp-responses.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 // ═══════════════════════════════════════════════════════════════════

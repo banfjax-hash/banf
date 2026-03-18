@@ -1,0 +1,32 @@
+You are working on the BANF (Bengali Association of North Florida) platform.
+Workspace: C:\projects\banf
+Key files: banf1-wix/src/backend/http-functions.js, bosonto-email-reader-agent.js, banf1-wix/src/public/admin-portal.html
+
+TASK FROM PRESIDENT:
+1) there are many got hub run failures email
+messages . The email message reader should classify this and send to dev
+pipeline to analyze further the issue and fix if required
+2) create a reconciled ledger report from 27th of feb to current in html
+and send to president
+3) Other than reimbursement , there should be an event wise expense /cost
+reconciliation agent which will be connected to all income and expense
+pipeline as they are updated for a particular event , and there should be a
+feature / functionality called event final reconciliation submit, which
+treasurer, vp and president will  be able to see the current status, modify
+/ add manually and finally submit the final version for approval from
+treasurer, vp and president and ready for audit.
+
+INSTRUCTIONS:
+1. Analyze the task and identify all affected files
+2. Implement the changes with proper error handling
+3. Create or update tests as needed
+4. Ensure backward compatibility
+5. Follow existing code patterns and conventions
+6. After implementation, run any relevant tests
+7. Provide a clear summary of what was changed and test results
+
+IMPORTANT:
+- Do NOT break existing functionality
+- Use the existing OAuth2 credentials and email patterns
+- Follow the Change Agent workflow (submit CR, create ticket)
+- Update architecture docs if needed

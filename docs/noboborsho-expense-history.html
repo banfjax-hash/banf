@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF Noboborsho Expense History — Year-wise Analysis</title>
+<style>
+  :root {
+    --bg: #0f172a; --surface: #1e293b; --border: #334155;
+    --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
+    --green: #22c55e; --red: #ef4444; --blue: #3b82f6;
+    --amber: #f59e0b; --purple: #a78bfa; --cyan: #06b6d4;
+    --gold: #d4af37;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 24px; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 32px; padding: 32px 24px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--border); border-radius: 16px; }
+  .header h1 { font-size: 1.8rem; margin-bottom: 6px; background: linear-gradient(135deg, var(--amber), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .header .subtitle { color: var(--muted); font-size: 0.9rem; }
+  .header .generated { color: var(--dim); font-size: 0.75rem; margin-top: 8px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .card h2 { font-size: 1.15rem; margin-bottom: 16px; color: var(--amber); display: flex; align-items: center; gap: 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th { background: #0f172a; color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--border); }
+  th.num { text-align: right; }
+  td { padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.5); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+  td.green { color: var(--green); }
+  td.red { color: var(--red); }
+  td.amber { color: var(--amber); }
+  td.dim { color: var(--dim); font-style: italic; }
+  tr:hover { background: rgba(59,130,246,0.04); }
+  tr.highlight { background: rgba(245,158,11,0.08); }
+  tr.peak td { font-weight: 700; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.68rem; font-weight: 600; }
+  .badge-green { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+  .badge-red { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .badge-amber { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .badge-blue { background: rgba(59,130,246,0.15); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+  .badge-dim { background: rgba(100,116,139,0.15); color: var(--dim); border: 1px solid rgba(100,116,139,0.3); }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+  .kpi .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 4px; }
+  .kpi .value { font-size: 1.5rem; font-weight: 700; }
+  .kpi .sub { font-size: 0.72rem; color: var(--dim); margin-top: 2px; }
+
+  .chart-bar-container { margin: 16px 0; }
+  .chart-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
+  .chart-label { width: 90px; font-size: 0.8rem; color: var(--muted); text-align: right; flex-shrink: 0; }
+  .chart-bar-wrap { flex: 1; background: rgba(51,65,85,0.3); border-radius: 6px; height: 28px; position: relative; overflow: hidden; }
+  .chart-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-size: 0.75rem; font-weight: 600; color: #fff; transition: width 0.8s ease; min-width: 60px; }
+  .chart-bar.expense { background: linear-gradient(90deg, #ef4444, #f97316); }
+  .chart-bar.income { background: linear-gradient(90deg, #22c55e, #10b981); }
+  .chart-value { width: 70px; font-size: 0.82rem; font-weight: 600; text-align: right; flex-shrink: 0; }
+
+  .insights { margin-top: 16px; }
+  .insight { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-left: 3px solid var(--amber); margin-bottom: 8px; background: rgba(245,158,11,0.04); border-radius: 0 8px 8px 0; }
+  .insight-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .insight-text { font-size: 0.85rem; color: var(--text); }
+  .insight-text strong { color: var(--amber); }
+
+  .note { font-size: 0.78rem; color: var(--dim); margin-top: 12px; padding: 10px 14px; background: rgba(51,65,85,0.2); border-radius: 8px; border-left: 3px solid var(--dim); }
+
+  .footer { text-align: center; padding: 20px; color: var(--dim); font-size: 0.72rem; border-top: 1px solid var(--border); margin-top: 24px; }
+
+  @media print {
+    body { background: #fff; color: #111; padding: 12px; }
+    .card { border: 1px solid #ddd; }
+    th { background: #f8f8f8; color: #333; }
+    td { border-color: #eee; }
+    .chart-bar.expense { background: #ef4444; }
+    .chart-bar.income { background: #22c55e; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🎉 BANF Noboborsho — Expense History</h1>
+    <div class="subtitle">Year-wise Analysis of Bengali New Year (Pohela Boishakh) Event Spending</div>
+    <div class="generated">Generated: March 16, 2026 | Source: BANF Financial Summary PPTXs & Sheet3 (verified)</div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">Years Tracked</div>
+      <div class="value" style="color:var(--blue)">5</div>
+      <div class="sub">FY 2020-21 to FY 2024-25</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Total Spent</div>
+      <div class="value" style="color:var(--red)">$9,847</div>
+      <div class="sub">All-time Noboborsho expense</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Peak Year</div>
+      <div class="value" style="color:var(--amber)">$3,436</div>
+      <div class="sub">FY 2023-24</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Average / Year</div>
+      <div class="value" style="color:var(--cyan)">$2,462</div>
+      <div class="sub">Across 4 active years</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Latest (FY 24-25)</div>
+      <div class="value" style="color:var(--green)">$1,660</div>
+      <div class="sub">−52% vs peak</div>
+    </div>
+  </div>
+
+  <!-- Main Table -->
+  <div class="card">
+    <h2>📊 Year-wise Expense & Income Breakdown</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Fiscal Year</th>
+          <th>EC Term</th>
+          <th>Event Name in Records</th>
+          <th class="num">Expense</th>
+          <th class="num">Income</th>
+          <th class="num">Net</th>
+          <th>YoY Change</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FY 2020-21</td>
+          <td>2020-22 EC</td>
+          <td class="dim">Not held</td>
+          <td class="num dim">$0</td>
+          <td class="num dim">$0</td>
+          <td class="num dim">—</td>
+          <td><span class="badge badge-dim">N/A</span></td>
+          <td style="font-size:0.78rem;color:var(--dim)">COVID-19 era — no Noboborsho event</td>
+        </tr>
+        <tr class="highlight">
+          <td>FY 2021-22</td>
+          <td>2020-22 EC</td>
+          <td>New Year Celebration + Nobo Borsho</td>
+          <td class="num red">$2,500</td>
+          <td class="num dim">—</td>
+          <td class="num dim">—</td>
+          <td><span class="badge badge-blue">FIRST</span></td>
+          <td style="font-size:0.78rem;color:var(--muted)">Two line items: $2,200 + $300 (venue + program)</td>
+        </tr>
+        <tr>
+          <td>FY 2022-23</td>
+          <td>2022-24 EC</td>
+          <td>New Year</td>
+          <td class="num red">$2,251</td>
+          <td class="num green">$865</td>
+          <td class="num red">−$1,386</td>
+          <td><span class="badge badge-green">−10%</span></td>
+          <td style="font-size:0.78rem;color:var(--muted)">Slight cost reduction from first year</td>
+        </tr>
+        <tr class="peak">
+          <td style="color:var(--amber)">FY 2023-24 ⭐</td>
+          <td>2022-24 EC</td>
+          <td>New Year</td>
+          <td class="num red">$3,436</td>
+          <td class="num green">$780</td>
+          <td class="num red">−$2,656</td>
+          <td><span class="badge badge-red">+53%</span></td>
+          <td style="font-size:0.78rem;color:var(--amber)">Peak year — largest event / possible guest artist</td>
+        </tr>
+        <tr class="highlight">
+          <td>FY 2024-25</td>
+          <td>2024-26 EC</td>
+          <td>Nabo Borsho</td>
+          <td class="num red">$1,660</td>
+          <td class="num green">$140</td>
+          <td class="num red">−$1,520</td>
+          <td><span class="badge badge-green">−52%</span></td>
+          <td style="font-size:0.78rem;color:var(--muted)">Significant cost optimization</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr style="border-top:2px solid var(--border);font-weight:700">
+          <td colspan="3" style="text-align:right;color:var(--muted)">TOTAL (All Years)</td>
+          <td class="num red">$9,847</td>
+          <td class="num green">$1,785</td>
+          <td class="num red">−$8,062</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="note">
+      <strong>Note:</strong> FY 2021-22 income not separately tracked for New Year/Nobo Borsho. "New Year Celebration" ($2,200) and "Nobo Borsho" ($300) were separate line items — likely venue rental vs. food/program costs. FY 2020-21 had no Noboborsho event (COVID period). Net totals for FY 2022-23 & 2023-24 use available income figures.
+    </div>
+  </div>
+
+  <!-- Visual Bar Chart -->
+  <div class="card">
+    <h2>📈 Expense Trend (Visual)</h2>
+    <div class="chart-bar-container">
+      <div class="chart-row">
+        <div class="chart-label">FY 2020-21</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar expense" style="width: 1%; min-width: 60px; background: var(--dim);">$0</div>
+        </div>
+        <div class="chart-value" style="color:var(--dim)">$0</div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">FY 2021-22</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar expense" style="width: 72.8%;">$2,500</div>
+        </div>
+        <div class="chart-value" style="color:var(--red)">$2,500</div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">FY 2022-23</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar expense" style="width: 65.5%;">$2,251</div>
+        </div>
+        <div class="chart-value" style="color:var(--red)">$2,251</div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">FY 2023-24</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar expense" style="width: 100%;">$3,436 ⭐ PEAK</div>
+        </div>
+        <div class="chart-value" style="color:var(--amber)">$3,436</div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label">FY 2024-25</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar expense" style="width: 48.3%;">$1,660</div>
+        </div>
+        <div class="chart-value" style="color:var(--red)">$1,660</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:24px;font-size:0.95rem;color:var(--cyan);margin-bottom:12px">Income vs Expense Comparison</h3>
+    <div class="chart-bar-container">
+      <div class="chart-row">
+        <div class="chart-label" style="color:var(--green)">Income</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar income" style="width: 18.1%;">$1,785</div>
+        </div>
+        <div class="chart-value" style="color:var(--green)">$1,785</div>
+      </div>
+      <div class="chart-row">
+        <div class="chart-label" style="color:var(--red)">Expense</div>
+        <div class="chart-bar-wrap">
+          <div class="chart-bar expense" style="width: 100%;">$9,847</div>
+        </div>
+        <div class="chart-value" style="color:var(--red)">$9,847</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:0.82rem;color:var(--muted)">
+      Event income covers only <strong style="color:var(--amber)">18.1%</strong> of total expenses — the rest is subsidized by membership & sponsorship funds
+    </div>
+  </div>
+
+  <!-- Income Decline -->
+  <div class="card">
+    <h2>💸 Event-Day Income Trend</h2>
+    <table>
+      <thead>
+        <tr><th>Fiscal Year</th><th class="num">Event Income</th><th>YoY</th><th>Context</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>FY 2021-22</td><td class="num dim">—</td><td><span class="badge badge-dim">N/A</span></td><td style="font-size:0.78rem;color:var(--dim)">Not separately tracked</td></tr>
+        <tr><td>FY 2022-23</td><td class="num green">$865</td><td><span class="badge badge-blue">BASE</span></td><td style="font-size:0.78rem;color:var(--muted)">First year with tracked income (non-member event fees)</td></tr>
+        <tr><td>FY 2023-24</td><td class="num green">$780</td><td><span class="badge badge-red">−10%</span></td><td style="font-size:0.78rem;color:var(--muted)">Slight decline despite larger event</td></tr>
+        <tr><td>FY 2024-25</td><td class="num amber">$140</td><td><span class="badge badge-red">−82%</span></td><td style="font-size:0.78rem;color:var(--amber)">Sharp drop — fewer non-member attendees or fee changes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Context: % of Total Org Expense -->
+  <div class="card">
+    <h2>🏛️ Noboborsho as % of Total BANF Expense</h2>
+    <table>
+      <thead>
+        <tr><th>Fiscal Year</th><th class="num">Total BANF Expense</th><th class="num">Noboborsho Expense</th><th class="num">% of Total</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>FY 2020-21</td><td class="num">$7,579</td><td class="num dim">$0</td><td class="num dim">0%</td></tr>
+        <tr><td>FY 2021-22</td><td class="num">$13,130</td><td class="num">$2,500</td><td class="num amber">19.0%</td></tr>
+        <tr><td>FY 2022-23</td><td class="num">$25,709</td><td class="num">$2,251</td><td class="num">8.8%</td></tr>
+        <tr><td>FY 2023-24</td><td class="num">$41,165</td><td class="num">$3,436</td><td class="num">8.3%</td></tr>
+        <tr><td>FY 2024-25</td><td class="num">$53,547</td><td class="num">$1,660</td><td class="num green">3.1%</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;font-size:0.82rem;color:var(--muted);text-align:center">
+      Noboborsho's share of total expense has <strong style="color:var(--green)">declined from 19% to 3.1%</strong> as the organization scaled — Durga Puja now dominates (~58% of total)
+    </div>
+  </div>
+
+  <!-- Key Insights -->
+  <div class="card">
+    <h2>💡 Key Insights</h2>
+    <div class="insights">
+      <div class="insight">
+        <div class="insight-icon">📉</div>
+        <div class="insight-text"><strong>FY 2024-25 achieved 52% cost reduction</strong> from the peak year (FY 2023-24: $3,436 → FY 2024-25: $1,660), indicating successful cost optimization under the 2024-26 EC.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🦠</div>
+        <div class="insight-text"><strong>FY 2020-21 had no Noboborsho event</strong> — COVID-19 restrictions. The event resumed in FY 2021-22 with a combined $2,500 spend.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📈</div>
+        <div class="insight-text"><strong>FY 2023-24 was the peak at $3,436</strong> — a 53% jump from the prior year. This likely included enhanced programming or a guest artist component given the 2022-24 EC's pattern of guest artist events.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">💰</div>
+        <div class="insight-text"><strong>Event-day income has sharply declined:</strong> $865 → $780 → $140. The event is increasingly subsidized by membership and sponsorship revenue rather than non-member ticket/door collections.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">📊</div>
+        <div class="insight-text"><strong>As a % of total BANF spend, Noboborsho has shrunk from 19% to 3.1%</strong> — reflecting BANF's growth into a 17-event calendar where Durga Puja alone accounts for ~58% of expenses.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-icon">🔮</div>
+        <div class="insight-text"><strong>For FY 2025-26 (Noboborsho 2026 on April 25):</strong> Based on the 4-year average of $2,462 and the recent trend toward optimization, a budget of <strong>$1,500–$2,500</strong> would be a reasonable planning range.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    BANF — Bengali Association of North Florida | 501(c)(3) Non-Profit<br>
+    Data sourced from BANF Financial Summary PPTXs (FY 2020-21 through FY 2023-24) and Sheet3 verified actuals (FY 2024-25)<br>
+    Report generated by BANF Agentic Platform — March 16, 2026
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+  "albums": {
+    "mobile-uploads": {
+      "downloaded": [],
+      "fbids": [],
+      "errors": 0
+    },
+    "photos": {
+      "downloaded": [],
+      "fbids": [],
+      "errors": 0
+    },
+    "durga-puja-2025": {
+      "downloaded": [],
+      "fbids": [],
+      "errors": 0
+    },
+    "spandan-2025": {
+      "downloaded": [],
+      "fbids": [],
+      "errors": 0
+    },
+    "sports-day-2025": {
+      "downloaded": [],
+      "fbids": [],
+      "errors": 0
+    },
+    "anandadhara-returns-2023": {
+      "downloaded": [],
+      "fbids": [],
+      "errors": 0
+    }
+  },
+  "totalDownloaded": 0
+}

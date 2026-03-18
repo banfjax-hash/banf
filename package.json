@@ -9,5 +9,10 @@
     "postinstall": "wix sync-types",
     "dev": "wix dev",
     "lint": "eslint ."
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "nodemailer": "^8.0.2",
+    "pdf-parse": "^2.4.5"
   }
 }

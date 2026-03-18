@@ -1,0 +1,1 @@
+#!/usr/bin/env node/** * Wrapper to run WIX Agent from correct location */const path = require('path');const projectRoot = 'c:\\projects\\banf';// Change to project rootprocess.chdir(projectRoot);// Import and run agentrequire('./wix-agent.js');

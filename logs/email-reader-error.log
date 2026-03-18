@@ -1,0 +1,146 @@
+2026-03-15 21:21:19 -04:00: TypeError: eventManager.isDriveActive is not a function
+2026-03-15 21:21:19 -04:00:     at runOnce (c:\projects\banf\bosonto-email-reader-agent.js:2149:53)
+2026-03-15 21:21:19 -04:00:     at main (c:\projects\banf\bosonto-email-reader-agent.js:2382:9)
+2026-03-15 21:21:19 -04:00:     at Object.<anonymous> (c:\projects\banf\bosonto-email-reader-agent.js:2415:1)
+2026-03-15 21:21:19 -04:00:     at Module._compile (node:internal/modules/cjs/loader:1811:14)
+2026-03-15 21:21:19 -04:00:     at Object..js (node:internal/modules/cjs/loader:1942:10)
+2026-03-15 21:21:19 -04:00:     at Module.load (node:internal/modules/cjs/loader:1532:32)
+2026-03-15 21:21:19 -04:00:     at Module._load (node:internal/modules/cjs/loader:1334:12)
+2026-03-15 21:21:19 -04:00:     at Object.<anonymous> (C:\Users\moumi\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+2026-03-15 21:21:19 -04:00:     at Module._compile (node:internal/modules/cjs/loader:1811:14)
+2026-03-15 21:21:19 -04:00:     at Object..js (node:internal/modules/cjs/loader:1942:10)
+2026-03-15 21:21:30 -04:00: TypeError: eventManager.isDriveActive is not a function
+2026-03-15 21:21:30 -04:00:     at runOnce (c:\projects\banf\bosonto-email-reader-agent.js:2149:53)
+2026-03-15 21:21:30 -04:00:     at main (c:\projects\banf\bosonto-email-reader-agent.js:2382:9)
+2026-03-15 21:21:30 -04:00:     at Object.<anonymous> (c:\projects\banf\bosonto-email-reader-agent.js:2415:1)
+2026-03-15 21:21:30 -04:00:     at Module._compile (node:internal/modules/cjs/loader:1811:14)
+2026-03-15 21:21:30 -04:00:     at Object..js (node:internal/modules/cjs/loader:1942:10)
+2026-03-15 21:21:30 -04:00:     at Module.load (node:internal/modules/cjs/loader:1532:32)
+2026-03-15 21:21:30 -04:00:     at Module._load (node:internal/modules/cjs/loader:1334:12)
+2026-03-15 21:21:30 -04:00:     at Object.<anonymous> (C:\Users\moumi\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+2026-03-15 21:21:30 -04:00:     at Module._compile (node:internal/modules/cjs/loader:1811:14)
+2026-03-15 21:21:30 -04:00:     at Object..js (node:internal/modules/cjs/loader:1942:10)
+2026-03-15 21:21:40 -04:00: TypeError: eventManager.isDriveActive is not a function
+2026-03-15 21:21:40 -04:00:     at runOnce (c:\projects\banf\bosonto-email-reader-agent.js:2149:53)
+2026-03-15 21:21:40 -04:00:     at main (c:\projects\banf\bosonto-email-reader-agent.js:2382:9)
+2026-03-15 21:21:40 -04:00:     at Object.<anonymous> (c:\projects\banf\bosonto-email-reader-agent.js:2415:1)
+2026-03-15 21:21:40 -04:00:     at Module._compile (node:internal/modules/cjs/loader:1811:14)
+2026-03-15 21:21:40 -04:00:     at Object..js (node:internal/modules/cjs/loader:1942:10)
+2026-03-15 21:21:40 -04:00:     at Module.load (node:internal/modules/cjs/loader:1532:32)
+2026-03-15 21:21:40 -04:00:     at Module._load (node:internal/modules/cjs/loader:1334:12)
+2026-03-15 21:21:40 -04:00:     at Object.<anonymous> (C:\Users\moumi\AppData\Roaming\npm\node_modules\pm2\lib\ProcessContainerFork.js:33:23)
+2026-03-15 21:21:40 -04:00:     at Module._compile (node:internal/modules/cjs/loader:1811:14)
+2026-03-15 21:21:40 -04:00:     at Object..js (node:internal/modules/cjs/loader:1942:10)
+2026-03-15 21:22:54 -04:00: 
+2026-03-15 21:22:54 -04:00: Total usage est:        1 Premium request
+2026-03-15 21:22:54 -04:00: API time spent:         6s
+2026-03-15 21:22:54 -04:00: Total session time:     9s
+2026-03-15 21:22:54 -04:00: Total code changes:     +0 -0
+2026-03-15 21:22:54 -04:00: Breakdown by AI model:
+2026-03-15 21:22:54 -04:00:  claude-sonnet-4.6       26.5k in, 229 out, 0 cached (Est. 1 Premium request)
+2026-03-15 21:23:10 -04:00: 
+2026-03-15 21:23:10 -04:00: Total usage est:        1 Premium request
+2026-03-15 21:23:10 -04:00: API time spent:         3s
+2026-03-15 21:23:10 -04:00: Total session time:     6s
+2026-03-15 21:23:10 -04:00: Total code changes:     +0 -0
+2026-03-15 21:23:10 -04:00: Breakdown by AI model:
+2026-03-15 21:23:10 -04:00:  claude-sonnet-4.6       26.7k in, 101 out, 0 cached (Est. 1 Premium request)
+2026-03-15 21:23:26 -04:00: 
+2026-03-15 21:23:26 -04:00: Total usage est:        1 Premium request
+2026-03-15 21:23:26 -04:00: API time spent:         1s
+2026-03-15 21:23:26 -04:00: Total session time:     5s
+2026-03-15 21:23:26 -04:00: Total code changes:     +0 -0
+2026-03-15 21:23:26 -04:00: Breakdown by AI model:
+2026-03-15 21:23:26 -04:00:  claude-sonnet-4.6       26.7k in, 77 out, 12.9k cached (Est. 1 Premium request)
+2026-03-15 21:23:42 -04:00: 
+2026-03-15 21:23:42 -04:00: Total usage est:        1 Premium request
+2026-03-15 21:23:42 -04:00: API time spent:         2s
+2026-03-15 21:23:42 -04:00: Total session time:     6s
+2026-03-15 21:23:42 -04:00: Total code changes:     +0 -0
+2026-03-15 21:23:42 -04:00: Breakdown by AI model:
+2026-03-15 21:23:42 -04:00:  claude-sonnet-4.6       26.7k in, 76 out, 0 cached (Est. 1 Premium request)
+2026-03-15 21:23:47 -04:00: TypeError: eventManager.getActiveDrives is not a function
+2026-03-15 21:23:47 -04:00:     at writePipelineStatus (c:\projects\banf\bosonto-email-reader-agent.js:2055:33)
+2026-03-15 21:23:47 -04:00:     at runOnce (c:\projects\banf\bosonto-email-reader-agent.js:2355:3)
+2026-03-15 21:23:47 -04:00:     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-03-15 21:23:47 -04:00:     at async main (c:\projects\banf\bosonto-email-reader-agent.js:2382:3)
+2026-03-15 21:24:01 -04:00: TypeError: eventManager.getActiveDrives is not a function
+2026-03-15 21:24:01 -04:00:     at writePipelineStatus (c:\projects\banf\bosonto-email-reader-agent.js:2055:33)
+2026-03-15 21:24:01 -04:00:     at runOnce (c:\projects\banf\bosonto-email-reader-agent.js:2355:3)
+2026-03-15 21:24:01 -04:00:     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-03-15 21:24:01 -04:00:     at async main (c:\projects\banf\bosonto-email-reader-agent.js:2382:3)
+2026-03-15 21:24:14 -04:00: TypeError: eventManager.getActiveDrives is not a function
+2026-03-15 21:24:14 -04:00:     at writePipelineStatus (c:\projects\banf\bosonto-email-reader-agent.js:2055:33)
+2026-03-15 21:24:14 -04:00:     at runOnce (c:\projects\banf\bosonto-email-reader-agent.js:2355:3)
+2026-03-15 21:24:14 -04:00:     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-03-15 21:24:14 -04:00:     at async main (c:\projects\banf\bosonto-email-reader-agent.js:2382:3)
+2026-03-15 22:14:50 -04:00: 
+2026-03-15 22:14:50 -04:00: Total usage est:        1 Premium request
+2026-03-15 22:14:50 -04:00: API time spent:         3s
+2026-03-15 22:14:50 -04:00: Total session time:     8s
+2026-03-15 22:14:50 -04:00: Total code changes:     +0 -0
+2026-03-15 22:14:50 -04:00: Breakdown by AI model:
+2026-03-15 22:14:50 -04:00:  claude-sonnet-4.6       26.7k in, 120 out, 0 cached (Est. 1 Premium request)
+2026-03-15 22:44:55 -04:00: 
+2026-03-15 22:44:55 -04:00: Total usage est:        1 Premium request
+2026-03-15 22:44:55 -04:00: API time spent:         5s
+2026-03-15 22:44:55 -04:00: Total session time:     11s
+2026-03-15 22:44:55 -04:00: Total code changes:     +0 -0
+2026-03-15 22:44:55 -04:00: Breakdown by AI model:
+2026-03-15 22:44:55 -04:00:  claude-sonnet-4.6       26.7k in, 86 out, 0 cached (Est. 1 Premium request)
+2026-03-15 23:34:48 -04:00: 
+2026-03-15 23:34:48 -04:00: Total usage est:        1 Premium request
+2026-03-15 23:34:48 -04:00: API time spent:         2s
+2026-03-15 23:34:48 -04:00: Total session time:     6s
+2026-03-15 23:34:48 -04:00: Total code changes:     +0 -0
+2026-03-15 23:34:48 -04:00: Breakdown by AI model:
+2026-03-15 23:34:48 -04:00:  claude-sonnet-4.6       26.7k in, 67 out, 0 cached (Est. 1 Premium request)
+2026-03-15 23:39:49 -04:00: 
+2026-03-15 23:39:49 -04:00: Total usage est:        1 Premium request
+2026-03-15 23:39:49 -04:00: API time spent:         3s
+2026-03-15 23:39:49 -04:00: Total session time:     8s
+2026-03-15 23:39:49 -04:00: Total code changes:     +0 -0
+2026-03-15 23:39:49 -04:00: Breakdown by AI model:
+2026-03-15 23:39:49 -04:00:  claude-sonnet-4.6       26.7k in, 112 out, 0 cached (Est. 1 Premium request)
+2026-03-15 23:59:48 -04:00: 
+2026-03-15 23:59:48 -04:00: Total usage est:        1 Premium request
+2026-03-15 23:59:48 -04:00: API time spent:         3s
+2026-03-15 23:59:48 -04:00: Total session time:     6s
+2026-03-15 23:59:48 -04:00: Total code changes:     +0 -0
+2026-03-15 23:59:48 -04:00: Breakdown by AI model:
+2026-03-15 23:59:48 -04:00:  claude-sonnet-4.6       26.8k in, 77 out, 0 cached (Est. 1 Premium request)
+2026-03-16 00:09:49 -04:00: 
+2026-03-16 00:09:49 -04:00: Total usage est:        1 Premium request
+2026-03-16 00:09:49 -04:00: API time spent:         2s
+2026-03-16 00:09:49 -04:00: Total session time:     6s
+2026-03-16 00:09:49 -04:00: Total code changes:     +0 -0
+2026-03-16 00:09:49 -04:00: Breakdown by AI model:
+2026-03-16 00:09:49 -04:00:  claude-sonnet-4.6       26.8k in, 86 out, 0 cached (Est. 1 Premium request)
+2026-03-16 09:14:51 -04:00: 
+2026-03-16 09:14:51 -04:00: Total usage est:        1 Premium request
+2026-03-16 09:14:51 -04:00: API time spent:         2s
+2026-03-16 09:14:51 -04:00: Total session time:     7s
+2026-03-16 09:14:51 -04:00: Total code changes:     +0 -0
+2026-03-16 09:14:51 -04:00: Breakdown by AI model:
+2026-03-16 09:14:51 -04:00:  claude-sonnet-4.6       26.8k in, 72 out, 0 cached (Est. 1 Premium request)
+2026-03-16 12:14:49 -04:00: 
+2026-03-16 12:14:49 -04:00: Total usage est:        1 Premium request
+2026-03-16 12:14:49 -04:00: API time spent:         3s
+2026-03-16 12:14:49 -04:00: Total session time:     8s
+2026-03-16 12:14:49 -04:00: Total code changes:     +0 -0
+2026-03-16 12:14:49 -04:00: Breakdown by AI model:
+2026-03-16 12:14:49 -04:00:  claude-sonnet-4.6       26.8k in, 128 out, 0 cached (Est. 1 Premium request)
+2026-03-16 12:29:56 -04:00: 
+2026-03-16 12:29:56 -04:00: Total usage est:        1 Premium request
+2026-03-16 12:29:56 -04:00: API time spent:         13s
+2026-03-16 12:29:56 -04:00: Total session time:     17s
+2026-03-16 12:29:56 -04:00: Total code changes:     +0 -0
+2026-03-16 12:29:56 -04:00: Breakdown by AI model:
+2026-03-16 12:29:56 -04:00:  claude-sonnet-4.6       26.8k in, 110 out, 0 cached (Est. 1 Premium request)
+2026-03-16 12:40:03 -04:00: 
+2026-03-16 12:40:03 -04:00: Total usage est:        1 Premium request
+2026-03-16 12:40:03 -04:00: API time spent:         19s
+2026-03-16 12:40:03 -04:00: Total session time:     23s
+2026-03-16 12:40:03 -04:00: Total code changes:     +0 -0
+2026-03-16 12:40:03 -04:00: Breakdown by AI model:
+2026-03-16 12:40:03 -04:00:  claude-sonnet-4.6       26.8k in, 277 out, 0 cached (Est. 1 Premium request)

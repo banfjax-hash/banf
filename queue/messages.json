@@ -1,0 +1,633 @@
+{
+  "queues": {
+    "general": [
+      {
+        "id": "msg_1773623700835_q5e0g8",
+        "queue": "general",
+        "payload": {
+          "emailId": "dev_instruct-1773623700834-glan5i",
+          "phase": "dev_instruct",
+          "from": "Ranadhir Ghosh <ranadhir.ghosh@gmail.com>",
+          "subject": "INSTRUCT",
+          "data": {
+            "gmailId": "19ce04dd6d3af20c",
+            "from": "Ranadhir Ghosh <ranadhir.ghosh@gmail.com>",
+            "subject": "INSTRUCT",
+            "body": "The website jaxbengali.org is still not loading the content. fix this\r\nproperly , check throughly and verify what is the actual html output its\r\nloading. Check all git hub run time failure. zit seems the agent dies not\r\nread the feedback after the github build / push. Fix this loop properly",
+            "threadId": null,
+            "date": "Thu, 12 Mar 2026 00:28:31 -0400",
+            "detectedAt": "2026-03-16T01:13:59.986Z",
+            "_instructType": "new"
+          },
+          "enqueuedAt": "2026-03-16T01:15:00.834Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:15:00.835Z",
+        "updatedAt": "2026-03-16T01:15:00.835Z",
+        "lastError": null,
+        "dedupKey": "dev_instruct-1773623700834-glan5i"
+      },
+      {
+        "id": "msg_1773623700836_slnz5c",
+        "queue": "general",
+        "payload": {
+          "emailId": "dev_instruct-1773623700836-864b45",
+          "phase": "dev_instruct",
+          "from": "Ranadhir Ghosh <ranadhir.ghosh@gmail.com>",
+          "subject": "INSTRUCT",
+          "data": {
+            "gmailId": "19cdae496e5e6250",
+            "from": "Ranadhir Ghosh <ranadhir.ghosh@gmail.com>",
+            "subject": "INSTRUCT",
+            "body": "check from the sent item if there was any booking request for the venue for\r\nlakeside academy school. Create a similar email template for 25th of april\r\n2026 for noboborsho  and send it to ranadhir.ghosh@gmail.com for\r\nverification. (refer to earkier verification for bahai )",
+            "threadId": null,
+            "date": "Tue, 10 Mar 2026 23:15:28 -0400",
+            "detectedAt": "2026-03-16T01:14:00.153Z",
+            "_instructType": "new"
+          },
+          "enqueuedAt": "2026-03-16T01:15:00.836Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:15:00.836Z",
+        "updatedAt": "2026-03-16T01:15:00.836Z",
+        "lastError": null,
+        "dedupKey": "dev_instruct-1773623700836-864b45"
+      },
+      {
+        "id": "msg_1773623700837_68wpcg",
+        "queue": "general",
+        "payload": {
+          "emailId": "dev_instruct-1773623700837-2oxj2b",
+          "phase": "dev_instruct",
+          "from": "Ranadhir Ghosh <ranadhir.ghosh@gmail.com>",
+          "subject": "INSTRUCT",
+          "data": {
+            "gmailId": "19cd99f91f2068fd",
+            "from": "Ranadhir Ghosh <ranadhir.ghosh@gmail.com>",
+            "subject": "INSTRUCT",
+            "body": "1) there are many got hub run failures email\r\nmessages . The email message reader should classify this and send to dev\r\npipeline to analyze further the issue and fix if required\r\n2) create a reconciled ledger report from 27th of feb to current in html\r\nand send to president\r\n3) Other than reimbursement , there should be an event wise expense /cost\r\nreconciliation agent which will be connected to all income and expense\r\npipeline as they are updated for a particular event , and there should be a\r\nfeature / functionality called event final reconciliation submit, which\r\ntreasurer, vp and president will  be able to see the current status, modify\r\n/ add manually and finally submit the final version for approval from\r\ntreasurer, vp and president and ready for audit.",
+            "threadId": null,
+            "date": "Tue, 10 Mar 2026 17:20:27 -0400",
+            "detectedAt": "2026-03-16T01:14:00.297Z",
+            "_instructType": "new"
+          },
+          "enqueuedAt": "2026-03-16T01:15:00.837Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:15:00.837Z",
+        "updatedAt": "2026-03-16T01:15:00.837Z",
+        "lastError": null,
+        "dedupKey": "dev_instruct-1773623700837-2oxj2b"
+      },
+      {
+        "id": "msg_1773624227218_tsf033",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773624227218-76di7e",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (a38bb39)",
+          "data": {
+            "gmailId": "19cf407c97ee3d75",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (a38bb39)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 34.0 seconds\r\nFinished: 2026-03-16 00:24:15 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23122823437\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 17:24:35 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T01:22:30.980Z"
+          },
+          "enqueuedAt": "2026-03-16T01:23:47.218Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:23:47.218Z",
+        "updatedAt": "2026-03-16T01:23:47.218Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773624227218-76di7e"
+      },
+      {
+        "id": "msg_1773624227219_l4ot6h",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773624227219-23ovmj",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (099548d)",
+          "data": {
+            "gmailId": "19cf403906ae51c1",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (099548d)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 32.0 seconds\r\nFinished: 2026-03-16 00:19:39 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23122732191\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 17:19:59 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T01:22:31.139Z"
+          },
+          "enqueuedAt": "2026-03-16T01:23:47.219Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:23:47.219Z",
+        "updatedAt": "2026-03-16T01:23:47.219Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773624227219-23ovmj"
+      },
+      {
+        "id": "msg_1773624227220_vu4dkk",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773624227220-7t2jdv",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (e2276bd)",
+          "data": {
+            "gmailId": "19cf3e0afbb6a702",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (e2276bd)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 31.0 seconds\r\nFinished: 2026-03-15 23:41:33 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23122031267\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 16:41:53 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T01:22:31.304Z"
+          },
+          "enqueuedAt": "2026-03-16T01:23:47.220Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:23:47.220Z",
+        "updatedAt": "2026-03-16T01:23:47.220Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773624227220-7t2jdv"
+      },
+      {
+        "id": "msg_1773624227221_vha7ay",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773624227221-zhgeix",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (f2b1292)",
+          "data": {
+            "gmailId": "19cf3d2927fa17f3",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (f2b1292)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 37.0 seconds\r\nFinished: 2026-03-15 23:26:08 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23121764285\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 16:26:28 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T01:22:31.480Z"
+          },
+          "enqueuedAt": "2026-03-16T01:23:47.221Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T01:23:47.221Z",
+        "updatedAt": "2026-03-16T01:23:47.221Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773624227221-zhgeix"
+      },
+      {
+        "id": "msg_1773627296296_c36t4a",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773627296295-6320fu",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (88bed80)",
+          "data": {
+            "gmailId": "19cf4687693f9b09",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (88bed80)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 29.0 seconds\r\nFinished: 2026-03-16 02:09:51 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23124965203\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 19:10:11 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T02:14:37.534Z"
+          },
+          "enqueuedAt": "2026-03-16T02:14:56.295Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T02:14:56.296Z",
+        "updatedAt": "2026-03-16T02:14:56.296Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773627296295-6320fu"
+      },
+      {
+        "id": "msg_1773629100896_lb388v",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773629100896-y5cakr",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (368f6b9)",
+          "data": {
+            "gmailId": "19cf4837869b20dc",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (368f6b9)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 32.0 seconds\r\nFinished: 2026-03-16 02:39:22 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23125595482\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 19:39:42 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T02:44:38.404Z"
+          },
+          "enqueuedAt": "2026-03-16T02:45:00.896Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T02:45:00.896Z",
+        "updatedAt": "2026-03-16T02:45:00.896Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773629100896-y5cakr"
+      },
+      {
+        "id": "msg_1773632093570_7qxahi",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773632093569-d2ofpv",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (27da45d)",
+          "data": {
+            "gmailId": "19cf4b44ee99c29a",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (27da45d)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 34.0 seconds\r\nFinished: 2026-03-16 03:32:42 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23126738444\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 20:33:02 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T03:34:37.307Z"
+          },
+          "enqueuedAt": "2026-03-16T03:34:53.569Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T03:34:53.570Z",
+        "updatedAt": "2026-03-16T03:34:53.570Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773632093569-d2ofpv"
+      },
+      {
+        "id": "msg_1773632395344_axbx6z",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773632395343-yy6yqp",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (7123176)",
+          "data": {
+            "gmailId": "19cf4b8a1660c378",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (7123176)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 35.0 seconds\r\nFinished: 2026-03-16 03:37:24 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23126834915\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 20:37:45 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T03:39:37.311Z"
+          },
+          "enqueuedAt": "2026-03-16T03:39:55.343Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T03:39:55.344Z",
+        "updatedAt": "2026-03-16T03:39:55.344Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773632395343-yy6yqp"
+      },
+      {
+        "id": "msg_1773633593950_3yltgy",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773633593950-m6a7ut",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (502e49a)",
+          "data": {
+            "gmailId": "19cf4ca22b2014a2",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (502e49a)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 28.0 seconds\r\nFinished: 2026-03-16 03:56:32 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23127228072\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 20:56:52 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T03:59:37.139Z"
+          },
+          "enqueuedAt": "2026-03-16T03:59:53.950Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T03:59:53.950Z",
+        "updatedAt": "2026-03-16T03:59:53.950Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773633593950-m6a7ut"
+      },
+      {
+        "id": "msg_1773634195828_2imlef",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773634195828-xwhaft",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (0003467)",
+          "data": {
+            "gmailId": "19cf4d15a8afc241",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (0003467)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 34.0 seconds\r\nFinished: 2026-03-16 04:04:25 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23127403902\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Sun, 15 Mar 2026 21:04:45 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T04:09:39.064Z"
+          },
+          "enqueuedAt": "2026-03-16T04:09:55.828Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T04:09:55.828Z",
+        "updatedAt": "2026-03-16T04:09:55.828Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773634195828-xwhaft"
+      },
+      {
+        "id": "msg_1773666897564_swz01d",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773666897562-6yjzn8",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (9786455)",
+          "data": {
+            "gmailId": "19cf6c562ac51de2",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (9786455)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 30.0 seconds\r\nFinished: 2026-03-16 13:10:35 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23145277619\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Mon, 16 Mar 2026 06:10:55 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T13:14:40.328Z"
+          },
+          "enqueuedAt": "2026-03-16T13:14:57.562Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T13:14:57.564Z",
+        "updatedAt": "2026-03-16T13:14:57.564Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773666897562-6yjzn8"
+      },
+      {
+        "id": "msg_1773677695504_cscbg4",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773677695503-ye4lfj",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (b00db71)",
+          "data": {
+            "gmailId": "19cf76b5d4941912",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (b00db71)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 49.0 seconds\r\nFinished: 2026-03-16 16:11:52 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23153559900\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Mon, 16 Mar 2026 09:12:12 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T16:14:34.443Z"
+          },
+          "enqueuedAt": "2026-03-16T16:14:55.503Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T16:14:55.504Z",
+        "updatedAt": "2026-03-16T16:14:55.504Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773677695503-ye4lfj"
+      },
+      {
+        "id": "msg_1773678603751_46t7nc",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773678603751-sfg4pg",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (4cad279)",
+          "data": {
+            "gmailId": "19cf77a010e64b86",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (4cad279)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 38.0 seconds\r\nFinished: 2026-03-16 16:27:51 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23154275504\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Mon, 16 Mar 2026 09:28:12 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T16:29:34.059Z"
+          },
+          "enqueuedAt": "2026-03-16T16:30:03.751Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T16:30:03.751Z",
+        "updatedAt": "2026-03-16T16:30:03.751Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773678603751-sfg4pg"
+      },
+      {
+        "id": "msg_1773679210081_e36rn5",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1773679210080-utfv1p",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (51ef9cf)",
+          "data": {
+            "gmailId": "19cf78136745a28f",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (51ef9cf)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 52.0 seconds\r\nFinished: 2026-03-16 16:35:44 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23154632519\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Mon, 16 Mar 2026 09:36:05 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-16T16:39:35.075Z"
+          },
+          "enqueuedAt": "2026-03-16T16:40:10.080Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-16T16:40:10.081Z",
+        "updatedAt": "2026-03-16T16:40:10.081Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1773679210080-utfv1p"
+      }
+    ],
+    "user_query": []
+  },
+  "dedupIndex": {
+    "dev_instruct-1773623700834-glan5i": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:15:00.835Z"
+    },
+    "dev_instruct-1773623700836-864b45": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:15:00.836Z"
+    },
+    "dev_instruct-1773623700837-2oxj2b": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:15:00.837Z"
+    },
+    "user_query-1773623720599-iafxt8": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:15:20.599Z"
+    },
+    "user_query-1773623720601-8ycagh": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:15:20.602Z"
+    },
+    "user_query-1773623720603-w3guqr": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:15:20.603Z"
+    },
+    "user_query-1773623720605-wvi1xd": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:15:20.606Z"
+    },
+    "user_query-1773623720608-zzjbyu": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:15:20.608Z"
+    },
+    "user_query-1773623720609-xjsjg0": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:15:20.609Z"
+    },
+    "user_query-1773624148399-ch5cxj": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:22:28.400Z"
+    },
+    "user_query-1773624148402-6m9fhu": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T01:22:28.402Z"
+    },
+    "github_failure-1773624227218-76di7e": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:23:47.218Z"
+    },
+    "github_failure-1773624227219-23ovmj": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:23:47.219Z"
+    },
+    "github_failure-1773624227220-7t2jdv": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:23:47.220Z"
+    },
+    "github_failure-1773624227221-zhgeix": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T01:23:47.221Z"
+    },
+    "github_failure-1773627296295-6320fu": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T02:14:56.296Z"
+    },
+    "github_failure-1773629100896-y5cakr": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T02:45:00.896Z"
+    },
+    "github_failure-1773632093569-d2ofpv": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T03:34:53.570Z"
+    },
+    "github_failure-1773632395343-yy6yqp": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T03:39:55.344Z"
+    },
+    "github_failure-1773633593950-m6a7ut": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T03:59:53.950Z"
+    },
+    "github_failure-1773634195828-xwhaft": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T04:09:55.828Z"
+    },
+    "github_failure-1773666897562-6yjzn8": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T13:14:57.564Z"
+    },
+    "github_failure-1773677695503-ye4lfj": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T16:14:55.504Z"
+    },
+    "github_failure-1773678603751-sfg4pg": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T16:30:03.751Z"
+    },
+    "github_failure-1773679210080-utfv1p": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-16T16:40:10.081Z"
+    },
+    "user_query-1773680675431-hou4dq": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-16T17:04:35.434Z"
+    },
+    "user_query-1773730298341-pw2sgv": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-17T06:51:38.341Z"
+    },
+    "user_query-1773766582406-deedsd": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-17T16:56:22.406Z"
+    },
+    "user_query-1773791707308-yb5j4m": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-17T23:55:07.308Z"
+    }
+  },
+  "createdAt": "2026-03-16T01:15:00.835Z"
+}

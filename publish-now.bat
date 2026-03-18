@@ -1,0 +1,1 @@
+@echo offcd /d C:\projects\banf\banf1-wixecho Publishing Wix site...call npx @wix/cli publish -yif %ERRORLEVEL% EQU 0 (    echo Publish completed successfully.) else (    echo Publish failed with error code %ERRORLEVEL%.)pause

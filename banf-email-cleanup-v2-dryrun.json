@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-03-18T00:31:03.703Z",
+  "mode": "dry-run",
+  "processed": 500,
+  "historyCount": 100,
+  "errorCount": 0,
+  "EC Members": {
+    "total": 41,
+    "active": 37
+  },
+  "Schools/Venue": {
+    "total": 9,
+    "active": 9
+  },
+  "Compliance": {
+    "total": 2,
+    "active": 0
+  },
+  "Wells Fargo": {
+    "total": 45,
+    "active": 45
+  },
+  "Dev": {
+    "total": 0,
+    "active": 0
+  },
+  "Payments": {
+    "total": 1,
+    "active": 1
+  },
+  "Insurance": {
+    "total": 1,
+    "active": 0
+  },
+  "Zoom": {
+    "total": 0,
+    "active": 0
+  },
+  "Google/Admin": {
+    "total": 26,
+    "active": 21
+  },
+  "Wix": {
+    "total": 45,
+    "active": 20
+  },
+  "Evite/RSVP": {
+    "total": 84,
+    "active": 84
+  },
+  "Community Orgs": {
+    "total": 17,
+    "active": 9
+  },
+  "Social/Promo": {
+    "total": 112,
+    "active": 80
+  },
+  "Members": {
+    "total": 47,
+    "active": 41
+  },
+  "Uncategorized": {
+    "total": 70,
+    "active": 53
+  }
+}

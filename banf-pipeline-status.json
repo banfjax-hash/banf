@@ -1,0 +1,109 @@
+{
+  "pipelineStatus": "ACTIVE",
+  "health": "GREEN",
+  "lastScanTime": "2026-03-18T02:00:05.144Z",
+  "nextPollAt": "2026-03-18T02:05:05.164Z",
+  "pollIntervalMin": 5,
+  "pollCount": 1562,
+  "autoSend": false,
+  "batchSize": 3,
+  "upSince": "2026-03-02T22:31:15.034Z",
+  "lastCycle": {
+    "duration": "3.6s",
+    "newRsvps": 0,
+    "newPayments": 0,
+    "newMembers": 0,
+    "paymentFollowups": 0,
+    "instructions": 0,
+    "userQueries": 0,
+    "deliveryFailures": 0
+  },
+  "driveConfig": null,
+  "totals": {
+    "processedEmails": 286,
+    "totalRsvps": 14,
+    "totalPayments": 0,
+    "totalEmailsSent": 4,
+    "totalInstructions": 0,
+    "totalQueries": 45
+  },
+  "activeDrives": [
+    "Evite RSVP Pipeline",
+    "User Query Pipeline"
+  ],
+  "recentActivity": [
+    {
+      "type": "email_sent",
+      "name": "Chandra Ganguly",
+      "email": "chandra.ganguly6@gmail.com",
+      "time": "2026-03-06T14:25:30.107Z",
+      "detail": "ΓÇö",
+      "cycle": 9
+    },
+    {
+      "type": "email_sent",
+      "name": "Kalyan Chakrabarti",
+      "email": "kalyan32258@yahoo.com",
+      "time": "2026-03-06T14:25:22.690Z",
+      "detail": "ΓÇö",
+      "cycle": 9
+    },
+    {
+      "type": "email_sent",
+      "name": "Latika Mukherjee",
+      "email": "lmukhe@yahoo.com",
+      "time": "2026-03-06T14:25:22.689Z",
+      "detail": "ΓÇö",
+      "cycle": 9
+    },
+    {
+      "type": "email_sent",
+      "name": "Rita Bhattacharjee",
+      "email": "ritabhattacharjee@gmail.com",
+      "time": "2026-03-06T14:25:22.689Z",
+      "detail": "ΓÇö",
+      "cycle": 9
+    },
+    {
+      "type": "rsvp",
+      "name": "Chandra Ganguly",
+      "email": "chandra.ganguly6@gmail.com",
+      "time": "2026-03-06T14:24:44.080Z",
+      "detail": "yes",
+      "cycle": 9
+    },
+    {
+      "type": "rsvp",
+      "name": "Kalyan Chakrabarti",
+      "email": "kalyan32258@yahoo.com",
+      "time": "2026-03-06T14:24:43.623Z",
+      "detail": "yes",
+      "cycle": 9
+    },
+    {
+      "type": "rsvp",
+      "name": "Rita Bhattacharjee",
+      "email": "ritabhattacharjee@gmail.com",
+      "time": "2026-03-06T14:24:43.182Z",
+      "detail": "yes",
+      "cycle": 9
+    },
+    {
+      "type": "rsvp",
+      "name": "Latika Mukherjee",
+      "email": "lmukhe@yahoo.com",
+      "time": "2026-03-06T14:24:42.926Z",
+      "detail": "yes",
+      "cycle": 9
+    },
+    {
+      "type": "rsvp",
+      "name": "ΓÇö",
+      "email": "ΓÇö",
+      "time": "2026-03-02T22:31:33.794Z",
+      "detail": "yes",
+      "cycle": 1562
+    }
+  ],
+  "updatedAt": "2026-03-18T02:00:05.164Z"
+}
