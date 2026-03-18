@@ -495,6 +495,7 @@ function isRelatedToEvent(msg, event) {
 
 export async function post_evite_create_event(request) {
     try {
+        await ensureEviteEvents();
         const body = await parseBody(request);
         const { eventName, eventDate, venue, keywords = [], capacity = 0, notes = '',
                 eventTime = '', description = '', highlights = '' } = body;
@@ -562,6 +563,7 @@ export function options_evite_create_event(request) { return handleCors(); }
 
 export async function get_evite_events(request) {
     try {
+        await ensureEviteEvents();
         const result = await wixData.query('EviteEvents')
             .descending('createdAt')
             .limit(50)
@@ -1071,7 +1073,25 @@ const BANF_EMAIL      = 'banfjax@gmail.com';
 const RSVP_FORM_URL   = 'https://www.jaxbengali.org/_functions/evite_rsvp_form';
 const EVITE_COLLECTION = 'EviteInvitations';
 
-// Collection auto-provision
+// Collection auto-provision — EviteEvents
+let _eviteEventsEnsured = false;
+async function ensureEviteEvents() {
+    if (_eviteEventsEnsured) return;
+    try {
+        await wixData.query('EviteEvents').limit(1).find(SA);
+        _eviteEventsEnsured = true; return;
+    } catch (e) {
+        if (!e.message || !e.message.includes('WDE0025')) { _eviteEventsEnsured = true; return; }
+    }
+    try {
+        await wixData.save('EviteEvents', { _init: true, ts: new Date() }, SA)
+            .then(r => r && r._id ? wixData.remove('EviteEvents', r._id, SA).catch(() => {}) : null);
+        await new Promise(r => setTimeout(r, 400));
+    } catch (_) {}
+    _eviteEventsEnsured = true;
+}
+
+// Collection auto-provision — EviteInvitations
 let _eviteCollEnsured = false;
 async function ensureEviteInvitations() {
     if (_eviteCollEnsured) return;
