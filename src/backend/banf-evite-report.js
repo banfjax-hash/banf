@@ -1488,8 +1488,15 @@ export async function post_evite_send_invites(request) {
         if (recipients.length === 0) return jsonErr('No recipients found');
 
         const accessToken = await getGmailToken();
-        // ASCII-safe subject: replace smart quotes, em/en dashes with ASCII equivalents
-        const safeEventName = (event.eventName || '').replace(/[\u2018\u2019\u201A]/g, "'").replace(/[\u201C\u201D\u201E]/g, '"').replace(/[\u2013\u2014]/g, '-').replace(/\u2026/g, '...');
+        // Pure ASCII subject: strip ALL non-ASCII chars from event name
+        const safeEventName = (event.eventName || '')
+            .replace(/[\u2018\u2019\u201A]/g, "'")
+            .replace(/[\u201C\u201D\u201E]/g, '"')
+            .replace(/[\u2013\u2014]/g, ' - ')
+            .replace(/\u2026/g, '...')
+            .replace(/[^\x20-\x7E]/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
         const subject = "You're Invited: " + safeEventName;
         const results = { sent: 0, failed: 0, total: recipients.length, details: [] };
 

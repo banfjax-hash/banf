@@ -259,7 +259,7 @@ input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orang
             <!-- Toggle: Want to participate? -->
             <div class="cultural-toggle" onclick="toggleCulturalParticipation()">
               <div>
-                <input type="checkbox" id="culturalParticipate" style="width:18px;height:18px;accent-color:#1a5276;cursor:pointer">
+                <input type="checkbox" id="culturalParticipate" style="width:18px;height:18px;accent-color:#1a5276;cursor:pointer" onclick="event.stopPropagation(); toggleCulturalParticipation(true)">
               </div>
               <div>
                 <div class="toggle-text">I would like to participate in the Cultural Program</div>
@@ -608,9 +608,9 @@ function addMemberName(idx) {
   if (numField) numField.value = container.querySelectorAll('.member-name-row').length;
 }
 
-function toggleCulturalParticipation() {
+function toggleCulturalParticipation(fromCheckbox) {
   const cb = document.getElementById('culturalParticipate');
-  cb.checked = !cb.checked;
+  if (!fromCheckbox) cb.checked = !cb.checked;
   const box = document.getElementById('cultural-entries-box');
   box.classList.toggle('visible', cb.checked);
 }
