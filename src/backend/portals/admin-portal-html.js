@@ -1195,8 +1195,19 @@ Schedule:
           <textarea id="ev-introText" rows="3" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">প্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.</textarea>
         </div>
         <div>
-          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Banner Image URL (optional)</label>
-          <input type="text" id="ev-imageUrl" placeholder="https://... (paste image URL)" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Banner Image (upload from your machine)</label>
+          <div style="display:flex;gap:12px;align-items:center">
+            <label style="background:var(--bg2);border:1px solid var(--line);color:var(--accent);padding:8px 20px;border-radius:8px;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+              <i class="fas fa-upload"></i> Choose Image
+              <input type="file" id="ev-imageFile" accept="image/*" onchange="eviteHandleImageUpload(this)" style="display:none"/>
+            </label>
+            <span id="ev-imageFileName" style="font-size:.78rem;color:var(--muted)">No file chosen</span>
+            <button id="ev-imageRemoveBtn" onclick="eviteRemoveImage()" style="display:none;background:none;border:1px solid #ef4444;color:#ef4444;padding:4px 12px;border-radius:6px;font-size:.75rem;cursor:pointer"><i class="fas fa-trash me-1"></i>Remove</button>
+          </div>
+          <div id="ev-imagePreview" style="display:none;margin-top:10px;border-radius:8px;overflow:hidden;border:1px solid var(--line);max-width:400px">
+            <img id="ev-imagePreviewImg" style="width:100%;display:block" alt="Banner preview"/>
+          </div>
+          <input type="hidden" id="ev-imageUrl" value=""/>
         </div>
       </div>
 
@@ -3573,7 +3584,7 @@ function collectEviteConfig() {
     },
     design: {
       introText: document.getElementById('ev-introText').value.trim(),
-      imageUrl: document.getElementById('ev-imageUrl').value.trim()
+      imageUrl: document.getElementById('ev-imageUrl').value || ''
     },
     rsvp: {
       collectGuests: document.getElementById('ev-collectGuests').checked,
@@ -3613,6 +3624,33 @@ function eviteRecipientTypeChanged() {
 document.getElementById('ev-culturalEnabled')?.addEventListener('change', function() {
   document.getElementById('ev-cultural-fields').style.display = this.checked ? 'block' : 'none';
 });
+
+function eviteHandleImageUpload(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Image must be under 5 MB.');
+    input.value = '';
+    return;
+  }
+  document.getElementById('ev-imageFileName').textContent = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
+  document.getElementById('ev-imageRemoveBtn').style.display = '';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('ev-imageUrl').value = e.target.result;
+    document.getElementById('ev-imagePreviewImg').src = e.target.result;
+    document.getElementById('ev-imagePreview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function eviteRemoveImage() {
+  document.getElementById('ev-imageUrl').value = '';
+  document.getElementById('ev-imageFile').value = '';
+  document.getElementById('ev-imageFileName').textContent = 'No file chosen';
+  document.getElementById('ev-imageRemoveBtn').style.display = 'none';
+  document.getElementById('ev-imagePreview').style.display = 'none';
+}
 
 async function eviteCreateEvent() {
   const config = collectEviteConfig();
