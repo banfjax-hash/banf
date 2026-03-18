@@ -1471,10 +1471,17 @@ export async function post_evite_send_invites(request) {
                 recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'president' });
             }
         } else if (recipientType === 'all_members') {
-            const membersResult = await wixData.query('CRMMembers')
+            // Try CRMMembers first, fall back to Members (legacy) if empty
+            let membersResult = await wixData.query('CRMMembers')
                 .limit(500)
                 .find(SA)
                 .catch(() => ({ items: [] }));
+            if (!membersResult.items || membersResult.items.length === 0) {
+                membersResult = await wixData.query('Members')
+                    .limit(500)
+                    .find(SA)
+                    .catch(() => ({ items: [] }));
+            }
             recipients = membersResult.items
                 .filter(m => m.email && m.isActive !== false)
                 .map(m => ({
@@ -2015,10 +2022,17 @@ export async function get_evite_recipients(request) {
                 recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'President' });
             }
         } else if (type === 'all_members') {
-            const membersResult = await wixData.query('CRMMembers')
+            // Try CRMMembers first, fall back to Members (legacy) if empty
+            let membersResult = await wixData.query('CRMMembers')
                 .limit(500)
                 .find(SA)
                 .catch(() => ({ items: [] }));
+            if (!membersResult.items || membersResult.items.length === 0) {
+                membersResult = await wixData.query('Members')
+                    .limit(500)
+                    .find(SA)
+                    .catch(() => ({ items: [] }));
+            }
             recipients = membersResult.items
                 .filter(m => m.email && m.isActive !== false)
                 .map(m => ({

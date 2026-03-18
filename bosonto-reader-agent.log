@@ -8326,3 +8326,12 @@
 [2026-03-18T20:55:22.663Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
 [2026-03-18T20:55:22.664Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 6 min). Run: node gmail-oauth-refresh.js
 [2026-03-18T20:55:22.665Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-18T21:00:22.669Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #1703 ΓòÉΓòÉΓòÉ
+[2026-03-18T21:00:22.673Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-18T21:00:22.675Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 1 min). Run: node gmail-oauth-refresh.js
+[2026-03-18T21:00:22.676Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-18T21:05:22.671Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #1704 ΓòÉΓòÉΓòÉ
+[2026-03-18T21:05:22.673Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-18T21:05:22.673Z] [INFO] Token backoff period elapsed, retrying token refresh...
+[2026-03-18T21:05:22.891Z] [ERROR] Gmail token unavailable: Gmail token: Unauthorized
+[2026-03-18T21:05:22.892Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
