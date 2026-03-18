@@ -387,6 +387,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <div class="sb-item" data-panel="income-summary"><i class="fas fa-chart-pie"></i><span>Income Summary</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="event-expenses"><i class="fas fa-calendar-check"></i><span>Event Expenses</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
+    <div class="sb-group">Events</div>
+    <div class="sb-item" data-panel="evite-manager"><i class="fas fa-envelope-open-text"></i><span>E-Vite Manager</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+
     <div class="sb-group" id="president-group" style="display:none">President</div>
     <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="ec-revoke" id="president-ec-revoke" style="display:none"><i class="fas fa-ban"></i><span>Revoke EC Role</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
@@ -1318,6 +1321,188 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         </div>
         <button onclick="revokeEcAdminRole()" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600"><i class="fas fa-ban me-1"></i>Revoke EC Admin Role</button>
         <div id="revoke-msg" style="margin-top:12px;font-size:.82rem;display:none;padding:10px 14px;border-radius:8px"></div>
+      </div>
+    </div>
+
+    <!-- ═══ EVITE MANAGER PANEL ═══ -->
+    <div class="portal-section" id="panel-evite-manager">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> E-Vite Manager — Event Invitation System</div>
+
+      <!-- Event Details -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-calendar-star"></i> Event Details</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Configure the event information that appears on the invitation.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Event Name</label>
+            <input type="text" id="ev-eventName" value="BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Venue</label>
+            <input type="text" id="ev-venue" value="Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Event Date</label>
+            <input type="date" id="ev-eventDate" value="2026-04-25" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Event Time</label>
+            <input type="text" id="ev-eventTime" value="11:00 AM – 4:00 PM" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Capacity</label>
+            <input type="number" id="ev-capacity" value="300" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">RSVP Deadline</label>
+            <input type="date" id="ev-rsvpDeadline" value="2026-04-22" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+        </div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Description</label>
+          <textarea id="ev-description" rows="4" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">Join us to celebrate Pohela Boishakh — the Bengali New Year — with a day of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!
+
+Schedule:
+• 11:00 AM – 12:00 PM — Snacks / Adda
+• 12:00 PM – 1:30 PM — Cultural Program
+• 1:45 PM – 3:00 PM — Lunch
+• 3:00 PM – 4:00 PM — Wrap Up</textarea>
+        </div>
+        <div>
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Highlights</label>
+          <textarea id="ev-highlights" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">Traditional alpona, cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.</textarea>
+        </div>
+      </div>
+
+      <!-- Email Design -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-palette"></i> Email Template Design</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Customize the invitation email appearance and content.</p>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Intro Text (shown at top of invitation)</label>
+          <textarea id="ev-introText" rows="3" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">প্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.</textarea>
+        </div>
+        <div>
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Banner Image URL (optional)</label>
+          <input type="text" id="ev-imageUrl" placeholder="https://... (paste image URL)" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+        </div>
+      </div>
+
+      <!-- RSVP Options -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-clipboard-check"></i> RSVP Options</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Configure what information to collect from invitees.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px">
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer">
+            <input type="checkbox" id="ev-collectGuests" checked style="accent-color:var(--accent);width:18px;height:18px"/> Collect Guest Count
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer">
+            <input type="checkbox" id="ev-collectFood" checked style="accent-color:var(--accent);width:18px;height:18px"/> Collect Food Preference
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer">
+            <input type="checkbox" id="ev-collectAllergy" checked style="accent-color:var(--accent);width:18px;height:18px"/> Collect Allergy Info
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer">
+            <input type="checkbox" id="ev-allowMaybe" checked style="accent-color:var(--accent);width:18px;height:18px"/> Allow &ldquo;Maybe&rdquo; Response
+          </label>
+        </div>
+      </div>
+
+      <!-- Cultural Program Config -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-masks-theater"></i> Cultural Program Section</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Enable a cultural performance sign-up section in the invitation.</p>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer;margin-bottom:12px">
+          <input type="checkbox" id="ev-culturalEnabled" checked style="accent-color:var(--accent);width:18px;height:18px"/> Enable Cultural Program Section
+        </label>
+        <div id="ev-cultural-fields">
+          <div style="margin-bottom:12px">
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Section Header</label>
+            <input type="text" id="ev-culturalHeader" value="🎭 Cultural Program — Participate & Showcase Your Talent!" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+          </div>
+          <div style="margin-bottom:12px">
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Description</label>
+            <textarea id="ev-culturalDesc" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">We are excited to feature cultural performances by our community members at this year's Noboborsho celebration! If you or your family members would like to participate, please fill in the details below.</textarea>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+            <div>
+              <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Categories (comma-separated)</label>
+              <input type="text" id="ev-categories" value="dance, song, instrumental, skit, poetry" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+            </div>
+            <div>
+              <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Performance Modes</label>
+              <input type="text" id="ev-modes" value="individual, group" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+            </div>
+            <div>
+              <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Age Groups</label>
+              <input type="text" id="ev-ageGroups" value="kid, youth, adult, senior, mix" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem"/>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px">
+            <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer">
+              <input type="checkbox" id="ev-askLanguage" checked style="accent-color:var(--accent);width:18px;height:18px"/> Ask Preferred Language
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#fff;cursor:pointer">
+              <input type="checkbox" id="ev-askDescription" checked style="accent-color:var(--accent);width:18px;height:18px"/> Ask Performance Description
+            </label>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Notes (one per line)</label>
+            <textarea id="ev-culturalNotes" rows="4" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.82rem;resize:vertical">If you are a participant, please ask your mentor to apply. Only mentors, individual performers, and parents (on behalf of their kids) should apply.
+No EC member can apply as a mentor or individual performer — EC members can only perform in a group managed by a mentor. However, EC members can apply as a parent for their kids.
+We will try our best to accommodate every request. If demand exceeds the allotted cultural time, priority will be given to: items aligned with the nature of the program, diversity of genre and mode of delivery, and representation by various age groups.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recipient Config -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-users"></i> Recipient List</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Choose who receives the invitation email.</p>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+          <select id="ev-recipientType" onchange="eviteRecipientTypeChanged()" style="padding:8px 16px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;min-width:220px">
+            <option value="all_members">All CRM Members (Full Send)</option>
+            <option value="ec">EC Members Only</option>
+            <option value="custom">Custom Email List</option>
+          </select>
+          <button onclick="eviteLoadRecipientPreview()" style="background:var(--bg2);border:1px solid var(--line);color:var(--accent);padding:8px 16px;border-radius:8px;font-size:.82rem;cursor:pointer"><i class="fas fa-eye me-1"></i>Preview List</button>
+          <span id="ev-recipientCount" style="font-size:.82rem;color:var(--muted)"></span>
+        </div>
+        <div id="ev-customEmailsWrap" style="display:none;margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Custom Emails (one per line: email or &ldquo;Name &lt;email&gt;&rdquo;)</label>
+          <textarea id="ev-customEmails" rows="5" placeholder="john@example.com&#10;Jane Doe <jane@example.com>" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.82rem;resize:vertical"></textarea>
+        </div>
+        <div id="ev-recipientPreview" style="display:none;max-height:300px;overflow-y:auto;background:var(--bg2);border-radius:8px;padding:12px;font-size:.78rem;color:var(--muted)"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(34,197,94,.3)">
+        <h2><i class="fas fa-paper-plane"></i> Actions</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Create the event, then send invitations. Use Dry Run to test with president only.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+          <button onclick="eviteCreateEvent()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
+            <i class="fas fa-plus me-1"></i>Create Event
+          </button>
+          <button onclick="eviteDryRun()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
+            <i class="fas fa-vial me-1"></i>Dry Run (President Only)
+          </button>
+          <button onclick="eviteSendAll()" style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
+            <i class="fas fa-paper-plane me-1"></i>Send Invitations
+          </button>
+          <button onclick="eviteLoadEvents()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer">
+            <i class="fas fa-sync me-1"></i>Refresh Events
+          </button>
+        </div>
+        <div id="ev-action-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
+      </div>
+
+      <!-- Existing Events & Status -->
+      <div class="card-a">
+        <h2><i class="fas fa-list"></i> Existing Events</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Previously created events and their invite/RSVP status.</p>
+        <div id="ev-events-list" style="font-size:.82rem;color:var(--dim)">Click &ldquo;Refresh Events&rdquo; to load.</div>
       </div>
     </div>
 
@@ -2513,7 +2698,7 @@ async function forgotStep3() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses']);
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager']);
 let rmbIframeLoaded = false;
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {
@@ -3979,6 +4164,222 @@ async function submitReceipt() {
   } catch(e) {
     msgEl.style.color = 'var(--red)';
     msgEl.innerHTML = '<i class="fas fa-times-circle me-1"></i>API error: ' + e.message;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  EVITE MANAGER FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════
+
+let EVITE_CURRENT_EVENT_ID = null;
+
+function collectEviteConfig() {
+  const notes = (document.getElementById('ev-culturalNotes').value || '').split('\n').filter(n => n.trim());
+  return {
+    event: {
+      eventName: document.getElementById('ev-eventName').value.trim(),
+      eventDate: document.getElementById('ev-eventDate').value,
+      eventTime: document.getElementById('ev-eventTime').value.trim(),
+      venue: document.getElementById('ev-venue').value.trim(),
+      description: document.getElementById('ev-description').value.trim(),
+      highlights: document.getElementById('ev-highlights').value.trim(),
+      capacity: parseInt(document.getElementById('ev-capacity').value) || 0,
+      rsvpDeadline: document.getElementById('ev-rsvpDeadline').value
+    },
+    design: {
+      introText: document.getElementById('ev-introText').value.trim(),
+      imageUrl: document.getElementById('ev-imageUrl').value.trim()
+    },
+    rsvp: {
+      collectGuests: document.getElementById('ev-collectGuests').checked,
+      collectFood: document.getElementById('ev-collectFood').checked,
+      collectAllergy: document.getElementById('ev-collectAllergy').checked,
+      allowMaybe: document.getElementById('ev-allowMaybe').checked
+    },
+    cultural: {
+      enabled: document.getElementById('ev-culturalEnabled').checked,
+      header: document.getElementById('ev-culturalHeader').value.trim(),
+      description: document.getElementById('ev-culturalDesc').value.trim(),
+      categories: document.getElementById('ev-categories').value.split(',').map(s => s.trim()).filter(Boolean),
+      modes: document.getElementById('ev-modes').value.split(',').map(s => s.trim()).filter(Boolean),
+      ageGroups: document.getElementById('ev-ageGroups').value.split(',').map(s => s.trim()).filter(Boolean),
+      askLanguage: document.getElementById('ev-askLanguage').checked,
+      askDescription: document.getElementById('ev-askDescription').checked,
+      notes: notes
+    }
+  };
+}
+
+function eviteShowMsg(msg, isError) {
+  const el = document.getElementById('ev-action-msg');
+  el.style.display = 'block';
+  el.style.color = isError ? '#ef4444' : 'var(--green)';
+  el.innerHTML = (isError ? '<i class="fas fa-times-circle me-1"></i>' : '<i class="fas fa-check-circle me-1"></i>') + msg;
+}
+
+function eviteRecipientTypeChanged() {
+  const type = document.getElementById('ev-recipientType').value;
+  document.getElementById('ev-customEmailsWrap').style.display = type === 'custom' ? 'block' : 'none';
+  document.getElementById('ev-recipientCount').textContent = '';
+  document.getElementById('ev-recipientPreview').style.display = 'none';
+}
+
+// Toggle cultural fields visibility
+document.getElementById('ev-culturalEnabled')?.addEventListener('change', function() {
+  document.getElementById('ev-cultural-fields').style.display = this.checked ? 'block' : 'none';
+});
+
+async function eviteCreateEvent() {
+  const config = collectEviteConfig();
+  if (!config.event.eventName) return eviteShowMsg('Event name is required.', true);
+  eviteShowMsg('Creating event...', false);
+  try {
+    const resp = await fetch(API + '/evite_create_event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventName: config.event.eventName,
+        eventDate: config.event.eventDate,
+        eventTime: config.event.eventTime,
+        venue: config.event.venue,
+        description: config.event.description,
+        highlights: config.event.highlights,
+        capacity: config.event.capacity,
+        eviteConfig: config
+      })
+    });
+    const data = await resp.json();
+    if (data.eventId) {
+      EVITE_CURRENT_EVENT_ID = data.eventId;
+      eviteShowMsg((data.existing ? 'Event already exists' : 'Event created') + '. ID: ' + data.eventId, false);
+      eviteLoadEvents();
+    } else {
+      eviteShowMsg(data.error || 'Failed to create event.', true);
+    }
+  } catch (e) {
+    eviteShowMsg('API error: ' + e.message, true);
+  }
+}
+
+async function eviteSendInvites(recipientType, customEmails) {
+  if (!EVITE_CURRENT_EVENT_ID) return eviteShowMsg('Create an event first or select one from the list below.', true);
+  const config = collectEviteConfig();
+  const typeName = recipientType === 'custom' ? 'dry-run (president)' : recipientType === 'ec' ? 'EC members' : 'ALL CRM members';
+  if (recipientType === 'all_members') {
+    if (!confirm('Send invitations to ALL CRM members? This will send real emails.')) return;
+  }
+  eviteShowMsg('Sending to ' + typeName + '...', false);
+  try {
+    const body = {
+      eventId: EVITE_CURRENT_EVENT_ID,
+      recipientType: recipientType,
+      eviteConfig: config
+    };
+    if (recipientType === 'custom' && customEmails) body.customEmails = customEmails;
+    const resp = await fetch(API + '/evite_send_invites', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await resp.json();
+    if (data.sent !== undefined) {
+      eviteShowMsg('Done! Sent: ' + data.sent + ', Failed: ' + data.failed + ', Total: ' + data.total, data.failed > 0);
+    } else {
+      eviteShowMsg(data.error || 'Send failed.', true);
+    }
+  } catch (e) {
+    eviteShowMsg('API error: ' + e.message, true);
+  }
+}
+
+function eviteDryRun() {
+  eviteSendInvites('custom', [{ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'president' }]);
+}
+
+function eviteSendAll() {
+  const type = document.getElementById('ev-recipientType').value;
+  if (type === 'custom') {
+    const lines = (document.getElementById('ev-customEmails').value || '').split('\n').filter(l => l.trim());
+    const emails = lines.map(line => {
+      const m = line.match(/^(.+?)\s*<(.+?)>$/);
+      if (m) return { name: m[1].trim(), email: m[2].trim() };
+      return { name: line.trim().split('@')[0], email: line.trim() };
+    }).filter(e => e.email.includes('@'));
+    if (emails.length === 0) return eviteShowMsg('No valid custom emails provided.', true);
+    eviteSendInvites('custom', emails);
+  } else {
+    eviteSendInvites(type);
+  }
+}
+
+async function eviteLoadEvents() {
+  const el = document.getElementById('ev-events-list');
+  el.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading...';
+  try {
+    const resp = await fetch(API + '/evite_events');
+    const data = await resp.json();
+    if (!data.events || data.events.length === 0) {
+      el.innerHTML = 'No events found. Create one above.';
+      return;
+    }
+    let html = '<table class="t" style="font-size:.82rem"><thead><tr><th>Event</th><th>Date</th><th>Invites</th><th>RSVPs</th><th>Created</th><th>Action</th></tr></thead><tbody>';
+    data.events.forEach(ev => {
+      const d = ev.eventDate ? new Date(ev.eventDate).toLocaleDateString() : '—';
+      const created = ev.createdAt ? new Date(ev.createdAt).toLocaleDateString() : '—';
+      html += '<tr><td>' + (ev.eventName || '?') + '</td><td>' + d + '</td><td>' + (ev.totalInvitesSent || 0) + '</td><td>' + (ev.totalRSVPs || 0) + '</td><td>' + created + '</td><td><button onclick="eviteSelectEvent(\'' + ev._id + '\')" style="background:var(--accent);color:#fff;border:none;padding:4px 12px;border-radius:6px;font-size:.78rem;cursor:pointer">' + (EVITE_CURRENT_EVENT_ID === ev._id ? '✓ Selected' : 'Select') + '</button></td></tr>';
+    });
+    html += '</tbody></table>';
+    el.innerHTML = html;
+  } catch (e) {
+    el.innerHTML = 'Error loading events: ' + e.message;
+  }
+}
+
+function eviteSelectEvent(id) {
+  EVITE_CURRENT_EVENT_ID = id;
+  eviteShowMsg('Selected event: ' + id, false);
+  eviteLoadEvents();
+}
+
+async function eviteLoadRecipientPreview() {
+  const type = document.getElementById('ev-recipientType').value;
+  const previewEl = document.getElementById('ev-recipientPreview');
+  const countEl = document.getElementById('ev-recipientCount');
+  previewEl.style.display = 'block';
+  previewEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading...';
+
+  if (type === 'custom') {
+    const lines = (document.getElementById('ev-customEmails').value || '').split('\n').filter(l => l.trim());
+    countEl.textContent = lines.length + ' recipient(s)';
+    previewEl.innerHTML = lines.map(l => '<div>' + l + '</div>').join('') || 'No emails entered.';
+    return;
+  }
+
+  try {
+    const resp = await fetch(API + '/admin_members', {
+      headers: { 'Content-Type': 'application/json', 'x-user-email': CURRENT_ADMIN ? CURRENT_ADMIN.email : '' }
+    });
+    const data = await resp.json();
+    if (data.members) {
+      let filtered = data.members;
+      if (type === 'ec') {
+        filtered = data.members.filter(m => m.isEC || m.role === 'ec' || m.ecTitle);
+      }
+      countEl.textContent = filtered.length + ' recipient(s)';
+      let html = '<table style="width:100%;font-size:.78rem"><thead><tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Name</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Email</th></tr></thead><tbody>';
+      filtered.forEach(m => {
+        const name = m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0];
+        html += '<tr><td style="padding:4px 8px">' + name + '</td><td style="padding:4px 8px">' + (m.email || '') + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      previewEl.innerHTML = html;
+    } else {
+      countEl.textContent = '';
+      previewEl.innerHTML = 'Could not load member list: ' + (data.error || 'unknown error');
+    }
+  } catch (e) {
+    countEl.textContent = '';
+    previewEl.innerHTML = 'Error loading members: ' + e.message;
   }
 }
 
