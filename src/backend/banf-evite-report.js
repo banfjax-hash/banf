@@ -1239,9 +1239,9 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
     // Cultural section
     let culturalHtml = '';
     if (cultural.enabled) {
-        const catLabels = { dance: '💃 Dance', song: '🎤 Song', instrumental: '🎸 Instrumental', skit: '🎬 Skit / Drama', poetry: '📝 Poetry / Recitation' };
-        const modeLabels = { individual: '🧑 Individual', group: '👥 Group' };
-        const ageLabels = { kid: '👶 Kid (under 12)', youth: '🧑‍🎤 Youth (12-17)', adult: '🧑‍💼 Adult (18-59)', senior: '👴 Senior (60+)', mix: '🌈 Mix' };
+        const catLabels = { dance: '&#128131; Dance', song: '&#127908; Song', instrumental: '&#127928; Instrumental', skit: '&#127916; Skit / Drama', poetry: '&#128221; Poetry / Recitation' };
+        const modeLabels = { individual: '&#129489; Individual', group: '&#128101; Group' };
+        const ageLabels = { kid: '&#128118; Kid (under 12)', youth: '&#129489;&#8205;&#127908; Youth (12-17)', adult: '&#129489;&#8205;&#128188; Adult (18-59)', senior: '&#128116; Senior (60+)', mix: '&#127752; Mix' };
 
         const catChips = (cultural.categories || []).map(c =>
             `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#fce4ec;color:#c0392b;margin:2px">${catLabels[c] || c}</span>`
@@ -1255,13 +1255,13 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
 
         let notesHtml = '';
         (cultural.notes || []).forEach(n => {
-            notesHtml += `<div style="padding:4px 0;font-size:12px;color:#666">📌 ${_esc(n)}</div>`;
+            notesHtml += `<div style="padding:4px 0;font-size:12px;color:#666">&#128204; ${_esc(n)}</div>`;
         });
 
         culturalHtml = `
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7ff;border-radius:12px;border-left:4px solid #3498db;margin:20px 0">
     <tr><td style="padding:20px 24px">
-      <div style="font-size:16px;font-weight:700;color:#1a5276;margin-bottom:8px">${_esc(cultural.header || '🎭 Cultural Program — Participate & Showcase Your Talent!')}</div>
+      <div style="font-size:16px;font-weight:700;color:#1a5276;margin-bottom:8px">${_esc(cultural.header || 'Cultural Program - Participate & Showcase Your Talent!')}</div>
       <div style="font-size:14px;color:#555;line-height:1.6;margin-bottom:12px">${_esc(cultural.description || '')}</div>
       ${catChips ? `<div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Categories:</strong><br>${catChips}</div>` : ''}
       ${modeChips ? `<div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Mode:</strong><br>${modeChips}</div>` : ''}
@@ -1273,7 +1273,7 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
     return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${event.eventName} - You're Invited!</title></head>
+<title>${_esc(event.eventName)} - You're Invited!</title></head>
 <body style="margin:0;padding:0;background:#f4f0ed;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f0ed;padding:20px 0">
 <tr><td align="center">
@@ -1282,13 +1282,13 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
 <!-- Header -->
 <tr><td style="background:linear-gradient(135deg,#8B0000,#DC143C);padding:32px 40px;text-align:center">
   <div style="font-size:14px;color:rgba(255,255,255,.8);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">You're Invited!</div>
-  <div style="font-size:26px;font-weight:700;color:#fff;line-height:1.3">${event.eventName}</div>
+  <div style="font-size:26px;font-weight:700;color:#fff;line-height:1.3">${_esc(event.eventName)}</div>
   <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:8px">${BANF_ORG}</div>
 </td></tr>
 
 <!-- Body -->
 <tr><td style="padding:32px 40px">
-  <p style="font-size:16px;color:#333;margin:0 0 20px">Dear <strong>${recipientName}</strong>,</p>
+  <p style="font-size:16px;color:#333;margin:0 0 20px">Dear <strong>${_esc(recipientName)}</strong>,</p>
   <p style="font-size:15px;color:#555;margin:0 0 24px;line-height:1.6">${_esc(introText)}</p>
   ${imageHtml}
 
@@ -1299,9 +1299,9 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
     <table cellpadding="0" cellspacing="0" style="font-size:14px;color:#333">
       <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000;vertical-align:top">&#128197; Date</td><td style="padding:4px 0">${dateStr}</td></tr>
       ${timeStr ? `<tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000;vertical-align:top">&#128336; Time</td><td style="padding:4px 0">${timeStr}</td></tr>` : ''}
-      <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000;vertical-align:top">&#128205; Venue</td><td style="padding:4px 0">${venue}</td></tr>
+      <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000;vertical-align:top">&#128205; Venue</td><td style="padding:4px 0">${_esc(venue)}</td></tr>
     </table>
-    ${description ? `<div style="margin-top:12px;font-size:14px;color:#555;line-height:1.5">${description}</div>` : ''}
+    ${description ? `<div style="margin-top:12px;font-size:14px;color:#555;line-height:1.5">${_esc(description)}</div>` : ''}
   </td></tr></table>
 
   <!-- What we will ask -->
@@ -1329,7 +1329,7 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
   ${event.highlights ? `
   <div style="background:#f9f7f5;border-radius:12px;padding:16px 20px;margin-top:20px">
     <div style="font-size:13px;color:#8B0000;font-weight:600;margin-bottom:8px">What to Expect</div>
-    <div style="font-size:14px;color:#555;line-height:1.6">${event.highlights}</div>
+    <div style="font-size:14px;color:#555;line-height:1.6">${_esc(event.highlights)}</div>
   </div>` : ''}
 
   <!-- Special Food Note -->
@@ -1354,7 +1354,19 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
 </body></html>`;
 }
 
-function _esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+// Escape HTML special chars AND convert ALL non-ASCII to numeric entities.
+// This ensures the HTML body is pure ASCII — no encoding chain issues.
+function _esc(s) {
+    return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/[^\x00-\x7F]/gu, function(ch) {
+            // Use 'u' flag so surrogate pairs are a single match
+            return '&#' + ch.codePointAt(0) + ';';
+        });
+}
 
 // ── RFC 2047 MIME encoding for non-ASCII headers ──
 function mimeEncodeIfNeeded(str) {
@@ -1476,7 +1488,9 @@ export async function post_evite_send_invites(request) {
         if (recipients.length === 0) return jsonErr('No recipients found');
 
         const accessToken = await getGmailToken();
-        const subject = `You're Invited: ${event.eventName}`;
+        // ASCII-safe subject: replace smart quotes, em/en dashes with ASCII equivalents
+        const safeEventName = (event.eventName || '').replace(/[\u2018\u2019\u201A]/g, "'").replace(/[\u201C\u201D\u201E]/g, '"').replace(/[\u2013\u2014]/g, '-').replace(/\u2026/g, '...');
+        const subject = "You're Invited: " + safeEventName;
         const results = { sent: 0, failed: 0, total: recipients.length, details: [] };
 
         for (const recip of recipients) {
