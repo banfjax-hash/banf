@@ -1076,6 +1076,69 @@ const BANF_ORG        = 'Bengali Association of North Florida';
 const BANF_EMAIL      = 'banfjax@gmail.com';
 const RSVP_FORM_URL   = 'https://www.jaxbengali.org/_functions/evite_rsvp_form';
 const EVITE_COLLECTION = 'EviteInvitations';
+const BANF_GHPAGES    = 'https://banfjax-hash.github.io/banf';
+const DEFAULT_EVENT_IMAGE = BANF_GHPAGES + '/images/noboborsho-2026.jpg';
+
+// ── Communication Compliance (Wix-compatible port) ──
+// Validates email content before sending: headers, tone, ethics, encoding
+function complianceCheck(email) {
+    const violations = [];
+    const warnings = [];
+    let score = 100;
+    // Subject check
+    if (!email.subject || !email.subject.trim()) {
+        violations.push('EMPTY_SUBJECT');
+        score -= 20;
+    } else if (!/^[\x20-\x7E]*$/.test(email.subject)) {
+        warnings.push('NON_ASCII_SUBJECT: Will be RFC 2047 encoded');
+    }
+    // Recipient check
+    if (!email.to || !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.to)) {
+        violations.push('INVALID_EMAIL: ' + (email.to || 'missing'));
+        score -= 30;
+    }
+    // Body content checks
+    const bodyText = (email.body || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!bodyText || bodyText.length < 20) {
+        violations.push('EMPTY_OR_SHORT_BODY');
+        score -= 20;
+    }
+    // PII checks
+    if (/\b\d{3}-\d{2}-\d{4}\b/.test(bodyText)) {
+        violations.push('PII_EXPOSURE: Possible SSN');
+        score -= 40;
+    }
+    if (/\b(?:4\d{3}|5[1-5]\d{2}|6011|3[47]\d{2})[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b/.test(bodyText)) {
+        violations.push('PII_EXPOSURE: Possible credit card');
+        score -= 40;
+    }
+    // Non-ASCII in body — check encoding will work
+    const nonAsciiCount = (email.body || '').split('').filter(c => c.charCodeAt(0) > 127).length;
+    if (nonAsciiCount > 0) {
+        warnings.push('NON_ASCII_BODY: ' + nonAsciiCount + ' non-ASCII chars — ensure base64 Content-Transfer-Encoding');
+    }
+    return {
+        pass: violations.length === 0 && score >= 40,
+        violations,
+        warnings,
+        score: Math.max(0, score)
+    };
+}
+
+// Wrap base64 string into 76-char lines per RFC 2045
+function wrapBase64(b64str) {
+    const lines = [];
+    for (let i = 0; i < b64str.length; i += 76) {
+        lines.push(b64str.substring(i, i + 76));
+    }
+    return lines.join('\r\n');
+}
+
+// Sanitize header values — prevent CRLF injection, strip control chars
+function sanitizeHeaderValue(val) {
+    if (!val) return '';
+    return String(val).replace(/[\r\n]/g, ' ').replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '').trim();
+}
 
 // Collection auto-provision — EviteEvents
 let _eviteEventsEnsured = false;
@@ -1159,9 +1222,10 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
     // Intro text
     const introText = design.introText || 'We are delighted to invite you and your family to our upcoming event. Your presence will make this celebration truly special!';
 
-    // Banner image
-    const imageHtml = design.imageUrl
-        ? `<img src="${_esc(design.imageUrl)}" alt="${_esc(event.eventName)}" style="width:100%;max-width:560px;border-radius:12px;margin:0 0 20px;display:block" />`
+    // Banner image — fall back to GitHub Pages hosted image
+    const imgUrl = design.imageUrl || DEFAULT_EVENT_IMAGE;
+    const imageHtml = imgUrl
+        ? `<img src="${_esc(imgUrl)}" alt="${_esc(event.eventName)}" style="width:100%;max-width:560px;border-radius:12px;margin:0 0 20px;display:block" />`
         : '';
 
     // What we ask list
@@ -1298,16 +1362,42 @@ function mimeEncodeIfNeeded(str) {
     // If pure printable ASCII, return as-is
     if (/^[\x20-\x7E]*$/.test(str)) return str;
     // Encode as =?UTF-8?B?...?= per RFC 2047
+    // Split into chunks to stay under 75-char encoded-word limit
     const utf8bytes = unescape(encodeURIComponent(str));
-    return '=?UTF-8?B?' + btoa(utf8bytes) + '?=';
+    const b64 = btoa(utf8bytes);
+    if (b64.length <= 56) {
+        // Single encoded-word fits within 75 chars: =?UTF-8?B? (10) + 56 + ?= (2) = 68
+        return '=?UTF-8?B?' + b64 + '?=';
+    }
+    // Split into multiple encoded-words: chunk UTF-8 bytes at ~42 byte boundaries
+    const words = [];
+    for (let i = 0; i < utf8bytes.length; i += 42) {
+        const chunk = utf8bytes.substring(i, i + 42);
+        words.push('=?UTF-8?B?' + btoa(chunk) + '?=');
+    }
+    return words.join('\r\n ');
 }
 
 // ── Send one invitation email via Gmail API ──
 async function sendInviteEmail(to, toName, subject, html, accessToken) {
-    const safeSubject = mimeEncodeIfNeeded(subject);
-    const safeName = mimeEncodeIfNeeded(toName);
+    // Communication compliance pre-check
+    const compliance = complianceCheck({ to, toName, subject, body: html });
+    if (!compliance.pass) {
+        console.error('Compliance BLOCKED send:', compliance.violations);
+        return { ok: false, error: 'Compliance: ' + compliance.violations.join('; ') };
+    }
+    if (compliance.warnings.length > 0) {
+        console.warn('Compliance warnings:', compliance.warnings);
+    }
+
+    const safeSubject = mimeEncodeIfNeeded(sanitizeHeaderValue(subject));
+    const safeName = mimeEncodeIfNeeded(sanitizeHeaderValue(toName));
     const toHeader = safeName ? `${safeName} <${to}>` : to;
     const fromName = mimeEncodeIfNeeded(BANF_ORG);
+
+    // Base64 encode the HTML body with RFC 2045 line wrapping (76-char lines)
+    const bodyB64 = wrapBase64(btoa(unescape(encodeURIComponent(html))));
+
     const message = [
         `To: ${toHeader}`,
         `From: ${fromName} <${BANF_EMAIL}>`,
@@ -1316,7 +1406,7 @@ async function sendInviteEmail(to, toName, subject, html, accessToken) {
         `Content-Type: text/html; charset=utf-8`,
         `Content-Transfer-Encoding: base64`,
         '',
-        btoa(unescape(encodeURIComponent(html)))
+        bodyB64
     ].join('\r\n');
     const raw = btoa(message)
         .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
