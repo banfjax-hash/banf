@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF — RSVP</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--banf-red:#8B0000;--banf-dark:#5a0000;--banf-orange:#FF6B35;--grad:linear-gradient(135deg,#8B0000,#DC143C)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#f4f0ed;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px}
+.container{width:100%;max-width:620px}
+.header{background:var(--grad);color:#fff;padding:28px 32px;border-radius:16px 16px 0 0;text-align:center}
+.header h1{font-size:1.4rem;font-weight:700;margin-bottom:4px}
+.header .org{font-size:.82rem;opacity:.75}
+.card{background:#fff;padding:28px 32px;border-radius:0 0 16px 16px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
+
+/* Event details */
+.event-details{background:#fdf6f0;border-left:4px solid var(--banf-orange);border-radius:0 12px 12px 0;padding:16px 20px;margin-bottom:24px}
+.event-details .label{font-size:.72rem;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.event-details .detail-row{display:flex;gap:12px;padding:4px 0;font-size:.9rem}
+.event-details .detail-row .icon{font-weight:600;color:var(--banf-red);min-width:24px}
+.event-details .detail-row .value{color:#333}
+
+/* Banner image in RSVP form */
+.event-banner{width:100%;border-radius:12px;margin-bottom:20px;display:none}
+.event-banner.visible{display:block}
+
+/* Intro text */
+.intro-text{font-size:.92rem;color:#555;margin-bottom:20px;line-height:1.6}
+
+/* Welcome */
+.welcome{font-size:.95rem;color:#555;margin-bottom:24px;line-height:1.6}
+.welcome strong{color:#333}
+
+/* Form groups */
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.85rem;font-weight:600;color:#333;margin-bottom:6px}
+.form-group .hint{font-size:.72rem;color:#999;margin-top:3px}
+
+/* RSVP options */
+.rsvp-options{display:flex;gap:12px;flex-wrap:wrap}
+.rsvp-option{flex:1;min-width:100px;position:relative}
+.rsvp-option input{display:none}
+.rsvp-option label{display:block;text-align:center;padding:14px 12px;border:2px solid #e0e0e0;border-radius:12px;cursor:pointer;transition:all .2s;font-size:.88rem;font-weight:500}
+.rsvp-option label:hover{border-color:var(--banf-orange);background:#fff8f5}
+.rsvp-option input:checked+label{border-color:var(--banf-red);background:linear-gradient(135deg,rgba(139,0,0,.08),rgba(220,20,60,.05));color:var(--banf-red);font-weight:700}
+.rsvp-option[data-status="yes"] input:checked+label{border-color:#27ae60;background:rgba(39,174,96,.08);color:#27ae60}
+.rsvp-option[data-status="no"] input:checked+label{border-color:#e74c3c;background:rgba(231,76,60,.08);color:#e74c3c}
+.rsvp-option[data-status="maybe"] input:checked+label{border-color:#f39c12;background:rgba(243,156,18,.08);color:#f39c12}
+
+/* Number inputs */
+.number-inputs{display:flex;gap:16px}
+.number-input{flex:1}
+.number-input input{width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:.95rem;text-align:center;transition:border-color .2s}
+.number-input input:focus{outline:none;border-color:var(--banf-orange)}
+
+/* Veg inputs */
+.veg-inputs{display:flex;gap:16px;margin-top:8px}
+.veg-input{flex:1;text-align:center}
+.veg-input label{display:block;font-size:.78rem;font-weight:500;color:#666;margin-bottom:4px}
+.veg-input input{width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:.95rem;text-align:center;transition:border-color .2s}
+.veg-input input:focus{outline:none;border-color:var(--banf-orange)}
+
+/* Textarea */
+textarea{width:100%;padding:12px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:.9rem;font-family:'Poppins',sans-serif;resize:vertical;min-height:80px;transition:border-color .2s}
+textarea:focus{outline:none;border-color:var(--banf-orange)}
+input[type="text"],select{width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:.9rem;font-family:'Poppins',sans-serif;transition:border-color .2s}
+input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orange)}
+
+/* Food note */
+.food-note{background:#fff8f0;border:1px solid #f0dcc8;border-radius:12px;padding:14px 16px;margin-top:8px;font-size:.78rem;color:#8B6914;line-height:1.5}
+.food-note strong{color:#7a5d10}
+
+/* Section divider */
+.section-divider{border:none;border-top:1px dashed #e0d8d0;margin:20px 0 16px}
+
+/* Chip selectors (for cultural categories) */
+.chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{position:relative}
+.chip input{display:none}
+.chip label{display:inline-block;padding:8px 16px;border:2px solid #e0e0e0;border-radius:20px;cursor:pointer;font-size:.82rem;transition:all .2s;user-select:none}
+.chip label:hover{border-color:var(--banf-orange)}
+.chip input:checked+label{border-color:var(--banf-red);background:rgba(139,0,0,.08);color:var(--banf-red);font-weight:600}
+
+/* Cultural section */
+.cultural-section{background:#f0f7ff;border:1px solid #b3d4fc;border-radius:16px;padding:24px;margin-top:20px;display:none}
+.cultural-section.visible{display:block}
+.cultural-section h3{font-size:1rem;font-weight:700;color:#1a5276;margin-bottom:8px}
+.cultural-section .desc{font-size:.85rem;color:#555;line-height:1.5;margin-bottom:16px}
+.cultural-toggle{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#e3f2fd;border-radius:12px;margin-bottom:16px;cursor:pointer}
+.cultural-toggle .toggle-text{font-size:.88rem;font-weight:600;color:#1a5276}
+.cultural-toggle .toggle-hint{font-size:.72rem;color:#777;margin-top:2px}
+.cultural-entries-box{display:none}
+.cultural-entries-box.visible{display:block}
+
+/* Cultural entry card */
+.cultural-entry{background:#fff;border:1px solid #d6e8f7;border-radius:12px;padding:16px;margin-bottom:12px;position:relative}
+.cultural-entry .entry-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cultural-entry .entry-header h4{font-size:.9rem;color:#1a5276;font-weight:600}
+.remove-entry{background:none;border:none;color:#e74c3c;font-size:1rem;cursor:pointer;padding:4px 8px;border-radius:8px}
+.remove-entry:hover{background:rgba(231,76,60,.1)}
+.add-entry-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#e3f2fd;border:2px dashed #90caf9;border-radius:12px;color:#1565c0;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;width:100%}
+.add-entry-btn:hover{background:#bbdefb;border-color:#42a5f5}
+
+/* Important notes */
+.notes-box{background:#fff3e0;border:1px solid #ffe0b2;border-radius:12px;padding:14px 16px;margin-top:16px;font-size:.78rem;color:#795548;line-height:1.5}
+.notes-box .note-item{padding:4px 0;display:flex;gap:6px}
+.notes-box .note-item .pin{flex-shrink:0}
+
+/* Member names input */
+.member-names{margin-top:8px}
+.member-name-row{display:flex;gap:8px;margin-bottom:6px;align-items:center}
+.member-name-row input{flex:1;padding:8px 12px;border:2px solid #e0e0e0;border-radius:8px;font-size:.85rem;font-family:'Poppins',sans-serif}
+.member-name-row input:focus{outline:none;border-color:var(--banf-orange)}
+.member-name-row .remove-member{background:none;border:none;color:#e74c3c;cursor:pointer;font-size:1rem;padding:4px}
+.add-member{background:none;border:none;color:#1565c0;font-size:.8rem;font-weight:600;cursor:pointer;padding:4px 0}
+.add-member:hover{text-decoration:underline}
+
+/* Submit button */
+.submit-btn{width:100%;padding:14px;background:var(--grad);color:#fff;border:none;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:.5px;transition:transform .15s,box-shadow .2s;box-shadow:0 4px 16px rgba(139,0,0,.25);margin-top:12px;font-family:'Poppins',sans-serif}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(139,0,0,.35)}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* Guest details */
+.guest-details{display:none;margin-top:16px;padding:16px;background:#f9f7f5;border-radius:12px}
+.guest-details.visible{display:block}
+
+/* Loading/Success/Error */
+.loading{text-align:center;padding:60px 20px;color:#888;font-size:.95rem}
+.loading .spinner{width:36px;height:36px;border:3px solid #eee;border-top-color:var(--banf-red);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-msg{background:#ffeaea;color:#c0392b;padding:16px;border-radius:12px;text-align:center;font-size:.88rem;margin:20px 0}
+.success-card{text-align:center;padding:40px 32px}
+.success-card .check{font-size:3rem;margin-bottom:16px}
+.success-card h2{font-size:1.3rem;color:#333;margin-bottom:8px}
+.success-card p{font-size:.9rem;color:#666;line-height:1.6}
+.already-responded{background:#f0f7ff;border:1px solid #b3d4fc;padding:16px;border-radius:12px;text-align:center;margin:20px 0}
+.already-responded .status{font-weight:700;color:var(--banf-red);font-size:1.1rem}
+.footer{text-align:center;padding:20px;font-size:.72rem;color:#aaa;margin-top:auto}
+.allergy-hint{font-size:.75rem;color:#999;margin-top:4px;line-height:1.4}
+#food-count-hint{margin-top:6px;color:#c0392b;display:none;font-size:.78rem}
+</style>
+</head>
+<body>
+<div class="container" id="main-container">
+  <div class="header">
+    <h1 id="event-title">BANF Event</h1>
+    <div class="org">Bengali Association of North Florida</div>
+  </div>
+
+  <div class="card">
+    <!-- Loading -->
+    <div class="loading" id="loading-state">
+      <div class="spinner"></div>
+      Loading your invitation...
+    </div>
+
+    <!-- Form -->
+    <div id="form-state" style="display:none">
+
+      <!-- Banner Image -->
+      <img id="event-banner" class="event-banner" alt="Event banner">
+
+      <!-- Intro Text -->
+      <div id="intro-text" class="intro-text" style="display:none"></div>
+
+      <!-- Event Details -->
+      <div class="event-details" id="event-details-box"></div>
+
+      <!-- Welcome -->
+      <div class="welcome" id="welcome-text"></div>
+
+      <!-- Already responded notice -->
+      <div class="already-responded" id="already-responded" style="display:none">
+        <div>You have already responded to this invitation.</div>
+        <div class="status" id="previous-status"></div>
+        <div style="font-size:.82rem;color:#666;margin-top:8px">You can update your response below if needed.</div>
+      </div>
+
+      <!-- RSVP Form -->
+      <form id="rsvp-form">
+        <!-- RSVP Status -->
+        <div class="form-group">
+          <label>Will you be attending?</label>
+          <div class="rsvp-options">
+            <div class="rsvp-option" data-status="yes">
+              <input type="radio" name="rsvpStatus" id="rsvp-yes" value="yes">
+              <label for="rsvp-yes">&#127881; Yes, I'll be there!</label>
+            </div>
+            <div class="rsvp-option" data-status="no">
+              <input type="radio" name="rsvpStatus" id="rsvp-no" value="no">
+              <label for="rsvp-no">&#128532; Sorry, can't make it</label>
+            </div>
+            <div class="rsvp-option" data-status="maybe" id="maybe-option">
+              <input type="radio" name="rsvpStatus" id="rsvp-maybe" value="maybe">
+              <label for="rsvp-maybe">&#129300; Maybe</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guest Details (shown when Yes/Maybe) -->
+        <div class="guest-details" id="guest-details">
+
+          <!-- Guest Count -->
+          <div class="form-group" id="guest-count-section">
+            <label>How many guests?</label>
+            <div class="number-inputs">
+              <div class="number-input">
+                <input type="number" id="adults" min="0" max="20" value="1" placeholder="Adults">
+                <div class="hint" style="text-align:center">Adults</div>
+              </div>
+              <div class="number-input">
+                <input type="number" id="kids" min="0" max="20" value="0" placeholder="Kids">
+                <div class="hint" style="text-align:center">Kids (under 18)</div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="section-divider" id="food-divider">
+
+          <!-- Food Preference -->
+          <div class="form-group" id="food-pref-section">
+            <label>&#127858; Food Preference — How many are Vegetarian vs Non-Vegetarian?</label>
+            <div class="hint" style="margin-bottom:8px">Please provide counts for your entire party (adults + kids combined)</div>
+            <div class="veg-inputs">
+              <div class="veg-input">
+                <label for="vegCount">&#129367; Vegetarian</label>
+                <input type="number" id="vegCount" min="0" max="40" value="0">
+              </div>
+              <div class="veg-input">
+                <label for="nonVegCount">&#127830; Non-Vegetarian</label>
+                <input type="number" id="nonVegCount" min="0" max="40" value="0">
+              </div>
+            </div>
+            <div id="food-count-hint">Veg + Non-Veg count should match total guests</div>
+          </div>
+
+          <hr class="section-divider" id="allergy-divider">
+
+          <!-- Allergies -->
+          <div class="form-group" id="allergy-section">
+            <label>&#9888;&#65039; Allergies &amp; Dietary Restrictions (optional)</label>
+            <textarea id="notes" placeholder="Please list any food allergies (e.g., nuts, gluten, dairy, shellfish), dietary restrictions, or other special food needs for anyone in your party..."></textarea>
+            <div class="allergy-hint">Examples: "2 people are gluten-free", "1 child has nut allergy", "Need Jain food (no onion/garlic)"</div>
+          </div>
+
+          <div class="food-note">
+            <strong>Please Note:</strong> We sincerely apologize, but we may not always be able to accommodate every special food request due to logistical constraints. Our team will try our very best, and you will be informed closer to the event date whether your specific request can be fulfilled. We appreciate your understanding and patience!
+          </div>
+
+          <!-- ════════════════════════════════════════════ -->
+          <!-- Cultural Program Section -->
+          <!-- ════════════════════════════════════════════ -->
+          <div class="cultural-section" id="cultural-section">
+            <h3 id="cultural-header">&#127917; Cultural Program — Participate &amp; Showcase Your Talent!</h3>
+            <div class="desc" id="cultural-desc"></div>
+
+            <!-- Toggle: Want to participate? -->
+            <div class="cultural-toggle" onclick="toggleCulturalParticipation()">
+              <div>
+                <input type="checkbox" id="culturalParticipate" style="width:18px;height:18px;accent-color:#1a5276;cursor:pointer">
+              </div>
+              <div>
+                <div class="toggle-text">I would like to participate in the Cultural Program</div>
+                <div class="toggle-hint">Check this box to register your performance(s)</div>
+              </div>
+            </div>
+
+            <!-- Cultural entries (shown when checked) -->
+            <div class="cultural-entries-box" id="cultural-entries-box">
+
+              <!-- Entries container -->
+              <div id="cultural-entries"></div>
+
+              <!-- Add another entry -->
+              <button type="button" class="add-entry-btn" onclick="addCulturalEntry()">
+                &#43; Add Another Performance
+              </button>
+
+              <!-- Important Notes -->
+              <div class="notes-box" id="cultural-notes-box"></div>
+            </div>
+          </div>
+
+        </div><!-- /guest-details -->
+
+        <button type="submit" class="submit-btn" id="submit-btn" disabled>Select your response above</button>
+      </form>
+    </div>
+
+    <!-- Success State -->
+    <div id="success-state" style="display:none" class="success-card"></div>
+
+    <!-- Error State -->
+    <div id="error-state" style="display:none"></div>
+  </div>
+</div>
+
+<div class="footer">
+  Bengali Association of North Florida (BANF) | Jacksonville, FL<br>
+  Your response is only visible to BANF organizers.
+</div>
+
+<script>
+const API_BASE = 'https://banfwix.wixsite.com/banf1/_functions';
+const params = new URLSearchParams(window.location.search);
+const TOKEN = params.get('token');
+const EVENT_ID = params.get('eventId');
+
+const loadingEl = document.getElementById('loading-state');
+const formEl = document.getElementById('form-state');
+const successEl = document.getElementById('success-state');
+const errorEl = document.getElementById('error-state');
+
+let currentData = null;
+let eviteConfig = null;  // cultural/rsvp configuration from admin
+let culturalEntryCount = 0;
+
+// ── Load invitation data ──
+async function loadInvitation() {
+  if (!TOKEN) {
+    showError('No invitation token found. Please use the link from your invitation email.');
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/evite_rsvp_form_data?token=${encodeURIComponent(TOKEN)}`);
+    const data = await res.json();
+    if (!data.success) {
+      showError(data.error || 'Unable to load invitation. The link may be invalid or expired.');
+      return;
+    }
+    currentData = data;
+    eviteConfig = data.eviteConfig || null;
+    renderForm(data);
+  } catch (e) {
+    showError('Unable to connect to the server. Please try again later.');
+  }
+}
+
+function renderForm(data) {
+  loadingEl.style.display = 'none';
+  formEl.style.display = 'block';
+
+  const inv = data.invitation;
+  const evt = data.event;
+  const cfg = eviteConfig || {};
+  const design = cfg.design || {};
+  const rsvpCfg = cfg.rsvp || {};
+  const cultural = cfg.cultural || {};
+
+  // Event title
+  if (evt) {
+    document.getElementById('event-title').textContent = evt.eventName;
+
+    // Banner image
+    if (design.imageUrl) {
+      const banner = document.getElementById('event-banner');
+      banner.src = design.imageUrl;
+      banner.classList.add('visible');
+    }
+
+    // Intro text
+    if (design.introText) {
+      const introEl = document.getElementById('intro-text');
+      introEl.textContent = design.introText;
+      introEl.style.display = 'block';
+    }
+
+    // Event details box
+    let detailsHtml = '<div class="label">Event Details</div>';
+    if (evt.eventDate) {
+      const d = new Date(evt.eventDate);
+      detailsHtml += `<div class="detail-row"><span class="icon">&#128197;</span><span class="value">${d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span></div>`;
+    }
+    if (evt.eventTime) {
+      detailsHtml += `<div class="detail-row"><span class="icon">&#128336;</span><span class="value">${esc(evt.eventTime)}</span></div>`;
+    }
+    if (evt.venue) {
+      detailsHtml += `<div class="detail-row"><span class="icon">&#128205;</span><span class="value">${esc(evt.venue)}</span></div>`;
+    }
+    if (evt.description) {
+      detailsHtml += `<div style="margin-top:8px;font-size:.88rem;color:#555;line-height:1.5">${esc(evt.description)}</div>`;
+    }
+    document.getElementById('event-details-box').innerHTML = detailsHtml;
+  }
+
+  // Welcome
+  document.getElementById('welcome-text').innerHTML =
+    `Dear <strong>${esc(inv.recipientName)}</strong>, please let us know if you can join us!`;
+
+  // Already responded?
+  if (inv.responded) {
+    const arEl = document.getElementById('already-responded');
+    arEl.style.display = 'block';
+    const statusMap = { yes: 'Attending', no: 'Not Attending', maybe: 'Maybe' };
+    document.getElementById('previous-status').textContent = 'Current response: ' + (statusMap[inv.rsvpStatus] || inv.rsvpStatus);
+  }
+
+  // Hide/show RSVP option sections based on config
+  if (rsvpCfg.allowMaybe === false) {
+    document.getElementById('maybe-option').style.display = 'none';
+  }
+  if (rsvpCfg.collectGuests === false) {
+    document.getElementById('guest-count-section').style.display = 'none';
+  }
+  if (rsvpCfg.collectFood === false) {
+    document.getElementById('food-pref-section').style.display = 'none';
+    document.getElementById('food-divider').style.display = 'none';
+  }
+  if (rsvpCfg.collectAllergy === false) {
+    document.getElementById('allergy-section').style.display = 'none';
+    document.getElementById('allergy-divider').style.display = 'none';
+  }
+
+  // Cultural section
+  if (cultural.enabled) {
+    const cultSection = document.getElementById('cultural-section');
+    cultSection.classList.add('visible');
+
+    if (cultural.header) {
+      document.getElementById('cultural-header').textContent = cultural.header;
+    }
+    if (cultural.description) {
+      document.getElementById('cultural-desc').textContent = cultural.description;
+    }
+
+    // Populate notes
+    if (cultural.notes && cultural.notes.length > 0) {
+      const notesBox = document.getElementById('cultural-notes-box');
+      let notesHtml = '';
+      cultural.notes.forEach(n => {
+        notesHtml += `<div class="note-item"><span class="pin">&#128204;</span><span>${esc(n)}</span></div>`;
+      });
+      notesBox.innerHTML = notesHtml;
+    }
+
+    // Add first cultural entry by default  
+    addCulturalEntry();
+  }
+}
+
+// ── Cultural Entry Management ──
+function addCulturalEntry() {
+  const cultural = (eviteConfig && eviteConfig.cultural) || {};
+  const categories = cultural.categories || ['dance','song','instrumental','skit','poetry'];
+  const modes = cultural.modes || ['individual','group'];
+  const ageGroups = cultural.ageGroups || ['kid','youth','adult','senior','mix'];
+  const askLanguage = cultural.askLanguage !== false;
+  const askDescription = cultural.askDescription !== false;
+
+  culturalEntryCount++;
+  const idx = culturalEntryCount;
+
+  const catLabels = { dance: '💃 Dance', song: '🎤 Song', instrumental: '🎸 Instrumental', skit: '🎬 Skit / Drama', poetry: '📝 Poetry / Recitation' };
+  const modeLabels = { individual: '🧑 Individual', group: '👥 Group' };
+  const ageLabels = { kid: '👶 Kid (under 12)', youth: '🧑‍🎤 Youth (12-17)', adult: '🧑‍💼 Adult (18-59)', senior: '👴 Senior (60+)', mix: '🌈 Mix (multiple ages)' };
+
+  let catChips = categories.map(c =>
+    `<div class="chip"><input type="radio" name="perf-cat-${idx}" id="perf-cat-${idx}-${c}" value="${c}"><label for="perf-cat-${idx}-${c}">${catLabels[c] || c}</label></div>`
+  ).join('');
+
+  let modeChips = modes.map(m =>
+    `<div class="chip"><input type="radio" name="perf-mode-${idx}" id="perf-mode-${idx}-${m}" value="${m}" onchange="toggleGroupFields(${idx})"><label for="perf-mode-${idx}-${m}">${modeLabels[m] || m}</label></div>`
+  ).join('');
+
+  let ageChips = ageGroups.map(a =>
+    `<div class="chip"><input type="radio" name="perf-age-${idx}" id="perf-age-${idx}-${a}" value="${a}"><label for="perf-age-${idx}-${a}">${ageLabels[a] || a}</label></div>`
+  ).join('');
+
+  const langField = askLanguage ? `
+    <div class="form-group" id="lang-group-${idx}" style="display:none">
+      <label>Language / Style</label>
+      <select id="perf-lang-${idx}">
+        <option value="">Select language...</option>
+        <option value="bengali">Bengali (বাংলা)</option>
+        <option value="hindi">Hindi (हिन्दी)</option>
+        <option value="english">English</option>
+        <option value="rabindra_sangeet">Rabindra Sangeet</option>
+        <option value="nazrul_geeti">Nazrul Geeti</option>
+        <option value="instrumental">Instrumental (no lyrics)</option>
+        <option value="other">Other</option>
+      </select>
+      <div class="hint">Specify the language of your song/dance</div>
+    </div>` : '';
+
+  const descField = askDescription ? `
+    <div class="form-group">
+      <label>Short Description</label>
+      <textarea id="perf-desc-${idx}" rows="2" placeholder="Brief note about what you intend to perform..."></textarea>
+      <div class="hint">E.g., "Rabindra Sangeet — Purano Sei Diner Kotha (solo vocal)" or "Bollywood dance medley with 3 kids"</div>
+    </div>` : '';
+
+  const html = `
+  <div class="cultural-entry" id="cultural-entry-${idx}" data-idx="${idx}">
+    <div class="entry-header">
+      <h4>Performance #${idx}</h4>
+      ${idx > 1 ? `<button type="button" class="remove-entry" onclick="removeCulturalEntry(${idx})">&#10005;</button>` : ''}
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <div class="chip-group">${catChips}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Mode</label>
+      <div class="chip-group">${modeChips}</div>
+    </div>
+
+    <div class="form-group">
+      <label>Age Group</label>
+      <div class="chip-group">${ageChips}</div>
+    </div>
+
+    <!-- Group fields: members count + names -->
+    <div id="group-fields-${idx}" style="display:none">
+      <div class="form-group">
+        <label>Number of Members</label>
+        <input type="number" id="perf-members-${idx}" min="2" max="30" value="2" style="max-width:120px" onchange="updateMemberNames(${idx})">
+      </div>
+      <div class="form-group">
+        <label>Member Names</label>
+        <div class="member-names" id="member-names-${idx}">
+          <div class="member-name-row"><input type="text" placeholder="Member 1 name" class="member-name"></div>
+          <div class="member-name-row"><input type="text" placeholder="Member 2 name" class="member-name"></div>
+        </div>
+        <button type="button" class="add-member" onclick="addMemberName(${idx})">+ Add member</button>
+      </div>
+    </div>
+
+    ${langField}
+    ${descField}
+  </div>`;
+
+  document.getElementById('cultural-entries').insertAdjacentHTML('beforeend', html);
+
+  // Wire up category change to show/hide language field
+  if (askLanguage) {
+    document.querySelectorAll(`input[name="perf-cat-${idx}"]`).forEach(radio => {
+      radio.addEventListener('change', () => {
+        const val = radio.value;
+        const langGroup = document.getElementById(`lang-group-${idx}`);
+        if (langGroup) {
+          langGroup.style.display = (val === 'song' || val === 'dance') ? 'block' : 'none';
+        }
+      });
+    });
+  }
+}
+
+function removeCulturalEntry(idx) {
+  const el = document.getElementById(`cultural-entry-${idx}`);
+  if (el) el.remove();
+}
+
+function toggleGroupFields(idx) {
+  const mode = document.querySelector(`input[name="perf-mode-${idx}"]:checked`);
+  const groupFields = document.getElementById(`group-fields-${idx}`);
+  if (mode && mode.value === 'group') {
+    groupFields.style.display = 'block';
+  } else {
+    groupFields.style.display = 'none';
+  }
+}
+
+function updateMemberNames(idx) {
+  const count = parseInt(document.getElementById(`perf-members-${idx}`).value) || 2;
+  const container = document.getElementById(`member-names-${idx}`);
+  const existing = container.querySelectorAll('.member-name-row');
+  // Add more if needed
+  for (let i = existing.length; i < count; i++) {
+    container.insertAdjacentHTML('beforeend',
+      `<div class="member-name-row"><input type="text" placeholder="Member ${i + 1} name" class="member-name"></div>`
+    );
+  }
+  // Remove excess
+  while (container.querySelectorAll('.member-name-row').length > count) {
+    container.lastElementChild.remove();
+  }
+}
+
+function addMemberName(idx) {
+  const container = document.getElementById(`member-names-${idx}`);
+  const count = container.querySelectorAll('.member-name-row').length;
+  container.insertAdjacentHTML('beforeend',
+    `<div class="member-name-row"><input type="text" placeholder="Member ${count + 1} name" class="member-name"><button type="button" class="remove-member" onclick="this.parentElement.remove()">&#10005;</button></div>`
+  );
+  // Update the count field
+  const numField = document.getElementById(`perf-members-${idx}`);
+  if (numField) numField.value = container.querySelectorAll('.member-name-row').length;
+}
+
+function toggleCulturalParticipation() {
+  const cb = document.getElementById('culturalParticipate');
+  cb.checked = !cb.checked;
+  const box = document.getElementById('cultural-entries-box');
+  box.classList.toggle('visible', cb.checked);
+}
+
+// ── Collect cultural data ──
+function collectCulturalData() {
+  const cb = document.getElementById('culturalParticipate');
+  if (!cb || !cb.checked) return null;
+
+  const entries = document.querySelectorAll('.cultural-entry');
+  const performances = [];
+
+  entries.forEach(entry => {
+    const idx = entry.dataset.idx;
+    const cat = document.querySelector(`input[name="perf-cat-${idx}"]:checked`);
+    const mode = document.querySelector(`input[name="perf-mode-${idx}"]:checked`);
+    const age = document.querySelector(`input[name="perf-age-${idx}"]:checked`);
+    const langEl = document.getElementById(`perf-lang-${idx}`);
+    const descEl = document.getElementById(`perf-desc-${idx}`);
+    const membersEl = document.getElementById(`perf-members-${idx}`);
+
+    const perf = {
+      category: cat ? cat.value : '',
+      mode: mode ? mode.value : '',
+      ageGroup: age ? age.value : '',
+      language: langEl ? langEl.value : '',
+      description: descEl ? descEl.value.trim() : '',
+      memberCount: mode && mode.value === 'group' ? (parseInt(membersEl?.value) || 2) : 1,
+      memberNames: []
+    };
+
+    // Collect member names if group
+    if (mode && mode.value === 'group') {
+      const nameInputs = document.querySelectorAll(`#member-names-${idx} .member-name`);
+      nameInputs.forEach(inp => {
+        if (inp.value.trim()) perf.memberNames.push(inp.value.trim());
+      });
+    }
+
+    // Only include entries that have at least a category selected
+    if (perf.category) {
+      performances.push(perf);
+    }
+  });
+
+  return performances.length > 0 ? { participate: true, performances } : null;
+}
+
+// ── RSVP option handling ──
+document.querySelectorAll('input[name="rsvpStatus"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    const val = this.value;
+    const guestDetails = document.getElementById('guest-details');
+    const btn = document.getElementById('submit-btn');
+
+    if (val === 'yes' || val === 'maybe') {
+      guestDetails.classList.add('visible');
+    } else {
+      guestDetails.classList.remove('visible');
+    }
+
+    btn.disabled = false;
+    const labels = { yes: "Submit RSVP — I'm Coming!", no: "Submit RSVP — Can't Make It", maybe: "Submit RSVP — Maybe" };
+    btn.textContent = labels[val] || 'Submit RSVP';
+  });
+});
+
+// ── Auto-update food count hint ──
+function checkFoodCounts() {
+  const adults = parseInt(document.getElementById('adults').value) || 0;
+  const kids = parseInt(document.getElementById('kids').value) || 0;
+  const veg = parseInt(document.getElementById('vegCount').value) || 0;
+  const nonVeg = parseInt(document.getElementById('nonVegCount').value) || 0;
+  const total = adults + kids;
+  const foodTotal = veg + nonVeg;
+  const hint = document.getElementById('food-count-hint');
+  if (total > 0 && foodTotal > 0 && foodTotal !== total) {
+    hint.textContent = `Veg (${veg}) + Non-Veg (${nonVeg}) = ${foodTotal}, but total guests = ${total}`;
+    hint.style.display = 'block';
+  } else {
+    hint.style.display = 'none';
+  }
+}
+['adults', 'kids', 'vegCount', 'nonVegCount'].forEach(id => {
+  document.getElementById(id).addEventListener('input', checkFoodCounts);
+});
+
+// ── Form submit ──
+document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  const rsvpRadio = document.querySelector('input[name="rsvpStatus"]:checked');
+  if (!rsvpRadio) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  const rsvpStatus = rsvpRadio.value;
+  const adultsVal = parseInt(document.getElementById('adults').value) || 0;
+  const kidsVal = parseInt(document.getElementById('kids').value) || 0;
+  const vegVal = parseInt(document.getElementById('vegCount').value) || 0;
+  const nonVegVal = parseInt(document.getElementById('nonVegCount').value) || 0;
+  const totalGuests = adultsVal + kidsVal;
+  const totalFood = vegVal + nonVegVal;
+
+  // Warn if veg+nonveg doesn't match total guests
+  if (rsvpStatus === 'yes' && totalGuests > 0 && totalFood > 0 && totalFood !== totalGuests) {
+    if (!confirm(`The vegetarian + non-vegetarian count (${totalFood}) does not match your total guests (${totalGuests}). Submit anyway?`)) {
+      btn.disabled = false;
+      const labels = { yes: "Submit RSVP — I'm Coming!", no: "Submit RSVP — Can't Make It", maybe: "Submit RSVP — Maybe" };
+      btn.textContent = labels[rsvpStatus] || 'Submit RSVP';
+      return;
+    }
+  }
+
+  // Determine dietary category
+  let dietaryLabel = 'unknown';
+  if (vegVal > 0 && nonVegVal > 0) dietaryLabel = 'mixed';
+  else if (vegVal > 0) dietaryLabel = 'vegetarian';
+  else if (nonVegVal > 0) dietaryLabel = 'non_vegetarian';
+
+  // Collect cultural data
+  const culturalData = collectCulturalData();
+
+  const payload = {
+    token: TOKEN,
+    rsvpStatus,
+    adults: adultsVal,
+    kids: kidsVal,
+    vegCount: vegVal,
+    nonVegCount: nonVegVal,
+    dietary: dietaryLabel,
+    notes: document.getElementById('notes').value.trim(),
+    cultural: culturalData
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/evite_rsvp_submit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data.success) {
+      showSuccess(data.message, rsvpStatus, culturalData);
+    } else {
+      alert('Error: ' + (data.error || 'Unknown error'));
+      btn.disabled = false;
+      btn.textContent = 'Try Again';
+    }
+  } catch (err) {
+    alert('Network error. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Try Again';
+  }
+});
+
+function showSuccess(message, status, culturalData) {
+  formEl.style.display = 'none';
+  successEl.style.display = 'block';
+  const icons = { yes: '&#127881;', no: '&#128075;', maybe: '&#129300;' };
+  const titles = { yes: 'See You There!', no: 'Maybe Next Time!', maybe: 'We Hope You Can Make It!' };
+
+  let culturalMsg = '';
+  if (culturalData && culturalData.performances && culturalData.performances.length > 0) {
+    culturalMsg = `<div style="background:#f0f7ff;border:1px solid #b3d4fc;border-radius:12px;padding:14px 16px;margin-top:16px;text-align:left;font-size:.85rem">
+      <strong style="color:#1a5276">&#127917; Cultural Program Registration Received!</strong>
+      <div style="margin-top:8px;color:#555">We recorded ${culturalData.performances.length} performance entry(s). Our cultural committee will review and confirm your slot closer to the event.</div>
+    </div>`;
+  }
+
+  successEl.innerHTML = `
+    <div class="check">${icons[status] || '&#9989;'}</div>
+    <h2>${titles[status] || 'Response Recorded'}</h2>
+    <p>${message}</p>
+    ${culturalMsg}
+    <p style="margin-top:16px;font-size:.82rem;color:#999">You can close this page now. If you change your mind, just click the link in your invitation email again.</p>
+  `;
+}
+
+function showError(msg) {
+  loadingEl.style.display = 'none';
+  errorEl.style.display = 'block';
+  errorEl.innerHTML = `<div class="error-msg">${msg}</div>`;
+}
+
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
+// Start
+loadInvitation();
+</script>
+</body>
+</html>

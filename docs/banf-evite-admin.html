@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF E-Vite Admin — Event Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--banf-red:#8B0000;--banf-dark:#5a0000;--banf-orange:#FF6B35;--grad:linear-gradient(135deg,#8B0000,#DC143C);--bg:#f4f0ed}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:var(--bg);min-height:100vh;padding:20px}
+
+/* Layout */
+.page{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:24px}
+@media(max-width:900px){.page{grid-template-columns:1fr;}}
+
+/* Header */
+.top-bar{grid-column:1/-1;background:var(--grad);color:#fff;padding:20px 32px;border-radius:16px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 20px rgba(139,0,0,.2)}
+.top-bar h1{font-size:1.3rem;font-weight:700}
+.top-bar .subtitle{font-size:.82rem;opacity:.7}
+.badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:3px 10px;border-radius:10px;font-size:.7rem;font-weight:600;margin-left:8px}
+
+/* Cards */
+.card{background:#fff;border-radius:16px;box-shadow:0 2px 16px rgba(0,0,0,.06);overflow:hidden}
+.card-header{padding:16px 24px;border-bottom:1px solid #f0ece8;display:flex;align-items:center;gap:10px}
+.card-header h2{font-size:1rem;font-weight:600;color:#333}
+.card-header .icon{font-size:1.2rem}
+.card-body{padding:24px}
+
+/* Form elements */
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:.82rem;font-weight:600;color:#333;margin-bottom:6px}
+.form-group .hint{font-size:.72rem;color:#999;margin-top:3px}
+input[type="text"],input[type="url"],input[type="date"],input[type="time"],input[type="number"],
+select,textarea{
+  width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:.9rem;
+  transition:border-color .2s;font-family:'Poppins',sans-serif
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--banf-orange)}
+textarea{min-height:80px;resize:vertical}
+
+/* Toggle Switch */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f5f2ef}
+.toggle-row:last-child{border:none}
+.toggle-label{font-size:.88rem;color:#333;font-weight:500}
+.toggle-desc{font-size:.72rem;color:#999;margin-top:2px}
+.switch{position:relative;width:44px;height:24px;flex-shrink:0}
+.switch input{display:none}
+.switch .slider{position:absolute;inset:0;background:#ccc;border-radius:24px;cursor:pointer;transition:.3s}
+.switch .slider:before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.switch input:checked+.slider{background:var(--banf-orange)}
+.switch input:checked+.slider:before{transform:translateX(20px)}
+
+/* Image upload */
+.img-upload{border:2px dashed #d0ccc8;border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:#faf8f6}
+.img-upload:hover{border-color:var(--banf-orange);background:#fff8f5}
+.img-upload .icon{font-size:2rem;margin-bottom:8px}
+.img-upload .text{font-size:.82rem;color:#888}
+.img-upload img{max-width:100%;max-height:200px;border-radius:8px;margin-top:8px}
+
+/* Chips */
+.chip-group{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{display:none}
+.chip label{display:inline-block;padding:8px 16px;border:2px solid #e0e0e0;border-radius:20px;cursor:pointer;font-size:.82rem;transition:all .2s;user-select:none}
+.chip label:hover{border-color:var(--banf-orange)}
+.chip input:checked+label{border-color:var(--banf-red);background:rgba(139,0,0,.08);color:var(--banf-red);font-weight:600}
+
+/* Preview panel */
+.preview-panel{position:sticky;top:20px}
+.preview-phone{background:#222;border-radius:28px;padding:12px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.preview-screen{background:#f4f0ed;border-radius:18px;overflow:hidden;max-height:75vh;overflow-y:auto}
+.preview-header{background:var(--grad);padding:20px 24px;text-align:center;color:#fff}
+.preview-header h3{font-size:1rem;font-weight:700}
+.preview-header .org{font-size:.72rem;opacity:.7}
+.preview-body{padding:20px;background:#fff}
+.preview-body .ev-img{width:100%;border-radius:12px;margin-bottom:16px;display:none}
+.preview-body .ev-img.visible{display:block}
+.preview-body .intro{font-size:.85rem;color:#555;line-height:1.5;margin-bottom:16px}
+.preview-body .details-box{background:#fdf6f0;border-left:4px solid var(--banf-orange);border-radius:0 12px 12px 0;padding:12px 16px;margin-bottom:16px;font-size:.82rem}
+.preview-body .rsvp-btn{display:block;text-align:center;background:var(--grad);color:#fff;padding:12px;border-radius:25px;font-weight:700;font-size:.9rem;text-decoration:none;margin:16px 0}
+.preview-body .cultural-box{background:#f0f7ff;border:1px solid #b3d4fc;border-radius:12px;padding:14px 16px;margin:16px 0;font-size:.78rem;color:#2c3e50}
+.preview-body .cultural-box h4{font-size:.85rem;color:#1a5276;margin-bottom:6px}
+.preview-body .notes-box{background:#fff8f0;border:1px solid #f0dcc8;border-radius:12px;padding:12px 16px;margin-top:12px;font-size:.75rem;color:#8B6914;line-height:1.5}
+
+/* Buttons */
+.btn{padding:12px 24px;border:none;border-radius:25px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 16px rgba(139,0,0,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(139,0,0,.35)}
+.btn-secondary{background:#f4f0ed;color:#555;border:2px solid #e0e0e0}
+.btn-secondary:hover{border-color:var(--banf-orange);color:var(--banf-red)}
+.btn-group{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+
+/* Collapsible section */
+.section-toggle{width:100%;padding:14px 20px;border:2px solid #e8e4e0;border-radius:12px;background:#faf8f6;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:.9rem;font-weight:600;color:#333;transition:all .2s;margin-bottom:12px}
+.section-toggle:hover{border-color:var(--banf-orange);background:#fff8f5}
+.section-toggle .arrow{transition:transform .2s;font-size:.8rem}
+.section-toggle.active{border-color:var(--banf-red);background:rgba(139,0,0,.03)}
+.section-toggle.active .arrow{transform:rotate(180deg)}
+.section-content{display:none;padding:0 4px;margin-bottom:16px}
+.section-content.visible{display:block}
+
+/* Status strip */
+.status-strip{grid-column:1/-1;background:#fff;border-radius:12px;padding:14px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,.04);font-size:.82rem;color:#555}
+.status-strip .dot{width:10px;height:10px;border-radius:50%;background:#f39c12}
+.status-strip .dot.live{background:#27ae60;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Cultural categories preview */
+.cat-tag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:.72rem;font-weight:600;margin:2px}
+.cat-tag.dance{background:#fce4ec;color:#c0392b}
+.cat-tag.song{background:#e8f5e9;color:#27ae60}
+.cat-tag.instrumental{background:#e3f2fd;color:#2980b9}
+.cat-tag.skit{background:#fff3e0;color:#e67e22}
+.cat-tag.poetry{background:#f3e5f5;color:#8e44ad}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div>
+      <h1>🎭 E-Vite Admin Console <span class="badge">EC Only</span></h1>
+      <div class="subtitle">Bengali Association of North Florida — Event Invitation Manager</div>
+    </div>
+  </div>
+
+  <!-- Left: Configuration -->
+  <div class="config-col">
+
+    <!-- 1. Basic Event Info -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span class="icon">📋</span><h2>Event Details</h2></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>Event Name</label>
+          <input type="text" id="eventName" value="BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩" placeholder="e.g., BANF Noboborsho 2026">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group"><label>Date</label><input type="date" id="eventDate" value="2026-04-18"></div>
+          <div class="form-group"><label>Time</label><input type="text" id="eventTime" value="4:00 PM - 9:00 PM" placeholder="e.g., 5:00 PM - 9:00 PM"></div>
+        </div>
+        <div class="form-group">
+          <label>Venue</label>
+          <input type="text" id="eventVenue" value="Hallowed Cove Academy, St. Johns, FL" placeholder="Venue name & address">
+        </div>
+        <div class="form-group">
+          <label>Event Description</label>
+          <textarea id="eventDescription" placeholder="A brief description for invitees...">Join us to celebrate Pohela Boishakh — the Bengali New Year — with an evening of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!</textarea>
+        </div>
+        <div class="form-group">
+          <label>Highlights / What to Expect</label>
+          <textarea id="eventHighlights" placeholder="Special activities, performances, food highlights...">Traditional alpona, cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.</textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group"><label>Capacity</label><input type="number" id="eventCapacity" value="200" min="0"></div>
+          <div class="form-group"><label>RSVP Deadline</label><input type="date" id="rsvpDeadline" value="2026-04-15"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Event Image & Intro -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span class="icon">🖼️</span><h2>Event Banner & Introduction</h2></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>Event Banner Image</label>
+          <div class="img-upload" id="imgUploadArea" onclick="document.getElementById('imgFile').click()">
+            <div class="icon">📸</div>
+            <div class="text">Click to upload event banner image<br><span style="font-size:.7rem;color:#aaa">Recommended: 600×300px, JPG/PNG, max 2MB</span></div>
+            <img id="imgPreview" style="display:none" alt="Event banner preview">
+          </div>
+          <input type="file" id="imgFile" accept="image/*" style="display:none" onchange="handleImageUpload(this)">
+          <div class="hint">Or paste an image URL below:</div>
+          <input type="url" id="imgUrl" placeholder="https://..." style="margin-top:6px" oninput="updateImageFromUrl(this.value)">
+        </div>
+        <div class="form-group">
+          <label>Introductory Text (shown before the image)</label>
+          <textarea id="introText" placeholder="A warm opening message...">প্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. RSVP Options -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span class="icon">✅</span><h2>RSVP Options</h2></div>
+      <div class="card-body">
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Collect Guest Count (Adults/Kids)</div>
+            <div class="toggle-desc">Ask for number of adults and children</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="collectGuests" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Collect Food Preference (Veg/Non-Veg)</div>
+            <div class="toggle-desc">Ask for vegetarian vs non-vegetarian count</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="collectFood" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Collect Allergies/Dietary Restrictions</div>
+            <div class="toggle-desc">Free-text field for special dietary needs</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="collectAllergy" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label">Allow "Maybe" Response</div>
+            <div class="toggle-desc">Show a Maybe option in addition to Yes/No</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="allowMaybe" checked><span class="slider"></span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Cultural Program Section -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span class="icon">🎭</span><h2>Cultural Program Section</h2></div>
+      <div class="card-body">
+        <div class="toggle-row" style="border-bottom:2px solid #e8e4e0;padding-bottom:16px;margin-bottom:16px">
+          <div>
+            <div class="toggle-label" style="font-weight:700;color:var(--banf-red)">Enable Cultural Program Sign-Up</div>
+            <div class="toggle-desc">Add a section where invitees can register for cultural performances</div>
+          </div>
+          <label class="switch"><input type="checkbox" id="enableCultural" checked onchange="toggleCulturalConfig()"><span class="slider"></span></label>
+        </div>
+
+        <div id="culturalConfig">
+          <div class="form-group">
+            <label>Cultural Section Header</label>
+            <input type="text" id="culturalHeader" value="🎭 Cultural Program — Participate & Showcase Your Talent!">
+          </div>
+          <div class="form-group">
+            <label>Cultural Section Description</label>
+            <textarea id="culturalDesc">We are excited to feature cultural performances by our community members at this year's Noboborsho celebration! If you or your family members would like to participate, please fill in the details below.</textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Performance Categories (select which to offer)</label>
+            <div class="chip-group">
+              <div class="chip"><input type="checkbox" id="cat-dance" checked><label for="cat-dance">💃 Dance</label></div>
+              <div class="chip"><input type="checkbox" id="cat-song" checked><label for="cat-song">🎤 Song</label></div>
+              <div class="chip"><input type="checkbox" id="cat-instrumental" checked><label for="cat-instrumental">🎸 Instrumental</label></div>
+              <div class="chip"><input type="checkbox" id="cat-skit" checked><label for="cat-skit">🎬 Skit / Drama</label></div>
+              <div class="chip"><input type="checkbox" id="cat-poetry" checked><label for="cat-poetry">📝 Poetry / Recitation</label></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Performance Mode (select which to offer)</label>
+            <div class="chip-group">
+              <div class="chip"><input type="checkbox" id="mode-individual" checked><label for="mode-individual">🧑 Individual</label></div>
+              <div class="chip"><input type="checkbox" id="mode-group" checked><label for="mode-group">👥 Group</label></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Age Groups (select which to offer)</label>
+            <div class="chip-group">
+              <div class="chip"><input type="checkbox" id="age-kid" checked><label for="age-kid">👶 Kid (under 12)</label></div>
+              <div class="chip"><input type="checkbox" id="age-youth" checked><label for="age-youth">🧑‍🎤 Youth (12-17)</label></div>
+              <div class="chip"><input type="checkbox" id="age-adult" checked><label for="age-adult">🧑‍💼 Adult (18-59)</label></div>
+              <div class="chip"><input type="checkbox" id="age-senior" checked><label for="age-senior">👴 Senior (60+)</label></div>
+              <div class="chip"><input type="checkbox" id="age-mix" checked><label for="age-mix">🌈 Mix (multiple ages)</label></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Ask for Language? (for Song/Dance)</label>
+            <label class="switch"><input type="checkbox" id="askLanguage" checked><span class="slider"></span></label>
+            <div class="hint">Respondents will be asked to specify language (e.g., Bengali, Hindi, English, Instrumental)</div>
+          </div>
+
+          <div class="form-group">
+            <label>Ask for Performance Description?</label>
+            <label class="switch"><input type="checkbox" id="askDescription" checked><span class="slider"></span></label>
+            <div class="hint">Short note about what they intend to perform</div>
+          </div>
+
+          <hr style="border:none;border-top:1px dashed #e0d8d0;margin:20px 0">
+
+          <!-- Important Notes for Cultural -->
+          <div class="form-group">
+            <label>📌 Important Notes (shown to invitees)</label>
+            <div style="background:#fff8f0;border:1px solid #f0dcc8;border-radius:12px;padding:16px;margin-top:8px">
+              <div style="margin-bottom:12px">
+                <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.82rem;color:#555">
+                  <input type="checkbox" id="note-mentor" checked style="margin-top:3px">
+                  <span>If you are a participant, please ask your <strong>mentor</strong> to apply. Only mentors, individual performers, and parents (on behalf of their kids) should apply.</span>
+                </label>
+              </div>
+              <div style="margin-bottom:12px">
+                <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.82rem;color:#555">
+                  <input type="checkbox" id="note-ec" checked style="margin-top:3px">
+                  <span>No EC member can apply as a mentor or individual performer — EC members can only perform in a group managed by a mentor. However, EC members can apply as a parent for their kids.</span>
+                </label>
+              </div>
+              <div>
+                <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:.82rem;color:#555">
+                  <input type="checkbox" id="note-priority" checked style="margin-top:3px">
+                  <span>We will try our best to accommodate every request. If demand exceeds the allotted cultural time, priority will be given to: items aligned with the nature of the program (e.g., Bengali-language performances for Noboborsho), diversity of genre and mode of delivery, and representation by various age groups.</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Recipients -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span class="icon">📨</span><h2>Recipients</h2></div>
+      <div class="card-body">
+        <div class="form-group">
+          <label>Send To</label>
+          <select id="recipientType">
+            <option value="test">🧪 Test — President Only (Dry Run)</option>
+            <option value="ec">👔 EC Members Only</option>
+            <option value="all_members">👥 All Active Members</option>
+            <option value="custom">✏️ Custom Email List</option>
+          </select>
+        </div>
+        <div class="form-group" id="customEmailArea" style="display:none">
+          <label>Custom Emails (one per line: Name &lt;email&gt;)</label>
+          <textarea id="customEmails" placeholder="Ranadhir Ghosh &lt;ranadhir.ghosh@gmail.com&gt;&#10;Partha Mukhopadhyay &lt;partha@example.com&gt;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="handleSend()" id="sendBtn">🚀 Send E-Vite (Dry Run)</button>
+      <button class="btn btn-secondary" onclick="handlePreviewEmail()">👁️ Preview Email</button>
+      <button class="btn btn-secondary" onclick="exportConfig()">💾 Export Config</button>
+    </div>
+    <div id="sendStatus" style="margin-top:16px;font-size:.85rem;color:#555"></div>
+  </div>
+
+  <!-- Right: Live Preview -->
+  <div class="preview-panel">
+    <div style="font-size:.82rem;font-weight:600;color:#555;margin-bottom:8px;text-align:center">📱 Live Email Preview</div>
+    <div class="preview-phone">
+      <div class="preview-screen" id="previewScreen">
+
+        <div class="preview-header">
+          <div style="font-size:.72rem;opacity:.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">You're Invited!</div>
+          <h3 id="previewTitle">BANF Noboborsho 2026</h3>
+          <div class="org">Bengali Association of North Florida</div>
+        </div>
+
+        <div class="preview-body">
+          <p style="font-size:.85rem;color:#333;margin-bottom:12px">Dear <strong>Member Name</strong>,</p>
+
+          <!-- Intro text -->
+          <div class="intro" id="previewIntro">...</div>
+
+          <!-- Event image -->
+          <img id="previewImg" class="ev-img" alt="Event banner">
+
+          <!-- Event details -->
+          <div class="details-box" id="previewDetails">
+            <div style="font-size:.72rem;color:#888;text-transform:uppercase;margin-bottom:6px">Event Details</div>
+            <div>📅 <span id="pd-date">Saturday, April 18, 2026</span></div>
+            <div>🕐 <span id="pd-time">4:00 PM - 9:00 PM</span></div>
+            <div>📍 <span id="pd-venue">Hallowed Cove Academy</span></div>
+          </div>
+
+          <!-- RSVP what we ask -->
+          <div style="background:#f0f7ff;border-left:4px solid #3498db;border-radius:0 12px 12px 0;padding:12px 16px;margin:12px 0;font-size:.78rem;color:#2c3e50">
+            <div style="font-weight:600;margin-bottom:4px">When you RSVP, we'll ask for:</div>
+            <div id="previewAskItems">
+              • Number of adults & kids<br>
+              • Veg vs Non-Veg preference<br>
+              • Allergies / dietary restrictions
+            </div>
+          </div>
+
+          <!-- RSVP Button -->
+          <a class="rsvp-btn" href="#">RSVP Now</a>
+
+          <!-- Cultural Program Section -->
+          <div class="cultural-box" id="previewCultural">
+            <h4 id="previewCulturalHeader">🎭 Cultural Program</h4>
+            <div id="previewCulturalDesc" style="margin-bottom:8px;line-height:1.5"></div>
+            <div id="previewCulturalCategories" style="margin-bottom:6px"></div>
+            <div id="previewCulturalNotes" style="margin-top:8px;padding-top:8px;border-top:1px dashed #b3d4fc;font-size:.72rem;color:#666"></div>
+          </div>
+
+          <!-- Notes -->
+          <div class="notes-box" id="previewFoodNote">
+            <strong>A Note on Special Dietary Requests:</strong> We may not always be able to accommodate every special food request. Our team will try our best. Thank you for your understanding!
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Strip -->
+  <div class="status-strip">
+    <span class="dot"></span>
+    <span id="statusText">Configure your event above, then send a dry run to test.</span>
+  </div>
+
+</div>
+
+<!-- Email Preview Modal -->
+<div id="emailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;max-width:700px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 8px 40px rgba(0,0,0,.2)">
+    <div style="padding:16px 24px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="font-size:1rem;color:#333">Email Preview</h3>
+      <button onclick="closeModal()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:#888">✕</button>
+    </div>
+    <div id="emailModalBody" style="padding:24px"></div>
+  </div>
+</div>
+
+<script>
+// ─── Config Builder ───
+function getConfig() {
+  const categories = [];
+  if (document.getElementById('cat-dance').checked) categories.push('dance');
+  if (document.getElementById('cat-song').checked) categories.push('song');
+  if (document.getElementById('cat-instrumental').checked) categories.push('instrumental');
+  if (document.getElementById('cat-skit').checked) categories.push('skit');
+  if (document.getElementById('cat-poetry').checked) categories.push('poetry');
+
+  const modes = [];
+  if (document.getElementById('mode-individual').checked) modes.push('individual');
+  if (document.getElementById('mode-group').checked) modes.push('group');
+
+  const ageGroups = [];
+  if (document.getElementById('age-kid').checked) ageGroups.push('kid');
+  if (document.getElementById('age-youth').checked) ageGroups.push('youth');
+  if (document.getElementById('age-adult').checked) ageGroups.push('adult');
+  if (document.getElementById('age-senior').checked) ageGroups.push('senior');
+  if (document.getElementById('age-mix').checked) ageGroups.push('mix');
+
+  const notes = [];
+  if (document.getElementById('note-mentor').checked) {
+    notes.push('If you are a participant, please ask your mentor to apply. Only mentors, individual performers, and parents (on behalf of their kids) should apply.');
+  }
+  if (document.getElementById('note-ec').checked) {
+    notes.push('No EC member can apply as a mentor or individual performer — EC members can only perform in a group managed by a mentor. However, EC members can apply as a parent for their kids.');
+  }
+  if (document.getElementById('note-priority').checked) {
+    notes.push('We will try our best to accommodate every request. If demand exceeds the allotted cultural time, priority will be given to: items aligned with the nature of the program (e.g., Bengali-language performances for Noboborsho), diversity of genre and mode of delivery, and representation by various age groups of our members.');
+  }
+
+  return {
+    event: {
+      eventName: document.getElementById('eventName').value,
+      eventDate: document.getElementById('eventDate').value,
+      eventTime: document.getElementById('eventTime').value,
+      venue: document.getElementById('eventVenue').value,
+      description: document.getElementById('eventDescription').value,
+      highlights: document.getElementById('eventHighlights').value,
+      capacity: parseInt(document.getElementById('eventCapacity').value) || 200,
+      rsvpDeadline: document.getElementById('rsvpDeadline').value
+    },
+    design: {
+      introText: document.getElementById('introText').value,
+      imageUrl: document.getElementById('imgUrl').value || uploadedImageDataUrl || '',
+    },
+    rsvp: {
+      collectGuests: document.getElementById('collectGuests').checked,
+      collectFood: document.getElementById('collectFood').checked,
+      collectAllergy: document.getElementById('collectAllergy').checked,
+      allowMaybe: document.getElementById('allowMaybe').checked
+    },
+    cultural: {
+      enabled: document.getElementById('enableCultural').checked,
+      header: document.getElementById('culturalHeader').value,
+      description: document.getElementById('culturalDesc').value,
+      categories,
+      modes,
+      ageGroups,
+      askLanguage: document.getElementById('askLanguage').checked,
+      askDescription: document.getElementById('askDescription').checked,
+      notes
+    },
+    recipients: {
+      type: document.getElementById('recipientType').value,
+      customEmails: parseCustomEmails()
+    }
+  };
+}
+
+function parseCustomEmails() {
+  const text = document.getElementById('customEmails').value.trim();
+  if (!text) return [];
+  return text.split('\n').map(line => {
+    const m = line.match(/^(.+?)\s*<(.+?)>/);
+    if (m) return { name: m[1].trim(), email: m[2].trim() };
+    const email = line.trim();
+    return { name: email.split('@')[0], email };
+  }).filter(e => e.email);
+}
+
+// ─── Image Upload ───
+let uploadedImageDataUrl = '';
+
+function handleImageUpload(input) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  if (file.size > 2 * 1024 * 1024) {
+    alert('Image must be under 2MB');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    uploadedImageDataUrl = e.target.result;
+    document.getElementById('imgPreview').src = uploadedImageDataUrl;
+    document.getElementById('imgPreview').style.display = 'block';
+    document.getElementById('imgUrl').value = '';
+    updatePreview();
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateImageFromUrl(url) {
+  if (url) {
+    uploadedImageDataUrl = '';
+    document.getElementById('imgPreview').src = url;
+    document.getElementById('imgPreview').style.display = 'block';
+  } else {
+    document.getElementById('imgPreview').style.display = 'none';
+  }
+  updatePreview();
+}
+
+// ─── Live Preview ───
+function updatePreview() {
+  const cfg = getConfig();
+
+  // Title
+  document.getElementById('previewTitle').textContent = cfg.event.eventName || 'BANF Event';
+
+  // Intro
+  document.getElementById('previewIntro').textContent = cfg.design.introText || '';
+
+  // Image
+  const imgEl = document.getElementById('previewImg');
+  if (cfg.design.imageUrl) {
+    imgEl.src = cfg.design.imageUrl;
+    imgEl.classList.add('visible');
+  } else {
+    imgEl.classList.remove('visible');
+  }
+
+  // Details
+  if (cfg.event.eventDate) {
+    const d = new Date(cfg.event.eventDate + 'T12:00:00');
+    document.getElementById('pd-date').textContent = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  document.getElementById('pd-time').textContent = cfg.event.eventTime || 'TBD';
+  document.getElementById('pd-venue').textContent = cfg.event.venue || 'TBD';
+
+  // RSVP ask items
+  let askItems = '';
+  if (cfg.rsvp.collectGuests) askItems += '• Number of adults & kids<br>';
+  if (cfg.rsvp.collectFood) askItems += '• Veg vs Non-Veg preference<br>';
+  if (cfg.rsvp.collectAllergy) askItems += '• Allergies / dietary restrictions<br>';
+  document.getElementById('previewAskItems').innerHTML = askItems || '• Attendance confirmation';
+
+  // Cultural
+  const cultEl = document.getElementById('previewCultural');
+  if (cfg.cultural.enabled) {
+    cultEl.style.display = 'block';
+    document.getElementById('previewCulturalHeader').textContent = cfg.cultural.header;
+    document.getElementById('previewCulturalDesc').textContent = cfg.cultural.description;
+
+    const catLabels = { dance: '💃 Dance', song: '🎤 Song', instrumental: '🎸 Instrumental', skit: '🎬 Skit', poetry: '📝 Poetry' };
+    let catHtml = '<div style="margin-bottom:4px;font-weight:600;font-size:.75rem">Categories:</div>';
+    cfg.cultural.categories.forEach(c => {
+      catHtml += `<span class="cat-tag ${c}">${catLabels[c] || c}</span>`;
+    });
+    const modeLabels = { individual: '🧑 Individual', group: '👥 Group' };
+    catHtml += '<br><div style="margin-top:4px;margin-bottom:4px;font-weight:600;font-size:.75rem">Mode:</div>';
+    cfg.cultural.modes.forEach(m => {
+      catHtml += `<span class="cat-tag" style="background:#e8eaf6;color:#3f51b5">${modeLabels[m] || m}</span>`;
+    });
+    const ageLabels = { kid: '👶 Kid', youth: '🧑‍🎤 Youth', adult: '🧑‍💼 Adult', senior: '👴 Senior (60+)', mix: '🌈 Mix' };
+    catHtml += '<br><div style="margin-top:4px;margin-bottom:4px;font-weight:600;font-size:.75rem">Age Groups:</div>';
+    cfg.cultural.ageGroups.forEach(a => {
+      catHtml += `<span class="cat-tag" style="background:#e0f2f1;color:#00695c">${ageLabels[a] || a}</span>`;
+    });
+    document.getElementById('previewCulturalCategories').innerHTML = catHtml;
+
+    let notesHtml = '';
+    cfg.cultural.notes.forEach((n, i) => {
+      notesHtml += `<div style="margin-bottom:4px">📌 ${n}</div>`;
+    });
+    document.getElementById('previewCulturalNotes').innerHTML = notesHtml;
+  } else {
+    cultEl.style.display = 'none';
+  }
+
+  // Send button text
+  const type = cfg.recipients.type;
+  const btnLabels = { test: '🧪 Send E-Vite (Dry Run)', ec: '📨 Send to EC Members', all_members: '📨 Send to All Members', custom: '📨 Send to Custom List' };
+  document.getElementById('sendBtn').textContent = btnLabels[type] || '🚀 Send E-Vite';
+}
+
+function toggleCulturalConfig() {
+  const enabled = document.getElementById('enableCultural').checked;
+  document.getElementById('culturalConfig').style.display = enabled ? 'block' : 'none';
+  updatePreview();
+}
+
+// ─── Recipient type change ───
+document.getElementById('recipientType').addEventListener('change', function() {
+  document.getElementById('customEmailArea').style.display = this.value === 'custom' ? 'block' : 'none';
+  updatePreview();
+});
+
+// ─── Live preview on any input ───
+document.querySelectorAll('input, textarea, select').forEach(el => {
+  el.addEventListener('input', updatePreview);
+  el.addEventListener('change', updatePreview);
+});
+
+// ─── Export config ───
+function exportConfig() {
+  const cfg = getConfig();
+  const json = JSON.stringify(cfg, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `banf-evite-config-${cfg.event.eventName.replace(/[^a-z0-9]/gi, '-').substring(0, 30)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── Preview Email (modal) ───
+function handlePreviewEmail() {
+  const cfg = getConfig();
+  const html = buildEmailHtml(cfg, 'Member Name', '#');
+  document.getElementById('emailModalBody').innerHTML = html;
+  document.getElementById('emailModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('emailModal').style.display = 'none';
+}
+
+// ─── Build email HTML (same template as backend) ───
+function buildEmailHtml(cfg, recipientName, rsvpUrl) {
+  const evt = cfg.event;
+  const dateStr = evt.eventDate
+    ? new Date(evt.eventDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    : 'TBD';
+
+  let askListHtml = '';
+  if (cfg.rsvp.collectGuests) askListHtml += '<tr><td style="padding:3px 10px 3px 0">•</td><td>Number of <strong>adults</strong> and <strong>kids</strong></td></tr>';
+  if (cfg.rsvp.collectFood) askListHtml += '<tr><td style="padding:3px 10px 3px 0">•</td><td><strong>Vegetarian</strong> vs <strong>Non-vegetarian</strong> preference</td></tr>';
+  if (cfg.rsvp.collectAllergy) askListHtml += '<tr><td style="padding:3px 10px 3px 0">•</td><td>Any <strong>allergies or dietary restrictions</strong></td></tr>';
+  if (cfg.cultural.enabled) askListHtml += '<tr><td style="padding:3px 10px 3px 0">•</td><td>Interest in <strong>cultural program participation</strong></td></tr>';
+
+  let culturalHtml = '';
+  if (cfg.cultural.enabled) {
+    const catLabels = { dance: '💃 Dance', song: '🎤 Song', instrumental: '🎸 Instrumental', skit: '🎬 Skit / Drama', poetry: '📝 Poetry / Recitation' };
+    const modeLabels = { individual: '🧑 Individual', group: '👥 Group' };
+    const ageLabels = { kid: '👶 Kid (under 12)', youth: '🧑‍🎤 Youth (12-17)', adult: '🧑‍💼 Adult (18-59)', senior: '👴 Senior (60+)', mix: '🌈 Mix' };
+
+    let catChips = cfg.cultural.categories.map(c => `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#fce4ec;color:#c0392b;margin:2px">${catLabels[c] || c}</span>`).join(' ');
+    let modeChips = cfg.cultural.modes.map(m => `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#e8eaf6;color:#3f51b5;margin:2px">${modeLabels[m] || m}</span>`).join(' ');
+    let ageChips = cfg.cultural.ageGroups.map(a => `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#e0f2f1;color:#00695c;margin:2px">${ageLabels[a] || a}</span>`).join(' ');
+
+    let notesHtml = '';
+    cfg.cultural.notes.forEach(n => {
+      notesHtml += `<div style="padding:4px 0;font-size:12px;color:#666">📌 ${escapeHtml(n)}</div>`;
+    });
+
+    culturalHtml = `
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7ff;border-radius:12px;border-left:4px solid #3498db;margin:20px 0">
+    <tr><td style="padding:20px 24px">
+      <div style="font-size:16px;font-weight:700;color:#1a5276;margin-bottom:8px">${escapeHtml(cfg.cultural.header)}</div>
+      <div style="font-size:14px;color:#555;line-height:1.6;margin-bottom:12px">${escapeHtml(cfg.cultural.description)}</div>
+      <div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Categories:</strong><br>${catChips}</div>
+      <div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Mode:</strong><br>${modeChips}</div>
+      <div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Age Groups:</strong><br>${ageChips}</div>
+      ${notesHtml ? '<div style="margin-top:12px;padding-top:12px;border-top:1px dashed #b3d4fc">' + notesHtml + '</div>' : ''}
+    </td></tr></table>`;
+  }
+
+  const imageHtml = cfg.design.imageUrl
+    ? `<img src="${escapeHtml(cfg.design.imageUrl)}" alt="${escapeHtml(evt.eventName)}" style="width:100%;max-width:560px;border-radius:12px;margin-bottom:20px;display:block" />`
+    : '';
+
+  return `
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f0ed;padding:20px 0">
+  <tr><td align="center">
+  <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)">
+  <tr><td style="background:linear-gradient(135deg,#8B0000,#DC143C);padding:32px 40px;text-align:center">
+    <div style="font-size:14px;color:rgba(255,255,255,.8);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">You're Invited!</div>
+    <div style="font-size:26px;font-weight:700;color:#fff;line-height:1.3">${escapeHtml(evt.eventName)}</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:8px">Bengali Association of North Florida</div>
+  </td></tr>
+  <tr><td style="padding:32px 40px">
+    <p style="font-size:16px;color:#333;margin:0 0 16px">Dear <strong>${escapeHtml(recipientName)}</strong>,</p>
+    ${cfg.design.introText ? `<p style="font-size:15px;color:#555;margin:0 0 20px;line-height:1.6">${escapeHtml(cfg.design.introText)}</p>` : ''}
+    ${imageHtml}
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#fdf6f0;border-radius:12px;border-left:4px solid #FF6B35;margin-bottom:24px">
+    <tr><td style="padding:20px 24px">
+      <div style="font-size:13px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Event Details</div>
+      <table cellpadding="0" cellspacing="0" style="font-size:14px;color:#333">
+        <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000">📅 Date</td><td>${dateStr}</td></tr>
+        ${evt.eventTime ? `<tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000">🕐 Time</td><td>${escapeHtml(evt.eventTime)}</td></tr>` : ''}
+        <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000">📍 Venue</td><td>${escapeHtml(evt.venue)}</td></tr>
+      </table>
+      ${evt.description ? `<div style="margin-top:12px;font-size:14px;color:#555;line-height:1.5">${escapeHtml(evt.description)}</div>` : ''}
+    </td></tr></table>
+    ${askListHtml ? `
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7ff;border-radius:12px;border-left:4px solid #3498db;margin-bottom:24px">
+    <tr><td style="padding:16px 20px">
+      <div style="font-size:13px;color:#2c3e50;font-weight:600;margin-bottom:8px">When you RSVP, we will ask for:</div>
+      <table cellpadding="0" cellspacing="0" style="font-size:13px;color:#555">${askListHtml}</table>
+    </td></tr></table>` : ''}
+    <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:12px 0 24px">
+      <a href="${rsvpUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:30px;letter-spacing:.5px;box-shadow:0 4px 16px rgba(139,0,0,.3)">RSVP Now</a>
+    </td></tr></table>
+    <p style="font-size:13px;color:#888;text-align:center">Please respond by clicking the button above so we can plan accordingly.</p>
+    ${culturalHtml}
+    ${evt.highlights ? `<div style="background:#f9f7f5;border-radius:12px;padding:16px 20px;margin-top:20px"><div style="font-size:13px;color:#8B0000;font-weight:600;margin-bottom:8px">What to Expect</div><div style="font-size:14px;color:#555;line-height:1.6">${escapeHtml(evt.highlights)}</div></div>` : ''}
+    <div style="background:#fff8f0;border-radius:12px;padding:14px 18px;margin-top:16px;border:1px solid #f0dcc8"><div style="font-size:12px;color:#8B6914;line-height:1.6"><strong>A Note on Special Dietary Requests:</strong> We may not always be able to accommodate every special food request due to logistical constraints. Our team will try our very best. Thank you for your understanding!</div></div>
+  </td></tr>
+  <tr><td style="background:#f9f7f5;padding:24px 40px;text-align:center;border-top:1px solid #eee">
+    <div style="font-size:12px;color:#999;line-height:1.6">Bengali Association of North Florida<br>Jacksonville, Florida<br><a href="mailto:banfjax@gmail.com" style="color:#8B0000;text-decoration:none">banfjax@gmail.com</a></div>
+  </td></tr>
+  </table></td></tr></table>`;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Send Handler ───
+async function handleSend() {
+  const cfg = getConfig();
+  const btn = document.getElementById('sendBtn');
+  const statusEl = document.getElementById('sendStatus');
+  btn.disabled = true;
+  btn.textContent = '⏳ Sending...';
+  statusEl.innerHTML = '<em>Preparing event and sending invitations...</em>';
+
+  try {
+    // Step 1: Create/get event
+    const createRes = await fetch('https://banfwix.wixsite.com/banf1/_functions/evite_create_event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventName: cfg.event.eventName,
+        eventDate: cfg.event.eventDate ? new Date(cfg.event.eventDate + 'T12:00:00').toISOString() : null,
+        eventTime: cfg.event.eventTime,
+        venue: cfg.event.venue,
+        description: cfg.event.description,
+        highlights: cfg.event.highlights,
+        capacity: cfg.event.capacity,
+        keywords: [cfg.event.eventName.toLowerCase(), 'noboborsho', 'pohela boishakh'],
+        notes: 'Created via EC Admin Console'
+      })
+    });
+    const createData = await createRes.json();
+    if (!createData.success) throw new Error(createData.error || 'Failed to create event');
+    const eventId = createData.eventId;
+    statusEl.innerHTML = `✅ Event registered: <strong>${eventId}</strong> ${createData.existing ? '(existing)' : '(new)'}`;
+
+    // Step 2: Determine recipients
+    let recipientType = cfg.recipients.type;
+    let customEmails = [];
+    if (recipientType === 'test') {
+      recipientType = 'custom';
+      customEmails = [{ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'president' }];
+    } else if (recipientType === 'custom') {
+      customEmails = cfg.recipients.customEmails;
+    }
+
+    // Step 3: Send invites
+    const sendRes = await fetch('https://banfwix.wixsite.com/banf1/_functions/evite_send_invites', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventId,
+        recipientType: recipientType === 'test' ? 'custom' : recipientType,
+        customEmails,
+        // Pass the enhanced config so backend can use it
+        eviteConfig: cfg
+      })
+    });
+    const sendData = await sendRes.json();
+    if (!sendData.success) throw new Error(sendData.error || 'Failed to send invitations');
+
+    statusEl.innerHTML += `<br>📨 Sent: ${sendData.sent}/${sendData.total} | Failed: ${sendData.failed}`;
+    if (sendData.details) {
+      sendData.details.forEach(d => {
+        const icon = d.sent ? '✅' : '❌';
+        statusEl.innerHTML += `<br>&nbsp;&nbsp;${icon} ${d.name} &lt;${d.email}&gt;${d.error ? ' — ' + d.error : ''}`;
+      });
+    }
+    document.querySelector('.status-strip .dot').classList.add('live');
+    document.getElementById('statusText').textContent = `Event "${cfg.event.eventName}" — ${sendData.sent} invitation(s) sent successfully!`;
+
+  } catch (err) {
+    statusEl.innerHTML = `❌ Error: ${err.message}`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = cfg.recipients.type === 'test' ? '🧪 Send E-Vite (Dry Run)' : '📨 Send E-Vite';
+}
+
+// ─── Init ───
+updatePreview();
+</script>
+</body>
+</html>
