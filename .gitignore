@@ -4,3 +4,9 @@ node_modules/
 .idea/
 .wix/
 jsconfig.json
+
+# Nested repos (not submodules)
+banf-wix-linked/
+banf1/
+banf1-wix/
+pwa/
