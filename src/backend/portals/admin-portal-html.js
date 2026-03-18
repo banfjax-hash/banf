@@ -3778,22 +3778,15 @@ async function eviteLoadRecipientPreview() {
     return;
   }
 
-  // Fetch from CRM or EC via evite_events endpoint (we will use a simple approach)
   try {
-    // Use admin_members endpoint to get CRM data
-    const resp = await fetch(API + '/admin_members', {
-      headers: { 'Content-Type': 'application/json', 'x-user-email': CURRENT_ADMIN ? CURRENT_ADMIN.email : '' }
-    });
+    const resp = await fetch(API + '/evite_recipients?type=' + encodeURIComponent(type));
     const data = await resp.json();
     if (data.members) {
-      let filtered = data.members;
-      if (type === 'ec') {
-        filtered = data.members.filter(m => m.isEC || m.role === 'ec' || m.ecTitle);
-      }
+      const filtered = data.members;
       countEl.textContent = filtered.length + ' recipient(s)';
       let html = '<table style="width:100%;font-size:.78rem"><thead><tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Name</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Email</th></tr></thead><tbody>';
       filtered.forEach(m => {
-        const name = m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0];
+        const name = m.name || m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0];
         html += '<tr><td style="padding:4px 8px">' + name + '</td><td style="padding:4px 8px">' + (m.email || '') + '</td></tr>';
       });
       html += '</tbody></table>';

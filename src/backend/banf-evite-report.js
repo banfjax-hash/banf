@@ -1881,6 +1881,52 @@ export async function get_evite_invite_status(request) {
 export function options_evite_invite_status(request) { return handleCors(); }
 
 // ─────────────────────────────────────────────────────────────
+// GET /evite_recipients?type=ec|all_members
+// Returns list of recipients for evite preview (mirrors send logic)
+// ─────────────────────────────────────────────────────────────
+
+export async function get_evite_recipients(request) {
+    try {
+        const params = request.query || {};
+        const type = params.type || 'ec';
+
+        let recipients = [];
+        if (type === 'ec' || type === 'all_ec') {
+            const adminResult = await wixData.query('AdminRoles')
+                .eq('isActive', true)
+                .limit(50)
+                .find(SA)
+                .catch(() => ({ items: [] }));
+            recipients = adminResult.items.map(a => ({
+                name: ((a.firstName || '') + ' ' + (a.lastName || '')).trim() || a.name || a.email.split('@')[0],
+                email: a.email,
+                role: a.ecTitle || a.role || 'ec_member'
+            }));
+            if (!recipients.some(r => r.email.toLowerCase() === 'ranadhir.ghosh@gmail.com')) {
+                recipients.push({ name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', role: 'President' });
+            }
+        } else if (type === 'all_members') {
+            const membersResult = await wixData.query('CRMMembers')
+                .eq('status', 'active')
+                .limit(500)
+                .find(SA)
+                .catch(() => ({ items: [] }));
+            recipients = membersResult.items
+                .filter(m => m.email)
+                .map(m => ({
+                    name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
+                    email: m.email,
+                    role: 'member'
+                }));
+        }
+        return jsonOk({ members: recipients, total: recipients.length });
+    } catch (e) {
+        return jsonErr('evite_recipients failed: ' + e.message, 500);
+    }
+}
+export function options_evite_recipients(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────────────────────
 
