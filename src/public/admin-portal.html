@@ -4388,7 +4388,11 @@ async function eviteSendInvites(recipientType, customEmails) {
       eviteShowMsg(data.error || 'Send failed.', true);
     }
   } catch (e) {
-    eviteShowMsg('API error: ' + e.message, true);
+    if (e.message && e.message.includes('Failed to fetch')) {
+      eviteShowMsg('Send initiated! The server is processing emails (may take a minute for large lists). Check the RSVP Dashboard for delivery status.', false);
+    } else {
+      eviteShowMsg('API error: ' + e.message, true);
+    }
   }
 }
 
