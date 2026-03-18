@@ -6857,24 +6857,30 @@ export function options_member_portal(request) { return handleCors(); }
 export function get_member_portal_raw(request) { return htmlPage(getMemberPortalHtml()); }
 export function options_member_portal_raw(request) { return handleCors(); }
 
-// GET /_functions/admin_portal
-export function get_admin_portal(request)  { return wixResponse({ status: 302, headers: { 'Location': 'https://banfjax-hash.github.io/banf/admin-portal.html', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' }); }
-export function options_admin_portal(request) { return handleCors(); }
-// GET /_functions/admin_portal_raw — Redirect to GitHub Pages (CSP-free)
-// Wix _functions endpoints inject restrictive CSP: default-src 'self'; script-src 'nonce-...'
-// This blocks ALL inline CSS, inline JS, and CDN resources, rendering pages unstyled.
-// Solution: Serve the HTML from GitHub Pages which has no CSP restrictions.
-export function get_admin_portal_raw(request) {
-    return wixResponse({
-        status: 302,
-        headers: {
-            'Location': 'https://banfjax-hash.github.io/banf/admin-portal.html',
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'no-store'
-        },
-        body: ''
-    });
+// GET /_functions/admin_portal  — fetch from GitHub raw and serve inline
+// GitHub Pages custom domain redirects back to Wix, so we fetch raw HTML and serve it directly.
+export async function get_admin_portal(request) {
+    try {
+        const ghRaw = 'https://raw.githubusercontent.com/banfjax-hash/banf/main/docs/admin-portal.html';
+        const resp = await wixFetch(ghRaw, { method: 'GET' });
+        const html = await resp.text();
+        return wixResponse({
+            status: 200,
+            headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Content-Security-Policy': "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: blob:; font-src * data:; connect-src *;",
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': 'no-store, no-cache, must-revalidate'
+            },
+            body: html
+        });
+    } catch (e) {
+        return wixResponse({ status: 500, headers: { 'Content-Type': 'text/plain' }, body: 'Failed to load admin portal: ' + e.message });
+    }
 }
+export function options_admin_portal(request) { return handleCors(); }
+// GET /_functions/admin_portal_raw — same as above (alias)
+export async function get_admin_portal_raw(request) { return get_admin_portal(request); }
 export function options_admin_portal_raw(request) { return handleCors(); }
 
 // GET /_functions/unified_dashboard
