@@ -21,7 +21,11 @@
 
 import { ok, badRequest, serverError, forbidden } from 'wix-http-functions';
 import wixData from 'wix-data';
+import { collections as wixCollections } from 'wix-data.v2';
+import { elevate } from 'wix-auth';
 import { fetch as wixFetch } from 'wix-fetch';
+
+const createEviteCollectionElevated = elevate(wixCollections.createDataCollection);
 
 const SA = { suppressAuth: true };
 
@@ -1083,11 +1087,13 @@ async function ensureEviteEvents() {
     } catch (e) {
         if (!e.message || !e.message.includes('WDE0025')) { _eviteEventsEnsured = true; return; }
     }
+    // Collection doesn't exist — create via wix-data.v2 elevated API
     try {
-        await wixData.save('EviteEvents', { _init: true, ts: new Date() }, SA)
-            .then(r => r && r._id ? wixData.remove('EviteEvents', r._id, SA).catch(() => {}) : null);
-        await new Promise(r => setTimeout(r, 400));
-    } catch (_) {}
+        await createEviteCollectionElevated({ id: 'EviteEvents', displayName: 'EviteEvents' });
+        await new Promise(r => setTimeout(r, 500));
+    } catch (ce) {
+        // Already exists or other error — proceed anyway
+    }
     _eviteEventsEnsured = true;
 }
 
@@ -1102,10 +1108,9 @@ async function ensureEviteInvitations() {
         if (!e.message || !e.message.includes('WDE0025')) { _eviteCollEnsured = true; return; }
     }
     try {
-        await wixData.save(EVITE_COLLECTION, { _init: true, ts: new Date() }, SA)
-            .then(r => r && r._id ? wixData.remove(EVITE_COLLECTION, r._id, SA).catch(() => {}) : null);
-        await new Promise(r => setTimeout(r, 400));
-    } catch (_) {}
+        await createEviteCollectionElevated({ id: EVITE_COLLECTION, displayName: 'EviteInvitations' });
+        await new Promise(r => setTimeout(r, 500));
+    } catch (ce) {}
     _eviteCollEnsured = true;
 }
 
