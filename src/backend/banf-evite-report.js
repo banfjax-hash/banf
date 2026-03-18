@@ -1517,19 +1517,17 @@ export async function get_evite_rsvp_form_data(request) {
 export function options_evite_rsvp_form_data(request) { return handleCors(); }
 
 // ─────────────────────────────────────────────────────────────
-// 9b. RSVP FORM PAGE — serve loader that fetches the full form from GitHub
+// 9b. RSVP FORM PAGE — redirect to GitHub Pages (Wix CSP blocks inline styles/scripts)
 // GET /evite_rsvp_form?token=...&eventId=...
 export async function get_evite_rsvp_form(request) {
-    const qs = request.path[0] || '';
-    const rawUrl = 'https://raw.githubusercontent.com/banfjax-hash/banf/main/docs/rsvp-v2.html';
-    try {
-        const r = await wixFetch(rawUrl);
-        if (r.ok) return htmlOk(await r.text());
-    } catch (_) {}
-    // Fallback: redirect to GitHub Pages
+    const qs = request.query || {};
+    const params = new URLSearchParams();
+    if (qs.token) params.set('token', qs.token);
+    if (qs.eventId) params.set('eventId', qs.eventId);
+    const ghPages = `https://banfjax-hash.github.io/banf/rsvp-v2.html?${params.toString()}`;
     return ok({
         status: 302,
-        headers: { Location: rawUrl, 'Access-Control-Allow-Origin': '*' }
+        headers: { Location: ghPages, 'Access-Control-Allow-Origin': '*' }
     });
 }
 export function options_evite_rsvp_form(request) { return handleCors(); }
