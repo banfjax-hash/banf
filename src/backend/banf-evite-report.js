@@ -19,7 +19,7 @@
  * ═══════════════════════════════════════════════════════════════
  */
 
-import { ok, badRequest, serverError, forbidden } from 'wix-http-functions';
+import { ok, badRequest, serverError, forbidden, response as wixResponse } from 'wix-http-functions';
 import wixData from 'wix-data';
 import { collections as wixCollections } from 'wix-data.v2';
 import { elevate } from 'wix-auth';
@@ -1525,10 +1525,7 @@ export async function get_evite_rsvp_form(request) {
     if (qs.token) params.set('token', qs.token);
     if (qs.eventId) params.set('eventId', qs.eventId);
     const ghPages = `https://banfjax-hash.github.io/banf/rsvp-v2.html?${params.toString()}`;
-    return ok({
-        status: 302,
-        headers: { Location: ghPages, 'Access-Control-Allow-Origin': '*' }
-    });
+    return wixResponse({ status: 302, headers: { 'Location': ghPages, 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' });
 }
 export function options_evite_rsvp_form(request) { return handleCors(); }
 
