@@ -184,6 +184,7 @@ import {
     post_evite_rsvp_override,    options_evite_rsvp_override,
     get_evite_rsvps,             options_evite_rsvps,
     post_evite_send_invites,     options_evite_send_invites,
+    get_evite_rsvp_form,         options_evite_rsvp_form,
     get_evite_rsvp_form_data,    options_evite_rsvp_form_data,
     post_evite_rsvp_submit,      options_evite_rsvp_submit,
     get_evite_invite_status,     options_evite_invite_status
@@ -457,6 +458,7 @@ export {
     post_evite_rsvp_override,    options_evite_rsvp_override,
     get_evite_rsvps,             options_evite_rsvps,
     post_evite_send_invites,     options_evite_send_invites,
+    get_evite_rsvp_form,         options_evite_rsvp_form,
     get_evite_rsvp_form_data,    options_evite_rsvp_form_data,
     post_evite_rsvp_submit,      options_evite_rsvp_submit,
     get_evite_invite_status,     options_evite_invite_status,
