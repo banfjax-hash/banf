@@ -514,6 +514,16 @@ export async function post_evite_create_event(request) {
             });
         }
 
+        // Strip large base64 image data before storing in DB (image is only needed at send time)
+        let storedConfig = '';
+        if (body.eviteConfig) {
+            const cfgCopy = JSON.parse(JSON.stringify(body.eviteConfig));
+            if (cfgCopy.design && cfgCopy.design.imageUrl && cfgCopy.design.imageUrl.startsWith('data:')) {
+                cfgCopy.design.imageUrl = '';
+            }
+            storedConfig = JSON.stringify(cfgCopy);
+        }
+
         const record = await wixData.insert('EviteEvents', {
             eventName: eventName.trim(),
             eventDate: eventDate ? new Date(eventDate) : null,
@@ -524,7 +534,7 @@ export async function post_evite_create_event(request) {
             keywords: [eventName.trim().toLowerCase(), ...keywords.map(k => k.toLowerCase())],
             capacity: parseInt(capacity) || 0,
             notes,
-            eviteConfig: body.eviteConfig ? JSON.stringify(body.eviteConfig) : '',
+            eviteConfig: storedConfig,
             status: 'active',
             totalScanned: 0,
             totalRSVPs: 0,
@@ -1396,9 +1406,13 @@ export async function post_evite_send_invites(request) {
                 totalInvitesSent: (event.totalInvitesSent || 0) + results.sent,
                 lastInviteSentAt: new Date()
             };
-            // Store eviteConfig so RSVP form can access cultural settings
+            // Store eviteConfig so RSVP form can access cultural settings (strip large base64 images)
             if (body.eviteConfig) {
-                updateData.eviteConfig = JSON.stringify(body.eviteConfig);
+                const cfgCopy = JSON.parse(JSON.stringify(body.eviteConfig));
+                if (cfgCopy.design && cfgCopy.design.imageUrl && cfgCopy.design.imageUrl.startsWith('data:')) {
+                    cfgCopy.design.imageUrl = '';
+                }
+                updateData.eviteConfig = JSON.stringify(cfgCopy);
             }
             await wixData.update('EviteEvents', updateData, SA);
         } catch (_) {}
