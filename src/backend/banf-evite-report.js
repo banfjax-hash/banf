@@ -1472,12 +1472,11 @@ export async function post_evite_send_invites(request) {
             }
         } else if (recipientType === 'all_members') {
             const membersResult = await wixData.query('CRMMembers')
-                .eq('isActive', true)
                 .limit(500)
                 .find(SA)
                 .catch(() => ({ items: [] }));
             recipients = membersResult.items
-                .filter(m => m.email)
+                .filter(m => m.email && m.isActive !== false)
                 .map(m => ({
                     name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
                     email: m.email,
@@ -2017,12 +2016,11 @@ export async function get_evite_recipients(request) {
             }
         } else if (type === 'all_members') {
             const membersResult = await wixData.query('CRMMembers')
-                .eq('isActive', true)
                 .limit(500)
                 .find(SA)
                 .catch(() => ({ items: [] }));
             recipients = membersResult.items
-                .filter(m => m.email)
+                .filter(m => m.email && m.isActive !== false)
                 .map(m => ({
                     name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
                     email: m.email,
