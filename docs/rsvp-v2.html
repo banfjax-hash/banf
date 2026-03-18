@@ -137,6 +137,19 @@ input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orang
 .success-card p{font-size:.9rem;color:#666;line-height:1.6}
 .already-responded{background:#f0f7ff;border:1px solid #b3d4fc;padding:16px;border-radius:12px;text-align:center;margin:20px 0}
 .already-responded .status{font-weight:700;color:var(--banf-red);font-size:1.1rem}
+
+/* Family RSVP notice */
+.family-rsvp-notice{background:#fff3e0;border:1px solid #ffcc80;border-radius:12px;padding:18px 20px;margin-bottom:20px}
+.family-rsvp-notice h3{font-size:.95rem;color:#e65100;margin-bottom:10px;font-weight:700}
+.family-rsvp-notice .frn-details{font-size:.85rem;color:#555;line-height:1.7}
+.family-rsvp-notice .frn-row{display:flex;gap:8px;padding:3px 0}
+.family-rsvp-notice .frn-lbl{font-weight:600;color:#333;min-width:110px}
+.family-rsvp-notice .frn-modify-btn{display:inline-block;margin-top:14px;padding:10px 24px;background:var(--grad);color:#fff;border:none;border-radius:24px;font-size:.88rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:all .2s}
+.family-rsvp-notice .frn-modify-btn:hover{opacity:.9;transform:translateY(-1px)}
+.family-members-box{margin-top:12px;padding:10px 14px;background:rgba(255,255,255,.7);border-radius:10px}
+.family-members-box .fm-item{font-size:.82rem;padding:3px 0;color:#444}
+.family-members-box .fm-item.self{font-weight:600;color:var(--banf-red)}
+.family-members-box .fm-item .fm-rel{font-size:.72rem;color:#999;margin-left:6px}
 .footer{text-align:center;padding:20px;font-size:.72rem;color:#aaa;margin-top:auto}
 .allergy-hint{font-size:.75rem;color:#999;margin-top:4px;line-height:1.4}
 #food-count-hint{margin-top:6px;color:#c0392b;display:none;font-size:.78rem}
@@ -177,6 +190,9 @@ input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orang
         <div class="status" id="previous-status"></div>
         <div style="font-size:.82rem;color:#666;margin-top:8px">You can update your response below if needed.</div>
       </div>
+
+      <!-- Family RSVP Notice -->
+      <div id="family-rsvp-notice" style="display:none"></div>
 
       <!-- RSVP Form -->
       <form id="rsvp-form">
@@ -455,9 +471,92 @@ function renderForm(data) {
     // Add first cultural entry by default  
     addCulturalEntry();
   }
+
+  // Family RSVP awareness
+  if (data.familyInfo) {
+    renderFamilyInfo(data.familyInfo);
+  }
 }
 
 // ── Cultural Entry Management ──
+let modifyExistingFlag = false; // set true when spouse modifies family RSVP
+
+function renderFamilyInfo(fi) {
+  const container = document.getElementById('family-rsvp-notice');
+  if (!fi) return;
+
+  let html = '<div class="family-rsvp-notice">';
+
+  // Show family members
+  if (fi.members && fi.members.length > 1) {
+    html += `<div style="font-size:.82rem;color:#888;margin-bottom:8px">Family: <strong style="color:#333">${esc(fi.familyName)}</strong></div>`;
+    html += '<div class="family-members-box">';
+    fi.members.forEach(m => {
+      const rel = m.relation === 'self' ? '(You)' : m.relation === 'spouse' ? '(Spouse)' : '';
+      html += `<div class="fm-item ${m.relation === 'self' ? 'self' : ''}">${esc(m.name)}${m.email ? ' — ' + esc(m.email) : ''}<span class="fm-rel">${rel}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  // Show existing family RSVP
+  if (fi.existingRsvp) {
+    const er = fi.existingRsvp;
+    const statusMap = { yes: 'Attending', no: 'Not Attending', maybe: 'Maybe' };
+    const dateStr = er.submittedAt ? new Date(er.submittedAt).toLocaleString() : 'N/A';
+    html += `<h3 style="margin-top:14px">&#128227; Your Family Has Already RSVPed</h3>`;
+    html += '<div class="frn-details">';
+    html += `<div class="frn-row"><span class="frn-lbl">Submitted by:</span><span>${esc(er.submittedBy)}</span></div>`;
+    html += `<div class="frn-row"><span class="frn-lbl">Date/Time:</span><span>${esc(dateStr)}</span></div>`;
+    html += `<div class="frn-row"><span class="frn-lbl">Response:</span><span style="font-weight:700">${statusMap[er.rsvpStatus] || er.rsvpStatus}</span></div>`;
+    if (er.rsvpStatus === 'yes' || er.rsvpStatus === 'maybe') {
+      html += `<div class="frn-row"><span class="frn-lbl">Adults:</span><span>${er.adults}</span></div>`;
+      html += `<div class="frn-row"><span class="frn-lbl">Kids:</span><span>${er.kids}</span></div>`;
+      if (er.vegCount || er.nonVegCount) {
+        html += `<div class="frn-row"><span class="frn-lbl">Food:</span><span>Veg: ${er.vegCount}, Non-Veg: ${er.nonVegCount}</span></div>`;
+      }
+      if (er.notes) {
+        html += `<div class="frn-row"><span class="frn-lbl">Notes:</span><span>${esc(er.notes)}</span></div>`;
+      }
+    }
+    html += '</div>';
+
+    if (fi.canModify) {
+      html += `<button type="button" class="frn-modify-btn" onclick="enableFamilyModify()">&#9998; Modify This Response</button>`;
+      // Hide the RSVP form initially — spouse needs to click Modify
+      document.getElementById('rsvp-form').style.display = 'none';
+    } else {
+      html += `<div style="margin-top:12px;font-size:.82rem;color:#777">If you need to make changes, please ask ${esc(er.submittedBy)} to update the response, or contact a BANF organizer.</div>`;
+      document.getElementById('rsvp-form').style.display = 'none';
+    }
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+  container.style.display = 'block';
+}
+
+function enableFamilyModify() {
+  modifyExistingFlag = true;
+  const form = document.getElementById('rsvp-form');
+  form.style.display = 'block';
+
+  // Pre-fill form with existing family RSVP data
+  const fi = currentData && currentData.familyInfo;
+  if (fi && fi.existingRsvp) {
+    const er = fi.existingRsvp;
+    const radio = document.getElementById('rsvp-' + er.rsvpStatus);
+    if (radio) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    document.getElementById('adults').value = er.adults || 1;
+    document.getElementById('kids').value = er.kids || 0;
+    document.getElementById('vegCount').value = er.vegCount || 0;
+    document.getElementById('nonVegCount').value = er.nonVegCount || 0;
+    if (er.notes) document.getElementById('notes').value = er.notes;
+  }
+}
+
 function addCulturalEntry() {
   const cultural = (eviteConfig && eviteConfig.cultural) || {};
   const categories = cultural.categories || ['dance','song','instrumental','skit','poetry'];
@@ -754,7 +853,8 @@ async function handleSubmit(e) {
     nonVegCount: nonVegVal,
     dietary: dietaryLabel,
     notes: document.getElementById('notes').value.trim(),
-    cultural: culturalData
+    cultural: culturalData,
+    modifyExisting: modifyExistingFlag || false
   };
 
   try {
@@ -764,7 +864,13 @@ async function handleSubmit(e) {
       body: JSON.stringify(payload)
     });
     const data = await res.json();
-    if (data.success) {
+    if (data.success && data.familyDuplicate) {
+      // Family duplicate detected on submit
+      showFamilyDuplicateOnSubmit(data);
+      btn.disabled = false;
+      const labels = { yes: "Submit RSVP \u2014 I'm Coming!", no: "Submit RSVP \u2014 Can't Make It", maybe: "Submit RSVP \u2014 Maybe" };
+      btn.textContent = labels[rsvpStatus] || 'Submit RSVP';
+    } else if (data.success) {
       showSuccess(data.message, rsvpStatus, culturalData);
     } else {
       alert('Error: ' + (data.error || 'Unknown error'));
@@ -776,6 +882,36 @@ async function handleSubmit(e) {
     btn.disabled = false;
     btn.textContent = 'Try Again';
   }
+}
+
+// ── Family duplicate notice on submit ──
+function showFamilyDuplicateOnSubmit(data) {
+  const er = data.existingRsvp || {};
+  const statusMap = { yes: 'Attending', no: 'Not Attending', maybe: 'Maybe' };
+  const dateStr = er.submittedAt ? new Date(er.submittedAt).toLocaleString() : '';
+  const notice = document.getElementById('family-rsvp-notice');
+
+  let html = '<div class="family-rsvp-notice">';
+  html += `<h3>&#128227; ${esc(data.message || 'Your family has already RSVPed')}</h3>`;
+  html += '<div class="frn-details">';
+  html += `<div class="frn-row"><span class="frn-lbl">Submitted by:</span><span>${esc(er.submittedBy || '')}</span></div>`;
+  if (dateStr) html += `<div class="frn-row"><span class="frn-lbl">Date/Time:</span><span>${dateStr}</span></div>`;
+  html += `<div class="frn-row"><span class="frn-lbl">Response:</span><span style="font-weight:700">${statusMap[er.rsvpStatus] || er.rsvpStatus}</span></div>`;
+  if (er.adults) html += `<div class="frn-row"><span class="frn-lbl">Adults:</span><span>${er.adults}</span></div>`;
+  if (er.kids) html += `<div class="frn-row"><span class="frn-lbl">Kids:</span><span>${er.kids}</span></div>`;
+  html += '</div>';
+
+  if (data.canModify) {
+    html += `<button type="button" class="frn-modify-btn" onclick="enableFamilyModify()">&#9998; Modify This Response</button>`;
+  } else {
+    html += `<div style="margin-top:12px;font-size:.82rem;color:#777">If changes are needed, please ask ${esc(er.submittedBy || 'the original submitter')} to update the response.</div>`;
+    document.getElementById('rsvp-form').style.display = 'none';
+  }
+
+  html += '</div>';
+  notice.innerHTML = html;
+  notice.style.display = 'block';
+  notice.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── Calendar integration helpers ──

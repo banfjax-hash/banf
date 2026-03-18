@@ -1616,6 +1616,58 @@ export async function get_evite_rsvp_form_data(request) {
             try { eviteConfig = JSON.parse(event.eviteConfig); } catch (_) {}
         }
 
+        // ── Family intelligence: lookup CRM family + existing family RSVP ──
+        let familyInfo = null;
+        try {
+            const member = await findMemberByEmail(invitation.recipientEmail);
+            if (member && member.familyId) {
+                const family = await getFamilyGroup(member.familyId);
+                if (family) {
+                    const famMembersResult = await wixData.query('CRMMembers')
+                        .eq('familyId', member.familyId)
+                        .limit(20)
+                        .find(SA)
+                        .catch(() => ({ items: [] }));
+
+                    const existingRsvps = await getFamilyExistingRSVP(member.familyId, invitation.eventId);
+                    const otherRsvp = existingRsvps.find(r =>
+                        (r.from || '').toLowerCase() !== invitation.recipientEmail.toLowerCase()
+                    );
+
+                    const adultIds = (family.adultMemberIds || '').split(',').map(s => s.trim()).filter(Boolean);
+                    const memberId = member._id || member.memberId || '';
+                    const isSpouse = adultIds.length >= 2 && adultIds.includes(memberId);
+
+                    familyInfo = {
+                        familyId: member.familyId,
+                        familyName: family.displayName || family.primarySurname || '',
+                        familyType: family.familyType || '',
+                        members: famMembersResult.items.map(m => ({
+                            name: m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim(),
+                            email: m.email || '',
+                            relation: (m._id === memberId || m.memberId === memberId) ? 'self' : (
+                                adultIds.includes(m._id || m.memberId || '') ? 'spouse' : 'dependent'
+                            )
+                        })),
+                        existingRsvp: otherRsvp ? {
+                            submittedBy: otherRsvp.senderName || otherRsvp.from,
+                            submittedEmail: otherRsvp.from,
+                            submittedAt: otherRsvp.parsedAt || otherRsvp.receivedAt,
+                            rsvpStatus: otherRsvp.rsvpStatus,
+                            adults: otherRsvp.adults || 0,
+                            kids: otherRsvp.kids || 0,
+                            vegCount: otherRsvp.vegCount || 0,
+                            nonVegCount: otherRsvp.nonVegCount || 0,
+                            dietary: otherRsvp.dietary || '',
+                            notes: otherRsvp.notes || '',
+                            culturalParticipant: otherRsvp.culturalParticipant || false
+                        } : null,
+                        canModify: isSpouse
+                    };
+                }
+            }
+        } catch (_) {}
+
         return jsonOk({
             invitation: {
                 recipientName: invitation.recipientName,
@@ -1633,7 +1685,8 @@ export async function get_evite_rsvp_form_data(request) {
                 highlights: event.highlights || '',
                 capacity: event.capacity || 0
             } : null,
-            eviteConfig
+            eviteConfig,
+            familyInfo
         });
 
     } catch (e) {
@@ -1681,6 +1734,62 @@ export async function post_evite_rsvp_submit(request) {
         if (invResult.items.length === 0) return jsonErr('Invalid or expired token');
         const invitation = invResult.items[0];
 
+        // ── Family-level duplicate detection ──
+        let familyId = null;
+        try {
+            const member = await findMemberByEmail(invitation.recipientEmail);
+            if (member && member.familyId) {
+                familyId = member.familyId;
+                const existingRsvps = await getFamilyExistingRSVP(familyId, invitation.eventId);
+                const otherRsvp = existingRsvps.find(r =>
+                    (r.from || '').toLowerCase() !== invitation.recipientEmail.toLowerCase()
+                );
+
+                if (otherRsvp && !body.modifyExisting) {
+                    const family = await getFamilyGroup(familyId);
+                    const adultIds = (family ? (family.adultMemberIds || '') : '').split(',').map(s => s.trim()).filter(Boolean);
+                    const memberId = member._id || member.memberId || '';
+                    const isSpouse = adultIds.length >= 2 && adultIds.includes(memberId);
+
+                    return jsonOk({
+                        familyDuplicate: true,
+                        canModify: isSpouse,
+                        existingRsvp: {
+                            submittedBy: otherRsvp.senderName || otherRsvp.from,
+                            submittedAt: otherRsvp.parsedAt || otherRsvp.receivedAt,
+                            rsvpStatus: otherRsvp.rsvpStatus,
+                            adults: otherRsvp.adults || 0,
+                            kids: otherRsvp.kids || 0,
+                            vegCount: otherRsvp.vegCount || 0,
+                            nonVegCount: otherRsvp.nonVegCount || 0,
+                            notes: otherRsvp.notes || ''
+                        },
+                        message: `An RSVP for your family has already been submitted by ${otherRsvp.senderName || otherRsvp.from}.`
+                    });
+                }
+
+                if (otherRsvp && body.modifyExisting) {
+                    try {
+                        await wixData.update('EviteRSVPs', {
+                            ...otherRsvp,
+                            rsvpStatus,
+                            adults: parseInt(adults) || 0,
+                            kids: parseInt(kids) || 0,
+                            totalAttendees: (parseInt(adults) || 0) + (parseInt(kids) || 0),
+                            vegCount: parseInt(vegCount) || 0,
+                            nonVegCount: parseInt(nonVegCount) || 0,
+                            dietary: dietary || 'unknown',
+                            notes: (notes || '').substring(0, 500),
+                            culturalParticipant: culturalData ? true : false,
+                            culturalData: culturalData ? JSON.stringify(culturalData) : '',
+                            modifiedBy: invitation.recipientEmail,
+                            modifiedAt: new Date()
+                        }, SA);
+                    } catch (_) {}
+                }
+            }
+        } catch (_) {}
+
         // Update invitation with RSVP response
         const updated = await wixData.update(EVITE_COLLECTION, {
             ...invitation,
@@ -1715,6 +1824,7 @@ export async function post_evite_rsvp_submit(request) {
                 subject: 'RSVP Form Submission',
                 rsvpStatus,
                 senderName: invitation.recipientName,
+                familyId: familyId || '',
                 adults: parseInt(adults) || 0,
                 kids: parseInt(kids) || 0,
                 totalAttendees: (parseInt(adults) || 0) + (parseInt(kids) || 0),

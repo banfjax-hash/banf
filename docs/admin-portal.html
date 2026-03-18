@@ -1485,6 +1485,14 @@ We will try our best to accommodate every request. If demand exceeds the allotte
           <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Custom Emails (one per line: email or &ldquo;Name &lt;email&gt;&rdquo;)</label>
           <textarea id="ev-customEmails" rows="5" placeholder="john@example.com&#10;Jane Doe <jane@example.com>" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.82rem;resize:vertical"></textarea>
         </div>
+        <!-- Inline add recipient row -->
+        <div id="ev-addRecipientRow" style="display:none;margin-bottom:8px;display:none">
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="ev-addName" placeholder="Name" style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.8rem">
+            <input id="ev-addEmail" placeholder="Email" style="flex:1.5;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.8rem">
+            <button onclick="eviteAddRecipient()" style="background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.78rem;cursor:pointer;white-space:nowrap"><i class="fas fa-plus me-1"></i>Add</button>
+          </div>
+        </div>
         <div id="ev-recipientPreview" style="display:none;max-height:300px;overflow-y:auto;background:var(--bg2);border-radius:8px;padding:12px;font-size:.78rem;color:var(--muted)"></div>
       </div>
 
@@ -4285,6 +4293,8 @@ function eviteRecipientTypeChanged() {
   document.getElementById('ev-customEmailsWrap').style.display = type === 'custom' ? 'block' : 'none';
   document.getElementById('ev-recipientCount').textContent = '';
   document.getElementById('ev-recipientPreview').style.display = 'none';
+  document.getElementById('ev-addRecipientRow').style.display = 'none';
+  EVITE_RECIPIENT_LIST = [];
 }
 
 // Toggle cultural fields visibility
@@ -4388,7 +4398,10 @@ function eviteDryRun() {
 
 function eviteSendAll() {
   const type = document.getElementById('ev-recipientType').value;
-  if (type === 'custom') {
+  // If recipient list was loaded & possibly edited, use that directly
+  if (EVITE_RECIPIENT_LIST.length > 0) {
+    eviteSendInvites('custom', EVITE_RECIPIENT_LIST);
+  } else if (type === 'custom') {
     const lines = (document.getElementById('ev-customEmails').value || '').split('\n').filter(l => l.trim());
     const emails = lines.map(line => {
       const m = line.match(/^(.+?)\s*<(.+?)>$/);
@@ -4431,17 +4444,26 @@ function eviteSelectEvent(id) {
   eviteLoadEvents();
 }
 
+// Editable recipient list — client-side only, no backend changes
+let EVITE_RECIPIENT_LIST = []; // [{name, email, role?, added?}]
+
 async function eviteLoadRecipientPreview() {
   const type = document.getElementById('ev-recipientType').value;
   const previewEl = document.getElementById('ev-recipientPreview');
   const countEl = document.getElementById('ev-recipientCount');
+  const addRow = document.getElementById('ev-addRecipientRow');
   previewEl.style.display = 'block';
   previewEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading...';
 
   if (type === 'custom') {
+    addRow.style.display = 'none';
     const lines = (document.getElementById('ev-customEmails').value || '').split('\n').filter(l => l.trim());
-    countEl.textContent = lines.length + ' recipient(s)';
-    previewEl.innerHTML = lines.map(l => '<div>' + l + '</div>').join('') || 'No emails entered.';
+    EVITE_RECIPIENT_LIST = lines.map(line => {
+      const m = line.match(/^(.+?)\s*<(.+?)>$/);
+      if (m) return { name: m[1].trim(), email: m[2].trim() };
+      return { name: line.trim().split('@')[0], email: line.trim() };
+    }).filter(e => e.email.includes('@'));
+    eviteRenderRecipientTable();
     return;
   }
 
@@ -4449,23 +4471,55 @@ async function eviteLoadRecipientPreview() {
     const resp = await fetch(API + '/evite_recipients?type=' + encodeURIComponent(type));
     const data = await resp.json();
     if (data.members) {
-      const filtered = data.members;
-      countEl.textContent = filtered.length + ' recipient(s)';
-      let html = '<table style="width:100%;font-size:.78rem"><thead><tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Name</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Email</th></tr></thead><tbody>';
-      filtered.forEach(m => {
-        const name = m.name || m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0];
-        html += '<tr><td style="padding:4px 8px">' + name + '</td><td style="padding:4px 8px">' + (m.email || '') + '</td></tr>';
-      });
-      html += '</tbody></table>';
-      previewEl.innerHTML = html;
+      EVITE_RECIPIENT_LIST = data.members.map(m => ({
+        name: m.name || m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0],
+        email: m.email || '',
+        role: m.role || ''
+      }));
+      addRow.style.display = 'block';
+      eviteRenderRecipientTable();
     } else {
       countEl.textContent = '';
+      addRow.style.display = 'none';
       previewEl.innerHTML = 'Could not load member list: ' + (data.error || 'unknown error');
     }
   } catch (e) {
     countEl.textContent = '';
+    addRow.style.display = 'none';
     previewEl.innerHTML = 'Error loading members: ' + e.message;
   }
+}
+
+function eviteRenderRecipientTable() {
+  const previewEl = document.getElementById('ev-recipientPreview');
+  const countEl = document.getElementById('ev-recipientCount');
+  countEl.textContent = EVITE_RECIPIENT_LIST.length + ' recipient(s)';
+  if (EVITE_RECIPIENT_LIST.length === 0) { previewEl.innerHTML = 'No recipients.'; return; }
+  let html = '<table style="width:100%;font-size:.78rem"><thead><tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Name</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Email</th><th style="text-align:center;padding:4px 8px;border-bottom:1px solid var(--line);width:40px"></th></tr></thead><tbody>';
+  EVITE_RECIPIENT_LIST.forEach((m, i) => {
+    const badge = m.added ? ' <span style="background:var(--accent);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:4px">added</span>' : '';
+    html += '<tr><td style="padding:4px 8px">' + (m.name || '') + badge + '</td><td style="padding:4px 8px">' + (m.email || '') + '</td>';
+    html += '<td style="text-align:center;padding:4px"><button onclick="eviteRemoveRecipient(' + i + ')" title="Remove" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:.9rem"><i class="fas fa-times-circle"></i></button></td></tr>';
+  });
+  html += '</tbody></table>';
+  previewEl.innerHTML = html;
+}
+
+function eviteRemoveRecipient(idx) {
+  EVITE_RECIPIENT_LIST.splice(idx, 1);
+  eviteRenderRecipientTable();
+}
+
+function eviteAddRecipient() {
+  const nameEl = document.getElementById('ev-addName');
+  const emailEl = document.getElementById('ev-addEmail');
+  const email = (emailEl.value || '').trim();
+  const name = (nameEl.value || '').trim() || email.split('@')[0];
+  if (!email || !email.includes('@')) { alert('Enter a valid email address.'); return; }
+  if (EVITE_RECIPIENT_LIST.some(r => r.email.toLowerCase() === email.toLowerCase())) { alert('Already in list.'); return; }
+  EVITE_RECIPIENT_LIST.push({ name, email, added: true });
+  nameEl.value = ''; emailEl.value = '';
+  eviteRenderRecipientTable();
 }
 
 // ═══════════════════════════════════════════════════════════════════
