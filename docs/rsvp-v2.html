@@ -303,7 +303,14 @@ input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orang
 </div>
 
 <script>
-const API_BASE = 'https://banfwix.wixsite.com/banf1/_functions';
+// Determine API base: if served from Wix, use relative path; otherwise use full URL
+const API_BASE = (() => {
+  const h = window.location.hostname;
+  if (h === 'www.jaxbengali.org') return '/_functions';
+  if (h.includes('wixsite.com')) return '/banf1/_functions';
+  // Fallback for GitHub raw or local testing — use absolute Wix URL
+  return 'https://www.jaxbengali.org/_functions';
+})();
 const params = new URLSearchParams(window.location.search);
 const TOKEN = params.get('token');
 const EVENT_ID = params.get('eventId');
@@ -316,6 +323,7 @@ const errorEl = document.getElementById('error-state');
 let currentData = null;
 let eviteConfig = null;  // cultural/rsvp configuration from admin
 let culturalEntryCount = 0;
+let eventInfo = null;     // store event info for calendar integration
 
 // ── Load invitation data ──
 async function loadInvitation() {
@@ -352,6 +360,15 @@ function renderForm(data) {
   // Event title
   if (evt) {
     document.getElementById('event-title').textContent = evt.eventName;
+
+    // Save event info for calendar integration
+    eventInfo = {
+      name: evt.eventName || 'BANF Event',
+      date: evt.eventDate || '',
+      time: evt.eventTime || '',
+      venue: evt.venue || '',
+      description: evt.description || ''
+    };
 
     // Banner image
     if (design.imageUrl) {
@@ -682,8 +699,18 @@ function checkFoodCounts() {
 });
 
 // ── Form submit ──
-document.getElementById('rsvp-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
+const rsvpForm = document.getElementById('rsvp-form');
+rsvpForm.addEventListener('submit', handleSubmit);
+// Backup: also handle click on submit button in case form submit event doesn't fire
+document.getElementById('submit-btn').addEventListener('click', function(e) {
+  if (!this.disabled) {
+    e.preventDefault();
+    handleSubmit(e);
+  }
+});
+
+async function handleSubmit(e) {
+  if (e) e.preventDefault();
   const btn = document.getElementById('submit-btn');
   const rsvpRadio = document.querySelector('input[name="rsvpStatus"]:checked');
   if (!rsvpRadio) return;
@@ -749,7 +776,85 @@ document.getElementById('rsvp-form').addEventListener('submit', async function(e
     btn.disabled = false;
     btn.textContent = 'Try Again';
   }
-});
+}
+
+// ── Calendar integration helpers ──
+function parseEventDateTime(info) {
+  // Parse event date and derive start/end times
+  let startDate;
+  if (info.date) {
+    startDate = new Date(info.date);
+    if (isNaN(startDate.getTime())) startDate = null;
+  }
+  if (!startDate) {
+    // Fallback: use a reasonable default
+    startDate = new Date('2026-04-25T11:00:00');
+  }
+
+  // Try to extract start time from eventTime (e.g., "11:00 AM – 4:00 PM")
+  const timeMatch = (info.time || '').match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*[\u2013\-–]\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i);
+  let startHour = 11, startMin = 0, endHour = 16, endMin = 0;
+  if (timeMatch) {
+    startHour = parseInt(timeMatch[1]);
+    startMin = parseInt(timeMatch[2] || '0');
+    if (timeMatch[3].toUpperCase() === 'PM' && startHour !== 12) startHour += 12;
+    if (timeMatch[3].toUpperCase() === 'AM' && startHour === 12) startHour = 0;
+    endHour = parseInt(timeMatch[4]);
+    endMin = parseInt(timeMatch[5] || '0');
+    if (timeMatch[6].toUpperCase() === 'PM' && endHour !== 12) endHour += 12;
+    if (timeMatch[6].toUpperCase() === 'AM' && endHour === 12) endHour = 0;
+  }
+
+  const y = startDate.getFullYear(), m = startDate.getMonth(), d = startDate.getDate();
+  const start = new Date(y, m, d, startHour, startMin);
+  const end = new Date(y, m, d, endHour, endMin);
+  return { start, end };
+}
+
+function toIcsDateStr(date) {
+  // Format: YYYYMMDDTHHMMSS (local time)
+  const pad = n => String(n).padStart(2, '0');
+  return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}00`;
+}
+
+function toGcalDateStr(date) {
+  // Google Calendar uses YYYYMMDDTHHMMSS (no separators)
+  return toIcsDateStr(date);
+}
+
+function buildGoogleCalendarUrl(info) {
+  const { start, end } = parseEventDateTime(info);
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: info.name || 'BANF Event',
+    dates: `${toGcalDateStr(start)}/${toGcalDateStr(end)}`,
+    details: (info.description || '').replace(/\\n/g, '\n'),
+    location: info.venue || '',
+    ctz: 'America/New_York'
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+function buildIcsData(info) {
+  const { start, end } = parseEventDateTime(info);
+  const now = new Date();
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//BANF//Evite//EN',
+    'BEGIN:VEVENT',
+    `DTSTART;TZID=America/New_York:${toIcsDateStr(start)}`,
+    `DTEND;TZID=America/New_York:${toIcsDateStr(end)}`,
+    `DTSTAMP:${toIcsDateStr(now)}Z`,
+    `SUMMARY:${(info.name || 'BANF Event').replace(/[,;\\]/g, ' ')}`,
+    `LOCATION:${(info.venue || '').replace(/[,;\\]/g, ' ')}`,
+    `DESCRIPTION:${(info.description || '').replace(/\\n/g, '\\n').replace(/[;\\]/g, ' ')}`,
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+}
 
 function showSuccess(message, status, culturalData) {
   formEl.style.display = 'none';
@@ -765,11 +870,33 @@ function showSuccess(message, status, culturalData) {
     </div>`;
   }
 
+  // Calendar integration (only for yes/maybe)
+  let calendarMsg = '';
+  if ((status === 'yes' || status === 'maybe') && eventInfo) {
+    const gcalUrl = buildGoogleCalendarUrl(eventInfo);
+    const icsData = buildIcsData(eventInfo);
+    calendarMsg = `
+    <div style="background:#f0faf0;border:1px solid #b2dfb2;border-radius:12px;padding:16px;margin-top:16px">
+      <div style="font-size:.9rem;font-weight:600;color:#2e7d32;margin-bottom:10px">&#128197; Add to Your Calendar</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+        <a href="${gcalUrl}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:#fff;border:2px solid #4285f4;border-radius:24px;color:#4285f4;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#e8f0fe'" onmouseout="this.style.background='#fff'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#4285f4"><path d="M19.5 3h-1V1.5h-2V3h-9V1.5h-2V3h-1C3.67 3 3 3.67 3 4.5v15c0 .83.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5v-15c0-.83-.67-1.5-1.5-1.5zm0 16.5h-15V8h15v11.5z"/></svg>
+          Google Calendar
+        </a>
+        <a href="${icsData}" download="banf-noboborsho-2026.ics" style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:#fff;border:2px solid #666;border-radius:24px;color:#333;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='#fff'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#666"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zM5 8V6h14v2H5z"/></svg>
+          Apple / Outlook (.ics)
+        </a>
+      </div>
+    </div>`;
+  }
+
   successEl.innerHTML = `
     <div class="check">${icons[status] || '&#9989;'}</div>
     <h2>${titles[status] || 'Response Recorded'}</h2>
     <p>${message}</p>
     ${culturalMsg}
+    ${calendarMsg}
     <p style="margin-top:16px;font-size:.82rem;color:#999">You can close this page now. If you change your mind, just click the link in your invitation email again.</p>
   `;
 }

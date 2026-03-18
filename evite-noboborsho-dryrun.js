@@ -31,13 +31,13 @@ const PRESIDENT = { name: 'Ranadhir Ghosh', email: 'ranadhir.ghosh@gmail.com', r
 // ── Noboborsho Event Config ──
 const NOBOBORSHO_EVENT = {
   eventName: 'BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩',
-  eventDate: '2026-04-18T16:00:00.000Z',
-  eventTime: '4:00 PM - 9:00 PM',
-  venue: 'Hallowed Cove Academy, St. Johns, FL',
-  description: 'Join us to celebrate Pohela Boishakh — the Bengali New Year — with an evening of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!',
+  eventDate: '2026-04-25T15:00:00.000Z',
+  eventTime: '11:00 AM – 4:00 PM',
+  venue: 'Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092',
+  description: 'Join us to celebrate Pohela Boishakh — the Bengali New Year — with a day of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!\n\nSchedule:\n• 11:00 AM – 12:00 PM — Snacks / Adda\n• 12:00 PM – 1:30 PM — Cultural Program\n• 1:45 PM – 3:00 PM — Lunch\n• 3:00 PM – 4:00 PM — Wrap Up',
   highlights: 'Traditional alpona, cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.',
   keywords: ['noboborsho', 'pohela boishakh', 'noboborsho 2026', 'bengali new year'],
-  capacity: 200,
+  capacity: 300,
   notes: 'Created via Noboborsho dry-run test'
 };
 
@@ -45,13 +45,13 @@ const NOBOBORSHO_EVENT = {
 const EVITE_CONFIG = {
   event: {
     eventName: NOBOBORSHO_EVENT.eventName,
-    eventDate: '2026-04-18',
-    eventTime: '4:00 PM - 9:00 PM',
+    eventDate: '2026-04-25',
+    eventTime: '11:00 AM – 4:00 PM',
     venue: NOBOBORSHO_EVENT.venue,
     description: NOBOBORSHO_EVENT.description,
     highlights: NOBOBORSHO_EVENT.highlights,
-    capacity: 200,
-    rsvpDeadline: '2026-04-15'
+    capacity: 300,
+    rsvpDeadline: '2026-04-22'
   },
   design: {
     introText: 'প্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.',
