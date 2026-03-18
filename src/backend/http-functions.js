@@ -6858,7 +6858,7 @@ export function get_member_portal_raw(request) { return htmlPage(getMemberPortal
 export function options_member_portal_raw(request) { return handleCors(); }
 
 // GET /_functions/admin_portal
-export function get_admin_portal(request)  { return wixResponse({ status: 302, headers: { 'Location': 'https://www.jaxbengali.org/home?portal=admin', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' }); }
+export function get_admin_portal(request)  { return wixResponse({ status: 302, headers: { 'Location': 'https://banfjax-hash.github.io/banf/admin-portal.html', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' }); }
 export function options_admin_portal(request) { return handleCors(); }
 // GET /_functions/admin_portal_raw — Redirect to GitHub Pages (CSP-free)
 // Wix _functions endpoints inject restrictive CSP: default-src 'self'; script-src 'nonce-...'
