@@ -44,7 +44,7 @@ async function getHFToken() {
 // ─────────────────────────────────────────────────────────────
 const GOOGLE_CLIENT_ID = '1020178199135-3usrl611ara38i7rhu2ub6sn6g1150ml.apps.googleusercontent.com';
 const GOOGLE_CLIENT_SECRET = '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';
-const GOOGLE_REFRESH_TOKEN = '1//04iXClX5dKpqhCgYIARAAGAQSNwF-L9IrCtEUhuup9COlH5wnvGtozgReO4E5ILylE9Jq4f8vw1YUXDT_ysiHcJ89g-PA96eh8Ko';
+const GOOGLE_REFRESH_TOKEN = 'SEE_DB_GoogleTokens';
 
 // Try DB-stored refresh token first (same token flow as http-functions.js)
 async function getStoredRefreshTokenEvite() {
@@ -357,6 +357,12 @@ export function handleCors() {
         }
     });
 }
+function htmlOk(html) {
+    return ok({
+        body: html,
+        headers: { 'Content-Type': 'text/html; charset=UTF-8', 'Access-Control-Allow-Origin': '*' }
+    });
+}
 async function parseBody(req) {
     try { return await req.body.json(); } catch (_) { return {}; }
 }
@@ -518,6 +524,7 @@ export async function post_evite_create_event(request) {
             keywords: [eventName.trim().toLowerCase(), ...keywords.map(k => k.toLowerCase())],
             capacity: parseInt(capacity) || 0,
             notes,
+            eviteConfig: body.eviteConfig ? JSON.stringify(body.eviteConfig) : '',
             status: 'active',
             totalScanned: 0,
             totalRSVPs: 0,
@@ -551,7 +558,7 @@ export async function get_evite_events(request) {
             .find(SA)
             .catch(() => ({ items: [] }));
 
-        return jsonOk({ events: result.items, total: result.items.length });
+        return jsonOk({ events: result.items, total: result.items.length, _v: 'evite-v4-rsvp-form' });
     } catch (e) {
         return jsonErr(e.message, 500);
     }
@@ -1051,7 +1058,7 @@ export function options_evite_rsvps(request) { return handleCors(); }
 
 const BANF_ORG        = 'Bengali Association of North Florida';
 const BANF_EMAIL      = 'banfjax@gmail.com';
-const RSVP_FORM_URL   = 'https://www.jaxbengali.org/rsvp.html';
+const RSVP_FORM_URL   = 'https://www.jaxbengali.org/_functions/evite_rsvp_form';
 const EVITE_COLLECTION = 'EviteInvitations';
 
 // Collection auto-provision
@@ -1081,25 +1088,27 @@ function generateToken() {
 
 // ── Simplified Gmail token (same as banf-survey.js) ──
 async function getGmailTokenDirect() {
+    // Use stored token from GoogleTokens collection first, fall back to hardcoded
+    const refreshToken = await getStoredRefreshTokenEvite();
     const resp = await wixFetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `client_id=${GOOGLE_CLIENT_ID}&client_secret=${GOOGLE_CLIENT_SECRET}&refresh_token=${GOOGLE_REFRESH_TOKEN}&grant_type=refresh_token`
+        body: `client_id=${GOOGLE_CLIENT_ID}&client_secret=${GOOGLE_CLIENT_SECRET}&refresh_token=${encodeURIComponent(refreshToken)}&grant_type=refresh_token`
     });
     const data = await resp.json();
     if (data.access_token) return data.access_token;
     const resp2 = await wixFetch('https://oauth2.googleapis.com/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `client_id=407408718192.apps.googleusercontent.com&client_secret=kd-_2_AUosoGGTNYyMJiFL3j&refresh_token=${GOOGLE_REFRESH_TOKEN}&grant_type=refresh_token`
+        body: `client_id=407408718192.apps.googleusercontent.com&client_secret=kd-_2_AUosoGGTNYyMJiFL3j&refresh_token=${encodeURIComponent(refreshToken)}&grant_type=refresh_token`
     });
     const data2 = await resp2.json();
     if (data2.access_token) return data2.access_token;
     throw new Error('Gmail token failed: ' + (data.error_description || data.error || 'unknown'));
 }
 
-// ── Build branded HTML invitation email ──
-function buildInvitationEmail(recipientName, event, rsvpUrl) {
+// ── Build branded HTML invitation email (enhanced with eviteConfig support) ──
+function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
     const eventDate = event.eventDate ? new Date(event.eventDate) : null;
     const dateStr = eventDate
         ? eventDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
@@ -1107,6 +1116,60 @@ function buildInvitationEmail(recipientName, event, rsvpUrl) {
     const timeStr = event.eventTime || '';
     const venue = event.venue || 'TBD';
     const description = event.description || '';
+    const cfg = eviteConfig || {};
+    const design = cfg.design || {};
+    const cultural = cfg.cultural || {};
+    const rsvpCfg = cfg.rsvp || { collectGuests: true, collectFood: true, collectAllergy: true };
+
+    // Intro text
+    const introText = design.introText || 'We are delighted to invite you and your family to our upcoming event. Your presence will make this celebration truly special!';
+
+    // Banner image
+    const imageHtml = design.imageUrl
+        ? `<img src="${_esc(design.imageUrl)}" alt="${_esc(event.eventName)}" style="width:100%;max-width:560px;border-radius:12px;margin:0 0 20px;display:block" />`
+        : '';
+
+    // What we ask list
+    let askItems = '';
+    if (rsvpCfg.collectGuests) askItems += '<tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Number of <strong>adults</strong> and <strong>kids</strong></td></tr>';
+    if (rsvpCfg.collectFood) askItems += '<tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0"><strong>Vegetarian</strong> vs <strong>non-vegetarian</strong> preference</td></tr>';
+    if (rsvpCfg.collectAllergy) askItems += '<tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Any <strong>allergies or dietary restrictions</strong></td></tr>';
+    if (cultural.enabled) askItems += '<tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Interest in <strong>cultural program participation</strong></td></tr>';
+    if (!askItems) askItems = '<tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Attendance confirmation</td></tr>';
+
+    // Cultural section
+    let culturalHtml = '';
+    if (cultural.enabled) {
+        const catLabels = { dance: '💃 Dance', song: '🎤 Song', instrumental: '🎸 Instrumental', skit: '🎬 Skit / Drama', poetry: '📝 Poetry / Recitation' };
+        const modeLabels = { individual: '🧑 Individual', group: '👥 Group' };
+        const ageLabels = { kid: '👶 Kid (under 12)', youth: '🧑‍🎤 Youth (12-17)', adult: '🧑‍💼 Adult (18-59)', senior: '👴 Senior (60+)', mix: '🌈 Mix' };
+
+        const catChips = (cultural.categories || []).map(c =>
+            `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#fce4ec;color:#c0392b;margin:2px">${catLabels[c] || c}</span>`
+        ).join(' ');
+        const modeChips = (cultural.modes || []).map(m =>
+            `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#e8eaf6;color:#3f51b5;margin:2px">${modeLabels[m] || m}</span>`
+        ).join(' ');
+        const ageChips = (cultural.ageGroups || []).map(a =>
+            `<span style="display:inline-block;padding:3px 10px;border-radius:10px;font-size:12px;background:#e0f2f1;color:#00695c;margin:2px">${ageLabels[a] || a}</span>`
+        ).join(' ');
+
+        let notesHtml = '';
+        (cultural.notes || []).forEach(n => {
+            notesHtml += `<div style="padding:4px 0;font-size:12px;color:#666">📌 ${_esc(n)}</div>`;
+        });
+
+        culturalHtml = `
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7ff;border-radius:12px;border-left:4px solid #3498db;margin:20px 0">
+    <tr><td style="padding:20px 24px">
+      <div style="font-size:16px;font-weight:700;color:#1a5276;margin-bottom:8px">${_esc(cultural.header || '🎭 Cultural Program — Participate & Showcase Your Talent!')}</div>
+      <div style="font-size:14px;color:#555;line-height:1.6;margin-bottom:12px">${_esc(cultural.description || '')}</div>
+      ${catChips ? `<div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Categories:</strong><br>${catChips}</div>` : ''}
+      ${modeChips ? `<div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Mode:</strong><br>${modeChips}</div>` : ''}
+      ${ageChips ? `<div style="margin-bottom:8px"><strong style="font-size:12px;color:#555">Age Groups:</strong><br>${ageChips}</div>` : ''}
+      ${notesHtml ? `<div style="margin-top:12px;padding-top:12px;border-top:1px dashed #b3d4fc">${notesHtml}</div>` : ''}
+    </td></tr></table>`;
+    }
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -1124,12 +1187,11 @@ function buildInvitationEmail(recipientName, event, rsvpUrl) {
   <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:8px">${BANF_ORG}</div>
 </td></tr>
 
-<!-- Event Details -->
+<!-- Body -->
 <tr><td style="padding:32px 40px">
   <p style="font-size:16px;color:#333;margin:0 0 20px">Dear <strong>${recipientName}</strong>,</p>
-  <p style="font-size:15px;color:#555;margin:0 0 24px;line-height:1.6">
-    We are delighted to invite you and your family to our upcoming event. Your presence will make this celebration truly special!
-  </p>
+  <p style="font-size:15px;color:#555;margin:0 0 24px;line-height:1.6">${_esc(introText)}</p>
+  ${imageHtml}
 
   <!-- Event Info Card -->
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#fdf6f0;border-radius:12px;border-left:4px solid #FF6B35;margin-bottom:24px">
@@ -1147,12 +1209,7 @@ function buildInvitationEmail(recipientName, event, rsvpUrl) {
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f7ff;border-radius:12px;border-left:4px solid #3498db;margin-bottom:24px">
   <tr><td style="padding:16px 20px">
     <div style="font-size:13px;color:#2c3e50;font-weight:600;margin-bottom:8px">When you RSVP, we will ask for:</div>
-    <table cellpadding="0" cellspacing="0" style="font-size:13px;color:#555">
-      <tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Number of <strong>adults</strong> attending</td></tr>
-      <tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Number of <strong>kids</strong> (under 18) attending</td></tr>
-      <tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">How many prefer <strong>vegetarian</strong> vs <strong>non-vegetarian</strong> food</td></tr>
-      <tr><td style="padding:3px 10px 3px 0">&#9679;</td><td style="padding:3px 0">Any <strong>allergies or dietary restrictions</strong></td></tr>
-    </table>
+    <table cellpadding="0" cellspacing="0" style="font-size:13px;color:#555">${askItems}</table>
   </td></tr></table>
 
   <!-- RSVP Button -->
@@ -1166,6 +1223,8 @@ function buildInvitationEmail(recipientName, event, rsvpUrl) {
   <p style="font-size:13px;color:#888;text-align:center;margin:0 0 8px">
     Please respond by clicking the button above so we can plan accordingly.
   </p>
+
+  ${culturalHtml}
 
   <!-- What to Expect -->
   ${event.highlights ? `
@@ -1195,6 +1254,8 @@ function buildInvitationEmail(recipientName, event, rsvpUrl) {
 </td></tr></table>
 </body></html>`;
 }
+
+function _esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // ── Send one invitation email via Gmail API ──
 async function sendInviteEmail(to, toName, subject, html, accessToken) {
@@ -1274,7 +1335,7 @@ export async function post_evite_send_invites(request) {
 
         if (recipients.length === 0) return jsonErr('No recipients found');
 
-        const accessToken = await getGmailTokenDirect();
+        const accessToken = await getGmailToken();
         const subject = `You're Invited: ${event.eventName}`;
         const results = { sent: 0, failed: 0, total: recipients.length, details: [] };
 
@@ -1284,8 +1345,10 @@ export async function post_evite_send_invites(request) {
                 const token = generateToken();
                 const rsvpUrl = `${RSVP_FORM_URL}?token=${token}&eventId=${eventId}`;
 
-                // Build personalized email
-                const html = buildInvitationEmail(recip.name, event, rsvpUrl);
+                // Build personalized email (pass eviteConfig if available)
+                let eviteConfig = null;
+                try { eviteConfig = body.eviteConfig || (event.eviteConfig ? JSON.parse(event.eviteConfig) : null); } catch (_) {}
+                const html = buildInvitationEmail(recip.name, event, rsvpUrl, eviteConfig);
 
                 // Send
                 const sendResult = await sendInviteEmail(recip.email, recip.name, subject, html, accessToken);
@@ -1326,19 +1389,24 @@ export async function post_evite_send_invites(request) {
             }
         }
 
-        // Update event with send count
+        // Update event with send count and config
         try {
-            await wixData.update('EviteEvents', {
+            const updateData = {
                 ...event,
                 totalInvitesSent: (event.totalInvitesSent || 0) + results.sent,
                 lastInviteSentAt: new Date()
-            }, SA);
+            };
+            // Store eviteConfig so RSVP form can access cultural settings
+            if (body.eviteConfig) {
+                updateData.eviteConfig = JSON.stringify(body.eviteConfig);
+            }
+            await wixData.update('EviteEvents', updateData, SA);
         } catch (_) {}
 
         return jsonOk(results);
 
     } catch (e) {
-        return jsonErr('evite_send_invites failed: ' + e.message, 500);
+        return jsonErr('evite_send_v3: ' + e.message, 500);
     }
 }
 export function options_evite_send_invites(request) { return handleCors(); }
@@ -1377,6 +1445,12 @@ export async function get_evite_rsvp_form_data(request) {
         let event = null;
         try { event = await wixData.get('EviteEvents', invitation.eventId, SA); } catch (_) {}
 
+        // Parse eviteConfig if stored
+        let eviteConfig = null;
+        if (event && event.eviteConfig) {
+            try { eviteConfig = JSON.parse(event.eviteConfig); } catch (_) {}
+        }
+
         return jsonOk({
             invitation: {
                 recipientName: invitation.recipientName,
@@ -1393,7 +1467,8 @@ export async function get_evite_rsvp_form_data(request) {
                 description: event.description || '',
                 highlights: event.highlights || '',
                 capacity: event.capacity || 0
-            } : null
+            } : null,
+            eviteConfig
         });
 
     } catch (e) {
@@ -1401,6 +1476,24 @@ export async function get_evite_rsvp_form_data(request) {
     }
 }
 export function options_evite_rsvp_form_data(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
+// 9b. RSVP FORM PAGE — serve loader that fetches the full form from GitHub
+// GET /evite_rsvp_form?token=...&eventId=...
+export async function get_evite_rsvp_form(request) {
+    const qs = request.path[0] || '';
+    const rawUrl = 'https://raw.githubusercontent.com/banfjax-hash/banf/main/docs/rsvp-v2.html';
+    try {
+        const r = await wixFetch(rawUrl);
+        if (r.ok) return htmlOk(await r.text());
+    } catch (_) {}
+    // Fallback: redirect to GitHub Pages
+    return ok({
+        status: 302,
+        headers: { Location: rawUrl, 'Access-Control-Allow-Origin': '*' }
+    });
+}
+export function options_evite_rsvp_form(request) { return handleCors(); }
 
 // ─────────────────────────────────────────────────────────────
 // 10. RSVP SUBMIT — process RSVP form submission
@@ -1412,6 +1505,7 @@ export async function post_evite_rsvp_submit(request) {
     try {
         const body = await parseBody(request);
         const { token, rsvpStatus, adults = 0, kids = 0, vegCount = 0, nonVegCount = 0, dietary = '', notes = '' } = body;
+        const culturalData = body.cultural || null;
 
         if (!token) return jsonErr('Missing token');
         if (!rsvpStatus || !['yes', 'no', 'maybe'].includes(rsvpStatus)) {
@@ -1439,6 +1533,8 @@ export async function post_evite_rsvp_submit(request) {
             vegCount: parseInt(vegCount) || 0,
             nonVegCount: parseInt(nonVegCount) || 0,
             notes: (notes || '').substring(0, 500),
+            culturalParticipant: culturalData ? true : false,
+            culturalData: culturalData ? JSON.stringify(culturalData) : '',
             respondedAt: new Date(),
             opened: true
         }, SA);
@@ -1466,6 +1562,8 @@ export async function post_evite_rsvp_submit(request) {
                 vegCount: parseInt(vegCount) || 0,
                 nonVegCount: parseInt(nonVegCount) || 0,
                 notes: (notes || '').substring(0, 500),
+                culturalParticipant: culturalData ? true : false,
+                culturalData: culturalData ? JSON.stringify(culturalData) : '',
                 llmConfidence: 1.0,
                 parsedAt: new Date(),
                 manualOverride: false,
