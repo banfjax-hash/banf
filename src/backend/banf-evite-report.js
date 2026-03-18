@@ -1292,18 +1292,33 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
 
 function _esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
+// ── RFC 2047 MIME encoding for non-ASCII headers ──
+function mimeEncodeIfNeeded(str) {
+    if (!str) return '';
+    // If pure printable ASCII, return as-is
+    if (/^[\x20-\x7E]*$/.test(str)) return str;
+    // Encode as =?UTF-8?B?...?= per RFC 2047
+    const utf8bytes = unescape(encodeURIComponent(str));
+    return '=?UTF-8?B?' + btoa(utf8bytes) + '?=';
+}
+
 // ── Send one invitation email via Gmail API ──
 async function sendInviteEmail(to, toName, subject, html, accessToken) {
+    const safeSubject = mimeEncodeIfNeeded(subject);
+    const safeName = mimeEncodeIfNeeded(toName);
+    const toHeader = safeName ? `${safeName} <${to}>` : to;
+    const fromName = mimeEncodeIfNeeded(BANF_ORG);
     const message = [
-        `To: ${toName} <${to}>`,
-        `From: ${BANF_ORG} <${BANF_EMAIL}>`,
-        `Subject: ${subject}`,
-        `Content-Type: text/html; charset=utf-8`,
+        `To: ${toHeader}`,
+        `From: ${fromName} <${BANF_EMAIL}>`,
+        `Subject: ${safeSubject}`,
         `MIME-Version: 1.0`,
+        `Content-Type: text/html; charset=utf-8`,
+        `Content-Transfer-Encoding: base64`,
         '',
-        html
+        btoa(unescape(encodeURIComponent(html)))
     ].join('\r\n');
-    const raw = btoa(unescape(encodeURIComponent(message)))
+    const raw = btoa(message)
         .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 
     const res = await wixFetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
