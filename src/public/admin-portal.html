@@ -2435,21 +2435,10 @@ async function loadLinkedData(e) {
       html += await renderProcurementMapping(e);
     }
 
-    // AI Enrichment Intelligence Panel (for entries enriched by ExpenseIQ agent)
+    // AI Enrichment Intelligence Panel with Data Lineage
     const aiNotes = e.notes || '';
-    if (aiNotes.startsWith('AI-enriched:')) {
-      const confMatch = aiNotes.match(/(HIGH|MEDIUM|LOW)\s+confidence/i);
-      const confidence = confMatch ? confMatch[1].toUpperCase() : '';
-      const confColor = confidence === 'HIGH' ? '#16a34a' : confidence === 'MEDIUM' ? '#d97706' : '#dc2626';
-      const confBadge = confidence ? '<span style="display:inline-block;padding:1px 8px;border-radius:10px;font-size:.68rem;font-weight:600;color:#fff;background:' + confColor + '">' + confidence + '</span>' : '';
-      const detail = aiNotes.replace('AI-enriched: ', '');
-      let aiRows = [['Analysis', detail]];
-      if (confidence) aiRows.push(['Confidence', confBadge]);
-      if (e.eventName) aiRows.push(['Linked Event', '<strong>' + e.eventName + '</strong>']);
-      if (e.category) aiRows.push(['Category', '<span style="text-transform:capitalize">' + e.category.replace(/_/g, ' ') + '</span>']);
-      html += _ldSection('AI Expense Intelligence', 'brain',
-        '<div style="font-size:.72rem;color:var(--accent);margin-bottom:6px"><i class="fas fa-robot me-1"></i>Automatically analyzed by ExpenseIQ engine</div>' +
-        _ldRow(aiRows));
+    if (aiNotes.includes('[ExpenseIQ]') || aiNotes.includes('[ExpenseIQ-Enriched]') || aiNotes.startsWith('AI-enriched:')) {
+      html += renderExpenseIQPanel(e);
     }
   }
 
@@ -2562,6 +2551,127 @@ function renderEventIncomeMapping(e) {
       ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
       ['Payment Method', (e.paymentMethod || '').replace(/_/g, ' ')]
     ]));
+}
+
+// ── ExpenseIQ Data Lineage Panel ──
+function renderExpenseIQPanel(e) {
+  const notes = e.notes || '';
+
+  // Try to parse structured lineage JSON
+  let lineage = null;
+  const lineageMatch = notes.match(/\[LINEAGE\](.+?)$/s);
+  if (lineageMatch) {
+    try { lineage = JSON.parse(lineageMatch[1]); } catch (_) {}
+  }
+
+  // Parse confidence from notes text
+  const confMatch = notes.match(/confidence:\s*(\w+)/i) || notes.match(/(HIGH|MEDIUM|LOW)\s+confidence/i);
+  const confidence = lineage ? (lineage.confidence || '').toUpperCase() : (confMatch ? confMatch[1].toUpperCase() : '');
+  const confColor = confidence === 'HIGH' ? '#16a34a' : confidence === 'MEDIUM' ? '#d97706' : '#dc2626';
+  const confBadge = confidence ? '<span style="display:inline-block;padding:2px 10px;border-radius:10px;font-size:.7rem;font-weight:700;color:#fff;background:' + confColor + ';letter-spacing:.03em">' + confidence + '</span>' : '';
+
+  let panelHtml = '<div style="font-size:.72rem;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-robot"></i>Automatically analyzed by ExpenseIQ engine</div>';
+
+  // ── Summary row ──
+  let summaryRows = [];
+  if (e.eventName) summaryRows.push(['Linked Event', '<strong style="color:var(--accent)">' + e.eventName + '</strong>']);
+  if (e.category) summaryRows.push(['Category', '<span style="text-transform:capitalize;font-weight:600">' + e.category.replace(/_/g, ' ') + '</span>']);
+  if (confidence) summaryRows.push(['Confidence', confBadge]);
+  if (lineage && lineage.analyzedAt) summaryRows.push(['Analyzed', new Date(lineage.analyzedAt).toLocaleString()]);
+  if (summaryRows.length) panelHtml += _ldRow(summaryRows);
+
+  // ── Analysis Steps (Data Lineage Trail) ──
+  let steps = [];
+  if (lineage && lineage.steps && lineage.steps.length) {
+    steps = lineage.steps;
+  } else {
+    // Parse steps from pipe-delimited notes (legacy format)
+    const cleanNotes = notes.replace(/\[LINEAGE\].+$/s, '').replace(/\[ExpenseIQ(-Enriched)?\]\s*/g, '');
+    const segments = cleanNotes.split(' | ').filter(s => s && !s.startsWith('Auto-parsed') && !s.startsWith('AI-enriched'));
+    for (const seg of segments) {
+      if (seg.startsWith('Hypothesis:')) steps.push({ step: 'date_proximity', detail: seg.replace('Hypothesis: ', ''), icon: 'calendar-alt' });
+      else if (seg.includes('via document correlation')) steps.push({ step: 'document_verification', detail: seg, icon: 'file-alt' });
+      else if (seg.includes('aligns with') || seg.includes('typically purchased') || seg.includes('within 7 days')) steps.push({ step: 'purpose_verification', detail: seg, icon: 'check-double' });
+      else if (seg.startsWith('Documents:')) steps.push({ step: 'document_scan', detail: seg, icon: 'folder-open' });
+      else if (seg.match(/confidence:\s*\w+/i)) continue;
+      else steps.push({ step: 'analysis', detail: seg, icon: 'search' });
+    }
+  }
+
+  if (steps.length) {
+    panelHtml += '<div style="margin-top:10px;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:6px"><i class="fas fa-project-diagram me-1" style="color:var(--accent)"></i>Data Lineage Trail</div>';
+    panelHtml += '<div style="position:relative;padding-left:22px;border-left:2px solid var(--accent);margin-left:8px">';
+    const stepLabels = { merchant_id: 'Merchant Identified', date_proximity: 'Date Proximity', document_verification: 'Document Verified', document_scan: 'Documents Found', purpose_verification: 'Purpose Verified', post_event: 'Post-Event', analysis: 'Analysis' };
+    steps.forEach((s, i) => {
+      const label = stepLabels[s.step] || s.step.replace(/_/g, ' ');
+      const icon = s.icon || 'circle';
+      panelHtml += '<div style="position:relative;margin-bottom:8px;padding:8px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--line)">' +
+        '<div style="position:absolute;left:-28px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg1)"></div>' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">' +
+          '<i class="fas fa-' + icon + '" style="color:var(--accent);font-size:.7rem;width:14px;text-align:center"></i>' +
+          '<span style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.04em">Step ' + (i + 1) + ': ' + label + '</span>' +
+        '</div>' +
+        '<div style="font-size:.8rem;color:var(--text);line-height:1.4">' + escHtml(s.detail) + '</div>' +
+        (s.source ? '<div style="font-size:.68rem;color:var(--muted);margin-top:2px"><i class="fas fa-database me-1"></i>' + escHtml(s.source) + '</div>' : '') +
+      '</div>';
+    });
+    panelHtml += '</div>';
+  }
+
+  // ── Linked Documents (clickable data lineage) ──
+  let docs = [];
+  if (lineage && lineage.documents && lineage.documents.length) {
+    docs = lineage.documents;
+  } else {
+    // Parse from notes text
+    const docMatch = notes.match(/Documents:\s*(.+?)(?:\s*\||$)/);
+    if (docMatch) {
+      docs = docMatch[1].split(',').map(d => d.trim()).filter(Boolean).map(p => {
+        const parts = p.split('/');
+        return { folder: parts.length > 1 ? parts[0] : '.', file: parts[parts.length - 1], path: p, type: 'file' };
+      });
+    }
+  }
+
+  if (docs.length) {
+    panelHtml += '<div style="margin-top:10px;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:6px"><i class="fas fa-folder-open me-1" style="color:var(--accent)"></i>Linked Evidence Documents (' + docs.length + ')</div>';
+    const typeIcons = { document: 'file-pdf', script: 'file-code', spreadsheet: 'file-excel', image: 'file-image', file: 'file' };
+    const typeColors = { document: '#ef4444', script: '#3b82f6', spreadsheet: '#22c55e', image: '#f59e0b', file: '#6b7280' };
+    docs.forEach(d => {
+      const icon = typeIcons[d.type] || 'file';
+      const color = typeColors[d.type] || '#6b7280';
+      panelHtml += '<div style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--bg2);border-radius:6px;border:1px solid var(--line);margin-bottom:4px;cursor:pointer" ' +
+        'onclick="openDocLineage(\'' + escAttr(d.path) + '\')" title="Click to view: ' + escAttr(d.path) + '">' +
+        '<i class="fas fa-' + icon + '" style="color:' + color + ';font-size:.9rem;width:16px;text-align:center"></i>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-size:.8rem;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escHtml(d.file) + '</div>' +
+          '<div style="font-size:.68rem;color:var(--muted)">' + escHtml(d.folder) + ' &middot; ' + (d.type || 'file') + '</div>' +
+        '</div>' +
+        '<i class="fas fa-external-link-alt" style="color:var(--muted);font-size:.65rem"></i>' +
+      '</div>';
+    });
+  }
+
+  // ── Event Match Method ──
+  if (lineage && lineage.eventMatch) {
+    const method = lineage.eventMatch.method === 'document_correlation' ?
+      '<span style="color:#16a34a"><i class="fas fa-link me-1"></i>Document Correlation</span> &mdash; event linked via matching documents in workspace' :
+      '<span style="color:#d97706"><i class="fas fa-calendar-alt me-1"></i>Date Proximity</span> &mdash; event linked by purchase date within event preparation window';
+    panelHtml += '<div style="margin-top:8px;padding:6px 12px;background:rgba(139,92,246,.05);border:1px solid var(--accent);border-radius:8px;font-size:.76rem">' +
+      '<span style="font-weight:700;color:var(--accent)">Match Method:</span> ' + method + '</div>';
+  }
+
+  return _ldSection('AI Expense Intelligence &mdash; Data Lineage', 'brain', panelHtml);
+}
+
+function escHtml(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s) { return String(s || '').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+function openDocLineage(path) {
+  // Open document in a new tab — for GitHub-hosted repos, link to raw file
+  const ghBase = 'https://github.com/banfjax-hash/banf/blob/main/';
+  const url = ghBase + encodeURIComponent(path).replace(/%2F/g, '/');
+  window.open(url, '_blank');
 }
 
 // ── Debit Card ──

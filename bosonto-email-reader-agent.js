@@ -1537,6 +1537,60 @@ function analyzeCardPurchase(txn) {
     enrichment.notes += ` | Documents: ${docList}`;
   }
 
+  // ── Build structured data lineage for audit trail ──
+  const lineage = {
+    engine: 'ExpenseIQ',
+    version: '1.0',
+    analyzedAt: new Date().toISOString(),
+    merchant: merchant,
+    steps: [],
+    documents: enrichment.linkedDocuments.map(d => ({
+      folder: d.folder,
+      file: d.file,
+      path: d.path,
+      type: /\.(pdf|doc|docx)$/i.test(d.file) ? 'document' :
+            /\.(js)$/i.test(d.file) ? 'script' :
+            /\.(xlsx?|csv)$/i.test(d.file) ? 'spreadsheet' :
+            /\.(jpg|jpeg|png|gif)$/i.test(d.file) ? 'image' : 'file'
+    })),
+    confidence: enrichment.confidence,
+    eventMatch: enrichment.eventId ? {
+      eventId: enrichment.eventId,
+      eventName: enrichment.eventName,
+      method: enrichment.linkedDocuments.length > 0 ? 'document_correlation' : 'date_proximity'
+    } : null
+  };
+
+  // Reconstruct analysis steps from the notes pipe segments
+  const segments = enrichment.notes.split(' | ').filter(Boolean);
+  for (const seg of segments) {
+    if (seg.startsWith('Hypothesis:')) {
+      lineage.steps.push({ step: 'date_proximity', detail: seg.replace('Hypothesis: ', ''), icon: 'calendar-alt' });
+    } else if (seg.includes('via document correlation')) {
+      lineage.steps.push({ step: 'document_verification', detail: seg, icon: 'file-alt' });
+    } else if (seg.includes('aligns with event') || seg.includes('typically purchased') || seg.includes('within 7 days')) {
+      lineage.steps.push({ step: 'purpose_verification', detail: seg, icon: 'check-double' });
+    } else if (seg.startsWith('Documents:')) {
+      lineage.steps.push({ step: 'document_scan', detail: seg, icon: 'folder-open' });
+    } else if (seg.includes('Post-event expense')) {
+      lineage.steps.push({ step: 'post_event', detail: seg, icon: 'clock' });
+    } else {
+      lineage.steps.push({ step: 'merchant_id', detail: seg, icon: 'search' });
+    }
+  }
+
+  // Add merchant identification as first step if matched
+  if (matched) {
+    lineage.steps.unshift({
+      step: 'merchant_id',
+      detail: `"${merchant}" identified as ${matched.service} (${matched.category})`,
+      icon: 'store',
+      source: 'MERCHANT_INTELLIGENCE knowledge base'
+    });
+  }
+
+  enrichment.lineage = lineage;
+
   return enrichment;
 }
 
@@ -1590,6 +1644,7 @@ async function scanWellsFargoForLedger(state, token) {
             if (iq.eventName) entryEventName = iq.eventName;
             if (iq.notes) entryNotes += ' | [ExpenseIQ] ' + iq.notes;
             if (iq.confidence) entryNotes += ` (confidence: ${iq.confidence})`;
+            if (iq.lineage) entryNotes += '\n[LINEAGE]' + JSON.stringify(iq.lineage);
           }
 
           // ── Date-proximity event tagging for Zelle expenses ──
@@ -1690,6 +1745,7 @@ async function scanWellsFargoForLedger(state, token) {
             if (iq.eventName) upd.eventName = iq.eventName;
             if (iq.category !== 'debit_card') upd.category = iq.category;
             upd.notes = (entry.notes || '') + ' | [ExpenseIQ-Enriched] ' + iq.notes + ` (confidence: ${iq.confidence})`;
+            if (iq.lineage) upd.notes += '\n[LINEAGE]' + JSON.stringify(iq.lineage);
             updates.push(upd);
           }
         }
