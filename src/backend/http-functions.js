@@ -6849,9 +6849,21 @@ function htmlPage(html) {
 // Wix HTTP functions cannot serve HTML to browsers (CDN overrides Content-Type).
 // All HTML pages are served from GitHub Pages where text/html works correctly.
 export function get_home(request) {
-    return pageRedirect('/index.html');
+    return pageRedirect('/landing.html');
 }
 export function options_home(request)      { return handleCors(); }
+
+// GET /_functions/landing — alternate route to landing page
+export function get_landing(request) {
+    return pageRedirect('/landing.html');
+}
+export function options_landing(request) { return handleCors(); }
+
+// GET /_functions/ec_login — redirect to EC Admin Login page
+export function get_ec_login(request) {
+    return pageRedirect('/ec-admin-login.html');
+}
+export function options_ec_login(request) { return handleCors(); }
 
 // GET /_functions/member_portal
 export function get_member_portal(request) { return wixResponse({ status: 302, headers: { 'Location': 'https://www.jaxbengali.org/home?portal=member', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' }); }
