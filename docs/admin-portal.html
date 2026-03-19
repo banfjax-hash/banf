@@ -944,6 +944,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <option value="apparel">Apparel</option>
               <option value="prasad">Prasad</option>
               <option value="admin">Admin</option>
+              <option value="insurance">Insurance</option>
+              <option value="food_grocery">Food/Grocery</option>
               <option value="bank_fee">Bank Fee</option>
               <option value="transport">Transport</option>
               <option value="debit_card">Debit Card</option>
@@ -2325,7 +2327,7 @@ function openLedgerDetail(idx) {
   const isInc = e.type === 'income';
   const color = isInc ? 'var(--green)' : 'var(--red)';
   const sign = isInc ? '+' : '-';
-  const catIcons = {membership:'id-card',event_ticket:'ticket-alt',sponsorship:'handshake',donation:'heart',advertisement:'bullhorn',zelle_income:'bolt',check:'money-check-alt',other_income:'coins',venue:'building',catering:'utensils',decoration:'paint-brush',photography:'camera',printing:'print',sound_music:'music',apparel:'tshirt',prasad:'hand-holding-heart',admin:'cog',bank_fee:'university',transport:'truck',debit_card:'credit-card',zelle_expense:'bolt',reimbursement:'receipt',other_expense:'ellipsis-h'};
+  const catIcons = {membership:'id-card',event_ticket:'ticket-alt',sponsorship:'handshake',donation:'heart',advertisement:'bullhorn',zelle_income:'bolt',check:'money-check-alt',other_income:'coins',venue:'building',catering:'utensils',decoration:'paint-brush',photography:'camera',printing:'print',sound_music:'music',apparel:'tshirt',prasad:'hand-holding-heart',admin:'cog',insurance:'shield-alt',food_grocery:'shopping-basket',bank_fee:'university',transport:'truck',debit_card:'credit-card',zelle_expense:'bolt',reimbursement:'receipt',other_expense:'ellipsis-h'};
   const catIcon = catIcons[e.category] || (isInc ? 'arrow-down' : 'arrow-up');
 
   // Header
@@ -2431,6 +2433,23 @@ async function loadLinkedData(e) {
     // Procurement lookup for expenses
     if (e.eventId || e.reference) {
       html += await renderProcurementMapping(e);
+    }
+
+    // AI Enrichment Intelligence Panel (for entries enriched by ExpenseIQ agent)
+    const aiNotes = e.notes || '';
+    if (aiNotes.startsWith('AI-enriched:')) {
+      const confMatch = aiNotes.match(/(HIGH|MEDIUM|LOW)\s+confidence/i);
+      const confidence = confMatch ? confMatch[1].toUpperCase() : '';
+      const confColor = confidence === 'HIGH' ? '#16a34a' : confidence === 'MEDIUM' ? '#d97706' : '#dc2626';
+      const confBadge = confidence ? '<span style="display:inline-block;padding:1px 8px;border-radius:10px;font-size:.68rem;font-weight:600;color:#fff;background:' + confColor + '">' + confidence + '</span>' : '';
+      const detail = aiNotes.replace('AI-enriched: ', '');
+      let aiRows = [['Analysis', detail]];
+      if (confidence) aiRows.push(['Confidence', confBadge]);
+      if (e.eventName) aiRows.push(['Linked Event', '<strong>' + e.eventName + '</strong>']);
+      if (e.category) aiRows.push(['Category', '<span style="text-transform:capitalize">' + e.category.replace(/_/g, ' ') + '</span>']);
+      html += _ldSection('AI Expense Intelligence', 'brain',
+        '<div style="font-size:.72rem;color:var(--accent);margin-bottom:6px"><i class="fas fa-robot me-1"></i>Automatically analyzed by ExpenseIQ engine</div>' +
+        _ldRow(aiRows));
     }
   }
 
