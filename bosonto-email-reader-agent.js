@@ -1659,7 +1659,56 @@ async function scanWellsFargoForLedger(state, token) {
     log('WARN', `  Ledger API error: ${e.message}`);
   }
 
-  return { scanned: newIds.length, newEntries: entries.length, posted };
+  // ── Re-enrichment pass: update existing un-enriched debit_card entries ──
+  let enriched = 0;
+  try {
+    const listResp = await httpsRequest(LEDGER_API + '/ledger_list?key=' + LEDGER_ADMIN_KEY + '&category=debit_card', {
+      method: 'GET'
+    });
+    if (listResp.data && listResp.data.entries) {
+      const unenriched = listResp.data.entries.filter(e =>
+        e.direction === 'debit' && (!e.eventId || e.eventId === '') && (e.category === 'debit_card')
+      );
+      if (unenriched.length > 0) {
+        log('INFO', `  [ExpenseIQ] Found ${unenriched.length} un-enriched debit card entries — running intelligence...`);
+        const updates = [];
+        for (const entry of unenriched) {
+          const txn = {
+            description: entry.description || '',
+            amount: entry.amount,
+            date: entry.entryDate ? new Date(entry.entryDate).toISOString().slice(0, 10) : '',
+            payerOrPayee: entry.payerOrPayee || '',
+          };
+          const iq = analyzeCardPurchase(txn);
+          if (iq.eventId || iq.category !== 'debit_card') {
+            const upd = { id: entry.id };
+            if (iq.eventId) upd.eventId = iq.eventId;
+            if (iq.eventName) upd.eventName = iq.eventName;
+            if (iq.category !== 'debit_card') upd.category = iq.category;
+            upd.notes = (entry.notes || '') + ' | [ExpenseIQ-Enriched] ' + iq.notes + ` (confidence: ${iq.confidence})`;
+            updates.push(upd);
+          }
+        }
+        if (updates.length > 0) {
+          const updResp = await httpsRequest(LEDGER_API + '/ledger_update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminKey: LEDGER_ADMIN_KEY, updates })
+          });
+          if (updResp.data && updResp.data.success) {
+            enriched = updResp.data.updated || 0;
+            log('INFO', `  [ExpenseIQ] Enriched ${enriched} existing entries with event/category intelligence`);
+          } else {
+            log('WARN', `  [ExpenseIQ] Update failed: ${JSON.stringify(updResp.data).substring(0, 200)}`);
+          }
+        }
+      }
+    }
+  } catch (e) {
+    log('WARN', `  [ExpenseIQ] Re-enrichment error: ${e.message}`);
+  }
+
+  return { scanned: newIds.length, newEntries: entries.length, posted, enriched };
 }
 
 /**
