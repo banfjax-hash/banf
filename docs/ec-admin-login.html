@@ -623,6 +623,11 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     _resetAttempts();
     _saveCredsToLocalStorage(email, pass, '', '');
     enterPortal(user, email);
+  } else if (result.needsOnboarding) {
+    // EC member exists but hasn't completed signup — offer signup flow
+    showInfo('login-info', 'Your account needs setup. Please use Sign Up to complete your account.');
+    SIGNUP_STATE.email = email;
+    SIGNUP_STATE.token = result.setupToken;
   } else if (localUser && !pass) {
     showError('login-error', 'Please enter your password.');
   } else if (localUser) {
