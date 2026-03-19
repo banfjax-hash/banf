@@ -979,6 +979,41 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
       </div>
     </div>
 
+    <!-- ═══ LEDGER DETAIL OVERLAY ═══ -->
+    <div id="ledger-detail-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;overflow-y:auto;padding:24px" onclick="if(event.target===this)closeLedgerDetail()">
+      <div style="max-width:860px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden">
+        <!-- Header -->
+        <div id="ld-header" style="padding:16px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)">
+          <div id="ld-icon" style="width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></div>
+          <div style="flex:1">
+            <div id="ld-title" style="font-size:1rem;font-weight:700;color:var(--text)"></div>
+            <div id="ld-subtitle" style="font-size:.78rem;color:var(--muted)"></div>
+          </div>
+          <div id="ld-amount" style="font-size:1.3rem;font-weight:700"></div>
+          <button onclick="closeLedgerDetail()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px 8px" title="Close"><i class="fas fa-times"></i></button>
+        </div>
+        <!-- Base Info Grid -->
+        <div id="ld-base" style="padding:16px 24px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;border-bottom:1px solid var(--line)"></div>
+        <!-- Linked Data Section -->
+        <div id="ld-linked" style="padding:16px 24px">
+          <div id="ld-linked-loading" style="text-align:center;color:var(--muted);padding:16px;display:none"><i class="fas fa-spinner fa-spin"></i> Loading linked details...</div>
+          <div id="ld-linked-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MEMBER PROFILE OVERLAY ═══ -->
+    <div id="member-profile-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10001;overflow-y:auto;padding:24px" onclick="if(event.target===this)this.style.display='none'">
+      <div style="max-width:720px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden">
+        <div style="padding:16px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)">
+          <i class="fas fa-user-circle" style="font-size:1.6rem;color:var(--accent)"></i>
+          <div style="flex:1"><div id="mp-name" style="font-size:1rem;font-weight:700;color:var(--text)"></div><div id="mp-subtitle" style="font-size:.78rem;color:var(--muted)"></div></div>
+          <button onclick="document.getElementById('member-profile-overlay').style.display='none'" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px 8px"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="mp-content" style="padding:16px 24px"><div style="text-align:center;color:var(--muted)"><i class="fas fa-spinner fa-spin"></i> Loading member profile...</div></div>
+      </div>
+    </div>
+
     <!-- ═══ INCOME SUMMARY PANEL ═══ -->
     <div class="portal-section" id="panel-income-summary">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Income Summary</div>
@@ -2215,7 +2250,7 @@ function renderLedgerTable() {
     return;
   }
 
-  tbody.innerHTML = page.map(e => {
+  tbody.innerHTML = page.map((e, idx) => {
     const dt = new Date(e.entryDate);
     const dateStr = dt.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
     const isInc = e.type === 'income';
@@ -2223,9 +2258,10 @@ function renderLedgerTable() {
     const sign = isInc ? '+' : '-';
     const cat = (e.category || '').replace(/_/g, ' ');
     const recon = e.reconciled ? '<i class="fas fa-check-circle" style="color:var(--green)"></i>' : '<i class="fas fa-times-circle" style="color:var(--dim)"></i>';
-    return '<tr>' +
+    const ri = start + idx;
+    return '<tr onclick="openLedgerDetail(' + ri + ')" style="cursor:pointer" onmouseenter="this.style.background=\'rgba(139,92,246,.08)\'" onmouseleave="this.style.background=\'\'">' +
       '<td style="white-space:nowrap">' + dateStr + '</td>' +
-      '<td>' + (e.description || '-') + '</td>' +
+      '<td>' + (e.description || '-') + ' <i class="fas fa-external-link-alt" style="font-size:.6rem;color:var(--dim);margin-left:4px"></i></td>' +
       '<td style="text-transform:capitalize">' + cat + '</td>' +
       '<td><span style="color:' + amtColor + ';font-weight:600;text-transform:capitalize">' + e.type + '</span></td>' +
       '<td style="text-align:right;color:' + amtColor + ';font-weight:600">' + sign + '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2}) + '</td>' +
@@ -2268,6 +2304,501 @@ function exportLedgerCSV() {
   a.download = 'BANF_Ledger_' + new Date().toISOString().split('T')[0] + '.csv';
   a.click();
   URL.revokeObjectURL(a.href);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  LEDGER DETAIL DRILL-DOWN
+// ═══════════════════════════════════════════════════════════════════════
+
+function closeLedgerDetail() { document.getElementById('ledger-detail-overlay').style.display = 'none'; }
+
+function _ld(label, value, icon) {
+  if (!value && value !== 0) return '';
+  const ic = icon ? '<i class="fas fa-' + icon + '" style="color:var(--accent);margin-right:4px;font-size:.7rem"></i>' : '';
+  return '<div style="margin-bottom:4px"><span style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">' + label + '</span><div style="font-size:.85rem;color:var(--text)">' + ic + value + '</div></div>';
+}
+
+function openLedgerDetail(idx) {
+  const e = _ledgerEntries[idx];
+  if (!e) return;
+  const overlay = document.getElementById('ledger-detail-overlay');
+  const isInc = e.type === 'income';
+  const color = isInc ? 'var(--green)' : 'var(--red)';
+  const sign = isInc ? '+' : '-';
+  const catIcons = {membership:'id-card',event_ticket:'ticket-alt',sponsorship:'handshake',donation:'heart',advertisement:'bullhorn',zelle_income:'bolt',check:'money-check-alt',other_income:'coins',venue:'building',catering:'utensils',decoration:'paint-brush',photography:'camera',printing:'print',sound_music:'music',apparel:'tshirt',prasad:'hand-holding-heart',admin:'cog',bank_fee:'university',transport:'truck',debit_card:'credit-card',zelle_expense:'bolt',reimbursement:'receipt',other_expense:'ellipsis-h'};
+  const catIcon = catIcons[e.category] || (isInc ? 'arrow-down' : 'arrow-up');
+
+  // Header
+  document.getElementById('ld-icon').style.cssText = 'width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:' + (isInc ? 'rgba(34,197,94,.15)' : 'rgba(239,68,68,.15)') + ';color:' + color;
+  document.getElementById('ld-icon').innerHTML = '<i class="fas fa-' + catIcon + '"></i>';
+  document.getElementById('ld-title').textContent = e.description || 'Ledger Entry';
+  document.getElementById('ld-subtitle').textContent = new Date(e.entryDate).toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+  document.getElementById('ld-amount').style.color = color;
+  document.getElementById('ld-amount').textContent = sign + '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2});
+
+  // Base info grid
+  const cat = (e.category || '').replace(/_/g, ' ');
+  let base = '';
+  base += _ld('Category', '<span style="text-transform:capitalize">' + cat + '</span>', catIcon);
+  base += _ld('Type', '<span style="color:' + color + ';font-weight:600;text-transform:capitalize">' + e.type + '</span>');
+  base += _ld('Payment Method', (e.paymentMethod || '').replace(/_/g, ' ') || '-', 'wallet');
+  base += _ld('Payer / Payee', e.payerOrPayee || '-', 'user');
+  if (e.eventName) base += _ld('Event', e.eventName, 'calendar-alt');
+  if (e.reference) base += _ld('Reference', e.reference, 'hashtag');
+  base += _ld('Source', (e.source || 'manual').replace(/_/g, ' '), 'database');
+  base += _ld('Reconciled', e.reconciled ? '<span style="color:var(--green)"><i class="fas fa-check-circle"></i> Yes</span>' : '<span style="color:var(--dim)"><i class="fas fa-times-circle"></i> No</span>');
+  if (e.notes) base += '<div style="grid-column:1/-1">' + _ld('Notes', e.notes, 'sticky-note') + '</div>';
+  document.getElementById('ld-base').innerHTML = base;
+
+  // Linked data — load async based on category
+  const linkedContent = document.getElementById('ld-linked-content');
+  const linkedLoading = document.getElementById('ld-linked-loading');
+  linkedContent.innerHTML = '';
+  linkedLoading.style.display = 'block';
+  overlay.style.display = 'block';
+
+  loadLinkedData(e).then(html => {
+    linkedLoading.style.display = 'none';
+    linkedContent.innerHTML = html;
+  }).catch(err => {
+    linkedLoading.style.display = 'none';
+    linkedContent.innerHTML = '<div style="color:var(--dim);font-size:.82rem">Could not load linked details.</div>';
+  });
+}
+
+async function apiGetAuth(endpoint, params) {
+  const p = Object.assign({}, params || {});
+  if (CURRENT_ADMIN && CURRENT_ADMIN.email) p.user_email = CURRENT_ADMIN.email;
+  return apiGet(endpoint, p);
+}
+
+async function loadLinkedData(e) {
+  const cat = e.category || '';
+  const src = e.source || '';
+  let html = '';
+
+  // ── INCOME CATEGORIES ──
+  if (e.type === 'income') {
+    // Membership
+    if (cat === 'membership') {
+      html += await renderMembershipMapping(e);
+    }
+    // Sponsorship
+    else if (cat === 'sponsorship') {
+      html += await renderSponsorshipMapping(e);
+    }
+    // Zelle income
+    else if (cat === 'zelle_income') {
+      html += renderZelleMapping(e);
+      if (e.payerOrPayee) html += await renderMemberLookup(e.payerOrPayee);
+    }
+    // Check deposit
+    else if (cat === 'check') {
+      html += renderCheckMapping(e);
+    }
+    // Event ticket / donation
+    else if (cat === 'event_ticket' || cat === 'donation') {
+      html += renderEventIncomeMapping(e);
+      if (e.payerOrPayee) html += await renderMemberLookup(e.payerOrPayee);
+    }
+    else {
+      html += renderGenericMapping(e);
+      if (e.payerOrPayee) html += await renderMemberLookup(e.payerOrPayee);
+    }
+  }
+  // ── EXPENSE CATEGORIES ──
+  else {
+    // Reimbursement-sourced
+    if (src === 'reimbursement' || (e.reference && e.reference.startsWith('RMB-'))) {
+      html += await renderReimbursementMapping(e);
+    }
+    // Event-linked expense
+    else if (e.eventId || e.eventName) {
+      html += await renderEventExpenseMapping(e);
+    }
+    // Debit card / bank
+    else if (cat === 'debit_card') {
+      html += renderDebitCardMapping(e);
+    }
+    // Zelle expense
+    else if (cat === 'zelle_expense') {
+      html += renderZelleMapping(e);
+    }
+    else {
+      html += renderGenericMapping(e);
+    }
+
+    // Procurement lookup for expenses
+    if (e.eventId || e.reference) {
+      html += await renderProcurementMapping(e);
+    }
+  }
+
+  if (!html) html = '<div style="color:var(--dim);font-size:.82rem;padding:8px 0">No linked details available for this entry.</div>';
+  return html;
+}
+
+function _ldSection(title, icon, content) {
+  return '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-' + icon + '" style="color:var(--accent)"></i>' + title + '</div>' + content + '</div>';
+}
+
+function _ldRow(pairs) {
+  return '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px 16px;padding:10px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--line);margin-bottom:6px">' +
+    pairs.map(p => '<div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px">' + p[0] + '</div><div style="font-size:.82rem;color:var(--text)">' + (p[1] || '-') + '</div></div>').join('') + '</div>';
+}
+
+function _ldMemberLink(name, searchQ) {
+  return '<a href="#" onclick="event.preventDefault();event.stopPropagation();openMemberProfile(\'' + (searchQ || name || '').replace(/'/g, "\\'") + '\')" style="color:var(--accent);text-decoration:none;font-weight:600"><i class="fas fa-user me-1" style="font-size:.7rem"></i>' + (name || 'Unknown') + '</a>';
+}
+
+// ── Membership ──
+async function renderMembershipMapping(e) {
+  let memberHtml = '';
+  if (e.payerOrPayee) {
+    try {
+      const data = await apiGetAuth('crm_member_search', { q: e.payerOrPayee, limit: 3 });
+      if (data.members && data.members.length) {
+        const m = data.members[0];
+        memberHtml = _ldRow([
+          ['Member', _ldMemberLink(m.displayName || m.email, m.email || m.displayName)],
+          ['Email', m.email || '-'],
+          ['Phone', m.phone || '-'],
+          ['Membership Type', m.memberType || m.membershipCategory || '-'],
+          ['Tier', m.tier || m.membershipTier || '-'],
+          ['Member Since', m.memberSince ? new Date(m.memberSince).toLocaleDateString() : '-'],
+          ['Life Member', m.isLifeMember ? '<span style="color:var(--green)">Yes</span>' : 'No'],
+          ['Family ID', m.familyId || '-']
+        ]);
+      }
+    } catch (_) {}
+  }
+  if (!memberHtml) {
+    memberHtml = _ldRow([['Payer', e.payerOrPayee || '-'], ['Reference', e.reference || '-']]);
+  }
+  return _ldSection('Membership Details', 'id-card', memberHtml +
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px"><i class="fas fa-info-circle me-1"></i>Click member name to view full profile with family, contact, and payment history.</div>');
+}
+
+// ── Sponsorship ──
+async function renderSponsorshipMapping(e) {
+  let sponsorHtml = '';
+  try {
+    const data = await apiGet('sponsors');
+    if (data.success && data.sponsors) {
+      const match = data.sponsors.find(s => {
+        const name = (s.companyName || s.name || '').toLowerCase();
+        const payer = (e.payerOrPayee || '').toLowerCase();
+        return name === payer || name.includes(payer) || payer.includes(name);
+      });
+      if (match) {
+        sponsorHtml = _ldRow([
+          ['Sponsor', match.companyName || match.name],
+          ['Tier', match.tier || '-'],
+          ['Contact', match.contactName || '-'],
+          ['Email', match.email || '-'],
+          ['Phone', match.phone || '-'],
+          ['Amount', '$' + (match.amount || e.amount || 0).toLocaleString()],
+          ['Active', match.active ? '<span style="color:var(--green)">Yes</span>' : 'No'],
+          ['Year', match.year || '-']
+        ]);
+      }
+    }
+  } catch (_) {}
+  if (!sponsorHtml) {
+    sponsorHtml = _ldRow([['Sponsor', e.payerOrPayee || '-'], ['Amount', '$' + (e.amount || 0).toLocaleString()], ['Reference', e.reference || '-']]);
+  }
+  return _ldSection('Sponsorship Details', 'handshake', sponsorHtml);
+}
+
+// ── Zelle ──
+function renderZelleMapping(e) {
+  return _ldSection('Zelle Transfer', 'bolt',
+    _ldRow([
+      [e.type === 'income' ? 'Received From' : 'Sent To', e.payerOrPayee || '-'],
+      ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+      ['Confirmation', e.reference || '-'],
+      ['Source', (e.source || '').replace(/_/g, ' ')]
+    ]));
+}
+
+// ── Check Deposit ──
+function renderCheckMapping(e) {
+  return _ldSection('Check Deposit', 'money-check-alt',
+    _ldRow([
+      ['Deposited', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Bank Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+      ['Confirmation', e.reference || '-'],
+      ['Bank Description', e.bankDescription || e.description || '-']
+    ]));
+}
+
+// ── Event Income (ticket, donation) ──
+function renderEventIncomeMapping(e) {
+  return _ldSection('Event Income', 'calendar-alt',
+    _ldRow([
+      ['Event', e.eventName || '-'],
+      ['Category', (e.category || '').replace(/_/g, ' ')],
+      ['Payer', e.payerOrPayee || '-'],
+      ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Payment Method', (e.paymentMethod || '').replace(/_/g, ' ')]
+    ]));
+}
+
+// ── Debit Card ──
+function renderDebitCardMapping(e) {
+  return _ldSection('Debit Card Transaction', 'credit-card',
+    _ldRow([
+      ['Merchant', e.payerOrPayee || e.description || '-'],
+      ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Bank Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+      ['Source', (e.source || '').replace(/_/g, ' ')]
+    ]));
+}
+
+// ── Generic ──
+function renderGenericMapping(e) {
+  const pairs = [['Description', e.description || '-'], ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})]];
+  if (e.payerOrPayee) pairs.push([e.type === 'income' ? 'Payer' : 'Payee', e.payerOrPayee]);
+  if (e.reference) pairs.push(['Reference', e.reference]);
+  return _ldSection(e.type === 'income' ? 'Income Details' : 'Expense Details', e.type === 'income' ? 'arrow-down' : 'arrow-up', _ldRow(pairs));
+}
+
+// ── Member Lookup (for Zelle etc) ──
+async function renderMemberLookup(name) {
+  try {
+    const data = await apiGetAuth('crm_member_search', { q: name, limit: 3 });
+    if (!data.members || !data.members.length) return '';
+    let html = '';
+    data.members.forEach(m => {
+      html += _ldRow([
+        ['Name', _ldMemberLink(m.displayName || m.email, m.email || m.displayName)],
+        ['Email', m.email || '-'],
+        ['Phone', m.phone || '-'],
+        ['Type', m.memberType || '-'],
+        ['Family', m.familyId || '-']
+      ]);
+    });
+    return _ldSection('Linked Member', 'user-check', html +
+      '<div style="font-size:.72rem;color:var(--muted);margin-top:4px"><i class="fas fa-info-circle me-1"></i>Click name to view full member profile.</div>');
+  } catch (_) { return ''; }
+}
+
+// ── Reimbursement ──
+async function renderReimbursementMapping(e) {
+  let ticketHtml = '';
+  try {
+    const data = await apiGet('reimbursement_list');
+    if (data.success && data.tickets) {
+      const ticketId = e.reference || e.sourceId;
+      const ticket = data.tickets.find(t => t.id === ticketId);
+      if (ticket) {
+        const statusColors = {draft:'var(--dim)',pending_approval:'var(--yellow)',approved:'var(--green)',rejected:'var(--red)',payment_made:'var(--blue)',completed:'var(--green)'};
+        const stColor = statusColors[ticket.status] || 'var(--muted)';
+        ticketHtml += _ldRow([
+          ['Ticket ID', '<span style="font-weight:700;color:var(--accent)">' + ticket.id + '</span>'],
+          ['Status', '<span style="color:' + stColor + ';font-weight:600;text-transform:capitalize">' + (ticket.status || '').replace(/_/g, ' ') + '</span>'],
+          ['Requester', ticket.requesterName || ticket.requester || '-'],
+          ['Event', ticket.event || '-'],
+          ['Total Amount', '$' + (ticket.totalAmount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+          ['Paid By', ticket.paidBy || '-']
+        ]);
+        // Receipts
+        if (ticket.receipts && ticket.receipts.length) {
+          ticketHtml += '<div style="margin-top:8px;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px"><i class="fas fa-receipt me-1" style="color:var(--accent)"></i>Receipts (' + ticket.receipts.length + ')</div>';
+          ticket.receipts.forEach((r, i) => {
+            ticketHtml += _ldRow([['#' + (i+1), r.description || '-'], ['Amount', '$' + (r.amount || 0).toFixed(2)], ['Category', r.category || '-'], ['Vendor', r.vendor || '-']]);
+          });
+        }
+        // Approvals
+        if (ticket.approvals && ticket.approvals.length) {
+          ticketHtml += '<div style="margin-top:8px;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px"><i class="fas fa-check-double me-1" style="color:var(--green)"></i>Approval Chain</div>';
+          ticket.approvals.forEach(a => {
+            const aColor = a.decision === 'approved' ? 'var(--green)' : a.decision === 'rejected' ? 'var(--red)' : 'var(--yellow)';
+            ticketHtml += _ldRow([['Approver', a.approver || '-'], ['Role', a.approverRole || '-'], ['Decision', '<span style="color:' + aColor + ';font-weight:600;text-transform:capitalize">' + (a.decision || '-') + '</span>'], ['Date', a.date ? new Date(a.date).toLocaleDateString() : '-'], ['Notes', a.notes || '-']]);
+          });
+        }
+        // Payment
+        if (ticket.paymentMade) {
+          ticketHtml += _ldRow([['Payment Method', ticket.paymentMethod || '-'], ['Payment Reference', ticket.paymentReference || '-'], ['Paid By', ticket.paymentMadeBy || '-'], ['Paid At', ticket.paymentMadeAt ? new Date(ticket.paymentMadeAt).toLocaleDateString() : '-']]);
+        }
+      }
+    }
+  } catch (_) {}
+  if (!ticketHtml) {
+    ticketHtml = _ldRow([['Reimbursement Ref', e.reference || e.sourceId || '-'], ['Event', e.eventName || '-']]);
+  }
+  return _ldSection('Reimbursement Ticket', 'receipt', ticketHtml);
+}
+
+// ── Event Expense ──
+async function renderEventExpenseMapping(e) {
+  let evHtml = '';
+  try {
+    const year = new Date(e.entryDate).getFullYear();
+    const data = await apiGet('event_expenses', { year: year, eventId: e.eventId || '' });
+    if (data.success && data.events) {
+      const ev = data.events.find(ev => ev.eventId === e.eventId) || data.events[0];
+      if (ev) {
+        evHtml += _ldRow([
+          ['Event', ev.eventName || '-'],
+          ['Total Budget', '$' + (ev.total || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+          ['Approved', ev.approved ? '<span style="color:var(--green)"><i class="fas fa-check"></i> Yes</span>' : '<span style="color:var(--yellow)">Pending</span>'],
+          ['Approved By', ev.approvedBy || '-'],
+          ['Locked', ev.locked ? 'Yes' : 'No']
+        ]);
+        if (ev.entries && ev.entries.length) {
+          evHtml += '<div style="margin-top:8px;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px"><i class="fas fa-list me-1" style="color:var(--accent)"></i>Expense Breakdown (' + ev.entries.length + ' items)</div>';
+          ev.entries.forEach(x => {
+            const isCurrent = Math.abs((x.amount || 0) - (e.amount || 0)) < 0.01 && x.description === e.description;
+            const highlight = isCurrent ? 'border:1px solid var(--accent);background:rgba(139,92,246,.08);' : '';
+            evHtml += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px 16px;padding:8px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--line);margin-bottom:4px;' + highlight + '">' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">ITEM</div><div style="font-size:.82rem;color:var(--text)">' + (isCurrent ? '<i class="fas fa-arrow-right" style="color:var(--accent);margin-right:4px;font-size:.65rem"></i>' : '') + (x.description || '-') + '</div></div>' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">AMOUNT</div><div style="font-size:.82rem;color:var(--red)">$' + (x.amount || 0).toFixed(2) + '</div></div>' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">CATEGORY</div><div style="font-size:.82rem;color:var(--text);text-transform:capitalize">' + (x.category || '-').replace(/_/g, ' ') + '</div></div>' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">VENDOR</div><div style="font-size:.82rem;color:var(--text)">' + (x.payerOrPayee || '-') + '</div></div></div>';
+          });
+        }
+      }
+    }
+  } catch (_) {}
+  if (!evHtml) {
+    evHtml = _ldRow([['Event', e.eventName || '-'], ['Event ID', e.eventId || '-'], ['Amount', '$' + (e.amount || 0).toFixed(2)]]);
+  }
+  return _ldSection('Event Expense Details', 'calendar-check', evHtml);
+}
+
+// ── Procurement ──
+async function renderProcurementMapping(e) {
+  try {
+    const data = await apiGet('procurement_list');
+    if (!data.success || !data.requests) return '';
+    const matches = data.requests.filter(p => {
+      if (e.reference && p.id === e.reference) return true;
+      if (e.eventId && p.event === e.eventId && Math.abs((p.amount || 0) - (e.amount || 0)) < 1) return true;
+      return false;
+    });
+    if (!matches.length) return '';
+    let html = '';
+    matches.forEach(p => {
+      const stColors = {pending:'var(--yellow)',approved:'var(--green)',rejected:'var(--red)',completed:'var(--green)',receipt_submitted:'var(--blue)'};
+      html += _ldRow([
+        ['Procurement ID', '<span style="font-weight:700;color:var(--accent)">' + (p.id || '-') + '</span>'],
+        ['Status', '<span style="color:' + (stColors[p.status] || 'var(--muted)') + ';text-transform:capitalize;font-weight:600">' + (p.status || '-').replace(/_/g, ' ') + '</span>'],
+        ['Vendor', p.vendor || '-'],
+        ['Category', (p.category || '-').replace(/_/g, ' ')],
+        ['Amount', '$' + (p.amount || 0).toFixed(2)],
+        ['Requester', p.requester || '-'],
+        ['Event', p.event || '-'],
+        ['Urgent', p.urgent ? '<span style="color:var(--red)">Yes</span>' : 'No']
+      ]);
+    });
+    return _ldSection('Procurement Request', 'shopping-cart', html);
+  } catch (_) { return ''; }
+}
+
+// ── Member Profile Overlay ──
+async function openMemberProfile(query) {
+  const overlay = document.getElementById('member-profile-overlay');
+  const content = document.getElementById('mp-content');
+  document.getElementById('mp-name').textContent = query;
+  document.getElementById('mp-subtitle').textContent = 'Loading profile...';
+  content.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px"><i class="fas fa-spinner fa-spin"></i> Loading member profile...</div>';
+  overlay.style.display = 'block';
+
+  try {
+    const data = await apiGetAuth('crm_member_search', { q: query, limit: 1 });
+    if (!data.members || !data.members.length) {
+      content.innerHTML = '<div style="text-align:center;color:var(--dim);padding:24px"><i class="fas fa-user-slash" style="font-size:2rem;margin-bottom:8px;display:block"></i>Member not found for "' + query + '"</div>';
+      document.getElementById('mp-subtitle').textContent = 'Not found';
+      return;
+    }
+    const m = data.members[0];
+    document.getElementById('mp-name').textContent = m.displayName || m.email;
+    document.getElementById('mp-subtitle').textContent = (m.memberType || 'Member') + (m.isLifeMember ? ' • Life Member' : '') + (m.isActive ? ' • Active' : '');
+
+    let html = '';
+    // Contact
+    html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-address-card" style="color:var(--accent)"></i>Contact Information</div>';
+    html += _ldRow([
+      ['Email', m.email || '-'],
+      ['Phone', m.phone || '-'],
+      ['Address', [m.address, m.city, m.state, m.zip].filter(Boolean).join(', ') || '-'],
+      ['City', m.city || '-'],
+      ['State', m.state || '-']
+    ]);
+    html += '</div>';
+
+    // Membership
+    html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-id-card" style="color:var(--accent)"></i>Membership</div>';
+    html += _ldRow([
+      ['Member Type', m.memberType || '-'],
+      ['Tier', m.tier || m.membershipTier || '-'],
+      ['Category', m.membershipCategory || '-'],
+      ['Member Since', m.memberSince ? new Date(m.memberSince).toLocaleDateString() : '-'],
+      ['Life Member', m.isLifeMember ? '<span style="color:var(--green)">Yes</span>' : 'No'],
+      ['Active', m.isActive ? '<span style="color:var(--green)">Yes</span>' : '<span style="color:var(--red)">No</span>'],
+      ['Membership Years', m.membershipYears || '-'],
+      ['Family ID', m.familyId || '-']
+    ]);
+    html += '</div>';
+
+    // Family
+    html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-people-roof" style="color:var(--accent)"></i>Family</div>';
+    html += _ldRow([
+      ['Spouse', m.spouseName || m.spouse || '-'],
+      ['Children', (m.childrenNames || m.children || []).join ? (m.childrenNames || m.children || []).join(', ') || '-' : (m.childrenNames || m.children || '-')]
+    ]);
+    // Extended family
+    if (m.familyId) {
+      try {
+        const fData = await apiGetAuth('crm_family', { familyId: m.familyId });
+        if (fData.family) {
+          const fam = fData.family;
+          if (fam.adults && fam.adults.length > 0) {
+            let aHtml = fam.adults.map(a => '<span style="color:var(--text);margin-right:12px"><i class="fas fa-user" style="font-size:.65rem;color:var(--accent);margin-right:3px"></i>' + (a.displayName || a.name || a.email || '-') + '</span>').join('');
+            html += '<div style="padding:6px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;margin-bottom:4px"><div style="font-size:.68rem;color:var(--muted)">FAMILY ADULTS</div><div style="font-size:.82rem">' + aHtml + '</div></div>';
+          }
+          if (fam.minors && fam.minors.length > 0) {
+            let mHtml = fam.minors.map(c => '<span style="color:var(--text);margin-right:12px"><i class="fas fa-child" style="font-size:.65rem;color:var(--purple);margin-right:3px"></i>' + (c.name || '-') + (c.age ? ' (age ' + c.age + ')' : '') + '</span>').join('');
+            html += '<div style="padding:6px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;margin-bottom:4px"><div style="font-size:.68rem;color:var(--muted)">CHILDREN / MINORS</div><div style="font-size:.82rem">' + mHtml + '</div></div>';
+          }
+        }
+      } catch (_) {}
+    }
+    html += '</div>';
+
+    // Professional
+    if (m.profession || m.employer || m.education) {
+      html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-briefcase" style="color:var(--accent)"></i>Professional</div>';
+      html += _ldRow([
+        ['Profession', m.profession || '-'],
+        ['Employer', m.employer || '-'],
+        ['Education', m.education || '-'],
+        ['Skills', Array.isArray(m.skills) ? m.skills.join(', ') : (m.skills || '-')]
+      ]);
+      html += '</div>';
+    }
+
+    // Payment History (if available)
+    if (m.payments && m.payments.length) {
+      html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-dollar-sign" style="color:var(--green)"></i>Payment History</div>';
+      m.payments.forEach(p => {
+        html += _ldRow([['Date', p.date || '-'], ['Amount', '$' + (p.amount || 0)], ['Method', p.method || '-'], ['Category', p.category || '-'], ['Reference', p.reference || '-']]);
+      });
+      html += '</div>';
+    }
+
+    // Notes
+    if (m.notes || m.adminNotes) {
+      html += '<div style="margin-bottom:8px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:6px"><i class="fas fa-sticky-note" style="color:var(--accent);margin-right:6px"></i>Notes</div>';
+      html += '<div style="font-size:.82rem;color:var(--text);padding:8px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:8px">' + (m.notes || m.adminNotes || '-') + '</div></div>';
+    }
+
+    content.innerHTML = html;
+  } catch (err) {
+    content.innerHTML = '<div style="text-align:center;color:var(--red);padding:24px"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;margin-bottom:8px;display:block"></i>Error loading profile: ' + err.message + '</div>';
+  }
 }
 
 // --- Income Summary ---
