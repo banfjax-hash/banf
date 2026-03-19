@@ -423,6 +423,35 @@ function parsePaymentEmail(msg) {
     }
   }
 
+  // WF Check deposit: "You deposited a check" / "mobile deposit" / "Amount: $XXX"
+  if (!result.parsed && /deposit|check/i.test(subj)) {
+    match = body.match(/Amount:\s*\$\s*([\d,]+(?:\.\d{2})?)/i);
+    if (match) {
+      result.amount = parseFloat(match[1].replace(',', ''));
+      result.source = 'check_deposit';
+      result.parsed = true;
+      // Try to extract account info
+      const acctMatch = body.match(/To:\s*\.{0,3}(\d{4})/);
+      if (acctMatch) result.reference = 'Acct ending ' + acctMatch[1];
+      // Extract confirmation code
+      const confMatch = body.match(/Confirmation\s+code:\s*(\d+)/i);
+      if (confMatch) result.confirmation = confMatch[1];
+      // Extract deposit date
+      const dateMatch = body.match(/deposited\s+a\s+check\s+on\s+(\d{2}\/\d{2}\/\d{4})/i);
+      if (dateMatch) result.depositDate = dateMatch[1];
+    }
+  }
+
+  // WF Account update with credit/deposit
+  if (!result.parsed && /account update/i.test(subj)) {
+    match = body.match(/(?:credit|deposit|received)[:\s]*\$\s*([\d,]+(?:\.\d{2})?)/i);
+    if (match) {
+      result.amount = parseFloat(match[1].replace(',', ''));
+      result.source = 'wf_account_update';
+      result.parsed = true;
+    }
+  }
+
   // Memo/note
   match = body.match(/(?:memo|note|message)[:\s]+(.+?)(?:\n|$)/i);
   if (match) result.memo = match[1].trim();
@@ -661,6 +690,9 @@ async function scanNewPaymentEmails(state, token) {
     'subject:"You received" OR subject:"payment received" Zelle after:2026/01/01',
     'subject:BANF payment after:2026/01/01',
     'subject:membership payment after:2026/01/01',
+    'from:wellsfargo subject:"You received" after:2026/01/01',
+    'from:wellsfargo subject:"mobile deposit" after:2026/01/01',
+    'from:wellsfargo subject:"deposit" after:2026/01/01',
   ];
 
   const allIds = new Set();
@@ -1220,9 +1252,220 @@ async function scanDevInstructEmails(state, token) {
   return results;
 }
 
-// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+// ═══════════════════════════════════════════════════════════════════════════
+// PHASE 2f: WELLS FARGO FINANCIAL LEDGER AGENT (ALWAYS_ON)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const LEDGER_API = 'https://www.jaxbengali.org/_functions';
+const LEDGER_ADMIN_KEY = 'banf-bosonto-2026-live';
+
+/**
+ * Scan all Wells Fargo emails and post financial transactions to the FinancialLedger.
+ * Handles: Zelle payments, check deposits, card purchases, account updates.
+ * Deduplicates by gmail message ID (sourceId field).
+ */
+async function scanWellsFargoForLedger(state, token) {
+  log('INFO', 'Phase 2f: Scanning Wells Fargo emails for ledger entries...');
+  if (!token) token = await getGmailToken();
+
+  const processedWfIds = new Set(state.processedWfLedgerIds || []);
+  const queries = [
+    'from:wellsfargo after:2026/01/01',
+    'from:notify.wellsfargo.com after:2026/01/01',
+  ];
+
+  const allIds = new Set();
+  for (const q of queries) {
+    try {
+      const ids = await gmailSearch(q, token, 200);
+      ids.forEach(id => allIds.add(id));
+    } catch (e) {
+      log('WARN', `WF query failed: ${e.message}`);
+    }
+  }
+
+  const newIds = [...allIds].filter(id => !processedWfIds.has(id));
+  log('INFO', `  WF emails: ${allIds.size} total, ${newIds.length} new`);
+
+  if (newIds.length === 0) return { scanned: 0, newEntries: 0, posted: 0 };
+
+  const entries = [];
+  for (const id of newIds) {
+    try {
+      const msg = await gmailGetMessage(id, token);
+      const parsed = parseWFFinancialEmail(msg);
+      if (parsed && parsed.transactions && parsed.transactions.length > 0) {
+        for (const txn of parsed.transactions) {
+          entries.push({
+            entryDate: txn.date || (msg.date ? new Date(msg.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)),
+            entryType: txn.direction === 'credit' ? 'income' : 'expense',
+            category: txn.category || 'other',
+            description: txn.description || msg.subject || '',
+            amount: txn.amount,
+            direction: txn.direction,
+            eventId: '',
+            eventName: '',
+            payerOrPayee: txn.payerOrPayee || '',
+            paymentMethod: txn.paymentMethod || 'other',
+            reference: txn.confirmation || '',
+            source: 'bank_statement',
+            sourceId: id,
+            bankDate: txn.date || '',
+            bankDescription: txn.description || '',
+            bankBalance: parsed.endingBalance || null,
+            notes: 'Auto-parsed from WF email: ' + (msg.subject || '').substring(0, 60)
+          });
+        }
+      }
+      processedWfIds.add(id);
+    } catch (e) {
+      log('WARN', `  WF email ${id} parse failed: ${e.message}`);
+      processedWfIds.add(id); // Don't retry broken emails
+    }
+  }
+
+  state.processedWfLedgerIds = [...processedWfIds];
+
+  if (entries.length === 0) return { scanned: newIds.length, newEntries: 0, posted: 0 };
+
+  // Post to FinancialLedger API
+  let posted = 0;
+  try {
+    const resp = await httpsRequest(LEDGER_API + '/ledger_add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminKey: LEDGER_ADMIN_KEY, entries })
+    });
+    if (resp.data && resp.data.success) {
+      posted = resp.data.added || entries.length;
+      log('INFO', `  Ledger: posted ${posted} entries`);
+    } else {
+      log('WARN', `  Ledger post failed: ${JSON.stringify(resp.data).substring(0, 200)}`);
+    }
+  } catch (e) {
+    log('WARN', `  Ledger API error: ${e.message}`);
+  }
+
+  return { scanned: newIds.length, newEntries: entries.length, posted };
+}
+
+/**
+ * Parse a Wells Fargo email into structured financial transactions.
+ * Routes to the correct sub-parser by subject line.
+ */
+function parseWFFinancialEmail(msg) {
+  const body = (msg.body || '');
+  const subj = (msg.subject || '');
+  const emailDate = msg.date ? new Date(msg.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+
+  // 1. Zelle received payment
+  if (/received money.*zelle|you received.*zelle/i.test(subj)) {
+    const amtMatch = body.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const fromMatch = body.match(/([A-Z][A-Za-z.\s'-]+?)\s+sent you/i);
+    const confMatch = body.match(/Confirmation:\s*(\S+)/i);
+    if (amtMatch) {
+      return {
+        endingBalance: null,
+        transactions: [{
+          date: emailDate,
+          description: 'Zelle payment received' + (fromMatch ? ' from ' + fromMatch[1].trim() : ''),
+          amount: parseFloat(amtMatch[1].replace(/,/g, '')),
+          direction: 'credit',
+          category: 'zelle_income',
+          paymentMethod: 'zelle',
+          payerOrPayee: fromMatch ? fromMatch[1].trim() : '',
+          confirmation: confMatch ? confMatch[1] : ''
+        }]
+      };
+    }
+  }
+
+  // 2. Zelle sent payment
+  if (/you sent.*zelle|payment sent.*zelle/i.test(subj)) {
+    const amtMatch = body.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const toMatch = body.match(/(?:sent to|to)\s+([A-Z][A-Za-z.\s'-]+?)(?:\.|$)/i);
+    if (amtMatch) {
+      return {
+        endingBalance: null,
+        transactions: [{
+          date: emailDate,
+          description: 'Zelle payment sent' + (toMatch ? ' to ' + toMatch[1].trim() : ''),
+          amount: parseFloat(amtMatch[1].replace(/,/g, '')),
+          direction: 'debit',
+          category: 'zelle_expense',
+          paymentMethod: 'zelle',
+          payerOrPayee: toMatch ? toMatch[1].trim() : '',
+        }]
+      };
+    }
+  }
+
+  // 3. Mobile check deposit
+  if (/mobile deposit|deposited.*check|got your.*deposit/i.test(subj)) {
+    const amtMatch = body.match(/Amount:\s*\$\s*([\d,]+(?:\.\d{2})?)/i) || body.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+    const confMatch = body.match(/Confirmation\s+code:\s*(\d+)/i);
+    const dateMatch = body.match(/deposited\s+a\s+check\s+on\s+(\d{2}\/\d{2}\/\d{4})/i);
+    const acctMatch = body.match(/To:\s*\.{0,3}(\d{4})/);
+    if (amtMatch) {
+      const depositDate = dateMatch ? dateMatch[1].replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$1-$2') : emailDate;
+      return {
+        endingBalance: null,
+        transactions: [{
+          date: depositDate,
+          description: 'Mobile check deposit' + (acctMatch ? ' (acct ...' + acctMatch[1] + ')' : ''),
+          amount: parseFloat(amtMatch[1].replace(/,/g, '')),
+          direction: 'credit',
+          category: 'check',
+          paymentMethod: 'check',
+          payerOrPayee: '',
+          confirmation: confMatch ? confMatch[1] : ''
+        }]
+      };
+    }
+  }
+
+  // 4. Card purchase / debit card use
+  if (/card.*purchase|card.*used/i.test(subj)) {
+    const amtMatch = body.match(/\$\s*([\d,]+(?:\.\d{2})?)/) || body.match(/(?:Purchase\s+amount|Amount)[:\s]*(\d[\d,]*(?:\.\d{2})?)/i);
+    const merchantMatch = body.match(/(?:Merchant\s+details\s+at|at|merchant|from)\s+([A-Z0-9][A-Za-z0-9 &'.\-]{2,40})/i);
+    const cardMatch = body.match(/(?:Card|card)\s+ending\s+in\s+(\d{4})/i);
+    if (amtMatch) {
+      return {
+        endingBalance: null,
+        transactions: [{
+          date: emailDate,
+          description: 'Card purchase' + (merchantMatch ? ' at ' + merchantMatch[1].trim() : '') + (cardMatch ? ' (card ...' + cardMatch[1] + ')' : ''),
+          amount: parseFloat(amtMatch[1].replace(/,/g, '')),
+          direction: 'debit',
+          category: 'debit_card',
+          paymentMethod: 'debit_card',
+          payerOrPayee: merchantMatch ? merchantMatch[1].trim() : ''
+        }]
+      };
+    }
+  }
+
+  // 5. Account update - extract balance info
+  if (/account update/i.test(subj)) {
+    const balMatch = body.match(/(?:available\s+balance|ending\s+balance|current\s+balance|balance)[:\s]*\$\s*([\d,]+(?:\.\d{2})?)/i);
+    // Don't create transactions for balance-only updates, just log
+    return {
+      endingBalance: balMatch ? parseFloat(balMatch[1].replace(/,/g, '')) : null,
+      transactions: []
+    };
+  }
+
+  // 6. Verification code / other non-financial - skip
+  if (/verification code|security alert|sign.?in/i.test(subj)) {
+    return { endingBalance: null, transactions: [] };
+  }
+
+  return null; // Unknown WF email type
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // PHASE 2c: USER QUERY EMAIL DETECTION
-// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+// ═══════════════════════════════════════════════════════════════════════════
 
 // --- Subject sanitization: use compliance module for consistent handling ---
 function sanitizeSubject(raw) {
@@ -1237,7 +1480,7 @@ const MARKETING_BLOCKED_DOMAINS = [
   'drip.com', 'activecampaign', 'klaviyo', 'brevo.com', 'sendinblue',
   'e.wix.com', 'go.wix.com', 'news.', 'offers.', 'deals.',
   'promotions.', 'campaign.', 'email.', 'info@', 'support@',
-  'alerts@notify.wellsfargo.com', 'alerts@', 'noreply@', 'no-reply@',
+  'noreply@', 'no-reply@',
   'donotreply', 'unsubscribe', 'notifications@', 'notification@',
   'postmaster', 'daemon'
 ];
@@ -1282,9 +1525,14 @@ function isMarketingEmail(from, subject, body) {
   const subjectLower = (subject || '').toLowerCase();
   const bodyLower = (body || '').toLowerCase().substring(0, 2000); // only check first 2KB
   
-  // 0. GitHub notification exemption ΓÇö never treat as marketing (handled by Phase 2e)
+  // 0. GitHub notification exemption
   if (senderDomain === 'github.com' || senderEmail.includes('github.com')) {
-    return { isMarketing: false, reason: 'GitHub notification (exempted ΓÇö handled by GitHub failure scanner)' };
+    return { isMarketing: false, reason: 'GitHub notification (exempted)' };
+  }
+
+  // 0b. Wells Fargo financial email exemption - handled by Phase 2f WF ledger agent
+  if (senderEmail.includes('wellsfargo') || senderDomain.includes('wellsfargo')) {
+    return { isMarketing: false, reason: 'Wells Fargo financial notification (exempted - handled by WF ledger agent)' };
   }
 
   // 1. Blocked domain check
@@ -2271,7 +2519,19 @@ async function runOnce(state) {
     log('WARN', `GitHub failure scan failed: ${e.message}`);
   }
 
-  // ΓöÇΓöÇ MQ: Enqueue RSVPs and ack payments ΓöÇΓöÇ
+  // Phase 2f: Wells Fargo Financial Ledger Agent (ALWAYS_ON)
+  // Scans ALL WF emails, extracts financial transactions, posts to FinancialLedger
+  let wfLedgerResults = { scanned: 0, newEntries: 0, posted: 0 };
+  try {
+    wfLedgerResults = await scanWellsFargoForLedger(state, token);
+    if (wfLedgerResults.newEntries > 0) {
+      log('INFO', `  WF Ledger: ${wfLedgerResults.scanned} emails scanned, ${wfLedgerResults.newEntries} new entries, ${wfLedgerResults.posted} posted to ledger`);
+    }
+  } catch (e) {
+    log('WARN', `WF Ledger scan failed: ${e.message}`);
+  }
+
+  // MQ: Enqueue RSVPs and ack payments
   if (newRsvps.length > 0) enqueueScannedEmails('evite_rsvp', newRsvps);
   if (newPayments.length > 0) ackProcessedMessages('payment', newPayments, []);
 

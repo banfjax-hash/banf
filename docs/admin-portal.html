@@ -930,6 +930,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <option value="sponsorship">Sponsorship</option>
               <option value="donation">Donation</option>
               <option value="advertisement">Advertisement</option>
+              <option value="zelle_income">Zelle Income</option>
+              <option value="check">Check Deposit</option>
               <option value="other_income">Other Income</option>
             </optgroup>
             <optgroup label="Expense">
@@ -944,6 +946,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <option value="admin">Admin</option>
               <option value="bank_fee">Bank Fee</option>
               <option value="transport">Transport</option>
+              <option value="debit_card">Debit Card</option>
+              <option value="zelle_expense">Zelle Expense</option>
               <option value="other_expense">Other Expense</option>
             </optgroup>
           </select>
@@ -1010,11 +1014,15 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Event-wise Expense Breakdown</div>
       <div class="card-a" style="margin-bottom:16px">
         <h2><i class="fas fa-calendar-check me-1"></i>Expense Breakdown by Event</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">All expenses grouped by event with per-category breakdowns. Includes unassigned expenses.</p>
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">All expenses grouped by event. Reimbursement entries are auto-linked. Treasurer/VP/President can upload Excel summaries, add manual expenses, reconcile, approve, and lock.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
           <label style="font-size:.82rem;color:var(--muted)">Year:</label>
           <select id="event-exp-year-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadEventExpenses()">
           </select>
+          <button id="btn-add-event-expense" onclick="openAddExpenseModal()" style="display:none;background:var(--green);color:#000;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600"><i class="fas fa-plus me-1"></i>Add Expense</button>
+          <button id="btn-upload-excel" onclick="document.getElementById('excel-upload-input').click()" style="display:none;background:var(--blue);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600"><i class="fas fa-file-excel me-1"></i>Upload Excel</button>
+          <button id="btn-create-template" onclick="openExpenseTemplateModal()" style="display:none;background:var(--purple);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600"><i class="fas fa-clipboard-list me-1"></i>Create Template</button>
+          <input type="file" id="excel-upload-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExpenseExcelUpload(event)">
         </div>
         <!-- Event Expense KPIs -->
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px" id="event-exp-kpis"></div>
@@ -1022,21 +1030,113 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px;position:relative;height:350px">
           <canvas id="event-expense-chart"></canvas>
         </div>
-        <!-- Event Expense Table -->
-        <div style="overflow-x:auto">
-          <table class="t">
-            <thead><tr>
-              <th>Event</th>
-              <th style="text-align:right">Total</th>
-              <th style="text-align:right">Venue</th>
-              <th style="text-align:right">Catering</th>
-              <th style="text-align:right">Decoration</th>
-              <th style="text-align:right">Photo</th>
-              <th style="text-align:right">Sound</th>
-              <th style="text-align:right">Other</th>
-            </tr></thead>
-            <tbody id="event-expense-table-body"></tbody>
-          </table>
+        <!-- Event Expense Table (per event with drill-down) -->
+        <div id="event-expense-cards"></div>
+      </div>
+    </div>
+
+    <!-- ═══ EXPENSE TEMPLATE MODAL ═══ -->
+    <div id="expense-template-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;overflow-y:auto">
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;max-width:700px;width:95%;margin:40px auto">
+        <h3 id="expense-tmpl-title" style="margin:0 0 8px"><i class="fas fa-clipboard-list me-1"></i>Event Expense Report</h3>
+        <p style="font-size:.76rem;color:var(--muted);margin-bottom:16px">Build an expense report from reimbursements and manual entries. All matching reimbursements are prefilled. Add remaining items, then submit for approval.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div><label style="font-size:.78rem;color:var(--muted)">Event</label>
+            <select id="tmpl-event" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem" onchange="refreshTemplateLines()"></select></div>
+          <div><label style="font-size:.78rem;color:var(--muted)">Source</label>
+            <span id="tmpl-source-label" style="display:block;padding:7px 10px;font-size:.85rem;color:var(--muted)">Manual</span></div>
+        </div>
+        <!-- Reimbursement-linked items (auto) -->
+        <div id="tmpl-reimbursement-section" style="margin-bottom:16px">
+          <div style="font-size:.82rem;font-weight:600;margin-bottom:8px;color:var(--green)"><i class="fas fa-link me-1"></i>Linked Reimbursement Entries</div>
+          <div id="tmpl-reimb-lines" style="font-size:.8rem;color:var(--muted)">Select an event to load...</div>
+        </div>
+        <!-- Manual / Excel items -->
+        <div id="tmpl-manual-section">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:.82rem;font-weight:600;color:var(--yellow)"><i class="fas fa-edit me-1"></i>Additional Expense Items</span>
+            <button onclick="addTemplateLine()" style="background:var(--accent);color:#fff;border:none;padding:3px 10px;border-radius:4px;font-size:.72rem;cursor:pointer"><i class="fas fa-plus me-1"></i>Add Line</button>
+          </div>
+          <div id="tmpl-manual-lines"></div>
+          <p style="font-size:.72rem;color:var(--dim);margin-top:6px"><i class="fas fa-info-circle me-1"></i>Additional items will prompt for reimbursement submission. Add notes for context.</p>
+        </div>
+        <!-- Summary -->
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;font-size:.82rem">
+            <div><span style="color:var(--green);font-weight:700" id="tmpl-reimb-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Reimbursed</span></div>
+            <div><span style="color:var(--yellow);font-weight:700" id="tmpl-manual-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Additional</span></div>
+            <div><span style="color:var(--red);font-weight:700" id="tmpl-grand-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Grand Total</span></div>
+          </div>
+        </div>
+        <div id="tmpl-status-msg" style="display:none;font-size:.8rem;margin-top:10px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button onclick="closeExpenseTemplateModal()" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem">Cancel</button>
+          <button id="btn-save-template" onclick="saveExpenseTemplate()" style="background:var(--green);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-save me-1"></i>Save Report</button>
+          <button id="btn-submit-approval-template" onclick="submitExpenseForApproval()" style="background:var(--blue);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-paper-plane me-1"></i>Submit for Approval</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ EXCEL RECONCILIATION MODAL ═══ -->
+    <div id="excel-recon-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;overflow-y:auto">
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;max-width:800px;width:95%;margin:40px auto">
+        <h3 style="margin:0 0 8px"><i class="fas fa-file-excel me-1" style="color:#22c55e"></i>Excel Expense Reconciliation</h3>
+        <p style="font-size:.76rem;color:var(--muted);margin-bottom:16px">The system has read your Excel file and matched line items against submitted reimbursements. Green items are matched; yellow items need reimbursement submission.</p>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.78rem;color:var(--muted)">Event</label>
+          <select id="excel-recon-event" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></select>
+        </div>
+        <div id="excel-recon-table" style="overflow-x:auto;margin-bottom:16px"></div>
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;text-align:center;font-size:.82rem">
+            <div><span style="color:var(--green);font-weight:700" id="recon-matched-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Matched</span></div>
+            <div><span style="color:var(--yellow);font-weight:700" id="recon-unmatched-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Unmatched</span></div>
+            <div><span style="color:var(--red);font-weight:700" id="recon-excel-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Excel Total</span></div>
+            <div><span style="font-weight:700" id="recon-match-pct">0%</span><br><span style="color:var(--muted);font-size:.72rem">Match Rate</span></div>
+          </div>
+        </div>
+        <div id="recon-status-msg" style="display:none;font-size:.8rem;margin-top:10px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+          <button onclick="closeExcelReconModal()" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem">Cancel</button>
+          <button onclick="submitSelectedForReimbursement()" style="background:var(--yellow);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-hand-holding-usd me-1"></i>Submit Selected for Reimbursement</button>
+          <button onclick="saveExcelExpenseReport()" style="background:var(--green);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-save me-1"></i>Save Expense Report</button>
+          <button id="btn-recon-approve" onclick="submitReconForApproval()" style="display:none;background:var(--blue);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-paper-plane me-1"></i>Submit for Approval</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ADD/EDIT EXPENSE MODAL ═══ -->
+    <div id="expense-modal-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center">
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;max-width:480px;width:90%">
+        <h3 id="expense-modal-title" style="margin:0 0 16px"><i class="fas fa-file-invoice-dollar me-1"></i>Add Expense</h3>
+        <input type="hidden" id="exp-entry-id">
+        <div style="display:grid;gap:10px">
+          <div><label style="font-size:.78rem;color:var(--muted)">Event</label>
+            <select id="exp-event" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></select></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="font-size:.78rem;color:var(--muted)">Category</label>
+              <select id="exp-category" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem">
+                <option value="venue">Venue</option><option value="catering">Catering</option><option value="decoration">Decoration</option>
+                <option value="photography">Photography</option><option value="sound_music">Sound/Music</option><option value="other_expense">Other</option>
+              </select></div>
+            <div><label style="font-size:.78rem;color:var(--muted)">Amount ($)</label>
+              <input type="number" id="exp-amount" step="0.01" min="0" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+          </div>
+          <div><label style="font-size:.78rem;color:var(--muted)">Description</label>
+            <input type="text" id="exp-description" maxlength="200" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="font-size:.78rem;color:var(--muted)">Paid To</label>
+              <input type="text" id="exp-payee" maxlength="100" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+            <div><label style="font-size:.78rem;color:var(--muted)">Date</label>
+              <input type="date" id="exp-date" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+          </div>
+          <div><label style="font-size:.78rem;color:var(--muted)">Reference / Note</label>
+            <input type="text" id="exp-reference" maxlength="200" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+        </div>
+        <div id="expense-modal-error" style="display:none;color:var(--red);font-size:.8rem;margin-top:10px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button onclick="closeExpenseModal()" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem">Cancel</button>
+          <button id="btn-save-expense" onclick="saveExpense()" style="background:var(--green);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-save me-1"></i>Save</button>
         </div>
       </div>
     </div>
@@ -2238,15 +2338,114 @@ async function loadIncomeSummary() {
   });
 }
 
-// --- Event Expenses ---
+// --- Event Expenses (with CRUD + Approval) ---
 let _eventExpenseChart = null;
+let _eventExpenseData = null;  // cached response from get_event_expenses
+
+const BANF_EVENTS = [
+  { id:'bosonto-utsob-2026', name:'Bosonto Utsob'},{ id:'noboborsho-2026', name:'Noboborsho'},
+  { id:'kids-summer-sports-2026', name:'Kids Summer Sports Training'},{ id:'summer-workshops-kids-2026', name:'Summer Workshops — Kids'},
+  { id:'summer-workshops-general-2026', name:'Summer Workshops — General'},{ id:'sports-day-2026', name:'Sports Day'},
+  { id:'spondon-2026', name:'Spondon'},{ id:'mahalaya-2026', name:'Mahalaya'},
+  { id:'durga-puja-2026', name:'Durga Puja Day 1 & 2 + Lunch'},{ id:'lakshmi-puja-2026', name:'Lakshmi Puja'},
+  { id:'bijoya-sonmiloni-2026', name:'Bijoya Sonmiloni'},{ id:'artist-program-day1-2026', name:'Artist Program Day 1 + Dinner'},
+  { id:'artist-program-day2-2026', name:'Artist Program Day 2 + Dinner'},{ id:'kali-puja-2026', name:'Kali Puja + Lunch'},
+  { id:'natok-dinner-2026', name:'Natok (Drama) + Dinner'},{ id:'winter-picnic-2027', name:'Winter Picnic'},
+  { id:'saraswati-puja-2027', name:'Saraswati Puja'}
+];
+
+function isExpensePrivileged() {
+  if (!CURRENT_ADMIN) return false;
+  return ['President','Vice President','Treasurer'].includes(CURRENT_ADMIN.ecTitle);
+}
+function isPresident() {
+  return CURRENT_ADMIN && CURRENT_ADMIN.email === 'ranadhir.ghosh@gmail.com';
+}
 
 async function loadEventExpenses() {
   const yearSel = document.getElementById('event-exp-year-select');
   const year = yearSel.value || new Date().getFullYear();
+
+  // Show/hide action buttons based on role
+  const priv0 = isExpensePrivileged();
+  const addBtn = document.getElementById('btn-add-event-expense');
+  if (addBtn) addBtn.style.display = priv0 ? '' : 'none';
+  const uploadBtn = document.getElementById('btn-upload-excel');
+  if (uploadBtn) uploadBtn.style.display = priv0 ? '' : 'none';
+  const tmplBtn = document.getElementById('btn-create-template');
+  if (tmplBtn) tmplBtn.style.display = priv0 ? '' : 'none';
+
+  const data = await apiGet('event_expenses', { year: year });
+  if (!data || !data.success) {
+    // Fallback to old ledger endpoint
+    return loadEventExpensesFallback(year);
+  }
+  _eventExpenseData = data;
+
+  const evts = data.events || [];
+  const grandTotal = data.grandTotal || 0;
+
+  // KPIs
+  const kpiGrid = document.getElementById('event-exp-kpis');
+  kpiGrid.innerHTML = '<div class="kpi red"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Total Expenses</div></div>' +
+    '<div class="kpi orange"><div class="v">' + evts.length + '</div><div class="k">Events</div></div>' +
+    '<div class="kpi blue"><div class="v">' + evts.reduce((s,e) => s + (e.entries||[]).length, 0) + '</div><div class="k">Entries</div></div>' +
+    (evts.length > 0 ? '<div class="kpi purple"><div class="v">$' + (grandTotal / evts.length).toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Avg per Event</div></div>' : '') +
+    '<div class="kpi green"><div class="v">' + evts.filter(e => e.approved).length + '/' + evts.length + '</div><div class="k">Approved</div></div>';
+
+  // Event cards with drill-down
+  const cardsDiv = document.getElementById('event-expense-cards');
+  const priv = isExpensePrivileged();
+  const pres = isPresident();
+  cardsDiv.innerHTML = evts.sort((a,b) => b.total - a.total).map(ev => {
+    const statusBadge = ev.approved
+      ? '<span style="background:#22c55e22;color:var(--green);padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock me-1"></i>Approved by ' + (ev.approvedBy || '') + '</span>'
+      : '<span style="background:#eab30822;color:#eab308;padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock-open me-1"></i>Pending Approval</span>';
+    const approveBtn = priv && !ev.approved ? '<button onclick="approveEventExpense(\'' + ev.eventId + '\',\'' + (ev.eventName||'').replace(/'/g,"\\'") + '\')" style="background:var(--green);color:#000;border:none;padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;font-weight:600"><i class="fas fa-check me-1"></i>Approve & Lock</button>' : '';
+    const unlockBtn = pres && ev.approved ? '<button onclick="unlockEventExpense(\'' + ev.eventId + '\')" style="background:var(--red);color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;font-weight:600"><i class="fas fa-unlock me-1"></i>Unlock (Exception)</button>' : '';
+
+    const entries = (ev.entries || []).sort((a,b) => new Date(b.entryDate) - new Date(a.entryDate));
+    const rows = entries.map(e => {
+      const dt = new Date(e.entryDate);
+      const editBtn = priv && !ev.locked ? '<button onclick="openEditExpenseModal(\'' + e.id + '\',\'' + ev.eventId + '\',\'' + (ev.eventName||'').replace(/'/g,"\\'") + '\')" style="background:none;border:none;color:var(--blue);cursor:pointer;font-size:.78rem" title="Edit"><i class="fas fa-edit"></i></button>' : '';
+      return '<tr><td>' + dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + '</td><td style="text-transform:capitalize">' + (e.category||'').replace(/_/g,' ') + '</td><td>' + (e.description||'') + '</td><td style="text-align:right;color:var(--red);font-weight:600">$' + (e.amount||0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td>' + (e.payerOrPayee||'') + '</td><td style="font-size:.72rem;color:var(--muted)">' + (e.source||'') + '</td><td>' + editBtn + '</td></tr>';
+    }).join('');
+
+    return '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px">' +
+      '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">' +
+        '<strong style="font-size:.92rem">' + (ev.eventName||ev.eventId) + '</strong>' +
+        '<span style="color:var(--red);font-weight:700;margin-left:auto">$' + (ev.total||0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</span>' +
+        statusBadge + approveBtn + unlockBtn +
+      '</div>' +
+      '<div style="overflow-x:auto"><table class="t" style="font-size:.8rem"><thead><tr><th>Date</th><th>Category</th><th>Description</th><th style="text-align:right">Amount</th><th>Paid To</th><th>Source</th><th></th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" style="text-align:center;color:var(--muted)">No entries</td></tr>') + '</tbody></table></div>' +
+    '</div>';
+  }).join('') || '<p style="color:var(--muted);text-align:center">No expense entries found for this year.</p>';
+
+  // Chart — stacked bar
+  const expCats = ['venue','catering','decoration','photography','sound_music','other_expense'];
+  const catColors = ['#ef4444','#f97316','#eab308','#a855f7','#06b6d4','#6366f1'];
+  const eventNames = evts.sort((a,b) => b.total - a.total).map(e => e.eventName || e.eventId);
+  const datasets = expCats.map((cat, i) => ({
+    label: cat.replace(/_/g,' '), borderWidth: 0, backgroundColor: catColors[i],
+    data: evts.sort((a,b) => b.total - a.total).map(ev => (ev.entries||[]).filter(e => {
+      if (cat === 'other_expense') return !['venue','catering','decoration','photography','sound_music'].includes(e.category);
+      return e.category === cat;
+    }).reduce((s,e) => s + (e.amount||0), 0))
+  }));
+
+  if (_eventExpenseChart) _eventExpenseChart.destroy();
+  const ctx = document.getElementById('event-expense-chart').getContext('2d');
+  _eventExpenseChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: eventNames.map(n => n.length > 20 ? n.slice(0,20)+'...' : n), datasets },
+    options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,ticks:{color:'#94a3b8'},grid:{display:false}}, y:{stacked:true,ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}} }, plugins: { legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11}}}, title:{display:true,text:'Expense Breakdown by Event',color:'#e2e8f0'} } }
+  });
+}
+
+// Fallback if event_expenses endpoint not yet deployed
+async function loadEventExpensesFallback(year) {
   const data = await apiGet('ledger', { year: year, type: 'expense', limit: 1000 });
   if (!data.success) return;
-
   const entries = data.entries || [];
   const events = {};
   let grandTotal = 0;
@@ -2260,43 +2459,491 @@ async function loadEventExpenses() {
     if (['venue','catering','decoration','photography','sound_music'].includes(cat)) events[ev][cat] += amt;
     else events[ev].other += amt;
   });
-
-  // KPIs
   const eventNames = Object.keys(events).sort((a,b) => events[b].total - events[a].total);
   const kpiGrid = document.getElementById('event-exp-kpis');
   kpiGrid.innerHTML = '<div class="kpi red"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Total Expenses</div></div>' +
     '<div class="kpi orange"><div class="v">' + eventNames.length + '</div><div class="k">Events</div></div>' +
-    '<div class="kpi blue"><div class="v">' + entries.length + '</div><div class="k">Entries</div></div>' +
-    (eventNames.length > 0 ? '<div class="kpi purple"><div class="v">$' + (grandTotal / eventNames.length).toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Avg per Event</div></div>' : '');
-
-  // Table
-  const tbody = document.getElementById('event-expense-table-body');
-  tbody.innerHTML = eventNames.map(ev => {
-    const d = events[ev];
-    return '<tr><td>' + ev + '</td><td style="text-align:right;font-weight:600;color:var(--red)">$' + d.total.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right">$' + d.venue.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right">$' + d.catering.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right">$' + d.decoration.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right">$' + d.photography.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right">$' + d.sound_music.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td>' +
-      '<td style="text-align:right">$' + d.other.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td></tr>';
-  }).join('') + '<tr style="border-top:2px solid var(--line);font-weight:700"><td>Grand Total</td><td style="text-align:right;color:var(--red)">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td colspan="6"></td></tr>';
-
-  // Chart — stacked bar by event
+    '<div class="kpi blue"><div class="v">' + entries.length + '</div><div class="k">Entries</div></div>';
+  const cardsDiv = document.getElementById('event-expense-cards');
+  cardsDiv.innerHTML = '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Event</th><th style="text-align:right">Total</th><th style="text-align:right">Venue</th><th style="text-align:right">Catering</th><th style="text-align:right">Decoration</th><th style="text-align:right">Photo</th><th style="text-align:right">Sound</th><th style="text-align:right">Other</th></tr></thead><tbody>' +
+    eventNames.map(ev => {
+      const d = events[ev];
+      return '<tr><td>' + ev + '</td><td style="text-align:right;font-weight:600;color:var(--red)">$' + d.total.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.venue.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.catering.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.decoration.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.photography.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.sound_music.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.other.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+  // Chart
   const expCats = ['venue','catering','decoration','photography','sound_music','other'];
   const catColors = ['#ef4444','#f97316','#eab308','#a855f7','#06b6d4','#6366f1'];
-  const datasets = expCats.map((cat, i) => ({
-    label: cat.replace(/_/g,' '), data: eventNames.map(ev => events[ev][cat] || 0),
-    backgroundColor: catColors[i], borderWidth: 0
-  }));
-
+  const datasets = expCats.map((cat, i) => ({ label: cat.replace(/_/g,' '), data: eventNames.map(ev => events[ev][cat] || 0), backgroundColor: catColors[i], borderWidth: 0 }));
   if (_eventExpenseChart) _eventExpenseChart.destroy();
   const ctx = document.getElementById('event-expense-chart').getContext('2d');
-  _eventExpenseChart = new Chart(ctx, {
-    type: 'bar',
-    data: { labels: eventNames.map(n => n.length > 20 ? n.slice(0,20)+'...' : n), datasets },
-    options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,ticks:{color:'#94a3b8'},grid:{display:false}}, y:{stacked:true,ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}} }, plugins: { legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11}}}, title:{display:true,text:'Expense Breakdown by Event',color:'#e2e8f0'} } }
+  _eventExpenseChart = new Chart(ctx, { type: 'bar', data: { labels: eventNames.map(n => n.length > 20 ? n.slice(0,20)+'...' : n), datasets }, options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,ticks:{color:'#94a3b8'},grid:{display:false}}, y:{stacked:true,ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}} }, plugins: { legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11}}}, title:{display:true,text:'Expense Breakdown by Event',color:'#e2e8f0'} } } });
+}
+
+// Expense modal helpers
+function openAddExpenseModal() {
+  document.getElementById('expense-modal-title').innerHTML = '<i class="fas fa-plus me-1"></i>Add Expense';
+  document.getElementById('exp-entry-id').value = '';
+  document.getElementById('exp-amount').value = '';
+  document.getElementById('exp-description').value = '';
+  document.getElementById('exp-payee').value = '';
+  document.getElementById('exp-reference').value = '';
+  document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('expense-modal-error').style.display = 'none';
+  // Populate event dropdown
+  const evSel = document.getElementById('exp-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '">' + e.name + '</option>').join('');
+  document.getElementById('expense-modal-overlay').style.display = 'flex';
+}
+
+function openEditExpenseModal(entryId, eventId, eventName) {
+  if (!_eventExpenseData) return;
+  // Find entry in cached data
+  let entry = null;
+  (_eventExpenseData.events || []).forEach(ev => {
+    (ev.entries || []).forEach(e => { if (e.id === entryId) entry = e; });
   });
+  if (!entry) return alert('Entry not found');
+  document.getElementById('expense-modal-title').innerHTML = '<i class="fas fa-edit me-1"></i>Edit Expense';
+  document.getElementById('exp-entry-id').value = entryId;
+  const evSel = document.getElementById('exp-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '"' + (e.id === eventId ? ' selected' : '') + '>' + e.name + '</option>').join('');
+  document.getElementById('exp-category').value = entry.category || 'other_expense';
+  document.getElementById('exp-amount').value = entry.amount || '';
+  document.getElementById('exp-description').value = entry.description || '';
+  document.getElementById('exp-payee').value = entry.payerOrPayee || '';
+  document.getElementById('exp-date').value = entry.entryDate ? new Date(entry.entryDate).toISOString().split('T')[0] : '';
+  document.getElementById('exp-reference').value = entry.reference || '';
+  document.getElementById('expense-modal-error').style.display = 'none';
+  document.getElementById('expense-modal-overlay').style.display = 'flex';
+}
+
+function closeExpenseModal() {
+  document.getElementById('expense-modal-overlay').style.display = 'none';
+}
+
+async function saveExpense() {
+  const errEl = document.getElementById('expense-modal-error');
+  errEl.style.display = 'none';
+  const amount = parseFloat(document.getElementById('exp-amount').value);
+  if (!amount || amount <= 0) { errEl.textContent = 'Please enter a valid amount.'; errEl.style.display = 'block'; return; }
+
+  const evSel = document.getElementById('exp-event');
+  const selectedEvent = BANF_EVENTS.find(e => e.id === evSel.value);
+  const body = {
+    email: CURRENT_ADMIN.email,
+    entryId: document.getElementById('exp-entry-id').value || undefined,
+    eventId: evSel.value,
+    eventName: selectedEvent ? selectedEvent.name : evSel.value,
+    category: document.getElementById('exp-category').value,
+    amount: amount,
+    description: document.getElementById('exp-description').value,
+    payerOrPayee: document.getElementById('exp-payee').value,
+    entryDate: document.getElementById('exp-date').value,
+    reference: document.getElementById('exp-reference').value
+  };
+
+  const btn = document.getElementById('btn-save-expense');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
+  const res = await apiCall('event_expense_add', body);
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-save me-1"></i>Save';
+
+  if (res.success) {
+    closeExpenseModal();
+    addLog('EXPENSE', (body.entryId ? 'Updated' : 'Added') + ' expense: $' + amount + ' for ' + body.eventName);
+    loadEventExpenses();
+  } else {
+    errEl.textContent = res.error || 'Failed to save expense.';
+    errEl.style.display = 'block';
+  }
+}
+
+async function approveEventExpense(eventId, eventName) {
+  if (!confirm('Approve and lock all expenses for "' + eventName + '"? Once approved, expenses cannot be modified unless the President raises an exception.')) return;
+  const year = document.getElementById('event-exp-year-select').value || new Date().getFullYear();
+  const res = await apiCall('event_expense_approve', { email: CURRENT_ADMIN.email, eventId: eventId, eventName: eventName, year: year });
+  if (res.success) {
+    addLog('APPROVE', 'Approved event expenses for ' + eventName);
+    loadEventExpenses();
+  } else {
+    alert(res.error || 'Failed to approve.');
+  }
+}
+
+async function unlockEventExpense(eventId) {
+  const reason = prompt('Reason for unlocking approved expenses (President exception):');
+  if (!reason) return;
+  const res = await apiCall('event_expense_exception', { email: CURRENT_ADMIN.email, eventId: eventId, reason: reason });
+  if (res.success) {
+    addLog('EXCEPTION', 'President unlocked event expenses for ' + eventId + ': ' + reason);
+    loadEventExpenses();
+  } else {
+    alert(res.error || 'Failed to unlock.');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// EXCEL EXPENSE UPLOAD & RECONCILIATION
+// ═══════════════════════════════════════════════════
+let _excelReconData = null;
+
+async function handleExpenseExcelUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = ''; // reset for re-upload
+
+  const ext = file.name.split('.').pop().toLowerCase();
+  let rows = [];
+
+  if (ext === 'csv') {
+    const text = await file.text();
+    rows = parseCSVRows(text);
+  } else {
+    // Use SheetJS for xlsx/xls
+    if (!window.XLSX) {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+      document.head.appendChild(s);
+      await new Promise((res, rej) => { s.onload = res; s.onerror = () => rej(new Error('Failed to load SheetJS')); });
+    }
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+  }
+
+  if (!rows.length) return alert('No data found in file.');
+
+  // Normalize column names (find: description/item, amount/cost, category, date, vendor/payee)
+  const excelItems = rows.map((r, i) => {
+    const desc = r.description || r.Description || r.item || r.Item || r.name || r.Name || r['Line Item'] || '';
+    const amt = parseFloat(r.amount || r.Amount || r.cost || r.Cost || r.total || r.Total || 0) || 0;
+    const cat = r.category || r.Category || r.type || r.Type || '';
+    const dt = r.date || r.Date || '';
+    const payee = r.vendor || r.Vendor || r.payee || r.Payee || r['Paid To'] || '';
+    return { index: i + 1, description: String(desc).trim(), amount: Math.round(amt * 100) / 100, category: cat, date: dt, payee: payee };
+  }).filter(it => it.description || it.amount > 0);
+
+  // Show event selector + reconciliation modal
+  const evSel = document.getElementById('excel-recon-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '">' + e.name + '</option>').join('');
+
+  _excelReconData = { fileName: file.name, items: excelItems, matched: {} };
+  document.getElementById('excel-recon-overlay').style.display = 'flex';
+
+  // Load reimbursement-linked entries for the first event
+  await reconcileExcelWithReimbursements();
+}
+
+function parseCSVRows(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.replace(/"/g, '').trim());
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+    return obj;
+  });
+}
+
+async function reconcileExcelWithReimbursements() {
+  if (!_excelReconData) return;
+  const eventId = document.getElementById('excel-recon-event').value;
+  const year = document.getElementById('event-exp-year-select').value || new Date().getFullYear();
+
+  // Fetch existing expense entries for this event (includes reimbursement-sourced ones)
+  const data = await apiGet('event_expenses', { year: year, eventId: eventId });
+  const eventEntries = [];
+  (data.events || []).forEach(ev => { (ev.entries || []).forEach(e => eventEntries.push(e)); });
+
+  // Match excel items to ledger entries by description similarity + amount
+  const items = _excelReconData.items;
+  const matched = {};
+  items.forEach(xl => {
+    const descLower = xl.description.toLowerCase();
+    let bestMatch = null, bestScore = 0;
+    eventEntries.forEach(le => {
+      let score = 0;
+      const leDesc = (le.description || '').toLowerCase();
+      // Amount match (exact or close)
+      if (xl.amount > 0 && Math.abs(xl.amount - (le.amount || 0)) < 0.02) score += 50;
+      // Description word overlap
+      const xlWords = descLower.split(/\s+/).filter(w => w.length > 2);
+      const leWords = leDesc.split(/\s+/).filter(w => w.length > 2);
+      const overlap = xlWords.filter(w => leWords.some(lw => lw.includes(w) || w.includes(lw))).length;
+      if (xlWords.length > 0) score += (overlap / xlWords.length) * 40;
+      // Reference/source match
+      if (le.source === 'reimbursement') score += 5;
+      if (score > bestScore) { bestScore = score; bestMatch = { entry: le, score: score }; }
+    });
+    matched[xl.index] = bestScore >= 45 ? bestMatch : null;
+  });
+  _excelReconData.matched = matched;
+  _excelReconData.eventEntries = eventEntries;
+
+  renderExcelReconTable();
+}
+
+function renderExcelReconTable() {
+  const items = _excelReconData.items;
+  const matched = _excelReconData.matched;
+  let matchedTotal = 0, unmatchedTotal = 0, excelTotal = 0;
+
+  const rows = items.map(xl => {
+    const m = matched[xl.index];
+    excelTotal += xl.amount;
+    const isMatched = !!m;
+    if (isMatched) matchedTotal += xl.amount; else unmatchedTotal += xl.amount;
+    const bg = isMatched ? 'rgba(34,197,94,0.08)' : 'rgba(234,179,8,0.08)';
+    const icon = isMatched ? '<i class="fas fa-check-circle" style="color:var(--green)"></i>' : '<input type="checkbox" class="recon-select" data-idx="' + xl.index + '" checked>';
+    const matchInfo = isMatched ? '<span style="color:var(--green);font-size:.72rem">' + (m.entry.source === 'reimbursement' ? 'RMB: ' : '') + (m.entry.description || '').substring(0, 40) + ' ($' + (m.entry.amount || 0).toFixed(2) + ')</span>' : '<span style="color:var(--yellow);font-size:.72rem">No reimbursement found</span>';
+    return '<tr style="background:' + bg + '"><td>' + icon + '</td><td>' + xl.description + '</td><td class="num">$' + xl.amount.toFixed(2) + '</td><td style="text-transform:capitalize">' + (xl.category || '—') + '</td><td>' + (xl.payee || '—') + '</td><td>' + matchInfo + '</td></tr>';
+  }).join('');
+
+  document.getElementById('excel-recon-table').innerHTML = '<table class="t" style="font-size:.8rem"><thead><tr><th style="width:30px"></th><th>Description</th><th style="text-align:right">Amount</th><th>Category</th><th>Vendor</th><th>Reimbursement Match</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  document.getElementById('recon-matched-total').textContent = '$' + matchedTotal.toFixed(2);
+  document.getElementById('recon-unmatched-total').textContent = '$' + unmatchedTotal.toFixed(2);
+  document.getElementById('recon-excel-total').textContent = '$' + excelTotal.toFixed(2);
+  const pct = excelTotal > 0 ? Math.round((matchedTotal / excelTotal) * 100) : 0;
+  document.getElementById('recon-match-pct').textContent = pct + '%';
+  document.getElementById('recon-match-pct').style.color = pct === 100 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+
+  // Show approval button only when all matched (100%)
+  document.getElementById('btn-recon-approve').style.display = pct === 100 ? '' : 'none';
+}
+
+function closeExcelReconModal() {
+  document.getElementById('excel-recon-overlay').style.display = 'none';
+  _excelReconData = null;
+}
+
+async function submitSelectedForReimbursement() {
+  if (!_excelReconData) return;
+  const items = _excelReconData.items;
+  const matched = _excelReconData.matched;
+  const checkboxes = document.querySelectorAll('.recon-select:checked');
+  const selected = [];
+  checkboxes.forEach(cb => {
+    const idx = parseInt(cb.dataset.idx);
+    const item = items.find(it => it.index === idx);
+    if (item && !matched[idx]) selected.push(item);
+  });
+
+  if (!selected.length) return alert('No unmatched items selected.');
+  const eventId = document.getElementById('excel-recon-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+
+  // Navigate to reimbursement panel with pre-filled data
+  const msg = 'The following ' + selected.length + ' items from "' + eventName + '" need reimbursement submission:\n\n' +
+    selected.map((s, i) => (i + 1) + '. ' + s.description + ' — $' + s.amount.toFixed(2)).join('\n') +
+    '\n\nWould you like to navigate to the Reimbursement portal to submit these?';
+  if (confirm(msg)) {
+    // Store in sessionStorage for the reimbursement page to pick up
+    sessionStorage.setItem('banf_prefill_reimbursement', JSON.stringify({
+      eventId: eventId,
+      items: selected.map(s => ({ item: s.description, cost: s.amount, category: s.category, payee: s.payee }))
+    }));
+    closeExcelReconModal();
+    navTo('reimbursement');
+  }
+}
+
+async function saveExcelExpenseReport() {
+  if (!_excelReconData) return;
+  const eventId = document.getElementById('excel-recon-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+  const items = _excelReconData.items;
+  const matched = _excelReconData.matched;
+
+  // Add unmatched items as manual expense entries
+  let addedCount = 0;
+  for (const xl of items) {
+    if (matched[xl.index]) continue; // already in ledger via reimbursement
+    const res = await apiCall('event_expense_add', {
+      email: CURRENT_ADMIN.email,
+      eventId: eventId, eventName: eventName,
+      category: mapExcelCategory(xl.category),
+      amount: xl.amount,
+      description: xl.description,
+      payerOrPayee: xl.payee,
+      entryDate: xl.date || new Date().toISOString().split('T')[0],
+      reference: 'Excel import: ' + _excelReconData.fileName
+    });
+    if (res.success) addedCount++;
+  }
+
+  const statusEl = document.getElementById('recon-status-msg');
+  statusEl.style.display = 'block';
+  statusEl.style.color = 'var(--green)';
+  statusEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Saved ' + addedCount + ' additional expense entries for ' + eventName + '. Reload to see updated totals.';
+  addLog('EXPENSE', 'Excel import: added ' + addedCount + ' entries for ' + eventName + ' from ' + _excelReconData.fileName);
+
+  // Refresh after short delay
+  setTimeout(() => { closeExcelReconModal(); loadEventExpenses(); }, 2000);
+}
+
+async function submitReconForApproval() {
+  const eventId = document.getElementById('excel-recon-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+  closeExcelReconModal();
+  approveEventExpense(eventId, eventName);
+}
+
+function mapExcelCategory(cat) {
+  const c = (cat || '').toLowerCase();
+  if (/venue|hall|room|space/i.test(c)) return 'venue';
+  if (/cater|food|meal|lunch|dinner/i.test(c)) return 'catering';
+  if (/decor|flower|balloon/i.test(c)) return 'decoration';
+  if (/photo|video|camera/i.test(c)) return 'photography';
+  if (/sound|music|dj|band|speaker/i.test(c)) return 'sound_music';
+  return 'other_expense';
+}
+
+// ═══════════════════════════════════════════════════
+// EXPENSE TEMPLATE (FROM REIMBURSEMENTS)
+// ═══════════════════════════════════════════════════
+let _templateManualLines = [];
+
+function openExpenseTemplateModal() {
+  const evSel = document.getElementById('tmpl-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '">' + e.name + '</option>').join('');
+  document.getElementById('tmpl-source-label').textContent = 'Manual Template';
+  _templateManualLines = [];
+  document.getElementById('tmpl-manual-lines').innerHTML = '';
+  document.getElementById('tmpl-status-msg').style.display = 'none';
+  document.getElementById('expense-template-overlay').style.display = 'flex';
+  refreshTemplateLines();
+}
+
+function closeExpenseTemplateModal() {
+  document.getElementById('expense-template-overlay').style.display = 'none';
+}
+
+async function refreshTemplateLines() {
+  const eventId = document.getElementById('tmpl-event').value;
+  const year = document.getElementById('event-exp-year-select').value || new Date().getFullYear();
+  const reimbDiv = document.getElementById('tmpl-reimb-lines');
+  reimbDiv.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading reimbursement data...';
+
+  const data = await apiGet('event_expenses', { year: year, eventId: eventId });
+  const entries = [];
+  (data.events || []).forEach(ev => { (ev.entries || []).forEach(e => entries.push(e)); });
+  const reimbEntries = entries.filter(e => e.source === 'reimbursement');
+  const manualEntries = entries.filter(e => e.source !== 'reimbursement');
+
+  if (reimbEntries.length === 0 && manualEntries.length === 0) {
+    reimbDiv.innerHTML = '<span style="color:var(--muted)">No existing expense entries for this event. Add items below.</span>';
+  } else {
+    const rows = reimbEntries.map(e =>
+      '<tr style="background:rgba(34,197,94,0.06)"><td><i class="fas fa-check-circle" style="color:var(--green)"></i></td><td>' + (e.description || '') + '</td><td class="num">$' + (e.amount || 0).toFixed(2) + '</td><td style="text-transform:capitalize">' + (e.category || '').replace(/_/g, ' ') + '</td><td>' + (e.payerOrPayee || '') + '</td><td style="font-size:.72rem;color:var(--green)">Reimbursed</td></tr>'
+    ).join('');
+    const manualRows = manualEntries.map(e =>
+      '<tr><td><i class="fas fa-edit" style="color:var(--yellow)"></i></td><td>' + (e.description || '') + '</td><td class="num">$' + (e.amount || 0).toFixed(2) + '</td><td style="text-transform:capitalize">' + (e.category || '').replace(/_/g, ' ') + '</td><td>' + (e.payerOrPayee || '') + '</td><td style="font-size:.72rem;color:var(--yellow)">Manual</td></tr>'
+    ).join('');
+    reimbDiv.innerHTML = '<table class="t" style="font-size:.8rem"><thead><tr><th style="width:30px"></th><th>Description</th><th style="text-align:right">Amount</th><th>Category</th><th>Paid To</th><th>Source</th></tr></thead><tbody>' + rows + manualRows + '</tbody></table>';
+  }
+
+  const reimbTotal = reimbEntries.reduce((s, e) => s + (e.amount || 0), 0) + manualEntries.reduce((s, e) => s + (e.amount || 0), 0);
+  updateTemplateTotals(reimbTotal);
+}
+
+function addTemplateLine() {
+  const idx = _templateManualLines.length;
+  _templateManualLines.push({ description: '', amount: 0, category: 'other_expense', payee: '', notes: '' });
+  const container = document.getElementById('tmpl-manual-lines');
+  const row = document.createElement('div');
+  row.style.cssText = 'display:grid;grid-template-columns:2fr 100px 120px 1fr 30px;gap:6px;margin-bottom:6px;align-items:center';
+  row.id = 'tmpl-line-' + idx;
+  row.innerHTML = '<input type="text" placeholder="Description" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].description=this.value;updateTemplateTotals()">' +
+    '<input type="number" step="0.01" min="0" placeholder="$0.00" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem;text-align:right" onchange="_templateManualLines[' + idx + '].amount=parseFloat(this.value)||0;updateTemplateTotals()">' +
+    '<select style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 6px;border-radius:4px;font-size:.78rem" onchange="_templateManualLines[' + idx + '].category=this.value"><option value="venue">Venue</option><option value="catering">Catering</option><option value="decoration">Decoration</option><option value="photography">Photography</option><option value="sound_music">Sound/Music</option><option value="other_expense" selected>Other</option></select>' +
+    '<input type="text" placeholder="Paid to" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].payee=this.value">' +
+    '<button onclick="removeTemplateLine(' + idx + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.85rem" title="Remove"><i class="fas fa-trash-alt"></i></button>';
+  container.appendChild(row);
+}
+
+function removeTemplateLine(idx) {
+  _templateManualLines.splice(idx, 1);
+  // Re-render all manual lines
+  const container = document.getElementById('tmpl-manual-lines');
+  container.innerHTML = '';
+  _templateManualLines.forEach((_, i) => { addTemplateLineUI(i); });
+  updateTemplateTotals();
+}
+
+function addTemplateLineUI(idx) {
+  const ml = _templateManualLines[idx];
+  const container = document.getElementById('tmpl-manual-lines');
+  const row = document.createElement('div');
+  row.style.cssText = 'display:grid;grid-template-columns:2fr 100px 120px 1fr 30px;gap:6px;margin-bottom:6px;align-items:center';
+  row.id = 'tmpl-line-' + idx;
+  row.innerHTML = '<input type="text" value="' + (ml.description || '') + '" placeholder="Description" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].description=this.value;updateTemplateTotals()">' +
+    '<input type="number" step="0.01" min="0" value="' + (ml.amount || '') + '" placeholder="$0.00" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem;text-align:right" onchange="_templateManualLines[' + idx + '].amount=parseFloat(this.value)||0;updateTemplateTotals()">' +
+    '<select style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 6px;border-radius:4px;font-size:.78rem" onchange="_templateManualLines[' + idx + '].category=this.value"><option value="venue"' + (ml.category === 'venue' ? ' selected' : '') + '>Venue</option><option value="catering"' + (ml.category === 'catering' ? ' selected' : '') + '>Catering</option><option value="decoration"' + (ml.category === 'decoration' ? ' selected' : '') + '>Decoration</option><option value="photography"' + (ml.category === 'photography' ? ' selected' : '') + '>Photography</option><option value="sound_music"' + (ml.category === 'sound_music' ? ' selected' : '') + '>Sound/Music</option><option value="other_expense"' + (ml.category === 'other_expense' ? ' selected' : '') + '>Other</option></select>' +
+    '<input type="text" value="' + (ml.payee || '') + '" placeholder="Paid to" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].payee=this.value">' +
+    '<button onclick="removeTemplateLine(' + idx + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.85rem" title="Remove"><i class="fas fa-trash-alt"></i></button>';
+  container.appendChild(row);
+}
+
+function updateTemplateTotals(reimbTotal) {
+  if (reimbTotal !== undefined) window._tmplReimbTotal = reimbTotal;
+  const rt = window._tmplReimbTotal || 0;
+  const mt = _templateManualLines.reduce((s, l) => s + (l.amount || 0), 0);
+  document.getElementById('tmpl-reimb-total').textContent = '$' + rt.toFixed(2);
+  document.getElementById('tmpl-manual-total').textContent = '$' + mt.toFixed(2);
+  document.getElementById('tmpl-grand-total').textContent = '$' + (rt + mt).toFixed(2);
+}
+
+async function saveExpenseTemplate() {
+  const eventId = document.getElementById('tmpl-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+  const manualLines = _templateManualLines.filter(l => l.description && l.amount > 0);
+
+  if (manualLines.length === 0) {
+    const el = document.getElementById('tmpl-status-msg');
+    el.style.display = 'block'; el.style.color = 'var(--yellow)';
+    el.textContent = 'No additional items to save. Existing reimbursement entries are already recorded.';
+    return;
+  }
+
+  // Confirm: additional items without reimbursement will be flagged
+  if (!confirm('You are adding ' + manualLines.length + ' additional expense item(s) for "' + eventName + '". These items do not have linked reimbursements and will be flagged for review.\n\nProceed?')) return;
+
+  let added = 0;
+  for (const line of manualLines) {
+    const res = await apiCall('event_expense_add', {
+      email: CURRENT_ADMIN.email,
+      eventId: eventId, eventName: eventName,
+      category: line.category || 'other_expense',
+      amount: line.amount,
+      description: line.description,
+      payerOrPayee: line.payee,
+      entryDate: new Date().toISOString().split('T')[0],
+      reference: 'Template: needs reimbursement'
+    });
+    if (res.success) added++;
+  }
+
+  const el = document.getElementById('tmpl-status-msg');
+  el.style.display = 'block'; el.style.color = 'var(--green)';
+  el.innerHTML = '<i class="fas fa-check-circle me-1"></i>Saved ' + added + ' expense entries. Items without reimbursement are flagged for submission.';
+  addLog('EXPENSE', 'Template: saved ' + added + ' entries for ' + eventName);
+  setTimeout(() => { closeExpenseTemplateModal(); loadEventExpenses(); }, 2000);
+}
+
+async function submitExpenseForApproval() {
+  const eventId = document.getElementById('tmpl-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+
+  // Check if there are unmatched manual lines that still need saving
+  const unsaved = _templateManualLines.filter(l => l.description && l.amount > 0);
+  if (unsaved.length > 0) {
+    if (!confirm('There are ' + unsaved.length + ' unsaved additional item(s). Save them before submitting for approval?')) return;
+    await saveExpenseTemplate();
+  }
+
+  closeExpenseTemplateModal();
+  approveEventExpense(eventId, eventName);
 }
 
 // --- Populate year selectors & auto-load on panel visit ---
