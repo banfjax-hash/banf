@@ -7828,6 +7828,297 @@ export async function get_ledger_summary(request) {
 export function options_ledger_summary(request) { return handleCors(); }
 
 // ╔══════════════════════════════════════════════════════════════╗
+// ║  Ledger Portal API (admin-portal frontend)                    ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+// GET /_functions/ledger — Portal-facing ledger query (type=income|expense, year, category, limit)
+export async function get_ledger(request) {
+    try {
+        const qp = request.query || {};
+        const year = parseInt(qp.year) || new Date().getFullYear();
+        const type = qp.type;        // 'income' | 'expense'
+        const category = qp.category;
+        const limit = Math.min(parseInt(qp.limit) || 500, 1000);
+
+        let query = wixData.query('FinancialLedger').descending('entryDate');
+
+        // Year filter
+        const yearStart = new Date(year + '-01-01T00:00:00');
+        const yearEnd = new Date(year + '-12-31T23:59:59');
+        query = query.ge('entryDate', yearStart).le('entryDate', yearEnd);
+
+        // Map type to direction
+        if (type === 'income') query = query.eq('direction', 'credit');
+        else if (type === 'expense') query = query.eq('direction', 'debit');
+
+        if (category) query = query.eq('category', category);
+
+        const result = await query.limit(limit).find(SA);
+        const entries = result.items.map(i => ({
+            id: i._id,
+            entryDate: i.entryDate,
+            type: i.direction === 'credit' ? 'income' : 'expense',
+            category: i.category || '',
+            description: i.description || '',
+            amount: i.amount || 0,
+            eventName: i.eventName || '',
+            eventId: i.eventId || '',
+            payerOrPayee: i.payerOrPayee || '',
+            paymentMethod: i.paymentMethod || '',
+            reference: i.reference || '',
+            source: i.source || '',
+            reconciled: i.reconciled || false,
+            notes: i.notes || ''
+        }));
+
+        const totalIncome = entries.filter(e => e.type === 'income').reduce((s, e) => s + (e.amount || 0), 0);
+        const totalExpense = entries.filter(e => e.type === 'expense').reduce((s, e) => s + (e.amount || 0), 0);
+
+        return jsonResponse({
+            success: true,
+            count: entries.length,
+            totalIncome: Math.round(totalIncome * 100) / 100,
+            totalExpense: Math.round(totalExpense * 100) / 100,
+            netBalance: Math.round((totalIncome - totalExpense) * 100) / 100,
+            entries
+        });
+    } catch (e) {
+        return errorResponse('Failed to load ledger: ' + e.message);
+    }
+}
+export function options_ledger(request) { return handleCors(); }
+
+// GET /_functions/ledger_years — Return distinct years with ledger data
+export async function get_ledger_years(request) {
+    try {
+        const result = await wixData.query('FinancialLedger').ascending('entryDate').limit(1).find(SA);
+        const result2 = await wixData.query('FinancialLedger').descending('entryDate').limit(1).find(SA);
+        const years = [];
+        if (result.items.length && result2.items.length) {
+            const minYear = new Date(result.items[0].entryDate).getFullYear();
+            const maxYear = new Date(result2.items[0].entryDate).getFullYear();
+            for (let y = minYear; y <= maxYear; y++) years.push(y);
+        }
+        if (!years.length) years.push(new Date().getFullYear());
+        return jsonResponse({ success: true, years });
+    } catch (e) {
+        return jsonResponse({ success: true, years: [new Date().getFullYear()] });
+    }
+}
+export function options_ledger_years(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
+// ║  Event Expense Report API                                     ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+// GET /_functions/event_expenses — Event expense data with approval status
+export async function get_event_expenses(request) {
+    try {
+        const qp = request.query || {};
+        const year = parseInt(qp.year) || new Date().getFullYear();
+        const eventId = qp.eventId;
+
+        // Fetch expense ledger entries for the year
+        let query = wixData.query('FinancialLedger')
+            .eq('direction', 'debit')
+            .ge('entryDate', new Date(year + '-01-01T00:00:00'))
+            .le('entryDate', new Date(year + '-12-31T23:59:59'))
+            .descending('entryDate');
+        if (eventId) query = query.eq('eventId', eventId);
+        const result = await query.limit(1000).find(SA);
+
+        // Fetch event approval records
+        let approvals = {};
+        try {
+            const apRes = await wixData.query('EventExpenseApprovals')
+                .eq('year', year)
+                .find(SA);
+            apRes.items.forEach(a => { approvals[a.eventId] = a; });
+        } catch (e) { /* collection may not exist yet */ }
+
+        // Group by event
+        const events = {};
+        result.items.forEach(i => {
+            const eid = i.eventId || '_unassigned';
+            const ename = i.eventName || '(Unassigned)';
+            if (!events[eid]) events[eid] = {
+                eventId: eid, eventName: ename, entries: [], total: 0,
+                approved: !!(approvals[eid] && approvals[eid].approved),
+                approvedBy: approvals[eid] ? approvals[eid].approvedBy : null,
+                approvedAt: approvals[eid] ? approvals[eid].approvedAt : null,
+                locked: !!(approvals[eid] && approvals[eid].approved)
+            };
+            events[eid].entries.push({
+                id: i._id,
+                entryDate: i.entryDate,
+                category: i.category || 'other_expense',
+                description: i.description || '',
+                amount: i.amount || 0,
+                payerOrPayee: i.payerOrPayee || '',
+                source: i.source || 'manual',
+                reference: i.reference || ''
+            });
+            events[eid].total += (i.amount || 0);
+        });
+
+        return jsonResponse({
+            success: true,
+            year,
+            events: Object.values(events),
+            grandTotal: Math.round(Object.values(events).reduce((s, e) => s + e.total, 0) * 100) / 100
+        });
+    } catch (e) {
+        return errorResponse('Failed to load event expenses: ' + e.message);
+    }
+}
+export function options_event_expenses(request) { return handleCors(); }
+
+// POST /_functions/event_expense_add — Add/update expense entry (Treasurer/VP/President)
+export async function post_event_expense_add(request) {
+    try {
+        const body = await request.body.json();
+        if (!body.email) return errorResponse('email required');
+        const emailLc = body.email.toLowerCase().trim();
+
+        // Role check: only Treasurer, VP, President
+        const EXPENSE_ROLES = ['President', 'Vice President', 'Treasurer'];
+        const roleRec = await wixData.query('AdminRoles').eq('email', emailLc).limit(1).find(SA);
+        if (!roleRec.items.length) return errorResponse('Not authorized', 403);
+        const ecTitle = roleRec.items[0].ecTitle || '';
+        if (!EXPENSE_ROLES.some(r => ecTitle.toLowerCase().includes(r.toLowerCase())))
+            return errorResponse('Only Treasurer, VP, or President can add/modify expenses', 403);
+
+        // Check if event is locked (approved)
+        if (body.eventId) {
+            try {
+                const apRec = await wixData.query('EventExpenseApprovals')
+                    .eq('eventId', body.eventId).limit(1).find(SA);
+                if (apRec.items.length && apRec.items[0].approved) {
+                    return errorResponse('This event\'s expenses are approved and locked. Only the President can raise an exception to modify.', 403);
+                }
+            } catch (e) { /* collection may not exist */ }
+        }
+
+        if (body.entryId) {
+            // Update existing entry
+            const existing = await wixData.get('FinancialLedger', body.entryId, SA);
+            if (!existing) return errorResponse('Entry not found');
+            existing.description = body.description || existing.description;
+            existing.amount = body.amount != null ? body.amount : existing.amount;
+            existing.category = body.category || existing.category;
+            existing.eventId = body.eventId || existing.eventId;
+            existing.eventName = body.eventName || existing.eventName;
+            existing.payerOrPayee = body.payerOrPayee || existing.payerOrPayee;
+            existing.notes = (existing.notes || '') + '\n[Modified by ' + ecTitle + ' (' + emailLc + ') at ' + new Date().toISOString() + ']';
+            existing.updatedAt = new Date();
+            await wixData.update('FinancialLedger', existing, SA);
+            return jsonResponse({ success: true, action: 'updated', entryId: body.entryId });
+        } else {
+            // Add new manual expense entry
+            await addLedgerEntry({
+                entryDate: body.entryDate || new Date().toISOString(),
+                entryType: 'expense',
+                category: body.category || 'other_expense',
+                description: body.description || '',
+                amount: body.amount || 0,
+                direction: 'debit',
+                eventId: body.eventId || '',
+                eventName: body.eventName || '',
+                payerOrPayee: body.payerOrPayee || '',
+                paymentMethod: body.paymentMethod || '',
+                reference: body.reference || '',
+                source: 'manual',
+                notes: 'Added by ' + ecTitle + ' (' + emailLc + ') at ' + new Date().toISOString()
+            });
+            return jsonResponse({ success: true, action: 'added' });
+        }
+    } catch (e) {
+        return errorResponse('Failed to add/update expense: ' + e.message);
+    }
+}
+export function options_event_expense_add(request) { return handleCors(); }
+
+// POST /_functions/event_expense_approve — Approve (lock) event expenses
+export async function post_event_expense_approve(request) {
+    try {
+        const body = await request.body.json();
+        if (!body.email || !body.eventId) return errorResponse('email and eventId required');
+        const emailLc = body.email.toLowerCase().trim();
+
+        // Role check: only Treasurer, VP, President can approve
+        const APPROVE_ROLES = ['President', 'Vice President', 'Treasurer'];
+        const roleRec = await wixData.query('AdminRoles').eq('email', emailLc).limit(1).find(SA);
+        if (!roleRec.items.length) return errorResponse('Not authorized', 403);
+        const ecTitle = roleRec.items[0].ecTitle || '';
+        if (!APPROVE_ROLES.some(r => ecTitle.toLowerCase().includes(r.toLowerCase())))
+            return errorResponse('Only Treasurer, VP, or President can approve expenses', 403);
+
+        // Upsert approval record
+        let existingAp;
+        try {
+            const apRes = await wixData.query('EventExpenseApprovals')
+                .eq('eventId', body.eventId).limit(1).find(SA);
+            existingAp = apRes.items.length ? apRes.items[0] : null;
+        } catch (e) { existingAp = null; }
+
+        if (existingAp) {
+            existingAp.approved = true;
+            existingAp.approvedBy = emailLc;
+            existingAp.approverTitle = ecTitle;
+            existingAp.approvedAt = new Date();
+            await wixData.update('EventExpenseApprovals', existingAp, SA);
+        } else {
+            await wixData.insert('EventExpenseApprovals', {
+                eventId: body.eventId,
+                eventName: body.eventName || '',
+                year: parseInt(body.year) || new Date().getFullYear(),
+                approved: true,
+                approvedBy: emailLc,
+                approverTitle: ecTitle,
+                approvedAt: new Date()
+            }, SA);
+        }
+
+        return jsonResponse({ success: true, approved: true, eventId: body.eventId, approvedBy: emailLc });
+    } catch (e) {
+        return errorResponse('Failed to approve: ' + e.message);
+    }
+}
+export function options_event_expense_approve(request) { return handleCors(); }
+
+// POST /_functions/event_expense_exception — President-only: unlock approved expenses
+export async function post_event_expense_exception(request) {
+    try {
+        const body = await request.body.json();
+        if (!body.email || !body.eventId) return errorResponse('email and eventId required');
+        const emailLc = body.email.toLowerCase().trim();
+
+        // President-only check
+        if (emailLc !== 'ranadhir.ghosh@gmail.com') {
+            return errorResponse('Only the President can raise an exception to unlock approved expenses', 403);
+        }
+
+        try {
+            const apRes = await wixData.query('EventExpenseApprovals')
+                .eq('eventId', body.eventId).limit(1).find(SA);
+            if (apRes.items.length) {
+                const rec = apRes.items[0];
+                rec.approved = false;
+                rec.exceptionBy = emailLc;
+                rec.exceptionAt = new Date();
+                rec.exceptionReason = body.reason || 'President exception';
+                await wixData.update('EventExpenseApprovals', rec, SA);
+            }
+        } catch (e) { /* collection may not exist */ }
+
+        return jsonResponse({ success: true, unlocked: true, eventId: body.eventId });
+    } catch (e) {
+        return errorResponse('Failed to unlock: ' + e.message);
+    }
+}
+export function options_event_expense_exception(request) { return handleCors(); }
+
+// ╔══════════════════════════════════════════════════════════════╗
 // ║  WhatsApp Announcement Ingestion v5.11.0                     ║
 // ╚══════════════════════════════════════════════════════════════╝
 // GET  /_functions/whatsapp_webhook           — Meta webhook verification
