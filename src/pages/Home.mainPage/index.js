@@ -1,4 +1,4 @@
-// Home.mainPage.js — redirect to GitHub Pages v2 landing
+// Home.mainPage/index.js — redirect to GitHub Pages v2 landing
 import wixLocation from 'wix-location';
 
 $w.onReady(function () {

@@ -1,10 +1,9 @@
-// API Reference: https://www.wix.com/velo/reference/api-overview/introduction
-// “Hello, World!” Example: https://learn-code.wix.com/en/article/hello-world
+// temp_home_page.ivuyv.js — BANF page (jaxbengali.org)
+// Direct redirect to GitHub Pages v2 landing — no intermediate hops
+import wixLocation from 'wix-location';
 
 $w.onReady(function () {
-    // Write your JavaScript here
-
-    // To select an element by ID use: $w('#elementID')
-
-    // Click 'Preview' to run your code
+    try { $w('#text18').hide(); } catch(_) {}
+    try { $w('#text18').collapse(); } catch(_) {}
+    wixLocation.to('https://banfjax-hash.github.io/banf/v2/');
 });
