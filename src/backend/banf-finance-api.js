@@ -1,7 +1,8 @@
 /**
  * ═══════════════════════════════════════════════════════════════
  *  BANF Finance API — Vendor registry + Financial Ledger + Reconciliation
- *  Collections: Vendors, FinancialEntries, ReconciliationReports
+ *  Collections: Vendors, FinancialLedger, ReconciliationReports
+ *  Single source of truth: FinancialLedger (bank-facing)
  *  Accounting year: January 1 – December 31
  *  Years tracked: 2020, 2021, 2022, 2023, 2024, 2025
  * ═══════════════════════════════════════════════════════════════
@@ -184,15 +185,24 @@ export async function get_ledger(request) {
         const { year, type, category, reconciled, page = '1', limit = '200' } = request.query || {};
         const pg  = Math.max(1, parseInt(page));
         const lim = Math.min(500, parseInt(limit));
-        let q = wixData.query('FinancialEntries').limit(lim).skip((pg - 1) * lim);
-        if (year)       q = q.eq('year', parseInt(year));
-        if (type)       q = q.eq('type', type);
+        let q = wixData.query('FinancialLedger').limit(lim).skip((pg - 1) * lim);
+        if (year) {
+            const y = parseInt(year);
+            q = q.ge('entryDate', new Date(y + '-01-01T00:00:00')).le('entryDate', new Date(y + '-12-31T23:59:59'));
+        }
+        if (type === 'income')  q = q.eq('direction', 'credit');
+        if (type === 'expense') q = q.eq('direction', 'debit');
         if (category)   q = q.eq('category', category);
         if (reconciled === 'true')  q = q.eq('reconciled', true);
         if (reconciled === 'false') q = q.eq('reconciled', false);
         q = q.ascending('entryDate');
         const result = await q.find(SA).catch(() => ({ items: [], totalCount: 0 }));
-        const items = result.items;
+        const items = result.items.map(i => ({
+            ...i,
+            type: i.direction === 'credit' ? 'income' : 'expense',
+            vendorName: i.payerOrPayee || i.vendorName || '',
+            entryId: i.sourceId || i._id
+        }));
 
         // Compute totals
         const income  = items.filter(e => e.type === 'income').reduce((s, e) => s + (e.amount || 0), 0);
@@ -212,9 +222,14 @@ export async function get_ledger_entry(request) {
     try {
         const { entryId } = request.query || {};
         if (!entryId) return jsonErr('entryId required');
-        const res = await wixData.query('FinancialEntries').eq('entryId', entryId).find(SA);
+        // Try sourceId first, then _id
+        let res = await wixData.query('FinancialLedger').eq('sourceId', entryId).find(SA);
+        if (!res.items.length) {
+            try { const item = await wixData.get('FinancialLedger', entryId, SA); res = { items: item ? [item] : [] }; } catch (_) { res = { items: [] }; }
+        }
         if (!res.items.length) return jsonErr('Entry not found', 404);
-        return jsonOk({ entry: res.items[0] });
+        const i = res.items[0];
+        return jsonOk({ entry: { ...i, type: i.direction === 'credit' ? 'income' : 'expense', vendorName: i.payerOrPayee || '', entryId: i.sourceId || i._id } });
     } catch (e) { return jsonErr(e.message, 500); }
 }
 export function options_ledger_entry(request) { return handleCors(); }
@@ -236,32 +251,25 @@ export async function post_ledger_entry_create(request) {
         if (!body.amount)      return jsonErr('amount required');
 
         const entry = {
-            entryId:          nanoid('FE-'),
-            year:             parseInt(body.year),
+            sourceId:         nanoid('FE-'),
             entryDate:        body.entryDate ? new Date(body.entryDate) : new Date(),
-            type:             body.type,
+            direction:        body.type === 'income' ? 'credit' : 'debit',
             category:         body.category || (body.type === 'income' ? 'other_income' : 'other_expense'),
             description:      body.description.trim(),
             amount:           parseFloat(body.amount),
             currency:         'USD',
-            vendorId:         body.vendorId || '',
-            vendorName:       body.vendorName || '',
+            payerOrPayee:     body.vendorName || '',
             paymentMethod:    body.paymentMethod || '',
-            referenceNo:      body.referenceNo || '',
+            reference:        body.referenceNo || '',
             notes:            body.notes || '',
             source:           body.source || 'manual',
             eventName:        body.eventName || '',
+            eventId:          body.eventId || '',
             reconciled:       false,
-            reconciledAt:     null,
-            reconciledBy:     '',
-            evidenceType:     'none',
-            evidenceEmailIds: '',
-            evidenceDriveIds: '',
-            evidenceNotes:    '',
             addedBy:          perm.email,
             addedAt:          new Date()
         };
-        const inserted = await wixData.insert('FinancialEntries', entry, SA);
+        const inserted = await wixData.insert('FinancialLedger', entry, SA);
         return jsonOk({ entry: inserted });
     } catch (e) { return jsonErr(e.message, 500); }
 }
@@ -277,15 +285,23 @@ export async function post_ledger_entry_update(request) {
     try {
         const body = await parseBody(request);
         if (!body.entryId) return jsonErr('entryId required');
-        const res = await wixData.query('FinancialEntries').eq('entryId', body.entryId).find(SA);
+        // Find in FinancialLedger by sourceId or _id
+        let res = await wixData.query('FinancialLedger').eq('sourceId', body.entryId).find(SA);
+        if (!res.items.length) {
+            try { const item = await wixData.get('FinancialLedger', body.entryId, SA); res = { items: item ? [item] : [] }; } catch (_) { res = { items: [] }; }
+        }
         if (!res.items.length) return jsonErr('Entry not found', 404);
         const existing = res.items[0];
-        const allowed = ['entryDate','type','category','description','amount','vendorId','vendorName',
-            'paymentMethod','referenceNo','notes','source','eventName','reconciled',
-            'reconciledAt','reconciledBy','evidenceType','evidenceEmailIds','evidenceDriveIds','evidenceNotes'];
+        const fieldMap = { vendorName: 'payerOrPayee', referenceNo: 'reference', type: null };
+        const allowed = ['entryDate','category','description','amount','payerOrPayee',
+            'paymentMethod','reference','notes','source','eventName','eventId','reconciled'];
         const updates = {};
-        allowed.forEach(f => { if (body[f] !== undefined) updates[f] = body[f]; });
-        const updated = await wixData.update('FinancialEntries',
+        for (const f of Object.keys(body)) {
+            if (f === 'type' && body[f]) { updates.direction = body[f] === 'income' ? 'credit' : 'debit'; continue; }
+            const mapped = fieldMap[f] || f;
+            if (allowed.includes(mapped) && body[f] !== undefined) updates[mapped] = body[f];
+        }
+        const updated = await wixData.update('FinancialLedger',
             { ...existing, ...updates, updatedBy: perm.email, updatedAt: new Date() }, SA);
         return jsonOk({ entry: updated });
     } catch (e) { return jsonErr(e.message, 500); }
@@ -299,16 +315,20 @@ export async function get_ledger_years(request) {
     const perm = await checkPermission(request, 'admin:view');
     if (!perm.allowed) return jsonErr('Forbidden', 403);
     try {
-        const res = await wixData.query('FinancialEntries').limit(1000).find(SA).catch(() => ({ items: [] }));
-        const years = [...new Set(res.items.map(e => e.year))].filter(Boolean).sort();
+        const res = await wixData.query('FinancialLedger').ascending('entryDate').limit(1000).find(SA).catch(() => ({ items: [] }));
+        const yearSet = new Set();
+        for (const item of res.items) {
+            if (item.entryDate) yearSet.add(new Date(item.entryDate).getFullYear());
+        }
+        const years = [...yearSet].sort();
         const summary = {};
         for (const y of years) {
-            const yItems = res.items.filter(e => e.year === y);
-            const inc = yItems.filter(e => e.type === 'income').reduce((s, e) => s + (e.amount || 0), 0);
-            const exp = yItems.filter(e => e.type === 'expense').reduce((s, e) => s + (e.amount || 0), 0);
+            const yItems = res.items.filter(i => i.entryDate && new Date(i.entryDate).getFullYear() === y);
+            const inc = yItems.filter(i => i.direction === 'credit').reduce((s, e) => s + (e.amount || 0), 0);
+            const exp = yItems.filter(i => i.direction === 'debit').reduce((s, e) => s + (e.amount || 0), 0);
             summary[y] = { year: y, income: inc, expense: exp, net: inc - exp,
                 entries: yItems.length,
-                reconciled: yItems.filter(e => e.reconciled).length };
+                reconciled: yItems.filter(i => i.reconciled).length };
         }
         return jsonOk({ years, summary });
     } catch (e) { return jsonErr(e.message, 500); }
@@ -405,9 +425,11 @@ export async function post_reconcile(request) {
         if (!year || year < 2018 || year > 2030) return jsonErr('Invalid year');
         const forceRerun = !!body.forceRerun;
 
-        const res = await wixData.query('FinancialEntries')
-            .eq('year', year).limit(500).find(SA).catch(() => ({ items: [] }));
-        const entries = res.items;
+        const res = await wixData.query('FinancialLedger')
+            .ge('entryDate', new Date(year + '-01-01T00:00:00'))
+            .le('entryDate', new Date(year + '-12-31T23:59:59'))
+            .limit(500).find(SA).catch(() => ({ items: [] }));
+        const entries = res.items.map(i => ({ ...i, type: i.direction === 'credit' ? 'income' : 'expense', vendorName: i.payerOrPayee || '' }));
         if (!entries.length) return jsonOk({ year, message: 'No entries found for this year', stats: { total: 0 } });
 
         const stats = { total: entries.length, newlyReconciled: 0, alreadyReconciled: 0,
@@ -440,7 +462,7 @@ export async function post_reconcile(request) {
                 reconciledAt: reconciled ? new Date() : null,
                 reconciledBy: reconciled ? 'auto:reconcile-engine' : ''
             };
-            await wixData.update('FinancialEntries', updateData, SA).catch(() => {});
+            await wixData.update('FinancialLedger', updateData, SA).catch(() => {});
 
             if (reconciled) stats.newlyReconciled++;
             else stats.unmatched++;
@@ -499,11 +521,17 @@ export async function get_reconciliation_report(request) {
 
         const [reportRes, entriesRes] = await Promise.all([
             wixData.query('ReconciliationReports').eq('year', y).find(SA).catch(() => ({ items: [] })),
-            wixData.query('FinancialEntries').eq('year', y).ascending('entryDate').limit(500).find(SA).catch(() => ({ items: [] }))
+            wixData.query('FinancialLedger')
+                .ge('entryDate', new Date(y + '-01-01T00:00:00'))
+                .le('entryDate', new Date(y + '-12-31T23:59:59'))
+                .ascending('entryDate').limit(500).find(SA).catch(() => ({ items: [] }))
         ]);
 
         const report  = reportRes.items[0] || null;
-        const entries = entriesRes.items;
+        const entries = entriesRes.items.map(i => ({
+            ...i, type: i.direction === 'credit' ? 'income' : 'expense',
+            vendorName: i.payerOrPayee || '', entryId: i.sourceId || i._id
+        }));
 
         // Build structured ledger output
         const income  = entries.filter(e => e.type === 'income');
@@ -561,13 +589,14 @@ export async function get_reconciliation_summary(request) {
             .ascending('year').limit(20).find(SA).catch(() => ({ items: [] }));
 
         // Also compute from live entries for years without a report
-        const allEntries = await wixData.query('FinancialEntries')
+        const allEntries = await wixData.query('FinancialLedger')
             .limit(1000).find(SA).catch(() => ({ items: [] }));
-        const years = [...new Set(allEntries.items.map(e => e.year))].filter(Boolean).sort();
+        const years = [...new Set(allEntries.items.filter(i => i.entryDate).map(i => new Date(i.entryDate).getFullYear()))].sort();
 
         const yearSummaries = years.map(y => {
             const stored = reports.items.find(r => r.year === y);
-            const yEntries = allEntries.items.filter(e => e.year === y);
+            const yEntries = allEntries.items.filter(i => i.entryDate && new Date(i.entryDate).getFullYear() === y)
+                .map(i => ({ ...i, type: i.direction === 'credit' ? 'income' : 'expense' }));
             const income  = yEntries.filter(e => e.type === 'income').reduce((s, e) => s + (e.amount || 0), 0);
             const expense = yEntries.filter(e => e.type === 'expense').reduce((s, e) => s + (e.amount || 0), 0);
             const reconciled = yEntries.filter(e => e.reconciled).length;
@@ -598,7 +627,7 @@ export async function get_reconciliation_summary(request) {
 export function options_reconciliation_summary(request) { return handleCors(); }
 
 /**
- * POST /finance_setup — Create FinancialEntries + ReconciliationReports collections,
+ * POST /finance_setup — Create FinancialLedger + ReconciliationReports collections,
  *                       then immediately seed all historical data.
  * Tries multiple creation strategies in order.
  */
@@ -606,7 +635,7 @@ export async function post_finance_setup(request) {
     const perm = await checkPermission(request, 'admin:manage_payments');
     if (!perm.allowed) return jsonErr('Forbidden', 403);
 
-    const FINANCE_COLLECTIONS = ['FinancialEntries', 'ReconciliationReports'];
+    const FINANCE_COLLECTIONS = ['FinancialLedger', 'ReconciliationReports'];
     const colStatus = {};
 
     for (const col of FINANCE_COLLECTIONS) {
@@ -734,7 +763,7 @@ export function options_finance_setup(request) { return handleCors(); }
  * Body: { year? } — if year omitted, seeds all years 2020–2025
  */
 async function ensureFinanceCollections() {
-    const cols = ['FinancialEntries', 'ReconciliationReports', 'Vendors'];
+    const cols = ['FinancialLedger', 'ReconciliationReports', 'Vendors'];
     const results = {};
     for (const col of cols) {
         // 1. Already exists?
@@ -792,9 +821,9 @@ export async function get_collection_probe(request) {
     const variants = [
         // Known-working sanity check
         'CRMMembers', 'Vendors', 'Payments',
-        // FinancialEntries variants
-        'FinancialEntries', 'Financial_Entries', 'financial-entries', 'financialentries',
-        'FinancialEntry', 'financial_entries', 'Financialentries', 'Financial-Entries',
+        // FinancialLedger variants
+        'FinancialLedger', 'Financial_Ledger', 'financial-ledger', 'financialledger',
+        'FinancialEntry', 'financial_ledger', 'Financialledger', 'Financial-Ledger',
         // ReconciliationReports variants
         'ReconciliationReports', 'Reconciliation_Reports', 'reconciliation-reports',
         'reconciliationreports', 'ReconciliationReport', 'reconciliation_reports',
@@ -1007,8 +1036,8 @@ export async function post_ledger_seed(request) {
         }
 
         // Seed financial entries: one query for all existing referenceNos, then bulkInsert per year
-        const existingEntries = await wixData.query('FinancialEntries').limit(1000).find(SA).catch(() => ({ items: [] }));
-        const existingRefs = new Set(existingEntries.items.map(e => e.referenceNo));
+        const existingEntries = await wixData.query('FinancialLedger').limit(1000).find(SA).catch(() => ({ items: [] }));
+        const existingRefs = new Set(existingEntries.items.map(e => e.reference || e.referenceNo));
 
         for (const year of yearsToSeed) {
             const yearData = HISTORICAL_DATA[year];
@@ -1022,26 +1051,21 @@ export async function post_ledger_seed(request) {
             const toInsert = allRows
                 .filter(row => !existingRefs.has(row.referenceNo))
                 .map(row => ({
-                    entryId:          nanoid('FE-'),
-                    year,
+                    sourceId:         nanoid('FE-'),
                     entryDate:        new Date(row.date),
-                    type:             row.type,
+                    direction:        row.type === 'income' ? 'credit' : 'debit',
                     category:         row.category,
                     description:      row.description,
                     amount:           row.amount,
                     currency:         'USD',
-                    vendorId:         '',
-                    vendorName:       row.vendorName || '',
+                    payerOrPayee:     row.vendorName || '',
                     paymentMethod:    row.paymentMethod || '',
-                    referenceNo:      row.referenceNo || '',
+                    reference:        row.referenceNo || '',
                     notes:            row.notes || '',
                     source:           'historical_seed',
                     eventName:        row.event || '',
+                    eventId:          '',
                     reconciled:       false,
-                    evidenceType:     'none',
-                    evidenceEmailIds: '',
-                    evidenceDriveIds: '',
-                    evidenceNotes:    '',
                     addedBy:          'seed',
                     addedAt:          new Date()
                 }));
@@ -1049,7 +1073,7 @@ export async function post_ledger_seed(request) {
             stats.skipped += (allRows.length - toInsert.length);
 
             if (toInsert.length) {
-                const br = await wixData.bulkInsert('FinancialEntries', toInsert, SA)
+                const br = await wixData.bulkInsert('FinancialLedger', toInsert, SA)
                     .catch(e => { stats.errors.push(`year ${year}: ${e.message}`); return null; });
                 const inserted = br ? (br.insertedItemIds || toInsert).length : 0;
                 stats.entries += inserted;
@@ -1069,13 +1093,13 @@ export async function post_reconcile_all(request) {
     const perm = await checkPermission(request, 'admin:manage_payments');
     if (!perm.allowed) return jsonErr('Forbidden', 403);
     try {
-        const res = await wixData.query('FinancialEntries').limit(1000).find(SA).catch(() => ({ items: [] }));
-        const years = [...new Set(res.items.map(e => e.year))].filter(Boolean).sort();
+        const res = await wixData.query('FinancialLedger').limit(1000).find(SA).catch(() => ({ items: [] }));
+        const years = [...new Set(res.items.filter(i => i.entryDate).map(i => new Date(i.entryDate).getFullYear()))].sort();
         const results = {};
         for (const year of years) {
             const body = await parseBody(request).catch(() => ({}));
             // Inline reconcile for each year
-            const yEntries = res.items.filter(e => e.year === year);
+            const yEntries = res.items.filter(i => i.entryDate && new Date(i.entryDate).getFullYear() === year);
             let reconciled = 0, unmatched = 0;
             for (const entry of yEntries) {
                 if (entry.reconciled) { reconciled++; continue; }
@@ -1083,7 +1107,7 @@ export async function post_reconcile_all(request) {
                 const dr = await findDriveEvidence(entry, year);
                 const evidenceType = em.length && dr.length ? 'both' : em.length ? 'email' : dr.length ? 'drive' : 'none';
                 if (evidenceType !== 'none') {
-                    await wixData.update('FinancialEntries', {
+                    await wixData.update('FinancialLedger', {
                         ...entry, reconciled: true, evidenceType,
                         evidenceEmailIds: em.map(m => m.id).join(','),
                         evidenceDriveIds: dr.map(m => m.id).join(','),

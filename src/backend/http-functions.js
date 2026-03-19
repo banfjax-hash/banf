@@ -7779,6 +7779,87 @@ export async function post_ledger_add(request) {
 }
 export function options_ledger_add(request) { return handleCors(); }
 
+// POST /_functions/ledger_update — Update existing ledger entries by ID, sourceId, or description+amount
+// Single source of truth: FinancialLedger
+export async function post_ledger_update(request) {
+    try {
+        const body = await request.body.json();
+        if (body.adminKey !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const updates = body.updates || [body]; // Support batch or single
+        let updated = 0;
+        const results = [];
+        for (const upd of updates) {
+            let flItem = null;
+            if (upd.id) {
+                try { flItem = await wixData.get('FinancialLedger', upd.id, SA); } catch (_) {}
+            }
+            if (!flItem && upd.sourceId) {
+                const q = await wixData.query('FinancialLedger').eq('sourceId', upd.sourceId).find(SA);
+                if (q.items.length > 0) flItem = q.items[0];
+            }
+            if (!flItem && upd.description && upd.amount) {
+                const q = await wixData.query('FinancialLedger')
+                    .contains('description', upd.description.substring(0, 30))
+                    .eq('amount', upd.amount)
+                    .find(SA);
+                if (q.items.length === 1) flItem = q.items[0];
+            }
+            if (flItem) {
+                const flFields = ['category', 'eventId', 'eventName', 'notes', 'description', 'payerOrPayee', 'reconciled'];
+                for (const f of flFields) {
+                    if (upd[f] !== undefined && upd[f] !== '') flItem[f] = upd[f];
+                }
+                flItem.updatedAt = new Date();
+                await wixData.update('FinancialLedger', flItem, SA);
+                updated++;
+                results.push({ status: 'updated', description: upd.description || '' });
+            } else {
+                results.push({ status: 'not_found', description: upd.description || upd.sourceId || upd.id });
+            }
+        }
+
+        return jsonResponse({ success: true, updated, results });
+    } catch (e) {
+        return errorResponse('Failed to update ledger entries: ' + e.message);
+    }
+}
+export function options_ledger_update(request) { return handleCors(); }
+
+// GET /_functions/ledger_unenriched — Get expense entries with empty eventName 
+// Single source of truth: FinancialLedger
+export async function get_ledger_unenriched(request) {
+    try {
+        const qp = request.query || {};
+        const key = qp.key || (request.headers && request.headers['x-admin-key']);
+        if (key !== 'banf-bosonto-2026-live') return errorResponse('Unauthorized', 403);
+
+        const flResult = await wixData.query('FinancialLedger')
+            .eq('direction', 'debit')
+            .eq('eventName', '')
+            .limit(100).find(SA).catch(() => ({ items: [] }));
+
+        const entries = flResult.items.map(item => ({
+            collection: 'FinancialLedger',
+            id: item._id,
+            sourceId: item.sourceId || '',
+            description: item.description || '',
+            amount: item.amount || 0,
+            category: item.category || '',
+            eventId: item.eventId || '',
+            eventName: item.eventName || '',
+            payerOrPayee: item.payerOrPayee || '',
+            entryDate: item.entryDate,
+            notes: item.notes || ''
+        }));
+
+        return jsonResponse({ success: true, count: entries.length, entries });
+    } catch (e) {
+        return errorResponse('Failed to fetch unenriched entries: ' + e.message);
+    }
+}
+export function options_ledger_unenriched(request) { return handleCors(); }
+
 // POST /_functions/ledger_delete — Delete ledger entries by filter
 export async function post_ledger_delete(request) {
     try {
