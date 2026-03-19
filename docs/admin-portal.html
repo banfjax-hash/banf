@@ -2547,13 +2547,46 @@ function renderEventIncomeMapping(e) {
 
 // ── Debit Card ──
 function renderDebitCardMapping(e) {
-  return _ldSection('Debit Card Transaction', 'credit-card',
-    _ldRow([
-      ['Merchant', e.payerOrPayee || e.description || '-'],
-      ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
-      ['Bank Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
-      ['Source', (e.source || '').replace(/_/g, ' ')]
-    ]));
+  let html = _ldRow([
+    ['Merchant', e.payerOrPayee || e.description || '-'],
+    ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+    ['Bank Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+    ['Source', (e.source || '').replace(/_/g, ' ')]
+  ]);
+
+  // Parse ExpenseIQ intelligence from notes
+  const notes = e.notes || '';
+  const iqMatch = notes.match(/\[ExpenseIQ\]\s*(.+?)(?:\s*\(confidence:\s*(\w+)\))?$/);
+  if (iqMatch) {
+    const iqDetails = iqMatch[1].split(' | ').filter(Boolean);
+    const confidence = iqMatch[2] || '';
+    const confColor = confidence === 'high' ? '#16a34a' : confidence === 'medium' ? '#d97706' : '#dc2626';
+    const confLabel = confidence ? `<span style="display:inline-block;padding:1px 8px;border-radius:10px;font-size:.68rem;font-weight:600;color:#fff;background:${confColor}">${confidence.toUpperCase()}</span>` : '';
+
+    let iqRows = [];
+    for (const detail of iqDetails) {
+      if (detail.startsWith('Documents:')) {
+        const docs = detail.replace('Documents: ', '').split(', ');
+        iqRows.push(['Linked Documents', docs.map(d => '<code style="font-size:.72rem;background:var(--surface);padding:1px 6px;border-radius:4px;margin:0 2px">' + d.replace(/</g,'&lt;') + '</code>').join('<br>')]);
+      } else if (detail.startsWith('Hypothesis:')) {
+        iqRows.push(['Hypothesis', detail.replace('Hypothesis: ', '')]);
+      } else if (detail.includes('via document correlation')) {
+        iqRows.push(['Verification', '<span style="color:#16a34a"><i class="fas fa-check-circle me-1"></i>' + detail + '</span>']);
+      } else {
+        iqRows.push(['Analysis', detail]);
+      }
+    }
+    if (confidence) iqRows.push(['Confidence', confLabel]);
+    if (e.eventName) iqRows.push(['Linked Event', '<strong>' + (e.eventName || '') + '</strong>']);
+
+    html += _ldSection('AI Expense Intelligence', 'brain',
+      '<div style="font-size:.72rem;color:var(--accent);margin-bottom:6px"><i class="fas fa-robot me-1"></i>Automatically analyzed by ExpenseIQ engine</div>' +
+      _ldRow(iqRows));
+  } else if (e.eventName) {
+    html += _ldRow([['Linked Event', '<strong>' + e.eventName + '</strong>']]);
+  }
+
+  return _ldSection('Debit Card Transaction', 'credit-card', html);
 }
 
 // ── Generic ──

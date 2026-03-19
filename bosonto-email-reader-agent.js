@@ -1259,6 +1259,287 @@ async function scanDevInstructEmails(state, token) {
 const LEDGER_API = 'https://www.jaxbengali.org/_functions';
 const LEDGER_ADMIN_KEY = 'banf-bosonto-2026-live';
 
+// ── Smart Expense Intelligence Engine ─────────────────────────────────────
+// Analyzes card purchases to identify service type, link to documents/events,
+// and enrich ledger entries with context instead of generic "debit_card".
+
+const BANF_EVENTS_CALENDAR = [
+  { id: 'bosonto-utsob-2026', name: 'Bosonto Utsob', date: '2026-03-07', type: 'Cultural' },
+  { id: 'noboborsho-2026', name: 'Noboborsho', date: '2026-04-25', type: 'Cultural' },
+  { id: 'kids-summer-sports-2026', name: 'Kids Summer Sports Training', date: '2026-06-01', type: 'Educational' },
+  { id: 'sports-day-2026', name: 'Sports Day', date: '2026-07-01', type: 'Social' },
+  { id: 'spondon-2026', name: 'Spondon', date: '2026-08-01', type: 'Cultural' },
+  { id: 'mahalaya-2026', name: 'Mahalaya', date: '2026-10-17', type: 'Religious' },
+  { id: 'durga-puja-2026', name: 'Durga Puja Day 1 & 2 + Lunch', date: '2026-10-24', type: 'Religious' },
+  { id: 'lakshmi-puja-2026', name: 'Lakshmi Puja', date: '2026-10-25', type: 'Religious' },
+  { id: 'kali-puja-2026', name: 'Kali Puja + Lunch', date: '2026-11-07', type: 'Religious' },
+  { id: 'winter-picnic-2027', name: 'Winter Picnic', date: '2027-01-11', type: 'Social' },
+  { id: 'saraswati-puja-2027', name: 'Saraswati Puja', date: '2027-02-27', type: 'Religious' },
+];
+
+// Merchant knowledge base: maps merchant name patterns to service types and
+// what kind of documents/purposes they relate to in a nonprofit event context.
+const MERCHANT_INTELLIGENCE = [
+  {
+    pattern: /notarize|proof\.com/i,
+    service: 'notary',
+    category: 'admin',
+    documentHint: 'notarized document',
+    folderPatterns: ['SJCSD', 'Facility', 'Request', 'notari'],
+    purposeKeywords: ['venue', 'facility', 'booking', 'permit'],
+    description: 'Online notarization service — likely notarizing venue/facility booking forms',
+  },
+  {
+    pattern: /eventsured|event\s*insur/i,
+    service: 'event_insurance',
+    category: 'insurance',
+    documentHint: 'event insurance policy/certificate',
+    folderPatterns: ['insurance', 'policy', 'certificate', 'liability'],
+    purposeKeywords: ['liability', 'insurance', 'coverage', 'event'],
+    description: 'Event liability insurance — coverage required by venue for event hosting',
+  },
+  {
+    pattern: /facilitron/i,
+    service: 'venue_booking',
+    category: 'venue',
+    documentHint: 'venue booking confirmation',
+    folderPatterns: ['facilitron', 'venue', 'booking'],
+    purposeKeywords: ['venue', 'hall', 'rental', 'booking'],
+    description: 'Facilitron venue booking/rental platform',
+  },
+  {
+    pattern: /publix|walmart|costco|aldi|winn.?dixie|sam.?s\s*club|apna\s*bazar/i,
+    service: 'grocery',
+    category: 'food_grocery',
+    documentHint: null,
+    folderPatterns: [],
+    purposeKeywords: ['food', 'grocery', 'catering', 'supplies'],
+    description: 'Grocery/food purchase for event catering or supplies',
+  },
+  {
+    pattern: /ups\s*store|fedex|usps|staples|office\s*depot/i,
+    service: 'printing_shipping',
+    category: 'printing',
+    documentHint: 'flyer/banner/mailing',
+    folderPatterns: ['flyer', 'banner', 'print', 'poster'],
+    purposeKeywords: ['print', 'shipping', 'mailing', 'banner'],
+    description: 'Printing, copying, or shipping services',
+  },
+  {
+    pattern: /party\s*city|dollar\s*tree|hobby\s*lobby|michaels/i,
+    service: 'supplies',
+    category: 'supplies',
+    documentHint: null,
+    folderPatterns: [],
+    purposeKeywords: ['decoration', 'supplies', 'party'],
+    description: 'Party/event supplies and decorations',
+  },
+  {
+    pattern: /canva|vistaprint|shutterfly/i,
+    service: 'design_print',
+    category: 'printing',
+    documentHint: 'design/print materials',
+    folderPatterns: ['design', 'flyer', 'evite', 'poster'],
+    purposeKeywords: ['design', 'flyer', 'invite', 'poster'],
+    description: 'Design and print services for event materials',
+  },
+  {
+    pattern: /amazon|amzn/i,
+    service: 'online_purchase',
+    category: 'supplies',
+    documentHint: null,
+    folderPatterns: [],
+    purposeKeywords: ['supplies', 'equipment'],
+    description: 'General online purchase — likely supplies or equipment',
+  },
+];
+
+/**
+ * Smart Expense Intelligence: enriches a card purchase transaction with
+ * merchant analysis, document correlation, and event linkage.
+ *
+ * @param {Object} txn - Transaction with { description, amount, date, payerOrPayee }
+ * @returns {Object} enrichment - { category, eventId, eventName, notes, confidence, linkedDocuments }
+ */
+function analyzeCardPurchase(txn) {
+  const merchant = (txn.payerOrPayee || txn.description || '').trim();
+  const purchaseDate = txn.date || new Date().toISOString().slice(0, 10);
+  const enrichment = {
+    category: 'debit_card',
+    eventId: '',
+    eventName: '',
+    notes: '',
+    confidence: 'low',
+    linkedDocuments: [],
+  };
+
+  // ── Step 1: Merchant identification ──
+  const matched = MERCHANT_INTELLIGENCE.find(m => m.pattern.test(merchant));
+  if (matched) {
+    enrichment.category = matched.category;
+    enrichment.notes = matched.description;
+    log('INFO', `  [ExpenseIQ] Merchant "${merchant}" → ${matched.service} (${matched.category})`);
+
+    // ── Step 2: Document/folder scanning ──
+    if (matched.folderPatterns.length > 0) {
+      try {
+        const fs = require('fs');
+        const path = require('path');
+        const baseDir = process.cwd();
+        const entries = fs.readdirSync(baseDir, { withFileTypes: true });
+        for (const entry of entries) {
+          const name = entry.name.toLowerCase();
+          const matchesFolder = matched.folderPatterns.some(fp => name.includes(fp.toLowerCase()));
+          if (matchesFolder) {
+            if (entry.isDirectory()) {
+              // Scan inside the directory for relevant documents
+              const subFiles = fs.readdirSync(path.join(baseDir, entry.name));
+              for (const sf of subFiles) {
+                enrichment.linkedDocuments.push({
+                  folder: entry.name,
+                  file: sf,
+                  path: path.join(entry.name, sf),
+                });
+              }
+              log('INFO', `  [ExpenseIQ] Found related folder: ${entry.name}/ (${subFiles.length} files)`);
+            } else if (entry.isFile()) {
+              enrichment.linkedDocuments.push({ folder: '.', file: entry.name, path: entry.name });
+              log('INFO', `  [ExpenseIQ] Found related file: ${entry.name}`);
+            }
+          }
+        }
+      } catch (e) {
+        log('WARN', `  [ExpenseIQ] Folder scan error: ${e.message}`);
+      }
+    }
+
+    // ── Step 3: Extract event clues from linked documents ──
+    let docEventClue = '';
+    if (enrichment.linkedDocuments.length > 0) {
+      // Check folder/file names for event keywords
+      for (const doc of enrichment.linkedDocuments) {
+        const docName = (doc.folder + ' ' + doc.file).toLowerCase();
+        for (const ev of BANF_EVENTS_CALENDAR) {
+          const evKeywords = ev.name.toLowerCase().split(/[\s\-–]+/);
+          if (evKeywords.some(kw => kw.length > 3 && docName.includes(kw))) {
+            docEventClue = ev.id;
+            break;
+          }
+        }
+        // Also check for venue-related patterns that imply specific events
+        if (!docEventClue && /facility.?use.?request|venue.?booking|mill\s*creek/i.test(docName)) {
+          // Venue booking docs → find the event this venue is booked for
+          // Read script files that reference this document for event details
+          try {
+            const fs = require('fs');
+            const baseDir = process.cwd();
+            const scripts = fs.readdirSync(baseDir).filter(f =>
+              /send.*facility|send.*venue|send.*booking|facilitron/i.test(f) && f.endsWith('.js')
+            );
+            for (const script of scripts) {
+              const content = fs.readFileSync(require('path').join(baseDir, script), 'utf8');
+              // Look for event date or name references
+              for (const ev of BANF_EVENTS_CALENDAR) {
+                if (content.includes(ev.date) || content.toLowerCase().includes(ev.name.toLowerCase())) {
+                  docEventClue = ev.id;
+                  log('INFO', `  [ExpenseIQ] Script ${script} references event: ${ev.name} (${ev.date})`);
+                  break;
+                }
+              }
+              if (docEventClue) break;
+            }
+          } catch (e) {
+            log('WARN', `  [ExpenseIQ] Script scan error: ${e.message}`);
+          }
+        }
+        if (docEventClue) break;
+      }
+    }
+
+    // ── Step 4: Event linkage — use document clue or date proximity ──
+    if (docEventClue) {
+      const ev = BANF_EVENTS_CALENDAR.find(e => e.id === docEventClue);
+      if (ev) {
+        enrichment.eventId = ev.id;
+        enrichment.eventName = ev.name;
+        enrichment.confidence = 'high';
+        enrichment.notes += ` | Linked to ${ev.name} (${ev.date}) via document correlation`;
+        log('INFO', `  [ExpenseIQ] Document-verified event link: ${ev.name}`);
+      }
+    }
+  }
+
+  // ── Step 5: Date-proximity hypothesis (fallback or confirmation) ──
+  if (!enrichment.eventId) {
+    const pDate = new Date(purchaseDate);
+    if (!isNaN(pDate.getTime())) {
+      // Find the next upcoming event after purchase date (primary hypothesis)
+      // and the most recent past event (secondary)
+      let bestUpcoming = null, bestUpcomingDays = Infinity;
+      let bestPast = null, bestPastDays = Infinity;
+
+      for (const ev of BANF_EVENTS_CALENDAR) {
+        const evDate = new Date(ev.date);
+        const diffDays = (evDate - pDate) / 86400000;
+
+        if (diffDays >= 0 && diffDays < bestUpcomingDays) {
+          bestUpcoming = ev;
+          bestUpcomingDays = diffDays;
+        }
+        if (diffDays < 0 && Math.abs(diffDays) < bestPastDays) {
+          bestPast = ev;
+          bestPastDays = Math.abs(diffDays);
+        }
+      }
+
+      // Expenses are more likely preparation for upcoming events
+      // Use 60-day window for upcoming, 14-day window for just-past
+      if (bestUpcoming && bestUpcomingDays <= 60) {
+        enrichment.eventId = bestUpcoming.id;
+        enrichment.eventName = bestUpcoming.name;
+        enrichment.confidence = bestUpcomingDays <= 30 ? 'medium' : 'low';
+        const reason = matched
+          ? `${matched.service} purchase ${Math.round(bestUpcomingDays)}d before ${bestUpcoming.name}`
+          : `${Math.round(bestUpcomingDays)}d before ${bestUpcoming.name}`;
+        enrichment.notes += (enrichment.notes ? ' | ' : '') + `Hypothesis: ${reason}`;
+        log('INFO', `  [ExpenseIQ] Date-proximity hypothesis: ${bestUpcoming.name} (${Math.round(bestUpcomingDays)}d ahead, confidence: ${enrichment.confidence})`);
+
+        // ── Step 6: Verify hypothesis — does the merchant purpose align with event prep? ──
+        if (matched && matched.purposeKeywords.length > 0) {
+          // Check if this type of service is logically needed for event preparation
+          const isVenueRelated = matched.purposeKeywords.some(kw => ['venue', 'facility', 'booking', 'permit'].includes(kw));
+          const isInsurance = matched.service === 'event_insurance';
+          const isFood = matched.service === 'grocery';
+
+          if (isVenueRelated && bestUpcomingDays <= 45) {
+            enrichment.confidence = 'high';
+            enrichment.notes += ' | Venue-related expense aligns with event preparation timeline';
+          } else if (isInsurance && bestUpcomingDays <= 45) {
+            enrichment.confidence = 'high';
+            enrichment.notes += ' | Event insurance typically purchased during event preparation';
+          } else if (isFood && bestUpcomingDays <= 7) {
+            enrichment.confidence = 'high';
+            enrichment.notes += ' | Food purchase within 7 days of event — likely event catering';
+          }
+        }
+      } else if (bestPast && bestPastDays <= 14) {
+        enrichment.eventId = bestPast.id;
+        enrichment.eventName = bestPast.name;
+        enrichment.confidence = 'low';
+        enrichment.notes += (enrichment.notes ? ' | ' : '') + `Post-event expense ${Math.round(bestPastDays)}d after ${bestPast.name}`;
+      }
+    }
+  }
+
+  // Build enriched notes summary
+  if (enrichment.linkedDocuments.length > 0) {
+    const docList = enrichment.linkedDocuments.map(d => d.path).join(', ');
+    enrichment.notes += ` | Documents: ${docList}`;
+  }
+
+  return enrichment;
+}
+
 /**
  * Scan all Wells Fargo emails and post financial transactions to the FinancialLedger.
  * Handles: Zelle payments, check deposits, card purchases, account updates.
@@ -1296,15 +1577,47 @@ async function scanWellsFargoForLedger(state, token) {
       const parsed = parseWFFinancialEmail(msg);
       if (parsed && parsed.transactions && parsed.transactions.length > 0) {
         for (const txn of parsed.transactions) {
+          let entryEventId = '';
+          let entryEventName = '';
+          let entryCategory = txn.category || 'other';
+          let entryNotes = 'Auto-parsed from WF email: ' + (msg.subject || '').substring(0, 60);
+
+          // ── Smart enrichment for card purchases ──
+          if (txn.category === 'debit_card' && txn.direction === 'debit') {
+            const iq = analyzeCardPurchase(txn);
+            if (iq.category !== 'debit_card') entryCategory = iq.category;
+            if (iq.eventId) entryEventId = iq.eventId;
+            if (iq.eventName) entryEventName = iq.eventName;
+            if (iq.notes) entryNotes += ' | [ExpenseIQ] ' + iq.notes;
+            if (iq.confidence) entryNotes += ` (confidence: ${iq.confidence})`;
+          }
+
+          // ── Date-proximity event tagging for Zelle expenses ──
+          if (txn.category === 'zelle_expense' && txn.direction === 'debit') {
+            const txnDate = new Date(txn.date || emailDate);
+            if (!isNaN(txnDate.getTime())) {
+              for (const ev of BANF_EVENTS_CALENDAR) {
+                const evDate = new Date(ev.date);
+                const daysBefore = (evDate - txnDate) / 86400000;
+                if (daysBefore >= 0 && daysBefore <= 30) {
+                  entryEventId = ev.id;
+                  entryEventName = ev.name;
+                  entryNotes += ` | Zelle expense ${Math.round(daysBefore)}d before ${ev.name}`;
+                  break;
+                }
+              }
+            }
+          }
+
           entries.push({
             entryDate: txn.date || (msg.date ? new Date(msg.date).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)),
             entryType: txn.direction === 'credit' ? 'income' : 'expense',
-            category: txn.category || 'other',
+            category: entryCategory,
             description: txn.description || msg.subject || '',
             amount: txn.amount,
             direction: txn.direction,
-            eventId: '',
-            eventName: '',
+            eventId: entryEventId,
+            eventName: entryEventName,
             payerOrPayee: txn.payerOrPayee || '',
             paymentMethod: txn.paymentMethod || 'other',
             reference: txn.confirmation || '',
@@ -1313,7 +1626,7 @@ async function scanWellsFargoForLedger(state, token) {
             bankDate: txn.date || '',
             bankDescription: txn.description || '',
             bankBalance: parsed.endingBalance || null,
-            notes: 'Auto-parsed from WF email: ' + (msg.subject || '').substring(0, 60)
+            notes: entryNotes
           });
         }
       }
