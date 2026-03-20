@@ -213,6 +213,9 @@ input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orang
               <label for="rsvp-maybe">&#129300; Maybe</label>
             </div>
           </div>
+          <div id="maybe-note" style="display:none;margin-top:10px;padding:12px 16px;background:#fff8e1;border:1px solid #ffe082;border-radius:10px;font-size:.84rem;color:#795548;line-height:1.5">
+            <strong>&#9888;&#65039; Please Note:</strong> If you select "Maybe", please send a confirmation email to <a href="mailto:banfjax@gmail.com" style="color:#8B0000;font-weight:600">banfjax@gmail.com</a> by the <strong>RSVP end date</strong> to confirm your attendance. Without confirmation, we may not be able to reserve your spot.
+          </div>
         </div>
 
         <!-- Guest Details (shown when Yes/Maybe) -->
@@ -367,6 +370,8 @@ async function loadInvitation() {
         askDescription: true,
         notes: [
           'Each performance slot is approximately 5 minutes.',
+          'All cultural requests will be confirmed based on available slots by Saturday, March 28th.',
+          'After March 28th, we will inform you if any slots are still available for any category.',
           'Please arrive 30 minutes early if you are performing.',
           'Sound system and basic instruments will be provided.'
         ]
@@ -786,12 +791,15 @@ document.querySelectorAll('input[name="rsvpStatus"]').forEach(radio => {
     const val = this.value;
     const guestDetails = document.getElementById('guest-details');
     const btn = document.getElementById('submit-btn');
+    const maybeNote = document.getElementById('maybe-note');
 
     if (val === 'yes' || val === 'maybe') {
       guestDetails.classList.add('visible');
     } else {
       guestDetails.classList.remove('visible');
     }
+
+    maybeNote.style.display = val === 'maybe' ? 'block' : 'none';
 
     btn.disabled = false;
     const labels = { yes: "Submit RSVP — I'm Coming!", no: "Submit RSVP — Can't Make It", maybe: "Submit RSVP — Maybe" };
