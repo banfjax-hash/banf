@@ -5758,7 +5758,7 @@ async function eviteSendInvites(recipientType, customEmails) {
     if (data.sent !== undefined) {
       eviteShowMsg('Done! Sent: ' + data.sent + ', Failed: ' + data.failed + ', Total: ' + data.total, data.failed > 0);
     } else if (data.error && data.error.includes('Gmail token')) {
-      eviteShowMsg('<b>Gmail token needs refresh.</b> Your event config has been saved. To send invitations, please run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-direct-send.js</code> from the project folder — or contact your developer to refresh the deployed Gmail token.', true);
+      eviteShowMsg('<b>Gmail token needs refresh.</b> Your event config has been saved. To send invitations, please run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js send-test</code> (dry-run) or <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js send-ec</code> (all EC) from the project folder — or contact your developer to refresh the deployed Gmail token.', true);
     } else {
       eviteShowMsg(data.error || 'Send failed.', true);
     }
