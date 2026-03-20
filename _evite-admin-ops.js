@@ -369,7 +369,7 @@ async function loadECMembers() {
       }
     }, {
       dataCollectionId: 'AdminRoles',
-      query: { filter: { isActive: true }, paging: { limit: 50 } }
+      query: { filter: {}, paging: { limit: 50 } }
     });
     
     if (result.data?.dataItems?.length > 0) {
