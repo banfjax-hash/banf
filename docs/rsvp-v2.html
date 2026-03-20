@@ -369,30 +369,40 @@ async function loadInvitation() {
       return;
     }
     currentData = data;
-    eviteConfig = data.eviteConfig || {
-      cultural: {
-        enabled: true,
-        header: '🎭 Cultural Program — Participate & Showcase Your Talent!',
-        description: 'We invite you and your family members to perform at our Noboborsho celebration! Register your performance(s) below — our cultural committee will coordinate closer to the event.',
-        categories: ['dance', 'song', 'instrumental', 'skit', 'poetry'],
-        modes: ['individual', 'small_group', 'large_group'],
-        ageGroups: ['kid', 'youth', 'adult', 'senior', 'mix'],
-        askLanguage: true,
-        askDescription: true,
-        notes: [
-          'Individual performance: max 3 minutes.',
-          'Small group (3–5 members): max 6 minutes.',
-          'Large group (more than 5 members): max 12 minutes.',
-          'For Noboborsho, Bengali programs will be given preference.',
-          'We will have some slots fixed for specific types of programs.',
-          'All cultural requests will be confirmed based on available slots by Saturday, March 28th.',
-          'After March 28th, we will inform if any slots are still available for any category.',
-          'Please arrive 30 minutes early if you are performing.',
-          'Sound system and basic instruments will be provided.',
-          'For any questions about the cultural program, please contact our Cultural Secretary Momita Ghosh at moumita.mukherje@gmail.com'
-        ]
-      }
-    };
+    eviteConfig = data.eviteConfig || null;
+    // If the API didn't return eviteConfig, try loading from static config file
+    if (!eviteConfig) {
+      try {
+        const cfgRes = await fetch('./evite-config.json');
+        if (cfgRes.ok) eviteConfig = await cfgRes.json();
+      } catch (_) { /* fall through to defaults */ }
+    }
+    if (!eviteConfig) {
+      eviteConfig = {
+        cultural: {
+          enabled: true,
+          header: '🎭 Cultural Program — Participate & Showcase Your Talent!',
+          description: 'We invite you and your family members to perform at our Noboborsho celebration! Register your performance(s) below — our cultural committee will coordinate closer to the event.',
+          categories: ['dance', 'song', 'instrumental', 'skit', 'poetry'],
+          modes: ['individual', 'small_group', 'large_group'],
+          ageGroups: ['kid', 'youth', 'adult', 'senior', 'mix'],
+          askLanguage: true,
+          askDescription: true,
+          notes: [
+            'Individual performance: max 3 minutes.',
+            'Small group (3–5 members): max 6 minutes.',
+            'Large group (more than 5 members): max 12 minutes.',
+            'For Noboborsho, Bengali programs will be given preference.',
+            'We will have some slots fixed for specific types of programs.',
+            'All cultural requests will be confirmed based on available slots by Saturday, March 28th.',
+            'After March 28th, we will inform if any slots are still available for any category.',
+            'Please arrive 30 minutes early if you are performing.',
+            'Sound system and basic instruments will be provided.',
+            'For any questions about the cultural program, please contact our Cultural Secretary Momita Ghosh at moumita.mukherje@gmail.com'
+          ]
+        }
+      };
+    }
     renderForm(data);
   } catch (e) {
     showError('Unable to connect to the server. Please try again later.');

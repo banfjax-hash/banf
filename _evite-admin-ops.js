@@ -67,12 +67,7 @@ function getWixAuth() {
 }
 
 async function getGmailAccessToken() {
-  const result = await httpsRequest({
-    hostname: 'oauth2.googleapis.com', path: '/token', method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-  }, null).then(() => null); // dummy
-  
-  const body = `client_id=${encodeURIComponent(secrets.google_client_id)}&client_secret=${encodeURIComponent(secrets.google_client_secret)}&refresh_token=${encodeURIComponent(secrets.google_refresh_token)}&grant_type=refresh_token`;
+  const body = `client_id=${encodeURIComponent(secrets.CLIENT_ID)}&client_secret=${encodeURIComponent(secrets.CLIENT_SECRET)}&refresh_token=${encodeURIComponent(secrets.REFRESH_TOKEN)}&grant_type=refresh_token`;
   
   return new Promise((resolve, reject) => {
     const req = https.request({
@@ -209,6 +204,10 @@ async function saveConfig(configFile) {
   const updateResult = await wixDataUpdate('EviteEvents', EVENT_ID, updatedData);
   if (updateResult.status === 200 || updateResult.status === 201) {
     console.log('  ✅ Event config updated successfully!');
+    // Also update the static config file for GitHub Pages RSVP form
+    const staticPath = path.join(__dirname, 'docs', 'evite-config.json');
+    fs.writeFileSync(staticPath, JSON.stringify(config, null, 2));
+    console.log('  ✅ Updated docs/evite-config.json — remember to git push!');
   } else {
     console.log('  ❌ Update failed:', updateResult.status, typeof updateResult.data === 'string' ? updateResult.data.substring(0, 300) : JSON.stringify(updateResult.data).substring(0, 300));
   }
@@ -356,16 +355,44 @@ async function sendInvitations(recipients) {
 }
 
 async function loadECMembers() {
-  console.log('  Loading EC members from Wix...');
-  const data = await httpsGet(API_BASE + '/evite_recipients?type=ec');
-  if (data.members && data.members.length > 0) {
-    return data.members.map(m => ({
-      name: m.name || m.displayName || m.email.split('@')[0],
-      email: m.email,
-      role: m.role || 'ec_member'
-    }));
+  console.log('  Loading EC members from Wix DB...');
+  try {
+    const auth = getWixAuth();
+    const result = await httpsRequest({
+      hostname: 'www.wixapis.com',
+      path: '/wix-data/v2/items/query',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': auth.accessToken,
+        'wix-site-id': WIX_SITE_ID
+      }
+    }, {
+      dataCollectionId: 'AdminRoles',
+      query: { filter: { isActive: true }, paging: { limit: 50 } }
+    });
+    
+    if (result.data?.dataItems?.length > 0) {
+      const members = result.data.dataItems
+        .filter(i => i.data.email && i.data.email !== 'banfjax@gmail.com')
+        .map(i => ({
+          name: i.data.name || i.data.firstName || i.data.email.split('@')[0],
+          email: i.data.email,
+          role: i.data.role || i.data.ecTitle || 'ec_member'
+        }));
+      if (members.length > 0) {
+        // Ensure president is included
+        if (!members.some(m => m.email.toLowerCase() === 'ranadhir.ghosh@gmail.com')) {
+          members.push(PRESIDENT);
+        }
+        console.log(`  Found ${members.length} EC members`);
+        return members;
+      }
+    }
+  } catch (e) {
+    console.log('  ⚠️  Wix Data API error:', e.message);
   }
-  console.log('  ⚠️  Could not load EC list from API, using president only');
+  console.log('  ⚠️  Falling back to president only');
   return [PRESIDENT];
 }
 

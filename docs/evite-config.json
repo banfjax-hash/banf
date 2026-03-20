@@ -1,0 +1,52 @@
+{
+  "event": {
+    "eventName": "BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩",
+    "eventDate": "2026-04-25",
+    "eventTime": "11:00 AM – 4:00 PM",
+    "venue": "Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092",
+    "description": "Join us to celebrate Pohela Boishakh — the Bengali New Year — with a day of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!\n\nSchedule:\n• 11:00 AM – 12:00 PM �� Snacks / Adda\n• 12:00 PM – 1:30 PM — Cultural Program\n• 1:45 PM – 3:00 PM — Lunch\n• 3:00 PM – 4:00 PM — Wrap Up",
+    "highlights": "cultural performances by our members and their families, authentic Bengali cuisine, adda, fun, laughter, joy",
+    "capacity": 300,
+    "rsvpDeadline": "2026-04-22"
+  },
+  "design": {
+    "introText": "প্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.",
+    "imageUrl": ""
+  },
+  "rsvp": {
+    "collectGuests": true,
+    "collectFood": true,
+    "collectAllergy": true,
+    "allowMaybe": true
+  },
+  "cultural": {
+    "enabled": true,
+    "header": "🎭 Cultural Program — Participate & Showcase Your Talent!",
+    "description": "We are excited to feature cultural performances by our community members at this year's Noboborsho celebration! If you or your family members would like to participate, please fill in the details below.",
+    "categories": [
+      "dance",
+      "song",
+      "instrumental",
+      "skit",
+      "poetry"
+    ],
+    "modes": [
+      "individual",
+      "group"
+    ],
+    "ageGroups": [
+      "kid",
+      "youth",
+      "adult",
+      "senior",
+      "mix"
+    ],
+    "askLanguage": true,
+    "askDescription": true,
+    "notes": [
+      "If you are a participant, please ask your mentor to apply. Only mentors, individual performers, and parents (on behalf of their kids) should apply.",
+      "No EC member can apply as a mentor or individual performer — EC members can only perform in a group managed by a mentor. However, EC members can apply as a parent for their kids.",
+      "We will try our best to accommodate every request. If demand exceeds the allotted cultural time, priority will be given to: items aligned with the nature of the program, diversity of genre and mode of delivery, and representation by various age groups."
+    ]
+  }
+}

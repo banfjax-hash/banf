@@ -5700,8 +5700,13 @@ async function eviteCreateEvent() {
     const data = await resp.json();
     if (data.eventId) {
       EVITE_CURRENT_EVENT_ID = data.eventId;
-      eviteShowMsg((data.existing ? 'Event updated' : 'Event created') + '. ID: ' + data.eventId, false);
-      eviteLoadEvents();
+      if (data.existing) {
+        // Deployed backend doesn't support updates — auto-export the config
+        eviteExportConfig();
+      } else {
+        eviteShowMsg('Event created. ID: ' + data.eventId, false);
+        eviteLoadEvents();
+      }
     } else {
       eviteShowMsg(data.error || 'Failed to save event.', true);
     }
@@ -5913,6 +5918,7 @@ async function eviteLoadRecipientPreview() {
 
   try {
     const resp = await fetch(API + '/evite_recipients?type=' + encodeURIComponent(type));
+    if (!resp.ok) throw new Error('Endpoint not available (status ' + resp.status + ')');
     const data = await resp.json();
     if (data.members) {
       EVITE_RECIPIENT_LIST = data.members.map(m => ({
@@ -5930,7 +5936,7 @@ async function eviteLoadRecipientPreview() {
   } catch (e) {
     countEl.textContent = '';
     addRow.style.display = 'none';
-    previewEl.innerHTML = 'Error loading members: ' + e.message;
+    previewEl.innerHTML = '<span style="color:var(--yellow)"><i class="fas fa-info-circle me-1"></i>Recipient preview unavailable — the backend will load ' + type + ' members automatically when you send. You can proceed with Send Invitations.</span>';
   }
 }
 
