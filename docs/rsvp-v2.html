@@ -355,7 +355,23 @@ async function loadInvitation() {
       return;
     }
     currentData = data;
-    eviteConfig = data.eviteConfig || null;
+    eviteConfig = data.eviteConfig || {
+      cultural: {
+        enabled: true,
+        header: '🎭 Cultural Program — Participate & Showcase Your Talent!',
+        description: 'We invite you and your family members to perform at our Noboborsho celebration! Register your performance(s) below — our cultural committee will coordinate closer to the event.',
+        categories: ['dance', 'song', 'instrumental', 'skit', 'poetry'],
+        modes: ['individual', 'group'],
+        ageGroups: ['kid', 'youth', 'adult', 'senior', 'mix'],
+        askLanguage: true,
+        askDescription: true,
+        notes: [
+          'Each performance slot is approximately 5 minutes.',
+          'Please arrive 30 minutes early if you are performing.',
+          'Sound system and basic instruments will be provided.'
+        ]
+      }
+    };
     renderForm(data);
   } catch (e) {
     showError('Unable to connect to the server. Please try again later.');
