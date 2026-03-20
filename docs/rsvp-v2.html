@@ -286,6 +286,17 @@ input[type="text"]:focus,select:focus{outline:none;border-color:var(--banf-orang
               </div>
             </div>
 
+            <!-- Toggle: Mentor-driven program -->
+            <div class="cultural-toggle" onclick="document.getElementById('mentorDriven').checked=!document.getElementById('mentorDriven').checked" style="margin-top:8px;background:#e8f5e9">
+              <div>
+                <input type="checkbox" id="mentorDriven" style="width:18px;height:18px;accent-color:#2e7d32;cursor:pointer" onclick="event.stopPropagation()">
+              </div>
+              <div>
+                <div class="toggle-text" style="color:#2e7d32">I would like to participate in a Mentor-Driven Program</div>
+                <div class="toggle-hint">Our cultural committee will guide and help you prepare a performance</div>
+              </div>
+            </div>
+
             <!-- Cultural entries (shown when checked) -->
             <div class="cultural-entries-box" id="cultural-entries-box">
 
@@ -364,16 +375,21 @@ async function loadInvitation() {
         header: '🎭 Cultural Program — Participate & Showcase Your Talent!',
         description: 'We invite you and your family members to perform at our Noboborsho celebration! Register your performance(s) below — our cultural committee will coordinate closer to the event.',
         categories: ['dance', 'song', 'instrumental', 'skit', 'poetry'],
-        modes: ['individual', 'group'],
+        modes: ['individual', 'small_group', 'large_group'],
         ageGroups: ['kid', 'youth', 'adult', 'senior', 'mix'],
         askLanguage: true,
         askDescription: true,
         notes: [
-          'Each performance slot is approximately 5 minutes.',
+          'Individual performance: max 3 minutes.',
+          'Small group (3–5 members): max 6 minutes.',
+          'Large group (more than 5 members): max 12 minutes.',
+          'For Noboborsho, Bengali programs will be given preference.',
+          'We will have some slots fixed for specific types of programs.',
           'All cultural requests will be confirmed based on available slots by Saturday, March 28th.',
-          'After March 28th, we will inform you if any slots are still available for any category.',
+          'After March 28th, we will inform if any slots are still available for any category.',
           'Please arrive 30 minutes early if you are performing.',
-          'Sound system and basic instruments will be provided.'
+          'Sound system and basic instruments will be provided.',
+          'For any questions about the cultural program, please contact our Cultural Secretary Momita Ghosh at moumita.mukherje@gmail.com'
         ]
       }
     };
@@ -596,7 +612,7 @@ function addCulturalEntry() {
   const idx = culturalEntryCount;
 
   const catLabels = { dance: '💃 Dance', song: '🎤 Song', instrumental: '🎸 Instrumental', skit: '🎬 Skit / Drama', poetry: '📝 Poetry / Recitation' };
-  const modeLabels = { individual: '🧑 Individual', group: '👥 Group' };
+  const modeLabels = { individual: '🧑 Individual', small_group: '👥 Small Group (3–5)', large_group: '👥👥 Large Group (6+)', group: '👥 Group' };
   const ageLabels = { kid: '👶 Kid (under 12)', youth: '🧑‍🎤 Youth (12-17)', adult: '🧑‍💼 Adult (18-59)', senior: '👴 Senior (60+)', mix: '🌈 Mix (multiple ages)' };
 
   let catChips = categories.map(c =>
@@ -700,7 +716,7 @@ function removeCulturalEntry(idx) {
 function toggleGroupFields(idx) {
   const mode = document.querySelector(`input[name="perf-mode-${idx}"]:checked`);
   const groupFields = document.getElementById(`group-fields-${idx}`);
-  if (mode && mode.value === 'group') {
+  if (mode && (mode.value === 'small_group' || mode.value === 'large_group' || mode.value === 'group')) {
     groupFields.style.display = 'block';
   } else {
     groupFields.style.display = 'none';
@@ -764,12 +780,12 @@ function collectCulturalData() {
       ageGroup: age ? age.value : '',
       language: langEl ? langEl.value : '',
       description: descEl ? descEl.value.trim() : '',
-      memberCount: mode && mode.value === 'group' ? (parseInt(membersEl?.value) || 2) : 1,
+      memberCount: (mode && (mode.value === 'small_group' || mode.value === 'large_group' || mode.value === 'group')) ? (parseInt(membersEl?.value) || 2) : 1,
       memberNames: []
     };
 
     // Collect member names if group
-    if (mode && mode.value === 'group') {
+    if (mode && (mode.value === 'small_group' || mode.value === 'large_group' || mode.value === 'group')) {
       const nameInputs = document.querySelectorAll(`#member-names-${idx} .member-name`);
       nameInputs.forEach(inp => {
         if (inp.value.trim()) perf.memberNames.push(inp.value.trim());
@@ -783,6 +799,20 @@ function collectCulturalData() {
   });
 
   return performances.length > 0 ? { participate: true, performances } : null;
+}
+
+// Wrapper to include mentorDriven flag
+const _origCollectCultural = collectCulturalData;
+function collectCulturalDataFull() {
+  const mentorCb = document.getElementById('mentorDriven');
+  const mentorDriven = mentorCb && mentorCb.checked;
+  const perfData = _origCollectCultural();
+  if (perfData) {
+    perfData.mentorDriven = mentorDriven;
+    return perfData;
+  }
+  if (mentorDriven) return { participate: false, mentorDriven: true, performances: [] };
+  return null;
 }
 
 // ── RSVP option handling ──
@@ -872,7 +902,7 @@ async function handleSubmit(e) {
   else if (nonVegVal > 0) dietaryLabel = 'non_vegetarian';
 
   // Collect cultural data
-  const culturalData = collectCulturalData();
+  const culturalData = collectCulturalDataFull();
 
   const payload = {
     token: TOKEN,
