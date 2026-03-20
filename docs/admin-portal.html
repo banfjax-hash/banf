@@ -1636,10 +1636,13 @@ We will try our best to accommodate every request. If demand exceeds the allotte
       <!-- Actions -->
       <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(34,197,94,.3)">
         <h2><i class="fas fa-paper-plane"></i> Actions</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Create the event, then send invitations. Use Dry Run to test with president only.</p>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Save your configuration, then send invitations. Use Dry Run to test with president only.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
           <button onclick="eviteCreateEvent()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
-            <i class="fas fa-plus me-1"></i>Create Event
+            <i class="fas fa-save me-1"></i><span id="ev-save-btn-text">Save Event Config</span>
+          </button>
+          <button onclick="eviteExportConfig()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer" title="Export config as JSON for local scripts">
+            <i class="fas fa-download me-1"></i>Export Config
           </button>
           <button onclick="eviteDryRun()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
             <i class="fas fa-vial me-1"></i>Dry Run (President Only)
@@ -1648,7 +1651,7 @@ We will try our best to accommodate every request. If demand exceeds the allotte
             <i class="fas fa-paper-plane me-1"></i>Send Invitations
           </button>
           <button onclick="eviteLoadEvents()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer">
-            <i class="fas fa-sync me-1"></i>Refresh Events
+            <i class="fas fa-sync me-1"></i>Refresh
           </button>
         </div>
         <div id="ev-action-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
@@ -4125,6 +4128,10 @@ function navTo(panel){
     }
     if (!rmbIframeLoaded) loadRmbIframe();
   }
+  // E-Vite Manager: auto-load events on first visit
+  if (panel === 'evite-manager') {
+    eviteLoadEvents();
+  }
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
   const target = document.querySelector(`.sb-item[data-panel="${panel}"]`);
   if(target) target.classList.add('active');
@@ -5672,33 +5679,54 @@ function eviteRemoveImage() {
 async function eviteCreateEvent() {
   const config = collectEviteConfig();
   if (!config.event.eventName) return eviteShowMsg('Event name is required.', true);
-  eviteShowMsg('Creating event...', false);
+  eviteShowMsg(EVITE_CURRENT_EVENT_ID ? 'Updating event...' : 'Creating event...', false);
   try {
+    const payload = {
+      eventName: config.event.eventName,
+      eventDate: config.event.eventDate,
+      eventTime: config.event.eventTime,
+      venue: config.event.venue,
+      description: config.event.description,
+      highlights: config.event.highlights,
+      capacity: config.event.capacity,
+      eviteConfig: config
+    };
+    if (EVITE_CURRENT_EVENT_ID) payload.eventId = EVITE_CURRENT_EVENT_ID;
     const resp = await fetch(API + '/evite_create_event', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventName: config.event.eventName,
-        eventDate: config.event.eventDate,
-        eventTime: config.event.eventTime,
-        venue: config.event.venue,
-        description: config.event.description,
-        highlights: config.event.highlights,
-        capacity: config.event.capacity,
-        eviteConfig: config
-      })
+      body: JSON.stringify(payload)
     });
     const data = await resp.json();
     if (data.eventId) {
       EVITE_CURRENT_EVENT_ID = data.eventId;
-      eviteShowMsg((data.existing ? 'Event already exists' : 'Event created') + '. ID: ' + data.eventId, false);
+      eviteShowMsg((data.existing ? 'Event updated' : 'Event created') + '. ID: ' + data.eventId, false);
       eviteLoadEvents();
     } else {
-      eviteShowMsg(data.error || 'Failed to create event.', true);
+      eviteShowMsg(data.error || 'Failed to save event.', true);
     }
   } catch (e) {
     eviteShowMsg('API error: ' + e.message, true);
   }
+}
+
+function eviteExportConfig() {
+  const config = collectEviteConfig();
+  const json = JSON.stringify(config, null, 2);
+  // Download as file
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'evite-config-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  // Also copy to clipboard
+  navigator.clipboard.writeText(json).then(() => {
+    eviteShowMsg('Config exported and copied to clipboard. Save the file, then run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js save-config evite-config.json</code>', false);
+  }).catch(() => {
+    eviteShowMsg('Config exported as file. Run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js save-config evite-config.json</code> to save to Wix DB.', false);
+  });
 }
 
 async function eviteSendInvites(recipientType, customEmails) {
@@ -5724,6 +5752,8 @@ async function eviteSendInvites(recipientType, customEmails) {
     const data = await resp.json();
     if (data.sent !== undefined) {
       eviteShowMsg('Done! Sent: ' + data.sent + ', Failed: ' + data.failed + ', Total: ' + data.total, data.failed > 0);
+    } else if (data.error && data.error.includes('Gmail token')) {
+      eviteShowMsg('<b>Gmail token needs refresh.</b> Your event config has been saved. To send invitations, please run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-direct-send.js</code> from the project folder — or contact your developer to refresh the deployed Gmail token.', true);
     } else {
       eviteShowMsg(data.error || 'Send failed.', true);
     }
@@ -5767,8 +5797,10 @@ async function eviteLoadEvents() {
     const data = await resp.json();
     if (!data.events || data.events.length === 0) {
       el.innerHTML = 'No events found. Create one above.';
+      EVITE_EVENTS_CACHE = [];
       return;
     }
+    EVITE_EVENTS_CACHE = data.events;
     let html = '<table class="t" style="font-size:.82rem"><thead><tr><th>Event</th><th>Date</th><th>Invites</th><th>RSVPs</th><th>Created</th><th>Action</th></tr></thead><tbody>';
     data.events.forEach(ev => {
       const d = ev.eventDate ? new Date(ev.eventDate).toLocaleDateString() : '—';
@@ -5777,15 +5809,83 @@ async function eviteLoadEvents() {
     });
     html += '</tbody></table>';
     el.innerHTML = html;
+    // Auto-select the main Noboborsho event if none selected
+    if (!EVITE_CURRENT_EVENT_ID) {
+      const main = data.events.find(e => e._id === '61849b36-68e5-41fc-885d-998feafc21f2') || data.events.find(e => e.eviteConfig);
+      if (main) eviteSelectEvent(main._id);
+    }
   } catch (e) {
     el.innerHTML = 'Error loading events: ' + e.message;
   }
 }
 
+let EVITE_EVENTS_CACHE = []; // cached events from last load
+
 function eviteSelectEvent(id) {
   EVITE_CURRENT_EVENT_ID = id;
-  eviteShowMsg('Selected event: ' + id, false);
+  // Find event in cache and populate form
+  const ev = EVITE_EVENTS_CACHE.find(e => e._id === id);
+  if (ev) {
+    let cfg = null;
+    try { cfg = ev.eviteConfig ? (typeof ev.eviteConfig === 'string' ? JSON.parse(ev.eviteConfig) : ev.eviteConfig) : null; } catch(_) {}
+    if (cfg) {
+      evitePopulateForm(cfg, ev);
+      eviteShowMsg('Loaded config for: ' + (ev.eventName || id), false);
+    } else {
+      // Populate from top-level event fields even if no eviteConfig
+      if (ev.eventName) document.getElementById('ev-eventName').value = ev.eventName;
+      if (ev.eventDate) document.getElementById('ev-eventDate').value = ev.eventDate.substring(0, 10);
+      if (ev.eventTime) document.getElementById('ev-eventTime').value = ev.eventTime;
+      if (ev.venue) document.getElementById('ev-venue').value = ev.venue;
+      if (ev.description) document.getElementById('ev-description').value = ev.description;
+      eviteShowMsg('Selected event: ' + (ev.eventName || id) + ' (no saved config — fill in details)', false);
+    }
+  } else {
+    eviteShowMsg('Selected event: ' + id, false);
+  }
   eviteLoadEvents();
+}
+
+function evitePopulateForm(cfg, ev) {
+  // Event details
+  const e = cfg.event || {};
+  if (e.eventName) document.getElementById('ev-eventName').value = e.eventName;
+  if (e.eventDate) document.getElementById('ev-eventDate').value = e.eventDate;
+  if (e.eventTime) document.getElementById('ev-eventTime').value = e.eventTime;
+  if (e.venue) document.getElementById('ev-venue').value = e.venue;
+  if (e.description) document.getElementById('ev-description').value = e.description;
+  if (e.highlights) document.getElementById('ev-highlights').value = e.highlights;
+  if (e.capacity) document.getElementById('ev-capacity').value = e.capacity;
+  if (e.rsvpDeadline) document.getElementById('ev-rsvpDeadline').value = e.rsvpDeadline;
+  // Design
+  const d = cfg.design || {};
+  if (d.introText) document.getElementById('ev-introText').value = d.introText;
+  if (d.imageUrl) {
+    document.getElementById('ev-imageUrl').value = d.imageUrl;
+    document.getElementById('ev-imagePreviewImg').src = d.imageUrl;
+    document.getElementById('ev-imagePreview').style.display = 'block';
+  }
+  // RSVP
+  const r = cfg.rsvp || {};
+  if (r.collectGuests !== undefined) document.getElementById('ev-collectGuests').checked = r.collectGuests;
+  if (r.collectFood !== undefined) document.getElementById('ev-collectFood').checked = r.collectFood;
+  if (r.collectAllergy !== undefined) document.getElementById('ev-collectAllergy').checked = r.collectAllergy;
+  if (r.allowMaybe !== undefined) document.getElementById('ev-allowMaybe').checked = r.allowMaybe;
+  // Cultural
+  const c = cfg.cultural || {};
+  if (c.enabled !== undefined) {
+    document.getElementById('ev-culturalEnabled').checked = c.enabled;
+    const fields = document.getElementById('ev-cultural-fields');
+    if (fields) fields.style.display = c.enabled ? 'block' : 'none';
+  }
+  if (c.header) document.getElementById('ev-culturalHeader').value = c.header;
+  if (c.description) document.getElementById('ev-culturalDesc').value = c.description;
+  if (c.categories) document.getElementById('ev-categories').value = c.categories.join(', ');
+  if (c.modes) document.getElementById('ev-modes').value = c.modes.join(', ');
+  if (c.ageGroups) document.getElementById('ev-ageGroups').value = c.ageGroups.join(', ');
+  if (c.askLanguage !== undefined) document.getElementById('ev-askLanguage').checked = c.askLanguage;
+  if (c.askDescription !== undefined) document.getElementById('ev-askDescription').checked = c.askDescription;
+  if (c.notes && c.notes.length > 0) document.getElementById('ev-culturalNotes').value = c.notes.join('\n');
 }
 
 // Editable recipient list — client-side only, no backend changes
