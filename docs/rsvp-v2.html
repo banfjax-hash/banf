@@ -367,7 +367,13 @@ function renderForm(data) {
   formEl.style.display = 'block';
 
   const inv = data.invitation;
-  const evt = data.event;
+  const evt = data.event || {
+    eventName: 'BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩',
+    eventDate: '2026-04-25T00:00:00.000Z',
+    eventTime: '11:00 AM – 4:00 PM',
+    venue: 'Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092',
+    description: 'Join us to celebrate Pohela Boishakh — the Bengali New Year — with a day of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!'
+  };
   const cfg = eviteConfig || {};
   const design = cfg.design || {};
   const rsvpCfg = cfg.rsvp || {};
