@@ -188,7 +188,9 @@ import {
     get_evite_rsvp_form_data,    options_evite_rsvp_form_data,
     post_evite_rsvp_submit,      options_evite_rsvp_submit,
     get_evite_invite_status,     options_evite_invite_status,
-    get_evite_recipients,        options_evite_recipients
+    get_evite_recipients,        options_evite_recipients,
+    post_evite_cleanup_invites,  options_evite_cleanup_invites,
+    post_evite_update_event,     options_evite_update_event
 } from 'backend/banf-evite-report';
 
 import {
@@ -464,6 +466,8 @@ export {
     post_evite_rsvp_submit,      options_evite_rsvp_submit,
     get_evite_invite_status,     options_evite_invite_status,
     get_evite_recipients,        options_evite_recipients,
+    post_evite_cleanup_invites,  options_evite_cleanup_invites,
+    post_evite_update_event,     options_evite_update_event,
     // Survey system
     post_survey_setup,              options_survey_setup,
     post_survey_create,             options_survey_create,
