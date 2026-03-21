@@ -2010,6 +2010,135 @@ export async function get_evite_invite_status(request) {
 export function options_evite_invite_status(request) { return handleCors(); }
 
 // ─────────────────────────────────────────────────────────────
+// 12. CLEANUP DUPLICATE INVITATIONS
+// POST /evite_cleanup_invites
+// Body: { eventId }
+// Keeps the "best" record per email (responded > most recent),
+// deletes all other duplicates.
+// ─────────────────────────────────────────────────────────────
+
+export async function post_evite_cleanup_invites(request) {
+    try {
+        const body = await parseBody(request);
+        const { eventId } = body;
+        if (!eventId) return jsonErr('Missing eventId');
+
+        const invResult = await wixData.query(EVITE_COLLECTION)
+            .eq('eventId', eventId)
+            .limit(500)
+            .find(SA)
+            .catch(() => ({ items: [] }));
+
+        const invitations = invResult.items;
+        if (invitations.length === 0) return jsonOk({ message: 'No invitations found', deleted: 0 });
+
+        // Group by email
+        const byEmail = {};
+        invitations.forEach(inv => {
+            const key = (inv.recipientEmail || '').toLowerCase();
+            if (!byEmail[key]) byEmail[key] = [];
+            byEmail[key].push(inv);
+        });
+
+        let totalDeleted = 0;
+        const details = [];
+
+        for (const [email, records] of Object.entries(byEmail)) {
+            if (records.length <= 1) continue;
+
+            // Pick best: prefer responded+attending > responded > most recent sentAt
+            records.sort((a, b) => {
+                if (a.responded && a.rsvpStatus === 'yes' && !(b.responded && b.rsvpStatus === 'yes')) return -1;
+                if (b.responded && b.rsvpStatus === 'yes' && !(a.responded && a.rsvpStatus === 'yes')) return 1;
+                if (a.responded && !b.responded) return -1;
+                if (b.responded && !a.responded) return 1;
+                return new Date(b.sentAt || 0) - new Date(a.sentAt || 0);
+            });
+
+            const keep = records[0];
+            const toDelete = records.slice(1);
+
+            for (const dup of toDelete) {
+                try {
+                    await wixData.remove(EVITE_COLLECTION, dup._id, SA);
+                    totalDeleted++;
+                } catch (_) {}
+            }
+
+            details.push({
+                email,
+                total: records.length,
+                kept: keep._id,
+                keptStatus: keep.rsvpStatus,
+                deleted: toDelete.length
+            });
+        }
+
+        return jsonOk({
+            message: `Cleanup complete: ${totalDeleted} duplicates removed`,
+            deleted: totalDeleted,
+            remaining: invitations.length - totalDeleted,
+            details
+        });
+
+    } catch (e) {
+        return jsonErr('cleanup_invites failed: ' + e.message, 500);
+    }
+}
+export function options_evite_cleanup_invites(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
+// 13. UPDATE EVENT
+// POST /evite_update_event
+// Body: { eventId, highlights?, description?, venue?, eventTime?, eviteConfig? }
+// Updates an existing EviteEvents record with provided fields.
+// ─────────────────────────────────────────────────────────────
+
+export async function post_evite_update_event(request) {
+    try {
+        const body = await parseBody(request);
+        const { eventId } = body;
+        if (!eventId) return jsonErr('Missing eventId');
+
+        let event;
+        try { event = await wixData.get('EviteEvents', eventId, SA); } catch (_) {}
+        if (!event) return jsonErr('Event not found: ' + eventId);
+
+        // Update only provided fields
+        const updatableFields = ['highlights', 'description', 'venue', 'eventTime', 'eventDate', 'capacity', 'notes'];
+        updatableFields.forEach(field => {
+            if (body[field] !== undefined) {
+                event[field] = field === 'eventDate' ? new Date(body[field]) : body[field];
+            }
+        });
+
+        // Update eviteConfig if provided (strip large base64 images)
+        if (body.eviteConfig) {
+            const cfgCopy = JSON.parse(JSON.stringify(body.eviteConfig));
+            if (cfgCopy.design && cfgCopy.design.imageUrl && cfgCopy.design.imageUrl.startsWith('data:')) {
+                cfgCopy.design.imageUrl = '';
+            }
+            event.eviteConfig = JSON.stringify(cfgCopy);
+        }
+
+        event.updatedAt = new Date();
+        const updated = await wixData.update('EviteEvents', event, SA);
+
+        return jsonOk({
+            message: 'Event updated successfully',
+            eventId: updated._id,
+            eventName: updated.eventName,
+            highlights: updated.highlights,
+            updatedAt: updated.updatedAt
+        });
+
+    } catch (e) {
+        return jsonErr('update_event failed: ' + e.message, 500);
+    }
+}
+export function options_evite_update_event(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
 // GET /evite_recipients?type=ec|all_members
 // Returns list of recipients for evite preview (mirrors send logic)
 // ─────────────────────────────────────────────────────────────
