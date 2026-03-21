@@ -2211,12 +2211,18 @@ export async function post_evite_send_correction(request) {
 
         // Deduplicate by email
         const seen = new Set();
-        const uniqueInvitations = invitations.filter(inv => {
+        let uniqueInvitations = invitations.filter(inv => {
             const key = inv.recipientEmail.toLowerCase();
             if (seen.has(key)) return false;
             seen.add(key);
             return true;
         });
+
+        // Optional: filter to specific emails (for retrying failures)
+        if (body.emails && Array.isArray(body.emails) && body.emails.length > 0) {
+            const emailSet = new Set(body.emails.map(e => e.toLowerCase()));
+            uniqueInvitations = uniqueInvitations.filter(inv => emailSet.has(inv.recipientEmail.toLowerCase()));
+        }
         results.total = uniqueInvitations.length;
 
         // Apply offset/limit for batching
