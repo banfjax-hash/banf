@@ -262,7 +262,7 @@ async function sendAdditionalAdultCommunication(rsvpRecord, member, family, even
     const recipientEmail = extractEmailAddress(rsvpRecord.from);
     const recipientName = rsvpRecord.senderName || 'Member';
     const eventName = event.eventName || 'BANF Event';
-    const eventDate = event.eventDate ? new Date(event.eventDate).toDateString() : 'TBD';
+    const eventDate = event.eventDate ? new Date(event.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : 'TBD';
     const membershipType = rsvpRecord.membershipType || 'member';
     const threshold = getAdultThreshold(membershipType);
 
@@ -1210,7 +1210,7 @@ async function getGmailTokenDirect() {
 function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
     const eventDate = event.eventDate ? new Date(event.eventDate) : null;
     const dateStr = eventDate
-        ? eventDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+        ? eventDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
         : 'TBD';
     const timeStr = event.eventTime || '';
     const venue = event.venue || 'TBD';
@@ -2167,6 +2167,184 @@ export async function post_evite_update_event(request) {
     }
 }
 export function options_evite_update_event(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
+// 14. SEND CORRECTION EMAIL
+// POST /evite_send_correction
+// Body: { eventId, subject?, correctionHtml?, wrongText?, correctText? }
+// Sends a date/info correction email to ALL invitees of the event.
+// ─────────────────────────────────────────────────────────────
+
+export async function post_evite_send_correction(request) {
+    try {
+        const body = await parseBody(request);
+        const { eventId } = body;
+        if (!eventId) return jsonErr('Missing eventId');
+
+        let event;
+        try { event = await wixData.get('EviteEvents', eventId, SA); } catch (_) {}
+        if (!event) return jsonErr('Event not found: ' + eventId);
+
+        // Fetch all invitations
+        const invResult = await wixData.query(EVITE_COLLECTION)
+            .eq('eventId', eventId)
+            .limit(500)
+            .find(SA)
+            .catch(() => ({ items: [] }));
+        const invitations = invResult.items;
+        if (invitations.length === 0) return jsonOk({ message: 'No invitations found', sent: 0 });
+
+        // Correct event date
+        const correctDate = event.eventDate
+            ? new Date(event.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
+            : 'TBD';
+
+        const wrongText = body.wrongText || 'Friday, April 24, 2026';
+        const correctText = body.correctText || correctDate;
+        const emailSubject = body.subject || `Date Correction: ${event.eventName}`;
+
+        const accessToken = await getGmailToken();
+        const results = { sent: 0, failed: 0, total: invitations.length, details: [] };
+
+        // Deduplicate by email
+        const seen = new Set();
+        const uniqueInvitations = invitations.filter(inv => {
+            const key = inv.recipientEmail.toLowerCase();
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+        results.total = uniqueInvitations.length;
+
+        for (const inv of uniqueInvitations) {
+            try {
+                const recipientName = inv.recipientName || inv.recipientEmail.split('@')[0];
+                const rsvpUrl = `${RSVP_FORM_URL}?token=${inv.token}&eventId=${eventId}`;
+
+                const correctionHtml = body.correctionHtml || buildCorrectionEmail(
+                    recipientName, event, wrongText, correctText, rsvpUrl
+                );
+
+                const sendResult = await sendInviteEmail(
+                    inv.recipientEmail, recipientName, emailSubject, correctionHtml, accessToken
+                );
+
+                results.details.push({
+                    name: recipientName,
+                    email: inv.recipientEmail,
+                    sent: sendResult.ok,
+                    error: sendResult.error
+                });
+                if (sendResult.ok) results.sent++;
+                else results.failed++;
+            } catch (e) {
+                results.details.push({
+                    name: inv.recipientName,
+                    email: inv.recipientEmail,
+                    sent: false,
+                    error: e.message
+                });
+                results.failed++;
+            }
+        }
+
+        return jsonOk(results);
+    } catch (e) {
+        return jsonErr('send_correction failed: ' + e.message, 500);
+    }
+}
+export function options_evite_send_correction(request) { return handleCors(); }
+
+function buildCorrectionEmail(recipientName, event, wrongText, correctText, rsvpUrl) {
+    const safeEventName = _esc(event.eventName || 'BANF Event');
+    const venue = _esc(event.venue || 'TBD');
+    const timeStr = _esc(event.eventTime || '');
+    const highlights = event.highlights ? _esc(event.highlights) : '';
+
+    return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Date Correction - ${safeEventName}</title></head>
+<body style="margin:0;padding:0;background:#f4f0ed;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f0ed;padding:20px 0">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)">
+
+<!-- Header -->
+<tr><td style="background:linear-gradient(135deg,#b45309,#d97706);padding:28px 40px;text-align:center">
+  <div style="font-size:14px;color:rgba(255,255,255,.9);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">&#9888;&#65039; Date Correction Notice</div>
+  <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.3">${safeEventName}</div>
+  <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:6px">${BANF_ORG}</div>
+</td></tr>
+
+<!-- Body -->
+<tr><td style="padding:32px 40px">
+  <p style="font-size:16px;color:#333;margin:0 0 20px">Dear <strong>${_esc(recipientName)}</strong>,</p>
+
+  <p style="font-size:15px;color:#555;margin:0 0 16px;line-height:1.6">
+    We sincerely apologize for the error in our earlier invitation. The <strong>event date was incorrectly listed</strong>. Please note the correction below:
+  </p>
+
+  <!-- Correction Card -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0">
+  <tr>
+    <td style="width:48%;background:#fef2f2;border:2px solid #fca5a5;border-radius:12px;padding:20px;text-align:center;vertical-align:top">
+      <div style="font-size:12px;color:#991b1b;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">&#10060; Incorrect</div>
+      <div style="font-size:18px;font-weight:700;color:#dc2626;text-decoration:line-through">${_esc(wrongText)}</div>
+    </td>
+    <td style="width:4%;text-align:center;vertical-align:middle;font-size:24px;color:#888">&#10132;</td>
+    <td style="width:48%;background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:20px;text-align:center;vertical-align:top">
+      <div style="font-size:12px;color:#166534;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">&#9989; Correct</div>
+      <div style="font-size:18px;font-weight:700;color:#16a34a">${_esc(correctText)}</div>
+    </td>
+  </tr>
+  </table>
+
+  <!-- Updated Event Info -->
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#fdf6f0;border-radius:12px;border-left:4px solid #FF6B35;margin-bottom:24px">
+  <tr><td style="padding:20px 24px">
+    <div style="font-size:13px;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Correct Event Details</div>
+    <table cellpadding="0" cellspacing="0" style="font-size:14px;color:#333">
+      <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#16a34a;vertical-align:top">&#128197; Date</td><td style="padding:4px 0"><strong>${_esc(correctText)}</strong></td></tr>
+      ${timeStr ? `<tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000;vertical-align:top">&#128336; Time</td><td style="padding:4px 0">${timeStr}</td></tr>` : ''}
+      <tr><td style="padding:4px 16px 4px 0;font-weight:600;color:#8B0000;vertical-align:top">&#128205; Venue</td><td style="padding:4px 0">${venue}</td></tr>
+    </table>
+  </td></tr></table>
+
+  ${highlights ? `<div style="background:#f9f7f5;border-radius:12px;padding:16px 20px;margin-bottom:20px">
+    <div style="font-size:13px;color:#8B0000;font-weight:600;margin-bottom:8px">What to Expect</div>
+    <div style="font-size:14px;color:#555;line-height:1.6">${highlights}</div>
+  </div>` : ''}
+
+  <p style="font-size:14px;color:#555;line-height:1.6;margin:0 0 20px">
+    If you have already RSVP'd, <strong>your response is still saved</strong> — no action needed unless you wish to update it. If you haven't yet responded, please use the button below.
+  </p>
+
+  <!-- RSVP Button -->
+  <table width="100%" cellpadding="0" cellspacing="0">
+  <tr><td align="center" style="padding:8px 0 24px">
+    <a href="${rsvpUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:30px;letter-spacing:.5px;box-shadow:0 4px 16px rgba(139,0,0,.3)">
+      Update / Confirm RSVP
+    </a>
+  </td></tr></table>
+
+  <p style="font-size:13px;color:#999;text-align:center;margin:0 0 8px">
+    We apologize for any inconvenience and appreciate your understanding.
+  </p>
+</td></tr>
+
+<!-- Footer -->
+<tr><td style="background:#f9f7f5;padding:24px 40px;text-align:center;border-top:1px solid #eee">
+  <div style="font-size:12px;color:#999;line-height:1.6">
+    ${BANF_ORG}<br>Jacksonville, Florida<br>
+    <a href="mailto:${BANF_EMAIL}" style="color:#8B0000;text-decoration:none">${BANF_EMAIL}</a>
+  </div>
+</td></tr>
+
+</table>
+</td></tr></table>
+</body></html>`;
+}
 
 // ─────────────────────────────────────────────────────────────
 // GET /evite_recipients?type=ec|all_members

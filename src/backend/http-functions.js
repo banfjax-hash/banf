@@ -190,7 +190,8 @@ import {
     get_evite_invite_status,     options_evite_invite_status,
     get_evite_recipients,        options_evite_recipients,
     post_evite_cleanup_invites,  options_evite_cleanup_invites,
-    post_evite_update_event,     options_evite_update_event
+    post_evite_update_event,     options_evite_update_event,
+    post_evite_send_correction,  options_evite_send_correction
 } from 'backend/banf-evite-report';
 
 import {
@@ -468,6 +469,7 @@ export {
     get_evite_recipients,        options_evite_recipients,
     post_evite_cleanup_invites,  options_evite_cleanup_invites,
     post_evite_update_event,     options_evite_update_event,
+    post_evite_send_correction,  options_evite_send_correction,
     // Survey system
     post_survey_setup,              options_survey_setup,
     post_survey_create,             options_survey_create,
