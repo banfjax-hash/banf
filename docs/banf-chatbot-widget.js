@@ -246,9 +246,9 @@
         ],
         portals: {
             main:        'https://www.jaxbengali.org',
-            memberPortal:'https://www.jaxbengali.org/member-portal.html',
-            adminPortal: 'https://www.jaxbengali.org/admin-portal.html',
-            ecSignup:    'https://www.jaxbengali.org/ec-signup.html',
+            memberPortal:'https://banfjax-hash.github.io/banf/member-login.html',
+            adminPortal: 'https://banfjax-hash.github.io/banf/admin-portal.html',
+            ecSignup:    'https://banfjax-hash.github.io/banf/ec-admin-login.html#signup',
             ecLogin:     'https://banfjax-hash.github.io/banf/ec-admin-login.html',
             memberLogin: 'https://banfjax-hash.github.io/banf/member-login.html'
         },

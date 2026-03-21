@@ -63,7 +63,7 @@ function handleEcLogin(e) {
     }).then(function(r) { return r.json(); }).then(function(data) {
         if (data && data.success) {
             closeEcLogin();
-            window.open('https://www.jaxbengali.org/_functions/ec_admin_portal', '_blank');
+            window.open('https://www.jaxbengali.org/_functions/admin_portal', '_blank');
         } else if (data && data.needsOnboarding) {
             errEl.style.display = 'block';
             errEl.innerHTML = '<i class="fas fa-info-circle me-1"></i>Your account setup is not yet complete. <a href="../ec-admin-login.html#signup" target="_blank" style="color:var(--gold);text-decoration:underline;">Complete Sign Up</a>';

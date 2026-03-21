@@ -17,7 +17,7 @@ import wixData from 'wix-data';
 import { createHmac } from 'node:crypto';
 
 const SA = { suppressAuth: true };
-const ONBOARD_URL = 'https://banfjax-hash.github.io/banf/admin-portal.html';
+const ONBOARD_URL = 'https://banfjax-hash.github.io/banf/ec-admin-login.html';
 const PORTAL_URL  = 'https://banfjax-hash.github.io/banf/admin-portal.html';
 const TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 

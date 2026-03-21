@@ -22,7 +22,7 @@
 import wixData from 'wix-data';
 
 const SA = { suppressAuth: true };
-const PORTAL_URL = 'https://www.jaxbengali.org/admin-portal.html';
+const PORTAL_URL = 'https://banfjax-hash.github.io/banf/admin-portal.html';
 const JOURNEY_URL = 'https://banfjax-hash.github.io/banf/stakeholder-requirements-journey.html';
 
 // ─────────────────────────────────────────

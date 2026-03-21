@@ -6865,6 +6865,14 @@ export function get_ec_login(request) {
 }
 export function options_ec_login(request) { return handleCors(); }
 
+// GET /_functions/ec_admin_login — alias redirect (covers users who guess this URL)
+export function get_ec_admin_login(request) {
+    const q = request.query || {};
+    const suffix = q.signup ? '#signup' : (q.reset ? '?reset=true&email=' + encodeURIComponent(q.email || '') : '');
+    return pageRedirect('/ec-admin-login.html' + suffix);
+}
+export function options_ec_admin_login(request) { return handleCors(); }
+
 // GET /_functions/member_portal
 export function get_member_portal(request) { return wixResponse({ status: 302, headers: { 'Location': 'https://www.jaxbengali.org/home?portal=member', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store' }, body: '' }); }
 export function options_member_portal(request) { return handleCors(); }
