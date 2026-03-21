@@ -766,7 +766,17 @@ async function signupStep2Submit() {
   }
 
   const pwResult = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, password: pass });
-  if (!pwResult.success) return showError('signup-error-2', pwResult.error || 'Failed to set password.');
+  if (!pwResult.success && pwResult.error && pwResult.error.indexOf('expired') !== -1) {
+    // Token may have been replaced — get a fresh one and retry
+    var freshSignup = await apiCall('admin_signup_direct', { email: SIGNUP_STATE.email });
+    if (freshSignup.success && freshSignup.setupToken) {
+      SIGNUP_STATE.token = freshSignup.setupToken;
+      var retry = await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: freshSignup.setupToken, password: pass });
+      if (!retry.success) return showError('signup-error-2', retry.error || 'Failed to set password.');
+    } else {
+      return showError('signup-error-2', pwResult.error || 'Failed to set password.');
+    }
+  } else if (!pwResult.success) return showError('signup-error-2', pwResult.error || 'Failed to set password.');
   await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() });
   await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: SIGNUP_STATE.token });
   _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
