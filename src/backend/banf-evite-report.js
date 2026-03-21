@@ -1880,6 +1880,36 @@ export async function post_evite_rsvp_submit(request) {
             }, SA);
         } catch (_) {}
 
+        // Send backup notification to banfjax@gmail.com
+        try {
+            const accessToken = await getGmailToken();
+            const statusLabel = rsvpStatus === 'yes' ? 'ATTENDING' : rsvpStatus === 'no' ? 'DECLINED' : 'MAYBE';
+            const culturalInfo = culturalData ? JSON.stringify(culturalData) : 'None';
+            const backupHtml = `<div style="font-family:sans-serif;padding:16px">
+              <h2 style="color:#8B0000">RSVP Response Received</h2>
+              <table style="border-collapse:collapse;font-size:14px">
+                <tr><td style="padding:4px 12px;font-weight:bold">From:</td><td>${_esc(invitation.recipientName)} &lt;${_esc(invitation.recipientEmail)}&gt;</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Event:</td><td>${_esc(invitation.eventName || 'N/A')}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Status:</td><td style="color:${rsvpStatus === 'yes' ? '#27ae60' : rsvpStatus === 'no' ? '#e74c3c' : '#f39c12'};font-weight:bold">${statusLabel}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Adults:</td><td>${parseInt(adults) || 0}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Kids:</td><td>${parseInt(kids) || 0}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Veg:</td><td>${parseInt(vegCount) || 0}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Non-Veg:</td><td>${parseInt(nonVegCount) || 0}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Dietary:</td><td>${_esc(dietary || 'None')}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Notes:</td><td>${_esc(notes || 'None')}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Cultural:</td><td>${_esc(culturalInfo)}</td></tr>
+                <tr><td style="padding:4px 12px;font-weight:bold">Time:</td><td>${new Date().toISOString()}</td></tr>
+              </table>
+            </div>`;
+            await sendInviteEmail(
+                BANF_EMAIL,
+                BANF_ORG,
+                `[RSVP ${statusLabel}] ${invitation.recipientName} — ${invitation.eventName || 'Event'}`,
+                backupHtml,
+                accessToken
+            );
+        } catch (_) { /* backup email is best-effort, don't block RSVP */ }
+
         return jsonOk({
             message: rsvpStatus === 'yes'
                 ? 'Thank you! We look forward to seeing you!'
