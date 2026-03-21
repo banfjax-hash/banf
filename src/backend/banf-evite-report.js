@@ -2172,13 +2172,16 @@ export function options_evite_update_event(request) { return handleCors(); }
 // 14. SEND CORRECTION EMAIL
 // POST /evite_send_correction
 // Body: { eventId, subject?, correctionHtml?, wrongText?, correctText? }
-// Sends a date/info correction email to ALL invitees of the event.
+// Body: { eventId, subject?, wrongText?, correctText?, limit?, offset? }
+// Sends a date/info correction email to invitees (batched with limit/offset).
 // ─────────────────────────────────────────────────────────────
 
 export async function post_evite_send_correction(request) {
     try {
         const body = await parseBody(request);
         const { eventId } = body;
+        const limit = parseInt(body.limit) || 10;
+        const offset = parseInt(body.offset) || 0;
         if (!eventId) return jsonErr('Missing eventId');
 
         let event;
@@ -2216,7 +2219,14 @@ export async function post_evite_send_correction(request) {
         });
         results.total = uniqueInvitations.length;
 
-        for (const inv of uniqueInvitations) {
+        // Apply offset/limit for batching
+        const batch = uniqueInvitations.slice(offset, offset + limit);
+        results.batchSize = batch.length;
+        results.offset = offset;
+        results.hasMore = (offset + limit) < uniqueInvitations.length;
+        results.nextOffset = offset + limit;
+
+        for (const inv of batch) {
             try {
                 const recipientName = inv.recipientName || inv.recipientEmail.split('@')[0];
                 const rsvpUrl = `${RSVP_FORM_URL}?token=${inv.token}&eventId=${eventId}`;
