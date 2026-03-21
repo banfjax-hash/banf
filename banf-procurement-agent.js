@@ -42,7 +42,7 @@ const crypto = require('crypto');
 const CONFIG = {
   BANF_EMAIL: 'banfjax@gmail.com',
   BANF_ORG: 'Bengali Association of North Florida (BANF)',
-  PORTAL_URL: 'https://www.jaxbengali.org/admin-portal',
+  PORTAL_URL: 'https://www.jaxbengali.org/_functions/admin_portal',
   ZELLE_EMAIL: 'banfjax@gmail.com'
 };
 

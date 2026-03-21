@@ -27,8 +27,8 @@ const CONFIG = {
   EVENT_NAME: 'Bosonto Utsob 2026',
   EVENT_DATE: 'Saturday, March 7, 2026',
   VENUE: 'Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246',
-  PORTAL_URL: 'https://www.jaxbengali.org/admin-portal',
-  QR_SCAN_URL: 'https://www.jaxbengali.org/admin-portal#qr-food-serving'
+  PORTAL_URL: 'https://www.jaxbengali.org/_functions/admin_portal',
+  QR_SCAN_URL: 'https://banfjax-hash.github.io/banf/admin-portal.html#qr-food-serving'
 };
 
 const _secrets2 = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '.banf-secrets.json'), 'utf8'));
