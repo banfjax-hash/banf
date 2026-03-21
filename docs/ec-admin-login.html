@@ -534,14 +534,24 @@ function resolveEmail(input) {
   return lower;
 }
 
+/** Map backend role string to frontend roles array */
+function _backendRoleToFrontendRoles(adminRole) {
+  var map = {
+    'super_admin': ['super-admin', 'business-stakeholder', 'admin'],
+    'admin': ['admin'],
+    'ec_member': ['ec-member']
+  };
+  return map[adminRole] || ['ec-member'];
+}
+
 // ── ENTER PORTAL ──
 // Role gate: this page is for EC members (admin / ec-member roles).
 // All user roles are PRESERVED in session so portal switching works.
 // admin-portal.html uses data-roles + effectiveRole to show EC Admin view.
 function enterPortal(user, email) {
   var allRoles = user.roles || [];
-  // Gate: must have admin or ec-member role to enter via EC Admin login
-  var hasEC = allRoles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member'; });
+  // Gate: must have admin, ec-member or super-admin role to enter via EC Admin login
+  var hasEC = allRoles.some(function(r) { return r === 'admin' || r === 'ec-member' || r === 'ec_member' || r === 'super-admin' || r === 'super_admin'; });
   if (!hasEC) {
     if (allRoles.includes('business-stakeholder')) {
       showError('login-error', '\u26D4 This portal is for EC members. Stakeholders please use the Stakeholder portal.');
@@ -553,7 +563,7 @@ function enterPortal(user, email) {
     return;
   }
   // Set EC-specific effectiveRole while preserving ALL user roles for portal switching
-  var effectiveRole = allRoles.includes('admin') ? 'admin' : 'ec-member';
+  var effectiveRole = allRoles.includes('super-admin') || allRoles.includes('super_admin') ? 'super-admin' : (allRoles.includes('admin') ? 'admin' : 'ec-member');
   var session = {
     email: email,
     name: user.name,
@@ -616,7 +626,8 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     const user = localUser || {
       name: [result.firstName, result.lastName].filter(Boolean).join(' ') || email,
       firstName: result.firstName || '', lastName: result.lastName || '',
-      roles: ['ec-member'], ecTitle: result.ecTitle || '',
+      roles: result.roles && result.roles.length ? result.roles : _backendRoleToFrontendRoles(result.adminRole),
+      ecTitle: result.ecTitle || '',
       offlinePw: null
     };
     // Persist backend-verified credentials to localStorage for future offline access
