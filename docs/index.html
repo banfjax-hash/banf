@@ -2576,7 +2576,7 @@
             <div class="ec-login-links">
                 <a href="ec-admin-login.html" target="_blank"><i class="fas fa-key me-1"></i>Forgot Password?</a>
                 <a href="ec-admin-login.html" target="_blank"><i class="fas fa-envelope-open-text me-1"></i>Forgot Email?</a>
-                <a href="ec-admin-login.html" target="_blank"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
+                <a href="ec-admin-login.html#signup" target="_blank" id="ecSignupLink"><i class="fas fa-user-plus me-1"></i>Sign Up</a>
             </div>
             <p class="text-center mt-2" style="color: #999; font-size: 0.78rem;"><i class="fas fa-lock me-1"></i>Access restricted to BANF Executive Committee</p>
         </div>
@@ -3220,28 +3220,39 @@
             document.getElementById('ecLoginPassword').value = '';
             document.getElementById('ecLoginEmail').focus();
         }
+        // Hide signup link if user already signed up on this browser
+        (function() {
+            var ecEmail = localStorage.getItem('banf_ec_admin_email');
+            if (ecEmail) {
+                var sl = document.getElementById('ecSignupLink');
+                if (sl) sl.style.display = 'none';
+            }
+        })();
         function closeEcLogin() { document.getElementById('ecLoginOverlay').classList.remove('show'); }
         function handleEcLogin(e) {
             e.preventDefault();
-            var email = document.getElementById('ecLoginEmail').value;
+            var email = document.getElementById('ecLoginEmail').value.trim().toLowerCase();
             var password = document.getElementById('ecLoginPassword').value;
-            // Route to Wix backend EC admin authentication
-            var portalFn = 'https://www.jaxbengali.org/_functions/ec_admin_login';
-            fetch(portalFn, {
+            var errEl = document.getElementById('ecLoginError');
+            errEl.style.display = 'none';
+            fetch('https://www.jaxbengali.org/_functions/admin_verify_login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email, password: password })
             }).then(function(r) { return r.json(); }).then(function(data) {
                 if (data && data.success) {
                     closeEcLogin();
-                    window.open(data.redirectUrl || 'https://www.jaxbengali.org/_functions/ec_admin_portal', '_blank');
+                    window.open('ec-admin-login.html', '_blank');
+                } else if (data && data.needsOnboarding) {
+                    errEl.style.display = 'block';
+                    errEl.innerHTML = '<i class="fas fa-info-circle me-1"></i>Account setup incomplete. <a href="ec-admin-login.html#signup" target="_blank" style="color:var(--gold);text-decoration:underline;">Complete Sign Up</a>';
                 } else {
-                    document.getElementById('ecLoginError').style.display = 'block';
-                    document.getElementById('ecLoginError').textContent = (data && data.message) || 'Invalid credentials. EC members only.';
+                    errEl.style.display = 'block';
+                    errEl.textContent = (data && (data.message || data.error)) || 'Invalid credentials. EC members only.';
                 }
             }).catch(function() {
-                document.getElementById('ecLoginError').style.display = 'block';
-                document.getElementById('ecLoginError').textContent = 'Login service temporarily unavailable. Please try again later.';
+                errEl.style.display = 'block';
+                errEl.textContent = 'Login service temporarily unavailable. Please try again later.';
             });
             return false;
         }
