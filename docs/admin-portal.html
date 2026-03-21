@@ -3709,7 +3709,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     _saveCredsToLocalStorage(email, pass, '', '');
     var dbU = AUTH_DB[email];
     CURRENT_ADMIN = {
-      email: email, roles: dbU ? dbU.roles : [result.adminRole || 'ec-member'],
+      email: email, roles: (result.roles && result.roles.length) ? result.roles : (dbU ? dbU.roles : [result.adminRole || 'ec-member']),
       role: result.adminRole || (dbU ? dbU.roles[0] : 'ec-member'),
       firstName: result.firstName || '', lastName: result.lastName || '',
       ecTitle: result.ecTitle || (dbU ? dbU.ecTitle : ''), name: (result.firstName || '') + ' ' + (result.lastName || '')
