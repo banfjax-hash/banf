@@ -162,18 +162,18 @@
       "filtering"
     ],
     "context": {
-      "skippedMarketing": 0,
+      "skippedMarketing": 1,
       "skippedReplied": 0,
       "skippedDrive": 0,
-      "userQueryCount": 1,
+      "userQueryCount": 0,
       "source": "email_reader_agent"
     },
     "source": "unknown",
     "impact": "low",
     "relatedEmails": [],
     "createdAt": "2026-03-16T01:22:28.397Z",
-    "accessCount": 8,
-    "lastAccessed": "2026-03-17T23:55:07.307Z",
+    "accessCount": 9,
+    "lastAccessed": "2026-03-22T02:25:40.751Z",
     "confidence": 1,
     "supersedes": null
   },
@@ -328,6 +328,446 @@
     "impact": "high",
     "relatedEmails": [],
     "createdAt": "2026-03-17T23:55:08.110Z",
+    "accessCount": 1,
+    "lastAccessed": "2026-03-22T01:55:14.662Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144511976-3b14c5",
+    "type": "experience",
+    "content": "Email scan: 44 new emails. Filtered: 15 marketing, 0 already-replied, 2 drive. Passed: 19 user queries.",
+    "tags": [
+      "email_scan",
+      "filtering"
+    ],
+    "context": {
+      "skippedMarketing": 15,
+      "skippedReplied": 0,
+      "skippedDrive": 2,
+      "userQueryCount": 19,
+      "source": "email_reader_agent"
+    },
+    "source": "unknown",
+    "impact": "low",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:11.977Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144512575-2b5f09",
+    "type": "experience",
+    "content": "Processed email from hello@dailypassport.com: subject=\"6 Things Hotel Staff Wish Guests Would Do\", category=general_info, confidence=0.6857142857142857, needsHuman=true, approvalId=QA-1774144512038-r2ls",
+    "tags": [
+      "general_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "hello@dailypassport.com",
+      "subject": "6 Things Hotel Staff Wish Guests Would Do",
+      "category": "general_info",
+      "confidence": 0.6857142857142857,
+      "approvalId": "QA-1774144512038-r2ls",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:12.575Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144512887-ad98fe",
+    "type": "experience",
+    "content": "Processed email from henasanat@yahoo.com: subject=\"Re: You're Invited: BANF Noboborsho 2026 -\", category=general_info, confidence=0.7, needsHuman=true, approvalId=QA-1774144512601-lbe8",
+    "tags": [
+      "general_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "henasanat@yahoo.com",
+      "subject": "Re: You're Invited: BANF Noboborsho 2026 -",
+      "category": "general_info",
+      "confidence": 0.7,
+      "approvalId": "QA-1774144512601-lbe8",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:12.887Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144513102-826b92",
+    "type": "experience",
+    "content": "Processed email from botbanf@gmail.com: subject=\"Re: Bengali Association of North Florida (BANF) - By Laws Amendment Update (Content & Timeline)\", category=policy_bylaws, confidence=0.95, needsHuman=true, approvalId=QA-1774144512904-azs3",
+    "tags": [
+      "policy_bylaws",
+      "email_processed"
+    ],
+    "context": {
+      "email": "botbanf@gmail.com",
+      "subject": "Re: Bengali Association of North Florida (BANF) - By Laws Amendment Update (Content & Timeline)",
+      "category": "policy_bylaws",
+      "confidence": 0.95,
+      "approvalId": "QA-1774144512904-azs3",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:13.102Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144513607-2a52f7",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"Buccaneers Lose 3-Time NFL All-Pro to NFC Contender\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513126-m196",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender",
+      "category": "event_info",
+      "confidence": 0.6222222222222222,
+      "approvalId": "QA-1774144513126-m196",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:13.607Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144513886-70864a",
+    "type": "experience",
+    "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+    "tags": [
+      "payment_request",
+      "email_processed"
+    ],
+    "context": {
+      "email": "alerts@notify.wellsfargo.com",
+      "subject": "Account update",
+      "category": "payment_request",
+      "confidence": 0.6333333333333333,
+      "approvalId": "QA-1774144513621-qmip",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:13.886Z",
+    "accessCount": 3,
+    "lastAccessed": "2026-03-22T01:55:15.614Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144514153-295875",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"✌️ Ex-All-Pro Walks in Free Agency\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513913-xrjd",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "✌️ Ex-All-Pro Walks in Free Agency",
+      "category": "event_info",
+      "confidence": 0.6222222222222222,
+      "approvalId": "QA-1774144513913-xrjd",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:14.153Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144514393-9762c7",
+    "type": "experience",
+    "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj",
+    "tags": [
+      "payment_request",
+      "email_processed"
+    ],
+    "context": {
+      "email": "alerts@notify.wellsfargo.com",
+      "subject": "Account update",
+      "category": "payment_request",
+      "confidence": 0.6333333333333333,
+      "approvalId": "QA-1774144514170-78zj",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:14.393Z",
+    "accessCount": 2,
+    "lastAccessed": "2026-03-22T01:55:15.614Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144514641-1a2ce7",
+    "type": "experience",
+    "content": "Processed email from hello@dailypassport.com: subject=\"The One Drink You Should Never Order on a Plane\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144514410-c9r8",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "hello@dailypassport.com",
+      "subject": "The One Drink You Should Never Order on a Plane",
+      "category": "event_info",
+      "confidence": 0.6222222222222222,
+      "approvalId": "QA-1774144514410-c9r8",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:14.641Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144514896-fc1467",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"😖 Bucs Lose Versatile Vet DB\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144514670-0m8d",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "😖 Bucs Lose Versatile Vet DB",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1774144514670-0m8d",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:14.896Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515142-47e0a7",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144514919-pvw9",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1774144514919-pvw9",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.143Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515309-fd86d4",
+    "type": "experience",
+    "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144515171-lnj7",
+    "tags": [
+      "payment_request",
+      "email_processed"
+    ],
+    "context": {
+      "email": "alerts@notify.wellsfargo.com",
+      "subject": "Account update",
+      "category": "payment_request",
+      "confidence": 0.6333333333333333,
+      "approvalId": "QA-1774144515171-lnj7",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.309Z",
+    "accessCount": 1,
+    "lastAccessed": "2026-03-22T01:55:15.614Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515377-1484eb",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"💯 Licht Gets REAL About Evans\", category=profile_update, confidence=0.7, needsHuman=true, approvalId=QA-1774144515326-n4a7",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "💯 Licht Gets REAL About Evans",
+      "category": "profile_update",
+      "confidence": 0.7,
+      "approvalId": "QA-1774144515326-n4a7",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.377Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515440-7d5f75",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Free Up Cap Space\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144515394-kdna",
+    "tags": [
+      "profile_update",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "💰 Bucs Free Up Cap Space",
+      "category": "profile_update",
+      "confidence": 0.6000000000000001,
+      "approvalId": "QA-1774144515394-kdna",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.441Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515519-b7d762",
+    "type": "experience",
+    "content": "Processed email from website+security@huggingface.co: subject=\"[HuggingFace] Security alert: token expired\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144515464-xwkl",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "website+security@huggingface.co",
+      "subject": "[HuggingFace] Security alert: token expired",
+      "category": "event_info",
+      "confidence": 0.6222222222222222,
+      "approvalId": "QA-1774144515464-xwkl",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.519Z",
+    "accessCount": 1,
+    "lastAccessed": "2026-03-22T01:55:15.541Z",
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515599-5d4409",
+    "type": "experience",
+    "content": "Processed email from website+security@huggingface.co: subject=\"[HuggingFace] Security alert: token expired\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144515550-ygyu",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "website+security@huggingface.co",
+      "subject": "[HuggingFace] Security alert: token expired",
+      "category": "event_info",
+      "confidence": 0.6222222222222222,
+      "approvalId": "QA-1774144515550-ygyu",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.599Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774144515677-20c27e",
+    "type": "experience",
+    "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144515617-8yxm",
+    "tags": [
+      "payment_request",
+      "email_processed"
+    ],
+    "context": {
+      "email": "alerts@notify.wellsfargo.com",
+      "subject": "Account update",
+      "category": "payment_request",
+      "confidence": 0.6333333333333333,
+      "approvalId": "QA-1774144515617-8yxm",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T01:55:15.677Z",
     "accessCount": 0,
     "lastAccessed": null,
     "confidence": 1,

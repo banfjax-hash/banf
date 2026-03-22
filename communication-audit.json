@@ -242,12 +242,388 @@
         "hasNonAscii": true,
         "recipientValid": true
       }
+    },
+    {
+      "id": "AUDIT-1774144512153-miq6",
+      "timestamp": "2026-03-22T01:55:12.153Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: general_info [QA-1774144512038-r2ls]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: general_info [QA-1774144512038-r2ls]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBnZW5lcmFsX2lu?=\r\n =?UTF-8?B?Zm8gW1FBLTE3NzQxNDQ1MTIwMzgtcjJsc10=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144512672-x1ag",
+      "timestamp": "2026-03-22T01:55:12.672Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: general_info [QA-1774144512601-lbe8]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: general_info [QA-1774144512601-lbe8]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBnZW5lcmFsX2lu?=\r\n =?UTF-8?B?Zm8gW1FBLTE3NzQxNDQ1MTI2MDEtbGJlOF0=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144512959-b5ua",
+      "timestamp": "2026-03-22T01:55:12.959Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: policy_bylaws [QA-1774144512904-azs3]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: policy_bylaws [QA-1774144512904-azs3]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwb2xpY3lfYnls?=\r\n =?UTF-8?B?YXdzIFtRQS0xNzc0MTQ0NTEyOTA0LWF6czNd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144513180-al1v",
+      "timestamp": "2026-03-22T01:55:13.180Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1774144513126-m196]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1774144513126-m196]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzc0MTQ0NTEzMTI2LW0xOTZd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144513679-djgg",
+      "timestamp": "2026-03-22T01:55:13.679Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: payment_request [QA-1774144513621-qmip]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: payment_request [QA-1774144513621-qmip]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwYXltZW50X3Jl?=\r\n =?UTF-8?B?cXVlc3QgW1FBLTE3NzQxNDQ1MTM2MjEtcW1pcF0=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144513973-goiv",
+      "timestamp": "2026-03-22T01:55:13.973Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1774144513913-xrjd]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1774144513913-xrjd]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzc0MTQ0NTEzOTEzLXhyamRd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144514230-gchx",
+      "timestamp": "2026-03-22T01:55:14.230Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: payment_request [QA-1774144514170-78zj]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: payment_request [QA-1774144514170-78zj]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwYXltZW50X3Jl?=\r\n =?UTF-8?B?cXVlc3QgW1FBLTE3NzQxNDQ1MTQxNzAtNzh6al0=?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144514461-7dpt",
+      "timestamp": "2026-03-22T01:55:14.461Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1774144514410-c9r8]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1774144514410-c9r8]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzc0MTQ0NTE0NDEwLWM5cjhd?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144514720-pwy3",
+      "timestamp": "2026-03-22T01:55:14.720Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1774144514670-0m8d]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1774144514670-0m8d]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3NDE0NDUxNDY3MC0wbThkXQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144514975-xjr8",
+      "timestamp": "2026-03-22T01:55:14.975Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1774144514919-pvw9]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: profile_update [QA-1774144514919-pvw9]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBwcm9maWxlX3Vw?=\r\n =?UTF-8?B?ZGF0ZSBbUUEtMTc3NDE0NDUxNDkxOS1wdnc5XQ==?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
+    },
+    {
+      "id": "AUDIT-1774144515308-p7f9",
+      "timestamp": "2026-03-22T01:55:15.308Z",
+      "action": "send_blocked",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: payment_request [QA-1774144515171-lnj7]",
+      "complianceScore": null,
+      "complianceLevel": null,
+      "violations": [
+        "Rate limit: 10/min exceeded"
+      ],
+      "warnings": [],
+      "result": "blocked",
+      "evidence": {
+        "rateLimit": {
+          "allowed": false,
+          "reason": "Rate limit: 10/min exceeded",
+          "remaining": {
+            "minute": 0,
+            "hour": 90,
+            "day": 490
+          }
+        }
+      }
+    },
+    {
+      "id": "AUDIT-1774144515376-uvbz",
+      "timestamp": "2026-03-22T01:55:15.376Z",
+      "action": "send_blocked",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1774144515326-n4a7]",
+      "complianceScore": null,
+      "complianceLevel": null,
+      "violations": [
+        "Rate limit: 10/min exceeded"
+      ],
+      "warnings": [],
+      "result": "blocked",
+      "evidence": {
+        "rateLimit": {
+          "allowed": false,
+          "reason": "Rate limit: 10/min exceeded",
+          "remaining": {
+            "minute": 0,
+            "hour": 90,
+            "day": 490
+          }
+        }
+      }
+    },
+    {
+      "id": "AUDIT-1774144515439-1o9d",
+      "timestamp": "2026-03-22T01:55:15.439Z",
+      "action": "send_blocked",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: profile_update [QA-1774144515394-kdna]",
+      "complianceScore": null,
+      "complianceLevel": null,
+      "violations": [
+        "Rate limit: 10/min exceeded"
+      ],
+      "warnings": [],
+      "result": "blocked",
+      "evidence": {
+        "rateLimit": {
+          "allowed": false,
+          "reason": "Rate limit: 10/min exceeded",
+          "remaining": {
+            "minute": 0,
+            "hour": 90,
+            "day": 490
+          }
+        }
+      }
+    },
+    {
+      "id": "AUDIT-1774144515518-w59m",
+      "timestamp": "2026-03-22T01:55:15.518Z",
+      "action": "send_blocked",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1774144515464-xwkl]",
+      "complianceScore": null,
+      "complianceLevel": null,
+      "violations": [
+        "Rate limit: 10/min exceeded"
+      ],
+      "warnings": [],
+      "result": "blocked",
+      "evidence": {
+        "rateLimit": {
+          "allowed": false,
+          "reason": "Rate limit: 10/min exceeded",
+          "remaining": {
+            "minute": 0,
+            "hour": 90,
+            "day": 490
+          }
+        }
+      }
+    },
+    {
+      "id": "AUDIT-1774144515597-xb81",
+      "timestamp": "2026-03-22T01:55:15.597Z",
+      "action": "send_blocked",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1774144515550-ygyu]",
+      "complianceScore": null,
+      "complianceLevel": null,
+      "violations": [
+        "Rate limit: 10/min exceeded"
+      ],
+      "warnings": [],
+      "result": "blocked",
+      "evidence": {
+        "rateLimit": {
+          "allowed": false,
+          "reason": "Rate limit: 10/min exceeded",
+          "remaining": {
+            "minute": 0,
+            "hour": 90,
+            "day": 490
+          }
+        }
+      }
+    },
+    {
+      "id": "AUDIT-1774144515676-1j0d",
+      "timestamp": "2026-03-22T01:55:15.676Z",
+      "action": "send_blocked",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: payment_request [QA-1774144515617-8yxm]",
+      "complianceScore": null,
+      "complianceLevel": null,
+      "violations": [
+        "Rate limit: 10/min exceeded"
+      ],
+      "warnings": [],
+      "result": "blocked",
+      "evidence": {
+        "rateLimit": {
+          "allowed": false,
+          "reason": "Rate limit: 10/min exceeded",
+          "remaining": {
+            "minute": 0,
+            "hour": 90,
+            "day": 490
+          }
+        }
+      }
     }
   ],
   "stats": {
-    "total": 11,
-    "passed": 11,
-    "failed": 0,
-    "warnings": 11
+    "total": 27,
+    "passed": 21,
+    "failed": 6,
+    "warnings": 21
   }
 }

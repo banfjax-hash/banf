@@ -8339,3 +8339,620 @@
 [2026-03-18T21:10:22.681Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
 [2026-03-18T21:10:22.682Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 56 min). Run: node gmail-oauth-refresh.js
 [2026-03-18T21:10:22.683Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:25:37.417Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2484 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:25:37.420Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:25:37.422Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 1 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T00:25:37.425Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:30:37.419Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2485 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:30:37.424Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:30:37.426Z] [INFO] Token backoff period elapsed, retrying token refresh...
+[2026-03-22T00:30:37.687Z] [ERROR] Gmail token unavailable: Gmail token: Unauthorized
+[2026-03-22T00:30:37.688Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:35:37.423Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2486 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:35:37.429Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:35:37.432Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 56 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T00:35:37.433Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:40:37.429Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2487 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:40:37.435Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:40:37.438Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 51 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T00:40:37.439Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:45:37.433Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2488 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:45:37.439Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:45:37.441Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 46 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T00:45:37.443Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:50:37.434Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2489 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:50:37.436Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:50:37.438Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 41 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T00:50:37.439Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T00:55:37.445Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2490 ΓòÉΓòÉΓòÉ
+[2026-03-22T00:55:37.448Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T00:55:37.450Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 36 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T00:55:37.452Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:00:37.449Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2491 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:00:37.455Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:00:37.457Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 31 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:00:37.459Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:05:37.461Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2492 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:05:37.466Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:05:37.468Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 26 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:05:37.468Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:10:37.467Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2493 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:10:37.472Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:10:37.474Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 21 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:10:37.475Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:15:37.475Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2494 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:15:37.480Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:15:37.482Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 16 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:15:37.482Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:20:37.489Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2495 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:20:37.492Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:20:37.495Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 11 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:20:37.497Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:25:37.495Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2496 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:25:37.500Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:25:37.502Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 6 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:25:37.504Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:30:37.498Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2497 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:30:37.500Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:30:37.502Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 1 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:30:37.503Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:35:37.506Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2498 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:35:37.512Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:35:37.513Z] [INFO] Token backoff period elapsed, retrying token refresh...
+[2026-03-22T01:35:37.913Z] [ERROR] Gmail token unavailable: Gmail token: Unauthorized
+[2026-03-22T01:35:37.917Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:40:37.514Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2499 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:40:37.518Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:40:37.521Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 56 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:40:37.523Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:45:37.515Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2500 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:45:37.518Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:45:37.519Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 51 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:45:37.520Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:50:37.522Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2501 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:50:37.524Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:50:37.526Z] [ERROR] Gmail token unavailable: Gmail token: expired/revoked (backoff ΓÇö retry in 46 min). Run: node gmail-oauth-refresh.js
+[2026-03-22T01:50:37.527Z] [ERROR] Skipping all Gmail scan phases this cycle. Fix: node gmail-oauth-refresh.js
+[2026-03-22T01:54:35.300Z] [INFO] Starting continuous polling every 5 minutes...
+[2026-03-22T01:54:35.301Z] [INFO] Press Ctrl+C to stop.
+
+[2026-03-22T01:54:35.302Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2502 ΓòÉΓòÉΓòÉ
+[2026-03-22T01:54:35.302Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T01:54:35.475Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T01:54:36.297Z] [INFO] Total emails found: 80, previously processed: 286
+[2026-03-22T01:54:36.299Z] [INFO] New emails to process: 0
+[2026-03-22T01:54:36.302Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T01:54:37.751Z] [INFO] Payment emails: 234 total, 102 new
+[2026-03-22T01:54:55.245Z] [INFO]   NEW PAYMENT: $250 from unknown via check_deposit
+[2026-03-22T01:54:55.247Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T01:54:55.422Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T01:54:55.425Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T01:54:55.768Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T01:54:55.769Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T01:54:55.964Z] [INFO] User query emails: 50 total, 44 new
+[2026-03-22T01:54:56.531Z] [INFO]   NEW USER QUERY [general_info]: 6 Things Hotel Staff Wish Guests Would Do... from hello@dailypassport.com (conf: 0.69)
+[2026-03-22T01:54:57.056Z] [INFO]   NEW USER QUERY [general_info] [MEMBER REPLY]: Re: You're Invited: BANF Noboborsho 2026 -... from henasanat@yahoo.com (conf: 0.70)
+[2026-03-22T01:54:57.684Z] [DEBUG]   Skipping unclassified: You're Invited: BANF Noboborsho 2026 -
+[2026-03-22T01:54:58.613Z] [DEBUG]   SKIP [MARKETING] You're Invited: BANF Noboborsho 2026 -... (Company email (epiccms.net) with no BANF relevance)
+[2026-03-22T01:54:58.782Z] [DEBUG]   SKIP [MARKETING] You're Invited: BANF Noboborsho 2026 -... (Company email (pushcms.net) with no BANF relevance)
+[2026-03-22T01:54:58.993Z] [DEBUG]   SKIP [MARKETING] 🗓️ Weekly Recap: March Madness continue... (Blocked domain: info@)
+[2026-03-22T01:54:59.509Z] [INFO]   NEW USER QUERY [policy_bylaws] [MEMBER REPLY]: Re: Bengali Association of North Florida (BANF) - ... from botbanf@gmail.com (conf: 0.95)
+[2026-03-22T01:54:59.674Z] [DEBUG]   SKIP [MARKETING] PREVIEW: Bengali Association of North Fl... (Blocked domain: mailva.evite.com)
+[2026-03-22T01:54:59.863Z] [DEBUG]   SKIP [MARKETING] Love Music? You've Got Exclusive Access... (Blocked domain: info@)
+[2026-03-22T01:55:00.392Z] [INFO]   NEW USER QUERY [event_info]: Buccaneers Lose 3-Time NFL All-Pro to NFC Contende... from newsletters@heavy.com (conf: 0.62)
+[2026-03-22T01:55:00.576Z] [DEBUG]   SKIP [MARKETING] Divine Kailash Mansarovar Yatra - 13 Day... (Company email (shared1.ccsend.com) with no BANF relevance)
+[2026-03-22T01:55:01.087Z] [INFO]   NEW USER QUERY [payment_request]: Account update... from alerts@notify.wellsfargo.com (conf: 0.63)
+[2026-03-22T01:55:01.592Z] [INFO]   NEW USER QUERY [policy_bylaws] [MEMBER REPLY]: Re: Bengali Association of North Florida (BANF) - ... from robchatto@aol.com (conf: 0.95)
+[2026-03-22T01:55:02.108Z] [INFO]   NEW USER QUERY [policy_bylaws] [MEMBER REPLY]: Re: Bengali Association of North Florida (BANF) - ... from robchatto@aol.com (conf: 0.95)
+[2026-03-22T01:55:02.268Z] [DEBUG]   SKIP [MARKETING] banf_jax, catch up on moments you've mis... (Blocked domain: notification@)
+[2026-03-22T01:55:02.757Z] [INFO]   NEW USER QUERY [event_info]: ✌️ Ex-All-Pro Walks in Free Agency... from newsletters@heavy.com (conf: 0.62)
+[2026-03-22T01:55:02.938Z] [DEBUG]   SKIP [MARKETING] Turkey & Greece in 16 Days – Your Dream ... (Company email (shared1.ccsend.com) with no BANF relevance)
+[2026-03-22T01:55:03.109Z] [DEBUG]   SKIP [MARKETING] 📺 Is Nexstar about to create a local TV... (Blocked domain: info@)
+[2026-03-22T01:55:03.287Z] [DEBUG]   SKIP [MARKETING] Don’t send this to voicemail... (Company email (ml.spartan.com) with no BANF relevance)
+[2026-03-22T01:55:03.481Z] [DEBUG]   SKIP [MARKETING] You May No Longer Need Your ID at Airpor... (Company email (dailypassport.com) with no BANF relevance)
+[2026-03-22T01:55:03.979Z] [DEBUG]   Skipping unclassified: Buccaneers Defender Jumps Ship for Super
+[2026-03-22T01:55:04.466Z] [INFO]   NEW USER QUERY [payment_request]: Account update... from alerts@notify.wellsfargo.com (conf: 0.63)
+[2026-03-22T01:55:04.961Z] [INFO]   NEW USER QUERY [event_info]: The One Drink You Should Never Order on a Plane... from hello@dailypassport.com (conf: 0.62)
+[2026-03-22T01:55:05.435Z] [DEBUG]   Skipping unclassified: banf_jax, see what's been happening on I
+[2026-03-22T01:55:05.926Z] [INFO]   NEW USER QUERY [profile_update]: 😖 Bucs Lose Versatile Vet DB... from newsletters@heavy.com (conf: 0.60)
+[2026-03-22T01:55:06.086Z] [DEBUG]   SKIP [MARKETING] Make every party a slam dunk 🏀🥂... (Company email (bartesian.com) with no BANF relevance)
+[2026-03-22T01:55:06.251Z] [DEBUG]   SKIP [MARKETING] Shop Support for Joint Swelling... (Company email (massage-lab.com) with no BANF relevance)
+[2026-03-22T01:55:06.418Z] [DEBUG]   SKIP [MARKETING] Take this step toward seamless tax filin... (Company email (mail.adobe.com) with no BANF relevance)
+[2026-03-22T01:55:06.912Z] [INFO]   NEW USER QUERY [profile_update]: ‘I Don’t Feel Betrayed’: Buccaneers GM Addresses L... from newsletters@heavy.com (conf: 0.60)
+[2026-03-22T01:55:07.425Z] [INFO]   NEW USER QUERY [payment_request]: Account update... from alerts@notify.wellsfargo.com (conf: 0.63)
+[2026-03-22T01:55:08.375Z] [INFO]   NEW USER QUERY [profile_update]: 💯 Licht Gets REAL About Evans... from newsletters@heavy.com (conf: 0.70)
+[2026-03-22T01:55:08.544Z] [DEBUG]   SKIP [MARKETING] banf_jax, catch up on moments you've mis... (Blocked domain: notification@)
+[2026-03-22T01:55:09.032Z] [INFO]   NEW USER QUERY [profile_update]: 💰 Bucs Free Up Cap Space... from newsletters@heavy.com (conf: 0.60)
+[2026-03-22T01:55:09.526Z] [INFO]   NEW USER QUERY [cultural_performance]: NABC 2026 - Kumar Sanu tickets, Pancham, IFFA! Che... from nabcnewyork-gmail.com@shared1.ccsend.com (conf: 0.95)
+[2026-03-22T01:55:10.486Z] [INFO]   NEW USER QUERY [event_info]: [HuggingFace] Security alert: token expired... from website+security@huggingface.co (conf: 0.62)
+[2026-03-22T01:55:10.965Z] [INFO]   NEW USER QUERY [event_info]: [HuggingFace] Security alert: token expired... from website+security@huggingface.co (conf: 0.62)
+[2026-03-22T01:55:11.478Z] [DEBUG]   Skipping unclassified: Buccaneers Lose 6-foot-8, 311-Pound Free
+[2026-03-22T01:55:11.975Z] [INFO]   NEW USER QUERY [payment_request]: Account update... from alerts@notify.wellsfargo.com (conf: 0.63)
+[2026-03-22T01:55:11.976Z] [INFO]   Filtering: 15 marketing, 0 already-replied, 2 drive
+[2026-03-22T01:55:12.019Z] [INFO] Processing 19 user query email(s) via User Query Agent...
+[2026-03-22T01:55:12.577Z] [INFO]     ≡ƒôï 6 Things Hotel Staff Wish Gues... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:12.888Z] [INFO]     ≡ƒôï Re: You're Invited: BANF Nobob... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:13.104Z] [INFO]     ≡ƒôï Re: Bengali Association of Nor... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:13.608Z] [INFO]     ≡ƒôï Buccaneers Lose 3-Time NFL All... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:13.887Z] [INFO]     ≡ƒôï Account update... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:13.893Z] [INFO]     ≡ƒñû RL: Re: Bengali Association of North Florida... ΓåÆ DO_NOTHING (99%) ΓÇö silent drop
+[2026-03-22T01:55:13.899Z] [INFO]     ≡ƒñû RL: Re: Bengali Association of North Florida... ΓåÆ DO_NOTHING (99%) ΓÇö silent drop
+[2026-03-22T01:55:14.154Z] [INFO]     ≡ƒôï ✌️ Ex-All-Pro Walks in Free Ag... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:14.394Z] [INFO]     ≡ƒôï Account update... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:14.642Z] [INFO]     ≡ƒôï The One Drink You Should Never... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:14.898Z] [INFO]     ≡ƒôï 😖 Bucs Lose Versatile Vet DB... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.145Z] [INFO]     ≡ƒôï ‘I Don’t Feel Betrayed’: Bucca... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.310Z] [INFO]     ≡ƒôï Account update... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.378Z] [INFO]     ≡ƒôï 💯 Licht Gets REAL About Evans... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.442Z] [INFO]     ≡ƒôï 💰 Bucs Free Up Cap Space... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.447Z] [INFO]     ≡ƒñû RL: NABC 2026 - Kumar Sanu tickets, Pancham,... ΓåÆ DO_NOTHING (90%) ΓÇö silent drop
+[2026-03-22T01:55:15.454Z] [INFO]     ≡ƒñû RL: [HuggingFace] Security alert: token expi... ΓåÆ NOTIFY_PRESIDENT (90%) ΓÇö flag only, no response
+[2026-03-22T01:55:15.522Z] [INFO]     ≡ƒôï [HuggingFace] Security alert: ... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.533Z] [INFO]     ≡ƒñû RL: [HuggingFace] Security alert: token expi... ΓåÆ NOTIFY_PRESIDENT (90%) ΓÇö flag only, no response
+[2026-03-22T01:55:15.601Z] [INFO]     ≡ƒôï [HuggingFace] Security alert: ... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.678Z] [INFO]     ≡ƒôï Account update... ΓåÆ QUEUED for processing
+[2026-03-22T01:55:15.708Z] [INFO]   ≡ƒô¼ MQ: user_query ΓÇö 19 messages acknowledged
+[2026-03-22T01:55:22.681Z] [INFO]   ≡ƒô¢ Delivery failures: 38 bounces, 0 recovered, 22 escalated
+[2026-03-22T01:55:22.682Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T01:55:23.413Z] [INFO]   GitHub notification emails: 50 total, 50 new
+[2026-03-22T01:55:23.564Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (0506c6e
+[2026-03-22T01:55:23.739Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e5d8b66
+[2026-03-22T01:55:23.911Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c16fcfb
+[2026-03-22T01:55:24.073Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (b9e154f
+[2026-03-22T01:55:24.266Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (bf746d2
+[2026-03-22T01:55:24.431Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3028116
+[2026-03-22T01:55:24.576Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (0c967db
+[2026-03-22T01:55:24.742Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (3ab49e7)
+[2026-03-22T01:55:24.906Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3ab49e7
+[2026-03-22T01:55:25.106Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (162cc29)
+[2026-03-22T01:55:25.266Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (162cc29
+[2026-03-22T01:55:25.428Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (ca8c08e)
+[2026-03-22T01:55:25.582Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (ca8c08e
+[2026-03-22T01:55:25.746Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (65e432a)
+[2026-03-22T01:55:25.903Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (7f647cc)
+[2026-03-22T01:55:26.084Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7f647cc
+[2026-03-22T01:55:26.249Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e28e197
+[2026-03-22T01:55:26.440Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (2607e61
+[2026-03-22T01:55:26.620Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (4d08af0
+[2026-03-22T01:55:26.801Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (04995c3
+[2026-03-22T01:55:26.960Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (9a46145
+[2026-03-22T01:55:27.132Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e54084f
+[2026-03-22T01:55:27.329Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8954d56
+[2026-03-22T01:55:27.507Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (20beffe
+[2026-03-22T01:55:27.671Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e17b3e4
+[2026-03-22T01:55:27.853Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (cf88b99
+[2026-03-22T01:55:28.054Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (d23434e
+[2026-03-22T01:55:28.219Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8b5bc2f
+[2026-03-22T01:55:28.403Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (67f813a
+[2026-03-22T01:55:28.548Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (8ef7c86)
+[2026-03-22T01:55:28.693Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8ef7c86
+[2026-03-22T01:55:28.860Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (ea43edf
+[2026-03-22T01:55:29.005Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (2e2193a
+[2026-03-22T01:55:29.201Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (eaa5c72
+[2026-03-22T01:55:29.353Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c8e6af4
+[2026-03-22T01:55:29.517Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (1c76f9e
+[2026-03-22T01:55:29.688Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (4615476
+[2026-03-22T01:55:29.852Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7e8f6e6
+[2026-03-22T01:55:30.038Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (3f85c73)
+[2026-03-22T01:55:30.203Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3f85c73
+[2026-03-22T01:55:30.357Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (6015ad5
+[2026-03-22T01:55:30.553Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (1329e33
+[2026-03-22T01:55:30.736Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (d64a854
+[2026-03-22T01:55:30.912Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (cadafc7
+[2026-03-22T01:55:31.068Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (6d17794
+[2026-03-22T01:55:31.236Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (09d31a4
+[2026-03-22T01:55:31.419Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8222e9e
+[2026-03-22T01:55:31.583Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (751e732
+[2026-03-22T01:55:31.749Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7d23106
+[2026-03-22T01:55:31.919Z] [INFO]   ≡ƒö┤ GitHub Failure: banfjax-hash/banf ΓÇö [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (eacf335
+[2026-03-22T01:55:31.919Z] [INFO]   GitHub failure scan complete: 50 failures detected
+[2026-03-22T01:55:59.752Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:56:33.747Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:56:54.441Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:57:13.587Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:57:34.169Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:57:52.193Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:58:13.655Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:58:33.156Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:58:52.597Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:59:10.837Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:59:33.264Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T01:59:57.949Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:00:19.138Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:00:45.240Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:01:09.904Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:01:31.843Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:01:57.954Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:02:24.271Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:02:48.375Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:03:08.814Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:03:28.702Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:03:47.220Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:04:07.783Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:04:29.680Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:04:49.981Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:05:13.034Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:05:33.821Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:05:54.103Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:06:15.089Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:06:37.822Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:07:14.789Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:07:40.390Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:08:04.456Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:08:30.275Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:09:01.497Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:09:30.271Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:09:55.871Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:10:25.977Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:10:53.938Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:11:20.658Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:11:42.682Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:12:11.654Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:12:32.438Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:12:55.491Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:13:16.393Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:13:37.895Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:14:02.863Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:14:26.052Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:14:50.582Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:15:16.199Z] [INFO]   ≡ƒöº Routed to dev pipeline: banfjax-hash/banf failure
+[2026-03-22T02:15:16.446Z] [INFO]   ≡ƒö┤ GitHub failures: 50 detected, 50 routed to dev pipeline
+[2026-03-22T02:15:16.449Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:15:16.921Z] [INFO]   WF emails: 70 total, 70 new
+[2026-03-22T02:15:18.008Z] [INFO]   [ExpenseIQ] Merchant "NOTARIZE DBA PROOF.COM in" → notary (admin)
+[2026-03-22T02:15:18.013Z] [INFO]   [ExpenseIQ] Found related folder: SJCSD_Facility-Use-Request_FILLED/ (2 files)
+[2026-03-22T02:15:18.014Z] [INFO]   [ExpenseIQ] Found related file: SJCSD_Facility-Use-Request_FILLED.zip
+[2026-03-22T02:15:18.015Z] [INFO]   [ExpenseIQ] Found related file: _send-facility-request-ottosen-v2.js
+[2026-03-22T02:15:18.015Z] [INFO]   [ExpenseIQ] Found related file: _send-facility-request-ottosen-v3.js
+[2026-03-22T02:15:18.016Z] [INFO]   [ExpenseIQ] Found related file: _send-facility-request-ottosen.js
+[2026-03-22T02:15:18.025Z] [INFO]   [ExpenseIQ] Script banf-facilitron-booking-agent.js references event: Noboborsho (2026-04-25)
+[2026-03-22T02:15:18.026Z] [INFO]   [ExpenseIQ] Document-verified event link: Noboborsho
+[2026-03-22T02:15:18.748Z] [INFO]   [ExpenseIQ] Merchant "Eventsured in 888-8825902 UNITED STATES D" → event_insurance (insurance)
+[2026-03-22T02:15:18.750Z] [INFO]   [ExpenseIQ] Date-proximity hypothesis: Noboborsho (40d ahead, confidence: low)
+[2026-03-22T02:15:21.465Z] [INFO]   [ExpenseIQ] Date-proximity hypothesis: Bosonto Utsob (1d ahead, confidence: medium)
+[2026-03-22T02:15:21.634Z] [INFO]   [ExpenseIQ] Date-proximity hypothesis: Bosonto Utsob (1d ahead, confidence: medium)
+[2026-03-22T02:15:36.760Z] [INFO]   Ledger: posted 44 entries
+[2026-03-22T02:15:37.072Z] [INFO]   [ExpenseIQ] Found 6 un-enriched expense entries — running intelligence...
+[2026-03-22T02:15:37.072Z] [INFO]   [ExpenseIQ] Date-proximity hypothesis: Bosonto Utsob (34d ahead, confidence: low)
+[2026-03-22T02:15:37.477Z] [INFO]   [ExpenseIQ] Enriched 1 existing entries with event/category intelligence
+[2026-03-22T02:15:37.477Z] [INFO]   WF Ledger: 70 emails scanned, 44 new entries, 44 posted to ledger
+[2026-03-22T02:15:37.482Z] [INFO]   ≡ƒô¼ MQ: payment ΓÇö 1 messages acknowledged
+[2026-03-22T02:15:37.482Z] [INFO] 1 payments detected but auto-send is OFF. Use --auto-send to enable.
+[2026-03-22T02:15:37.488Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2502 complete (1262.2s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:15:37.488Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:15:37.489Z] [INFO]   New payments: 1
+[2026-03-22T02:15:37.489Z] [INFO]   User queries: 19 (0 auto-approved, 0 pending approval)
+[2026-03-22T02:15:37.489Z] [INFO]   Delivery failures: 38 (recovered: 0, escalated: 22)
+[2026-03-22T02:15:37.490Z] [INFO]   ≡ƒö┤ GitHub Actions failures: 50 detected, 50 routed to dev pipeline
+[2026-03-22T02:15:37.490Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:15:37.495Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:15:37.496Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:15:37.496Z] [INFO] Next poll in 5 minutes...
+[2026-03-22T02:20:37.512Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2503 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:20:37.513Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:20:37.644Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:20:38.294Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:20:38.295Z] [INFO] New emails to process: 0
+[2026-03-22T02:20:38.296Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:20:39.366Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:20:39.366Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:20:39.539Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:20:39.542Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:20:39.878Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:20:39.879Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:20:40.109Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:20:40.110Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:20:40.649Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:20:41.311Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:20:41.311Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:20:41.312Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:20:41.675Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:20:41.683Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2503 complete (4.2s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:20:41.683Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:20:41.683Z] [INFO]   New payments: 0
+[2026-03-22T02:20:41.683Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:20:41.687Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:20:41.688Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:25:37.530Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2504 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:25:37.534Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:25:37.759Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:25:38.684Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:25:38.685Z] [INFO] New emails to process: 0
+[2026-03-22T02:25:38.686Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:25:39.805Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:25:39.806Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:25:39.991Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:25:39.996Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:25:40.322Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:25:40.324Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:25:40.514Z] [INFO] User query emails: 50 total, 1 new
+[2026-03-22T02:25:40.746Z] [DEBUG]   SKIP [MARKETING] Africa Safari & Victoria Falls – 16 Days... (Company email (shared1.ccsend.com) with no BANF relevance)
+[2026-03-22T02:25:40.747Z] [INFO]   Filtering: 1 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:25:41.565Z] [INFO]   ≡ƒô¢ Delivery failures: 1 bounces, 0 recovered, 0 escalated
+[2026-03-22T02:25:41.566Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:25:42.367Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:25:42.368Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:25:42.369Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:25:42.796Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:25:42.804Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2504 complete (5.3s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:25:42.804Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:25:42.805Z] [INFO]   New payments: 0
+[2026-03-22T02:25:42.805Z] [INFO]   Delivery failures: 1 (recovered: 0, escalated: 0)
+[2026-03-22T02:25:42.805Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:25:42.809Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:25:42.810Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:30:37.541Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2505 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:30:37.544Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:30:37.771Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:30:38.513Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:30:38.515Z] [INFO] New emails to process: 0
+[2026-03-22T02:30:38.516Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:30:39.826Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:30:39.827Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:30:40.009Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:30:40.011Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:30:40.362Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:30:40.364Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:30:40.593Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:30:40.594Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:30:41.159Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:30:41.929Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:30:41.930Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:30:41.931Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:30:42.311Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:30:42.320Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2505 complete (4.8s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:30:42.320Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:30:42.321Z] [INFO]   New payments: 0
+[2026-03-22T02:30:42.321Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:30:42.326Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:30:42.327Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:35:37.547Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2506 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:35:37.551Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:35:37.783Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:35:38.756Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:35:38.758Z] [INFO] New emails to process: 0
+[2026-03-22T02:35:38.759Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:35:40.156Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:35:40.157Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:35:40.328Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:35:40.338Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:35:40.693Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:35:40.694Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:35:40.891Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:35:40.892Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:35:41.451Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:35:42.249Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:35:42.251Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:35:42.252Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:35:42.766Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:35:42.780Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2506 complete (5.2s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:35:42.782Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:35:42.783Z] [INFO]   New payments: 0
+[2026-03-22T02:35:42.783Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:35:42.800Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:35:42.803Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:40:37.553Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2507 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:40:37.555Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:40:37.762Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:40:38.409Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:40:38.409Z] [INFO] New emails to process: 0
+[2026-03-22T02:40:38.410Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:40:39.528Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:40:39.529Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:40:39.700Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:40:39.706Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:40:40.058Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:40:40.060Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:40:40.242Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:40:40.244Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:40:40.828Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:40:41.599Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:40:41.599Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:40:41.600Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:40:41.948Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:40:41.963Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2507 complete (4.4s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:40:41.964Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:40:41.965Z] [INFO]   New payments: 0
+[2026-03-22T02:40:41.966Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:40:41.983Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:40:41.986Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:45:37.562Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2508 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:45:37.569Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:45:37.872Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:45:38.627Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:45:38.627Z] [INFO] New emails to process: 0
+[2026-03-22T02:45:38.628Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:45:39.997Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:45:39.999Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:45:40.167Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:45:40.175Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:45:40.561Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:45:40.562Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:45:40.804Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:45:40.805Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:45:41.363Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:45:42.115Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:45:42.116Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:45:42.118Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:45:42.567Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:45:42.585Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2508 complete (5.0s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:45:42.586Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:45:42.587Z] [INFO]   New payments: 0
+[2026-03-22T02:45:42.588Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:45:42.596Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:45:42.597Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:50:37.570Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2509 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:50:37.574Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:50:37.935Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:50:38.666Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:50:38.667Z] [INFO] New emails to process: 0
+[2026-03-22T02:50:38.669Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:50:39.998Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:50:40.001Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:50:40.203Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:50:40.212Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:50:40.655Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:50:40.658Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:50:40.859Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:50:40.860Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:50:41.395Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:50:42.109Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:50:42.111Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:50:42.112Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:50:42.512Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:50:42.522Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2509 complete (5.0s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:50:42.523Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:50:42.523Z] [INFO]   New payments: 0
+[2026-03-22T02:50:42.524Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:50:42.532Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:50:42.533Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T02:55:37.578Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2510 ΓòÉΓòÉΓòÉ
+[2026-03-22T02:55:37.584Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T02:55:37.728Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T02:55:38.407Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T02:55:38.408Z] [INFO] New emails to process: 0
+[2026-03-22T02:55:38.409Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T02:55:39.510Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T02:55:39.512Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T02:55:39.679Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T02:55:39.687Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T02:55:40.031Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T02:55:40.033Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T02:55:40.224Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T02:55:40.226Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T02:55:40.786Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T02:55:41.482Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T02:55:41.484Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T02:55:41.485Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T02:55:41.883Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T02:55:41.897Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2510 complete (4.3s) ΓöÇΓöÇΓöÇ
+[2026-03-22T02:55:41.898Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T02:55:41.899Z] [INFO]   New payments: 0
+[2026-03-22T02:55:41.901Z] [INFO]   Total processed emails: 388
+[2026-03-22T02:55:41.916Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T02:55:41.919Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T03:00:37.592Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2511 ΓòÉΓòÉΓòÉ
+[2026-03-22T03:00:37.596Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T03:00:37.740Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T03:00:38.527Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T03:00:38.528Z] [INFO] New emails to process: 0
+[2026-03-22T03:00:38.529Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T03:00:39.790Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T03:00:39.792Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T03:00:40.013Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T03:00:40.018Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T03:00:40.405Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T03:00:40.406Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T03:00:40.633Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T03:00:40.634Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T03:00:41.299Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T03:00:42.188Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T03:00:42.190Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T03:00:42.192Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T03:00:42.604Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T03:00:42.617Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2511 complete (5.0s) ΓöÇΓöÇΓöÇ
+[2026-03-22T03:00:42.618Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T03:00:42.619Z] [INFO]   New payments: 0
+[2026-03-22T03:00:42.620Z] [INFO]   Total processed emails: 388
+[2026-03-22T03:00:42.632Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T03:00:42.635Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T03:05:37.602Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2512 ΓòÉΓòÉΓòÉ
+[2026-03-22T03:05:37.606Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T03:05:37.923Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T03:05:38.729Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T03:05:38.730Z] [INFO] New emails to process: 0
+[2026-03-22T03:05:38.733Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T03:05:40.110Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T03:05:40.111Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T03:05:40.315Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T03:05:40.320Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T03:05:40.681Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T03:05:40.683Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T03:05:40.896Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T03:05:40.899Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T03:05:41.484Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T03:05:42.191Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T03:05:42.191Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T03:05:42.191Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T03:05:42.607Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T03:05:42.616Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2512 complete (5.0s) ΓöÇΓöÇΓöÇ
+[2026-03-22T03:05:42.616Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T03:05:42.616Z] [INFO]   New payments: 0
+[2026-03-22T03:05:42.617Z] [INFO]   Total processed emails: 388
+[2026-03-22T03:05:42.622Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T03:05:42.624Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T03:10:37.606Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2513 ΓòÉΓòÉΓòÉ
+[2026-03-22T03:10:37.610Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T03:10:37.727Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T03:10:38.344Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T03:10:38.344Z] [INFO] New emails to process: 0
+[2026-03-22T03:10:38.346Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T03:10:39.487Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T03:10:39.488Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T03:10:39.639Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T03:10:39.641Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T03:10:40.018Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T03:10:40.019Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T03:10:40.200Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T03:10:40.201Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T03:10:40.764Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T03:10:41.454Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T03:10:41.455Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T03:10:41.457Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T03:10:41.829Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T03:10:41.834Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2513 complete (4.2s) ΓöÇΓöÇΓöÇ
+[2026-03-22T03:10:41.834Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T03:10:41.835Z] [INFO]   New payments: 0
+[2026-03-22T03:10:41.835Z] [INFO]   Total processed emails: 388
+[2026-03-22T03:10:41.842Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T03:10:41.843Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T03:15:37.615Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2514 ΓòÉΓòÉΓòÉ
+[2026-03-22T03:15:37.616Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T03:15:37.884Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T03:15:38.851Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T03:15:38.851Z] [INFO] New emails to process: 0
+[2026-03-22T03:15:38.851Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T03:15:40.052Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T03:15:40.052Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T03:15:40.284Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T03:15:40.286Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T03:15:40.702Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T03:15:40.702Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T03:15:40.906Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T03:15:40.906Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T03:15:41.472Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T03:15:42.185Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T03:15:42.186Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T03:15:42.186Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T03:15:42.559Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T03:15:42.562Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2514 complete (4.9s) ΓöÇΓöÇΓöÇ
+[2026-03-22T03:15:42.563Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T03:15:42.563Z] [INFO]   New payments: 0
+[2026-03-22T03:15:42.563Z] [INFO]   Total processed emails: 388
+[2026-03-22T03:15:42.566Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T03:15:42.567Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json
+[2026-03-22T03:20:37.628Z] [INFO] ΓòÉΓòÉΓòÉ Poll cycle #2515 ΓòÉΓòÉΓòÉ
+[2026-03-22T03:20:37.630Z] [WARN] Drive sync failed (continuing without drive gating): eventManager.syncDriveState is not a function
+[2026-03-22T03:20:37.863Z] [INFO] Scanning Gmail for new Evite RSVP emails...
+[2026-03-22T03:20:38.683Z] [INFO] Total emails found: 80, previously processed: 388
+[2026-03-22T03:20:38.683Z] [INFO] New emails to process: 0
+[2026-03-22T03:20:38.685Z] [INFO] Scanning Gmail for new payment notifications...
+[2026-03-22T03:20:40.008Z] [INFO] Payment emails: 234 total, 0 new
+[2026-03-22T03:20:40.008Z] [INFO] Scanning Gmail for instruction emails from admin...
+[2026-03-22T03:20:40.189Z] [INFO] Instruction emails: 0 total, 0 new
+[2026-03-22T03:20:40.192Z] [INFO] Scanning Gmail for INSTRUCT emails from president...
+[2026-03-22T03:20:40.513Z] [INFO] Dev Instruct emails: 3 total, 0 new
+[2026-03-22T03:20:40.514Z] [INFO] Scanning Gmail for user query emails...
+[2026-03-22T03:20:40.682Z] [INFO] User query emails: 50 total, 0 new
+[2026-03-22T03:20:40.682Z] [INFO]   Filtering: 0 marketing, 0 already-replied, 0 drive
+[2026-03-22T03:20:41.211Z] [INFO] Scanning Gmail for GitHub Actions failure emails...
+[2026-03-22T03:20:41.982Z] [INFO]   GitHub notification emails: 50 total, 0 new
+[2026-03-22T03:20:41.983Z] [INFO]   GitHub failure scan complete: 0 failures detected
+[2026-03-22T03:20:41.984Z] [INFO] Phase 2f: Scanning Wells Fargo emails for ledger entries...
+[2026-03-22T03:20:42.312Z] [INFO]   WF emails: 70 total, 0 new
+[2026-03-22T03:20:42.317Z] [INFO] ΓöÇΓöÇΓöÇ Cycle #2515 complete (4.7s) ΓöÇΓöÇΓöÇ
+[2026-03-22T03:20:42.317Z] [INFO]   New RSVPs: 0 (0 new to pipeline, 0 updated)
+[2026-03-22T03:20:42.318Z] [INFO]   New payments: 0
+[2026-03-22T03:20:42.318Z] [INFO]   Total processed emails: 388
+[2026-03-22T03:20:42.324Z] [INFO]   ≡ƒô¼ MQ: 67 pending, 0 in DLQ
+[2026-03-22T03:20:42.325Z] [INFO]   Pipeline status written ΓåÆ c:\projects\banf\banf-pipeline-status.json

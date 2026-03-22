@@ -1,0 +1,553 @@
+[2026-03-21 22:34:22] ═══════════════════════════════════════════════════════════
+[2026-03-21 22:34:22]   BANF Evite Batch Sender — Starting
+[2026-03-21 22:34:22]   Mode: NEW
+[2026-03-21 22:34:22] ═══════════════════════════════════════════════════════════
+[2026-03-21 22:34:22] Step 1: Fetching all CRM members...
+[2026-03-21 22:34:23]   Found 259 CRM members
+[2026-03-21 22:34:23] Step 2: Checking already-invited members...
+[2026-03-21 22:34:24]   Already invited: 7 members
+[2026-03-21 22:34:24]   To send: 254 | Already done: 7 | Total: 259
+[2026-03-21 22:34:24] 
+Step 4: Sending 254 invitations in 26 batches of 10...
+[2026-03-21 22:34:24] 
+[2026-03-21 22:34:24] ─── Batch 1/26 (10 recipients) ───
+[2026-03-21 22:34:32]   ✓ Pallavi Chakraborty <pallavib_00@yahoo.com>
+[2026-03-21 22:34:32]   ✓ Annandita Mukherjee <annem25f@yahoo.co.in>
+[2026-03-21 22:34:32]   ✓ Suvankar Paul <suvankar.paul@gmail.com>
+[2026-03-21 22:34:32]   ✓ Melanie Payne <melanie@capitalcitycleanguild.com>
+[2026-03-21 22:34:32]   ✓ sangita <schawlia@yahoo.com>
+[2026-03-21 22:34:32]   ✓ Rajib S <rajibs123@gmail.com>
+[2026-03-21 22:34:32]   ✓ Wes Duke <wes.duke@buzzcms.net>
+[2026-03-21 22:34:32]   ✓ Sreya Ghosh <sreya.ghosh1510@gmail.com>
+[2026-03-21 22:34:32]   ✓ sumit_system@yahoo.com <sumit_system@yahoo.com>
+[2026-03-21 22:34:32]   ✓ Soma Choudhury <soma1979p@yahoo.com>
+[2026-03-21 22:34:32]   Batch 1 result: Sent 10, Failed 0
+[2026-03-21 22:34:32]   Verifying batch delivery...
+[2026-03-21 22:34:35]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:34:36]   Progress: 10 sent + 5 skipped = 5.8% of 259
+[2026-03-21 22:34:36]   Waiting 5s before next batch...
+
+[2026-03-21 22:34:41] ─── Batch 2/26 (10 recipients) ───
+[2026-03-21 22:34:49]   ✓ Tarun Lalan <feedback@smarthumanoid.com>
+[2026-03-21 22:34:49]   ✓ Paulami Guha <drpaulami@gmail.com>
+[2026-03-21 22:34:49]   ✓ souvickdesign1@gmail.com <souvickdesign1@gmail.com>
+[2026-03-21 22:34:49]   ✓ Moumita Mitra <tinnee223@gmail.com>
+[2026-03-21 22:34:49]   ✓ pranab_nyc@hotmail.com <pranab_nyc@hotmail.com>
+[2026-03-21 22:34:49]   ✓ Abhijit <makhabhi@isu.edu>
+[2026-03-21 22:34:49]   ✓ avranil82@gmail.com <avranil82@gmail.com>
+[2026-03-21 22:34:49]   ✓ Ray Fountain <ray@ameliaclean.com>
+[2026-03-21 22:34:49]   ✓ Dia Mitra <dia.dmitra@gmail.com>
+[2026-03-21 22:34:49]   ✓ endoscorpion@gmail.com <endoscorpion@gmail.com>
+[2026-03-21 22:34:49]   Batch 2 result: Sent 10, Failed 0
+[2026-03-21 22:34:49]   Verifying batch delivery...
+[2026-03-21 22:34:52]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:34:52]   Progress: 20 sent + 5 skipped = 9.7% of 259
+[2026-03-21 22:34:52]   Waiting 5s before next batch...
+
+[2026-03-21 22:34:57] ─── Batch 3/26 (10 recipients) ───
+[2026-03-21 22:35:06]   ✓ Dibendu Roy <dbroy05@gmail.com>
+[2026-03-21 22:35:06]   ✓ Rituparna <rituparna1917@gmail.com>
+[2026-03-21 22:35:06]   ✓ Sanghamitra Chandra <riyachandra1988@gmail.com>
+[2026-03-21 22:35:06]   ✓ Colleen Lauter <colleen@janprojacksonville.com>
+[2026-03-21 22:35:06]   ✓ Shannon Jhunjhunwala <shannonjhunjhunwala@gmail.com>
+[2026-03-21 22:35:06]   ✓ indranil ganguly <indranil.india@gmail.com>
+[2026-03-21 22:35:06]   ✓ Aparna Chakravarty <chakfam5@yahoo.com>
+[2026-03-21 22:35:06]   ✓ BANANI DHAR <bdhar75@yahoo.com>
+[2026-03-21 22:35:06]   ✓ sudiptaganguly4@gmail.com <sudiptaganguly4@gmail.com>
+[2026-03-21 22:35:06]   ✓ Maureen Rucker <maureen.r@theprofessionalprofiles.com>
+[2026-03-21 22:35:06]   Batch 3 result: Sent 10, Failed 0
+[2026-03-21 22:35:06]   Verifying batch delivery...
+[2026-03-21 22:35:09]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:35:09]   Progress: 30 sent + 5 skipped = 13.5% of 259
+[2026-03-21 22:35:09]   Waiting 5s before next batch...
+
+[2026-03-21 22:35:14] ─── Batch 4/26 (10 recipients) ───
+[2026-03-21 22:35:23]   ✓ kankana.ari@gmail.com <kankana.ari@gmail.com>
+[2026-03-21 22:35:23]   ✓ Madhumita Mazumdar <madhumita.mazumdar3@gmail.com>
+[2026-03-21 22:35:23]   ✓ Amrita <amrriita@gmail.com>
+[2026-03-21 22:35:23]   ✓ Amit Ari <amit.aot@gmail.com>
+[2026-03-21 22:35:23]   ✓ Andy Mukherjee <andy.mukherjee2005@gmail.com>
+[2026-03-21 22:35:23]   ✓ Evan Ball <evan.ball@pushcms.net>
+[2026-03-21 22:35:23]   ✓ Shilpa <friendshilp1@yahoo.com>
+[2026-03-21 22:35:23]   ✓ Sourav Roychoudhury <sourav.roychoudhury@gmail.com>
+[2026-03-21 22:35:23]   ✓ Rai Sanyal <raisanyal@yahoo.com>
+[2026-03-21 22:35:23]   ✓ Indrani Dutta <dindrani74@gmail.com>
+[2026-03-21 22:35:23]   Batch 4 result: Sent 10, Failed 0
+[2026-03-21 22:35:23]   Verifying batch delivery...
+[2026-03-21 22:35:26]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:35:26]   Progress: 40 sent + 5 skipped = 17.4% of 259
+[2026-03-21 22:35:26]   Waiting 5s before next batch...
+
+[2026-03-21 22:35:31] ─── Batch 5/26 (10 recipients) ───
+[2026-03-21 22:35:40]   ✓ Angsuman Saha <angsu.saha01@gmail.com>
+[2026-03-21 22:35:40]   ✓ Dipak Roy <dipak.chebri@gmail.com>
+[2026-03-21 22:35:40]   ✓ janasangha2003@gmail.com <janasangha2003@gmail.com>
+[2026-03-21 22:35:40]   ✓ Sanjukta Chandra <sanjuktacdas@gmail.com>
+[2026-03-21 22:35:40]   ✓ Joyeeta Polley <joyeeta.all@gmail.com>
+[2026-03-21 22:35:40]   ✓ Chandra Ghosh <ghosh.chandra47@gmail.com>
+[2026-03-21 22:35:40]   ✓ Rupanjan Choudhury <rupanjanc@gmail.com>
+[2026-03-21 22:35:40]   ✓ Sharmistha Poddar <sharmi.p09@gmail.com>
+[2026-03-21 22:35:40]   ✓ Reshma Bhadra Das <reshmabhadra@gmail.com>
+[2026-03-21 22:35:40]   ✓ Chiradip Chatterjee <cchat003@fiu.edu>
+[2026-03-21 22:35:40]   Batch 5 result: Sent 10, Failed 0
+[2026-03-21 22:35:40]   Verifying batch delivery...
+[2026-03-21 22:35:43]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:35:43]   Progress: 50 sent + 5 skipped = 21.2% of 259
+[2026-03-21 22:35:43]   Waiting 5s before next batch...
+
+[2026-03-21 22:35:48] ─── Batch 6/26 (10 recipients) ───
+[2026-03-21 22:35:57]   ✓ Latika Mukherjee <lmukhe@yahoo.com>
+[2026-03-21 22:35:57]   ✓ Paramita Pal <runaparamita@gmail.com>
+[2026-03-21 22:35:57]   ✓ Sekhar Naskar <naskar_s@yahoo.com>
+[2026-03-21 22:35:57]   ✓ James Hinds <jim@bamboocando.com>
+[2026-03-21 22:35:57]   ✓ maitramunmun224@gmail.com <maitramunmun224@gmail.com>
+[2026-03-21 22:35:57]   ✓ SARSUNA PURBAPARA SWAPNALU <swapnalunatyodol@gmail.com>
+[2026-03-21 22:35:57]   ✓ ANUPRIYA MUKHERJEE <moonmukherjee@yahoo.com>
+[2026-03-21 22:35:57]   ✓ Holly Goswami <holly_goswami@buildfusion.com>
+[2026-03-21 22:35:57]   ✓ Munmun Maitra <munmun_maitra@yahoo.com>
+[2026-03-21 22:35:57]   ✓ Sudip Roy <roysu2000@gmail.com>
+[2026-03-21 22:35:57]   Batch 6 result: Sent 10, Failed 0
+[2026-03-21 22:35:57]   Verifying batch delivery...
+[2026-03-21 22:36:00]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:36:00]   Progress: 60 sent + 5 skipped = 25.1% of 259
+[2026-03-21 22:36:00]   Waiting 5s before next batch...
+
+[2026-03-21 22:36:05] ─── Batch 7/26 (10 recipients) ───
+[2026-03-21 22:36:13]   ✓ Supriya Chatterjee <scrj.1982@gmail.com>
+[2026-03-21 22:36:13]   ✓ Paromita Dutta <paromita.dutta5@gmail.com>
+[2026-03-21 22:36:13]   ✓ Anirban Ghosh <anirban.ninja@gmail.com>
+[2026-03-21 22:36:13]   ✓ Dawson Mullins <dawson.mullins@kitcms.net>
+[2026-03-21 22:36:13]   ✓ Mayukh Das <dasmayukh@gmail.com>
+[2026-03-21 22:36:13]   ✓ Soumo Chakravarty <soumo.chakravarty@gmail.com>
+[2026-03-21 22:36:13]   ✓ Tarit Mondal <trt.mondal@gmail.com>
+[2026-03-21 22:36:13]   ✓ Poushali Datta <poushalidatta1@gmail.com>
+[2026-03-21 22:36:13]   ✓ David Russo <david.russo@epiccms.net>
+[2026-03-21 22:36:13]   ✓ rnsanyal@gmail.com <rnsanyal@gmail.com>
+[2026-03-21 22:36:13]   Batch 7 result: Sent 10, Failed 0
+[2026-03-21 22:36:13]   Verifying batch delivery...
+[2026-03-21 22:36:17]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:36:17]   Progress: 70 sent + 5 skipped = 29.0% of 259
+[2026-03-21 22:36:17]   Waiting 5s before next batch...
+
+[2026-03-21 22:36:22] ─── Batch 8/26 (10 recipients) ───
+[2026-03-21 22:36:31]   ✓ Jay Ghosh <jayanta0@yahoo.com>
+[2026-03-21 22:36:31]   ✓ Indian soul band <indiansoulband19@gmail.com>
+[2026-03-21 22:36:31]   ✓ Barnali Debu <barna_dev@yahoo.com>
+[2026-03-21 22:36:31]   ✓ Swati Dutta <swati.dutta1409@gmail.com>
+[2026-03-21 22:36:31]   ✓ Sonika Das <sonika@mumukshulife.com>
+[2026-03-21 22:36:31]   ✓ Anjali Gupta <dr_anjaligupta@yahoo.com>
+[2026-03-21 22:36:31]   ✓ Sarah <sarah.castles1@servicewrapgo.com>
+[2026-03-21 22:36:31]   ✓ Stuti Bagchi <bagchibhaduristuti93@gmail.com>
+[2026-03-21 22:36:31]   ✓ tdey5@asu.edu <tdey5@asu.edu>
+[2026-03-21 22:36:31]   ✓ Swarnali Das <ucc.swarnali@gmail.com>
+[2026-03-21 22:36:31]   Batch 8 result: Sent 10, Failed 0
+[2026-03-21 22:36:31]   Verifying batch delivery...
+[2026-03-21 22:36:34]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:36:34]   Progress: 80 sent + 5 skipped = 32.8% of 259
+[2026-03-21 22:36:34]   Waiting 5s before next batch...
+
+[2026-03-21 22:36:39] ─── Batch 9/26 (10 recipients) ───
+[2026-03-21 22:36:56]   ✗ Batch 9 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:36:56]   Retrying 10 failures...
+[2026-03-21 22:36:58]     Retry 1/3: suchitrab4@gmail.com...
+[2026-03-21 22:37:04]     ✓ Retry succeeded for suchitrab4@gmail.com
+[2026-03-21 22:37:04]     Retry 1/3: kapil.sadhu@gmail.com...
+[2026-03-21 22:37:10]     ✓ Retry succeeded for kapil.sadhu@gmail.com
+[2026-03-21 22:37:10]     Retry 1/3: dasban3@yahoo.com...
+[2026-03-21 22:37:15]     ✓ Retry succeeded for dasban3@yahoo.com
+[2026-03-21 22:37:15]     Retry 1/3: janlaurenft4g@hotmail.com...
+[2026-03-21 22:37:19]     ✓ Retry succeeded for janlaurenft4g@hotmail.com
+[2026-03-21 22:37:19]     Retry 1/3: daniel@northfloridaclean.com...
+[2026-03-21 22:37:23]     ✓ Retry succeeded for daniel@northfloridaclean.com
+[2026-03-21 22:37:23]     Retry 1/3: goutampus@gmail.com...
+[2026-03-21 22:37:31]     ✓ Retry succeeded for goutampus@gmail.com
+[2026-03-21 22:37:31]     Retry 1/3: joshua@northfloridaclean.com...
+[2026-03-21 22:37:35]     ✓ Retry succeeded for joshua@northfloridaclean.com
+[2026-03-21 22:37:35]     Retry 1/3: rupan.sanyal@gmail.com...
+[2026-03-21 22:37:39]     ✓ Retry succeeded for rupan.sanyal@gmail.com
+[2026-03-21 22:37:39]     Retry 1/3: uttamkgec@gmail.com...
+[2026-03-21 22:37:43]     ✓ Retry succeeded for uttamkgec@gmail.com
+[2026-03-21 22:37:43]     Retry 1/3: asokchaudhuri@gmail.com...
+[2026-03-21 22:37:46]     ✓ Retry succeeded for asokchaudhuri@gmail.com
+[2026-03-21 22:37:46]   Verifying batch delivery...
+[2026-03-21 22:37:50]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:37:50]   Progress: 90 sent + 5 skipped = 36.7% of 259
+[2026-03-21 22:37:50]   Waiting 5s before next batch...
+
+[2026-03-21 22:37:55] ─── Batch 10/26 (10 recipients) ───
+[2026-03-21 22:38:11]   ✗ Batch 10 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:38:11]   Retrying 10 failures...
+[2026-03-21 22:38:13]     Retry 1/3: pradipkghimire@gmail.com...
+[2026-03-21 22:38:18]     ✓ Retry succeeded for pradipkghimire@gmail.com
+[2026-03-21 22:38:18]     Retry 1/3: subhra.ganguly99@gmail.com...
+[2026-03-21 22:38:23]     ✓ Retry succeeded for subhra.ganguly99@gmail.com
+[2026-03-21 22:38:23]     Retry 1/3: r.se47@yahoo.com...
+[2026-03-21 22:38:27]     ✓ Retry succeeded for r.se47@yahoo.com
+[2026-03-21 22:38:27]     Retry 1/3: lena@breezycleaners.com...
+[2026-03-21 22:38:31]     ✓ Retry succeeded for lena@breezycleaners.com
+[2026-03-21 22:38:31]     Retry 1/3: mitasarkar@aol.com...
+[2026-03-21 22:38:35]     ✓ Retry succeeded for mitasarkar@aol.com
+[2026-03-21 22:38:35]     Retry 1/3: asikdar28@gmail.com...
+[2026-03-21 22:38:39]     ✓ Retry succeeded for asikdar28@gmail.com
+[2026-03-21 22:38:39]     Retry 1/3: mrsaugatadas@gmail.com...
+[2026-03-21 22:38:43]     ✓ Retry succeeded for mrsaugatadas@gmail.com
+[2026-03-21 22:38:43]     Retry 1/3: arnabsanyal2002@gmail.com...
+[2026-03-21 22:38:46]     ✓ Retry succeeded for arnabsanyal2002@gmail.com
+[2026-03-21 22:38:46]     Retry 1/3: chandra.ganguly6@gmail.com...
+[2026-03-21 22:38:50]     ✓ Retry succeeded for chandra.ganguly6@gmail.com
+[2026-03-21 22:38:50]     Retry 1/3: gourabhere@gmail.com...
+[2026-03-21 22:38:53]     ✓ Retry succeeded for gourabhere@gmail.com
+[2026-03-21 22:38:53]   Verifying batch delivery...
+[2026-03-21 22:38:57]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:38:57]   Progress: 100 sent + 5 skipped = 40.5% of 259
+[2026-03-21 22:38:57]   Waiting 5s before next batch...
+
+[2026-03-21 22:39:02] ─── Batch 11/26 (10 recipients) ───
+[2026-03-21 22:39:18]   ✗ Batch 11 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:39:18]   Retrying 10 failures...
+[2026-03-21 22:39:20]     Retry 1/3: tosantanu@gmail.com...
+[2026-03-21 22:39:25]     ✓ Retry succeeded for tosantanu@gmail.com
+[2026-03-21 22:39:25]     Retry 1/3: anitapmandal@gmail.com...
+[2026-03-21 22:39:31]     ✓ Retry succeeded for anitapmandal@gmail.com
+[2026-03-21 22:39:31]     Retry 1/3: henasanat@yahoo.com...
+[2026-03-21 22:39:35]     ✓ Retry succeeded for henasanat@yahoo.com
+[2026-03-21 22:39:35]     Retry 1/3: sudipto.sbyn@gmail.com...
+[2026-03-21 22:39:40]     ✓ Retry succeeded for sudipto.sbyn@gmail.com
+[2026-03-21 22:39:40]     Retry 1/3: tukiguitarman@yahoo.com...
+[2026-03-21 22:39:44]     ✓ Retry succeeded for tukiguitarman@yahoo.com
+[2026-03-21 22:39:44]     Retry 1/3: rana.soma11@gmail.com...
+[2026-03-21 22:39:47]     ✓ Retry succeeded for rana.soma11@gmail.com
+[2026-03-21 22:39:47]     Retry 1/3: nabokumar09@gmail.com...
+[2026-03-21 22:39:50]     ✓ Retry succeeded for nabokumar09@gmail.com
+[2026-03-21 22:39:50]     Retry 1/3: sbose84390@aol.com...
+[2026-03-21 22:39:54]     ✓ Retry succeeded for sbose84390@aol.com
+[2026-03-21 22:39:54]     Retry 1/3: upasana.york.88@gmail.com...
+[2026-03-21 22:39:57]     ✓ Retry succeeded for upasana.york.88@gmail.com
+[2026-03-21 22:39:57]     Retry 1/3: sangat000@gmail.com...
+[2026-03-21 22:40:02]     ✓ Retry succeeded for sangat000@gmail.com
+[2026-03-21 22:40:02]   Verifying batch delivery...
+[2026-03-21 22:40:06]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:40:06]   Progress: 110 sent + 5 skipped = 44.4% of 259
+[2026-03-21 22:40:06]   Waiting 5s before next batch...
+
+[2026-03-21 22:40:11] ─── Batch 12/26 (10 recipients) ───
+[2026-03-21 22:40:27]   ✗ Batch 12 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:40:27]   Retrying 10 failures...
+[2026-03-21 22:40:29]     Retry 1/3: soumitagoswami05@gmail.com...
+[2026-03-21 22:40:33]     ✓ Retry succeeded for soumitagoswami05@gmail.com
+[2026-03-21 22:40:33]     Retry 1/3: tosanchari@gmail.com...
+[2026-03-21 22:40:39]     ✓ Retry succeeded for tosanchari@gmail.com
+[2026-03-21 22:40:39]     Retry 1/3: lopita.majumdar@gmail.com...
+[2026-03-21 22:40:47]     ✓ Retry succeeded for lopita.majumdar@gmail.com
+[2026-03-21 22:40:47]     Retry 1/3: sunanda.banerjee@gmail.com...
+[2026-03-21 22:40:52]     ✓ Retry succeeded for sunanda.banerjee@gmail.com
+[2026-03-21 22:40:52]     Retry 1/3: priyanka16587@gmail.com...
+[2026-03-21 22:40:57]     ✓ Retry succeeded for priyanka16587@gmail.com
+[2026-03-21 22:40:57]     Retry 1/3: rasmazumder@aol.com...
+[2026-03-21 22:41:03]     ✓ Retry succeeded for rasmazumder@aol.com
+[2026-03-21 22:41:03]     Retry 1/3: swarnendu.sen@gmail.com...
+[2026-03-21 22:41:07]     ✓ Retry succeeded for swarnendu.sen@gmail.com
+[2026-03-21 22:41:07]     Retry 1/3: mukulsaha89@gmail.com...
+[2026-03-21 22:41:12]     ✓ Retry succeeded for mukulsaha89@gmail.com
+[2026-03-21 22:41:12]     Retry 1/3: nilanb@gmail.com...
+[2026-03-21 22:41:19]     ✓ Retry succeeded for nilanb@gmail.com
+[2026-03-21 22:41:19]     Retry 1/3: art.rajarshi@gmail.com...
+[2026-03-21 22:41:27]     ✓ Retry succeeded for art.rajarshi@gmail.com
+[2026-03-21 22:41:27]   Verifying batch delivery...
+[2026-03-21 22:41:30]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:41:30]   Progress: 120 sent + 5 skipped = 48.3% of 259
+[2026-03-21 22:41:30]   Waiting 5s before next batch...
+
+[2026-03-21 22:41:35] ─── Batch 13/26 (10 recipients) ───
+[2026-03-21 22:41:51]   ✗ Batch 13 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:41:51]   Retrying 10 failures...
+[2026-03-21 22:41:53]     Retry 1/3: banerjee04ananya@gmai.com...
+[2026-03-21 22:41:59]     ✓ Retry succeeded for banerjee04ananya@gmai.com
+[2026-03-21 22:41:59]     Retry 1/3: vbbs04@gmail.com...
+[2026-03-21 22:42:05]     ✓ Retry succeeded for vbbs04@gmail.com
+[2026-03-21 22:42:05]     Retry 1/3: bharatiart2000@yahoo.com...
+[2026-03-21 22:42:12]     ✓ Retry succeeded for bharatiart2000@yahoo.com
+[2026-03-21 22:42:12]     Retry 1/3: gautambose12408@gmail.com...
+[2026-03-21 22:42:19]     ✓ Retry succeeded for gautambose12408@gmail.com
+[2026-03-21 22:42:19]     Retry 1/3: natta.saikat@gmail.com...
+[2026-03-21 22:42:22]     ✓ Retry succeeded for natta.saikat@gmail.com
+[2026-03-21 22:42:22]     Retry 1/3: samratbanerjee120@gmail.com...
+[2026-03-21 22:42:26]     ✓ Retry succeeded for samratbanerjee120@gmail.com
+[2026-03-21 22:42:26]     Retry 1/3: ghosh.dipra@gmail.com...
+[2026-03-21 22:42:31]     ✓ Retry succeeded for ghosh.dipra@gmail.com
+[2026-03-21 22:42:31]     Retry 1/3: alokdev@hotmail.com...
+[2026-03-21 22:42:35]     ✓ Retry succeeded for alokdev@hotmail.com
+[2026-03-21 22:42:35]     Retry 1/3: anna@summitshinecleaning.com...
+[2026-03-21 22:42:39]     ✓ Retry succeeded for anna@summitshinecleaning.com
+[2026-03-21 22:42:39]     Retry 1/3: jamesphelan347@gmail.com...
+[2026-03-21 22:42:43]     ✓ Retry succeeded for jamesphelan347@gmail.com
+[2026-03-21 22:42:43]   Verifying batch delivery...
+[2026-03-21 22:42:47]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:42:47]   Progress: 130 sent + 5 skipped = 52.1% of 259
+[2026-03-21 22:42:47]   Waiting 5s before next batch...
+
+[2026-03-21 22:42:52] ─── Batch 14/26 (10 recipients) ───
+[2026-03-21 22:43:08]   ✗ Batch 14 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:43:08]   Retrying 10 failures...
+[2026-03-21 22:43:10]     Retry 1/3: sharmi5002@gmail.com...
+[2026-03-21 22:43:16]     ✓ Retry succeeded for sharmi5002@gmail.com
+[2026-03-21 22:43:16]     Retry 1/3: enggchapan@gmail.com...
+[2026-03-21 22:43:21]     ✓ Retry succeeded for enggchapan@gmail.com
+[2026-03-21 22:43:21]     Retry 1/3: royc.anindya@gmail.com...
+[2026-03-21 22:43:29]     ✓ Retry succeeded for royc.anindya@gmail.com
+[2026-03-21 22:43:29]     Retry 1/3: samiran.chandra@gmail.com...
+[2026-03-21 22:43:34]     ✓ Retry succeeded for samiran.chandra@gmail.com
+[2026-03-21 22:43:34]     Retry 1/3: sanhitadas_2000@yahoo.com...
+[2026-03-21 22:43:37]     ✓ Retry succeeded for sanhitadas_2000@yahoo.com
+[2026-03-21 22:43:37]     Retry 1/3: banfjax@gmail.com...
+[2026-03-21 22:43:42]     ✓ Retry succeeded for banfjax@gmail.com
+[2026-03-21 22:43:42]     Retry 1/3: palsourav30@gmail.com...
+[2026-03-21 22:43:46]     ✓ Retry succeeded for palsourav30@gmail.com
+[2026-03-21 22:43:46]     Retry 1/3: brianmurphy@metaappdesignes.com...
+[2026-03-21 22:43:51]     ✓ Retry succeeded for brianmurphy@metaappdesignes.com
+[2026-03-21 22:43:51]     Retry 1/3: jared@apostillellc.com...
+[2026-03-21 22:43:54]     ✓ Retry succeeded for jared@apostillellc.com
+[2026-03-21 22:43:54]     Retry 1/3: shomgos@gmail.com...
+[2026-03-21 22:43:58]     ✓ Retry succeeded for shomgos@gmail.com
+[2026-03-21 22:43:58]   Verifying batch delivery...
+[2026-03-21 22:44:01]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:44:01]   Progress: 140 sent + 5 skipped = 56.0% of 259
+[2026-03-21 22:44:01]   Waiting 5s before next batch...
+
+[2026-03-21 22:44:06] ─── Batch 15/26 (10 recipients) ───
+[2026-03-21 22:44:23]   ✗ Batch 15 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:44:23]   Retrying 10 failures...
+[2026-03-21 22:44:25]     Retry 1/3: sudipshita@yahoo.com...
+[2026-03-21 22:44:31]     ✓ Retry succeeded for sudipshita@yahoo.com
+[2026-03-21 22:44:31]     Retry 1/3: rgarimella99@gmail.com...
+[2026-03-21 22:44:37]     ✓ Retry succeeded for rgarimella99@gmail.com
+[2026-03-21 22:44:37]     Retry 1/3: asahaech@yahoo.com...
+[2026-03-21 22:44:43]     ✓ Retry succeeded for asahaech@yahoo.com
+[2026-03-21 22:44:43]     Retry 1/3: bidhan138@gmail.com...
+[2026-03-21 22:44:47]     ✓ Retry succeeded for bidhan138@gmail.com
+[2026-03-21 22:44:47]     Retry 1/3: deba10@gmail.com...
+[2026-03-21 22:44:52]     ✓ Retry succeeded for deba10@gmail.com
+[2026-03-21 22:44:52]     Retry 1/3: manalimukherjee47@gmail.com...
+[2026-03-21 22:44:57]     ✓ Retry succeeded for manalimukherjee47@gmail.com
+[2026-03-21 22:44:57]     Retry 1/3: g.nnandita@gmail.com...
+[2026-03-21 22:45:01]     ✓ Retry succeeded for g.nnandita@gmail.com
+[2026-03-21 22:45:01]     Retry 1/3: uma.417@gmail.com...
+[2026-03-21 22:45:05]     ✓ Retry succeeded for uma.417@gmail.com
+[2026-03-21 22:45:05]     Retry 1/3: graphiksdue@gmail.com...
+[2026-03-21 22:45:10]     ✓ Retry succeeded for graphiksdue@gmail.com
+[2026-03-21 22:45:10]     Retry 1/3: vartew@gmail.com...
+[2026-03-21 22:45:15]     ✓ Retry succeeded for vartew@gmail.com
+[2026-03-21 22:45:15]   Verifying batch delivery...
+[2026-03-21 22:45:18]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:45:18]   Progress: 150 sent + 5 skipped = 59.8% of 259
+[2026-03-21 22:45:18]   Waiting 5s before next batch...
+
+[2026-03-21 22:45:23] ─── Batch 16/26 (10 recipients) ───
+[2026-03-21 22:45:40]   ✗ Batch 16 API error: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 22:45:40]   Retrying 10 failures...
+[2026-03-21 22:45:42]     Retry 1/3: harmansekhon@gmail.com...
+[2026-03-21 22:45:48]     ✓ Retry succeeded for harmansekhon@gmail.com
+[2026-03-21 22:45:48]     Retry 1/3: caden.schmidt@wixful.site...
+[2026-03-21 22:45:53]     ✓ Retry succeeded for caden.schmidt@wixful.site
+[2026-03-21 22:45:53]     Retry 1/3: bandematarom@hotmail.com...
+[2026-03-21 22:46:01]     ✓ Retry succeeded for bandematarom@hotmail.com
+[2026-03-21 22:46:01]     Retry 1/3: suvodasgupta@gmail.com...
+[2026-03-21 22:46:06]     ✓ Retry succeeded for suvodasgupta@gmail.com
+[2026-03-21 22:46:06]     Retry 1/3: kalyan32258@yahoo.com...
+[2026-03-21 22:46:11]     ✓ Retry succeeded for kalyan32258@yahoo.com
+[2026-03-21 22:46:11]     Retry 1/3: aroyc001@netzero.com...
+[2026-03-21 22:46:16]     ✓ Retry succeeded for aroyc001@netzero.com
+[2026-03-21 22:46:16]     Retry 1/3: bns@hotmail.co.in...
+[2026-03-21 22:46:19]     ✓ Retry succeeded for bns@hotmail.co.in
+[2026-03-21 22:46:19]     Retry 1/3: info@domainworld.com...
+[2026-03-21 22:46:22]     ✓ Retry succeeded for info@domainworld.com
+[2026-03-21 22:46:22]     Retry 1/3: chatterjeebratasree@gmail.com...
+[2026-03-21 22:46:25]     ✓ Retry succeeded for chatterjeebratasree@gmail.com
+[2026-03-21 22:46:25]     Retry 1/3: dutta.nandini47@gmail.com...
+[2026-03-21 22:46:28]     ✓ Retry succeeded for dutta.nandini47@gmail.com
+[2026-03-21 22:46:28]   Verifying batch delivery...
+[2026-03-21 22:46:31]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:46:31]   Progress: 160 sent + 5 skipped = 63.7% of 259
+[2026-03-21 22:46:31]   Waiting 5s before next batch...
+
+[2026-03-21 22:46:36] ─── Batch 17/26 (10 recipients) ───
+[2026-03-21 22:46:45]   ✓ Bithika Roy <bithikaroy96@gmail.com>
+[2026-03-21 22:46:45]   ✓ T BANAMBAR PATRA <aaactionllc@gmail.com>
+[2026-03-21 22:46:45]   ✓ Sumana Di <aroyc55@gmail.com>
+[2026-03-21 22:46:45]   ✓ dutta.shamit2000@gmail.com <dutta.shamit2000@gmail.com>
+[2026-03-21 22:46:45]   ✓ Swati Mehta <mehta.swati2011@gmail.com>
+[2026-03-21 22:46:45]   ✓ Sonu Roy <sonuroy123@gmail.com>
+[2026-03-21 22:46:45]   ✓ Poonam Sanyal <poonam.sanyal@gmail.com>
+[2026-03-21 22:46:45]   ✓ Ayan Dutta <duttaayan.cs@gmail.com>
+[2026-03-21 22:46:45]   ✓ shilpikessler@gmail.com <shilpikessler@gmail.com>
+[2026-03-21 22:46:45]   ✓ a@b.com <a@b.com>
+[2026-03-21 22:46:45]   Batch 17 result: Sent 10, Failed 0
+[2026-03-21 22:46:45]   Verifying batch delivery...
+[2026-03-21 22:46:48]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:46:48]   Progress: 170 sent + 5 skipped = 67.6% of 259
+[2026-03-21 22:46:48]   Waiting 5s before next batch...
+
+[2026-03-21 22:46:53] ─── Batch 18/26 (10 recipients) ───
+[2026-03-21 22:47:03]   ✓ Anupriya <anupriyaganguly44@gmail.com>
+[2026-03-21 22:47:03]   ✓ Rajarshi Majumdar <rajarshi.majumdar@gmail.com>
+[2026-03-21 22:47:03]   ✓ raka1027@aol.com <raka1027@aol.com>
+[2026-03-21 22:47:03]   ✓ priyachakraborty92@gmail.com <priyachakraborty92@gmail.com>
+[2026-03-21 22:47:03]   ✓ Moushumi Mondal <moushumi.mondal@gmail.com>
+[2026-03-21 22:47:03]   ✓ Bhaskar Roy <bhaskarroy24@gmail.com>
+[2026-03-21 22:47:03]   ✓ priyanka.ghosh@gmail.com <priyanka.ghosh@gmail.com>
+[2026-03-21 22:47:03]   ✓ Shilpi Banerjee <shilpibanerjee07@gmail.com>
+[2026-03-21 22:47:03]   ✓ mmegha.garg@gmail.com <mmegha.garg@gmail.com>
+[2026-03-21 22:47:03]   ✓ Nilay Chandra <chandranilay@gmail.com>
+[2026-03-21 22:47:03]   Batch 18 result: Sent 10, Failed 0
+[2026-03-21 22:47:03]   Verifying batch delivery...
+[2026-03-21 22:47:07]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:47:07]   Progress: 180 sent + 5 skipped = 71.4% of 259
+[2026-03-21 22:47:07]   Waiting 5s before next batch...
+
+[2026-03-21 22:47:12] ─── Batch 19/26 (10 recipients) ───
+[2026-03-21 22:47:20]   ✓ Sumon Ghosh <suman.ghosh12@gmail.com>
+[2026-03-21 22:47:20]   ✓ manokmc@gmail.com <manokmc@gmail.com>
+[2026-03-21 22:47:20]   ✓ Adelia Nason <adelia@crystallclearcrew.com>
+[2026-03-21 22:47:20]   ✓ hazradipa05@gmail.com <hazradipa05@gmail.com>
+[2026-03-21 22:47:20]   ✓ Pradip RudraPal <sculptorpradiprudrapal@gmail.com>
+[2026-03-21 22:47:20]   ✓ tanaybhaduri@gmail.com <tanaybhaduri@gmail.com>
+[2026-03-21 22:47:20]   ✓ John Bailey <john.bailey@funcms.net>
+[2026-03-21 22:47:20]   ✓ mdhar79@yahoo.com <mdhar79@yahoo.com>
+[2026-03-21 22:47:20]   ✓ tanusree.hhalder@gmail.com <tanusree.hhalder@gmail.com>
+[2026-03-21 22:47:20]   ✓ Joyita Ganguly <ganguly.joyita@gmail.com>
+[2026-03-21 22:47:20]   Batch 19 result: Sent 10, Failed 0
+[2026-03-21 22:47:20]   Verifying batch delivery...
+[2026-03-21 22:47:24]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:47:24]   Progress: 190 sent + 5 skipped = 75.3% of 259
+[2026-03-21 22:47:24]   Waiting 5s before next batch...
+
+[2026-03-21 22:47:29] ─── Batch 20/26 (10 recipients) ───
+[2026-03-21 22:47:38]   ✓ niloy.rc@gmail.com <niloy.rc@gmail.com>
+[2026-03-21 22:47:38]   ✓ Kaushiki Bhattacharya <kb94311@gmail.com>
+[2026-03-21 22:47:38]   ✓ inmumanik@gmail.com <inmumanik@gmail.com>
+[2026-03-21 22:47:38]   ✓ Tariqul <zaim3tariqul1712@gmail.com>
+[2026-03-21 22:47:38]   ✓ Swapnoneel Roy <sroy.iitm@gmail.com>
+[2026-03-21 22:47:38]   ✓ Alak Manna <alak.manna@gmail.com>
+[2026-03-21 22:47:38]   ✓ Rajasri Chandra <rajasrichandra@yahoo.com>
+[2026-03-21 22:47:38]   ✓ Soumali Dutta <2soumaliwithlove@gmail.com>
+[2026-03-21 22:47:38]   ✓ Maximilian T. H. Suchy <max@anasuya.com>
+[2026-03-21 22:47:38]   ✓ mntalukder@yahoo.com <mntalukder@yahoo.com>
+[2026-03-21 22:47:38]   Batch 20 result: Sent 10, Failed 0
+[2026-03-21 22:47:38]   Verifying batch delivery...
+[2026-03-21 22:47:41]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:47:41]   Progress: 200 sent + 5 skipped = 79.2% of 259
+[2026-03-21 22:47:41]   Waiting 5s before next batch...
+
+[2026-03-21 22:47:46] ─── Batch 21/26 (10 recipients) ───
+[2026-03-21 22:47:55]   ✓ Surajit Chakravarty <surajit_c@hotmail.com>
+[2026-03-21 22:47:55]   ✓ AKHAYA MOHANTY <emailtoakhaya@gmail.com>
+[2026-03-21 22:47:55]   ✓ Debasmita Roy <roy.debasmita@gmail.com>
+[2026-03-21 22:47:55]   ✓ shreyartha@gmail.com <shreyartha@gmail.com>
+[2026-03-21 22:47:55]   ✓ Alex Nelson <info@jaxbengali.org>
+[2026-03-21 22:47:55]   ✓ Navnita Dutta <navnitadutta7@gmail.com>
+[2026-03-21 22:47:55]   ✓ Atmadeep Mazumdar <atmadeep.mazumdar@gmail.com>
+[2026-03-21 22:47:55]   ✓ sumantaneogi90@gmail.com <sumantaneogi90@gmail.com>
+[2026-03-21 22:47:55]   ✓ Tapash Roy <tapashroyk@msn.com>
+[2026-03-21 22:47:55]   ✓ chrissy.m.das@icloud.com <chrissy.m.das@icloud.com>
+[2026-03-21 22:47:55]   Batch 21 result: Sent 10, Failed 0
+[2026-03-21 22:47:55]   Verifying batch delivery...
+[2026-03-21 22:47:58]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:47:59]   Progress: 210 sent + 5 skipped = 83.0% of 259
+[2026-03-21 22:47:59]   Waiting 5s before next batch...
+
+[2026-03-21 22:48:04] ─── Batch 22/26 (10 recipients) ───
+[2026-03-21 22:48:13]   ✓ Diptesh <dipteshm@gmail.com>
+[2026-03-21 22:48:13]   ✓ senguptaavranil@gmail.com <senguptaavranil@gmail.com>
+[2026-03-21 22:48:13]   ✓ Abhra Aich <abhra.aich@gmail.com>
+[2026-03-21 22:48:13]   ✓ Jay Chakraborty <jchakrab@gmail.com>
+[2026-03-21 22:48:13]   ✓ Barnali Mondal <hibarnali@gmail.com>
+[2026-03-21 22:48:13]   ✓ Rita Bhattacharjee <ritabhattacharjee@gmail.com>
+[2026-03-21 22:48:13]   ✓ johnexum1@outlook.com <johnexum1@outlook.com>
+[2026-03-21 22:48:13]   ✓ Mita Ghosh <mitaghosh1@yahoo.com>
+[2026-03-21 22:48:13]   ✓ Souvik Ray <souvik.ray86@gmail.com>
+[2026-03-21 22:48:13]   ✓ Sajal Bagchi <sajal1986@gmail.com>
+[2026-03-21 22:48:13]   Batch 22 result: Sent 10, Failed 0
+[2026-03-21 22:48:13]   Verifying batch delivery...
+[2026-03-21 22:48:16]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:48:16]   Progress: 220 sent + 5 skipped = 86.9% of 259
+[2026-03-21 22:48:16]   Waiting 5s before next batch...
+
+[2026-03-21 22:48:21] ─── Batch 23/26 (10 recipients) ───
+[2026-03-21 22:48:30]   ✓ Anasuya Banerjee <ana@anasuya.com>
+[2026-03-21 22:48:30]   ✓ Rajanya Ghosh <rajanya.ghosh1993@gmail.com>
+[2026-03-21 22:48:30]   ✓ Rahul Bannerjee <weekender_in@yahoo.com>
+[2026-03-21 22:48:30]   ✓ Sikhorini .mukherjee <sikhorini@gmail.com>
+[2026-03-21 22:48:30]   ✓ Jiniya Chandra <jiniya.chandra@gmail.com>
+[2026-03-21 22:48:30]   ✓ Suvendu Maitra <slmaitra@gmail.com>
+[2026-03-21 22:48:30]   ✓ Tasmim <tasmim@tohfabd.com>
+[2026-03-21 22:48:30]   ✓ Neha Mandal <neha.mandal@occamsadvisory.com>
+[2026-03-21 22:48:30]   ✓ Ripon Ray <ripon.ray@britbanglacovid.com>
+[2026-03-21 22:48:30]   ✓ Souvik Chakraborty (Old Souvik) <souvik.chakraborty87@gmail.com>
+[2026-03-21 22:48:30]   Batch 23 result: Sent 10, Failed 0
+[2026-03-21 22:48:30]   Verifying batch delivery...
+[2026-03-21 22:48:33]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:48:33]   Progress: 230 sent + 5 skipped = 90.7% of 259
+[2026-03-21 22:48:33]   Waiting 5s before next batch...
+
+[2026-03-21 22:48:38] ─── Batch 24/26 (10 recipients) ───
+[2026-03-21 22:48:47]   ✓ urmi rakshit <urmi.kanya@gmail.com>
+[2026-03-21 22:48:47]   ✓ peshkarcal@yahoo.com <peshkarcal@yahoo.com>
+[2026-03-21 22:48:47]   ✓ Sunetra Basu Ghosh <sunetra.basu@gmail.com>
+[2026-03-21 22:48:47]   ✓ Sourav Jan <jan.sourav@gmail.com>
+[2026-03-21 22:48:47]   ✓ milanekadash1996@gmail.com <milanekadash1996@gmail.com>
+[2026-03-21 22:48:47]   ✓ SUDESHNA CHATTERJEE <sudeshna.chatterjee1986@gmail.com>
+[2026-03-21 22:48:47]   ✓ INDRANI PAUL <indrani.of.paul@gmail.com>
+[2026-03-21 22:48:47]   ✓ Subhra Roy <subhraroy88@yahoo.com>
+[2026-03-21 22:48:47]   ✓ Swagatika Tripathy <swagatika.ty@gmail.com>
+[2026-03-21 22:48:47]   ✓ Rina Basu Paul <rinabasu31@gmail.com>
+[2026-03-21 22:48:47]   Batch 24 result: Sent 10, Failed 0
+[2026-03-21 22:48:47]   Verifying batch delivery...
+[2026-03-21 22:48:51]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:48:51]   Progress: 240 sent + 5 skipped = 94.6% of 259
+[2026-03-21 22:48:51]   Waiting 5s before next batch...
+
+[2026-03-21 22:48:56] ─── Batch 25/26 (10 recipients) ───
+[2026-03-21 22:49:06]   ✓ Brandon Green <brandon.green@wixclicks.co>
+[2026-03-21 22:49:06]   ✓ Koushik Karmakar <karmakar.2007@gmail.com>
+[2026-03-21 22:49:06]   ✓ robchatto@aol.com <robchatto@aol.com>
+[2026-03-21 22:49:06]   ✓ Raj Goswami <raj.goswami@gmail.com>
+[2026-03-21 22:49:06]   ✓ samirpbhagat@gmail.com <samirpbhagat@gmail.com>
+[2026-03-21 22:49:06]   ✓ Dola Sinha <dolasinha@yahoo.com>
+[2026-03-21 22:49:06]   ✓ Soumyajit Dutta <duttasoumyajit86@gmail.com>
+[2026-03-21 22:49:06]   ✓ Subrata Mondal <sm.mondal@gmail.com>
+[2026-03-21 22:49:06]   ✓ Celina Fouts <celina@janprojacksonville.com>
+[2026-03-21 22:49:06]   ✓ Amit.everywhere@gmail.com <amit.everywhere@gmail.com>
+[2026-03-21 22:49:06]   Batch 25 result: Sent 10, Failed 0
+[2026-03-21 22:49:06]   Verifying batch delivery...
+[2026-03-21 22:49:10]   ✓ Verified: 10/10 confirmed in DB
+[2026-03-21 22:49:10]   Progress: 250 sent + 5 skipped = 98.5% of 259
+[2026-03-21 22:49:10]   Waiting 5s before next batch...
+
+[2026-03-21 22:49:15] ─── Batch 26/26 (4 recipients) ───
+[2026-03-21 22:49:18]   ✓ Rupa Majumdar <srabana.m@gmail.com>
+[2026-03-21 22:49:18]   ✓ Varsha Roy <varsharoy.86@gmail.com>
+[2026-03-21 22:49:18]   ✓ Pawan Agarwal <info@sagirealty.com>
+[2026-03-21 22:49:18]   ✓ poddojaroy@gmail.com <poddojaroy@gmail.com>
+[2026-03-21 22:49:18]   Batch 26 result: Sent 4, Failed 0
+[2026-03-21 22:49:18]   Verifying batch delivery...
+[2026-03-21 22:49:21]   ✓ Verified: 4/4 confirmed in DB
+[2026-03-21 22:49:21]   Progress: 254 sent + 5 skipped = 100.0% of 259
+[2026-03-21 22:49:21] 
+═══ FINAL VERIFICATION ═══
+[2026-03-21 22:49:27]   Total in DB: 341
+[2026-03-21 22:49:27]   Verified sent: 254
+[2026-03-21 22:49:27]   Failed (permanent): 0
+[2026-03-21 22:49:27] 
+Step 6: Cleaning up any duplicates...
+[2026-03-21 22:49:34]   Duplicates removed: 80, Remaining: 261
+[2026-03-21 22:49:34] 
+═══════════════════════════════════════════════════════════
+[2026-03-21 22:49:34]   BATCH SEND COMPLETE
+[2026-03-21 22:49:34]   Sent: 254
+[2026-03-21 22:49:34]   Failed: 0
+[2026-03-21 22:49:34]   Verified: 254
+[2026-03-21 22:49:34]   Skipped (already invited): 5
+[2026-03-21 22:49:34]   Dashboard: C:\projects\banf\_evite-batch-dashboard.html
+[2026-03-21 22:49:34]   Progress: C:\projects\banf\_evite-batch-progress.json
+[2026-03-21 22:49:34]   Log: C:\projects\banf\_evite-batch-log.txt
+[2026-03-21 22:49:34] ═══════════════════════════════════════════════════════════

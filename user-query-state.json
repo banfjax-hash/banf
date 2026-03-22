@@ -253,12 +253,380 @@
       "status": "pending",
       "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773791707337-rll3&action=approve",
       "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1773791707337-rll3&action=reject"
+    },
+    {
+      "id": "QA-1774144512038-r2ls",
+      "timestamp": "2026-03-22T01:55:12.038Z",
+      "email": {
+        "from": "hello@dailypassport.com",
+        "subject": "6 Things Hotel Staff Wish Guests Would Do",
+        "body": "https://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52q8fqiogyvvrgtjequyhqy6irr4buxw90k8per07lcx0ww3efpm0kv6o1n54n8mj3cfz9kxwfc54spqgi50cp4o34r8kycv2aflhtc34e5yxczz513yllhuqpm87seypoj65jxbopq3o0d8pbxb0z9zrvmado2u9i2jd6j4q2c2chdpqs1eg2lf66xc670buwcqxwfp798mxkqopr1bflcj8sk396xpbh2y9lq9ofic77anod64d151502a7s1fv51clyir9a835uc2z0a1bjvqfwmjbovwnxpn6sjqpbkxzpv8xzxu6ddikw16fsf3rnod7ytsrtj&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52q8fqiogyvvrgtjequyhqy6irr4buxw90k8per07lcx0ww3efpm0kv6o1n54n8mj3cfz9kxwfc54spqgi50cp4o34r8kycv2aflhtc34e5yxczz513yllhuqpm87seypoj65jxbopq3o0d8pbxbnpazr41ooftnrublwjw6077uuqb2m2zd2c3q54g0nd0qrlrgxwr8f0f4sdsr3rr4wjgfut3z5g6fu"
+      },
+      "classification": {
+        "category": "general_info",
+        "categoryType": "safe",
+        "confidence": 0.6857142857142857,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "low"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question. Low-risk category - safe to auto-respond",
+      "suggestedResponse": "Dear there,\n\nThank you for reaching out to BANF.\n\nFor general information about our organization:\n- **Website:** www.jaxbengali.org\n- **Email:** banfjax@gmail.com\n- **Facebook:** facebook.com/jaxbengali\n\nIf you have specific questions, please don't hesitate to reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144512038-r2ls&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144512038-r2ls&action=reject"
+    },
+    {
+      "id": "QA-1774144512601-lbe8",
+      "timestamp": "2026-03-22T01:55:12.601Z",
+      "email": {
+        "from": "henasanat@yahoo.com",
+        "subject": "Re: You're Invited: BANF Noboborsho 2026 -",
+        "body": "Thanks for everything you do. We have moved to Jax . I am able to get all information but I have  no understanding how to pay my membership due in timely without any problem . Please send me the process so I can pay as early as possible. Thanks.  Sanat and Hena Roy tele no. 4024309846 or 402 430 0194\r\n    On Saturday, March 21, 2026 at 05:39:40 PM CDT, Bengali Association of North Florida <banfjax@gmail.com> wrote:  \r\n \r\n  \r\n| \r\n|  You're Invited! BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩ Bengali Association of North Florida |\r\n|  \r\nDear SANAT ROY,\r\n \r\nপ্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.\r\n  \r\n|  Event Details \r\n| 📅 Date | Saturday, April 25, 2026 |\r\n| 🕐 Time | 11:00 AM â€“ 4:00 PM |\r\n| 📍 Venue | Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092 |\r\n\r\n Join us to celebrate Pohela Bois"
+      },
+      "classification": {
+        "category": "general_info",
+        "categoryType": "safe",
+        "confidence": 0.7,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Member reply to BANF email",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question. Low-risk category - safe to auto-respond",
+      "suggestedResponse": "Dear there,\n\nThank you for reaching out to BANF.\n\nFor general information about our organization:\n- **Website:** www.jaxbengali.org\n- **Email:** banfjax@gmail.com\n- **Facebook:** facebook.com/jaxbengali\n\nIf you have specific questions, please don't hesitate to reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144512601-lbe8&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144512601-lbe8&action=reject"
+    },
+    {
+      "id": "QA-1774144512904-azs3",
+      "timestamp": "2026-03-22T01:55:12.904Z",
+      "email": {
+        "from": "botbanf@gmail.com",
+        "subject": "Re: Bengali Association of North Florida (BANF) - By Laws Amendment Update (Content & Timeline)",
+        "body": "Dear BANF Members,\r\n\r\nToday is the last day to vote on the Revised Bylaws amendment shared\r\nearlier.\r\n\r\n⚠️ Important:\r\n1. If you have already voted and Do Not wish to change your vote, you DO\r\nNOT have to vote again.\r\n2. Only those who have NOT voted yet or wish to update their vote after the\r\nrevision can participate.\r\n3. Only those who were members in good standing as of 1/31/2026 are\r\neligible to vote.\r\n\r\nThank you for your participation and support.\r\n\r\nPlease cast your vote here:\r\nhttps://docs.google.com/forms/d/e/1FAIpQLSd0Dgmw3Nnl7cvsX3CJ7ifcr19Nef41mmaYHLjczs4xNamCdg/viewform?usp=header\r\n\r\nRegards\r\nSwarnendu, Sayani & Saugata\r\nBoard of Trustees - BANF\r\n\r\nOn Fri, Mar 13, 2026 at 8:10 PM BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n\r\n> Dear Members,\r\n>\r\n> We hope you are doing well.\r\n>\r\n> The *updated draft of the BANF bylaws* is attached herewith.\r\n>\r\n> First and foremost, we would like to extend our *sincere thanks to each\r\n> and every one of you* who took the time to review the e"
+      },
+      "classification": {
+        "category": "policy_bylaws",
+        "categoryType": "human_required",
+        "confidence": 0.95,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Policy matters require official EC response",
+        "priority": "medium"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding policy bylaws.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Policy matters require official EC response",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144512904-azs3&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144512904-azs3&action=reject"
+    },
+    {
+      "id": "QA-1774144513126-m196",
+      "timestamp": "2026-03-22T01:55:13.126Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender",
+        "body": "321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />           SCHEDULE [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#season_schedule]  |   STATS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#team_stats]  |   DEPTH CHART [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#depth_chart]  |   INJURIES [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\nWant more Buccaneers news? Sign up for Buccaneers alerts HERE↗️. [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#subscribe-form]\r\n\r\nBuccaneers Lose 3-Time NFL All-Pro to NFC Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.6222222222222222,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144513126-m196&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144513126-m196&action=reject"
+    },
+    {
+      "id": "QA-1774144513621-qmip",
+      "timestamp": "2026-03-22T01:55:13.621Z",
+      "email": {
+        "from": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,205.28 Available balance(as of 03/21/2026 02:27:48 CST ): $8,205.28 This information is accurate as of 03/21/2026 02:27:48 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawal. It is adjusted throughout the day as we authorize, or receive notice of, pending transactions. Avai"
+      },
+      "classification": {
+        "category": "payment_request",
+        "categoryType": "human_required",
+        "confidence": 0.6333333333333333,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Financial matters require human verification",
+        "priority": "high"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding payment request.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Financial matters require human verification",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144513621-qmip&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144513621-qmip&action=reject"
+    },
+    {
+      "id": "QA-1774144513913-xrjd",
+      "timestamp": "2026-03-22T01:55:13.913Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "✌️ Ex-All-Pro Walks in Free Agency",
+        "body": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender in Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Buccaneers Defender Jumps Ship for Super Bowl Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=] George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make $5.25 Million Move With Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-b"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.6222222222222222,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144513913-xrjd&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144513913-xrjd&action=reject"
+    },
+    {
+      "id": "QA-1774144514170-78zj",
+      "timestamp": "2026-03-22T01:55:14.170Z",
+      "email": {
+        "from": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,205.28 Available balance(as of 03/20/2026 00:52:49 CST ): $8,205.28 This information is accurate as of 03/20/2026 00:52:49 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawal. It is adjusted throughout the day as we authorize, or receive notice of, pending transactions. Avai"
+      },
+      "classification": {
+        "category": "payment_request",
+        "categoryType": "human_required",
+        "confidence": 0.6333333333333333,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Financial matters require human verification",
+        "priority": "high"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding payment request.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Financial matters require human verification",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514170-78zj&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514170-78zj&action=reject"
+    },
+    {
+      "id": "QA-1774144514410-c9r8",
+      "timestamp": "2026-03-22T01:55:14.410Z",
+      "email": {
+        "from": "hello@dailypassport.com",
+        "subject": "The One Drink You Should Never Order on a Plane",
+        "body": "https://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq477r4mhy59q16g0vdwnpjeutwlewxvvg7s47brpvd160k9lzt0vqooatlzdgk5o67szyvnrdjz1h19njkh2bh3861zqcrfa9uj59wm78afyqtfo2zaqhs0i0844mn4zqaexflye1l8sjxbljoj68sprao6gfuzwxz3kedg9ykmp8fky09cj45fmulmoqaq9b7tu6da19hgo1dib44j8xobx8gqk78lt1xl5nbcwl0qk4eqbyf22cht4dwo5ttp0pqs8708ww80srn3oke6hdwie5p29gvxup5pt15kog5m78j4a7jn0ik752itsz5jmgpqifgmgx0&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq477r4mhy59q16g0vdwnpjeutwlewxvvg7s47brpvd160k9lzt0vqooatlzdgk5o67szyvnrdjz1h19njkh2bh3861zqcrfa9uj59wm78afyqtfo2zaqhs0i0844mn4zqaexflye1l8sjxbljoj68sprao6gfuzwxz3kec58wc9x24t5rpupo4lcjeim5frlq0mt007lpwfi7ewusbu6bl6iwsqv5w1c"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.6222222222222222,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514410-c9r8&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514410-c9r8&action=reject"
+    },
+    {
+      "id": "QA-1774144514670-0m8d",
+      "timestamp": "2026-03-22T01:55:14.670Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "😖 Bucs Lose Versatile Vet DB",
+        "body": "Buccaneers Defender Jumps Ship for Super Bowl Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: Buccaneers Could Target Indiana WR to Replace Evans in Draft [https://heavy.com/sports/nfl/tampa-bay-buccaneers/buccaneers-could-target-indiana-wr-to-replace-evans-in-draft/?adt_ei=banfjax@gmail.com&lctg=]      MORE ON THIS STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/buccaneers-could-target-indiana-wr-to-replace-evans-in-draft/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Te"
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- **Address:** Noted (pending verification)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514670-0m8d&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514670-0m8d&action=reject"
+    },
+    {
+      "id": "QA-1774144514919-pvw9",
+      "timestamp": "2026-03-22T01:55:14.919Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...",
+        "body": "319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />           SCHEDULE [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#season_schedule]  |   STATS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#team_stats]  |   DEPTH CHART [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#depth_chart]  |   INJURIES [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\nWant more Buccaneers news? Sign up for Buccaneers alerts HERE↗️. [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#subscribe-form]\r\n\r\n‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro [https://heavy.com/sports/nfl/tampa-bay-buccaneers/"
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- **Address:** Noted (pending verification)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514919-pvw9&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144514919-pvw9&action=reject"
+    },
+    {
+      "id": "QA-1774144515171-lnj7",
+      "timestamp": "2026-03-22T01:55:15.171Z",
+      "email": {
+        "from": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,205.28 Available balance(as of 03/19/2026 00:52:51 CST ): $8,205.28 Withdrawals PURCHASE AUTHORIZED ON 03/17 NOTARIZE DBA PROOF PROOF.COM NY S586076661839902 CARD 6796 $25.00 CUBESMART967 WEBPAYMENT 260317 ASSOCIATION OF NORTH F $238.84 This information is accurate as of 03/19/2026 00:52:51 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the "
+      },
+      "classification": {
+        "category": "payment_request",
+        "categoryType": "human_required",
+        "confidence": 0.6333333333333333,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Financial matters require human verification",
+        "priority": "high"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding payment request.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Financial matters require human verification",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515171-lnj7&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515171-lnj7&action=reject"
+    },
+    {
+      "id": "QA-1774144515326-n4a7",
+      "timestamp": "2026-03-22T01:55:15.326Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "💯 Licht Gets REAL About Evans",
+        "body": "Bucs GM Candidly Addresses Loss of Superstar WR Mike Evans in NFL Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com&lctg=]          READ HIS COMMENTS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: Bucs Predicted to Fill Void Left by Mike Evans With 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fill-void-mike-evans-kenyon-sadiq/?adt_ei=banfjax@gmail.com&lctg=]      MORE ON THIS STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fill-void-mike-evans-kenyon-sadiq/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tamp"
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.7,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- **Address:** Noted (pending verification)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515326-n4a7&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515326-n4a7&action=reject"
+    },
+    {
+      "id": "QA-1774144515394-kdna",
+      "timestamp": "2026-03-22T01:55:15.394Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "💰 Bucs Free Up Cap Space",
+        "body": "Buccaneers Make $5.25 Million Move With Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=]      MORE ON THIS STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Bucs Could Turn to Struggling 1st-Round Talent to Fill Backup QB Role [https://heavy"
+      },
+      "classification": {
+        "category": "profile_update",
+        "categoryType": "safe",
+        "confidence": 0.6000000000000001,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your update request. We have noted the following changes:\n\n- Changes noted from your email (will be reviewed by our team)\n\nThese changes will be reviewed and applied to your profile. If you need to make additional changes, please visit the member portal or reply to this email.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515394-kdna&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515394-kdna&action=reject"
+    },
+    {
+      "id": "QA-1774144515464-xwkl",
+      "timestamp": "2026-03-22T01:55:15.464Z",
+      "email": {
+        "from": "website+security@huggingface.co",
+        "subject": "[HuggingFace] Security alert: token expired",
+        "body": "Dear bbengali association of north florida, One of your tokens (labeled \"banf_llm\" with role \"fineGrained\") has been automatically expired. This valid token was publicly visible at this URL: https://github.com/banfjax-hash/banf/blob/206b35c909833726d4a5342df28d878688cce2c2/BR_TECHNICAL_REFERENCE.md , so for maximum safety we invalidated it. You can refresh your token with a new value at hf.co/settings/tokens . We urge you to never include any tokens in your code to avoid leaking them publicly, for instance when pushing on GitHub. On huggingface.co, you can use Space secrets to inject your HF token into your app. Don't hesitate to reach out for any question you might have. 🤗 The Hugging Face Team Hugging Face: The AI community building the future."
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.6222222222222222,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515464-xwkl&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515464-xwkl&action=reject"
+    },
+    {
+      "id": "QA-1774144515550-ygyu",
+      "timestamp": "2026-03-22T01:55:15.550Z",
+      "email": {
+        "from": "website+security@huggingface.co",
+        "subject": "[HuggingFace] Security alert: token expired",
+        "body": "Dear bbengali association of north florida, One of your tokens (labeled \"banf_llm\" with role \"fineGrained\") has been automatically expired. This valid token was publicly visible at this URL: https://github.com/banfjax-hash/banf/blob/206b35c909833726d4a5342df28d878688cce2c2/wix-backend-backup/banf-survey.js , so for maximum safety we invalidated it. You can refresh your token with a new value at hf.co/settings/tokens . We urge you to never include any tokens in your code to avoid leaking them publicly, for instance when pushing on GitHub. On huggingface.co, you can use Space secrets to inject your HF token into your app. Don't hesitate to reach out for any question you might have. 🤗 The Hugging Face Team Hugging Face: The AI community building the future."
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.6222222222222222,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515550-ygyu&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515550-ygyu&action=reject"
+    },
+    {
+      "id": "QA-1774144515617-8yxm",
+      "timestamp": "2026-03-22T01:55:15.617Z",
+      "email": {
+        "from": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,469.12 Available balance(as of 03/18/2026 00:53:15 CST ): $8,444.12 Withdrawals PURCHASE AUTHORIZED ON 03/16 EVENTSURED 888-8825902 PA S356075747694976 CARD 6796 $121.92 This information is accurate as of 03/18/2026 00:53:15 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawa"
+      },
+      "classification": {
+        "category": "payment_request",
+        "categoryType": "human_required",
+        "confidence": 0.6333333333333333,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Financial matters require human verification",
+        "priority": "high"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "[DRAFT - NEEDS HUMAN REVIEW]\n\nDear there,\n\nThank you for contacting BANF regarding payment request.\n\nThis matter requires attention from our Executive Committee. A team member will review your request and respond shortly.\n\nBest regards,\nBANF Team\n\n---\nNote to EC: Financial matters require human verification",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515617-8yxm&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515617-8yxm&action=reject"
     }
   ],
   "approvedResponses": [],
   "rejectedResponses": [],
   "statistics": {
-    "totalProcessed": 11,
+    "totalProcessed": 27,
     "totalApproved": 0,
     "totalRejected": 0,
     "totalAutoResponded": 0,

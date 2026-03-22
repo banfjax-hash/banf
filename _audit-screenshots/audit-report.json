@@ -1,0 +1,89 @@
+{
+  "auditDate": "2026-03-19T22:13:03.759Z",
+  "targetUrl": "https://www.jaxbengali.org",
+  "expectedDestination": "https://banfjax-hash.github.io/banf/v2/",
+  "navigationChain": [
+    {
+      "url": "https://www.jaxbengali.org/",
+      "relativeMs": 163
+    }
+  ],
+  "totalRedirectTime": 6978,
+  "finalUrl": "https://www.jaxbengali.org/",
+  "reachedExpected": false,
+  "screenshots": [
+    {
+      "label": "01_first_response",
+      "url": "https://www",
+      "pageTitle": "Jax Bengali",
+      "visibleContent": "A blank white rectangular area centered on a brown background with no text or images visible.",
+      "isExpectedContent": false,
+      "issues": [
+        "No visible content or text in the main area",
+        "Blank white space likely indicates missing or not yet loaded content",
+        "No navigation, images, or community information visible",
+        "Design appears incomplete or broken before JavaScript execution"
+      ],
+      "uxRating": 2,
+      "recommendation": "Ensure server-side rendering or initial HTML includes meaningful content or placeholders. Improve loading strategy to avoid blank white space. Add visible navigation and community info in initial render for better user experience."
+    },
+    {
+      "label": "02_dom_loaded",
+      "url": "https://www",
+      "pageTitle": "Jax Bengali Association",
+      "visibleContent": "The visible content shows a mostly blank white area with a brown background. There is a large empty white rectangle in the center of the page with no text, images, or interactive elements visible.",
+      "isExpectedContent": false,
+      "issues": [
+        "Page appears to be mostly blank with no visible content or navigation.",
+        "No text, images, or interactive elements are loaded or displayed.",
+        "Possible flash of blank content or incomplete rendering at 590ms after DOM content loaded.",
+        "Design looks unfinished or broken, not consistent with a modern community website."
+      ],
+      "uxRating": 2,
+      "recommendation": "Investigate why the main content is not rendering properly. Ensure that all necessary resources (CSS, JavaScript, images) are loading correctly. Implement loading indicators or placeholders to improve perceived performance. Optimize initial content rendering to avoid blank or empty screens."
+    },
+    {
+      "label": "03_after_2s",
+      "url": "https://www",
+      "pageTitle": "Bengali Association of North Florida",
+      "visibleContent": "The top navigation bar includes links: Home, About, Leadership, Events, Membership, Gallery, Contact, Member Login, and EC Login. The main banner shows the logo and name 'Bengali Association of North Florida' with text in Bengali and the years 2026-2027. Below the banner is a button stating 'Since 2008 — 17 Years of Heritage'. There is a welcome message in Bengali and English: 'স্বাগতম | আমাদের পরিবারে আপনাকে স্বাগতম' and 'Bengali Association of'. The background is a dark blue gradient with a brown section below the fold. A chat button labeled 'Let's Chat!' is visible in the bottom right corner.",
+      "isExpectedContent": false,
+      "issues": [
+        "Partial content visible with text cut off ('Bengali Association of' incomplete)",
+        "Brown section below the fold appears as a large blank or placeholder area",
+        "No page title visible in the screenshot or browser tab",
+        "The URL shown is https://www.jaxbengali.org/ but expected destination is https://banfjax-hash.github.io/banf/v2/",
+        "Possible flash of old or incorrect content before redirect",
+        "Design looks somewhat dated and incomplete on initial load"
+      ],
+      "uxRating": 4,
+      "recommendation": "Ensure the website fully loads the intended modern content without partial or cut-off text. Fix the brown blank area by loading proper content or removing placeholders. Implement a proper redirect or update DNS so users land directly on the expected URL and content. Add a clear page title in the browser tab. Improve initial load performance to avoid flashes of old or incomplete content."
+    },
+    {
+      "label": "04_final_6s",
+      "url": "https://www",
+      "pageTitle": "Bengali Association of North Florida",
+      "visibleContent": "The top navigation bar includes links: Home, About, Leadership, Events, Membership, Gallery, Contact, Member Login, and EC Login. The logo and site name 'BANF Jacksonville' are on the left. Below the navbar is a decorative banner with the text 'BENGALI ASSOCIATION OF NORTH FLORIDA' and Bengali script underneath, along with the years '2026-2027'. A badge states 'Since 2008 — 17 Years of Heritage'. Below that is a welcome message in Bengali and the partial heading 'Bengali Association of'. The bottom portion of the page is a large solid brown block with no visible content.",
+      "isExpectedContent": false,
+      "issues": [
+        "Page content is incomplete with a large blank/brown area covering most of the screen.",
+        "Partial heading text is cut off, indicating layout or loading issues.",
+        "The URL shown is https://www.jaxbengali.org/, but the expected destination is https://banfjax-hash.github.io/banf/v2/, suggesting a possible redirect or deployment problem.",
+        "The design looks somewhat outdated and lacks modern styling or interactive elements visible in this screenshot.",
+        "No visible footer or additional content below the fold."
+      ],
+      "uxRating": 3,
+      "recommendation": "Ensure the full page content loads correctly without large blank areas. Fix any layout or CSS issues causing content cutoff. Verify the URL redirects properly to the intended destination. Update the design to a more modern, responsive layout with visible interactive elements and complete content."
+    }
+  ],
+  "overallAssessment": {
+    "issueCount": 3,
+    "issues": [
+      "Initial URL is https://www.jaxbengali.org/, not https://banfjax-hash.github.io/banf/v2/ — shows intermediate page",
+      "Final URL https://www.jaxbengali.org/ doesn't match expected https://banfjax-hash.github.io/banf/v2/",
+      "Initial page UX rated 2/10 by vision model — visible flash of wrong content"
+    ],
+    "redirectHops": 1,
+    "hasVisibleFlash": true
+  }
+}

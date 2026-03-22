@@ -44,15 +44,54 @@
     "19cfcec6fec98d4d",
     "19cfd12d1908f6bf",
     "19cfd1ed8141ff82",
-    "19cfd2c0c03284dd"
+    "19cfd2c0c03284dd",
+    "19d12c5b206f44a8",
+    "19d12c57c4b343a6",
+    "19d12c526595beea",
+    "19d12c445a2ef694",
+    "19d12c2ffe8b0131",
+    "19d12c1b891e94b3",
+    "19d12c12de1fbc0c",
+    "19d12c121ccfc6ac",
+    "19d12c071175723e",
+    "19d12b80766c607a",
+    "19d12b787f22fa48",
+    "19d12b77c7f89988",
+    "19d12b7323edfa10",
+    "19d1296627d3eae0",
+    "19d1295fae9b2139",
+    "19d1295f49757008",
+    "19d1295b74113372",
+    "19d12951ba2fbc56",
+    "19d129463502e71f",
+    "19d1293ef4f75edc",
+    "19d1293b45d778ce",
+    "19d129385e3eb112",
+    "19d1293414827088",
+    "19d128c01077d804",
+    "19d128be31733a22",
+    "19d128b7d21b897a",
+    "19d128b54fc4d549",
+    "19d128af1daa47dc",
+    "19d128ae7bc78a52",
+    "19d12896e5ff3a05",
+    "19d0de7dbf9a7909",
+    "19d085703fcd39ec",
+    "19d080850b50851d",
+    "19d07820883989ac",
+    "19d072867231a738",
+    "19d02d94d5a6aebd",
+    "19d02c3794c09811",
+    "19d0225d4c5a5d5f",
+    "19d135bdc1772384"
   ],
   "flaggedEmails": {
     "rajanya.ghosh@gmail.com": {
       "reason": "mailbox_full",
       "isTemporary": true,
       "flaggedAt": "2026-03-12T00:40:14.013Z",
-      "lastBounce": "2026-03-17T19:03:58.978Z",
-      "bounceCount": 38,
+      "lastBounce": "2026-03-22T02:25:41.563Z",
+      "bounceCount": 47,
       "recoveryAction": "escalate",
       "recoveryTarget": null,
       "memberName": null,
@@ -79,8 +118,8 @@
       "reason": "unknown",
       "isTemporary": false,
       "flaggedAt": "2026-03-12T00:40:14.013Z",
-      "lastBounce": "2026-03-12T00:40:14.013Z",
-      "bounceCount": 1,
+      "lastBounce": "2026-03-22T01:55:22.653Z",
+      "bounceCount": 5,
       "recoveryAction": "escalate",
       "recoveryTarget": null,
       "memberName": null,
@@ -93,8 +132,8 @@
       "reason": "unknown",
       "isTemporary": false,
       "flaggedAt": "2026-03-12T00:40:14.013Z",
-      "lastBounce": "2026-03-12T00:40:14.013Z",
-      "bounceCount": 1,
+      "lastBounce": "2026-03-22T01:55:22.662Z",
+      "bounceCount": 2,
       "recoveryAction": "escalate",
       "recoveryTarget": null,
       "memberName": null,
@@ -121,8 +160,8 @@
       "reason": "unknown",
       "isTemporary": false,
       "flaggedAt": "2026-03-12T00:40:14.013Z",
-      "lastBounce": "2026-03-12T00:40:14.013Z",
-      "bounceCount": 1,
+      "lastBounce": "2026-03-22T01:55:22.647Z",
+      "bounceCount": 4,
       "recoveryAction": "escalate",
       "recoveryTarget": null,
       "memberName": null,
@@ -144,6 +183,146 @@
       "actionTaken": true,
       "suspended": true,
       "suspendedAt": "2026-03-17T18:33:59.258Z"
+    },
+    "caden.schmidt@wixful.site": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T01:55:22.674Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 3,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "a@b.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 2,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "zaim3tariqul1712@gmail.com": {
+      "reason": "address_not_found",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 2,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "tasmim@tohfabd.com": {
+      "reason": "address_not_found",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 3,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "neha.mandal@occamsadvisory.com": {
+      "reason": "address_not_found",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 3,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "brandon.green@wixclicks.co": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 3,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "joshua@northfloridaclean.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 2,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "daniel@northfloridaclean.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 2,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "sonika@mumukshulife.com": {
+      "reason": "address_not_found",
+      "isTemporary": false,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "ray@ameliaclean.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T01:55:22.675Z",
+      "lastBounce": "2026-03-22T01:55:22.675Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T01:55:22.675Z"
     }
   },
   "recoveryActions": [
@@ -650,16 +829,280 @@
         "status": "not-sent",
         "reason": "Use --send to enable"
       }
+    },
+    {
+      "failedEmail": "caden.schmidt@wixful.site",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.674Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "a@b.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "zaim3tariqul1712@gmail.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "tasmim@tohfabd.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "neha.mandal@occamsadvisory.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "brandon.green@wixclicks.co",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "tasmim@tohfabd.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "neha.mandal@occamsadvisory.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "brandon.green@wixclicks.co",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "brandon.green@wixclicks.co",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "neha.mandal@occamsadvisory.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "tasmim@tohfabd.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "zaim3tariqul1712@gmail.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "a@b.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "caden.schmidt@wixful.site",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "caden.schmidt@wixful.site",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "joshua@northfloridaclean.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "daniel@northfloridaclean.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "joshua@northfloridaclean.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "daniel@northfloridaclean.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "sonika@mumukshulife.com",
+      "bounceReason": "address_not_found",
+      "isTemporary": false,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "ray@ameliaclean.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T01:55:22.675Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
     }
   ],
   "escalations": [],
   "spouseVerifications": [],
   "stats": {
-    "totalBouncesProcessed": 45,
+    "totalBouncesProcessed": 84,
     "totalRecovered": 0,
-    "totalEscalated": 42,
-    "totalFlagged": 42
+    "totalEscalated": 64,
+    "totalFlagged": 64
   },
   "createdAt": "2026-03-12T00:40:03.652Z",
-  "lastSaved": "2026-03-17T19:03:58.978Z"
+  "lastSaved": "2026-03-22T02:25:41.564Z"
 }

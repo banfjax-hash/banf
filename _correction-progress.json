@@ -1,0 +1,2160 @@
+{
+  "startTime": "2025-06-24T00:00:00.000Z",
+  "currentOffset": 265,
+  "totalUnique": 261,
+  "batches": [
+    {
+      "batchNum": 1,
+      "offset": 0,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "poddojaroy@gmail.com",
+          "email": "poddojaroy@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Pawan Agarwal",
+          "email": "info@sagirealty.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Varsha Roy",
+          "email": "varsharoy.86@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rupa Majumdar",
+          "email": "srabana.m@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Amit.everywhere@gmail.com",
+          "email": "amit.everywhere@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:34:17.741Z"
+    },
+    {
+      "batchNum": 2,
+      "offset": 5,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Celina Fouts",
+          "email": "celina@janprojacksonville.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Subrata Mondal",
+          "email": "sm.mondal@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Soumyajit Dutta",
+          "email": "duttasoumyajit86@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Dola Sinha",
+          "email": "dolasinha@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "samirpbhagat@gmail.com",
+          "email": "samirpbhagat@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:34:34.847Z"
+    },
+    {
+      "batchNum": 3,
+      "offset": 10,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Raj Goswami",
+          "email": "raj.goswami@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "robchatto@aol.com",
+          "email": "robchatto@aol.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Koushik Karmakar",
+          "email": "karmakar.2007@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Brandon Green",
+          "email": "brandon.green@wixclicks.co",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rina Basu Paul",
+          "email": "rinabasu31@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:34:52.153Z"
+    },
+    {
+      "batchNum": 4,
+      "offset": 15,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Swagatika Tripathy",
+          "email": "swagatika.ty@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Subhra Roy",
+          "email": "subhraroy88@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "INDRANI PAUL",
+          "email": "indrani.of.paul@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "SUDESHNA CHATTERJEE",
+          "email": "sudeshna.chatterjee1986@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "milanekadash1996@gmail.com",
+          "email": "milanekadash1996@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:35:09.284Z"
+    },
+    {
+      "batchNum": 5,
+      "offset": 20,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Sourav Jan",
+          "email": "jan.sourav@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sunetra Basu Ghosh",
+          "email": "sunetra.basu@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "peshkarcal@yahoo.com",
+          "email": "peshkarcal@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "urmi rakshit",
+          "email": "urmi.kanya@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Souvik Chakraborty (Old Souvik)",
+          "email": "souvik.chakraborty87@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:35:26.560Z"
+    },
+    {
+      "batchNum": 6,
+      "offset": 25,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Ripon Ray",
+          "email": "ripon.ray@britbanglacovid.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Neha Mandal",
+          "email": "neha.mandal@occamsadvisory.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Tasmim",
+          "email": "tasmim@tohfabd.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Suvendu Maitra",
+          "email": "slmaitra@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Jiniya Chandra",
+          "email": "jiniya.chandra@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:35:43.149Z"
+    },
+    {
+      "batchNum": 7,
+      "offset": 30,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Sikhorini .mukherjee",
+          "email": "sikhorini@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rahul Bannerjee",
+          "email": "weekender_in@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rajanya Ghosh",
+          "email": "rajanya.ghosh1993@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Anasuya Banerjee",
+          "email": "ana@anasuya.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sajal Bagchi",
+          "email": "sajal1986@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:36:04.551Z"
+    },
+    {
+      "batchNum": 8,
+      "offset": 35,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Souvik Ray",
+          "email": "souvik.ray86@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Mita Ghosh",
+          "email": "mitaghosh1@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "johnexum1@outlook.com",
+          "email": "johnexum1@outlook.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rita Bhattacharjee",
+          "email": "ritabhattacharjee@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Barnali Mondal",
+          "email": "hibarnali@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:36:22.164Z"
+    },
+    {
+      "batchNum": 9,
+      "offset": 40,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Jay Chakraborty",
+          "email": "jchakrab@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Abhra Aich",
+          "email": "abhra.aich@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "senguptaavranil@gmail.com",
+          "email": "senguptaavranil@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Diptesh",
+          "email": "dipteshm@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "chrissy.m.das@icloud.com",
+          "email": "chrissy.m.das@icloud.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:36:39.470Z"
+    },
+    {
+      "batchNum": 10,
+      "offset": 45,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Tapash Roy",
+          "email": "tapashroyk@msn.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "sumantaneogi90@gmail.com",
+          "email": "sumantaneogi90@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Atmadeep Mazumdar",
+          "email": "atmadeep.mazumdar@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Navnita Dutta",
+          "email": "navnitadutta7@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Alex Nelson",
+          "email": "info@jaxbengali.org",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:36:56.558Z"
+    },
+    {
+      "batchNum": 11,
+      "offset": 50,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "shreyartha@gmail.com",
+          "email": "shreyartha@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Debasmita Roy",
+          "email": "roy.debasmita@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "AKHAYA MOHANTY",
+          "email": "emailtoakhaya@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Surajit Chakravarty",
+          "email": "surajit_c@hotmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "mntalukder@yahoo.com",
+          "email": "mntalukder@yahoo.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:37:13.769Z"
+    },
+    {
+      "batchNum": 12,
+      "offset": 55,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Maximilian T. H. Suchy",
+          "email": "max@anasuya.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Soumali Dutta",
+          "email": "2soumaliwithlove@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rajasri Chandra",
+          "email": "rajasrichandra@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Alak Manna",
+          "email": "alak.manna@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Swapnoneel Roy",
+          "email": "sroy.iitm@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:37:31.175Z"
+    },
+    {
+      "batchNum": 13,
+      "offset": 60,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Tariqul",
+          "email": "zaim3tariqul1712@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "inmumanik@gmail.com",
+          "email": "inmumanik@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Kaushiki Bhattacharya",
+          "email": "kb94311@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "niloy.rc@gmail.com",
+          "email": "niloy.rc@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Joyita Ganguly",
+          "email": "ganguly.joyita@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:37:49.097Z"
+    },
+    {
+      "batchNum": 14,
+      "offset": 65,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "tanusree.hhalder@gmail.com",
+          "email": "tanusree.hhalder@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "mdhar79@yahoo.com",
+          "email": "mdhar79@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "John Bailey",
+          "email": "john.bailey@funcms.net",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "tanaybhaduri@gmail.com",
+          "email": "tanaybhaduri@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Pradip RudraPal",
+          "email": "sculptorpradiprudrapal@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:38:06.608Z"
+    },
+    {
+      "batchNum": 15,
+      "offset": 70,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "hazradipa05@gmail.com",
+          "email": "hazradipa05@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Adelia Nason",
+          "email": "adelia@crystallclearcrew.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "manokmc@gmail.com",
+          "email": "manokmc@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sumon Ghosh",
+          "email": "suman.ghosh12@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Nilay Chandra",
+          "email": "chandranilay@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:38:24.216Z"
+    },
+    {
+      "batchNum": 16,
+      "offset": 75,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "mmegha.garg@gmail.com",
+          "email": "mmegha.garg@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Shilpi Banerjee",
+          "email": "shilpibanerjee07@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "priyanka.ghosh@gmail.com",
+          "email": "priyanka.ghosh@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Bhaskar Roy",
+          "email": "bhaskarroy24@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Moushumi Mondal",
+          "email": "moushumi.mondal@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:38:42.340Z"
+    },
+    {
+      "batchNum": 17,
+      "offset": 80,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "priyachakraborty92@gmail.com",
+          "email": "priyachakraborty92@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "raka1027@aol.com",
+          "email": "raka1027@aol.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rajarshi Majumdar",
+          "email": "rajarshi.majumdar@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Anupriya",
+          "email": "anupriyaganguly44@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "a@b.com",
+          "email": "a@b.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:39:00.730Z"
+    },
+    {
+      "batchNum": 18,
+      "offset": 85,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "shilpikessler@gmail.com",
+          "email": "shilpikessler@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Ayan Dutta",
+          "email": "duttaayan.cs@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Poonam Sanyal",
+          "email": "poonam.sanyal@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sonu Roy",
+          "email": "sonuroy123@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Swati Mehta",
+          "email": "mehta.swati2011@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:39:17.259Z"
+    },
+    {
+      "batchNum": 19,
+      "offset": 90,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "dutta.shamit2000@gmail.com",
+          "email": "dutta.shamit2000@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sumana Di",
+          "email": "aroyc55@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "T BANAMBAR PATRA",
+          "email": "aaactionllc@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Bithika Roy",
+          "email": "bithikaroy96@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Nandini Dutta",
+          "email": "dutta.nandini47@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:39:35.193Z"
+    },
+    {
+      "batchNum": 20,
+      "offset": 95,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Bratasree Chatterjee",
+          "email": "chatterjeebratasree@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Joe Miller",
+          "email": "info@domainworld.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Baidya Nath Sarkar",
+          "email": "bns@hotmail.co.in",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Amitava Roychoudhury",
+          "email": "aroyc001@netzero.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Kalyan Chakrabarti",
+          "email": "kalyan32258@yahoo.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:40:21.064Z"
+    },
+    {
+      "batchNum": 21,
+      "offset": 100,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "suvo dasgupta",
+          "email": "suvodasgupta@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Biyas",
+          "email": "bandematarom@hotmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Caden Schmidt",
+          "email": "caden.schmidt@wixful.site",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Harman",
+          "email": "harmansekhon@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Varsha Ganguly",
+          "email": "vartew@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:40:40.230Z"
+    },
+    {
+      "batchNum": 22,
+      "offset": 105,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Ananta Kumar Sarkar",
+          "email": "graphiksdue@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Uma Hazra",
+          "email": "uma.417@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Nandita Guin",
+          "email": "g.nnandita@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "manalimukherjee47@gmail.com",
+          "email": "manalimukherjee47@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "DEBASHIS GANGULY",
+          "email": "deba10@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:41:01.564Z"
+    },
+    {
+      "batchNum": 23,
+      "offset": 110,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Bidhan Das",
+          "email": "bidhan138@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Amit",
+          "email": "asahaech@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "RAMARAO GARIMELLA",
+          "email": "rgarimella99@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Ipshita Roy",
+          "email": "sudipshita@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Shom Ghosh",
+          "email": "shomgos@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:41:19.429Z"
+    },
+    {
+      "batchNum": 24,
+      "offset": 115,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Jared Leiman",
+          "email": "jared@apostillellc.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Brian Murphy",
+          "email": "brianmurphy@metaappdesignes.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sourav Pal",
+          "email": "palsourav30@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "banfjax@gmail.com",
+          "email": "banfjax@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sanhita Roy",
+          "email": "sanhitadas_2000@yahoo.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:41:37.610Z"
+    },
+    {
+      "batchNum": 25,
+      "offset": 120,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Samiran Chandra",
+          "email": "samiran.chandra@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Anindya (Peter) Roy Choudhury",
+          "email": "royc.anindya@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "enggchapan@gmail.com",
+          "email": "enggchapan@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "sharmi5002@gmail.com",
+          "email": "sharmi5002@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "James",
+          "email": "jamesphelan347@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:41:55.787Z"
+    },
+    {
+      "batchNum": 26,
+      "offset": 125,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Anna MacLeod",
+          "email": "anna@summitshinecleaning.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "alokdev@hotmail.com",
+          "email": "alokdev@hotmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Dipra Ghosh",
+          "email": "ghosh.dipra@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Samrat Banerjee",
+          "email": "samratbanerjee120@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Saikat Natta",
+          "email": "natta.saikat@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:42:13.846Z"
+    },
+    {
+      "batchNum": 27,
+      "offset": 130,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "gautambose12408@gmail.com",
+          "email": "gautambose12408@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Bulbul Chaudhary",
+          "email": "bharatiart2000@yahoo.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "vbbs04@gmail.com",
+          "email": "vbbs04@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "banerjee04ananya@gmai.com",
+          "email": "banerjee04ananya@gmai.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Rajarshi Chattopadhyay",
+          "email": "art.rajarshi@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:42:30.807Z"
+    },
+    {
+      "batchNum": 28,
+      "offset": 135,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Nilanjana B",
+          "email": "nilanb@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Mukul Saha",
+          "email": "mukulsaha89@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "swarnendu.sen@gmail.com",
+          "email": "swarnendu.sen@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Ras Mazumder",
+          "email": "rasmazumder@aol.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Priyanka Majumder",
+          "email": "priyanka16587@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:42:51.202Z"
+    },
+    {
+      "batchNum": 29,
+      "offset": 140,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Sunanda Banerjee",
+          "email": "sunanda.banerjee@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Lopita Majumdar",
+          "email": "lopita.majumdar@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Sanchari Bhattacharyya",
+          "email": "tosanchari@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Soumita Goswami",
+          "email": "soumitagoswami05@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "sangat000@gmail.com",
+          "email": "sangat000@gmail.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:43:08.437Z"
+    },
+    {
+      "batchNum": 30,
+      "offset": 145,
+      "sent": 5,
+      "failed": 0,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Upasana Banerjee",
+          "email": "upasana.york.88@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Samiksha Bose",
+          "email": "sbose84390@aol.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "Nabo Roy",
+          "email": "nabokumar09@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "rana.soma11@gmail.com",
+          "email": "rana.soma11@gmail.com",
+          "sent": true,
+          "error": null
+        },
+        {
+          "name": "vikramjit banerjee",
+          "email": "tukiguitarman@yahoo.com",
+          "sent": true,
+          "error": null
+        }
+      ],
+      "timestamp": "2026-03-21T23:43:25.273Z"
+    },
+    {
+      "batchNum": 31,
+      "offset": 150,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Sudipto",
+          "email": "sudipto.sbyn@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.113Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.113Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "SANAT  ROY",
+          "email": "henasanat@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.213Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.213Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Anita Mandal",
+          "email": "anitapmandal@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.310Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.310Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Santanu Bhattacharya",
+          "email": "tosantanu@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.404Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.404Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Gourab Saha",
+          "email": "gourabhere@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.499Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.499Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:43:32.555Z"
+    },
+    {
+      "batchNum": 32,
+      "offset": 155,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Chandra Ganguly",
+          "email": "chandra.ganguly6@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.473Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.473Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Arnab Sanyal",
+          "email": "arnabsanyal2002@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.552Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.552Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Saugata Das",
+          "email": "mrsaugatadas@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.645Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.645Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "asikdar28@gmail.com",
+          "email": "asikdar28@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.743Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.743Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Mita Sarkar",
+          "email": "mitasarkar@aol.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.821Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.821Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:43:39.812Z"
+    },
+    {
+      "batchNum": 33,
+      "offset": 160,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Lena Charles",
+          "email": "lena@breezycleaners.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.782Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.782Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Krishna Di",
+          "email": "r.se47@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.877Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.877Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Subhra Ganguly",
+          "email": "subhra.ganguly99@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.971Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.971Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Pradip Ghimire",
+          "email": "pradipkghimire@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.072Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.072Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Asok Chaudhuri",
+          "email": "asokchaudhuri@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.171Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.171Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:43:47.186Z"
+    },
+    {
+      "batchNum": 34,
+      "offset": 165,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Uttam Mistry",
+          "email": "uttamkgec@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.171Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.171Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Rupan Sanyal",
+          "email": "rupan.sanyal@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.263Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.263Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Joshua Taylor",
+          "email": "joshua@northfloridaclean.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.368Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.368Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Goutam Panda",
+          "email": "goutampus@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.480Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.480Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Daniel Bush",
+          "email": "daniel@northfloridaclean.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.611Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.611Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:43:54.569Z"
+    },
+    {
+      "batchNum": 35,
+      "offset": 170,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Zamecnik Renota",
+          "email": "janlaurenft4g@hotmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.598Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.598Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Bonnie Das",
+          "email": "dasban3@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.699Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.699Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Kapil Sadhu",
+          "email": "kapil.sadhu@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.799Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.799Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "suchitrab4@gmail.com",
+          "email": "suchitrab4@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.899Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.899Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Swarnali Das",
+          "email": "ucc.swarnali@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:02.001Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:02.001Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:02.044Z"
+    },
+    {
+      "batchNum": 36,
+      "offset": 175,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "tdey5@asu.edu",
+          "email": "tdey5@asu.edu",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:08.955Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:08.955Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Stuti Bagchi",
+          "email": "bagchibhaduristuti93@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.049Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.049Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sarah",
+          "email": "sarah.castles1@servicewrapgo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.144Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.144Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Anjali Gupta",
+          "email": "dr_anjaligupta@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.222Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.222Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sonika Das",
+          "email": "sonika@mumukshulife.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.324Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.324Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:09.316Z"
+    },
+    {
+      "batchNum": 37,
+      "offset": 180,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Swati Dutta",
+          "email": "swati.dutta1409@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.291Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.291Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Barnali Debu",
+          "email": "barna_dev@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.386Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.386Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Indian soul band",
+          "email": "indiansoulband19@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.477Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.477Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Jay Ghosh",
+          "email": "jayanta0@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.573Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.573Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "rnsanyal@gmail.com",
+          "email": "rnsanyal@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.667Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.667Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:16.687Z"
+    },
+    {
+      "batchNum": 38,
+      "offset": 185,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "David Russo",
+          "email": "david.russo@epiccms.net",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.608Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.608Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Poushali Datta",
+          "email": "poushalidatta1@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.709Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.709Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Tarit Mondal",
+          "email": "trt.mondal@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.810Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.810Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Soumo Chakravarty",
+          "email": "soumo.chakravarty@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.909Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.909Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Mayukh Das",
+          "email": "dasmayukh@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:24.007Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:24.007Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:23.944Z"
+    },
+    {
+      "batchNum": 39,
+      "offset": 190,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Dawson Mullins",
+          "email": "dawson.mullins@kitcms.net",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:30.956Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:30.956Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Anirban Ghosh",
+          "email": "anirban.ninja@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.049Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.049Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Paromita Dutta",
+          "email": "paromita.dutta5@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.124Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.124Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Supriya Chatterjee",
+          "email": "scrj.1982@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.218Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.218Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sudip Roy",
+          "email": "roysu2000@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.313Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.313Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:31.330Z"
+    },
+    {
+      "batchNum": 40,
+      "offset": 195,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Munmun Maitra",
+          "email": "munmun_maitra@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.248Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.248Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Holly Goswami",
+          "email": "holly_goswami@buildfusion.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.345Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.345Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "ANUPRIYA MUKHERJEE",
+          "email": "moonmukherjee@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.435Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.435Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "SARSUNA PURBAPARA SWAPNALU",
+          "email": "swapnalunatyodol@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.527Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.527Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "maitramunmun224@gmail.com",
+          "email": "maitramunmun224@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.619Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.619Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:38.559Z"
+    },
+    {
+      "batchNum": 41,
+      "offset": 200,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "James Hinds",
+          "email": "jim@bamboocando.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.529Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.529Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sekhar Naskar",
+          "email": "naskar_s@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.625Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.625Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Paramita Pal",
+          "email": "runaparamita@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.719Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.719Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Latika Mukherjee",
+          "email": "lmukhe@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.810Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.810Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Chiradip Chatterjee",
+          "email": "cchat003@fiu.edu",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.903Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.903Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:45.873Z"
+    },
+    {
+      "batchNum": 42,
+      "offset": 205,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Reshma Bhadra Das",
+          "email": "reshmabhadra@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.790Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.790Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sharmistha Poddar",
+          "email": "sharmi.p09@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.881Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.881Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Rupanjan Choudhury",
+          "email": "rupanjanc@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.976Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.976Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Chandra Ghosh",
+          "email": "ghosh.chandra47@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.070Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.070Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Joyeeta Polley",
+          "email": "joyeeta.all@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.164Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.164Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:44:53.143Z"
+    },
+    {
+      "batchNum": 43,
+      "offset": 210,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Sanjukta Chandra",
+          "email": "sanjuktacdas@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.092Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.092Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "janasangha2003@gmail.com",
+          "email": "janasangha2003@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.186Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.186Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Dipak Roy",
+          "email": "dipak.chebri@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.277Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.277Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Angsuman Saha",
+          "email": "angsu.saha01@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.374Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.374Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Indrani Dutta",
+          "email": "dindrani74@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.474Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.474Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:00.516Z"
+    },
+    {
+      "batchNum": 44,
+      "offset": 215,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Rai Sanyal",
+          "email": "raisanyal@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.593Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.593Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sourav Roychoudhury",
+          "email": "sourav.roychoudhury@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.694Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.694Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Shilpa",
+          "email": "friendshilp1@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.789Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.789Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Evan Ball",
+          "email": "evan.ball@pushcms.net",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.869Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.869Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Andy Mukherjee",
+          "email": "andy.mukherjee2005@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.963Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.963Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:07.976Z"
+    },
+    {
+      "batchNum": 45,
+      "offset": 220,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Amit Ari",
+          "email": "amit.aot@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.836Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.836Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Amrita",
+          "email": "amrriita@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.950Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.950Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Madhumita Mazumdar",
+          "email": "madhumita.mazumdar3@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.049Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.049Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "kankana.ari@gmail.com",
+          "email": "kankana.ari@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.147Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.147Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Maureen Rucker",
+          "email": "maureen.r@theprofessionalprofiles.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.238Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.238Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:15.264Z"
+    },
+    {
+      "batchNum": 46,
+      "offset": 225,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "sudiptaganguly4@gmail.com",
+          "email": "sudiptaganguly4@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.160Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.160Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "BANANI DHAR",
+          "email": "bdhar75@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.259Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.259Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Aparna Chakravarty",
+          "email": "chakfam5@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.355Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.355Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "indranil ganguly",
+          "email": "indranil.india@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.449Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.449Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Shannon Jhunjhunwala",
+          "email": "shannonjhunjhunwala@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.544Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.544Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:22.532Z"
+    },
+    {
+      "batchNum": 47,
+      "offset": 230,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Colleen Lauter",
+          "email": "colleen@janprojacksonville.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.693Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.693Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sanghamitra Chandra",
+          "email": "riyachandra1988@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.787Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.787Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Rituparna",
+          "email": "rituparna1917@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.880Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.880Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Dibendu Roy",
+          "email": "dbroy05@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.977Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.977Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "endoscorpion@gmail.com",
+          "email": "endoscorpion@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:30.051Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:30.051Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:30.006Z"
+    },
+    {
+      "batchNum": 48,
+      "offset": 235,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Dia Mitra",
+          "email": "dia.dmitra@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.815Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.815Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Ray Fountain",
+          "email": "ray@ameliaclean.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.909Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.909Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "avranil82@gmail.com",
+          "email": "avranil82@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.004Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.004Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Abhijit",
+          "email": "makhabhi@isu.edu",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.100Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.100Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "pranab_nyc@hotmail.com",
+          "email": "pranab_nyc@hotmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.179Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.179Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:37.174Z"
+    },
+    {
+      "batchNum": 49,
+      "offset": 240,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Moumita Mitra",
+          "email": "tinnee223@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.101Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.101Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "souvickdesign1@gmail.com",
+          "email": "souvickdesign1@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.188Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.188Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Paulami Guha",
+          "email": "drpaulami@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.280Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.280Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Tarun Lalan",
+          "email": "feedback@smarthumanoid.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.377Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.377Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Soma Choudhury",
+          "email": "soma1979p@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.468Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.468Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:44.445Z"
+    },
+    {
+      "batchNum": 50,
+      "offset": 245,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "sumit_system@yahoo.com",
+          "email": "sumit_system@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.353Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.353Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Sreya Ghosh",
+          "email": "sreya.ghosh1510@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.452Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.452Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Wes Duke",
+          "email": "wes.duke@buzzcms.net",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.551Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.551Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Rajib S",
+          "email": "rajibs123@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.648Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.648Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "sangita",
+          "email": "schawlia@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.745Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.745Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:51.716Z"
+    },
+    {
+      "batchNum": 51,
+      "offset": 250,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "Melanie Payne",
+          "email": "melanie@capitalcitycleanguild.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.619Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.619Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Suvankar Paul",
+          "email": "suvankar.paul@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.714Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.714Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Annandita Mukherjee",
+          "email": "annem25f@yahoo.co.in",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.836Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.836Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Pallavi Chakraborty",
+          "email": "pallavib_00@yahoo.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.932Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.932Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "Ranadhir Ghosh",
+          "email": "ranadhir.ghosh@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:59.031Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:00:59.031Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:45:58.966Z"
+    },
+    {
+      "batchNum": 52,
+      "offset": 255,
+      "sent": 0,
+      "failed": 5,
+      "batchSize": 5,
+      "hasMore": true,
+      "details": [
+        {
+          "name": "mukhopadhyay.partha",
+          "email": "mukhopadhyay.partha@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.147Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.147Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "amit.chandak",
+          "email": "amit.chandak@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.241Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.241Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "rajanya.ghosh",
+          "email": "rajanya.ghosh@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.345Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.345Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "moumita.mukherje",
+          "email": "moumita.mukherje@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.427Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.427Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        },
+        {
+          "name": "sumo475",
+          "email": "sumo475@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.526Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.526Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:46:06.563Z"
+    },
+    {
+      "batchNum": 53,
+      "offset": 260,
+      "sent": 0,
+      "failed": 1,
+      "batchSize": 1,
+      "hasMore": false,
+      "details": [
+        {
+          "name": "rwitichoudhury",
+          "email": "rwitichoudhury@gmail.com",
+          "sent": false,
+          "error": "{\"code\":429,\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:13.499Z (Mail sending)\",\"errors\":[{\"message\":\"User-rate limit exceeded.  Retry after 2026-03-22T00:01:13.499Z (Mail sending)\",\"domain\":\"global\",\"reason\":\"rateLimitExceeded\"}],\"status\":\"RESOURCE_EXHAUSTED\"}"
+        }
+      ],
+      "timestamp": "2026-03-21T23:46:13.528Z"
+    }
+  ],
+  "totalSent": 150,
+  "totalFailed": 111,
+  "done": true,
+  "endTime": "2026-03-21T23:46:13.532Z"
+}

@@ -992,3 +992,133 @@
 [2026-03-18T02:00:03.884Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
 [2026-03-18T02:00:04.430Z] [INFO] [DeliveryFailure] Bounce emails: 4 total, 0 new to process
 [2026-03-18T02:00:04.431Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T01:55:15.709Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T01:55:16.192Z] [INFO] [DeliveryFailure] Bounce emails: 42 total, 38 new to process
+[2026-03-22T01:55:16.379Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: caden.schmidt@wixful.site ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:16.534Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: aroyc001@netzero.com ΓÇö unknown (perm)
+[2026-03-22T01:55:16.701Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: aroyc001@netzero.com ΓÇö unknown (perm)
+[2026-03-22T01:55:16.880Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: a@b.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:17.050Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: zaim3tariqul1712@gmail.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:17.216Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: mitaghosh1@yahoo.com ΓÇö unknown (perm)
+[2026-03-22T01:55:17.381Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: tasmim@tohfabd.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:17.543Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: neha.mandal@occamsadvisory.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:17.701Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: brandon.green@wixclicks.co ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:17.868Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: mitaghosh1@yahoo.com ΓÇö unknown (perm)
+[2026-03-22T01:55:18.020Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: tasmim@tohfabd.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:18.171Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: neha.mandal@occamsadvisory.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:18.334Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: brandon.green@wixclicks.co ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:18.501Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: brandon.green@wixclicks.co ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:18.682Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: neha.mandal@occamsadvisory.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:18.851Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: tasmim@tohfabd.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:19.035Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: mitaghosh1@yahoo.com ΓÇö unknown (perm)
+[2026-03-22T01:55:19.252Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: zaim3tariqul1712@gmail.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:19.427Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: a@b.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:19.602Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: aroyc001@netzero.com ΓÇö unknown (perm)
+[2026-03-22T01:55:19.756Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: caden.schmidt@wixful.site ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:19.905Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: aroyc001@netzero.com ΓÇö unknown (perm)
+[2026-03-22T01:55:20.088Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: caden.schmidt@wixful.site ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:20.289Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: joshua@northfloridaclean.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:20.453Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: daniel@northfloridaclean.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:20.620Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: joshua@northfloridaclean.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:20.787Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: daniel@northfloridaclean.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:20.952Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: sonika@mumukshulife.com ΓÇö address_not_found (perm)
+[2026-03-22T01:55:21.124Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: jayanta0@yahoo.com ΓÇö unknown (perm)
+[2026-03-22T01:55:21.286Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: ray@ameliaclean.com ΓÇö temporary_failure (temp)
+[2026-03-22T01:55:21.449Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:21.620Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:21.787Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:21.945Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:22.124Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:22.274Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:22.436Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:22.615Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T01:55:22.616Z] [INFO] [DeliveryFailure] Parsed 38 delivery failures
+[2026-03-22T01:55:22.631Z] [INFO] [DeliveryFailure]   Strategy for caden.schmidt@wixful.site: escalate (conf: 0%)
+[2026-03-22T01:55:22.631Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  aroyc001@netzero.com ΓÇö already actioned & suspended (bounce #2), skipping re-send
+[2026-03-22T01:55:22.632Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  aroyc001@netzero.com ΓÇö already actioned & suspended (bounce #3), skipping re-send
+[2026-03-22T01:55:22.633Z] [INFO] [DeliveryFailure]   Strategy for a@b.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.634Z] [INFO] [DeliveryFailure]   Strategy for zaim3tariqul1712@gmail.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.634Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  mitaghosh1@yahoo.com ΓÇö already actioned & suspended (bounce #2), skipping re-send
+[2026-03-22T01:55:22.635Z] [INFO] [DeliveryFailure]   Strategy for tasmim@tohfabd.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.638Z] [INFO] [DeliveryFailure]   Strategy for neha.mandal@occamsadvisory.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.639Z] [INFO] [DeliveryFailure]   Strategy for brandon.green@wixclicks.co: escalate (conf: 0%)
+[2026-03-22T01:55:22.641Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  mitaghosh1@yahoo.com ΓÇö already actioned & suspended (bounce #3), skipping re-send
+[2026-03-22T01:55:22.642Z] [INFO] [DeliveryFailure]   Strategy for tasmim@tohfabd.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.643Z] [INFO] [DeliveryFailure]   Strategy for neha.mandal@occamsadvisory.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.644Z] [INFO] [DeliveryFailure]   Strategy for brandon.green@wixclicks.co: escalate (conf: 0%)
+[2026-03-22T01:55:22.645Z] [INFO] [DeliveryFailure]   Strategy for brandon.green@wixclicks.co: escalate (conf: 0%)
+[2026-03-22T01:55:22.646Z] [INFO] [DeliveryFailure]   Strategy for neha.mandal@occamsadvisory.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.646Z] [INFO] [DeliveryFailure]   Strategy for tasmim@tohfabd.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.647Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  mitaghosh1@yahoo.com ΓÇö already actioned & suspended (bounce #4), skipping re-send
+[2026-03-22T01:55:22.649Z] [INFO] [DeliveryFailure]   Strategy for zaim3tariqul1712@gmail.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.650Z] [INFO] [DeliveryFailure]   Strategy for a@b.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.650Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  aroyc001@netzero.com ΓÇö already actioned & suspended (bounce #4), skipping re-send
+[2026-03-22T01:55:22.652Z] [INFO] [DeliveryFailure]   Strategy for caden.schmidt@wixful.site: escalate (conf: 0%)
+[2026-03-22T01:55:22.653Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  aroyc001@netzero.com ΓÇö already actioned & suspended (bounce #5), skipping re-send
+[2026-03-22T01:55:22.655Z] [INFO] [DeliveryFailure]   Strategy for caden.schmidt@wixful.site: escalate (conf: 0%)
+[2026-03-22T01:55:22.657Z] [INFO] [DeliveryFailure]   Strategy for joshua@northfloridaclean.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.658Z] [INFO] [DeliveryFailure]   Strategy for daniel@northfloridaclean.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.660Z] [INFO] [DeliveryFailure]   Strategy for joshua@northfloridaclean.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.661Z] [INFO] [DeliveryFailure]   Strategy for daniel@northfloridaclean.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.662Z] [INFO] [DeliveryFailure]   Strategy for sonika@mumukshulife.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.662Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  jayanta0@yahoo.com ΓÇö already actioned & suspended (bounce #2), skipping re-send
+[2026-03-22T01:55:22.663Z] [INFO] [DeliveryFailure]   Strategy for ray@ameliaclean.com: escalate (conf: 0%)
+[2026-03-22T01:55:22.664Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #39), skipping re-send
+[2026-03-22T01:55:22.665Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #40), skipping re-send
+[2026-03-22T01:55:22.667Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #41), skipping re-send
+[2026-03-22T01:55:22.668Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #42), skipping re-send
+[2026-03-22T01:55:22.669Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #43), skipping re-send
+[2026-03-22T01:55:22.670Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #44), skipping re-send
+[2026-03-22T01:55:22.672Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #45), skipping re-send
+[2026-03-22T01:55:22.673Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #46), skipping re-send
+[2026-03-22T01:55:22.676Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery ΓÇö Complete ΓòÉΓòÉΓòÉ
+[2026-03-22T01:55:22.677Z] [INFO] [DeliveryFailure]   Bounces found: 38
+[2026-03-22T01:55:22.679Z] [INFO] [DeliveryFailure]   Recovered: 0
+[2026-03-22T01:55:22.680Z] [INFO] [DeliveryFailure]   Escalated: 22
+[2026-03-22T01:55:22.680Z] [INFO] [DeliveryFailure]   Flagged: 22
+[2026-03-22T02:20:40.112Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:20:40.648Z] [INFO] [DeliveryFailure] Bounce emails: 42 total, 0 new to process
+[2026-03-22T02:20:40.648Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T02:25:40.755Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:25:41.261Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 1 new to process
+[2026-03-22T02:25:41.556Z] [INFO] [DeliveryFailure]   ≡ƒô¢ Bounce: rajanya.ghosh@gmail.com ΓÇö mailbox_full (temp)
+[2026-03-22T02:25:41.556Z] [INFO] [DeliveryFailure] Parsed 1 delivery failures
+[2026-03-22T02:25:41.563Z] [INFO] [DeliveryFailure]   ΓÅ╕∩╕Å  rajanya.ghosh@gmail.com ΓÇö already actioned & suspended (bounce #47), skipping re-send
+[2026-03-22T02:25:41.564Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery ΓÇö Complete ΓòÉΓòÉΓòÉ
+[2026-03-22T02:25:41.564Z] [INFO] [DeliveryFailure]   Bounces found: 1
+[2026-03-22T02:25:41.564Z] [INFO] [DeliveryFailure]   Recovered: 0
+[2026-03-22T02:25:41.565Z] [INFO] [DeliveryFailure]   Escalated: 0
+[2026-03-22T02:25:41.565Z] [INFO] [DeliveryFailure]   Flagged: 0
+[2026-03-22T02:30:40.601Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:30:41.156Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T02:30:41.158Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T02:35:40.899Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:35:41.450Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T02:35:41.450Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T02:40:40.253Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:40:40.825Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T02:40:40.827Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T02:45:40.813Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:45:41.361Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T02:45:41.363Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T02:50:40.867Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:50:41.393Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T02:50:41.394Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T02:55:40.233Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T02:55:40.784Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T02:55:40.785Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T03:00:40.639Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T03:00:41.297Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T03:00:41.298Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T03:05:40.905Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T03:05:41.483Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T03:05:41.483Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T03:10:40.206Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T03:10:40.762Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T03:10:40.763Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T03:15:40.909Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T03:15:41.471Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T03:15:41.472Z] [INFO] [DeliveryFailure] No new delivery failures to process.
+[2026-03-22T03:20:40.685Z] [INFO] [DeliveryFailure] ΓòÉΓòÉΓòÉ Delivery Failure Recovery Agent ΓÇö Scan Start ΓòÉΓòÉΓòÉ
+[2026-03-22T03:20:41.210Z] [INFO] [DeliveryFailure] Bounce emails: 43 total, 0 new to process
+[2026-03-22T03:20:41.210Z] [INFO] [DeliveryFailure] No new delivery failures to process.

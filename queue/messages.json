@@ -507,9 +507,1510 @@
         "updatedAt": "2026-03-16T16:40:10.081Z",
         "lastError": null,
         "dedupKey": "github_failure-1773679210080-utfv1p"
+      },
+      {
+        "id": "msg_1774145716201_qw7n1z",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716200-4gg0ow",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (0506c6e)",
+          "data": {
+            "gmailId": "19d12eb233015078",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (0506c6e)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-22 00:21:11 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23391984119\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKU3LSEDYNCMI6W4OXL4R4WYXA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGA4DGNBUGYZDAJJTIIYTONZUGEZTQOBXGGTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 17:21:31 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:23.564Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.200Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.201Z",
+        "updatedAt": "2026-03-22T02:15:16.202Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716200-4gg0ow"
+      },
+      {
+        "id": "msg_1774145716205_5ri8ar",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716204-fs6xpf",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e5d8b66)",
+          "data": {
+            "gmailId": "19d12cccc707d3e0",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e5d8b66)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 23:48:04 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23391477690\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKW2WFEUSQARPEXV5ND4R4S4RA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGA3TAMBVHE2TKJJTIIYTONZUGEZTMOBYGSTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 16:48:24 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:23.739Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.204Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.205Z",
+        "updatedAt": "2026-03-22T02:15:16.205Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716204-fs6xpf"
+      },
+      {
+        "id": "msg_1774145716209_6wwbxm",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716208-jekuhv",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c16fcfb)",
+          "data": {
+            "gmailId": "19d12b874b081ffa",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c16fcfb)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 23:25:50 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23391125755\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKRBBTO4IHLXCZQAB3L4R4QJFA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGA3DCNZVGI4TMJJTIIYTONZUGEZTKNJVGCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 16:26:10 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:23.911Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.208Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.209Z",
+        "updatedAt": "2026-03-22T02:15:16.209Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716208-jekuhv"
+      },
+      {
+        "id": "msg_1774145716214_rx8s1p",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716212-aluhqw",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (b9e154f)",
+          "data": {
+            "gmailId": "19d12b2d05993b17",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (b9e154f)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 23:19:40 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23391025276\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKVAIHZHK6ZVRTDRSOD4R4PSBA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGA2TSNBQHEYTAJJTIIYTONZUGEZTKMJYGCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 16:20:00 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:24.073Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.212Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.214Z",
+        "updatedAt": "2026-03-22T02:15:16.214Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716212-aluhqw"
+      },
+      {
+        "id": "msg_1774145716218_zsx8gx",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716216-61pk7i",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (bf746d2)",
+          "data": {
+            "gmailId": "19d1284d1900bb98",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (bf746d2)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 22:29:26 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23390205084\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKQCRMPB372GQ7EZKX34R4JVVA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGAZTSMBRGY3DEJJTIIYTONZUGEZTEMJWG2THEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 15:29:46 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:24.266Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.216Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.218Z",
+        "updatedAt": "2026-03-22T02:15:16.218Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716216-61pk7i"
+      },
+      {
+        "id": "msg_1774145716223_7pntm1",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716221-g5zh8h",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3028116)",
+          "data": {
+            "gmailId": "19d127447a9b1b1d",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3028116)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 22:11:22 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23389910967\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKRQIXHZAUNNI273Y4T4R4HR5A5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGAZTCNBZGMZTIJJTIIYTONZUGEZTCMBYGKTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 15:11:42 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:24.431Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.221Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.223Z",
+        "updatedAt": "2026-03-22T02:15:16.223Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716221-g5zh8h"
+      },
+      {
+        "id": "msg_1774145716228_hj1jwc",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716225-5dpp8f",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (0c967db)",
+          "data": {
+            "gmailId": "19d126f310a234fd",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (0c967db)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 22:05:49 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23389817007\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKWAEYYWMMIL4J2W7O34R4G5DA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGAZDSMRRGQ4DOJJTIIYTONZUGEZTANZUHGTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 15:06:09 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:24.576Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.226Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.228Z",
+        "updatedAt": "2026-03-22T02:15:16.228Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716225-5dpp8f"
+      },
+      {
+        "id": "msg_1774145716233_egs5az",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716231-akl44l",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (3ab49e7)",
+          "data": {
+            "gmailId": "19d119ea94b064c5",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (3ab49e7)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 32.0 seconds\r\nFinished: 2026-03-21 18:18:02 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23385714790\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKTBJRPGR6DXPRDLJBT4R3MG5A5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUHEZDIOBUGUYTGJJTIIYTONZUGEYTOMBYGKTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 11:18:22 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:24.742Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.231Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.233Z",
+        "updatedAt": "2026-03-22T02:15:16.233Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716231-akl44l"
+      },
+      {
+        "id": "msg_1774145716237_zec7lk",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716236-totmj0",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3ab49e7)",
+          "data": {
+            "gmailId": "19d119d4a7cc955b",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3ab49e7)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 18:16:30 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23385714603\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKSOLJZ7UTXANXAZTHT4R3MBFA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUHEZDIOBTHE3DEJJTIIYTONZUGEYTMOJZGCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 11:16:50 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:24.906Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.236Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.237Z",
+        "updatedAt": "2026-03-22T02:15:16.237Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716236-totmj0"
+      },
+      {
+        "id": "msg_1774145716242_5kilv3",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716241-2r2rvb",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (162cc29)",
+          "data": {
+            "gmailId": "19d11430bb25622f",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (162cc29)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 33.0 seconds\r\nFinished: 2026-03-21 16:37:58 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23383950779\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKTNPDQZOPBTUO4O2OD4R3APVA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUHA3TOOBYG42TIJJTIIYTONZUGEYTCMBXHCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 09:38:18 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:25.106Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.241Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.242Z",
+        "updatedAt": "2026-03-22T02:15:16.242Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716241-2r2rvb"
+      },
+      {
+        "id": "msg_1774145716246_efkcct",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716245-7mfsk1",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (162cc29)",
+          "data": {
+            "gmailId": "19d11419a663e730",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (162cc29)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 16:36:24 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23383950704\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKROZXQ7JO6YT62SWUL4R3AJZA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUHA3TOOBYGUYTEJJTIIYTONZUGEYTAOJYGSTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 09:36:44 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:25.266Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.245Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.246Z",
+        "updatedAt": "2026-03-22T02:15:16.246Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716245-7mfsk1"
+      },
+      {
+        "id": "msg_1774145716251_c3as49",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716249-3b5kts",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (ca8c08e)",
+          "data": {
+            "gmailId": "19d11378aaab51b7",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (ca8c08e)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 36.0 seconds\r\nFinished: 2026-03-21 16:25:24 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23383734449\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKXHHCNY3G5AGDYIXL34R27ATA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUHA3TEMRQGU3DQJJTIIYTONZUGEYTAMZSGSTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 09:25:45 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:25.428Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.249Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.251Z",
+        "updatedAt": "2026-03-22T02:15:16.251Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716249-3b5kts"
+      },
+      {
+        "id": "msg_1774145716255_z34ran",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716253-4cdeuh",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (ca8c08e)",
+          "data": {
+            "gmailId": "19d1136109ea945d",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (ca8c08e)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 16:23:47 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23383734217\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKWAP3TJ7R2UXG4NRVD4R262PA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUHA3TEMJZHA2DGJJTIIYTONZUGEYTAMRSG6THEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sat, 21 Mar 2026 09:24:07 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:25.582Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.253Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.255Z",
+        "updatedAt": "2026-03-22T02:15:16.255Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716253-4cdeuh"
+      },
+      {
+        "id": "msg_1774145716261_xf3sf5",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716257-494lmj",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (65e432a)",
+          "data": {
+            "gmailId": "19d0e7e76f1eb5e9",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (65e432a)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 36.0 seconds\r\nFinished: 2026-03-21 03:44:01 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23371267541\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKTFWLNDQTBPRZYYGID4RYFZLA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUGU2TONBQGY2DKJJTIIYTONZUGA3DINRUGGTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Fri, 20 Mar 2026 20:44:21 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:25.745Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.257Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.261Z",
+        "updatedAt": "2026-03-22T02:15:16.261Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716257-494lmj"
+      },
+      {
+        "id": "msg_1774145716267_i1o789",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716265-i6tv2m",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (7f647cc)",
+          "data": {
+            "gmailId": "19d0e6a955e2ff7d",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (7f647cc)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 34.0 seconds\r\nFinished: 2026-03-21 03:22:18 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23370928712\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKVN55F5CXI3XFH6VKD4RYDH5A5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUGU2DQNJWHAYDCJJTIIYTONZUGA3DGMZTHCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Fri, 20 Mar 2026 20:22:38 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:25.903Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.265Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.267Z",
+        "updatedAt": "2026-03-22T02:15:16.267Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716265-i6tv2m"
+      },
+      {
+        "id": "msg_1774145716271_9uivpi",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716269-pih6wl",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7f647cc)",
+          "data": {
+            "gmailId": "19d0e69218c0ec54",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7f647cc)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 03:20:43 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23370928578\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKWE2WYETIIDSTBM4TD4RYDB7A5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUGU2DQNJWGQ3DQJJTIIYTONZUGA3DGMRUGOTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Fri, 20 Mar 2026 20:21:03 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:26.084Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.269Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.271Z",
+        "updatedAt": "2026-03-22T02:15:16.271Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716269-pih6wl"
+      },
+      {
+        "id": "msg_1774145716276_mw5i7x",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716274-aunhkr",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e28e197)",
+          "data": {
+            "gmailId": "19d0e6072d1b070b",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e28e197)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-21 03:11:14 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23370780108\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKWIJBHVSQJTRKPWFO34RYB6NA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJUGU2DIOBRGA4DCJJTIIYTONZUGA3DENRXGSTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Fri, 20 Mar 2026 20:11:34 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:26.249Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.274Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.276Z",
+        "updatedAt": "2026-03-22T02:15:16.276Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716274-aunhkr"
+      },
+      {
+        "id": "msg_1774145716282_dwgz3z",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716280-1coqjp",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (2607e61)",
+          "data": {
+            "gmailId": "19d0b55a61f1e0f6",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (2607e61)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 13:00:34 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23343948240\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKXEKGLYUOLLETWFEG34RU6IPA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTG4ZTQNJXGU2TEJJTIIYTONZUGAYTCNRTGSTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Fri, 20 Mar 2026 06:00:55 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:26.440Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.280Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.282Z",
+        "updatedAt": "2026-03-22T02:15:16.282Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716280-1coqjp"
+      },
+      {
+        "id": "msg_1774145716286_6foz6u",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716285-upd3oh",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (4d08af0)",
+          "data": {
+            "gmailId": "19d0961b68c2f4c9",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (4d08af0)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 03:54:30 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23328348636\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKXWWQA6Q7AA3LUS7EL4RS6IVA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGI4DMMZZG4YDGJJTIIYTONZTHE3TQOBXGCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 20:54:50 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:26.620Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.285Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.286Z",
+        "updatedAt": "2026-03-22T02:15:16.286Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716285-upd3oh"
+      },
+      {
+        "id": "msg_1774145716291_v6znk5",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716289-pai0cv",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (04995c3)",
+          "data": {
+            "gmailId": "19d096000561a88e",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (04995c3)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 03:52:38 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23328308628\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKQXVGCPPB5XMAAJEHT4RS6BVA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGI4DKMZRHE3DKJJTIIYTONZTHE3TQNZVHCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 20:52:58 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:26.801Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.289Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.291Z",
+        "updatedAt": "2026-03-22T02:15:16.291Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716289-pai0cv"
+      },
+      {
+        "id": "msg_1774145716294_5x5l8o",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716293-n05z44",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (9a46145)",
+          "data": {
+            "gmailId": "19d094e319f08136",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (9a46145)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 03:33:11 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23327906109\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKRV3SJHDYPJ7ZS3W234RS3YXA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGI3TINRVGUZDKJJTIIYTONZTHE3TONJZGGTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 20:33:31 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:26.960Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.293Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.294Z",
+        "updatedAt": "2026-03-22T02:15:16.294Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716293-n05z44"
+      },
+      {
+        "id": "msg_1774145716297_ihimnf",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716296-k91p37",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e54084f)",
+          "data": {
+            "gmailId": "19d091cba49ce9fe",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e54084f)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 02:39:08 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23326741247\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKWQLIWSO5T7SICAORT4RSVODA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGI2DEMZVGA3TKJJTIIYTONZTHE3TIMZUHCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 19:39:29 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:27.132Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.296Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.297Z",
+        "updatedAt": "2026-03-22T02:15:16.297Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716296-k91p37"
+      },
+      {
+        "id": "msg_1774145716301_cgm811",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716299-j15yn3",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8954d56)",
+          "data": {
+            "gmailId": "19d090b3adcdde49",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8954d56)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 02:20:01 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23326334301\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKXV4ESF7T7JYHGG4PL4RSTGNA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGIZTCMJUGA3TSJJTIIYTONZTHE3TGMRQGGTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 19:20:22 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:27.329Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.299Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.301Z",
+        "updatedAt": "2026-03-22T02:15:16.301Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716299-j15yn3"
+      },
+      {
+        "id": "msg_1774145716304_u3ejcu",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716303-40254m",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (20beffe)",
+          "data": {
+            "gmailId": "19d08d54247979bb",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (20beffe)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 01:21:05 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23324961008\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKQYJLBYDQCZH37U6U34RSMJNA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGE4TGNZWHEZTMJJTIIYTONZTHE3DSNRWGWTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 18:21:26 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:27.507Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.303Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.304Z",
+        "updatedAt": "2026-03-22T02:15:16.304Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716303-40254m"
+      },
+      {
+        "id": "msg_1774145716309_xmu3iq",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716307-6syogq",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e17b3e4)",
+          "data": {
+            "gmailId": "19d08d29235c9095",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (e17b3e4)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-20 01:18:09 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23324888434\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKSZBVIQD2RW4NWIIK34RSL6LA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJTGE4TCNZWGE4DOJJTIIYTONZTHE3DSNBYHGTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Thu, 19 Mar 2026 18:18:29 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:27.671Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.307Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.309Z",
+        "updatedAt": "2026-03-22T02:15:16.309Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716307-6syogq"
+      },
+      {
+        "id": "msg_1774145716316_h4yies",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716313-h5ystt",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (cf88b99)",
+          "data": {
+            "gmailId": "19d079065d1f6bd0",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (cf88b99)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 19:26:15 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23312995418\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 12:26:35 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:27.853Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.313Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.316Z",
+        "updatedAt": "2026-03-22T02:15:16.316Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716313-h5ystt"
+      },
+      {
+        "id": "msg_1774145716321_jdionb",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716319-mvyrjf",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (d23434e)",
+          "data": {
+            "gmailId": "19d07830c36d0e7d",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (d23434e)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 19:08:49 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23312280117\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 12:09:09 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:28.054Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.319Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.321Z",
+        "updatedAt": "2026-03-22T02:15:16.321Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716319-mvyrjf"
+      },
+      {
+        "id": "msg_1774145716326_ha94s2",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716324-vsmwpd",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8b5bc2f)",
+          "data": {
+            "gmailId": "19d0747787c8fb04",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8b5bc2f)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 18:06:36 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23309673033\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 11:06:56 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:28.219Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.324Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.326Z",
+        "updatedAt": "2026-03-22T02:15:16.326Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716324-vsmwpd"
+      },
+      {
+        "id": "msg_1774145716332_4nm8gq",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716330-4h4h0w",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (67f813a)",
+          "data": {
+            "gmailId": "19d073cf5a835557",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (67f813a)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 17:55:05 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23309164661\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 10:55:25 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:28.403Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.330Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.332Z",
+        "updatedAt": "2026-03-22T02:15:16.332Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716330-4h4h0w"
+      },
+      {
+        "id": "msg_1774145716336_2va3aa",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716335-n0s3z4",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (8ef7c86)",
+          "data": {
+            "gmailId": "19d0710a37015d76",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (8ef7c86)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 1 minute and 36.0 seconds\r\nFinished: 2026-03-19 17:06:42 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23306979775\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 10:07:02 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:28.548Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.335Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.336Z",
+        "updatedAt": "2026-03-22T02:15:16.336Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716335-n0s3z4"
+      },
+      {
+        "id": "msg_1774145716341_ga130j",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716339-lsh7xg",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8ef7c86)",
+          "data": {
+            "gmailId": "19d070f20df855dd",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8ef7c86)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 17:05:04 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23306978675\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 10:05:24 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:28.693Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.339Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.341Z",
+        "updatedAt": "2026-03-22T02:15:16.341Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716339-lsh7xg"
+      },
+      {
+        "id": "msg_1774145716345_le0khy",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716343-bjkh70",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (ea43edf)",
+          "data": {
+            "gmailId": "19d07079016d2834",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (ea43edf)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 16:56:48 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23306618491\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 09:57:08 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:28.860Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.344Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.345Z",
+        "updatedAt": "2026-03-22T02:15:16.345Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716343-bjkh70"
+      },
+      {
+        "id": "msg_1774145716350_x0mvy5",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716348-41vhzw",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (2e2193a)",
+          "data": {
+            "gmailId": "19d06f4d6e7fdaee",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (2e2193a)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 16:36:19 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23305716346\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 09:36:40 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:29.005Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.348Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.351Z",
+        "updatedAt": "2026-03-22T02:15:16.351Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716348-41vhzw"
+      },
+      {
+        "id": "msg_1774145716357_71luui",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716355-fj0615",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (eaa5c72)",
+          "data": {
+            "gmailId": "19d06b193790e697",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (eaa5c72)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 15:22:52 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23302377501\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 08:23:13 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:29.201Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.355Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.357Z",
+        "updatedAt": "2026-03-22T02:15:16.357Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716355-fj0615"
+      },
+      {
+        "id": "msg_1774145716363_bxd5l4",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716360-qpkr51",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c8e6af4)",
+          "data": {
+            "gmailId": "19d06a9aa591bf01",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c8e6af4)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 15:14:14 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23301969772\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Thu, 19 Mar 2026 08:14:34 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:29.353Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.360Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.363Z",
+        "updatedAt": "2026-03-22T02:15:16.363Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716360-qpkr51"
+      },
+      {
+        "id": "msg_1774145716369_kioyb3",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716367-mbov9r",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (1c76f9e)",
+          "data": {
+            "gmailId": "19d03a7e1554b261",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (1c76f9e)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 01:13:26 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23274996233\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 18:13:46 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:29.517Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.367Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.369Z",
+        "updatedAt": "2026-03-22T02:15:16.369Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716367-mbov9r"
+      },
+      {
+        "id": "msg_1774145716375_a3s1fr",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716372-n1bgc8",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (4615476)",
+          "data": {
+            "gmailId": "19d03a2c82df0bf8",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (4615476)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 01:07:51 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23274852885\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 18:08:11 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:29.688Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.372Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.375Z",
+        "updatedAt": "2026-03-22T02:15:16.375Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716372-n1bgc8"
+      },
+      {
+        "id": "msg_1774145716382_bnfxkt",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716379-9hl0fl",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7e8f6e6)",
+          "data": {
+            "gmailId": "19d03a2859b3e04c",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7e8f6e6)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 01:07:34 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23274846497\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 18:07:54 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:29.852Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.379Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.382Z",
+        "updatedAt": "2026-03-22T02:15:16.382Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716379-9hl0fl"
+      },
+      {
+        "id": "msg_1774145716387_pdikjw",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716385-tzm0nh",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (3f85c73)",
+          "data": {
+            "gmailId": "19d03969ccdfa50b",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (3f85c73)",
+            "body": "[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: BANF E2E Pipeline Tests\r\nDuration: 2 minutes and 49.0 seconds\r\nFinished: 2026-03-19 00:54:34 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23274429124\r\n\r\nJobs:\r\n  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 17:54:54 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": "BANF E2E Pipeline Tests",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:30.038Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.385Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.387Z",
+        "updatedAt": "2026-03-22T02:15:16.387Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716385-tzm0nh"
+      },
+      {
+        "id": "msg_1774145716391_0yabzu",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716390-tb6y56",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3f85c73)",
+          "data": {
+            "gmailId": "19d0394079106b49",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3f85c73)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-19 00:51:44 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23274428741\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 17:52:04 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:30.203Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.390Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.391Z",
+        "updatedAt": "2026-03-22T02:15:16.391Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716390-tb6y56"
+      },
+      {
+        "id": "msg_1774145716396_dbrhr4",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716393-04qba6",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (6015ad5)",
+          "data": {
+            "gmailId": "19d02ca1a13fa731",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (6015ad5)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 21:11:10 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23267241432\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 14:11:30 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:30.357Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.393Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.396Z",
+        "updatedAt": "2026-03-22T02:15:16.396Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716393-04qba6"
+      },
+      {
+        "id": "msg_1774145716402_sd9f4u",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716399-7btobl",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (1329e33)",
+          "data": {
+            "gmailId": "19d02c7e8646f52b",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (1329e33)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 21:08:48 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23267147977\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 14:09:08 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:30.553Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.399Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.402Z",
+        "updatedAt": "2026-03-22T02:15:16.402Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716399-7btobl"
+      },
+      {
+        "id": "msg_1774145716406_kd4qlq",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716404-jmxsn7",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (d64a854)",
+          "data": {
+            "gmailId": "19d02c544fd4d7d6",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (d64a854)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 21:05:54 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23267028757\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 14:06:14 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:30.736Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.404Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.406Z",
+        "updatedAt": "2026-03-22T02:15:16.406Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716404-jmxsn7"
+      },
+      {
+        "id": "msg_1774145716410_qpr7nk",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716408-1b0gqf",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (cadafc7)",
+          "data": {
+            "gmailId": "19d02bcf22e38c9b",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (cadafc7)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 20:56:49 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23266651803\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 13:57:09 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:30.912Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.408Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.410Z",
+        "updatedAt": "2026-03-22T02:15:16.410Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716408-1b0gqf"
+      },
+      {
+        "id": "msg_1774145716413_mc0nea",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716412-kd9n9m",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (6d17794)",
+          "data": {
+            "gmailId": "19d02b8b89bdf8a0",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (6d17794)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 20:52:11 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23266459065\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 13:52:32 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:31.068Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.412Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.413Z",
+        "updatedAt": "2026-03-22T02:15:16.413Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716412-kd9n9m"
+      },
+      {
+        "id": "msg_1774145716418_uhv35w",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716416-o4knjq",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (09d31a4)",
+          "data": {
+            "gmailId": "19d02408b00e1859",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (09d31a4)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 18:40:56 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23261171689\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 11:41:16 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:31.236Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.416Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.418Z",
+        "updatedAt": "2026-03-22T02:15:16.418Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716416-o4knjq"
+      },
+      {
+        "id": "msg_1774145716421_oznsn7",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716420-icsavm",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8222e9e)",
+          "data": {
+            "gmailId": "19d0221eae2b7f9a",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (8222e9e)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 18:07:25 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23259772928\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 11:07:49 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:31.419Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.420Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.421Z",
+        "updatedAt": "2026-03-22T02:15:16.421Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716420-icsavm"
+      },
+      {
+        "id": "msg_1774145716429_bo9nlc",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716426-qm224o",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (751e732)",
+          "data": {
+            "gmailId": "19d020eb5e040c39",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (751e732)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 17:46:29 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23258889577\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 10:46:50 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:31.583Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.426Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.429Z",
+        "updatedAt": "2026-03-22T02:15:16.429Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716426-qm224o"
+      },
+      {
+        "id": "msg_1774145716435_yltb3h",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716433-vmne0a",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7d23106)",
+          "data": {
+            "gmailId": "19d020858aa546b2",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (7d23106)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: -1.0 seconds\r\nFinished: 2026-03-18 17:39:33 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23258590943\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 10:39:53 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:31.749Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.433Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.435Z",
+        "updatedAt": "2026-03-22T02:15:16.435Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716433-vmne0a"
+      },
+      {
+        "id": "msg_1774145716442_2fjkfe",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774145716439-psmsja",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (eacf335)",
+          "data": {
+            "gmailId": "19d01fda310ce98a",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (eacf335)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-18 17:27:51 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23258086045\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications",
+            "date": "Wed, 18 Mar 2026 10:28:11 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T01:55:31.919Z"
+          },
+          "enqueuedAt": "2026-03-22T02:15:16.439Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T02:15:16.442Z",
+        "updatedAt": "2026-03-22T02:15:16.442Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774145716439-psmsja"
       }
     ],
-    "user_query": []
+    "user_query": [],
+    "payment": []
   },
   "dedupIndex": {
     "dev_instruct-1773623700834-glan5i": {
@@ -627,6 +2128,286 @@
     "user_query-1773791707308-yb5j4m": {
       "queue": "user_query",
       "enqueuedAt": "2026-03-17T23:55:07.308Z"
+    },
+    "payment-1774144495245-8zkm2q": {
+      "queue": "payment",
+      "enqueuedAt": "2026-03-22T01:54:55.246Z"
+    },
+    "user_query-1774144511980-c0uqsf": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.981Z"
+    },
+    "user_query-1774144511982-n0zanz": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.982Z"
+    },
+    "user_query-1774144511983-7trh8u": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.983Z"
+    },
+    "user_query-1774144511984-juzjff": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.984Z"
+    },
+    "user_query-1774144511986-n7puji": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.986Z"
+    },
+    "user_query-1774144511987-ova1kd": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.988Z"
+    },
+    "user_query-1774144511989-bygjrk": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.990Z"
+    },
+    "user_query-1774144511991-d547bd": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.992Z"
+    },
+    "user_query-1774144511993-3txlgb": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.993Z"
+    },
+    "user_query-1774144511994-nok7mp": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.995Z"
+    },
+    "user_query-1774144511996-k4einl": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:11.997Z"
+    },
+    "user_query-1774144512000-u7wu44": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.001Z"
+    },
+    "user_query-1774144512003-61klfz": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.004Z"
+    },
+    "user_query-1774144512005-0cfsvj": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.006Z"
+    },
+    "user_query-1774144512008-0f6wkp": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.008Z"
+    },
+    "user_query-1774144512010-4knhs9": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.010Z"
+    },
+    "user_query-1774144512012-l3qyhr": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.012Z"
+    },
+    "user_query-1774144512014-w087ij": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.015Z"
+    },
+    "user_query-1774144512016-puphib": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T01:55:12.017Z"
+    },
+    "github_failure-1774145716200-4gg0ow": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.201Z"
+    },
+    "github_failure-1774145716204-fs6xpf": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.205Z"
+    },
+    "github_failure-1774145716208-jekuhv": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.209Z"
+    },
+    "github_failure-1774145716212-aluhqw": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.214Z"
+    },
+    "github_failure-1774145716216-61pk7i": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.218Z"
+    },
+    "github_failure-1774145716221-g5zh8h": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.223Z"
+    },
+    "github_failure-1774145716225-5dpp8f": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.228Z"
+    },
+    "github_failure-1774145716231-akl44l": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.233Z"
+    },
+    "github_failure-1774145716236-totmj0": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.237Z"
+    },
+    "github_failure-1774145716241-2r2rvb": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.242Z"
+    },
+    "github_failure-1774145716245-7mfsk1": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.246Z"
+    },
+    "github_failure-1774145716249-3b5kts": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.251Z"
+    },
+    "github_failure-1774145716253-4cdeuh": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.255Z"
+    },
+    "github_failure-1774145716257-494lmj": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.261Z"
+    },
+    "github_failure-1774145716265-i6tv2m": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.267Z"
+    },
+    "github_failure-1774145716269-pih6wl": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.271Z"
+    },
+    "github_failure-1774145716274-aunhkr": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.276Z"
+    },
+    "github_failure-1774145716280-1coqjp": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.282Z"
+    },
+    "github_failure-1774145716285-upd3oh": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.286Z"
+    },
+    "github_failure-1774145716289-pai0cv": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.291Z"
+    },
+    "github_failure-1774145716293-n05z44": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.294Z"
+    },
+    "github_failure-1774145716296-k91p37": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.297Z"
+    },
+    "github_failure-1774145716299-j15yn3": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.301Z"
+    },
+    "github_failure-1774145716303-40254m": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.304Z"
+    },
+    "github_failure-1774145716307-6syogq": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.309Z"
+    },
+    "github_failure-1774145716313-h5ystt": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.316Z"
+    },
+    "github_failure-1774145716319-mvyrjf": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.321Z"
+    },
+    "github_failure-1774145716324-vsmwpd": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.326Z"
+    },
+    "github_failure-1774145716330-4h4h0w": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.332Z"
+    },
+    "github_failure-1774145716335-n0s3z4": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.336Z"
+    },
+    "github_failure-1774145716339-lsh7xg": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.341Z"
+    },
+    "github_failure-1774145716343-bjkh70": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.345Z"
+    },
+    "github_failure-1774145716348-41vhzw": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.350Z"
+    },
+    "github_failure-1774145716355-fj0615": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.357Z"
+    },
+    "github_failure-1774145716360-qpkr51": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.363Z"
+    },
+    "github_failure-1774145716367-mbov9r": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.369Z"
+    },
+    "github_failure-1774145716372-n1bgc8": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.375Z"
+    },
+    "github_failure-1774145716379-9hl0fl": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.381Z"
+    },
+    "github_failure-1774145716385-tzm0nh": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.387Z"
+    },
+    "github_failure-1774145716390-tb6y56": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.391Z"
+    },
+    "github_failure-1774145716393-04qba6": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.396Z"
+    },
+    "github_failure-1774145716399-7btobl": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.402Z"
+    },
+    "github_failure-1774145716404-jmxsn7": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.406Z"
+    },
+    "github_failure-1774145716408-1b0gqf": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.410Z"
+    },
+    "github_failure-1774145716412-kd9n9m": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.413Z"
+    },
+    "github_failure-1774145716416-o4knjq": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.418Z"
+    },
+    "github_failure-1774145716420-icsavm": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.421Z"
+    },
+    "github_failure-1774145716426-qm224o": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.429Z"
+    },
+    "github_failure-1774145716433-vmne0a": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.435Z"
+    },
+    "github_failure-1774145716439-psmsja": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T02:15:16.442Z"
     }
   },
   "createdAt": "2026-03-16T01:15:00.835Z"

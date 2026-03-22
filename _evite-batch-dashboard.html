@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF Evite Batch Send — Live Dashboard</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',system-ui,sans-serif; background:#0f1117; color:#e1e4e8; min-height:100vh; }
+  .header { background:linear-gradient(135deg,#1a1f36,#2d1b4e); padding:24px 32px; border-bottom:1px solid #2d333b; }
+  .header h1 { font-size:22px; color:#fff; margin-bottom:4px; }
+  .header .sub { font-size:13px; color:#8b949e; }
+  .header .ts { font-size:11px; color:#6e7681; margin-top:4px; }
+  .container { max-width:1200px; margin:0 auto; padding:20px; }
+  
+  /* KPI Cards */
+  .kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin-bottom:24px; }
+  .kpi { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:16px; text-align:center; }
+  .kpi .value { font-size:32px; font-weight:700; line-height:1.2; }
+  .kpi .label { font-size:11px; color:#8b949e; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+  .kpi.green .value { color:#3fb950; }
+  .kpi.blue .value { color:#58a6ff; }
+  .kpi.red .value { color:#f85149; }
+  .kpi.yellow .value { color:#d29922; }
+  .kpi.purple .value { color:#bc8cff; }
+  .kpi.cyan .value { color:#39d2c0; }
+  
+  /* Progress bar */
+  .progress-wrap { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:16px; margin-bottom:24px; }
+  .progress-bar { background:#21262d; border-radius:6px; height:28px; overflow:hidden; position:relative; }
+  .progress-fill { height:100%; border-radius:6px; transition:width 0.5s; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; }
+  .progress-fill.green { background:linear-gradient(90deg,#238636,#3fb950); }
+  .progress-label { font-size:13px; color:#8b949e; margin-top:8px; text-align:center; }
+  
+  /* Batch timeline */
+  .section { background:#161b22; border:1px solid #30363d; border-radius:10px; padding:20px; margin-bottom:20px; }
+  .section h2 { font-size:16px; color:#c9d1d9; margin-bottom:12px; border-bottom:1px solid #21262d; padding-bottom:8px; }
+  .batch-entry { padding:8px 12px; border-left:3px solid #30363d; margin-bottom:8px; font-size:13px; }
+  .batch-entry.ok { border-left-color:#3fb950; }
+  .batch-entry.partial { border-left-color:#d29922; }
+  .batch-entry.fail { border-left-color:#f85149; }
+  .batch-entry .num { font-weight:600; color:#58a6ff; }
+  .batch-entry .meta { color:#6e7681; font-size:11px; }
+  
+  /* Tables */
+  .tbl-wrap { max-height:400px; overflow-y:auto; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { background:#21262d; color:#8b949e; text-transform:uppercase; font-size:10px; letter-spacing:.5px; padding:8px 10px; text-align:left; position:sticky; top:0; }
+  td { padding:6px 10px; border-bottom:1px solid #21262d; color:#c9d1d9; }
+  tr:hover td { background:#1c2128; }
+  .badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; }
+  .badge.sent { background:#0d4429; color:#3fb950; }
+  .badge.verified { background:#0a3069; color:#58a6ff; }
+  .badge.failed { background:#490c0c; color:#f85149; }
+  .badge.skipped { background:#2d2304; color:#d29922; }
+  .badge.retried { background:#2a1b3d; color:#bc8cff; }
+  
+  /* Tabs */
+  .tabs { display:flex; gap:4px; margin-bottom:16px; }
+  .tab { padding:6px 16px; background:#21262d; border:1px solid #30363d; border-radius:6px; cursor:pointer; font-size:12px; color:#8b949e; }
+  .tab.active { background:#58a6ff; color:#fff; border-color:#58a6ff; }
+  .tab-content { display:none; }
+  .tab-content.active { display:block; }
+  
+  /* Search/filter */
+  .search { width:100%; padding:8px 12px; background:#0d1117; border:1px solid #30363d; border-radius:6px; color:#c9d1d9; font-size:13px; margin-bottom:12px; }
+  .search:focus { outline:none; border-color:#58a6ff; }
+  
+  .status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+  .status-dot.green { background:#3fb950; }
+  .status-dot.red { background:#f85149; }
+  .status-dot.yellow { background:#d29922; }
+  
+  .refresh-note { text-align:center; color:#6e7681; font-size:11px; margin-top:16px; padding:8px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 BANF Evite Batch Send — Live Dashboard</h1>
+  <div class="sub">Noboborsho 2026 — Mass Invitation Delivery Monitor</div>
+  <div class="ts">Last updated: 3/21/2026, 6:49:34 PM | Started: 3/21/2026, 6:34:22 PM | Completed: 3/21/2026, 6:49:34 PM</div>
+</div>
+
+<div class="container">
+
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi blue"><div class="value">259</div><div class="label">Total Members</div></div>
+    <div class="kpi green"><div class="value">254</div><div class="label">Emails Sent</div></div>
+    <div class="kpi cyan"><div class="value">254</div><div class="label">Verified in DB</div></div>
+    <div class="kpi red"><div class="value">0</div><div class="label">Failed</div></div>
+    <div class="kpi yellow"><div class="value">5</div><div class="label">Already Invited</div></div>
+    <div class="kpi purple"><div class="value">26</div><div class="label">Batches Done</div></div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-wrap">
+    <div class="progress-bar">
+      <div class="progress-fill green" style="width:100.0%">100.0%</div>
+    </div>
+    <div class="progress-label">259 of 259 processed (254 sent, 5 already invited, 0 failed)</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('sent')">✅ Sent (254)</div>
+    <div class="tab" onclick="showTab('failed')">❌ Failed (0)</div>
+    <div class="tab" onclick="showTab('skipped')">⏭️ Skipped (5)</div>
+    <div class="tab" onclick="showTab('batches')">📦 Batches (26)</div>
+    <div class="tab" onclick="showTab('rsvp')">📋 RSVP Status</div>
+  </div>
+
+  <!-- Sent Tab -->
+  <div id="tab-sent" class="tab-content active">
+    <div class="section">
+      <h2>Sent Emails</h2>
+      <input class="search" placeholder="Search by name or email..." oninput="filterTable('sent-table', this.value)" />
+      <div class="tbl-wrap">
+        <table id="sent-table">
+          <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Batch</th><th>Sent At</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Pallavi Chakraborty</td>
+              <td>pallavib_00@yahoo.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Annandita Mukherjee</td>
+              <td>annem25f@yahoo.co.in</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Suvankar Paul</td>
+              <td>suvankar.paul@gmail.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Melanie Payne</td>
+              <td>melanie@capitalcitycleanguild.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>sangita</td>
+              <td>schawlia@yahoo.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>Rajib S</td>
+              <td>rajibs123@gmail.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Wes Duke</td>
+              <td>wes.duke@buzzcms.net</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td>Sreya Ghosh</td>
+              <td>sreya.ghosh1510@gmail.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td>sumit_system@yahoo.com</td>
+              <td>sumit_system@yahoo.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>Soma Choudhury</td>
+              <td>soma1979p@yahoo.com</td>
+              <td>1</td>
+              <td>6:34:32 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>11</td>
+              <td>Tarun Lalan</td>
+              <td>feedback@smarthumanoid.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>12</td>
+              <td>Paulami Guha</td>
+              <td>drpaulami@gmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>13</td>
+              <td>souvickdesign1@gmail.com</td>
+              <td>souvickdesign1@gmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>14</td>
+              <td>Moumita Mitra</td>
+              <td>tinnee223@gmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>15</td>
+              <td>pranab_nyc@hotmail.com</td>
+              <td>pranab_nyc@hotmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>16</td>
+              <td>Abhijit</td>
+              <td>makhabhi@isu.edu</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>17</td>
+              <td>avranil82@gmail.com</td>
+              <td>avranil82@gmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>18</td>
+              <td>Ray Fountain</td>
+              <td>ray@ameliaclean.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>19</td>
+              <td>Dia Mitra</td>
+              <td>dia.dmitra@gmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>endoscorpion@gmail.com</td>
+              <td>endoscorpion@gmail.com</td>
+              <td>2</td>
+              <td>6:34:49 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>21</td>
+              <td>Dibendu Roy</td>
+              <td>dbroy05@gmail.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>22</td>
+              <td>Rituparna</td>
+              <td>rituparna1917@gmail.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>23</td>
+              <td>Sanghamitra Chandra</td>
+              <td>riyachandra1988@gmail.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>24</td>
+              <td>Colleen Lauter</td>
+              <td>colleen@janprojacksonville.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>25</td>
+              <td>Shannon Jhunjhunwala</td>
+              <td>shannonjhunjhunwala@gmail.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>26</td>
+              <td>indranil ganguly</td>
+              <td>indranil.india@gmail.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>27</td>
+              <td>Aparna Chakravarty</td>
+              <td>chakfam5@yahoo.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>28</td>
+              <td>BANANI DHAR</td>
+              <td>bdhar75@yahoo.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>29</td>
+              <td>sudiptaganguly4@gmail.com</td>
+              <td>sudiptaganguly4@gmail.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>30</td>
+              <td>Maureen Rucker</td>
+              <td>maureen.r@theprofessionalprofiles.com</td>
+              <td>3</td>
+              <td>6:35:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>31</td>
+              <td>kankana.ari@gmail.com</td>
+              <td>kankana.ari@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>32</td>
+              <td>Madhumita Mazumdar</td>
+              <td>madhumita.mazumdar3@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>33</td>
+              <td>Amrita</td>
+              <td>amrriita@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>34</td>
+              <td>Amit Ari</td>
+              <td>amit.aot@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>35</td>
+              <td>Andy Mukherjee</td>
+              <td>andy.mukherjee2005@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>36</td>
+              <td>Evan Ball</td>
+              <td>evan.ball@pushcms.net</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>37</td>
+              <td>Shilpa</td>
+              <td>friendshilp1@yahoo.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>38</td>
+              <td>Sourav Roychoudhury</td>
+              <td>sourav.roychoudhury@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>39</td>
+              <td>Rai Sanyal</td>
+              <td>raisanyal@yahoo.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>40</td>
+              <td>Indrani Dutta</td>
+              <td>dindrani74@gmail.com</td>
+              <td>4</td>
+              <td>6:35:23 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>41</td>
+              <td>Angsuman Saha</td>
+              <td>angsu.saha01@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>42</td>
+              <td>Dipak Roy</td>
+              <td>dipak.chebri@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>43</td>
+              <td>janasangha2003@gmail.com</td>
+              <td>janasangha2003@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>44</td>
+              <td>Sanjukta Chandra</td>
+              <td>sanjuktacdas@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>45</td>
+              <td>Joyeeta Polley</td>
+              <td>joyeeta.all@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>46</td>
+              <td>Chandra Ghosh</td>
+              <td>ghosh.chandra47@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>47</td>
+              <td>Rupanjan Choudhury</td>
+              <td>rupanjanc@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>48</td>
+              <td>Sharmistha Poddar</td>
+              <td>sharmi.p09@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>49</td>
+              <td>Reshma Bhadra Das</td>
+              <td>reshmabhadra@gmail.com</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>50</td>
+              <td>Chiradip Chatterjee</td>
+              <td>cchat003@fiu.edu</td>
+              <td>5</td>
+              <td>6:35:40 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>51</td>
+              <td>Latika Mukherjee</td>
+              <td>lmukhe@yahoo.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>52</td>
+              <td>Paramita Pal</td>
+              <td>runaparamita@gmail.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>53</td>
+              <td>Sekhar Naskar</td>
+              <td>naskar_s@yahoo.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>54</td>
+              <td>James Hinds</td>
+              <td>jim@bamboocando.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>55</td>
+              <td>maitramunmun224@gmail.com</td>
+              <td>maitramunmun224@gmail.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>56</td>
+              <td>SARSUNA PURBAPARA SWAPNALU</td>
+              <td>swapnalunatyodol@gmail.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>57</td>
+              <td>ANUPRIYA MUKHERJEE</td>
+              <td>moonmukherjee@yahoo.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>58</td>
+              <td>Holly Goswami</td>
+              <td>holly_goswami@buildfusion.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>59</td>
+              <td>Munmun Maitra</td>
+              <td>munmun_maitra@yahoo.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>60</td>
+              <td>Sudip Roy</td>
+              <td>roysu2000@gmail.com</td>
+              <td>6</td>
+              <td>6:35:57 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>61</td>
+              <td>Supriya Chatterjee</td>
+              <td>scrj.1982@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>62</td>
+              <td>Paromita Dutta</td>
+              <td>paromita.dutta5@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>63</td>
+              <td>Anirban Ghosh</td>
+              <td>anirban.ninja@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>64</td>
+              <td>Dawson Mullins</td>
+              <td>dawson.mullins@kitcms.net</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>65</td>
+              <td>Mayukh Das</td>
+              <td>dasmayukh@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>66</td>
+              <td>Soumo Chakravarty</td>
+              <td>soumo.chakravarty@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>67</td>
+              <td>Tarit Mondal</td>
+              <td>trt.mondal@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>68</td>
+              <td>Poushali Datta</td>
+              <td>poushalidatta1@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>69</td>
+              <td>David Russo</td>
+              <td>david.russo@epiccms.net</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>70</td>
+              <td>rnsanyal@gmail.com</td>
+              <td>rnsanyal@gmail.com</td>
+              <td>7</td>
+              <td>6:36:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>71</td>
+              <td>Jay Ghosh</td>
+              <td>jayanta0@yahoo.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>72</td>
+              <td>Indian soul band</td>
+              <td>indiansoulband19@gmail.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>73</td>
+              <td>Barnali Debu</td>
+              <td>barna_dev@yahoo.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>74</td>
+              <td>Swati Dutta</td>
+              <td>swati.dutta1409@gmail.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>75</td>
+              <td>Sonika Das</td>
+              <td>sonika@mumukshulife.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>76</td>
+              <td>Anjali Gupta</td>
+              <td>dr_anjaligupta@yahoo.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>77</td>
+              <td>Sarah</td>
+              <td>sarah.castles1@servicewrapgo.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>78</td>
+              <td>Stuti Bagchi</td>
+              <td>bagchibhaduristuti93@gmail.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>79</td>
+              <td>tdey5@asu.edu</td>
+              <td>tdey5@asu.edu</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td>Swarnali Das</td>
+              <td>ucc.swarnali@gmail.com</td>
+              <td>8</td>
+              <td>6:36:31 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>81</td>
+              <td>suchitrab4@gmail.com</td>
+              <td>suchitrab4@gmail.com</td>
+              <td>9</td>
+              <td>6:37:04 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>82</td>
+              <td>Kapil Sadhu</td>
+              <td>kapil.sadhu@gmail.com</td>
+              <td>9</td>
+              <td>6:37:10 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>83</td>
+              <td>Bonnie Das</td>
+              <td>dasban3@yahoo.com</td>
+              <td>9</td>
+              <td>6:37:15 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>84</td>
+              <td>Zamecnik Renota</td>
+              <td>janlaurenft4g@hotmail.com</td>
+              <td>9</td>
+              <td>6:37:19 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>85</td>
+              <td>Daniel Bush</td>
+              <td>daniel@northfloridaclean.com</td>
+              <td>9</td>
+              <td>6:37:23 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>86</td>
+              <td>Goutam Panda</td>
+              <td>goutampus@gmail.com</td>
+              <td>9</td>
+              <td>6:37:31 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>87</td>
+              <td>Joshua Taylor</td>
+              <td>joshua@northfloridaclean.com</td>
+              <td>9</td>
+              <td>6:37:35 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>88</td>
+              <td>Rupan Sanyal</td>
+              <td>rupan.sanyal@gmail.com</td>
+              <td>9</td>
+              <td>6:37:39 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>89</td>
+              <td>Uttam Mistry</td>
+              <td>uttamkgec@gmail.com</td>
+              <td>9</td>
+              <td>6:37:43 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>90</td>
+              <td>Asok Chaudhuri</td>
+              <td>asokchaudhuri@gmail.com</td>
+              <td>9</td>
+              <td>6:37:46 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>91</td>
+              <td>Pradip Ghimire</td>
+              <td>pradipkghimire@gmail.com</td>
+              <td>10</td>
+              <td>6:38:18 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>92</td>
+              <td>Subhra Ganguly</td>
+              <td>subhra.ganguly99@gmail.com</td>
+              <td>10</td>
+              <td>6:38:23 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>93</td>
+              <td>Krishna Di</td>
+              <td>r.se47@yahoo.com</td>
+              <td>10</td>
+              <td>6:38:27 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>94</td>
+              <td>Lena Charles</td>
+              <td>lena@breezycleaners.com</td>
+              <td>10</td>
+              <td>6:38:31 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>95</td>
+              <td>Mita Sarkar</td>
+              <td>mitasarkar@aol.com</td>
+              <td>10</td>
+              <td>6:38:35 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>96</td>
+              <td>asikdar28@gmail.com</td>
+              <td>asikdar28@gmail.com</td>
+              <td>10</td>
+              <td>6:38:39 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>97</td>
+              <td>Saugata Das</td>
+              <td>mrsaugatadas@gmail.com</td>
+              <td>10</td>
+              <td>6:38:43 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>98</td>
+              <td>Arnab Sanyal</td>
+              <td>arnabsanyal2002@gmail.com</td>
+              <td>10</td>
+              <td>6:38:46 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>99</td>
+              <td>Chandra Ganguly</td>
+              <td>chandra.ganguly6@gmail.com</td>
+              <td>10</td>
+              <td>6:38:50 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>Gourab Saha</td>
+              <td>gourabhere@gmail.com</td>
+              <td>10</td>
+              <td>6:38:53 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>101</td>
+              <td>Santanu Bhattacharya</td>
+              <td>tosantanu@gmail.com</td>
+              <td>11</td>
+              <td>6:39:25 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>102</td>
+              <td>Anita Mandal</td>
+              <td>anitapmandal@gmail.com</td>
+              <td>11</td>
+              <td>6:39:31 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>103</td>
+              <td>SANAT  ROY</td>
+              <td>henasanat@yahoo.com</td>
+              <td>11</td>
+              <td>6:39:35 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>104</td>
+              <td>Sudipto</td>
+              <td>sudipto.sbyn@gmail.com</td>
+              <td>11</td>
+              <td>6:39:40 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>105</td>
+              <td>vikramjit banerjee</td>
+              <td>tukiguitarman@yahoo.com</td>
+              <td>11</td>
+              <td>6:39:44 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>106</td>
+              <td>rana.soma11@gmail.com</td>
+              <td>rana.soma11@gmail.com</td>
+              <td>11</td>
+              <td>6:39:47 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>107</td>
+              <td>Nabo Roy</td>
+              <td>nabokumar09@gmail.com</td>
+              <td>11</td>
+              <td>6:39:50 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>108</td>
+              <td>Samiksha Bose</td>
+              <td>sbose84390@aol.com</td>
+              <td>11</td>
+              <td>6:39:54 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>109</td>
+              <td>Upasana Banerjee</td>
+              <td>upasana.york.88@gmail.com</td>
+              <td>11</td>
+              <td>6:39:57 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>110</td>
+              <td>sangat000@gmail.com</td>
+              <td>sangat000@gmail.com</td>
+              <td>11</td>
+              <td>6:40:02 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>111</td>
+              <td>Soumita Goswami</td>
+              <td>soumitagoswami05@gmail.com</td>
+              <td>12</td>
+              <td>6:40:33 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>112</td>
+              <td>Sanchari Bhattacharyya</td>
+              <td>tosanchari@gmail.com</td>
+              <td>12</td>
+              <td>6:40:39 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>113</td>
+              <td>Lopita Majumdar</td>
+              <td>lopita.majumdar@gmail.com</td>
+              <td>12</td>
+              <td>6:40:47 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>114</td>
+              <td>Sunanda Banerjee</td>
+              <td>sunanda.banerjee@gmail.com</td>
+              <td>12</td>
+              <td>6:40:52 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>115</td>
+              <td>Priyanka Majumder</td>
+              <td>priyanka16587@gmail.com</td>
+              <td>12</td>
+              <td>6:40:57 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>116</td>
+              <td>Ras Mazumder</td>
+              <td>rasmazumder@aol.com</td>
+              <td>12</td>
+              <td>6:41:03 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>117</td>
+              <td>swarnendu.sen@gmail.com</td>
+              <td>swarnendu.sen@gmail.com</td>
+              <td>12</td>
+              <td>6:41:07 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>118</td>
+              <td>Mukul Saha</td>
+              <td>mukulsaha89@gmail.com</td>
+              <td>12</td>
+              <td>6:41:12 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>119</td>
+              <td>Nilanjana B</td>
+              <td>nilanb@gmail.com</td>
+              <td>12</td>
+              <td>6:41:19 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>120</td>
+              <td>Rajarshi Chattopadhyay</td>
+              <td>art.rajarshi@gmail.com</td>
+              <td>12</td>
+              <td>6:41:27 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>121</td>
+              <td>banerjee04ananya@gmai.com</td>
+              <td>banerjee04ananya@gmai.com</td>
+              <td>13</td>
+              <td>6:41:59 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>122</td>
+              <td>vbbs04@gmail.com</td>
+              <td>vbbs04@gmail.com</td>
+              <td>13</td>
+              <td>6:42:05 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>123</td>
+              <td>Bulbul Chaudhary</td>
+              <td>bharatiart2000@yahoo.com</td>
+              <td>13</td>
+              <td>6:42:12 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>124</td>
+              <td>gautambose12408@gmail.com</td>
+              <td>gautambose12408@gmail.com</td>
+              <td>13</td>
+              <td>6:42:19 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>125</td>
+              <td>Saikat Natta</td>
+              <td>natta.saikat@gmail.com</td>
+              <td>13</td>
+              <td>6:42:22 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>126</td>
+              <td>Samrat Banerjee</td>
+              <td>samratbanerjee120@gmail.com</td>
+              <td>13</td>
+              <td>6:42:26 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>127</td>
+              <td>Dipra Ghosh</td>
+              <td>ghosh.dipra@gmail.com</td>
+              <td>13</td>
+              <td>6:42:31 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>128</td>
+              <td>alokdev@hotmail.com</td>
+              <td>alokdev@hotmail.com</td>
+              <td>13</td>
+              <td>6:42:35 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>129</td>
+              <td>Anna MacLeod</td>
+              <td>anna@summitshinecleaning.com</td>
+              <td>13</td>
+              <td>6:42:39 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>130</td>
+              <td>James</td>
+              <td>jamesphelan347@gmail.com</td>
+              <td>13</td>
+              <td>6:42:43 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>131</td>
+              <td>sharmi5002@gmail.com</td>
+              <td>sharmi5002@gmail.com</td>
+              <td>14</td>
+              <td>6:43:16 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>132</td>
+              <td>enggchapan@gmail.com</td>
+              <td>enggchapan@gmail.com</td>
+              <td>14</td>
+              <td>6:43:21 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>133</td>
+              <td>Anindya (Peter) Roy Choudhury</td>
+              <td>royc.anindya@gmail.com</td>
+              <td>14</td>
+              <td>6:43:29 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>134</td>
+              <td>Samiran Chandra</td>
+              <td>samiran.chandra@gmail.com</td>
+              <td>14</td>
+              <td>6:43:34 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>135</td>
+              <td>Sanhita Roy</td>
+              <td>sanhitadas_2000@yahoo.com</td>
+              <td>14</td>
+              <td>6:43:37 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>136</td>
+              <td>banfjax@gmail.com</td>
+              <td>banfjax@gmail.com</td>
+              <td>14</td>
+              <td>6:43:42 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>137</td>
+              <td>Sourav Pal</td>
+              <td>palsourav30@gmail.com</td>
+              <td>14</td>
+              <td>6:43:46 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>138</td>
+              <td>Brian Murphy</td>
+              <td>brianmurphy@metaappdesignes.com</td>
+              <td>14</td>
+              <td>6:43:51 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>139</td>
+              <td>Jared Leiman</td>
+              <td>jared@apostillellc.com</td>
+              <td>14</td>
+              <td>6:43:54 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>140</td>
+              <td>Shom Ghosh</td>
+              <td>shomgos@gmail.com</td>
+              <td>14</td>
+              <td>6:43:58 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>141</td>
+              <td>Ipshita Roy</td>
+              <td>sudipshita@yahoo.com</td>
+              <td>15</td>
+              <td>6:44:31 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>142</td>
+              <td>RAMARAO GARIMELLA</td>
+              <td>rgarimella99@gmail.com</td>
+              <td>15</td>
+              <td>6:44:37 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>143</td>
+              <td>Amit</td>
+              <td>asahaech@yahoo.com</td>
+              <td>15</td>
+              <td>6:44:43 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>144</td>
+              <td>Bidhan Das</td>
+              <td>bidhan138@gmail.com</td>
+              <td>15</td>
+              <td>6:44:47 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>145</td>
+              <td>DEBASHIS GANGULY</td>
+              <td>deba10@gmail.com</td>
+              <td>15</td>
+              <td>6:44:52 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>146</td>
+              <td>manalimukherjee47@gmail.com</td>
+              <td>manalimukherjee47@gmail.com</td>
+              <td>15</td>
+              <td>6:44:57 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>147</td>
+              <td>Nandita Guin</td>
+              <td>g.nnandita@gmail.com</td>
+              <td>15</td>
+              <td>6:45:01 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>148</td>
+              <td>Uma Hazra</td>
+              <td>uma.417@gmail.com</td>
+              <td>15</td>
+              <td>6:45:05 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>149</td>
+              <td>Ananta Kumar Sarkar</td>
+              <td>graphiksdue@gmail.com</td>
+              <td>15</td>
+              <td>6:45:10 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>150</td>
+              <td>Varsha Ganguly</td>
+              <td>vartew@gmail.com</td>
+              <td>15</td>
+              <td>6:45:15 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>151</td>
+              <td>Harman</td>
+              <td>harmansekhon@gmail.com</td>
+              <td>16</td>
+              <td>6:45:48 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>152</td>
+              <td>Caden Schmidt</td>
+              <td>caden.schmidt@wixful.site</td>
+              <td>16</td>
+              <td>6:45:53 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>153</td>
+              <td>Biyas</td>
+              <td>bandematarom@hotmail.com</td>
+              <td>16</td>
+              <td>6:46:01 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>154</td>
+              <td>suvo dasgupta</td>
+              <td>suvodasgupta@gmail.com</td>
+              <td>16</td>
+              <td>6:46:06 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>155</td>
+              <td>Kalyan Chakrabarti</td>
+              <td>kalyan32258@yahoo.com</td>
+              <td>16</td>
+              <td>6:46:11 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>156</td>
+              <td>Amitava Roychoudhury</td>
+              <td>aroyc001@netzero.com</td>
+              <td>16</td>
+              <td>6:46:16 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>157</td>
+              <td>Baidya Nath Sarkar</td>
+              <td>bns@hotmail.co.in</td>
+              <td>16</td>
+              <td>6:46:19 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>158</td>
+              <td>Joe Miller</td>
+              <td>info@domainworld.com</td>
+              <td>16</td>
+              <td>6:46:22 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>159</td>
+              <td>Bratasree Chatterjee</td>
+              <td>chatterjeebratasree@gmail.com</td>
+              <td>16</td>
+              <td>6:46:25 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>160</td>
+              <td>Nandini Dutta</td>
+              <td>dutta.nandini47@gmail.com</td>
+              <td>16</td>
+              <td>6:46:28 PM</td>
+              <td><span class="badge verified">Verified</span> <span class="badge retried">Retried</span></td>
+            </tr>
+            <tr>
+              <td>161</td>
+              <td>Bithika Roy</td>
+              <td>bithikaroy96@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>162</td>
+              <td>T BANAMBAR PATRA</td>
+              <td>aaactionllc@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>163</td>
+              <td>Sumana Di</td>
+              <td>aroyc55@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>164</td>
+              <td>dutta.shamit2000@gmail.com</td>
+              <td>dutta.shamit2000@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>165</td>
+              <td>Swati Mehta</td>
+              <td>mehta.swati2011@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>166</td>
+              <td>Sonu Roy</td>
+              <td>sonuroy123@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>167</td>
+              <td>Poonam Sanyal</td>
+              <td>poonam.sanyal@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>168</td>
+              <td>Ayan Dutta</td>
+              <td>duttaayan.cs@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>169</td>
+              <td>shilpikessler@gmail.com</td>
+              <td>shilpikessler@gmail.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>170</td>
+              <td>a@b.com</td>
+              <td>a@b.com</td>
+              <td>17</td>
+              <td>6:46:45 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>171</td>
+              <td>Anupriya</td>
+              <td>anupriyaganguly44@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>172</td>
+              <td>Rajarshi Majumdar</td>
+              <td>rajarshi.majumdar@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>173</td>
+              <td>raka1027@aol.com</td>
+              <td>raka1027@aol.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>174</td>
+              <td>priyachakraborty92@gmail.com</td>
+              <td>priyachakraborty92@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>175</td>
+              <td>Moushumi Mondal</td>
+              <td>moushumi.mondal@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>176</td>
+              <td>Bhaskar Roy</td>
+              <td>bhaskarroy24@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>177</td>
+              <td>priyanka.ghosh@gmail.com</td>
+              <td>priyanka.ghosh@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>178</td>
+              <td>Shilpi Banerjee</td>
+              <td>shilpibanerjee07@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>179</td>
+              <td>mmegha.garg@gmail.com</td>
+              <td>mmegha.garg@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>180</td>
+              <td>Nilay Chandra</td>
+              <td>chandranilay@gmail.com</td>
+              <td>18</td>
+              <td>6:47:03 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>181</td>
+              <td>Sumon Ghosh</td>
+              <td>suman.ghosh12@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>182</td>
+              <td>manokmc@gmail.com</td>
+              <td>manokmc@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>183</td>
+              <td>Adelia Nason</td>
+              <td>adelia@crystallclearcrew.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>184</td>
+              <td>hazradipa05@gmail.com</td>
+              <td>hazradipa05@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>185</td>
+              <td>Pradip RudraPal</td>
+              <td>sculptorpradiprudrapal@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>186</td>
+              <td>tanaybhaduri@gmail.com</td>
+              <td>tanaybhaduri@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>187</td>
+              <td>John Bailey</td>
+              <td>john.bailey@funcms.net</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>188</td>
+              <td>mdhar79@yahoo.com</td>
+              <td>mdhar79@yahoo.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>189</td>
+              <td>tanusree.hhalder@gmail.com</td>
+              <td>tanusree.hhalder@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>190</td>
+              <td>Joyita Ganguly</td>
+              <td>ganguly.joyita@gmail.com</td>
+              <td>19</td>
+              <td>6:47:20 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>191</td>
+              <td>niloy.rc@gmail.com</td>
+              <td>niloy.rc@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>192</td>
+              <td>Kaushiki Bhattacharya</td>
+              <td>kb94311@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>193</td>
+              <td>inmumanik@gmail.com</td>
+              <td>inmumanik@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>194</td>
+              <td>Tariqul</td>
+              <td>zaim3tariqul1712@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>195</td>
+              <td>Swapnoneel Roy</td>
+              <td>sroy.iitm@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>196</td>
+              <td>Alak Manna</td>
+              <td>alak.manna@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>197</td>
+              <td>Rajasri Chandra</td>
+              <td>rajasrichandra@yahoo.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>198</td>
+              <td>Soumali Dutta</td>
+              <td>2soumaliwithlove@gmail.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>199</td>
+              <td>Maximilian T. H. Suchy</td>
+              <td>max@anasuya.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>200</td>
+              <td>mntalukder@yahoo.com</td>
+              <td>mntalukder@yahoo.com</td>
+              <td>20</td>
+              <td>6:47:38 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>201</td>
+              <td>Surajit Chakravarty</td>
+              <td>surajit_c@hotmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>202</td>
+              <td>AKHAYA MOHANTY</td>
+              <td>emailtoakhaya@gmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>203</td>
+              <td>Debasmita Roy</td>
+              <td>roy.debasmita@gmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>204</td>
+              <td>shreyartha@gmail.com</td>
+              <td>shreyartha@gmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>205</td>
+              <td>Alex Nelson</td>
+              <td>info@jaxbengali.org</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>206</td>
+              <td>Navnita Dutta</td>
+              <td>navnitadutta7@gmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>207</td>
+              <td>Atmadeep Mazumdar</td>
+              <td>atmadeep.mazumdar@gmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>208</td>
+              <td>sumantaneogi90@gmail.com</td>
+              <td>sumantaneogi90@gmail.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>209</td>
+              <td>Tapash Roy</td>
+              <td>tapashroyk@msn.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>210</td>
+              <td>chrissy.m.das@icloud.com</td>
+              <td>chrissy.m.das@icloud.com</td>
+              <td>21</td>
+              <td>6:47:55 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>211</td>
+              <td>Diptesh</td>
+              <td>dipteshm@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>212</td>
+              <td>senguptaavranil@gmail.com</td>
+              <td>senguptaavranil@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>213</td>
+              <td>Abhra Aich</td>
+              <td>abhra.aich@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>214</td>
+              <td>Jay Chakraborty</td>
+              <td>jchakrab@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>215</td>
+              <td>Barnali Mondal</td>
+              <td>hibarnali@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>216</td>
+              <td>Rita Bhattacharjee</td>
+              <td>ritabhattacharjee@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>217</td>
+              <td>johnexum1@outlook.com</td>
+              <td>johnexum1@outlook.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>218</td>
+              <td>Mita Ghosh</td>
+              <td>mitaghosh1@yahoo.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>219</td>
+              <td>Souvik Ray</td>
+              <td>souvik.ray86@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>220</td>
+              <td>Sajal Bagchi</td>
+              <td>sajal1986@gmail.com</td>
+              <td>22</td>
+              <td>6:48:13 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>221</td>
+              <td>Anasuya Banerjee</td>
+              <td>ana@anasuya.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>222</td>
+              <td>Rajanya Ghosh</td>
+              <td>rajanya.ghosh1993@gmail.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>223</td>
+              <td>Rahul Bannerjee</td>
+              <td>weekender_in@yahoo.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>224</td>
+              <td>Sikhorini .mukherjee</td>
+              <td>sikhorini@gmail.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>225</td>
+              <td>Jiniya Chandra</td>
+              <td>jiniya.chandra@gmail.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>226</td>
+              <td>Suvendu Maitra</td>
+              <td>slmaitra@gmail.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>227</td>
+              <td>Tasmim</td>
+              <td>tasmim@tohfabd.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>228</td>
+              <td>Neha Mandal</td>
+              <td>neha.mandal@occamsadvisory.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>229</td>
+              <td>Ripon Ray</td>
+              <td>ripon.ray@britbanglacovid.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>230</td>
+              <td>Souvik Chakraborty (Old Souvik)</td>
+              <td>souvik.chakraborty87@gmail.com</td>
+              <td>23</td>
+              <td>6:48:30 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>231</td>
+              <td>urmi rakshit</td>
+              <td>urmi.kanya@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>232</td>
+              <td>peshkarcal@yahoo.com</td>
+              <td>peshkarcal@yahoo.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>233</td>
+              <td>Sunetra Basu Ghosh</td>
+              <td>sunetra.basu@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>234</td>
+              <td>Sourav Jan</td>
+              <td>jan.sourav@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>235</td>
+              <td>milanekadash1996@gmail.com</td>
+              <td>milanekadash1996@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>236</td>
+              <td>SUDESHNA CHATTERJEE</td>
+              <td>sudeshna.chatterjee1986@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>237</td>
+              <td>INDRANI PAUL</td>
+              <td>indrani.of.paul@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>238</td>
+              <td>Subhra Roy</td>
+              <td>subhraroy88@yahoo.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>239</td>
+              <td>Swagatika Tripathy</td>
+              <td>swagatika.ty@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>240</td>
+              <td>Rina Basu Paul</td>
+              <td>rinabasu31@gmail.com</td>
+              <td>24</td>
+              <td>6:48:47 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>241</td>
+              <td>Brandon Green</td>
+              <td>brandon.green@wixclicks.co</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>242</td>
+              <td>Koushik Karmakar</td>
+              <td>karmakar.2007@gmail.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>243</td>
+              <td>robchatto@aol.com</td>
+              <td>robchatto@aol.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>244</td>
+              <td>Raj Goswami</td>
+              <td>raj.goswami@gmail.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>245</td>
+              <td>samirpbhagat@gmail.com</td>
+              <td>samirpbhagat@gmail.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>246</td>
+              <td>Dola Sinha</td>
+              <td>dolasinha@yahoo.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>247</td>
+              <td>Soumyajit Dutta</td>
+              <td>duttasoumyajit86@gmail.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>248</td>
+              <td>Subrata Mondal</td>
+              <td>sm.mondal@gmail.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>249</td>
+              <td>Celina Fouts</td>
+              <td>celina@janprojacksonville.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>250</td>
+              <td>Amit.everywhere@gmail.com</td>
+              <td>amit.everywhere@gmail.com</td>
+              <td>25</td>
+              <td>6:49:06 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>251</td>
+              <td>Rupa Majumdar</td>
+              <td>srabana.m@gmail.com</td>
+              <td>26</td>
+              <td>6:49:18 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>252</td>
+              <td>Varsha Roy</td>
+              <td>varsharoy.86@gmail.com</td>
+              <td>26</td>
+              <td>6:49:18 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>253</td>
+              <td>Pawan Agarwal</td>
+              <td>info@sagirealty.com</td>
+              <td>26</td>
+              <td>6:49:18 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+            <tr>
+              <td>254</td>
+              <td>poddojaroy@gmail.com</td>
+              <td>poddojaroy@gmail.com</td>
+              <td>26</td>
+              <td>6:49:18 PM</td>
+              <td><span class="badge verified">Verified</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Failed Tab -->
+  <div id="tab-failed" class="tab-content">
+    <div class="section">
+      <h2>Failed Emails</h2>
+      <p style="color:#3fb950;padding:20px;text-align:center">🎉 No failures! All emails sent successfully.</p>
+    </div>
+  </div>
+
+  <!-- Skipped Tab -->
+  <div id="tab-skipped" class="tab-content">
+    <div class="section">
+      <h2>Skipped (Already Invited)</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Email</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>moumita.mukherje@gmail.com</td><td><span class="badge skipped">Already invited</span></td></tr>
+            <tr><td>2</td><td>sumo475@gmail.com</td><td><span class="badge skipped">Already invited</span></td></tr>
+            <tr><td>3</td><td>ranadhir.ghosh@gmail.com</td><td><span class="badge skipped">Already invited</span></td></tr>
+            <tr><td>4</td><td>mukhopadhyay.partha@gmail.com</td><td><span class="badge skipped">Already invited</span></td></tr>
+            <tr><td>5</td><td>rwitichoudhury@gmail.com</td><td><span class="badge skipped">Already invited</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Batches Tab -->
+  <div id="tab-batches" class="tab-content">
+    <div class="section">
+      <h2>Batch Timeline</h2>
+      <div class="batch-entry ok">
+        <span class="num">Batch 1</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:34:24 PM → 6:34:35 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 2</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:34:41 PM → 6:34:52 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 3</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:34:57 PM → 6:35:09 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 4</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:35:14 PM → 6:35:26 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 5</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:35:31 PM → 6:35:43 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 6</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:35:48 PM → 6:36:00 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 7</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:36:05 PM → 6:36:17 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 8</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:36:22 PM → 6:36:34 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 9</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:36:39 PM → 6:37:50 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 10</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:37:55 PM → 6:38:57 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 11</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:39:02 PM → 6:40:06 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 12</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:40:11 PM → 6:41:30 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 13</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:41:35 PM → 6:42:47 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 14</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:42:52 PM → 6:44:01 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 15</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:44:06 PM → 6:45:18 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 16</span> — 
+        <span class="status-dot green"></span>
+        Sent: 0 | Retried: 10 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:45:23 PM → 6:46:31 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 17</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:46:36 PM → 6:46:48 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 18</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:46:53 PM → 6:47:07 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 19</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:47:12 PM → 6:47:24 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 20</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:47:29 PM → 6:47:41 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 21</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:47:46 PM → 6:47:58 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 22</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:48:04 PM → 6:48:16 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 23</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:48:21 PM → 6:48:33 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 24</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:48:38 PM → 6:48:51 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 25</span> — 
+        <span class="status-dot green"></span>
+        Sent: 10 | Retried: 0 | Failed: 0 | 
+        Verified: 10
+        <div class="meta">6:48:56 PM → 6:49:10 PM</div>
+      </div>
+      <div class="batch-entry ok">
+        <span class="num">Batch 26</span> — 
+        <span class="status-dot green"></span>
+        Sent: 4 | Retried: 0 | Failed: 0 | 
+        Verified: 4
+        <div class="meta">6:49:15 PM → 6:49:21 PM</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RSVP Tab (placeholder - loads live) -->
+  <div id="tab-rsvp" class="tab-content">
+    <div class="section">
+      <h2>📋 Live RSVP Status</h2>
+      <p style="color:#8b949e;margin-bottom:12px">Click "Load Live Data" to fetch current RSVP responses from the server.</p>
+      <button onclick="loadRSVP()" style="padding:8px 20px;background:#238636;border:none;color:#fff;border-radius:6px;cursor:pointer;font-size:13px;margin-bottom:16px">Load Live Data</button>
+      <div id="rsvp-data" style="min-height:100px"></div>
+    </div>
+  </div>
+
+  <div class="refresh-note">Dashboard generated from batch progress file. Re-run script or refresh file to update.</div>
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function filterTable(tableId, query) {
+  const rows = document.getElementById(tableId).querySelectorAll('tbody tr');
+  const q = query.toLowerCase();
+  rows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+async function loadRSVP() {
+  const container = document.getElementById('rsvp-data');
+  container.innerHTML = '<p style="color:#58a6ff">Loading...</p>';
+  try {
+    const resp = await fetch('https://www.jaxbengali.org/_functions/evite_invite_status?eventId=61849b36-68e5-41fc-885d-998feafc21f2');
+    const data = await resp.json();
+    const s = data.summary || {};
+    let html = '<div class="kpi-row" style="margin-bottom:16px">';
+    html += '<div class="kpi green"><div class="value">' + (s.attending||0) + '</div><div class="label">Attending</div></div>';
+    html += '<div class="kpi red"><div class="value">' + (s.declined||0) + '</div><div class="label">Declined</div></div>';
+    html += '<div class="kpi yellow"><div class="value">' + (s.maybe||0) + '</div><div class="label">Maybe</div></div>';
+    html += '<div class="kpi blue"><div class="value">' + (s.pending||0) + '</div><div class="label">Pending</div></div>';
+    html += '<div class="kpi cyan"><div class="value">' + (s.totalGuests||0) + '</div><div class="label">Total Guests</div></div>';
+    html += '<div class="kpi purple"><div class="value">' + (s.responded||0) + '/' + (s.total||0) + '</div><div class="label">Responded</div></div>';
+    html += '</div>';
+    html += '<input class="search" placeholder="Search responses..." oninput="filterTable(\'rsvp-table\',this.value)" />';
+    html += '<div class="tbl-wrap"><table id="rsvp-table"><thead><tr><th>#</th><th>Name</th><th>Email</th><th>Status</th><th>Adults</th><th>Kids</th><th>Food</th><th>Responded</th></tr></thead><tbody>';
+    (data.invitations || []).forEach((inv, i) => {
+      const status = inv.rsvpStatus === 'yes' ? '<span class="badge sent">Attending</span>'
+        : inv.rsvpStatus === 'no' ? '<span class="badge failed">Declined</span>'
+        : inv.rsvpStatus === 'maybe' ? '<span class="badge skipped">Maybe</span>'
+        : '<span class="badge" style="background:#21262d;color:#6e7681">Pending</span>';
+      html += '<tr><td>' + (i+1) + '</td><td>' + esc(inv.recipientName) + '</td><td>' + esc(inv.recipientEmail) + '</td><td>' + status + '</td><td>' + (inv.adults||0) + '</td><td>' + (inv.kids||0) + '</td><td>' + esc(inv.dietary||'-') + '</td><td>' + (inv.respondedAt ? new Date(inv.respondedAt).toLocaleString() : '-') + '</td></tr>';
+    });
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<p style="color:#f85149">Error: ' + e.message + '</p>';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+[17:31:59.585] 🚀 Launching browser...
+[17:32:00.185] ✅ Browser ready
+[17:32:00.185] 
+════════════════════════════════════════════
+[17:32:00.186]   FLOW 1: ec-admin-login → admin-portal redirect
+[17:32:00.186] ════════════════════════════════════════════
+[17:32:00.186] 
+═══ STEP: Load EC Admin Login Page ═══
+[17:32:00.758]   🔴 CONSOLE ERROR: Failed to load resource: the server responded with a status of 404 ()
+[17:32:02.222] 📸 Screenshot: step-01-login-page-loaded.png
+[17:32:02.223] 🤖 Analyzing screenshot with vision model...
+[17:32:07.257] 📋 Vision Analysis:
+1. Visible on screen: EC Admin Login page with fields for email and password, sign-in button, and links for forgot password/email and sign-up.
+2. Error messages: A red banner at the top states "v5.12.0: Amit Chandak Email Corrected — Treasurer email changed from amit.chandak@gmail.com to amit.everywhere@gmail.com. EC onboarding invitation resent." This is an informational alert, not a blocking error.
+3. Application state: Login page fully loaded, waiting for user input to sign in.
+4. UI issues: No visible UI issues; layout appears intact with no overlapping or missing elements.
+5. Next steps to debug: Confirm the email correction alert is expected and not interfering with login functionality. Test login with valid credentials to verify sign-in works. Check console/network logs for any hidden errors if login fails.
+[17:32:07.258] 
+═══ STEP: Enter Login Credentials ═══
+[17:32:09.273] 📸 Screenshot: step-02-credentials-entered.png
+[17:32:09.273] 🤖 Analyzing screenshot with vision model...
+[17:32:12.897] 📋 Vision Analysis:
+1. Visible on screen: Login page for BANF EC Admin Portal with email and password fields filled and "EC Admin Sign In" button ready to be clicked.
+2. Error messages: A red banner at the top states "v5.12.0: Amit Chandak Email Corrected — Treasurer email changed from amit.chandak@gmail.com to amit.everywhere@gmail.com. EC onboarding invitation resent." This is an informational alert, not a login error.
+3. Application state: Awaiting user action to sign in; no indication of loading or logged-in state.
+4. UI issues: No visible UI issues; layout and elements appear intact and properly aligned.
+5. Next debug step: Click "EC Admin Sign In" to attempt login. If login fails, check for error messages or server responses. Verify credentials and network connectivity. Review backend logs if authentication errors occur.
+[17:32:12.899] 
+═══ STEP: Click Login Button ═══
+[17:32:12.919]   Waiting for login response...
+[17:32:17.542]   Current URL: https://banfjax-hash.github.io/banf/admin-portal.html
+[17:32:17.543]   Network: 7 requests, 0 errors after click
+[17:32:17.544]     200 OPTIONS https://www.jaxbengali.org/_functions/admin_verify_login
+[17:32:17.544]     200 POST https://www.jaxbengali.org/_functions/admin_verify_login
+[17:32:17.545]     200 OPTIONS https://www.jaxbengali.org/_functions/procurement_list
+[17:32:17.546]     200 OPTIONS https://www.jaxbengali.org/_functions/ec_replacement_list
+[17:32:17.546]     200 GET https://www.jaxbengali.org/_functions/ec_replacement_list
+[17:32:17.546]     200 GET https://www.jaxbengali.org/_functions/procurement_list
+[17:32:17.547]     200 GET https://banfwix.wixsite.com/banf1/_functions/dev_board_state
+[17:32:17.626] 📸 Screenshot: step-03-after-login-click.png
+[17:32:17.627] 🤖 Analyzing screenshot with vision model...
+[17:32:20.896] 📋 Vision Analysis:
+1. Visible on screen: The dashboard of the BANF Admin portal is visible, showing control center stats, capabilities by development stage, recent activity logs, finance quick access, and quick actions.
+
+2. Error messages: No error messages, HTTP errors, JavaScript errors, or alert boxes are visible.
+
+3. Application state: The application is logged in and displaying data successfully with no visible errors.
+
+4. UI issues: No broken layout, missing elements, or overlapping text are apparent. The UI appears well-structured and functional.
+
+5. Next debug steps: Since the login succeeded and data is displayed with no errors, verify backend data correctness and user permissions. If further issues arise, check console logs for hidden JavaScript errors and monitor network requests for any failed or slow responses.
+[17:32:20.896] 
+═══ STEP: Check Portal After Login ═══
+[17:32:20.897]   ✅ Navigated to admin-portal.html
+[17:32:24.929]   Portal state: {
+  "portalDisplay": "flex",
+  "loginDisplay": "none",
+  "hasCurrentAdmin": true,
+  "currentAdmin": {
+    "email": "ranadhir.ghosh@gmail.com",
+    "role": "super-admin",
+    "roles": [
+      "super-admin",
+      "business-stakeholder",
+      "admin"
+    ],
+    "ecTitle": "President"
+  },
+  "title": "BANF - Super Admin Portal v2",
+  "bodyText": " BANF Admin\nSuper Admin Portal v3.0 (Multi-Role Identity)\nOPERATIONS\nDashboard\nRole Definitions\nPhase 2\nUser Management\nPhase 2\nIdentity Engine\nPhase 3\nDRIVES\nStakeholder Drive\nPhase 2\nEC Drive\nPhase 2\nDrive Status\nPhase 2\nDEVELOPMENT\nFeedback Pipeline\nPhase 3\nDev Board\nPhase 3\nTESTING\nE2E Test Suite\nPhase 4\nFINANCE\nProcurement\nLIVE\nReimbursement\nLIVE\nLedger Report\nLIVE\nIncome Summary\nLIVE\nEvent Expenses\nLIVE\nEVENTS\nE-Vite Manager\nLIVE\nPRESIDENT\nEC Replacement\nLIVE\nRevoke EC Role\nLIVE\nAUDIT\nActi"
+}
+[17:32:25.005] 📸 Screenshot: step-04-portal-state-check.png
+[17:32:25.005] 🤖 Analyzing screenshot with vision model...
+[17:32:28.204] 📋 Vision Analysis:
+1. Visible on screen: The dashboard of the BANF Admin portal after login.
+2. Error messages: None visible; no HTTP errors, JavaScript errors, or alert boxes shown.
+3. Application state: Logged in, fully loaded, showing data and recent activity logs.
+4. UI issues: No visible layout issues, missing elements, or overlapping text.
+5. Next debug steps: Since no errors or broken states are visible, verify backend API responses and network logs for any hidden 400 errors; test interactive elements (e.g., buttons, links) for functionality; check console for JavaScript warnings or errors not shown on UI.
+[17:32:28.206] 
+═══ STEP: Check Dashboard API Calls ═══
+[17:32:30.213]   Dashboard: {
+  "kpisContent": "<div class=\"kpi blue\"><div class=\"v\">3</div><div class=\"k\">Defined Roles</div></div><div class=\"kpi green\"><div class=\"v\">1</div><div class=\"k\">Users</div></div><div class=\"kpi cyan\"><div class=\"v\">3<",
+  "logContent": "<div class=\"log-line\"><span class=\"ll-ts\">Mar 9, 2026, 09:22 AM</span><span class=\"ll-act\" style=\"color:var(--muted)\">TICKET_UPDATE</span><span class=\"ll-msg\">TK-008: todo → done (by System)</span></d",
+  "procContent": "<div style=\"background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid var(--line)\"><div style=\"display:flex;justify-content:space-between;align-items:center;margin-botto",
+  "activePanel": "panel-dashboard"
+}
+[17:32:30.306] 📸 Screenshot: step-05-dashboard-api-state.png
+[17:32:30.306] 🤖 Analyzing screenshot with vision model...
+[17:32:33.512] 📋 Vision Analysis:
+1. Visible on screen: The dashboard panel of the BANF Admin web application, showing control center stats, capabilities by development stage, recent activity logs, finance quick access buttons, and quick actions.
+
+2. Error messages: None visible. No HTTP errors, JavaScript errors, alert boxes, or red text are present.
+
+3. Application state: Logged in and showing data fully loaded. All panels display data with no loading indicators or error states.
+
+4. UI issues: No broken layout, missing elements, or overlapping text detected. The interface appears well-structured and readable.
+
+5. Next debug steps: 
+- Verify backend API responses match displayed data for accuracy.
+- Check console/network logs for any hidden errors or warnings.
+- Confirm interactive elements (buttons, links) function as expected.
+- Test data refresh/update flows to ensure real-time accuracy.
+[17:32:33.513] 
+═══ STEP: Navigate Finance Panels ═══
+[17:32:35.605] 📸 Screenshot: step-06-procurement-panel.png
+[17:32:39.624]   Errors during panel navigation: 0
+[17:32:39.704] 📸 Screenshot: step-07-ledger-report-panel.png
+[17:32:39.704] 🤖 Analyzing screenshot with vision model...
+[17:32:43.925] 📋 Vision Analysis:
+1. Visible on screen: The Ledger Report panel under the Finance section of the BANF Admin dashboard, showing an Income & Expense financial ledger report with detailed transaction entries.
+
+2. Error messages: No HTTP errors, JavaScript errors, or alert boxes are visible. No "400" or "500" error codes are present.
+
+3. Application state: Logged in, fully loaded, and displaying financial data correctly.
+
+4. UI issues: None apparent. Layout is clean, text is readable, and no overlapping or missing elements are visible.
+
+5. Next debugging steps: Since no errors or UI issues are visible and no network errors reported, verify backend API responses for the ledger data to ensure no hidden errors. Also, check network logs for any 400 errors during data fetch. If none found, test filtering and CSV export functionality to confirm full feature operation.
+[17:32:43.925] 
+════════════════════════════════════════════
+[17:32:43.925]   FLOW 2: Wix Direct URL Test (400 reproduction)
+[17:32:43.925] ════════════════════════════════════════════
+[17:32:43.926] 
+═══ STEP: Test Wix Direct URL (400 Reproduction) ═══
+[17:32:43.926]   Testing: https://www.jaxbengali.org/admin-portal.html
+[17:32:44.102]   🔴 CONSOLE ERROR: Failed to load resource: the server responded with a status of 400 ()
+[17:32:44.121]   ⚠️  HTTP 400 GET https://www.jaxbengali.org/admin-portal.html
+[17:32:44.122]      Response: 
+  <!DOCTYPE html>
+<!--
+    
+
+    
+
+  
+  
+      
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="
+[17:32:45.122]   HTTP Status: 400
+[17:32:45.122]   ⚠️  CONFIRMED: www.jaxbengali.org/admin-portal.html returns 400!
+[17:32:45.122]   Root cause: Wix cannot serve .html files directly.
+[17:32:45.122]   Fix: Users must access via /_functions/admin_portal redirect or GitHub Pages directly.
+[17:32:45.198] 📸 Screenshot: step-08-wix-direct-url-400.png
+[17:32:45.199] 🤖 Analyzing screenshot with vision model...
+[17:32:47.955] 📋 Vision Analysis:
+1. Visible on screen: An error message page.
+2. Error messages: HTTP 400 error with text "ERROR: BAD REQUEST" and "There's an issue with your request. This action can't be completed."
+3. Application state: Error state, request failed.
+4. UI issues: No UI layout issues; the error message is clearly displayed.
+5. Next steps to debug: Verify the URL being accessed; avoid requesting .html files directly on Wix as it does not serve them. Instead, use the correct route without the .html extension or configure routing properly. Check server or Wix settings to handle or redirect such requests correctly.
+[17:32:47.956] 
+═══ STEP: Test Wix _functions/admin_portal Redirect ═══
+[17:32:47.956]   Testing: https://www.jaxbengali.org/_functions/admin_portal
+[17:32:49.198]   Redirected to: https://banfjax-hash.github.io/banf/admin-portal.html
+[17:32:49.199]   ✅ Correct redirect: YES (GitHub Pages)
+[17:32:49.321] 📸 Screenshot: step-09-wix-redirect-test.png
+[17:32:49.322] 🤖 Analyzing screenshot with vision model...
+[17:32:52.612] 📋 Vision Analysis:
+1. Visible on screen: The dashboard of the BANF Admin portal, showing control center stats, capabilities by development stage, recent activity logs, finance quick access buttons, and navigation menus.
+2. Error messages: None visible; no HTTP errors, JavaScript errors, or alert boxes are present.
+3. Application state: Logged in and fully loaded, displaying data and interactive elements.
+4. UI issues: No obvious UI issues detected; layout appears intact with no overlapping text or missing elements.
+5. Next debug steps: Since the dashboard loads correctly with no errors, verify functionality of interactive elements (e.g., buttons, links) and test user permissions. If issues persist, check browser console for hidden errors and network requests for failed API calls.
+[17:32:52.613] 
+════════════════════════════════════════════
+[17:32:52.613]   FLOW 3: Direct admin-portal.html login (GitHub Pages)
+[17:32:52.614] ════════════════════════════════════════════
+[17:32:52.617] 
+═══ STEP: Direct Portal Login (admin-portal.html) ═══
+[17:32:54.494]   State: {"portalVisible":true,"loginVisible":true,"url":"https://banfjax-hash.github.io/banf/admin-portal.html"}
+[17:32:54.494]   Login form visible — entering credentials...
+[17:33:01.578]   After direct login: 0 errors
+[17:33:01.654] 📸 Screenshot: step-10-direct-portal-login.png
+[17:33:01.654] 🤖 Analyzing screenshot with vision model...
+[17:33:07.214] 📋 Vision Analysis:
+1. Visible on screen: The admin portal dashboard is fully loaded, showing control center stats, capabilities by development stage, recent activity, finance quick access, and quick actions.
+
+2. Error messages: No visible error messages, no HTTP errors like 400 or 500, no JavaScript errors, no alert boxes, no red text indicating errors.
+
+3. Application state: Logged in and showing data correctly; the dashboard is active and populated with information.
+
+4. UI issues: No obvious UI issues; layout appears intact with no broken elements or overlapping text.
+
+5. Next debug steps: 
+- Since the dashboard loaded without visible errors despite the network error, check browser developer tools (Network tab) to identify the failed request and its cause.
+- Verify if the failed network request impacts any functionality or data.
+- Review backend logs for the failed request.
+- Confirm login flow completes successfully and session tokens are set.
+- Test login again to reproduce and capture detailed error info.
+[17:33:07.215] 
+═══ STEP: Check Portal After Login ═══
+[17:33:07.215]   ✅ Navigated to admin-portal.html
+[17:33:11.244]   Portal state: {
+  "portalDisplay": "flex",
+  "loginDisplay": "none",
+  "hasCurrentAdmin": true,
+  "currentAdmin": {
+    "email": "ranadhir.ghosh@gmail.com",
+    "role": "super_admin",
+    "roles": [
+      "super-admin",
+      "business-stakeholder",
+      "admin"
+    ],
+    "ecTitle": "President"
+  },
+  "title": "BANF - Super Admin Portal v2",
+  "bodyText": " BANF Admin\nSuper Admin Portal v3.0 (Multi-Role Identity)\nOPERATIONS\nDashboard\nRole Definitions\nPhase 2\nUser Management\nPhase 2\nIdentity Engine\nPhase 3\nDRIVES\nStakeholder Drive\nPhase 2\nEC Drive\nPhase 2\nDrive Status\nPhase 2\nDEVELOPMENT\nFeedback Pipeline\nPhase 3\nDev Board\nPhase 3\nTESTING\nE2E Test Suite\nPhase 4\nFINANCE\nProcurement\nLIVE\nReimbursement\nLIVE\nLedger Report\nLIVE\nIncome Summary\nLIVE\nEvent Expenses\nLIVE\nEVENTS\nE-Vite Manager\nLIVE\nPRESIDENT\nEC Replacement\nLIVE\nRevoke EC Role\nLIVE\nAUDIT\nActi"
+}
+[17:33:11.329] 📸 Screenshot: step-11-portal-state-check.png
+[17:33:11.329] 🤖 Analyzing screenshot with vision model...
+[17:33:16.541] 📋 Vision Analysis:
+1. Visible on screen: The dashboard of the BANF Admin portal after login, showing control center stats, capabilities by development stage, recent activity, finance quick access, and quick actions.
+
+2. Error messages: No visible error messages, HTTP errors, JavaScript errors, or alert boxes on screen. No "400" or "500" errors displayed.
+
+3. Application state: Logged in and showing data normally. The dashboard is populated with user roles, identities, tickets, and recent activity logs.
+
+4. UI issues: No obvious UI issues such as broken layout, missing elements, or overlapping text are visible. The interface appears well-structured and functional.
+
+5. Next debugging steps:
+   - Check browser console for any hidden JavaScript errors or warnings.
+   - Review network tab for the single network error mentioned to identify the failed request and its cause.
+   - Verify backend API responses for correctness and status codes.
+   - Confirm that all dynamic data is loading as expected despite the one network error.
+   - Test navigation and functionality to ensure no partial failures.
+[17:33:16.541] 
+═══ STEP: Check Dashboard API Calls ═══
+[17:33:18.550]   Dashboard: {
+  "kpisContent": "<div class=\"kpi blue\"><div class=\"v\">3</div><div class=\"k\">Defined Roles</div></div><div class=\"kpi green\"><div class=\"v\">1</div><div class=\"k\">Users</div></div><div class=\"kpi cyan\"><div class=\"v\">3<",
+  "logContent": "<div class=\"log-line\"><span class=\"ll-ts\">Mar 21, 2026, 01:32 PM</span><span class=\"ll-act\" style=\"color:var(--cyan)\">LOGIN</span><span class=\"ll-msg\">EC Admin login — Ranadhir Ghosh (President)</span",
+  "procContent": "<div style=\"background:var(--bg2);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid var(--line)\"><div style=\"display:flex;justify-content:space-between;align-items:center;margin-botto",
+  "activePanel": "panel-dashboard"
+}
+[17:33:18.637] 📸 Screenshot: step-12-dashboard-api-state.png
+[17:33:18.637] 🤖 Analyzing screenshot with vision model...
+[17:33:22.575] 📋 Vision Analysis:
+1. Visible on screen: The dashboard panel of a web application named "BANF Admin" with various sections including control center stats, capabilities by development stage, recent activity, finance quick access, and quick actions.
+
+2. Error messages: None visible. No HTTP errors, JavaScript errors, alert boxes, or red text indicating errors.
+
+3. Application state: Logged in and showing data. The dashboard displays active statuses, counts of roles, users, identities, CRM members, feedback items, dev tickets, and audit logs. Recent activity logs and quick access buttons are populated.
+
+4. UI issues: No obvious UI issues. Layout appears intact with no overlapping text or missing elements. All sections are clearly visible and well-organized.
+
+5. Next debugging steps: 
+- Verify that all displayed data matches backend API responses to confirm data integrity.
+- Check console logs for any hidden JavaScript warnings or errors.
+- Test interactive elements (buttons, links) to ensure functionality.
+- Confirm real-time updates (e.g., recent activity) refresh correctly.
+- Validate responsiveness on different screen sizes if applicable.
+[17:33:22.576] 
+
+[17:33:22.576] ╔═══════════════════════════════════════════════════════════╗
+[17:33:22.577] ║                    DIAGNOSTIC REPORT                     ║
+[17:33:22.577] ╚═══════════════════════════════════════════════════════════╝
+[17:33:22.578] 
+── Network Errors (HTTP 400+) ──
+[17:33:22.578]   ⚠️  400 GET https://www.jaxbengali.org/admin-portal.html
+[17:33:22.578]      Body: 
+  <!DOCTYPE html>
+<!--
+    
+
+    
+
+  
+  
+      
+-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>400 Error: Bad Request</title>
+
+    
+    <script async src="https://static.para
+[17:33:22.579] 
+── All API Requests ──
+[17:33:22.580]   ✅ 200 OPTIONS https://www.jaxbengali.org/_functions/admin_verify_login
+[17:33:22.580]   ✅ 200 POST https://www.jaxbengali.org/_functions/admin_verify_login
+[17:33:22.580]   ✅ 200 OPTIONS https://www.jaxbengali.org/_functions/procurement_list
+[17:33:22.581]   ✅ 200 OPTIONS https://www.jaxbengali.org/_functions/ec_replacement_list
+[17:33:22.581]   ✅ 200 GET https://www.jaxbengali.org/_functions/ec_replacement_list
+[17:33:22.581]   ✅ 200 GET https://www.jaxbengali.org/_functions/procurement_list
+[17:33:22.582]   ✅ 200 GET https://banfwix.wixsite.com/banf1/_functions/dev_board_state
+[17:33:22.582]   ✅ 200 GET https://www.jaxbengali.org/_functions/ledger?year=2026&limit=1000
+[17:33:22.583]   ⚠️  400 GET https://www.jaxbengali.org/admin-portal.html
+[17:33:22.583]   ✅ 200 GET https://www.jaxbengali.org/favicon.ico
+[17:33:22.583]   ✅ 302 GET https://www.jaxbengali.org/_functions/admin_portal
+[17:33:22.584]   ✅ 200 GET https://www.jaxbengali.org/_functions/procurement_list
+[17:33:22.584]   ✅ 200 GET https://www.jaxbengali.org/_functions/ec_replacement_list
+[17:33:22.584]   ✅ 200 GET https://banfwix.wixsite.com/banf1/_functions/dev_board_state
+[17:33:22.585]   ✅ 200 GET https://banfwix.wixsite.com/banf1/_functions/dev_board_state
+[17:33:22.585]   ✅ 200 OPTIONS https://www.jaxbengali.org/_functions/admin_verify_login
+[17:33:22.585]   ✅ 200 POST https://www.jaxbengali.org/_functions/admin_verify_login
+[17:33:22.585]   ✅ 200 GET https://www.jaxbengali.org/_functions/procurement_list
+[17:33:22.585]   ✅ 200 GET https://www.jaxbengali.org/_functions/ec_replacement_list
+[17:33:22.585] 
+── Console Errors ──
+[17:33:22.586]   🔴 [error] Failed to load resource: the server responded with a status of 404 ()
+[17:33:22.586]   🔴 [error] Failed to load resource: the server responded with a status of 400 ()
+[17:33:22.586] 
+── Vision Analysis Summary ──
+[17:33:22.586]   Step 1: Just loaded the EC Admin Login page at ec-admin-login.html. Checking if the page...
+[17:33:22.586]     → 1. Visible on screen: EC Admin Login page with fields for email and password, sign-in button, and links for forgot password/email and sign-up.
+2. Error messages: A red banner at the top states "v5.12.0: Amit Chandak Email Corrected — Treasurer email changed from amit.chandak@gmail.com to amit.everyw
+[17:33:22.586]   Step 2: Entered email and password credentials in the login form. About to click sign in...
+[17:33:22.587]     → 1. Visible on screen: Login page for BANF EC Admin Portal with email and password fields filled and "EC Admin Sign In" button ready to be clicked.
+2. Error messages: A red banner at the top states "v5.12.0: Amit Chandak Email Corrected — Treasurer email changed from amit.chandak@gmail.com to amit.ev
+[17:33:22.587]   Step 3: Clicked the login button. URL is now: https://banfjax-hash.github.io/banf/admin-...
+[17:33:22.587]     → 1. Visible on screen: The dashboard of the BANF Admin portal is visible, showing control center stats, capabilities by development stage, recent activity logs, finance quick access, and quick actions.
+
+2. Error messages: No error messages, HTTP errors, JavaScript errors, or alert boxes are visible.
+
+[17:33:22.587]   Step 4: Checking the portal state after login. Current URL: https://banfjax-hash.github....
+[17:33:22.587]     → 1. Visible on screen: The dashboard of the BANF Admin portal after login.
+2. Error messages: None visible; no HTTP errors, JavaScript errors, or alert boxes shown.
+3. Application state: Logged in, fully loaded, showing data and recent activity logs.
+4. UI issues: No visible layout issues, missing el
+[17:33:22.588]   Step 5: Checking the dashboard panel content after all API calls completed. Active panel...
+[17:33:22.588]     → 1. Visible on screen: The dashboard panel of the BANF Admin web application, showing control center stats, capabilities by development stage, recent activity logs, finance quick access buttons, and quick actions.
+
+2. Error messages: None visible. No HTTP errors, JavaScript errors, alert boxes, or re
+[17:33:22.588]   Step 7: Navigated to Procurement then Ledger Report panels. 0 new network errors. Checki...
+[17:33:22.588]     → 1. Visible on screen: The Ledger Report panel under the Finance section of the BANF Admin dashboard, showing an Income & Expense financial ledger report with detailed transaction entries.
+
+2. Error messages: No HTTP errors, JavaScript errors, or alert boxes are visible. No "400" or "500" error codes
+[17:33:22.588]   Step 7: Wix Direct URL Test...
+[17:33:22.588]     → CONFIRMED 400: www.jaxbengali.org/admin-portal.html returns HTTP 400. Wix CDN cannot serve .html files. Users must use /_functions/admin_portal (302 → GitHub Pages) or access GitHub Pages directly at banfjax-hash.github.io/banf/admin-portal.html
+[17:33:22.588]   Step 8: Tested www.jaxbengali.org/admin-portal.html directly. This URL bypasses the /_fu...
+[17:33:22.588]     → 1. Visible on screen: An error message page.
+2. Error messages: HTTP 400 error with text "ERROR: BAD REQUEST" and "There's an issue with your request. This action can't be completed."
+3. Application state: Error state, request failed.
+4. UI issues: No UI layout issues; the error message is clearly d
+[17:33:22.588]   Step 9: Tested www.jaxbengali.org/_functions/admin_portal redirect. Final URL: https://b...
+[17:33:22.589]     → 1. Visible on screen: The dashboard of the BANF Admin portal, showing control center stats, capabilities by development stage, recent activity logs, finance quick access buttons, and navigation menus.
+2. Error messages: None visible; no HTTP errors, JavaScript errors, or alert boxes are present.
+3. 
+[17:33:22.589]   Step 10: Loaded admin-portal.html directly and attempted login. Total network errors: 1. ...
+[17:33:22.589]     → 1. Visible on screen: The admin portal dashboard is fully loaded, showing control center stats, capabilities by development stage, recent activity, finance quick access, and quick actions.
+
+2. Error messages: No visible error messages, no HTTP errors like 400 or 500, no JavaScript errors, no alert b
+[17:33:22.589]   Step 11: Checking the portal state after login. Current URL: https://banfjax-hash.github....
+[17:33:22.589]     → 1. Visible on screen: The dashboard of the BANF Admin portal after login, showing control center stats, capabilities by development stage, recent activity, finance quick access, and quick actions.
+
+2. Error messages: No visible error messages, HTTP errors, JavaScript errors, or alert boxes on screen
+[17:33:22.589]   Step 12: Checking the dashboard panel content after all API calls completed. Active panel...
+[17:33:22.589]     → 1. Visible on screen: The dashboard panel of a web application named "BANF Admin" with various sections including control center stats, capabilities by development stage, recent activity, finance quick access, and quick actions.
+
+2. Error messages: None visible. No HTTP errors, JavaScript errors, al

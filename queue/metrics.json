@@ -1,22 +1,27 @@
 {
-  "totalEnqueued": 29,
-  "totalProcessed": 12,
+  "totalEnqueued": 99,
+  "totalProcessed": 32,
   "totalFailed": 0,
   "totalDLQ": 0,
   "totalDeduplicated": 0,
   "totalRetried": 0,
   "byQueue": {
     "general": {
-      "enqueued": 17,
+      "enqueued": 67,
       "processed": 0,
       "failed": 0
     },
     "user_query": {
-      "enqueued": 12,
-      "processed": 12,
+      "enqueued": 31,
+      "processed": 31,
+      "failed": 0
+    },
+    "payment": {
+      "enqueued": 1,
+      "processed": 1,
       "failed": 0
     }
   },
-  "lastUpdated": "2026-03-17T23:55:08.113Z",
+  "lastUpdated": "2026-03-22T02:15:37.481Z",
   "createdAt": "2026-03-16T01:15:00.835Z"
 }

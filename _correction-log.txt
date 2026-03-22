@@ -1,0 +1,539 @@
+[2026-03-21 23:34:05] === Correction batch sender RESUMING ===
+[2026-03-21 23:34:05] Event: 61849b36-68e5-41fc-885d-998feafc21f2
+[2026-03-21 23:34:05] Wrong: "Friday, April 24, 2026" → Correct: "Saturday, April 25, 2026"
+[2026-03-21 23:34:05] Batch size: 5, delay: 6000ms
+[2026-03-21 23:34:05] Resuming from offset 0, already sent 0
+[2026-03-21 23:34:05] 
+--- Batch 1 (offset=0, limit=5) ---
+[2026-03-21 23:34:17]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:34:17]   Running total: 5 sent, 0 failed of 261
+[2026-03-21 23:34:17]     ✓ poddojaroy@gmail.com <poddojaroy@gmail.com>
+[2026-03-21 23:34:17]     ✓ Pawan Agarwal <info@sagirealty.com>
+[2026-03-21 23:34:17]     ✓ Varsha Roy <varsharoy.86@gmail.com>
+[2026-03-21 23:34:17]     ✓ Rupa Majumdar <srabana.m@gmail.com>
+[2026-03-21 23:34:17]     ✓ Amit.everywhere@gmail.com <amit.everywhere@gmail.com>
+[2026-03-21 23:34:17]   Waiting 6000ms before next batch...
+[2026-03-21 23:34:23] 
+--- Batch 2 (offset=5, limit=5) ---
+[2026-03-21 23:34:34]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:34:34]   Running total: 10 sent, 0 failed of 261
+[2026-03-21 23:34:34]     ✓ Celina Fouts <celina@janprojacksonville.com>
+[2026-03-21 23:34:34]     ✓ Subrata Mondal <sm.mondal@gmail.com>
+[2026-03-21 23:34:34]     ✓ Soumyajit Dutta <duttasoumyajit86@gmail.com>
+[2026-03-21 23:34:34]     ✓ Dola Sinha <dolasinha@yahoo.com>
+[2026-03-21 23:34:34]     ✓ samirpbhagat@gmail.com <samirpbhagat@gmail.com>
+[2026-03-21 23:34:34]   Waiting 6000ms before next batch...
+[2026-03-21 23:34:40] 
+--- Batch 3 (offset=10, limit=5) ---
+[2026-03-21 23:34:52]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:34:52]   Running total: 15 sent, 0 failed of 261
+[2026-03-21 23:34:52]     ✓ Raj Goswami <raj.goswami@gmail.com>
+[2026-03-21 23:34:52]     ✓ robchatto@aol.com <robchatto@aol.com>
+[2026-03-21 23:34:52]     ✓ Koushik Karmakar <karmakar.2007@gmail.com>
+[2026-03-21 23:34:52]     ✓ Brandon Green <brandon.green@wixclicks.co>
+[2026-03-21 23:34:52]     ✓ Rina Basu Paul <rinabasu31@gmail.com>
+[2026-03-21 23:34:52]   Waiting 6000ms before next batch...
+[2026-03-21 23:34:58] 
+--- Batch 4 (offset=15, limit=5) ---
+[2026-03-21 23:35:09]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:35:09]   Running total: 20 sent, 0 failed of 261
+[2026-03-21 23:35:09]     ✓ Swagatika Tripathy <swagatika.ty@gmail.com>
+[2026-03-21 23:35:09]     ✓ Subhra Roy <subhraroy88@yahoo.com>
+[2026-03-21 23:35:09]     ✓ INDRANI PAUL <indrani.of.paul@gmail.com>
+[2026-03-21 23:35:09]     ✓ SUDESHNA CHATTERJEE <sudeshna.chatterjee1986@gmail.com>
+[2026-03-21 23:35:09]     ✓ milanekadash1996@gmail.com <milanekadash1996@gmail.com>
+[2026-03-21 23:35:09]   Waiting 6000ms before next batch...
+[2026-03-21 23:35:15] 
+--- Batch 5 (offset=20, limit=5) ---
+[2026-03-21 23:35:26]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:35:26]   Running total: 25 sent, 0 failed of 261
+[2026-03-21 23:35:26]     ✓ Sourav Jan <jan.sourav@gmail.com>
+[2026-03-21 23:35:26]     ✓ Sunetra Basu Ghosh <sunetra.basu@gmail.com>
+[2026-03-21 23:35:26]     ✓ peshkarcal@yahoo.com <peshkarcal@yahoo.com>
+[2026-03-21 23:35:26]     ✓ urmi rakshit <urmi.kanya@gmail.com>
+[2026-03-21 23:35:26]     ✓ Souvik Chakraborty (Old Souvik) <souvik.chakraborty87@gmail.com>
+[2026-03-21 23:35:26]   Waiting 6000ms before next batch...
+[2026-03-21 23:35:32] 
+--- Batch 6 (offset=25, limit=5) ---
+[2026-03-21 23:35:43]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:35:43]   Running total: 30 sent, 0 failed of 261
+[2026-03-21 23:35:43]     ✓ Ripon Ray <ripon.ray@britbanglacovid.com>
+[2026-03-21 23:35:43]     ✓ Neha Mandal <neha.mandal@occamsadvisory.com>
+[2026-03-21 23:35:43]     ✓ Tasmim <tasmim@tohfabd.com>
+[2026-03-21 23:35:43]     ✓ Suvendu Maitra <slmaitra@gmail.com>
+[2026-03-21 23:35:43]     ✓ Jiniya Chandra <jiniya.chandra@gmail.com>
+[2026-03-21 23:35:43]   Waiting 6000ms before next batch...
+[2026-03-21 23:35:49] 
+--- Batch 7 (offset=30, limit=5) ---
+[2026-03-21 23:36:04]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:36:04]   Running total: 35 sent, 0 failed of 261
+[2026-03-21 23:36:04]     ✓ Sikhorini .mukherjee <sikhorini@gmail.com>
+[2026-03-21 23:36:04]     ✓ Rahul Bannerjee <weekender_in@yahoo.com>
+[2026-03-21 23:36:04]     ✓ Rajanya Ghosh <rajanya.ghosh1993@gmail.com>
+[2026-03-21 23:36:04]     ✓ Anasuya Banerjee <ana@anasuya.com>
+[2026-03-21 23:36:04]     ✓ Sajal Bagchi <sajal1986@gmail.com>
+[2026-03-21 23:36:04]   Waiting 6000ms before next batch...
+[2026-03-21 23:36:10] 
+--- Batch 8 (offset=35, limit=5) ---
+[2026-03-21 23:36:22]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:36:22]   Running total: 40 sent, 0 failed of 261
+[2026-03-21 23:36:22]     ✓ Souvik Ray <souvik.ray86@gmail.com>
+[2026-03-21 23:36:22]     ✓ Mita Ghosh <mitaghosh1@yahoo.com>
+[2026-03-21 23:36:22]     ✓ johnexum1@outlook.com <johnexum1@outlook.com>
+[2026-03-21 23:36:22]     ✓ Rita Bhattacharjee <ritabhattacharjee@gmail.com>
+[2026-03-21 23:36:22]     ✓ Barnali Mondal <hibarnali@gmail.com>
+[2026-03-21 23:36:22]   Waiting 6000ms before next batch...
+[2026-03-21 23:36:28] 
+--- Batch 9 (offset=40, limit=5) ---
+[2026-03-21 23:36:39]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:36:39]   Running total: 45 sent, 0 failed of 261
+[2026-03-21 23:36:39]     ✓ Jay Chakraborty <jchakrab@gmail.com>
+[2026-03-21 23:36:39]     ✓ Abhra Aich <abhra.aich@gmail.com>
+[2026-03-21 23:36:39]     ✓ senguptaavranil@gmail.com <senguptaavranil@gmail.com>
+[2026-03-21 23:36:39]     ✓ Diptesh <dipteshm@gmail.com>
+[2026-03-21 23:36:39]     ✓ chrissy.m.das@icloud.com <chrissy.m.das@icloud.com>
+[2026-03-21 23:36:39]   Waiting 6000ms before next batch...
+[2026-03-21 23:36:45] 
+--- Batch 10 (offset=45, limit=5) ---
+[2026-03-21 23:36:56]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:36:56]   Running total: 50 sent, 0 failed of 261
+[2026-03-21 23:36:56]     ✓ Tapash Roy <tapashroyk@msn.com>
+[2026-03-21 23:36:56]     ✓ sumantaneogi90@gmail.com <sumantaneogi90@gmail.com>
+[2026-03-21 23:36:56]     ✓ Atmadeep Mazumdar <atmadeep.mazumdar@gmail.com>
+[2026-03-21 23:36:56]     ✓ Navnita Dutta <navnitadutta7@gmail.com>
+[2026-03-21 23:36:56]     ✓ Alex Nelson <info@jaxbengali.org>
+[2026-03-21 23:36:56]   Waiting 6000ms before next batch...
+[2026-03-21 23:37:02] 
+--- Batch 11 (offset=50, limit=5) ---
+[2026-03-21 23:37:13]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:37:13]   Running total: 55 sent, 0 failed of 261
+[2026-03-21 23:37:13]     ✓ shreyartha@gmail.com <shreyartha@gmail.com>
+[2026-03-21 23:37:13]     ✓ Debasmita Roy <roy.debasmita@gmail.com>
+[2026-03-21 23:37:13]     ✓ AKHAYA MOHANTY <emailtoakhaya@gmail.com>
+[2026-03-21 23:37:13]     ✓ Surajit Chakravarty <surajit_c@hotmail.com>
+[2026-03-21 23:37:13]     ✓ mntalukder@yahoo.com <mntalukder@yahoo.com>
+[2026-03-21 23:37:13]   Waiting 6000ms before next batch...
+[2026-03-21 23:37:19] 
+--- Batch 12 (offset=55, limit=5) ---
+[2026-03-21 23:37:31]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:37:31]   Running total: 60 sent, 0 failed of 261
+[2026-03-21 23:37:31]     ✓ Maximilian T. H. Suchy <max@anasuya.com>
+[2026-03-21 23:37:31]     ✓ Soumali Dutta <2soumaliwithlove@gmail.com>
+[2026-03-21 23:37:31]     ✓ Rajasri Chandra <rajasrichandra@yahoo.com>
+[2026-03-21 23:37:31]     ✓ Alak Manna <alak.manna@gmail.com>
+[2026-03-21 23:37:31]     ✓ Swapnoneel Roy <sroy.iitm@gmail.com>
+[2026-03-21 23:37:31]   Waiting 6000ms before next batch...
+[2026-03-21 23:37:37] 
+--- Batch 13 (offset=60, limit=5) ---
+[2026-03-21 23:37:49]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:37:49]   Running total: 65 sent, 0 failed of 261
+[2026-03-21 23:37:49]     ✓ Tariqul <zaim3tariqul1712@gmail.com>
+[2026-03-21 23:37:49]     ✓ inmumanik@gmail.com <inmumanik@gmail.com>
+[2026-03-21 23:37:49]     ✓ Kaushiki Bhattacharya <kb94311@gmail.com>
+[2026-03-21 23:37:49]     ✓ niloy.rc@gmail.com <niloy.rc@gmail.com>
+[2026-03-21 23:37:49]     ✓ Joyita Ganguly <ganguly.joyita@gmail.com>
+[2026-03-21 23:37:49]   Waiting 6000ms before next batch...
+[2026-03-21 23:37:55] 
+--- Batch 14 (offset=65, limit=5) ---
+[2026-03-21 23:38:06]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:38:06]   Running total: 70 sent, 0 failed of 261
+[2026-03-21 23:38:06]     ✓ tanusree.hhalder@gmail.com <tanusree.hhalder@gmail.com>
+[2026-03-21 23:38:06]     ✓ mdhar79@yahoo.com <mdhar79@yahoo.com>
+[2026-03-21 23:38:06]     ✓ John Bailey <john.bailey@funcms.net>
+[2026-03-21 23:38:06]     ✓ tanaybhaduri@gmail.com <tanaybhaduri@gmail.com>
+[2026-03-21 23:38:06]     ✓ Pradip RudraPal <sculptorpradiprudrapal@gmail.com>
+[2026-03-21 23:38:06]   Waiting 6000ms before next batch...
+[2026-03-21 23:38:12] 
+--- Batch 15 (offset=70, limit=5) ---
+[2026-03-21 23:38:24]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:38:24]   Running total: 75 sent, 0 failed of 261
+[2026-03-21 23:38:24]     ✓ hazradipa05@gmail.com <hazradipa05@gmail.com>
+[2026-03-21 23:38:24]     ✓ Adelia Nason <adelia@crystallclearcrew.com>
+[2026-03-21 23:38:24]     ✓ manokmc@gmail.com <manokmc@gmail.com>
+[2026-03-21 23:38:24]     ✓ Sumon Ghosh <suman.ghosh12@gmail.com>
+[2026-03-21 23:38:24]     ✓ Nilay Chandra <chandranilay@gmail.com>
+[2026-03-21 23:38:24]   Waiting 6000ms before next batch...
+[2026-03-21 23:38:30] 
+--- Batch 16 (offset=75, limit=5) ---
+[2026-03-21 23:38:42]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:38:42]   Running total: 80 sent, 0 failed of 261
+[2026-03-21 23:38:42]     ✓ mmegha.garg@gmail.com <mmegha.garg@gmail.com>
+[2026-03-21 23:38:42]     ✓ Shilpi Banerjee <shilpibanerjee07@gmail.com>
+[2026-03-21 23:38:42]     ✓ priyanka.ghosh@gmail.com <priyanka.ghosh@gmail.com>
+[2026-03-21 23:38:42]     ✓ Bhaskar Roy <bhaskarroy24@gmail.com>
+[2026-03-21 23:38:42]     ✓ Moushumi Mondal <moushumi.mondal@gmail.com>
+[2026-03-21 23:38:42]   Waiting 6000ms before next batch...
+[2026-03-21 23:38:48] 
+--- Batch 17 (offset=80, limit=5) ---
+[2026-03-21 23:39:00]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:39:00]   Running total: 85 sent, 0 failed of 261
+[2026-03-21 23:39:00]     ✓ priyachakraborty92@gmail.com <priyachakraborty92@gmail.com>
+[2026-03-21 23:39:00]     ✓ raka1027@aol.com <raka1027@aol.com>
+[2026-03-21 23:39:00]     ✓ Rajarshi Majumdar <rajarshi.majumdar@gmail.com>
+[2026-03-21 23:39:00]     ✓ Anupriya <anupriyaganguly44@gmail.com>
+[2026-03-21 23:39:00]     ✓ a@b.com <a@b.com>
+[2026-03-21 23:39:00]   Waiting 6000ms before next batch...
+[2026-03-21 23:39:06] 
+--- Batch 18 (offset=85, limit=5) ---
+[2026-03-21 23:39:17]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:39:17]   Running total: 90 sent, 0 failed of 261
+[2026-03-21 23:39:17]     ✓ shilpikessler@gmail.com <shilpikessler@gmail.com>
+[2026-03-21 23:39:17]     ✓ Ayan Dutta <duttaayan.cs@gmail.com>
+[2026-03-21 23:39:17]     ✓ Poonam Sanyal <poonam.sanyal@gmail.com>
+[2026-03-21 23:39:17]     ✓ Sonu Roy <sonuroy123@gmail.com>
+[2026-03-21 23:39:17]     ✓ Swati Mehta <mehta.swati2011@gmail.com>
+[2026-03-21 23:39:17]   Waiting 6000ms before next batch...
+[2026-03-21 23:39:23] 
+--- Batch 19 (offset=90, limit=5) ---
+[2026-03-21 23:39:35]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:39:35]   Running total: 95 sent, 0 failed of 261
+[2026-03-21 23:39:35]     ✓ dutta.shamit2000@gmail.com <dutta.shamit2000@gmail.com>
+[2026-03-21 23:39:35]     ✓ Sumana Di <aroyc55@gmail.com>
+[2026-03-21 23:39:35]     ✓ T BANAMBAR PATRA <aaactionllc@gmail.com>
+[2026-03-21 23:39:35]     ✓ Bithika Roy <bithikaroy96@gmail.com>
+[2026-03-21 23:39:35]     ✓ Nandini Dutta <dutta.nandini47@gmail.com>
+[2026-03-21 23:39:35]   Waiting 6000ms before next batch...
+[2026-03-21 23:39:41] 
+--- Batch 20 (offset=95, limit=5) ---
+[2026-03-21 23:39:57]   ⚠ Batch 20 attempt 1 failed: Parse error (504): Something went wrong. Please contact the site administrator
+[2026-03-21 23:39:57]   Retrying in 12000ms...
+[2026-03-21 23:40:21]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:40:21]   Running total: 100 sent, 0 failed of 261
+[2026-03-21 23:40:21]     ✓ Bratasree Chatterjee <chatterjeebratasree@gmail.com>
+[2026-03-21 23:40:21]     ✓ Joe Miller <info@domainworld.com>
+[2026-03-21 23:40:21]     ✓ Baidya Nath Sarkar <bns@hotmail.co.in>
+[2026-03-21 23:40:21]     ✓ Amitava Roychoudhury <aroyc001@netzero.com>
+[2026-03-21 23:40:21]     ✓ Kalyan Chakrabarti <kalyan32258@yahoo.com>
+[2026-03-21 23:40:21]   Waiting 6000ms before next batch...
+[2026-03-21 23:40:27] 
+--- Batch 21 (offset=100, limit=5) ---
+[2026-03-21 23:40:40]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:40:40]   Running total: 105 sent, 0 failed of 261
+[2026-03-21 23:40:40]     ✓ suvo dasgupta <suvodasgupta@gmail.com>
+[2026-03-21 23:40:40]     ✓ Biyas <bandematarom@hotmail.com>
+[2026-03-21 23:40:40]     ✓ Caden Schmidt <caden.schmidt@wixful.site>
+[2026-03-21 23:40:40]     ✓ Harman <harmansekhon@gmail.com>
+[2026-03-21 23:40:40]     ✓ Varsha Ganguly <vartew@gmail.com>
+[2026-03-21 23:40:40]   Waiting 6000ms before next batch...
+[2026-03-21 23:40:46] 
+--- Batch 22 (offset=105, limit=5) ---
+[2026-03-21 23:41:01]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:41:01]   Running total: 110 sent, 0 failed of 261
+[2026-03-21 23:41:01]     ✓ Ananta Kumar Sarkar <graphiksdue@gmail.com>
+[2026-03-21 23:41:01]     ✓ Uma Hazra <uma.417@gmail.com>
+[2026-03-21 23:41:01]     ✓ Nandita Guin <g.nnandita@gmail.com>
+[2026-03-21 23:41:01]     ✓ manalimukherjee47@gmail.com <manalimukherjee47@gmail.com>
+[2026-03-21 23:41:01]     ✓ DEBASHIS GANGULY <deba10@gmail.com>
+[2026-03-21 23:41:01]   Waiting 6000ms before next batch...
+[2026-03-21 23:41:07] 
+--- Batch 23 (offset=110, limit=5) ---
+[2026-03-21 23:41:19]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:41:19]   Running total: 115 sent, 0 failed of 261
+[2026-03-21 23:41:19]     ✓ Bidhan Das <bidhan138@gmail.com>
+[2026-03-21 23:41:19]     ✓ Amit <asahaech@yahoo.com>
+[2026-03-21 23:41:19]     ✓ RAMARAO GARIMELLA <rgarimella99@gmail.com>
+[2026-03-21 23:41:19]     ✓ Ipshita Roy <sudipshita@yahoo.com>
+[2026-03-21 23:41:19]     ✓ Shom Ghosh <shomgos@gmail.com>
+[2026-03-21 23:41:19]   Waiting 6000ms before next batch...
+[2026-03-21 23:41:25] 
+--- Batch 24 (offset=115, limit=5) ---
+[2026-03-21 23:41:37]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:41:37]   Running total: 120 sent, 0 failed of 261
+[2026-03-21 23:41:37]     ✓ Jared Leiman <jared@apostillellc.com>
+[2026-03-21 23:41:37]     ✓ Brian Murphy <brianmurphy@metaappdesignes.com>
+[2026-03-21 23:41:37]     ✓ Sourav Pal <palsourav30@gmail.com>
+[2026-03-21 23:41:37]     ✓ banfjax@gmail.com <banfjax@gmail.com>
+[2026-03-21 23:41:37]     ✓ Sanhita Roy <sanhitadas_2000@yahoo.com>
+[2026-03-21 23:41:37]   Waiting 6000ms before next batch...
+[2026-03-21 23:41:43] 
+--- Batch 25 (offset=120, limit=5) ---
+[2026-03-21 23:41:55]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:41:55]   Running total: 125 sent, 0 failed of 261
+[2026-03-21 23:41:55]     ✓ Samiran Chandra <samiran.chandra@gmail.com>
+[2026-03-21 23:41:55]     ✓ Anindya (Peter) Roy Choudhury <royc.anindya@gmail.com>
+[2026-03-21 23:41:55]     ✓ enggchapan@gmail.com <enggchapan@gmail.com>
+[2026-03-21 23:41:55]     ✓ sharmi5002@gmail.com <sharmi5002@gmail.com>
+[2026-03-21 23:41:55]     ✓ James <jamesphelan347@gmail.com>
+[2026-03-21 23:41:55]   Waiting 6000ms before next batch...
+[2026-03-21 23:42:01] 
+--- Batch 26 (offset=125, limit=5) ---
+[2026-03-21 23:42:13]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:42:13]   Running total: 130 sent, 0 failed of 261
+[2026-03-21 23:42:13]     ✓ Anna MacLeod <anna@summitshinecleaning.com>
+[2026-03-21 23:42:13]     ✓ alokdev@hotmail.com <alokdev@hotmail.com>
+[2026-03-21 23:42:13]     ✓ Dipra Ghosh <ghosh.dipra@gmail.com>
+[2026-03-21 23:42:13]     ✓ Samrat Banerjee <samratbanerjee120@gmail.com>
+[2026-03-21 23:42:13]     ✓ Saikat Natta <natta.saikat@gmail.com>
+[2026-03-21 23:42:13]   Waiting 6000ms before next batch...
+[2026-03-21 23:42:19] 
+--- Batch 27 (offset=130, limit=5) ---
+[2026-03-21 23:42:30]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:42:30]   Running total: 135 sent, 0 failed of 261
+[2026-03-21 23:42:30]     ✓ gautambose12408@gmail.com <gautambose12408@gmail.com>
+[2026-03-21 23:42:30]     ✓ Bulbul Chaudhary <bharatiart2000@yahoo.com>
+[2026-03-21 23:42:30]     ✓ vbbs04@gmail.com <vbbs04@gmail.com>
+[2026-03-21 23:42:30]     ✓ banerjee04ananya@gmai.com <banerjee04ananya@gmai.com>
+[2026-03-21 23:42:30]     ✓ Rajarshi Chattopadhyay <art.rajarshi@gmail.com>
+[2026-03-21 23:42:30]   Waiting 6000ms before next batch...
+[2026-03-21 23:42:36] 
+--- Batch 28 (offset=135, limit=5) ---
+[2026-03-21 23:42:51]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:42:51]   Running total: 140 sent, 0 failed of 261
+[2026-03-21 23:42:51]     ✓ Nilanjana B <nilanb@gmail.com>
+[2026-03-21 23:42:51]     ✓ Mukul Saha <mukulsaha89@gmail.com>
+[2026-03-21 23:42:51]     ✓ swarnendu.sen@gmail.com <swarnendu.sen@gmail.com>
+[2026-03-21 23:42:51]     ✓ Ras Mazumder <rasmazumder@aol.com>
+[2026-03-21 23:42:51]     ✓ Priyanka Majumder <priyanka16587@gmail.com>
+[2026-03-21 23:42:51]   Waiting 6000ms before next batch...
+[2026-03-21 23:42:57] 
+--- Batch 29 (offset=140, limit=5) ---
+[2026-03-21 23:43:08]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:43:08]   Running total: 145 sent, 0 failed of 261
+[2026-03-21 23:43:08]     ✓ Sunanda Banerjee <sunanda.banerjee@gmail.com>
+[2026-03-21 23:43:08]     ✓ Lopita Majumdar <lopita.majumdar@gmail.com>
+[2026-03-21 23:43:08]     ✓ Sanchari Bhattacharyya <tosanchari@gmail.com>
+[2026-03-21 23:43:08]     ✓ Soumita Goswami <soumitagoswami05@gmail.com>
+[2026-03-21 23:43:08]     ✓ sangat000@gmail.com <sangat000@gmail.com>
+[2026-03-21 23:43:08]   Waiting 6000ms before next batch...
+[2026-03-21 23:43:14] 
+--- Batch 30 (offset=145, limit=5) ---
+[2026-03-21 23:43:25]   ✓ Sent: 5, Failed: 0, BatchSize: 5
+[2026-03-21 23:43:25]   Running total: 150 sent, 0 failed of 261
+[2026-03-21 23:43:25]     ✓ Upasana Banerjee <upasana.york.88@gmail.com>
+[2026-03-21 23:43:25]     ✓ Samiksha Bose <sbose84390@aol.com>
+[2026-03-21 23:43:25]     ✓ Nabo Roy <nabokumar09@gmail.com>
+[2026-03-21 23:43:25]     ✓ rana.soma11@gmail.com <rana.soma11@gmail.com>
+[2026-03-21 23:43:25]     ✓ vikramjit banerjee <tukiguitarman@yahoo.com>
+[2026-03-21 23:43:25]   Waiting 6000ms before next batch...
+[2026-03-21 23:43:31] 
+--- Batch 31 (offset=150, limit=5) ---
+[2026-03-21 23:43:32]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:43:32]   Running total: 150 sent, 5 failed of 261
+[2026-03-21 23:43:32]     ✗ Sudipto <sudipto.sbyn@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.113Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.113Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:32]     ✗ SANAT  ROY <henasanat@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.213Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.213Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:32]     ✗ Anita Mandal <anitapmandal@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.310Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.310Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:32]     ✗ Santanu Bhattacharya <tosantanu@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.404Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.404Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:32]     ✗ Gourab Saha <gourabhere@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.499Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:32.499Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:32]   Waiting 6000ms before next batch...
+[2026-03-21 23:43:38] 
+--- Batch 32 (offset=155, limit=5) ---
+[2026-03-21 23:43:39]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:43:39]   Running total: 150 sent, 10 failed of 261
+[2026-03-21 23:43:39]     ✗ Chandra Ganguly <chandra.ganguly6@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.473Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.473Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:39]     ✗ Arnab Sanyal <arnabsanyal2002@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.552Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.552Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:39]     ✗ Saugata Das <mrsaugatadas@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.645Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.645Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:39]     ✗ asikdar28@gmail.com <asikdar28@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.743Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.743Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:39]     ✗ Mita Sarkar <mitasarkar@aol.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.821Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:39.821Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:39]   Waiting 6000ms before next batch...
+[2026-03-21 23:43:45] 
+--- Batch 33 (offset=160, limit=5) ---
+[2026-03-21 23:43:47]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:43:47]   Running total: 150 sent, 15 failed of 261
+[2026-03-21 23:43:47]     ✗ Lena Charles <lena@breezycleaners.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.782Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.782Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:47]     ✗ Krishna Di <r.se47@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.877Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.877Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:47]     ✗ Subhra Ganguly <subhra.ganguly99@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.971Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:46.971Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:47]     ✗ Pradip Ghimire <pradipkghimire@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.072Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.072Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:47]     ✗ Asok Chaudhuri <asokchaudhuri@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.171Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:47.171Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:47]   Waiting 6000ms before next batch...
+[2026-03-21 23:43:53] 
+--- Batch 34 (offset=165, limit=5) ---
+[2026-03-21 23:43:54]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:43:54]   Running total: 150 sent, 20 failed of 261
+[2026-03-21 23:43:54]     ✗ Uttam Mistry <uttamkgec@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.171Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.171Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:54]     ✗ Rupan Sanyal <rupan.sanyal@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.263Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.263Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:54]     ✗ Joshua Taylor <joshua@northfloridaclean.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.368Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.368Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:54]     ✗ Goutam Panda <goutampus@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.480Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.480Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:54]     ✗ Daniel Bush <daniel@northfloridaclean.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.611Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:58:54.611Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:43:54]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:00] 
+--- Batch 35 (offset=170, limit=5) ---
+[2026-03-21 23:44:02]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:02]   Running total: 150 sent, 25 failed of 261
+[2026-03-21 23:44:02]     ✗ Zamecnik Renota <janlaurenft4g@hotmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.598Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.598Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:02]     ✗ Bonnie Das <dasban3@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.699Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.699Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:02]     ✗ Kapil Sadhu <kapil.sadhu@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.799Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.799Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:02]     ✗ suchitrab4@gmail.com <suchitrab4@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.899Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:01.899Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:02]     ✗ Swarnali Das <ucc.swarnali@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:02.001Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:02.001Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:02]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:08] 
+--- Batch 36 (offset=175, limit=5) ---
+[2026-03-21 23:44:09]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:09]   Running total: 150 sent, 30 failed of 261
+[2026-03-21 23:44:09]     ✗ tdey5@asu.edu <tdey5@asu.edu> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:08.955Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:08.955Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:09]     ✗ Stuti Bagchi <bagchibhaduristuti93@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.049Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.049Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:09]     ✗ Sarah <sarah.castles1@servicewrapgo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.144Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.144Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:09]     ✗ Anjali Gupta <dr_anjaligupta@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.222Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.222Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:09]     ✗ Sonika Das <sonika@mumukshulife.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.324Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:09.324Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:09]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:15] 
+--- Batch 37 (offset=180, limit=5) ---
+[2026-03-21 23:44:16]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:16]   Running total: 150 sent, 35 failed of 261
+[2026-03-21 23:44:16]     ✗ Swati Dutta <swati.dutta1409@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.291Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.291Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:16]     ✗ Barnali Debu <barna_dev@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.386Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.386Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:16]     ✗ Indian soul band <indiansoulband19@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.477Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.477Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:16]     ✗ Jay Ghosh <jayanta0@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.573Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.573Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:16]     ✗ rnsanyal@gmail.com <rnsanyal@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.667Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:16.667Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:16]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:22] 
+--- Batch 38 (offset=185, limit=5) ---
+[2026-03-21 23:44:23]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:23]   Running total: 150 sent, 40 failed of 261
+[2026-03-21 23:44:23]     ✗ David Russo <david.russo@epiccms.net> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.608Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.608Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:23]     ✗ Poushali Datta <poushalidatta1@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.709Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.709Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:23]     ✗ Tarit Mondal <trt.mondal@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.810Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.810Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:23]     ✗ Soumo Chakravarty <soumo.chakravarty@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.909Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:23.909Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:23]     ✗ Mayukh Das <dasmayukh@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:24.007Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:24.007Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:23]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:29] 
+--- Batch 39 (offset=190, limit=5) ---
+[2026-03-21 23:44:31]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:31]   Running total: 150 sent, 45 failed of 261
+[2026-03-21 23:44:31]     ✗ Dawson Mullins <dawson.mullins@kitcms.net> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:30.956Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:30.956Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:31]     ✗ Anirban Ghosh <anirban.ninja@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.049Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.049Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:31]     ✗ Paromita Dutta <paromita.dutta5@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.124Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.124Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:31]     ✗ Supriya Chatterjee <scrj.1982@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.218Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.218Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:31]     ✗ Sudip Roy <roysu2000@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.313Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:31.313Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:31]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:37] 
+--- Batch 40 (offset=195, limit=5) ---
+[2026-03-21 23:44:38]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:38]   Running total: 150 sent, 50 failed of 261
+[2026-03-21 23:44:38]     ✗ Munmun Maitra <munmun_maitra@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.248Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.248Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:38]     ✗ Holly Goswami <holly_goswami@buildfusion.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.345Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.345Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:38]     ✗ ANUPRIYA MUKHERJEE <moonmukherjee@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.435Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.435Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:38]     ✗ SARSUNA PURBAPARA SWAPNALU <swapnalunatyodol@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.527Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.527Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:38]     ✗ maitramunmun224@gmail.com <maitramunmun224@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.619Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:38.619Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:38]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:44] 
+--- Batch 41 (offset=200, limit=5) ---
+[2026-03-21 23:44:45]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:45]   Running total: 150 sent, 55 failed of 261
+[2026-03-21 23:44:45]     ✗ James Hinds <jim@bamboocando.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.529Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.529Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:45]     ✗ Sekhar Naskar <naskar_s@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.625Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.625Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:45]     ✗ Paramita Pal <runaparamita@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.719Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.719Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:45]     ✗ Latika Mukherjee <lmukhe@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.810Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.810Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:45]     ✗ Chiradip Chatterjee <cchat003@fiu.edu> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.903Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:45.903Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:45]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:51] 
+--- Batch 42 (offset=205, limit=5) ---
+[2026-03-21 23:44:53]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:44:53]   Running total: 150 sent, 60 failed of 261
+[2026-03-21 23:44:53]     ✗ Reshma Bhadra Das <reshmabhadra@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.790Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.790Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:53]     ✗ Sharmistha Poddar <sharmi.p09@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.881Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.881Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:53]     ✗ Rupanjan Choudhury <rupanjanc@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.976Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:52.976Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:53]     ✗ Chandra Ghosh <ghosh.chandra47@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.070Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.070Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:53]     ✗ Joyeeta Polley <joyeeta.all@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.164Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-21T23:59:53.164Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:44:53]   Waiting 6000ms before next batch...
+[2026-03-21 23:44:59] 
+--- Batch 43 (offset=210, limit=5) ---
+[2026-03-21 23:45:00]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:00]   Running total: 150 sent, 65 failed of 261
+[2026-03-21 23:45:00]     ✗ Sanjukta Chandra <sanjuktacdas@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.092Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.092Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:00]     ✗ janasangha2003@gmail.com <janasangha2003@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.186Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.186Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:00]     ✗ Dipak Roy <dipak.chebri@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.277Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.277Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:00]     ✗ Angsuman Saha <angsu.saha01@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.374Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.374Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:00]     ✗ Indrani Dutta <dindrani74@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.474Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:00.474Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:00]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:06] 
+--- Batch 44 (offset=215, limit=5) ---
+[2026-03-21 23:45:07]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:07]   Running total: 150 sent, 70 failed of 261
+[2026-03-21 23:45:07]     ✗ Rai Sanyal <raisanyal@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.593Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.593Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:07]     ✗ Sourav Roychoudhury <sourav.roychoudhury@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.694Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.694Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:07]     ✗ Shilpa <friendshilp1@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.789Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.789Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:07]     ✗ Evan Ball <evan.ball@pushcms.net> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.869Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.869Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:07]     ✗ Andy Mukherjee <andy.mukherjee2005@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.963Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:07.963Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:07]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:13] 
+--- Batch 45 (offset=220, limit=5) ---
+[2026-03-21 23:45:15]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:15]   Running total: 150 sent, 75 failed of 261
+[2026-03-21 23:45:15]     ✗ Amit Ari <amit.aot@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.836Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.836Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:15]     ✗ Amrita <amrriita@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.950Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:14.950Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:15]     ✗ Madhumita Mazumdar <madhumita.mazumdar3@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.049Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.049Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:15]     ✗ kankana.ari@gmail.com <kankana.ari@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.147Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.147Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:15]     ✗ Maureen Rucker <maureen.r@theprofessionalprofiles.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.238Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:15.238Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:15]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:21] 
+--- Batch 46 (offset=225, limit=5) ---
+[2026-03-21 23:45:22]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:22]   Running total: 150 sent, 80 failed of 261
+[2026-03-21 23:45:22]     ✗ sudiptaganguly4@gmail.com <sudiptaganguly4@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.160Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.160Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:22]     ✗ BANANI DHAR <bdhar75@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.259Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.259Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:22]     ✗ Aparna Chakravarty <chakfam5@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.355Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.355Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:22]     ✗ indranil ganguly <indranil.india@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.449Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.449Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:22]     ✗ Shannon Jhunjhunwala <shannonjhunjhunwala@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.544Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:22.544Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:22]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:28] 
+--- Batch 47 (offset=230, limit=5) ---
+[2026-03-21 23:45:30]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:30]   Running total: 150 sent, 85 failed of 261
+[2026-03-21 23:45:30]     ✗ Colleen Lauter <colleen@janprojacksonville.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.693Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.693Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:30]     ✗ Sanghamitra Chandra <riyachandra1988@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.787Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.787Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:30]     ✗ Rituparna <rituparna1917@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.880Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.880Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:30]     ✗ Dibendu Roy <dbroy05@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.977Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:29.977Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:30]     ✗ endoscorpion@gmail.com <endoscorpion@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:30.051Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:30.051Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:30]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:36] 
+--- Batch 48 (offset=235, limit=5) ---
+[2026-03-21 23:45:37]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:37]   Running total: 150 sent, 90 failed of 261
+[2026-03-21 23:45:37]     ✗ Dia Mitra <dia.dmitra@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.815Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.815Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:37]     ✗ Ray Fountain <ray@ameliaclean.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.909Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:36.909Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:37]     ✗ avranil82@gmail.com <avranil82@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.004Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.004Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:37]     ✗ Abhijit <makhabhi@isu.edu> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.100Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.100Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:37]     ✗ pranab_nyc@hotmail.com <pranab_nyc@hotmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.179Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:37.179Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:37]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:43] 
+--- Batch 49 (offset=240, limit=5) ---
+[2026-03-21 23:45:44]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:44]   Running total: 150 sent, 95 failed of 261
+[2026-03-21 23:45:44]     ✗ Moumita Mitra <tinnee223@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.101Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.101Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:44]     ✗ souvickdesign1@gmail.com <souvickdesign1@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.188Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.188Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:44]     ✗ Paulami Guha <drpaulami@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.280Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.280Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:44]     ✗ Tarun Lalan <feedback@smarthumanoid.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.377Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.377Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:44]     ✗ Soma Choudhury <soma1979p@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.468Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:44.468Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:44]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:50] 
+--- Batch 50 (offset=245, limit=5) ---
+[2026-03-21 23:45:51]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:51]   Running total: 150 sent, 100 failed of 261
+[2026-03-21 23:45:51]     ✗ sumit_system@yahoo.com <sumit_system@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.353Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.353Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:51]     ✗ Sreya Ghosh <sreya.ghosh1510@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.452Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.452Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:51]     ✗ Wes Duke <wes.duke@buzzcms.net> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.551Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.551Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:51]     ✗ Rajib S <rajibs123@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.648Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.648Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:51]     ✗ sangita <schawlia@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.745Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:51.745Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:51]   Waiting 6000ms before next batch...
+[2026-03-21 23:45:57] 
+--- Batch 51 (offset=250, limit=5) ---
+[2026-03-21 23:45:58]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:45:58]   Running total: 150 sent, 105 failed of 261
+[2026-03-21 23:45:58]     ✗ Melanie Payne <melanie@capitalcitycleanguild.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.619Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.619Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:58]     ✗ Suvankar Paul <suvankar.paul@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.714Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.714Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:58]     ✗ Annandita Mukherjee <annem25f@yahoo.co.in> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.836Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.836Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:58]     ✗ Pallavi Chakraborty <pallavib_00@yahoo.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.932Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:58.932Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:58]     ✗ Ranadhir Ghosh <ranadhir.ghosh@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:59.031Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:00:59.031Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:45:58]   Waiting 6000ms before next batch...
+[2026-03-21 23:46:04] 
+--- Batch 52 (offset=255, limit=5) ---
+[2026-03-21 23:46:06]   ✓ Sent: 0, Failed: 5, BatchSize: 5
+[2026-03-21 23:46:06]   Running total: 150 sent, 110 failed of 261
+[2026-03-21 23:46:06]     ✗ mukhopadhyay.partha <mukhopadhyay.partha@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.147Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.147Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:46:06]     ✗ amit.chandak <amit.chandak@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.241Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.241Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:46:06]     ✗ rajanya.ghosh <rajanya.ghosh@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.345Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.345Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:46:06]     ✗ moumita.mukherje <moumita.mukherje@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.427Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.427Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:46:06]     ✗ sumo475 <sumo475@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.526Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:06.526Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:46:06]   Waiting 6000ms before next batch...
+[2026-03-21 23:46:12] 
+--- Batch 53 (offset=260, limit=5) ---
+[2026-03-21 23:46:13]   ✓ Sent: 0, Failed: 1, BatchSize: 1
+[2026-03-21 23:46:13]   Running total: 150 sent, 111 failed of 261
+[2026-03-21 23:46:13]     ✗ rwitichoudhury <rwitichoudhury@gmail.com> ERR: {"code":429,"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:13.499Z (Mail sending)","errors":[{"message":"User-rate limit exceeded.  Retry after 2026-03-22T00:01:13.499Z (Mail sending)","domain":"global","reason":"rateLimitExceeded"}],"status":"RESOURCE_EXHAUSTED"}
+[2026-03-21 23:46:13] 
+=== CORRECTION COMPLETE ===
+[2026-03-21 23:46:13] Total sent: 150
+[2026-03-21 23:46:13] Total failed: 111
+[2026-03-21 23:46:13] Total unique recipients: 261
+[2026-03-21 23:46:13] Batches: 53
+[2026-03-21 23:46:13] Duration: 23413574s

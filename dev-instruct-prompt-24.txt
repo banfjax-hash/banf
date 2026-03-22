@@ -1,1 +1,40 @@
-You are working on the BANF (Bengali Association of North Florida) platform.Workspace: C:\projects\banfKey files: banf1-wix/src/backend/http-functions.js, bosonto-email-reader-agent.js, banf1-wix/src/public/admin-portal.htmlTASK FROM PRESIDENT:1) there are many got hub run failures emailmessages . The email message reader should classify this and send to devpipeline to analyze further the issue and fix if required2) create a reconciled ledger report from 27th of feb to current in htmland send to president3) Other than reimbursement , there should be an event wise expense /costreconciliation agent which will be connected to all income and expensepipeline as they are updated for a particular event , and there should be afeature / functionality called event final reconciliation submit, whichtreasurer, vp and president will  be able to see the current status, modify/ add manually and finally submit the final version for approval fromtreasurer, vp and president and ready for audit.INSTRUCTIONS:1. Analyze the task and identify all affected files2. Implement the changes with proper error handling3. Create or update tests as needed4. Ensure backward compatibility5. Follow existing code patterns and conventions6. After implementation, run any relevant tests7. Provide a clear summary of what was changed and test resultsIMPORTANT:- Do NOT break existing functionality- Use the existing OAuth2 credentials and email patterns- Follow the Change Agent workflow (submit CR, create ticket)- Update architecture docs if needed
+You are working on the BANF (Bengali Association of North Florida) platform.
+Workspace: c:\projects\banf
+Key files: banf1-wix/src/backend/http-functions.js, bosonto-email-reader-agent.js, banf1-wix/src/public/admin-portal.html
+
+TASK FROM PRESIDENT:
+Fix GitHub Actions failure in banfjax-hash/banf
+
+[AUTO-DETECTED GITHUB ACTIONS FAILURE]
+
+Repository: banfjax-hash/banf
+Workflow: .github/workflows/android
+Date: Sat, 21 Mar 2026 15:11:42 -0700
+Email Subject: [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (3028116)
+
+FAILURE DETAILS:
+[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run
+
+Repository: banfjax-hash/banf
+Workflow: .github/workflows/android-ci.yml
+Duration: 0.0 seconds
+Finished: 2026-03-21 22:11:22 UTC
+
+View results: https://github.com/banfjax-hash/banf/actions/runs/23389910967
+
+Jobs:
+
+INSTRUCTIONS:
+1. Analyze the task and identify all affected files
+2. Implement the changes with proper error handling
+3. Create or update tests as needed
+4. Ensure backward compatibility
+5. Follow existing code patterns and conventions
+6. After implementation, run any relevant tests
+7. Provide a clear summary of what was changed and test results
+
+IMPORTANT:
+- Do NOT break existing functionality
+- Use the existing OAuth2 credentials and email patterns
+- Follow the Change Agent workflow (submit CR, create ticket)
+- Update architecture docs if needed

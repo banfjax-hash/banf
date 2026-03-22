@@ -1,0 +1,269 @@
+[2026-03-22T01:44:15.276Z] [INFO] ═══════════════════════════════════════════════════════
+[2026-03-22T01:44:15.280Z] [INFO]   BANF CRM Email Cleanup Agent v2.0
+[2026-03-22T01:44:15.281Z] [INFO]   Mode: DRY RUN
+[2026-03-22T01:44:15.281Z] [INFO] ═══════════════════════════════════════════════════════
+[2026-03-22T01:44:15.450Z] [INFO] Gmail authenticated
+[2026-03-22T01:44:15.451Z] [INFO] 
+[2026-03-22T01:44:15.451Z] [INFO] ── Phase 1: Scanning delivery failures ──
+[2026-03-22T01:44:16.158Z] [INFO] Bounce emails: 42 total, 42 new
+[2026-03-22T01:44:16.372Z] [INFO]   📧 Bounce: caden.schmidt@wixful.site — temporary_failure (temp)
+[2026-03-22T01:44:16.588Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:44:16.889Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:44:17.097Z] [INFO]   📧 Bounce: a@b.com — temporary_failure (temp)
+[2026-03-22T01:44:17.402Z] [INFO]   📧 Bounce: zaim3tariqul1712@gmail.com — address_not_found (perm)
+[2026-03-22T01:44:17.608Z] [INFO]   📧 Bounce: mitaghosh1@yahoo.com — unknown (perm)
+[2026-03-22T01:44:17.803Z] [INFO]   📧 Bounce: tasmim@tohfabd.com — address_not_found (perm)
+[2026-03-22T01:44:18.110Z] [INFO]   📧 Bounce: neha.mandal@occamsadvisory.com — address_not_found (perm)
+[2026-03-22T01:44:18.282Z] [INFO]   📧 Bounce: brandon.green@wixclicks.co — temporary_failure (temp)
+[2026-03-22T01:44:18.472Z] [INFO]   📧 Bounce: mitaghosh1@yahoo.com — unknown (perm)
+[2026-03-22T01:44:18.674Z] [INFO]   📧 Bounce: tasmim@tohfabd.com — address_not_found (perm)
+[2026-03-22T01:44:18.863Z] [INFO]   📧 Bounce: neha.mandal@occamsadvisory.com — address_not_found (perm)
+[2026-03-22T01:44:19.053Z] [INFO]   📧 Bounce: brandon.green@wixclicks.co — temporary_failure (temp)
+[2026-03-22T01:44:19.258Z] [INFO]   📧 Bounce: brandon.green@wixclicks.co — temporary_failure (temp)
+[2026-03-22T01:44:19.455Z] [INFO]   📧 Bounce: neha.mandal@occamsadvisory.com — address_not_found (perm)
+[2026-03-22T01:44:19.648Z] [INFO]   📧 Bounce: tasmim@tohfabd.com — address_not_found (perm)
+[2026-03-22T01:44:19.853Z] [INFO]   📧 Bounce: mitaghosh1@yahoo.com — unknown (perm)
+[2026-03-22T01:44:20.174Z] [INFO]   📧 Bounce: zaim3tariqul1712@gmail.com — address_not_found (perm)
+[2026-03-22T01:44:20.360Z] [INFO]   📧 Bounce: a@b.com — temporary_failure (temp)
+[2026-03-22T01:44:20.549Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:44:20.738Z] [INFO]   📧 Bounce: caden.schmidt@wixful.site — temporary_failure (temp)
+[2026-03-22T01:44:20.918Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:44:21.125Z] [INFO]   📧 Bounce: caden.schmidt@wixful.site — temporary_failure (temp)
+[2026-03-22T01:44:21.347Z] [INFO]   📧 Bounce: joshua@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:44:21.581Z] [INFO]   📧 Bounce: daniel@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:44:21.781Z] [INFO]   📧 Bounce: joshua@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:44:21.971Z] [INFO]   📧 Bounce: daniel@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:44:22.172Z] [INFO]   📧 Bounce: sonika@mumukshulife.com — address_not_found (perm)
+[2026-03-22T01:44:22.363Z] [INFO]   📧 Bounce: jayanta0@yahoo.com — unknown (perm)
+[2026-03-22T01:44:22.569Z] [INFO]   📧 Bounce: ray@ameliaclean.com — temporary_failure (temp)
+[2026-03-22T01:44:22.739Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:22.906Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:23.092Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:23.278Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:23.447Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:23.680Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:23.849Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:24.034Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:24.236Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:24.422Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:24.601Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:44:24.883Z] [INFO]   📧 Bounce: jacqueline.ottosen@stjohns.k12.fl.us — rejected (perm)
+[2026-03-22T01:44:24.883Z] [INFO] 
+[2026-03-22T01:44:24.884Z] [INFO] ── Phase 2: Scanning auto-replies & corporate emails ──
+[2026-03-22T01:44:26.444Z] [INFO] Potential auto-reply/corporate: 200 total, 200 new
+[2026-03-22T01:44:26.701Z] [INFO]   🏢 Auto-reply: Melissa Lime <melissa.lime@stjohns.k12.fl.us> — "Automatic reply: Inquiry - Community Event Venue Rental at F"
+[2026-03-22T01:44:29.638Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:44:31.372Z] [INFO]   🏢 Auto-reply: Instagram <posts-recap@mail.instagram.com> — "banf_jax, see what's been happening on Instagram"
+[2026-03-22T01:44:32.953Z] [INFO]   🏢 Auto-reply: “Google AI Studio” <googleaistudio-noreply@google.com> — "[Billing Update] Gemini API usage tier updates and billing c"
+[2026-03-22T01:44:33.157Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:44:33.734Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:33.920Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:34.104Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:34.268Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:34.433Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:34.598Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:34.771Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:34.920Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:35.095Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:35.261Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:35.433Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:35.617Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:35.803Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:35.951Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:36.127Z] [INFO]   🏢 Auto-reply: website+security <website+security@huggingface.co> — "[HuggingFace] Security alert: token expired"
+[2026-03-22T01:44:36.287Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:36.446Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:44:36.619Z] [INFO]   🏢 Auto-reply: website+security <website+security@huggingface.co> — "[HuggingFace] Security alert: token expired"
+[2026-03-22T01:44:36.791Z] [INFO]   🏢 Auto-reply: website+security <website+security@huggingface.co> — "[HuggingFace] Security alert: token expired"
+[2026-03-22T01:44:37.268Z] [INFO]   🏢 Auto-reply: Instagram <unread-messages@mail.instagram.com> — "From desserts_for_soul and others: 4 unread messages"
+[2026-03-22T01:44:37.469Z] [INFO]   🏢 Auto-reply: Instagram <follow-suggestions@mail.instagram.com> — "banf_jax, see abpanandatv, pritom_gh01 and more in your feed"
+[2026-03-22T01:44:38.644Z] [INFO]   🏢 Auto-reply: Square <noreply@legal.squareup.com> — "We're updating our Terms of Service and Privacy Notice."
+[2026-03-22T01:44:39.146Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:44:39.339Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:47:28.574Z] [INFO] ═══════════════════════════════════════════════════════
+[2026-03-22T01:47:28.577Z] [INFO]   BANF CRM Email Cleanup Agent v2.0
+[2026-03-22T01:47:28.578Z] [INFO]   Mode: DRY RUN
+[2026-03-22T01:47:28.578Z] [INFO] ═══════════════════════════════════════════════════════
+[2026-03-22T01:47:28.744Z] [INFO] Gmail authenticated
+[2026-03-22T01:47:28.745Z] [INFO] 
+[2026-03-22T01:47:28.745Z] [INFO] ── Phase 1: Scanning delivery failures ──
+[2026-03-22T01:47:29.463Z] [INFO] Bounce emails: 42 total, 42 new
+[2026-03-22T01:47:29.640Z] [INFO]   📧 Bounce: caden.schmidt@wixful.site — temporary_failure (temp)
+[2026-03-22T01:47:29.816Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:47:29.991Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:47:30.163Z] [INFO]   📧 Bounce: a@b.com — temporary_failure (temp)
+[2026-03-22T01:47:30.362Z] [INFO]   📧 Bounce: zaim3tariqul1712@gmail.com — address_not_found (perm)
+[2026-03-22T01:47:30.559Z] [INFO]   📧 Bounce: mitaghosh1@yahoo.com — unknown (perm)
+[2026-03-22T01:47:30.748Z] [INFO]   📧 Bounce: tasmim@tohfabd.com — address_not_found (perm)
+[2026-03-22T01:47:30.924Z] [INFO]   📧 Bounce: neha.mandal@occamsadvisory.com — address_not_found (perm)
+[2026-03-22T01:47:31.121Z] [INFO]   📧 Bounce: brandon.green@wixclicks.co — temporary_failure (temp)
+[2026-03-22T01:47:31.312Z] [INFO]   📧 Bounce: mitaghosh1@yahoo.com — unknown (perm)
+[2026-03-22T01:47:31.483Z] [INFO]   📧 Bounce: tasmim@tohfabd.com — address_not_found (perm)
+[2026-03-22T01:47:31.673Z] [INFO]   📧 Bounce: neha.mandal@occamsadvisory.com — address_not_found (perm)
+[2026-03-22T01:47:31.850Z] [INFO]   📧 Bounce: brandon.green@wixclicks.co — temporary_failure (temp)
+[2026-03-22T01:47:32.049Z] [INFO]   📧 Bounce: brandon.green@wixclicks.co — temporary_failure (temp)
+[2026-03-22T01:47:32.231Z] [INFO]   📧 Bounce: neha.mandal@occamsadvisory.com — address_not_found (perm)
+[2026-03-22T01:47:32.419Z] [INFO]   📧 Bounce: tasmim@tohfabd.com — address_not_found (perm)
+[2026-03-22T01:47:32.720Z] [INFO]   📧 Bounce: mitaghosh1@yahoo.com — unknown (perm)
+[2026-03-22T01:47:32.994Z] [INFO]   📧 Bounce: zaim3tariqul1712@gmail.com — address_not_found (perm)
+[2026-03-22T01:47:33.170Z] [INFO]   📧 Bounce: a@b.com — temporary_failure (temp)
+[2026-03-22T01:47:33.333Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:47:33.502Z] [INFO]   📧 Bounce: caden.schmidt@wixful.site — temporary_failure (temp)
+[2026-03-22T01:47:33.689Z] [INFO]   📧 Bounce: aroyc001@netzero.com — unknown (perm)
+[2026-03-22T01:47:33.882Z] [INFO]   📧 Bounce: caden.schmidt@wixful.site — temporary_failure (temp)
+[2026-03-22T01:47:34.058Z] [INFO]   📧 Bounce: joshua@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:47:34.235Z] [INFO]   📧 Bounce: daniel@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:47:34.404Z] [INFO]   📧 Bounce: joshua@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:47:34.581Z] [INFO]   📧 Bounce: daniel@northfloridaclean.com — temporary_failure (temp)
+[2026-03-22T01:47:34.774Z] [INFO]   📧 Bounce: sonika@mumukshulife.com — address_not_found (perm)
+[2026-03-22T01:47:34.945Z] [INFO]   📧 Bounce: jayanta0@yahoo.com — unknown (perm)
+[2026-03-22T01:47:35.145Z] [INFO]   📧 Bounce: ray@ameliaclean.com — temporary_failure (temp)
+[2026-03-22T01:47:35.333Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:35.522Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:35.709Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:35.901Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:36.087Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:36.274Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:36.446Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:36.633Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:36.831Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:37.003Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:37.166Z] [INFO]   📧 Bounce: rajanya.ghosh@gmail.com — mailbox_full (temp)
+[2026-03-22T01:47:37.383Z] [INFO]   📧 Bounce: jacqueline.ottosen@stjohns.k12.fl.us — rejected (perm)
+[2026-03-22T01:47:37.384Z] [INFO] 
+[2026-03-22T01:47:37.384Z] [INFO] ── Phase 2: Scanning auto-replies & corporate emails ──
+[2026-03-22T01:47:38.938Z] [INFO] Potential auto-reply/corporate: 200 total, 200 new
+[2026-03-22T01:47:39.158Z] [INFO]   🏢 Auto-reply: Melissa Lime <melissa.lime@stjohns.k12.fl.us> — "Automatic reply: Inquiry - Community Event Venue Rental at F"
+[2026-03-22T01:47:42.038Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:47:43.650Z] [INFO]   🏢 Auto-reply: Instagram <posts-recap@mail.instagram.com> — "banf_jax, see what's been happening on Instagram"
+[2026-03-22T01:47:45.114Z] [INFO]   🏢 Auto-reply: “Google AI Studio” <googleaistudio-noreply@google.com> — "[Billing Update] Gemini API usage tier updates and billing c"
+[2026-03-22T01:47:45.279Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:47:45.790Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:45.932Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:46.126Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:46.275Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:46.473Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:46.635Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:46.827Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:46.977Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:47.139Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:47.283Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:47.459Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:47.644Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:47.824Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:48.008Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:48.152Z] [INFO]   🏢 Auto-reply: website+security <website+security@huggingface.co> — "[HuggingFace] Security alert: token expired"
+[2026-03-22T01:47:48.323Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:48.503Z] [INFO]   🏢 Auto-reply: SendGrid Consumer Trust Support <no-reply@sendgrid.com> — "Action Required - Twilio SendGrid API Credentials Found Expo"
+[2026-03-22T01:47:48.706Z] [INFO]   🏢 Auto-reply: website+security <website+security@huggingface.co> — "[HuggingFace] Security alert: token expired"
+[2026-03-22T01:47:48.879Z] [INFO]   🏢 Auto-reply: website+security <website+security@huggingface.co> — "[HuggingFace] Security alert: token expired"
+[2026-03-22T01:47:49.387Z] [INFO]   🏢 Auto-reply: Instagram <unread-messages@mail.instagram.com> — "From desserts_for_soul and others: 4 unread messages"
+[2026-03-22T01:47:49.557Z] [INFO]   🏢 Auto-reply: Instagram <follow-suggestions@mail.instagram.com> — "banf_jax, see abpanandatv, pritom_gh01 and more in your feed"
+[2026-03-22T01:47:50.790Z] [INFO]   🏢 Auto-reply: Square <noreply@legal.squareup.com> — "We're updating our Terms of Service and Privacy Notice."
+[2026-03-22T01:47:51.255Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:47:51.456Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:47:51.660Z] [INFO]   🏢 Corporate: Jacqueline Ottosen <jacqueline.ottosen@stjohns.k12.fl.us> — corporate_disclaimer
+[2026-03-22T01:47:51.850Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:47:52.023Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:47:52.602Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "td.tamalika and 7 others recently added to their stories"
+[2026-03-22T01:47:52.804Z] [INFO]   🏢 Auto-reply: Instagram <posts-recap@mail.instagram.com> — "banf_jax, see what's been happening on Instagram"
+[2026-03-22T01:47:53.862Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:47:54.292Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "amitab_ex_mps106 and 7 others recently added to their storie"
+[2026-03-22T01:47:55.464Z] [INFO]   🏢 Auto-reply: Instagram <unread-messages@mail.instagram.com> — "From desserts_for_soul and others: 4 unread messages"
+[2026-03-22T01:47:55.636Z] [INFO]   🏢 Auto-reply: Instagram <follow-suggestions@mail.instagram.com> — "banf_jax, see debasreeghoshmukherjee, abpanandatv and more i"
+[2026-03-22T01:47:56.278Z] [INFO]   🏢 Auto-reply: Instagram <posts-recap@mail.instagram.com> — "banf_jax, see what's been happening on Instagram"
+[2026-03-22T01:47:56.615Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:47:57.203Z] [INFO]   🏢 Corporate: Jacqueline Ottosen <jacqueline.ottosen@stjohns.k12.fl.us> — corporate_disclaimer
+[2026-03-22T01:47:57.385Z] [INFO]   🏢 Corporate: Jacqueline Ottosen <jacqueline.ottosen@stjohns.k12.fl.us> — corporate_disclaimer
+[2026-03-22T01:47:57.674Z] [INFO]   🏢 Corporate: Jacqueline Ottosen <jacqueline.ottosen@stjohns.k12.fl.us> — corporate_disclaimer
+[2026-03-22T01:47:58.005Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "prashanta_neel_ and 7 others recently added to their stories"
+[2026-03-22T01:47:58.207Z] [INFO]   🏢 Auto-reply: Instagram <unread-messages@mail.instagram.com> — "From desserts_for_soul and others: 4 unread messages"
+[2026-03-22T01:47:59.332Z] [INFO]   🏢 Corporate: Kenneth L. Goodwin <kenneth.goodwin@stjohns.k12.fl.us> — corporate_disclaimer
+[2026-03-22T01:47:59.967Z] [INFO]   🏢 Auto-reply: Spotify <no-reply@spotify.com> — "Score your first 3 months of Premium for $0."
+[2026-03-22T01:48:00.146Z] [INFO]   🏢 Auto-reply: Instagram <security@mail.instagram.com> — "New login to Instagram from Instagram on Apple iPhone"
+[2026-03-22T01:48:00.287Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "diary.of.sunshine_sharmi and 7 others recently added to thei"
+[2026-03-22T01:48:01.084Z] [INFO]   🏢 Auto-reply: Google <no-reply@google.com> — "✅ Bengali Association Of, finish setting up your OnePlus 9 5"
+[2026-03-22T01:48:01.255Z] [INFO]   🏢 Auto-reply: Google <no-reply@accounts.google.com> — "Security alert"
+[2026-03-22T01:48:01.435Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:48:02.317Z] [INFO]   🏢 Auto-reply: Google AI Studio <googleaistudio-noreply@google.com> — "Hi Bengali Association Of, welcome to Google AI Studio"
+[2026-03-22T01:48:02.496Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "ujjainimjee_official and 7 others recently added to their st"
+[2026-03-22T01:48:03.016Z] [INFO]   🏢 Corporate: Ghosh, Ranadhir <ranadhir.ghosh@fisglobal.com> — corporate_disclaimer
+[2026-03-22T01:48:03.361Z] [INFO]   🏢 Auto-reply: Instagram <unread-messages@mail.instagram.com> — "From diary.of.sunshine_sharmi and 1 other: 2 unread messages"
+[2026-03-22T01:48:06.252Z] [INFO]   🏢 Auto-reply: Instagram <notification@priority.instagram.com> — "banf_jax, catch up on moments you've missed"
+[2026-03-22T01:48:06.602Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "debraj.bhattachrya and 7 others recently added to their stor"
+[2026-03-22T01:48:08.800Z] [INFO]   🏢 Auto-reply: Instagram <unread-messages@mail.instagram.com> — "From diary.of.sunshine_sharmi and 1 other: 2 unread messages"
+[2026-03-22T01:48:09.158Z] [INFO]   🏢 Auto-reply: Instagram <no-reply@mail.instagram.com> — "ayan_at_insta accepted your follow request"
+[2026-03-22T01:48:10.254Z] [INFO]   🏢 Auto-reply: Instagram <posts-recap@mail.instagram.com> — "banf_jax, see reels from bellsnrhythm and others"
+[2026-03-22T01:48:12.755Z] [INFO]   🏢 Auto-reply: Instagram <follow-suggestions@mail.instagram.com> — "banf_jax, see debasreeghoshmukherjee, leomessi and more in y"
+[2026-03-22T01:48:13.344Z] [INFO]   🏢 Auto-reply: Instagram <stories-recap@mail.instagram.com> — "anirbanbhattacharyaofficial and 7 others recently added to t"
+[2026-03-22T01:48:13.743Z] [INFO]   🏢 Auto-reply: Spotify <no-reply@spotify.com> — "3 free months of Spotify Premium are waiting for you."
+[2026-03-22T01:48:14.424Z] [INFO]   🏢 Auto-reply: Google <no-reply@accounts.google.com> — "Security alert"
+[2026-03-22T01:48:15.173Z] [INFO] 
+[2026-03-22T01:48:15.175Z] [INFO] ── Summary ──
+[2026-03-22T01:48:15.178Z] [INFO]   Bounces: 42 (permanent: 18, temporary: 24)
+[2026-03-22T01:48:15.179Z] [INFO]   Corporate/Auto-reply: 18
+[2026-03-22T01:48:15.181Z] [INFO] 
+[2026-03-22T01:48:15.182Z] [INFO] ── DRY RUN — no changes applied ──
+[2026-03-22T01:48:15.183Z] [INFO]   [WOULD FLAG] caden.schmidt@wixful.site — temporary_failure
+[2026-03-22T01:48:15.184Z] [INFO]   [WOULD DEACTIVATE] aroyc001@netzero.com — unknown
+[2026-03-22T01:48:15.185Z] [INFO]   [WOULD DEACTIVATE] aroyc001@netzero.com — unknown
+[2026-03-22T01:48:15.186Z] [INFO]   [WOULD FLAG] a@b.com — temporary_failure
+[2026-03-22T01:48:15.187Z] [INFO]   [WOULD DEACTIVATE] zaim3tariqul1712@gmail.com — address_not_found
+[2026-03-22T01:48:15.188Z] [INFO]   [WOULD DEACTIVATE] mitaghosh1@yahoo.com — unknown
+[2026-03-22T01:48:15.191Z] [INFO]   [WOULD DEACTIVATE] tasmim@tohfabd.com — address_not_found
+[2026-03-22T01:48:15.194Z] [INFO]   [WOULD DEACTIVATE] neha.mandal@occamsadvisory.com — address_not_found
+[2026-03-22T01:48:15.195Z] [INFO]   [WOULD FLAG] brandon.green@wixclicks.co — temporary_failure
+[2026-03-22T01:48:15.196Z] [INFO]   [WOULD DEACTIVATE] mitaghosh1@yahoo.com — unknown
+[2026-03-22T01:48:15.197Z] [INFO]   [WOULD DEACTIVATE] tasmim@tohfabd.com — address_not_found
+[2026-03-22T01:48:15.197Z] [INFO]   [WOULD DEACTIVATE] neha.mandal@occamsadvisory.com — address_not_found
+[2026-03-22T01:48:15.198Z] [INFO]   [WOULD FLAG] brandon.green@wixclicks.co — temporary_failure
+[2026-03-22T01:48:15.199Z] [INFO]   [WOULD FLAG] brandon.green@wixclicks.co — temporary_failure
+[2026-03-22T01:48:15.199Z] [INFO]   [WOULD DEACTIVATE] neha.mandal@occamsadvisory.com — address_not_found
+[2026-03-22T01:48:15.200Z] [INFO]   [WOULD DEACTIVATE] tasmim@tohfabd.com — address_not_found
+[2026-03-22T01:48:15.200Z] [INFO]   [WOULD DEACTIVATE] mitaghosh1@yahoo.com — unknown
+[2026-03-22T01:48:15.200Z] [INFO]   [WOULD DEACTIVATE] zaim3tariqul1712@gmail.com — address_not_found
+[2026-03-22T01:48:15.201Z] [INFO]   [WOULD FLAG] a@b.com — temporary_failure
+[2026-03-22T01:48:15.201Z] [INFO]   [WOULD DEACTIVATE] aroyc001@netzero.com — unknown
+[2026-03-22T01:48:15.201Z] [INFO]   [WOULD FLAG] caden.schmidt@wixful.site — temporary_failure
+[2026-03-22T01:48:15.202Z] [INFO]   [WOULD DEACTIVATE] aroyc001@netzero.com — unknown
+[2026-03-22T01:48:15.202Z] [INFO]   [WOULD FLAG] caden.schmidt@wixful.site — temporary_failure
+[2026-03-22T01:48:15.202Z] [INFO]   [WOULD FLAG] joshua@northfloridaclean.com — temporary_failure
+[2026-03-22T01:48:15.202Z] [INFO]   [WOULD FLAG] daniel@northfloridaclean.com — temporary_failure
+[2026-03-22T01:48:15.203Z] [INFO]   [WOULD FLAG] joshua@northfloridaclean.com — temporary_failure
+[2026-03-22T01:48:15.203Z] [INFO]   [WOULD FLAG] daniel@northfloridaclean.com — temporary_failure
+[2026-03-22T01:48:15.203Z] [INFO]   [WOULD DEACTIVATE] sonika@mumukshulife.com — address_not_found
+[2026-03-22T01:48:15.203Z] [INFO]   [WOULD DEACTIVATE] jayanta0@yahoo.com — unknown
+[2026-03-22T01:48:15.204Z] [INFO]   [WOULD FLAG] ray@ameliaclean.com — temporary_failure
+[2026-03-22T01:48:15.204Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.204Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.205Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.205Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.206Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.207Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.208Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.208Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.208Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.208Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.208Z] [INFO]   [WOULD FLAG] rajanya.ghosh@gmail.com — mailbox_full
+[2026-03-22T01:48:15.208Z] [INFO]   [WOULD DEACTIVATE] jacqueline.ottosen@stjohns.k12.fl.us — rejected
+[2026-03-22T01:48:15.209Z] [INFO]   [WOULD MOVE TO CORPORATE] melissa.lime@stjohns.k12.fl.us — auto_reply
+[2026-03-22T01:48:15.209Z] [INFO]   [WOULD MOVE TO CORPORATE] notification@priority.instagram.com — auto_reply
+[2026-03-22T01:48:15.209Z] [INFO]   [WOULD MOVE TO CORPORATE] posts-recap@mail.instagram.com — auto_reply
+[2026-03-22T01:48:15.209Z] [INFO]   [WOULD MOVE TO CORPORATE] googleaistudio-noreply@google.com — auto_reply
+[2026-03-22T01:48:15.209Z] [INFO]   [WOULD MOVE TO CORPORATE] no-reply@sendgrid.com — auto_reply
+[2026-03-22T01:48:15.210Z] [INFO]   [WOULD MOVE TO CORPORATE] website+security@huggingface.co — auto_reply
+[2026-03-22T01:48:15.211Z] [INFO]   [WOULD MOVE TO CORPORATE] unread-messages@mail.instagram.com — auto_reply
+[2026-03-22T01:48:15.211Z] [INFO]   [WOULD MOVE TO CORPORATE] follow-suggestions@mail.instagram.com — auto_reply
+[2026-03-22T01:48:15.212Z] [INFO]   [WOULD MOVE TO CORPORATE] noreply@legal.squareup.com — auto_reply
+[2026-03-22T01:48:15.212Z] [INFO]   [WOULD MOVE TO CORPORATE] ranadhir.ghosh@fisglobal.com — corporate_disclaimer
+[2026-03-22T01:48:15.212Z] [INFO]   [WOULD MOVE TO CORPORATE] jacqueline.ottosen@stjohns.k12.fl.us — corporate_disclaimer
+[2026-03-22T01:48:15.212Z] [INFO]   [WOULD MOVE TO CORPORATE] stories-recap@mail.instagram.com — auto_reply
+[2026-03-22T01:48:15.213Z] [INFO]   [WOULD MOVE TO CORPORATE] kenneth.goodwin@stjohns.k12.fl.us — corporate_disclaimer
+[2026-03-22T01:48:15.213Z] [INFO]   [WOULD MOVE TO CORPORATE] no-reply@spotify.com — auto_reply
+[2026-03-22T01:48:15.213Z] [INFO]   [WOULD MOVE TO CORPORATE] security@mail.instagram.com — auto_reply
+[2026-03-22T01:48:15.213Z] [INFO]   [WOULD MOVE TO CORPORATE] no-reply@google.com — auto_reply
+[2026-03-22T01:48:15.213Z] [INFO]   [WOULD MOVE TO CORPORATE] no-reply@accounts.google.com — auto_reply
+[2026-03-22T01:48:15.214Z] [INFO]   [WOULD MOVE TO CORPORATE] no-reply@mail.instagram.com — auto_reply
+[2026-03-22T01:48:15.215Z] [INFO] Report saved: C:\projects\banf\crm-cleanup-report.html
+[2026-03-22T01:48:15.215Z] [INFO] 
+[2026-03-22T01:48:15.215Z] [INFO] ═══ CRM Email Cleanup Complete ═══

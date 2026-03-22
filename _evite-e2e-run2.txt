@@ -1,0 +1,94 @@
+ΓòöΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòù
+Γòæ  BANF Evite Manager ΓÇö E2E President Dry Run Test    Γòæ
+ΓòÜΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓò¥
+
+[304] 
+ΓòÉΓòÉΓòÉ STEP 1: President Login ΓòÉΓòÉΓòÉ
+[908]   ≡ƒö┤ Console error: Failed to load resource: the server responded with a status of 404 ()
+[910]   ≡ƒô╕ Step 1: login_page_loaded ΓåÆ step01_login_page_loaded.png
+[079]   ≡ƒñû Vision: The login form for the EC Admin Portal is fully visible and appears to be loading correctly with no error messages displayed. 
+
+The form includes the following elements:
+- A header with the "EC" logo 
+[130]   ≡ƒô╕ Step 2: credentials_entered ΓåÆ step02_credentials_entered.png
+[106]   ≡ƒñû Vision: Yes, the email field has text entered, specifically "ranadhir.ghosh@gmail.com". The "EC Admin Sign In" button is visible and prominently displayed below the password field.
+[138]   Clicked Sign In...
+[233]   ≡ƒô╕ Step 3: login_possibly_failed ΓåÆ step03_login_possibly_failed.png
+[042]   ≡ƒñû Vision: The login form is still showing. The email address "ranadhir.ghosh@gmail.com" and a password are filled in. There is a message in blue just below the "EC Admin Sign In" button that says, "Your account
+[047]   ΓÜá∩╕Å  Login state unclear ΓÇö continuing...
+[132]   ≡ƒô╕ Step 4: portal_dashboard_loaded ΓåÆ step04_portal_dashboard_loaded.png
+[019]   ≡ƒñû Vision: This is not the admin portal dashboard with a sidebar on the left. Instead, it is the BANF EC Admin Portal login page.
+
+There is no sidebar visible here, so no panels are visible.
+
+No error toasts are
+[023]   User: Ranadhir Ghosh | Role: Super Admin / Tech Lead
+[024] 
+ΓòÉΓòÉΓòÉ STEP 2: Navigate to Evite Manager ΓòÉΓòÉΓòÉ
+[031]   Clicked Evite Manager tab
+[637]   ≡ƒô╕ Step 5: evite_manager_panel ΓåÆ step05_evite_manager_panel.png
+[036]   ≡ƒñû Vision: No, this is not the Evite Manager panel. The image shows a login screen for the "BANF EC Admin Portal," which is meant for Executive Committee members to access BANF administration tools. It includes 
+[037] 
+ΓòÉΓòÉΓòÉ STEP 3: Verify Event Form ΓòÉΓòÉΓòÉ
+[039]   Event Name: BANF Noboborsho 2026 ΓÇö αª¬αª╣αºçαª▓αª╛ αª¼αºêαª╢αª╛αªû αººαº¬αº⌐αº⌐
+[040]   Venue: Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092
+[040]   Date: 2026-04-25
+[041]   Time: 11:00 AM ΓÇô 4:00 PM
+[041]   Capacity: 300
+[041]   RSVP Deadline: 2026-04-22
+[041]   Cultural: ENABLED
+[041]   Food: yes | Guests: yes
+[041]   Γ£à Form is populated
+[041] 
+ΓòÉΓòÉΓòÉ STEP 4: Check Existing Events ΓòÉΓòÉΓòÉ
+[573]   Events table rows: 3
+[574]   Selected event ID: 61849b36-68e5-41fc-885d-998feafc21f2
+[652]   ≡ƒô╕ Step 6: events_list ΓåÆ step06_events_list.png
+[016]   ≡ƒñû Vision: The image does not show the Existing Events table at the bottom of the Evite Manager. Instead, it shows the login screen for the BANF EC Admin Portal. Therefore, there is no information visible about 
+[016] 
+ΓòÉΓòÉΓòÉ STEP 5: Dry Run (President Only) ΓòÉΓòÉΓòÉ
+[018]   Event ID: 61849b36-68e5-41fc-885d-998feafc21f2
+[599]   ≡ƒô╕ Step 7: before_dryrun ΓåÆ step07_before_dryrun.png
+[857]   ≡ƒñû Vision: The image you provided does not show the Actions section of the Evite Manager or the buttons you mentioned. Instead, it displays a login screen for the "BANF EC Admin Portal." This screen includes fie
+[858]   Clicking "Dry Run (President Only)"...
+[054]   ≡ƒôí evite_send_invites response (non-JSON): 200
+[073]   Action message: "Done! Sent: 1, Failed: 0, Total: 1"
+[074]   Color: var(--green) | Visible: true
+[149]   ≡ƒô╕ Step 8: after_dryrun ΓåÆ step08_after_dryrun.png
+[269]   ≡ƒñû Vision: The message area near the buttons is showing success in green. The message says: "Success! Dry run executed. No emails were sent." This means emails did not get sent.
+[269] 
+ΓòÉΓòÉΓòÉ STEP 6: RSVP Dashboard ΓòÉΓòÉΓòÉ
+[073]   Clicking Load / Refresh Dashboard...
+[343]   ≡ƒôí evite_invite_status: total=8, sent=8, responded=2
+[359]   Summary KPIs visible: true
+[360]   Detail table visible: true
+[447]   ≡ƒô╕ Step 9: rsvp_dashboard_kpis ΓåÆ step09_rsvp_dashboard_kpis.png
+[596]   ≡ƒñû Vision: No, the image does not show the RSVP Dashboard section with KPI cards or any stats. Instead, it displays a login screen for the BANF EC Admin Portal. 
+
+There are no KPI cards visible such as Total Inv
+[596] 
+ΓòÉΓòÉΓòÉ STEP 7: Detail Table & Final Check ΓòÉΓòÉΓòÉ
+[112]   Detail rows: 8
+[112]     Ranadhir Ghosh <ranadhir.ghosh@gmail.com> ΓÇö Attending
+[112]     Ranadhir Ghosh <ranadhir.ghosh@gmail.com> ΓÇö Pending
+[113]     amit.chandak <amit.chandak@gmail.com> ΓÇö Pending
+[113]     moumita.mukherje <moumita.mukherje@gmail.com> ΓÇö Attending
+[113]     mukhopadhyay.partha <mukhopadhyay.partha@gmail.com> ΓÇö Pending
+[113]     rajanya.ghosh <rajanya.ghosh@gmail.com> ΓÇö Pending
+[114]     rwitichoudhury <rwitichoudhury@gmail.com> ΓÇö Pending
+[114]     sumo475 <sumo475@gmail.com> ΓÇö Pending
+[245]   ≡ƒô╕ Step 10: detail_table ΓåÆ step10_detail_table.png
+[375]   ≡ƒñû Vision: The image you provided does not show an individual responses detail table. Instead, it shows a login screen for the "BANF EC Admin Portal" with the email "ranadhir.ghosh@gmail.com" entered in the emai
+[376] 
+ΓòÉΓòÉΓòÉ Network Errors Summary ΓòÉΓòÉΓòÉ
+[376]   Γ£à ZERO network errors (4xx/5xx) during entire session
+[381] 
+≡ƒôä Report: C:\projects\banf\_evite-test-screenshots\evite-test-report.html
+
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+  Steps: 10
+  Network errors: 0
+  Result: Γ£à ALL PASS
+  Report: C:\projects\banf\_evite-test-screenshots\evite-test-report.html
+ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+

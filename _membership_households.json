@@ -1,0 +1,1400 @@
+[
+  {
+    "householdKey": "RFAM-001",
+    "primaryName": "Partha Mukhopadhyay",
+    "primaryEmail": "mukhopadhyay.partha@gmail.com",
+    "memberId": "MBR-MM2HYB2V-OG7H",
+    "familyId": "RFAM-001",
+    "familyDisplayName": "Partha & Soma & Amrita Mukhopadhyay",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "M2 Premium EB - Family",
+    "amount": 375,
+    "year": "2026-27",
+    "source": "wf_zelle",
+    "members": [
+      {
+        "name": "Partha Mukhopadhyay",
+        "email": "mukhopadhyay.partha@gmail.com",
+        "memberId": "MBR-MM2HYB2V-OG7H",
+        "isEC": true
+      },
+      {
+        "name": "Soma Choudhury",
+        "email": "soma1979p@yahoo.com",
+        "memberId": "MBR-MLX38ZDU-SR22",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-063",
+    "primaryName": "Amit Chandak",
+    "primaryEmail": "amit.everywhere@gmail.com",
+    "memberId": "MBR-MM2HXHQA-QW4C",
+    "familyId": "RFAM-063",
+    "familyDisplayName": "Amit Chandak",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "M2 Premium EB - Family",
+    "amount": 375,
+    "year": "2026-27",
+    "source": "wf_zelle",
+    "members": [
+      {
+        "name": "Amit Chandak",
+        "email": "amit.everywhere@gmail.com",
+        "memberId": "MBR-MM2HXHQA-QW4C",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-066",
+    "primaryName": "Shamit Dutta",
+    "primaryEmail": "dutta.shamit2000@gmail.com",
+    "memberId": "MBR-MLX71LCF-XEEB",
+    "familyId": "RFAM-066",
+    "familyDisplayName": "Shamit Dutta",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Shamit Dutta",
+        "email": "dutta.shamit2000@gmail.com",
+        "memberId": "MBR-MLX71LCF-XEEB",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-068",
+    "primaryName": "Sunetra Basu Ghosh",
+    "primaryEmail": "sunetra.basu@gmail.com",
+    "memberId": "MBR-MLX5DTMG-DGPA",
+    "familyId": "RFAM-068",
+    "familyDisplayName": "Sunetra Basu Ghosh",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "M2 Premium - Couple",
+    "amount": 330,
+    "year": "2026-27",
+    "source": "wf_zelle",
+    "members": [
+      {
+        "name": "Sunetra Basu Ghosh",
+        "email": "sunetra.basu@gmail.com",
+        "memberId": "MBR-MLX5DTMG-DGPA",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-070",
+    "primaryName": "Alak Manna",
+    "primaryEmail": "alak.manna@gmail.com",
+    "memberId": "MBR-MLX5DRZC-W0YT",
+    "familyId": "RFAM-070",
+    "familyDisplayName": "Alak Manna",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Alak Manna",
+        "email": "alak.manna@gmail.com",
+        "memberId": "MBR-MLX5DRZC-W0YT",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-071",
+    "primaryName": "Nandita Guin",
+    "primaryEmail": "g.nnandita@gmail.com",
+    "memberId": "MBR-MLX5DRD5-P88O",
+    "familyId": "RFAM-071",
+    "familyDisplayName": "Nandita Guin",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Nandita Guin",
+        "email": "g.nnandita@gmail.com",
+        "memberId": "MBR-MLX5DRD5-P88O",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-003",
+    "primaryName": "Swarnendu Sen",
+    "primaryEmail": "swarnendu.sen@gmail.com",
+    "memberId": "MBR-MLX5DO1F-CGXG",
+    "familyId": "RFAM-003",
+    "familyDisplayName": "Swarnendu & Sreya Sen",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Swarnendu Sen",
+        "email": "swarnendu.sen@gmail.com",
+        "memberId": "MBR-MLX5DO1F-CGXG",
+        "isEC": false
+      },
+      {
+        "name": "Sreya Ghosh",
+        "email": "sreya.ghosh1510@gmail.com",
+        "memberId": "MBR-MLX38S4P-12RE",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-081",
+    "primaryName": "Tanay Bhaduri",
+    "primaryEmail": "tanay.bhaduri@gmail.com",
+    "memberId": "MBR-MLX5DLLF-QHJI",
+    "familyId": "RFAM-081",
+    "familyDisplayName": "Tanay Bhaduri",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Tanay Bhaduri",
+        "email": "tanay.bhaduri@gmail.com",
+        "memberId": "MBR-MLX5DLLF-QHJI",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-085",
+    "primaryName": "Kapil Sadhu",
+    "primaryEmail": "kapil.sadhu@gmail.com",
+    "memberId": "MBR-MLX5A73N-I3S5",
+    "familyId": "RFAM-085",
+    "familyDisplayName": "Sadhu Family (5)",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Kapil Sadhu",
+        "email": "kapil.sadhu@gmail.com",
+        "memberId": "MBR-MLX5A73N-I3S5",
+        "isEC": false
+      },
+      {
+        "name": "Sanghamitra Chandra",
+        "email": "riyachandra1988@gmail.com",
+        "memberId": "MBR-MLX38YBS-VEPC",
+        "isEC": false
+      },
+      {
+        "name": "Nilay Chandra",
+        "email": "chandranilay@gmail.com",
+        "memberId": "MBR-MLX38Y7Y-OJBO",
+        "isEC": true
+      },
+      {
+        "name": "Jiniya Chandra",
+        "email": "jiniya.chandra@gmail.com",
+        "memberId": "MBR-MLX38Y5X-0V32",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-087",
+    "primaryName": "Saikat Natta",
+    "primaryEmail": "natta.saikat@gmail.com",
+    "memberId": "MBR-MLX5A6BO-6GQA",
+    "familyId": "RFAM-087",
+    "familyDisplayName": "Saikat Natta",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Saikat Natta",
+        "email": "natta.saikat@gmail.com",
+        "memberId": "MBR-MLX5A6BO-6GQA",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-088",
+    "primaryName": "Rajib S",
+    "primaryEmail": "rajibs123@gmail.com",
+    "memberId": "MBR-MLX5A5XN-2PWP",
+    "familyId": "RFAM-088",
+    "familyDisplayName": "S Family (5)",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Rajib S",
+        "email": "rajibs123@gmail.com",
+        "memberId": "MBR-MLX5A5XN-2PWP",
+        "isEC": true
+      },
+      {
+        "name": "Rita Bhattacharjee",
+        "email": "ritabhattacharjee@gmail.com",
+        "memberId": "MBR-MLX38YLS-VWTU",
+        "isEC": true
+      },
+      {
+        "name": "Sanchari Bhattacharyya",
+        "email": "tosanchari@gmail.com",
+        "memberId": "MBR-MLX38YJO-BLPJ",
+        "isEC": true
+      },
+      {
+        "name": "Santanu Bhattacharya",
+        "email": "tosantanu@gmail.com",
+        "memberId": "MBR-MLX38YHN-IYN7",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-089",
+    "primaryName": "Dola Sinha",
+    "primaryEmail": "dolasinha@yahoo.com",
+    "memberId": "MBR-MLX5A5JP-TX0Z",
+    "familyId": "RFAM-089",
+    "familyDisplayName": "Dola Sinha",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Dola Sinha",
+        "email": "dolasinha@yahoo.com",
+        "memberId": "MBR-MLX5A5JP-TX0Z",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-091",
+    "primaryName": "Uttam Mistry",
+    "primaryEmail": "uttamkgec@gmail.com",
+    "memberId": "MBR-MLX5A4QG-8B28",
+    "familyId": "RFAM-091",
+    "familyDisplayName": "Uttam Mistry",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Individual",
+    "amount": 190,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Uttam Mistry",
+        "email": "uttamkgec@gmail.com",
+        "memberId": "MBR-MLX5A4QG-8B28",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-072",
+    "primaryName": "urmi rakshit",
+    "primaryEmail": "urmi.kanya@gmail.com",
+    "memberId": "MBR-MLX5A4CB-CAU6",
+    "familyId": "RFAM-072",
+    "familyDisplayName": "Rakshit Family (6)",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Couple",
+    "amount": 200,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "urmi rakshit",
+        "email": "urmi.kanya@gmail.com",
+        "memberId": "MBR-MLX5A4CB-CAU6",
+        "isEC": true
+      },
+      {
+        "name": "Nandini Dutta",
+        "email": "dutta.nandini47@gmail.com",
+        "memberId": "MBR-MLX38TBZ-BP7L",
+        "isEC": false
+      },
+      {
+        "name": "Soumyajit Dutta",
+        "email": "duttasoumyajit86@gmail.com",
+        "memberId": "MBR-MLX38T84-6MC5",
+        "isEC": true
+      },
+      {
+        "name": "Ayan Dutta",
+        "email": "duttaayan.cs@gmail.com",
+        "memberId": "MBR-MLX38T63-1Y4X",
+        "isEC": true
+      },
+      {
+        "name": "Indrani Dutta",
+        "email": "dindrani74@gmail.com",
+        "memberId": "MBR-MLX38SWJ-M6IG",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-092",
+    "primaryName": "Nilanjana B",
+    "primaryEmail": "nilanb@gmail.com",
+    "memberId": "MBR-MLX5A3X2-37E9",
+    "familyId": "RFAM-092",
+    "familyDisplayName": "Nilanjana B",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Nilanjana B",
+        "email": "nilanb@gmail.com",
+        "memberId": "MBR-MLX5A3X2-37E9",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-004",
+    "primaryName": "Koushik Karmakar",
+    "primaryEmail": "karmakar.2007@gmail.com",
+    "memberId": "MBR-MLX5A3IC-SON4",
+    "familyId": "RFAM-004",
+    "familyDisplayName": "Koushik & Bithika Karmakar",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Koushik Karmakar",
+        "email": "karmakar.2007@gmail.com",
+        "memberId": "MBR-MLX5A3IC-SON4",
+        "isEC": true
+      },
+      {
+        "name": "Bithika Roy",
+        "email": "bithikaroy96@gmail.com",
+        "memberId": "MBR-MLX38RSP-B960",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-006",
+    "primaryName": "Sharmistha Poddar",
+    "primaryEmail": "sharmi.p09@gmail.com",
+    "memberId": "MBR-MLX5A29F-LL0V",
+    "familyId": "RFAM-006",
+    "familyDisplayName": "Sharmistha Poddar",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sharmistha Poddar",
+        "email": "sharmi.p09@gmail.com",
+        "memberId": "MBR-MLX5A29F-LL0V",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-073",
+    "primaryName": "Joyeeta Polley",
+    "primaryEmail": "joyeeta.all@gmail.com",
+    "memberId": "MBR-MLX5A1V9-QM31",
+    "familyId": "RFAM-073",
+    "familyDisplayName": "Joyeeta Polley",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Joyeeta Polley",
+        "email": "joyeeta.all@gmail.com",
+        "memberId": "MBR-MLX5A1V9-QM31",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-094",
+    "primaryName": "Suchitra Biswas",
+    "primaryEmail": "suchitrab4@gmail.com",
+    "memberId": "MBR-MLX5A1GQ-LOFI",
+    "familyId": "RFAM-094",
+    "familyDisplayName": "Suchitra Biswas",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Suchitra Biswas",
+        "email": "suchitrab4@gmail.com",
+        "memberId": "MBR-MLX5A1GQ-LOFI",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-106",
+    "primaryName": "Holly Goswami",
+    "primaryEmail": "holly_goswami@buildfusion.com",
+    "memberId": "MBR-MLX59WMJ-XCGE",
+    "familyId": "RFAM-106",
+    "familyDisplayName": "Holly & Raj Goswami",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Holly Goswami",
+        "email": "holly_goswami@buildfusion.com",
+        "memberId": "MBR-MLX59WMJ-XCGE",
+        "isEC": true
+      },
+      {
+        "name": "Raj Goswami",
+        "email": "raj.goswami@gmail.com",
+        "memberId": "MBR-MLX59WGL-ATZH",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-007",
+    "primaryName": "RANADHIR GHOSH",
+    "primaryEmail": "ranadhir.ghosh@gmail.com",
+    "memberId": "MBR-MLX3JU4F-AMOZ",
+    "familyId": "RFAM-007",
+    "familyDisplayName": "RANADHIR GHOSH",
+    "city": "JACKSONVILLE",
+    "state": "FL",
+    "category": "M2 Premium EB - Family",
+    "amount": 375,
+    "year": "2026-27",
+    "source": "wf_zelle",
+    "members": [
+      {
+        "name": "RANADHIR GHOSH",
+        "email": "ranadhir.ghosh@gmail.com",
+        "memberId": "MBR-MLX3JU4F-AMOZ",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-112",
+    "primaryName": "BANANI DHAR",
+    "primaryEmail": "bdhar75@yahoo.com",
+    "memberId": "MBR-MLX39OAW-Y8HL",
+    "familyId": "RFAM-112",
+    "familyDisplayName": "BANANI & MITA Dhar",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 300,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "BANANI DHAR",
+        "email": "bdhar75@yahoo.com",
+        "memberId": "MBR-MLX39OAW-Y8HL",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-014",
+    "primaryName": "Asok Chaudhuri",
+    "primaryEmail": "asokchaudhuri@gmail.com",
+    "memberId": "MBR-MLX38ZHW-TFCD",
+    "familyId": "RFAM-014",
+    "familyDisplayName": "Asok Chaudhuri",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 300,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Asok Chaudhuri",
+        "email": "asokchaudhuri@gmail.com",
+        "memberId": "MBR-MLX38ZHW-TFCD",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-015",
+    "primaryName": "Rwiti Choudhury",
+    "primaryEmail": "rwitichoudhury@gmail.com",
+    "memberId": "MBR-MLX38ZFZ-MY2I",
+    "familyId": "RFAM-015",
+    "familyDisplayName": "Rwiti Choudhury",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Family",
+    "amount": 215,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Rwiti Choudhury",
+        "email": "rwitichoudhury@gmail.com",
+        "memberId": "MBR-MLX38ZFZ-MY2I",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-074",
+    "primaryName": "Paramita Pal",
+    "primaryEmail": "runaparamita@gmail.com",
+    "memberId": "MBR-MLX38Z84-2N04",
+    "familyId": "RFAM-074",
+    "familyDisplayName": "Paramita & Suvankar & Sumit Pal",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "M2 Premium - Couple",
+    "amount": 330,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Paramita Pal",
+        "email": "runaparamita@gmail.com",
+        "memberId": "MBR-MLX38Z84-2N04",
+        "isEC": false
+      },
+      {
+        "name": "Suvankar Paul",
+        "email": "suvankar.paul@gmail.com",
+        "memberId": "MBR-MLX38Z6A-V1BJ",
+        "isEC": true
+      },
+      {
+        "name": "Sumit Pal",
+        "email": "sumit_system@yahoo.com",
+        "memberId": "MBR-MLX38Z3Y-5BU1",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-016",
+    "primaryName": "Suvendu Maitra",
+    "primaryEmail": "slmaitra@gmail.com",
+    "memberId": "MBR-MLX38YXP-VC2X",
+    "familyId": "RFAM-016",
+    "familyDisplayName": "Suvendu Maitra",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Family",
+    "amount": 107.5,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Suvendu Maitra",
+        "email": "slmaitra@gmail.com",
+        "memberId": "MBR-MLX38YXP-VC2X",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-017",
+    "primaryName": "Sayani Maitra",
+    "primaryEmail": "maitra.sayani@gmail.com",
+    "memberId": "MBR-MLX38YVL-Z3PA",
+    "familyId": "RFAM-017",
+    "familyDisplayName": "Sayani & Swapnoneel Maitra",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sayani Maitra",
+        "email": "maitra.sayani@gmail.com",
+        "memberId": "MBR-MLX38YVL-Z3PA",
+        "isEC": true
+      },
+      {
+        "name": "Swapnoneel Roy",
+        "email": "sroy.iitm@gmail.com",
+        "memberId": "MBR-MLX38R4D-8W2D",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-018",
+    "primaryName": "Munmun Maitra",
+    "primaryEmail": "munmun_maitra@yahoo.com",
+    "memberId": "MBR-MLX38YTR-HEZT",
+    "familyId": "RFAM-018",
+    "familyDisplayName": "Munmun Maitra",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Family",
+    "amount": 107.5,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Munmun Maitra",
+        "email": "munmun_maitra@yahoo.com",
+        "memberId": "MBR-MLX38YTR-HEZT",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-113",
+    "primaryName": "Amit Saha",
+    "primaryEmail": "asahaech@yahoo.com",
+    "memberId": "MBR-MLX38XTY-THBG",
+    "familyId": "RFAM-113",
+    "familyDisplayName": "Saha Family (4)",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "M2 Premium - Couple",
+    "amount": 330,
+    "year": "2026-27",
+    "source": "wf_zelle",
+    "members": [
+      {
+        "name": "Amit Saha",
+        "email": "asahaech@yahoo.com",
+        "memberId": "MBR-MLX38XTY-THBG",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-020",
+    "primaryName": "SUDESHNA CHATTERJEE",
+    "primaryEmail": "sudeshna.chatterjee1986@gmail.com",
+    "memberId": "MBR-MLX38XM9-BBFV",
+    "familyId": "RFAM-020",
+    "familyDisplayName": "SUDESHNA CHATTERJEE",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "SUDESHNA CHATTERJEE",
+        "email": "sudeshna.chatterjee1986@gmail.com",
+        "memberId": "MBR-MLX38XM9-BBFV",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-021",
+    "primaryName": "Chiradip Chatterjee",
+    "primaryEmail": "cchat003@fiu.edu",
+    "memberId": "MBR-MLX38XKC-U9I9",
+    "familyId": "RFAM-021",
+    "familyDisplayName": "Chiradip Chatterjee",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Chiradip Chatterjee",
+        "email": "cchat003@fiu.edu",
+        "memberId": "MBR-MLX38XKC-U9I9",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-114",
+    "primaryName": "Sunanda Banerjee",
+    "primaryEmail": "sunanda.banerjee@gmail.com",
+    "memberId": "MBR-MLX38WN9-KNMX",
+    "familyId": "RFAM-114",
+    "familyDisplayName": "Banerjee Family (4)",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Couple",
+    "amount": 100,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sunanda Banerjee",
+        "email": "sunanda.banerjee@gmail.com",
+        "memberId": "MBR-MLX38WN9-KNMX",
+        "isEC": true
+      },
+      {
+        "name": "Rahul Banerjee",
+        "email": "weekender_in@yahoo.com",
+        "memberId": "MBR-MLX38WLH-MI3S",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-026",
+    "primaryName": "Anita Mandal",
+    "primaryEmail": "amandalamandal@yahoo.com",
+    "memberId": "MBR-MLX38W7S-YIE0",
+    "familyId": "RFAM-026",
+    "familyDisplayName": "Anita Mandal",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Couple",
+    "amount": 100,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Anita Mandal",
+        "email": "amandalamandal@yahoo.com",
+        "memberId": "MBR-MLX38W7S-YIE0",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-025",
+    "primaryName": "Subrata Mondal",
+    "primaryEmail": "sm.mondal@gmail.com",
+    "memberId": "MBR-MLX38W62-9DR5",
+    "familyId": "RFAM-025",
+    "familyDisplayName": "Moushumi & Subrata Mondal",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Family",
+    "amount": 107.5,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Subrata Mondal",
+        "email": "sm.mondal@gmail.com",
+        "memberId": "MBR-MLX38W62-9DR5",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-027",
+    "primaryName": "Latika Mukherjee",
+    "primaryEmail": "lmukhe@yahoo.com",
+    "memberId": "MBR-MLX38VM7-GSMV",
+    "familyId": "RFAM-027",
+    "familyDisplayName": "Latika Mukherjee",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Individual",
+    "amount": 190,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Latika Mukherjee",
+        "email": "lmukhe@yahoo.com",
+        "memberId": "MBR-MLX38VM7-GSMV",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-031",
+    "primaryName": "Souvik Chakraborty",
+    "primaryEmail": "souvikcha@gmail.com",
+    "memberId": "MBR-MLX38V72-M1SF",
+    "familyId": "RFAM-031",
+    "familyDisplayName": "Souvik Chakraborty",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 300,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Souvik Chakraborty",
+        "email": "souvikcha@gmail.com",
+        "memberId": "MBR-MLX38V72-M1SF",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-035",
+    "primaryName": "Aparna Chakravarty",
+    "primaryEmail": "chakfam5@yahoo.com",
+    "memberId": "MBR-MLX38UX2-RPFO",
+    "familyId": "RFAM-035",
+    "familyDisplayName": "Aparna Chakravarty",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Aparna Chakravarty",
+        "email": "chakfam5@yahoo.com",
+        "memberId": "MBR-MLX38UX2-RPFO",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-036",
+    "primaryName": "Kalyan Chakrabarti",
+    "primaryEmail": "kalyan32258@yahoo.com",
+    "memberId": "MBR-MLX38UV3-NJM1",
+    "familyId": "RFAM-036",
+    "familyDisplayName": "Kalyan Chakrabarti",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Couple",
+    "amount": 100,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Kalyan Chakrabarti",
+        "email": "kalyan32258@yahoo.com",
+        "memberId": "MBR-MLX38UV3-NJM1",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-117",
+    "primaryName": "Rupa Majumdar",
+    "primaryEmail": "srabana.m@gmail.com",
+    "memberId": "MBR-MLX38UDV-OZXV",
+    "familyId": "RFAM-117",
+    "familyDisplayName": "Rupa Majumdar",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "Reg - Couple",
+    "amount": 100,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Rupa Majumdar",
+        "email": "srabana.m@gmail.com",
+        "memberId": "MBR-MLX38UDV-OZXV",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-118",
+    "primaryName": "Madhumita Chakravarty",
+    "primaryEmail": "madhumita.mazumdar3@gmail.com",
+    "memberId": "MBR-MLX38UBL-N35E",
+    "familyId": "RFAM-118",
+    "familyDisplayName": "Madhumita & Atmadeep Chakravarty",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Madhumita Chakravarty",
+        "email": "madhumita.mazumdar3@gmail.com",
+        "memberId": "MBR-MLX38UBL-N35E",
+        "isEC": true
+      },
+      {
+        "name": "Atmadeep Mazumdar",
+        "email": "atmadeep.mazumdar@gmail.com",
+        "memberId": "MBR-MLX38U5K-94L1",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-116",
+    "primaryName": "Rajarshi Majumdar",
+    "primaryEmail": "rajarshi.majumdar@gmail.com",
+    "memberId": "MBR-MLX38U7I-B2IH",
+    "familyId": "RFAM-116",
+    "familyDisplayName": "Lopita & Rajarshi Majumdar",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Rajarshi Majumdar",
+        "email": "rajarshi.majumdar@gmail.com",
+        "memberId": "MBR-MLX38U7I-B2IH",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-123",
+    "primaryName": "Mayukh Das",
+    "primaryEmail": "dasmayukh@gmail.com",
+    "memberId": "MBR-MLX38TU3-0QQC",
+    "familyId": "RFAM-123",
+    "familyDisplayName": "Mayukh Das",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Mayukh Das",
+        "email": "dasmayukh@gmail.com",
+        "memberId": "MBR-MLX38TU3-0QQC",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-124",
+    "primaryName": "Reshma Das",
+    "primaryEmail": "reshmabhadra@gmail.com",
+    "memberId": "MBR-MLX38TQG-SQK8",
+    "familyId": "RFAM-124",
+    "familyDisplayName": "Saugata & Reshma & Tanmay Das",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Reshma Das",
+        "email": "reshmabhadra@gmail.com",
+        "memberId": "MBR-MLX38TQG-SQK8",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-040",
+    "primaryName": "Sumanta Ghosh",
+    "primaryEmail": "sumo475@gmail.com",
+    "memberId": "MBR-MLX38SGC-FHG4",
+    "familyId": "RFAM-040",
+    "familyDisplayName": "Sumanta & Rajanya Ghosh",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 150,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sumanta Ghosh",
+        "email": "sumo475@gmail.com",
+        "memberId": "MBR-MLX38SGC-FHG4",
+        "isEC": true
+      },
+      {
+        "name": "Rajanya Ghosh",
+        "email": "rajanya.ghosh1993@gmail.com",
+        "memberId": "MBR-MLX38SEJ-W0VI",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-041",
+    "primaryName": "Dipra Ghosh",
+    "primaryEmail": "ghosh.dipra@gmail.com",
+    "memberId": "MBR-MLX38SCG-TGYW",
+    "familyId": "RFAM-041",
+    "familyDisplayName": "Dipra Ghosh",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 300,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Dipra Ghosh",
+        "email": "ghosh.dipra@gmail.com",
+        "memberId": "MBR-MLX38SCG-TGYW",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-042",
+    "primaryName": "Anirban Ghosh",
+    "primaryEmail": "anirban.ninja@gmail.com",
+    "memberId": "MBR-MLX38SAM-HWAJ",
+    "familyId": "RFAM-042",
+    "familyDisplayName": "Anirban Ghosh",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 300,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Anirban Ghosh",
+        "email": "anirban.ninja@gmail.com",
+        "memberId": "MBR-MLX38SAM-HWAJ",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-047",
+    "primaryName": "Sonu Roy",
+    "primaryEmail": "sonuroy123@gmail.com",
+    "memberId": "MBR-MLX38RUL-E9XP",
+    "familyId": "RFAM-047",
+    "familyDisplayName": "Sonu & Bhaskar Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sonu Roy",
+        "email": "sonuroy123@gmail.com",
+        "memberId": "MBR-MLX38RUL-E9XP",
+        "isEC": false
+      },
+      {
+        "name": "Bhaskar Roy",
+        "email": "bhaskarroy24@gmail.com",
+        "memberId": "MBR-MLX38RIT-IXUU",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-048",
+    "primaryName": "Sudip Roy",
+    "primaryEmail": "roysu2000@gmail.com",
+    "memberId": "MBR-MLX38RQU-539W",
+    "familyId": "RFAM-048",
+    "familyDisplayName": "Sudip Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sudip Roy",
+        "email": "roysu2000@gmail.com",
+        "memberId": "MBR-MLX38RQU-539W",
+        "isEC": false
+      }
+    ],
+    "isActive": true,
+    "isEC": false
+  },
+  {
+    "householdKey": "RFAM-053",
+    "primaryName": "Padmoja Roy",
+    "primaryEmail": "poddojaroy@gmail.com",
+    "memberId": "MBR-MLX38R27-Z9PX",
+    "familyId": "RFAM-053",
+    "familyDisplayName": "Padmoja Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Padmoja Roy",
+        "email": "poddojaroy@gmail.com",
+        "memberId": "MBR-MLX38R27-Z9PX",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-054",
+    "primaryName": "Nabo Roy",
+    "primaryEmail": "nabokumar09@gmail.com",
+    "memberId": "MBR-MLX38R05-Q2MW",
+    "familyId": "RFAM-054",
+    "familyDisplayName": "Nabo Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Nabo Roy",
+        "email": "nabokumar09@gmail.com",
+        "memberId": "MBR-MLX38R05-Q2MW",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-055",
+    "primaryName": "Debasmita Roy",
+    "primaryEmail": "roy.debasmita@gmail.com",
+    "memberId": "MBR-MLX38QY5-1I4F",
+    "familyId": "RFAM-055",
+    "familyDisplayName": "Debasmita Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 340,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Debasmita Roy",
+        "email": "roy.debasmita@gmail.com",
+        "memberId": "MBR-MLX38QY5-1I4F",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-057",
+    "primaryName": "Sanhita Roy",
+    "primaryEmail": "sanhitadas_2000@yahoo.com",
+    "memberId": "MBR-MLX38QU3-L6MV",
+    "familyId": "RFAM-057",
+    "familyDisplayName": "Sanhita Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Couple",
+    "amount": 300,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Sanhita Roy",
+        "email": "sanhitadas_2000@yahoo.com",
+        "memberId": "MBR-MLX38QU3-L6MV",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  },
+  {
+    "householdKey": "RFAM-060",
+    "primaryName": "Ipshita Roy",
+    "primaryEmail": "sudipshita@yahoo.com",
+    "memberId": "MBR-MLX38QOA-38XE",
+    "familyId": "RFAM-060",
+    "familyDisplayName": "Ipshita Roy",
+    "city": "Jacksonville",
+    "state": "FL",
+    "category": "EB - Family",
+    "amount": 170,
+    "year": "2026-27",
+    "source": "membership_xlsx",
+    "members": [
+      {
+        "name": "Ipshita Roy",
+        "email": "sudipshita@yahoo.com",
+        "memberId": "MBR-MLX38QOA-38XE",
+        "isEC": true
+      }
+    ],
+    "isActive": true,
+    "isEC": true
+  }
+]

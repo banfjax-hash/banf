@@ -1,0 +1,1671 @@
+{
+  "2026-27": {
+    "RFAM-001": {
+      "familyId": "RFAM-001",
+      "familyDisplayName": "Partha & Soma & Amrita Mukhopadhyay",
+      "members": [
+        {
+          "name": "Partha Mukhopadhyay",
+          "email": "mukhopadhyay.partha@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Soma Choudhury",
+          "email": "soma1979p@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Partha Mukhopadhyay"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Partha C/Soma"
+        },
+        {
+          "category": "M2 Premium EB - Family",
+          "amount": 375,
+          "source": "wf_zelle",
+          "rawName": "AMRITA MUKHOPADHYAY"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Partha C/Soma"
+        }
+      ],
+      "totalAmount": 1055,
+      "categories": [
+        "EB - Family",
+        "M2 Premium EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-063": {
+      "familyId": "RFAM-063",
+      "familyDisplayName": "Amit Chandak",
+      "members": [
+        {
+          "name": "Amit Chandak",
+          "email": "amit.everywhere@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "M2 Premium EB - Family",
+          "amount": 375,
+          "source": "wf_zelle",
+          "rawName": "AMIT CHANDAK"
+        }
+      ],
+      "totalAmount": 375,
+      "categories": [
+        "M2 Premium EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-066": {
+      "familyId": "RFAM-066",
+      "familyDisplayName": "Shamit Dutta",
+      "members": [
+        {
+          "name": "Shamit Dutta",
+          "email": "dutta.shamit2000@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx"
+        }
+      ],
+      "totalAmount": 170,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": false,
+      "city": "",
+      "state": ""
+    },
+    "RFAM-068": {
+      "familyId": "RFAM-068",
+      "familyDisplayName": "Sunetra Basu Ghosh",
+      "members": [
+        {
+          "name": "Sunetra Basu Ghosh",
+          "email": "sunetra.basu@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "M2 Premium - Couple",
+          "amount": 330,
+          "source": "wf_zelle",
+          "rawName": "SUNETRA BASU GHOSH"
+        }
+      ],
+      "totalAmount": 330,
+      "categories": [
+        "M2 Premium - Couple"
+      ],
+      "isEC": false,
+      "city": "",
+      "state": ""
+    },
+    "RFAM-070": {
+      "familyId": "RFAM-070",
+      "familyDisplayName": "Alak Manna",
+      "members": [
+        {
+          "name": "Alak Manna",
+          "email": "alak.manna@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Alak Manna"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": false,
+      "city": "",
+      "state": ""
+    },
+    "RFAM-071": {
+      "familyId": "RFAM-071",
+      "familyDisplayName": "Nandita Guin",
+      "members": [
+        {
+          "name": "Nandita Guin",
+          "email": "g.nnandita@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Soumyajit/ Nandita"
+        }
+      ],
+      "totalAmount": 150,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": false,
+      "city": "",
+      "state": ""
+    },
+    "RFAM-003": {
+      "familyId": "RFAM-003",
+      "familyDisplayName": "Swarnendu & Sreya Sen",
+      "members": [
+        {
+          "name": "Swarnendu Sen",
+          "email": "swarnendu.sen@gmail.com",
+          "phone": "1 (904) 307-1828"
+        },
+        {
+          "name": "Sreya Ghosh",
+          "email": "sreya.ghosh1510@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Swarnendu/ Sreya"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Swarnendu/ Sreya"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "",
+      "state": ""
+    },
+    "RFAM-081": {
+      "familyId": "RFAM-081",
+      "familyDisplayName": "Tanay Bhaduri",
+      "members": [
+        {
+          "name": "Tanay Bhaduri",
+          "email": "tanay.bhaduri@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Tanay / Tani"
+        }
+      ],
+      "totalAmount": 150,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": false,
+      "city": "",
+      "state": ""
+    },
+    "RFAM-085": {
+      "familyId": "RFAM-085",
+      "familyDisplayName": "Sadhu Family (5)",
+      "members": [
+        {
+          "name": "Kapil Sadhu",
+          "email": "kapil.sadhu@gmail.com",
+          "phone": "+1(425)3726917"
+        },
+        {
+          "name": "Sanghamitra Chandra",
+          "email": "riyachandra1988@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Nilay Chandra",
+          "email": "chandranilay@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Jiniya Chandra",
+          "email": "jiniya.chandra@gmail.com",
+          "phone": "6142053537"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Kapil / Sanghamitra"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Kapil / Sanghamitra"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Jiniya/Nilay"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Jiniya/Nilay"
+        }
+      ],
+      "totalAmount": 680,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-087": {
+      "familyId": "RFAM-087",
+      "familyDisplayName": "Saikat Natta",
+      "members": [
+        {
+          "name": "Saikat Natta",
+          "email": "natta.saikat@gmail.com",
+          "phone": "+1 (904) 629-5204"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Saikat Natta"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-088": {
+      "familyId": "RFAM-088",
+      "familyDisplayName": "S Family (5)",
+      "members": [
+        {
+          "name": "Rajib S",
+          "email": "rajibs123@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Rita Bhattacharjee",
+          "email": "ritabhattacharjee@gmail.com",
+          "phone": "9044312717"
+        },
+        {
+          "name": "Sanchari Bhattacharyya",
+          "email": "tosanchari@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Santanu Bhattacharya",
+          "email": "tosantanu@gmail.com",
+          "phone": "+15072063142"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Rajib Da/Rita Di"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Rajib Da/Rita Di"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Santanu Da/ Sanchari Di"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Santanu Da/ Sanchari Di"
+        }
+      ],
+      "totalAmount": 640,
+      "categories": [
+        "EB - Couple",
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL",
+      "note": "Santanu payment for FY 2026-27 confirmed by user"
+    },
+    "RFAM-089": {
+      "familyId": "RFAM-089",
+      "familyDisplayName": "Dola Sinha",
+      "members": [
+        {
+          "name": "Dola Sinha",
+          "email": "dolasinha@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Dola Di/ Ujwal Da"
+        }
+      ],
+      "totalAmount": 150,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-091": {
+      "familyId": "RFAM-091",
+      "familyDisplayName": "Uttam Mistry",
+      "members": [
+        {
+          "name": "Uttam Mistry",
+          "email": "uttamkgec@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Individual",
+          "amount": 190,
+          "source": "membership_xlsx",
+          "rawName": "Uttam"
+        }
+      ],
+      "totalAmount": 190,
+      "categories": [
+        "EB - Individual"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-072": {
+      "familyId": "RFAM-072",
+      "familyDisplayName": "Rakshit Family (6)",
+      "members": [
+        {
+          "name": "urmi rakshit",
+          "email": "urmi.kanya@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Nandini Dutta",
+          "email": "dutta.nandini47@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Soumyajit Dutta",
+          "email": "duttasoumyajit86@gmail.com",
+          "phone": "9049301094"
+        },
+        {
+          "name": "Ayan Dutta",
+          "email": "duttaayan.cs@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Indrani Dutta",
+          "email": "dindrani74@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Ayan / Urmi"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Soumyajit/ Nandita"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Ayan / Urmi"
+        },
+        {
+          "category": "Reg - Couple",
+          "amount": 200,
+          "source": "membership_xlsx",
+          "rawName": "Indrani"
+        }
+      ],
+      "totalAmount": 820,
+      "categories": [
+        "EB - Couple",
+        "EB - Family",
+        "Reg - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-092": {
+      "familyId": "RFAM-092",
+      "familyDisplayName": "Nilanjana B",
+      "members": [
+        {
+          "name": "Nilanjana B",
+          "email": "nilanb@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Nilanjana"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-004": {
+      "familyId": "RFAM-004",
+      "familyDisplayName": "Koushik & Bithika Karmakar",
+      "members": [
+        {
+          "name": "Koushik Karmakar",
+          "email": "karmakar.2007@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Bithika Roy",
+          "email": "bithikaroy96@gmail.com",
+          "phone": "9046150101"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Koushik/Bithika"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Koushik/Bithika"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-006": {
+      "familyId": "RFAM-006",
+      "familyDisplayName": "Sharmistha Poddar",
+      "members": [
+        {
+          "name": "Sharmistha Poddar",
+          "email": "sharmi.p09@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Surojit Da/ Sharmistha Di"
+        }
+      ],
+      "totalAmount": 150,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL",
+      "note": "Sharmistha Poddar (spouse of Suvankar Paul) - payments under her name. In evite listed as Sharmistha Paul."
+    },
+    "RFAM-073": {
+      "familyId": "RFAM-073",
+      "familyDisplayName": "Joyeeta Polley",
+      "members": [
+        {
+          "name": "Joyeeta Polley",
+          "email": "joyeeta.all@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Joyeeta/Krishnendu"
+        }
+      ],
+      "totalAmount": 170,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-094": {
+      "familyId": "RFAM-094",
+      "familyDisplayName": "Suchitra Biswas",
+      "members": [
+        {
+          "name": "Suchitra Biswas",
+          "email": "suchitrab4@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-106": {
+      "familyId": "RFAM-106",
+      "familyDisplayName": "Holly & Raj Goswami",
+      "members": [
+        {
+          "name": "Holly Goswami",
+          "email": "holly_goswami@buildfusion.com",
+          "phone": "9045376106"
+        },
+        {
+          "name": "Raj Goswami",
+          "email": "raj.goswami@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Raj & Holly Goswami"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Raj & Holly Goswami"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-007": {
+      "familyId": "RFAM-007",
+      "familyDisplayName": "RANADHIR GHOSH",
+      "members": [
+        {
+          "name": "RANADHIR GHOSH",
+          "email": "ranadhir.ghosh@gmail.com",
+          "phone": "9044023967"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Ranadhir Da/ Moumita Di"
+        },
+        {
+          "category": "M2 Premium EB - Family",
+          "amount": 375,
+          "source": "wf_zelle",
+          "rawName": "RANADHIR GHOSH"
+        }
+      ],
+      "totalAmount": 545,
+      "categories": [
+        "EB - Family",
+        "M2 Premium EB - Family"
+      ],
+      "isEC": true,
+      "city": "JACKSONVILLE",
+      "state": "FL"
+    },
+    "RFAM-112": {
+      "familyId": "RFAM-112",
+      "familyDisplayName": "BANANI & MITA Dhar",
+      "members": [
+        {
+          "name": "BANANI DHAR",
+          "email": "bdhar75@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Banani Dhar"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-014": {
+      "familyId": "RFAM-014",
+      "familyDisplayName": "Asok Chaudhuri",
+      "members": [
+        {
+          "name": "Asok Chaudhuri",
+          "email": "asokchaudhuri@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Asok Chaudhuri"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": false,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-015": {
+      "familyId": "RFAM-015",
+      "familyDisplayName": "Rwiti Choudhury",
+      "members": [
+        {
+          "name": "Rwiti Choudhury",
+          "email": "rwitichoudhury@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "Reg - Family",
+          "amount": 215,
+          "source": "membership_xlsx",
+          "rawName": "Rwiti"
+        }
+      ],
+      "totalAmount": 215,
+      "categories": [
+        "Reg - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-074": {
+      "familyId": "RFAM-074",
+      "familyDisplayName": "Paramita & Suvankar & Sumit Pal",
+      "members": [
+        {
+          "name": "Paramita Pal",
+          "email": "runaparamita@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Suvankar Paul",
+          "email": "suvankar.paul@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Sumit Pal",
+          "email": "sumit_system@yahoo.com",
+          "phone": "(201) 289-7010"
+        },
+        {
+          "name": "Sharmistha Poddar",
+          "email": "sharmi.p09@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Sumit Da/ Paramita Di"
+        },
+        {
+          "category": "M2 Premium - Couple",
+          "amount": 330,
+          "source": "wf_zelle",
+          "rawName": "SUVANKAR"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Sumit Da/ Paramita Di"
+        }
+      ],
+      "totalAmount": 670,
+      "categories": [
+        "EB - Family",
+        "M2 Premium - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-016": {
+      "familyId": "RFAM-016",
+      "familyDisplayName": "Suvendu Maitra",
+      "members": [
+        {
+          "name": "Suvendu Maitra",
+          "email": "slmaitra@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "Reg - Family",
+          "amount": 107.5,
+          "source": "membership_xlsx",
+          "rawName": "Suvendu Da/ Munmun Di"
+        }
+      ],
+      "totalAmount": 107.5,
+      "categories": [
+        "Reg - Family"
+      ],
+      "isEC": false,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-017": {
+      "familyId": "RFAM-017",
+      "familyDisplayName": "Sayani & Swapnoneel Maitra",
+      "members": [
+        {
+          "name": "Sayani Maitra",
+          "email": "maitra.sayani@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Swapnoneel Roy",
+          "email": "sroy.iitm@gmail.com",
+          "phone": "+1(716)8676059"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Swapnoneel/ Sayani"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Swapnoneel/ Sayani"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-018": {
+      "familyId": "RFAM-018",
+      "familyDisplayName": "Munmun Maitra",
+      "members": [
+        {
+          "name": "Munmun Maitra",
+          "email": "munmun_maitra@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "Reg - Family",
+          "amount": 107.5,
+          "source": "membership_xlsx",
+          "rawName": "Suvendu Da/ Munmun Di"
+        }
+      ],
+      "totalAmount": 107.5,
+      "categories": [
+        "Reg - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-113": {
+      "familyId": "RFAM-113",
+      "familyDisplayName": "Saha Family (4)",
+      "members": [
+        {
+          "name": "Amit Saha",
+          "email": "asahaech@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Amit Saha / Papri Saha"
+        },
+        {
+          "category": "M2 Premium - Couple",
+          "amount": 330,
+          "source": "wf_zelle",
+          "rawName": "AMIT SAHA"
+        }
+      ],
+      "totalAmount": 480,
+      "categories": [
+        "EB - Couple",
+        "M2 Premium - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-020": {
+      "familyId": "RFAM-020",
+      "familyDisplayName": "SUDESHNA CHATTERJEE",
+      "members": [
+        {
+          "name": "SUDESHNA CHATTERJEE",
+          "email": "sudeshna.chatterjee1986@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Arnab/ Sudeshna"
+        }
+      ],
+      "totalAmount": 170,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": false,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-021": {
+      "familyId": "RFAM-021",
+      "familyDisplayName": "Chiradip Chatterjee",
+      "members": [
+        {
+          "name": "Chiradip Chatterjee",
+          "email": "cchat003@fiu.edu",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Chiradip Chatterjee"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-114": {
+      "familyId": "RFAM-114",
+      "familyDisplayName": "Banerjee Family (4)",
+      "members": [
+        {
+          "name": "Sunanda Banerjee",
+          "email": "sunanda.banerjee@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Rahul Banerjee",
+          "email": "weekender_in@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "Reg - Couple",
+          "amount": 100,
+          "source": "membership_xlsx",
+          "rawName": "Rahul B/ Sunanda B"
+        },
+        {
+          "category": "Reg - Couple",
+          "amount": 100,
+          "source": "membership_xlsx",
+          "rawName": "Rahul B/ Sunanda B"
+        }
+      ],
+      "totalAmount": 200,
+      "categories": [
+        "Reg - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-026": {
+      "familyId": "RFAM-026",
+      "familyDisplayName": "Anita Mandal",
+      "members": [
+        {
+          "name": "Anita Mandal",
+          "email": "amandalamandal@yahoo.com",
+          "phone": "+1(904)2070963"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Anita Mandal"
+        },
+        {
+          "category": "Reg - Couple",
+          "amount": 100,
+          "source": "membership_xlsx",
+          "rawName": "Anita Di/ Kalyan Da"
+        }
+      ],
+      "totalAmount": 400,
+      "categories": [
+        "EB - Couple",
+        "Reg - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-025": {
+      "familyId": "RFAM-025",
+      "familyDisplayName": "Moushumi & Subrata Mondal",
+      "members": [
+        {
+          "name": "Subrata Mondal",
+          "email": "sm.mondal@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Subrata Da"
+        },
+        {
+          "category": "Reg - Family",
+          "amount": 107.5,
+          "source": "membership_xlsx",
+          "rawName": "Mousumi Mandal/ Subrata Mandal"
+        }
+      ],
+      "totalAmount": 407.5,
+      "categories": [
+        "EB - Couple",
+        "Reg - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-027": {
+      "familyId": "RFAM-027",
+      "familyDisplayName": "Latika Mukherjee",
+      "members": [
+        {
+          "name": "Latika Mukherjee",
+          "email": "lmukhe@yahoo.com",
+          "phone": "(703) 593-5801"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Individual",
+          "amount": 190,
+          "source": "membership_xlsx",
+          "rawName": "Latika di"
+        }
+      ],
+      "totalAmount": 190,
+      "categories": [
+        "EB - Individual"
+      ],
+      "isEC": false,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-031": {
+      "familyId": "RFAM-031",
+      "familyDisplayName": "Souvik Chakraborty",
+      "members": [
+        {
+          "name": "Souvik Chakraborty",
+          "email": "souvikcha@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Souvik Chakraborty"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": false,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-035": {
+      "familyId": "RFAM-035",
+      "familyDisplayName": "Aparna Chakravarty",
+      "members": [
+        {
+          "name": "Aparna Chakravarty",
+          "email": "chakfam5@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Aparna Di"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-036": {
+      "familyId": "RFAM-036",
+      "familyDisplayName": "Kalyan Chakrabarti",
+      "members": [
+        {
+          "name": "Kalyan Chakrabarti",
+          "email": "kalyan32258@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "Reg - Couple",
+          "amount": 100,
+          "source": "membership_xlsx",
+          "rawName": "Anita Di/ Kalyan Da"
+        }
+      ],
+      "totalAmount": 100,
+      "categories": [
+        "Reg - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-117": {
+      "familyId": "RFAM-117",
+      "familyDisplayName": "Rupa Majumdar",
+      "members": [
+        {
+          "name": "Rupa Majumdar",
+          "email": "srabana.m@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "Reg - Couple",
+          "amount": 100,
+          "source": "membership_xlsx",
+          "rawName": "Rupa Di / Nirupam Da"
+        }
+      ],
+      "totalAmount": 100,
+      "categories": [
+        "Reg - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-118": {
+      "familyId": "RFAM-118",
+      "familyDisplayName": "Madhumita & Atmadeep Chakravarty",
+      "members": [
+        {
+          "name": "Madhumita Chakravarty",
+          "email": "madhumita.mazumdar3@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Atmadeep Mazumdar",
+          "email": "atmadeep.mazumdar@gmail.com",
+          "phone": "9047057760"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Atmadeep / Madhumita"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Atmadeep / Madhumita"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-116": {
+      "familyId": "RFAM-116",
+      "familyDisplayName": "Lopita & Rajarshi Majumdar",
+      "members": [
+        {
+          "name": "Rajarshi Majumdar",
+          "email": "rajarshi.majumdar@gmail.com",
+          "phone": "9048842455"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "RAJARSHI MAJUMDAR"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-123": {
+      "familyId": "RFAM-123",
+      "familyDisplayName": "Mayukh Das",
+      "members": [
+        {
+          "name": "Mayukh Das",
+          "email": "dasmayukh@gmail.com",
+          "phone": "+1 (318) 614-9351"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Mayukh"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-124": {
+      "familyId": "RFAM-124",
+      "familyDisplayName": "Saugata & Reshma & Tanmay Das",
+      "members": [
+        {
+          "name": "Reshma Das",
+          "email": "reshmabhadra@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Sougata Da/ Reshma Di"
+        }
+      ],
+      "totalAmount": 170,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-040": {
+      "familyId": "RFAM-040",
+      "familyDisplayName": "Sumanta & Rajanya Ghosh",
+      "members": [
+        {
+          "name": "Sumanta Ghosh",
+          "email": "sumo475@gmail.com",
+          "phone": "7377815682"
+        },
+        {
+          "name": "Rajanya Ghosh",
+          "email": "rajanya.ghosh1993@gmail.com",
+          "phone": "7377815675"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx"
+        },
+        {
+          "category": "EB - Couple",
+          "amount": 150,
+          "source": "membership_xlsx",
+          "rawName": "Sumanta/Rajanya"
+        }
+      ],
+      "totalAmount": 640,
+      "categories": [
+        "EB - Family",
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-041": {
+      "familyId": "RFAM-041",
+      "familyDisplayName": "Dipra Ghosh",
+      "members": [
+        {
+          "name": "Dipra Ghosh",
+          "email": "ghosh.dipra@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Dipra Ghosh"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-042": {
+      "familyId": "RFAM-042",
+      "familyDisplayName": "Anirban Ghosh",
+      "members": [
+        {
+          "name": "Anirban Ghosh",
+          "email": "anirban.ninja@gmail.com",
+          "phone": "4143247770"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx",
+          "rawName": "Anirban Ghosh"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-047": {
+      "familyId": "RFAM-047",
+      "familyDisplayName": "Sonu & Bhaskar Roy",
+      "members": [
+        {
+          "name": "Sonu Roy",
+          "email": "sonuroy123@gmail.com",
+          "phone": ""
+        },
+        {
+          "name": "Bhaskar Roy",
+          "email": "bhaskarroy24@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Bhaskar / Sonu"
+        },
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Bhaskar / Sonu"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-048": {
+      "familyId": "RFAM-048",
+      "familyDisplayName": "Sudip Roy",
+      "members": [
+        {
+          "name": "Sudip Roy",
+          "email": "roysu2000@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Sudip Da/ Ipshita Di"
+        }
+      ],
+      "totalAmount": 170,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": false,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-053": {
+      "familyId": "RFAM-053",
+      "familyDisplayName": "Padmoja Roy",
+      "members": [
+        {
+          "name": "Padmoja Roy",
+          "email": "poddojaroy@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Padmoja Roy"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-054": {
+      "familyId": "RFAM-054",
+      "familyDisplayName": "Nabo Roy",
+      "members": [
+        {
+          "name": "Nabo Roy",
+          "email": "nabokumar09@gmail.com",
+          "phone": "6145951563"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Nabo Roy"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-055": {
+      "familyId": "RFAM-055",
+      "familyDisplayName": "Debasmita Roy",
+      "members": [
+        {
+          "name": "Debasmita Roy",
+          "email": "roy.debasmita@gmail.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 340,
+          "source": "membership_xlsx",
+          "rawName": "Debasmita"
+        }
+      ],
+      "totalAmount": 340,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-057": {
+      "familyId": "RFAM-057",
+      "familyDisplayName": "Sanhita Roy",
+      "members": [
+        {
+          "name": "Sanhita Roy",
+          "email": "sanhitadas_2000@yahoo.com",
+          "phone": "+1(917)3736101"
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Couple",
+          "amount": 300,
+          "source": "membership_xlsx"
+        }
+      ],
+      "totalAmount": 300,
+      "categories": [
+        "EB - Couple"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    },
+    "RFAM-060": {
+      "familyId": "RFAM-060",
+      "familyDisplayName": "Ipshita Roy",
+      "members": [
+        {
+          "name": "Ipshita Roy",
+          "email": "sudipshita@yahoo.com",
+          "phone": ""
+        }
+      ],
+      "payments": [
+        {
+          "category": "EB - Family",
+          "amount": 170,
+          "source": "membership_xlsx",
+          "rawName": "Sudip Da/ Ipshita Di"
+        }
+      ],
+      "totalAmount": 170,
+      "categories": [
+        "EB - Family"
+      ],
+      "isEC": true,
+      "city": "Jacksonville",
+      "state": "FL"
+    }
+  }
+}

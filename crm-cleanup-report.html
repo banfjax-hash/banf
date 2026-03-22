@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF CRM Email Cleanup Report</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#0a0a1a; color:#e0e0e0; padding:24px; }
+.header { background:linear-gradient(135deg,#1a1a3e,#4a0e0e); border-radius:16px; padding:32px; margin-bottom:24px; }
+.header h1 { font-size:26px; color:#fff; margin-bottom:6px; }
+.header .sub { color:#aaa; font-size:13px; }
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:24px; }
+.kpi { background:#1a1a2e; border-radius:12px; padding:20px; text-align:center; border:1px solid #333; }
+.kpi .num { font-size:32px; font-weight:700; }
+.kpi .lbl { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+.num.green { color:#00e676; } .num.red { color:#ff5252; } .num.amber { color:#ff9800; } .num.blue { color:#42a5f5; }
+.section { background:#1a1a2e; border-radius:12px; margin-bottom:20px; border:1px solid #333; overflow:hidden; }
+.section-hdr { background:#222244; padding:14px 20px; font-size:15px; font-weight:600; border-bottom:1px solid #333; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { background:#16163a; padding:10px 12px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:#888; }
+td { padding:10px 12px; border-bottom:1px solid #1a1a2e; }
+tr:hover { background:#222240; }
+tr.perm td:first-child { color:#ff5252; }
+tr.temp td:first-child { color:#ff9800; }
+.badge { padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.badge.address_not_found { background:#5c1515; color:#ff8a80; }
+.badge.mailbox_full { background:#4a3000; color:#ffb74d; }
+.badge.rejected { background:#4a0000; color:#ff5252; }
+.badge.temporary_failure { background:#1a237e; color:#82b1ff; }
+.badge.unknown { background:#333; color:#999; }
+.badge.auto_reply { background:#1a237e; color:#82b1ff; }
+.badge.corporate_disclaimer { background:#4a3000; color:#ffb74d; }
+.badge.corporate_domain { background:#1b5e20; color:#a5d6a7; }
+.footer { text-align:center; padding:20px; color:#555; font-size:12px; margin-top:20px; }
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>📧 BANF CRM Email Cleanup Report</h1>
+    <div class="sub">Generated: 2026-03-22T01:48:15.214Z | Agent v2.0 | Scan since: 2026/03/01</div>
+</div>
+
+<div class="kpi-grid">
+    <div class="kpi"><div class="num">242</div><div class="lbl">Emails Scanned</div></div>
+    <div class="kpi"><div class="num red">42</div><div class="lbl">Bounces Found</div></div>
+    <div class="kpi"><div class="num amber">18</div><div class="lbl">Permanent Bounces</div></div>
+    <div class="kpi"><div class="num blue">24</div><div class="lbl">Temporary Bounces</div></div>
+    <div class="kpi"><div class="num red">0</div><div class="lbl">CRM Deactivated</div></div>
+    <div class="kpi"><div class="num amber">18</div><div class="lbl">Auto-Replies</div></div>
+    <div class="kpi"><div class="num green">0</div><div class="lbl">Corporate Moved</div></div>
+</div>
+
+<div class="section">
+    <div class="section-hdr">📬 Delivery Failures (42)</div>
+    <table>
+        <tr><th>Email</th><th>Reason</th><th>Type</th><th>Details</th><th>Action</th></tr>
+        
+        <tr class="temp">
+            <td>caden.schmidt@wixful.site</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>aroyc001@netzero.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>aroyc001@netzero.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>a@b.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>zaim3tariqul1712@gmail.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>mitaghosh1@yahoo.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>tasmim@tohfabd.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>neha.mandal@occamsadvisory.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>brandon.green@wixclicks.co</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>mitaghosh1@yahoo.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>tasmim@tohfabd.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>neha.mandal@occamsadvisory.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>brandon.green@wixclicks.co</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>brandon.green@wixclicks.co</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>neha.mandal@occamsadvisory.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>tasmim@tohfabd.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>mitaghosh1@yahoo.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>zaim3tariqul1712@gmail.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>a@b.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>aroyc001@netzero.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>caden.schmidt@wixful.site</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>aroyc001@netzero.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>caden.schmidt@wixful.site</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>joshua@northfloridaclean.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>daniel@northfloridaclean.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>joshua@northfloridaclean.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>daniel@northfloridaclean.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>sonika@mumukshulife.com</td>
+            <td><span class="badge address_not_found">address_not_found</span></td>
+            <td>❌ Permanent</td>
+            <td>Email address does not exist</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="perm">
+            <td>jayanta0@yahoo.com</td>
+            <td><span class="badge unknown">unknown</span></td>
+            <td>❌ Permanent</td>
+            <td>Unknown delivery failure</td>
+            <td>Deactivated</td>
+        </tr>
+        <tr class="temp">
+            <td>ray@ameliaclean.com</td>
+            <td><span class="badge temporary_failure">temporary_failure</span></td>
+            <td>⏳ Temporary</td>
+            <td>Temporary delivery failure — will retry</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="temp">
+            <td>rajanya.ghosh@gmail.com</td>
+            <td><span class="badge mailbox_full">mailbox_full</span></td>
+            <td>⏳ Temporary</td>
+            <td>Recipient mailbox is full / over quota</td>
+            <td>Keep (flagged)</td>
+        </tr>
+        <tr class="perm">
+            <td>jacqueline.ottosen@stjohns.k12.fl.us</td>
+            <td><span class="badge rejected">rejected</span></td>
+            <td>❌ Permanent</td>
+            <td>Email was rejected by recipient server</td>
+            <td>Deactivated</td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-hdr">🏢 Corporate / Auto-Reply Emails (18)</div>
+    <table>
+        <tr><th>Email</th><th>Name</th><th>Reason</th><th>Preview</th></tr>
+        
+        <tr>
+            <td>melissa.lime@stjohns.k12.fl.us</td>
+            <td>Melissa Lime</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>Automatic reply: Inquiry - Community Event Venue Rental at Freedom Crossing Academy (April 25, 2026)...</td>
+        </tr>
+        <tr>
+            <td>notification@priority.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>banf_jax, catch up on moments you've missed
+...</td>
+        </tr>
+        <tr>
+            <td>posts-recap@mail.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>banf_jax, see what's been happening on Instagram
+...</td>
+        </tr>
+        <tr>
+            <td>googleaistudio-noreply@google.com</td>
+            <td>“Google AI Studio”</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>[Billing Update] Gemini API usage tier updates and billing caps starting Apr 2026
+Review your usage ...</td>
+        </tr>
+        <tr>
+            <td>no-reply@sendgrid.com</td>
+            <td>SendGrid Consumer Trust Support</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>Action Required - Twilio SendGrid API Credentials Found Exposed
+------------------------------------...</td>
+        </tr>
+        <tr>
+            <td>website+security@huggingface.co</td>
+            <td>website+security</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>[HuggingFace] Security alert: token expired
+...</td>
+        </tr>
+        <tr>
+            <td>unread-messages@mail.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>From desserts_for_soul and others: 4 unread messages
+...</td>
+        </tr>
+        <tr>
+            <td>follow-suggestions@mail.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>banf_jax, see abpanandatv, pritom_gh01 and more in your feed
+...</td>
+        </tr>
+        <tr>
+            <td>noreply@legal.squareup.com</td>
+            <td>Square</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>We're updating our Terms of Service and Privacy Notice.
+...</td>
+        </tr>
+        <tr>
+            <td>ranadhir.ghosh@fisglobal.com</td>
+            <td>Ghosh, Ranadhir</td>
+            <td><span class="badge corporate_disclaimer">corporate_disclaimer</span></td>
+            <td>Quick Question – Online Notarization for Release & Indemnification Agreement
+Dear Mrs. Ottosen,
+
+T...</td>
+        </tr>
+        <tr>
+            <td>jacqueline.ottosen@stjohns.k12.fl.us</td>
+            <td>Jacqueline Ottosen</td>
+            <td><span class="badge corporate_disclaimer">corporate_disclaimer</span></td>
+            <td>RE: Facility Use Request – Bengali Association of North Florida (BANF) – Noboborsho Event, April 25,...</td>
+        </tr>
+        <tr>
+            <td>stories-recap@mail.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>td.tamalika and 7 others recently added to their stories
+...</td>
+        </tr>
+        <tr>
+            <td>kenneth.goodwin@stjohns.k12.fl.us</td>
+            <td>Kenneth L. Goodwin</td>
+            <td><span class="badge corporate_disclaimer">corporate_disclaimer</span></td>
+            <td>RE: Inquiry - Community Event Venue Rental at Mill Creek Academy (April 25, 2026)
+Good Morning:
+
+M...</td>
+        </tr>
+        <tr>
+            <td>no-reply@spotify.com</td>
+            <td>Spotify</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>Score your first 3 months of Premium for $0.
+Get Spotify Premium. https://www.spotify.com/purchase/o...</td>
+        </tr>
+        <tr>
+            <td>security@mail.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>New login to Instagram from Instagram on Apple iPhone
+...</td>
+        </tr>
+        <tr>
+            <td>no-reply@google.com</td>
+            <td>Google</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>✅ Bengali Association Of, finish setting up your OnePlus 9 5G device with Google
+Hi Bengali Associat...</td>
+        </tr>
+        <tr>
+            <td>no-reply@accounts.google.com</td>
+            <td>Google</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>Security alert
+[image: Google]
+A new sign-in on OnePlus 9 5G
+
+
+banfjax@gmail.com
+We noticed a n...</td>
+        </tr>
+        <tr>
+            <td>no-reply@mail.instagram.com</td>
+            <td>Instagram</td>
+            <td><span class="badge auto_reply">auto_reply</span></td>
+            <td>ayan_at_insta accepted your follow request
+...</td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <div class="section-hdr">📋 CRM Cleanup Rules</div>
+    <table>
+        <tr><th>Bounce Type</th><th>Action</th><th>Rationale</th></tr>
+        <tr><td>address_not_found</td><td style="color:#ff5252">❌ Deactivate in CRM</td><td>Email doesn't exist — permanent failure</td></tr>
+        <tr><td>rejected / blocked</td><td style="color:#ff5252">❌ Deactivate in CRM</td><td>Server permanently rejected — cannot deliver</td></tr>
+        <tr><td>mailbox_full</td><td style="color:#ff9800">⏳ Keep, flag in CRM</td><td>Temporary — mailbox may be cleared later</td></tr>
+        <tr><td>temporary_failure</td><td style="color:#42a5f5">⏳ Keep, flag in CRM</td><td>Transient issue — auto-retry on next send</td></tr>
+        <tr><td>auto_reply</td><td style="color:#ff9800">→ Move to Corporate</td><td>Automated response — likely not personal inbox</td></tr>
+        <tr><td>corporate_disclaimer</td><td style="color:#ff9800">→ Move to Corporate</td><td>Business email with legal disclaimer</td></tr>
+    </table>
+</div>
+
+<div class="footer">BANF CRM Email Cleanup Agent v2.0 | 2026-03-22T01:48:15.214Z</div>
+</body></html>

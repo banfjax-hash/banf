@@ -1,1 +1,103 @@
-{  "timestamp": "2026-03-08T21:43:24.817Z",  "mode": "live",  "totalPayments": 20,  "needsAck": 9,  "alreadyAcked": 10,  "results": [    {      "email": "weekender_in@yahoo.com",      "name": "Rahul Banerjee",      "amount": 255,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<bdf93651-be9a-ece1-7582-529e2543a282@gmail.com>"    },    {      "email": "chandranilay@gmail.com",      "name": "Nilay Chandra",      "amount": 280,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<85ee235c-9b6f-5e33-7725-d03622abe6f1@gmail.com>"    },    {      "email": "kb94311@gmail.com",      "name": "Kaushiki Bhattacharya",      "amount": 375,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<22978d5c-745c-0df2-8a41-91689267e8bc@gmail.com>"    },    {      "email": "dbroy05@gmail.com",      "name": "Dibendu Roy",      "amount": 330,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<16d83a81-64f0-69ca-3bf6-78bf90fd12d4@gmail.com>"    },    {      "email": "sumon.ghosh@gmail.com",      "name": "Suman Ghosh",      "amount": 280,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<e2d3f675-65ce-c26d-e26e-b216be70aee8@gmail.com>"    },    {      "email": "ghosh.dipra@gmail.com",      "name": "Dipra Ghosh",      "amount": 330,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<d27e9182-1abe-edf1-4a5c-eab2a5645b12@gmail.com>"    },    {      "email": "partha.chowdhury@gmail.com",      "name": "PARTHA CHOWDHURY",      "amount": 375,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<df39656c-0889-b2e6-e32d-d2b1a80295b8@gmail.com>"    },    {      "email": "lmukhe@yahoo.com",      "name": "Latika Mukherjee",      "amount": 205,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<f76bf8fd-695c-b5c7-cc60-fa44d4d8fd37@gmail.com>"    },    {      "email": "atmadeep.mazumdar@gmail.com",      "name": "Atmadeep Mazumdar",      "amount": 375,      "type": "full",      "paymentCount": 1,      "status": "sent",      "messageId": "<8bdd5007-6394-e2a6-d022-b4a824568e99@gmail.com>"    }  ]}
+{
+  "timestamp": "2026-03-08T21:43:24.817Z",
+  "mode": "live",
+  "totalPayments": 20,
+  "needsAck": 8,
+  "alreadyAcked": 10,
+  "results": [
+    {
+      "email": "weekender_in@yahoo.com",
+      "name": "Rahul Banerjee",
+      "amount": 255,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<bdf93651-be9a-ece1-7582-529e2543a282@gmail.com>"
+    },
+    {
+      "email": "chandranilay@gmail.com",
+      "name": "Nilay Chandra",
+      "amount": 280,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<85ee235c-9b6f-5e33-7725-d03622abe6f1@gmail.com>"
+    },
+    {
+      "email": "kb94311@gmail.com",
+      "name": "Kaushiki Bhattacharya",
+      "amount": 375,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<22978d5c-745c-0df2-8a41-91689267e8bc@gmail.com>"
+    },
+    {
+      "email": "dbroy05@gmail.com",
+      "name": "Dibendu Roy",
+      "amount": 330,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<16d83a81-64f0-69ca-3bf6-78bf90fd12d4@gmail.com>"
+    },
+    {
+      "email": "sumon.ghosh@gmail.com",
+      "name": "Suman Ghosh",
+      "amount": 280,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<e2d3f675-65ce-c26d-e26e-b216be70aee8@gmail.com>"
+    },
+    {
+      "email": "ghosh.dipra@gmail.com",
+      "name": "Dipra Ghosh",
+      "amount": 330,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<d27e9182-1abe-edf1-4a5c-eab2a5645b12@gmail.com>"
+    },
+    {
+      "email": "partha.chowdhury@gmail.com",
+      "name": "PARTHA CHOWDHURY",
+      "amount": 375,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<df39656c-0889-b2e6-e32d-d2b1a80295b8@gmail.com>"
+    },
+    {
+      "email": "lmukhe@yahoo.com",
+      "name": "Latika Mukherjee",
+      "amount": 205,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<f76bf8fd-695c-b5c7-cc60-fa44d4d8fd37@gmail.com>"
+    },
+    {
+      "email": "atmadeep.mazumdar@gmail.com",
+      "name": "Atmadeep Mazumdar",
+      "amount": 375,
+      "type": "full",
+      "paymentCount": 1,
+      "status": "sent",
+      "messageId": "<8bdd5007-6394-e2a6-d022-b4a824568e99@gmail.com>"
+    },
+    {
+      "email": "tosantanu@gmail.com",
+      "name": "Santanu Bhattacharya",
+      "household": "Santanu & Sanchari Bhattacharya",
+      "amount": 340,
+      "category": "EB - Family",
+      "year": "2026-27",
+      "memberId": "MBR-MLX38YHN-IYN7",
+      "familyId": "RFAM-088",
+      "status": "pending_rate_limit",
+      "retryAfter": "2026-03-22T03:03:34.570Z",
+      "note": "FY 2026-27 (payment made after Feb 2026). Rate limit pending retry."
+    }
+  ]
+}

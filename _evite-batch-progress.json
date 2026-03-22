@@ -1,0 +1,2810 @@
+{
+  "startedAt": "2026-03-21T22:34:22.623Z",
+  "eventId": "61849b36-68e5-41fc-885d-998feafc21f2",
+  "totalMembers": 259,
+  "batches": [
+    {
+      "batchNum": 1,
+      "startedAt": "2026-03-21T22:34:24.141Z",
+      "recipients": [
+        "pallavib_00@yahoo.com",
+        "annem25f@yahoo.co.in",
+        "suvankar.paul@gmail.com",
+        "melanie@capitalcitycleanguild.com",
+        "schawlia@yahoo.com",
+        "rajibs123@gmail.com",
+        "wes.duke@buzzcms.net",
+        "sreya.ghosh1510@gmail.com",
+        "sumit_system@yahoo.com",
+        "soma1979p@yahoo.com"
+      ],
+      "sent": [
+        "pallavib_00@yahoo.com",
+        "annem25f@yahoo.co.in",
+        "suvankar.paul@gmail.com",
+        "melanie@capitalcitycleanguild.com",
+        "schawlia@yahoo.com",
+        "rajibs123@gmail.com",
+        "wes.duke@buzzcms.net",
+        "sreya.ghosh1510@gmail.com",
+        "sumit_system@yahoo.com",
+        "soma1979p@yahoo.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:34:35.986Z"
+    },
+    {
+      "batchNum": 2,
+      "startedAt": "2026-03-21T22:34:41.010Z",
+      "recipients": [
+        "feedback@smarthumanoid.com",
+        "drpaulami@gmail.com",
+        "souvickdesign1@gmail.com",
+        "tinnee223@gmail.com",
+        "pranab_nyc@hotmail.com",
+        "makhabhi@isu.edu",
+        "avranil82@gmail.com",
+        "ray@ameliaclean.com",
+        "dia.dmitra@gmail.com",
+        "endoscorpion@gmail.com"
+      ],
+      "sent": [
+        "feedback@smarthumanoid.com",
+        "drpaulami@gmail.com",
+        "souvickdesign1@gmail.com",
+        "tinnee223@gmail.com",
+        "pranab_nyc@hotmail.com",
+        "makhabhi@isu.edu",
+        "avranil82@gmail.com",
+        "ray@ameliaclean.com",
+        "dia.dmitra@gmail.com",
+        "endoscorpion@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:34:52.890Z"
+    },
+    {
+      "batchNum": 3,
+      "startedAt": "2026-03-21T22:34:57.906Z",
+      "recipients": [
+        "dbroy05@gmail.com",
+        "rituparna1917@gmail.com",
+        "riyachandra1988@gmail.com",
+        "colleen@janprojacksonville.com",
+        "shannonjhunjhunwala@gmail.com",
+        "indranil.india@gmail.com",
+        "chakfam5@yahoo.com",
+        "bdhar75@yahoo.com",
+        "sudiptaganguly4@gmail.com",
+        "maureen.r@theprofessionalprofiles.com"
+      ],
+      "sent": [
+        "dbroy05@gmail.com",
+        "rituparna1917@gmail.com",
+        "riyachandra1988@gmail.com",
+        "colleen@janprojacksonville.com",
+        "shannonjhunjhunwala@gmail.com",
+        "indranil.india@gmail.com",
+        "chakfam5@yahoo.com",
+        "bdhar75@yahoo.com",
+        "sudiptaganguly4@gmail.com",
+        "maureen.r@theprofessionalprofiles.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:35:09.665Z"
+    },
+    {
+      "batchNum": 4,
+      "startedAt": "2026-03-21T22:35:14.669Z",
+      "recipients": [
+        "kankana.ari@gmail.com",
+        "madhumita.mazumdar3@gmail.com",
+        "amrriita@gmail.com",
+        "amit.aot@gmail.com",
+        "andy.mukherjee2005@gmail.com",
+        "evan.ball@pushcms.net",
+        "friendshilp1@yahoo.com",
+        "sourav.roychoudhury@gmail.com",
+        "raisanyal@yahoo.com",
+        "dindrani74@gmail.com"
+      ],
+      "sent": [
+        "kankana.ari@gmail.com",
+        "madhumita.mazumdar3@gmail.com",
+        "amrriita@gmail.com",
+        "amit.aot@gmail.com",
+        "andy.mukherjee2005@gmail.com",
+        "evan.ball@pushcms.net",
+        "friendshilp1@yahoo.com",
+        "sourav.roychoudhury@gmail.com",
+        "raisanyal@yahoo.com",
+        "dindrani74@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:35:26.596Z"
+    },
+    {
+      "batchNum": 5,
+      "startedAt": "2026-03-21T22:35:31.617Z",
+      "recipients": [
+        "angsu.saha01@gmail.com",
+        "dipak.chebri@gmail.com",
+        "janasangha2003@gmail.com",
+        "sanjuktacdas@gmail.com",
+        "joyeeta.all@gmail.com",
+        "ghosh.chandra47@gmail.com",
+        "rupanjanc@gmail.com",
+        "sharmi.p09@gmail.com",
+        "reshmabhadra@gmail.com",
+        "cchat003@fiu.edu"
+      ],
+      "sent": [
+        "angsu.saha01@gmail.com",
+        "dipak.chebri@gmail.com",
+        "janasangha2003@gmail.com",
+        "sanjuktacdas@gmail.com",
+        "joyeeta.all@gmail.com",
+        "ghosh.chandra47@gmail.com",
+        "rupanjanc@gmail.com",
+        "sharmi.p09@gmail.com",
+        "reshmabhadra@gmail.com",
+        "cchat003@fiu.edu"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:35:43.928Z"
+    },
+    {
+      "batchNum": 6,
+      "startedAt": "2026-03-21T22:35:48.944Z",
+      "recipients": [
+        "lmukhe@yahoo.com",
+        "runaparamita@gmail.com",
+        "naskar_s@yahoo.com",
+        "jim@bamboocando.com",
+        "maitramunmun224@gmail.com",
+        "swapnalunatyodol@gmail.com",
+        "moonmukherjee@yahoo.com",
+        "holly_goswami@buildfusion.com",
+        "munmun_maitra@yahoo.com",
+        "roysu2000@gmail.com"
+      ],
+      "sent": [
+        "lmukhe@yahoo.com",
+        "runaparamita@gmail.com",
+        "naskar_s@yahoo.com",
+        "jim@bamboocando.com",
+        "maitramunmun224@gmail.com",
+        "swapnalunatyodol@gmail.com",
+        "moonmukherjee@yahoo.com",
+        "holly_goswami@buildfusion.com",
+        "munmun_maitra@yahoo.com",
+        "roysu2000@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:36:00.934Z"
+    },
+    {
+      "batchNum": 7,
+      "startedAt": "2026-03-21T22:36:05.944Z",
+      "recipients": [
+        "scrj.1982@gmail.com",
+        "paromita.dutta5@gmail.com",
+        "anirban.ninja@gmail.com",
+        "dawson.mullins@kitcms.net",
+        "dasmayukh@gmail.com",
+        "soumo.chakravarty@gmail.com",
+        "trt.mondal@gmail.com",
+        "poushalidatta1@gmail.com",
+        "david.russo@epiccms.net",
+        "rnsanyal@gmail.com"
+      ],
+      "sent": [
+        "scrj.1982@gmail.com",
+        "paromita.dutta5@gmail.com",
+        "anirban.ninja@gmail.com",
+        "dawson.mullins@kitcms.net",
+        "dasmayukh@gmail.com",
+        "soumo.chakravarty@gmail.com",
+        "trt.mondal@gmail.com",
+        "poushalidatta1@gmail.com",
+        "david.russo@epiccms.net",
+        "rnsanyal@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:36:17.436Z"
+    },
+    {
+      "batchNum": 8,
+      "startedAt": "2026-03-21T22:36:22.455Z",
+      "recipients": [
+        "jayanta0@yahoo.com",
+        "indiansoulband19@gmail.com",
+        "barna_dev@yahoo.com",
+        "swati.dutta1409@gmail.com",
+        "sonika@mumukshulife.com",
+        "dr_anjaligupta@yahoo.com",
+        "sarah.castles1@servicewrapgo.com",
+        "bagchibhaduristuti93@gmail.com",
+        "tdey5@asu.edu",
+        "ucc.swarnali@gmail.com"
+      ],
+      "sent": [
+        "jayanta0@yahoo.com",
+        "indiansoulband19@gmail.com",
+        "barna_dev@yahoo.com",
+        "swati.dutta1409@gmail.com",
+        "sonika@mumukshulife.com",
+        "dr_anjaligupta@yahoo.com",
+        "sarah.castles1@servicewrapgo.com",
+        "bagchibhaduristuti93@gmail.com",
+        "tdey5@asu.edu",
+        "ucc.swarnali@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:36:34.629Z"
+    },
+    {
+      "batchNum": 9,
+      "startedAt": "2026-03-21T22:36:39.642Z",
+      "recipients": [
+        "suchitrab4@gmail.com",
+        "kapil.sadhu@gmail.com",
+        "dasban3@yahoo.com",
+        "janlaurenft4g@hotmail.com",
+        "daniel@northfloridaclean.com",
+        "goutampus@gmail.com",
+        "joshua@northfloridaclean.com",
+        "rupan.sanyal@gmail.com",
+        "uttamkgec@gmail.com",
+        "asokchaudhuri@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "suchitrab4@gmail.com",
+        "kapil.sadhu@gmail.com",
+        "dasban3@yahoo.com",
+        "janlaurenft4g@hotmail.com",
+        "daniel@northfloridaclean.com",
+        "goutampus@gmail.com",
+        "joshua@northfloridaclean.com",
+        "rupan.sanyal@gmail.com",
+        "uttamkgec@gmail.com",
+        "asokchaudhuri@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:37:50.204Z"
+    },
+    {
+      "batchNum": 10,
+      "startedAt": "2026-03-21T22:37:55.222Z",
+      "recipients": [
+        "pradipkghimire@gmail.com",
+        "subhra.ganguly99@gmail.com",
+        "r.se47@yahoo.com",
+        "lena@breezycleaners.com",
+        "mitasarkar@aol.com",
+        "asikdar28@gmail.com",
+        "mrsaugatadas@gmail.com",
+        "arnabsanyal2002@gmail.com",
+        "chandra.ganguly6@gmail.com",
+        "gourabhere@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "pradipkghimire@gmail.com",
+        "subhra.ganguly99@gmail.com",
+        "r.se47@yahoo.com",
+        "lena@breezycleaners.com",
+        "mitasarkar@aol.com",
+        "asikdar28@gmail.com",
+        "mrsaugatadas@gmail.com",
+        "arnabsanyal2002@gmail.com",
+        "chandra.ganguly6@gmail.com",
+        "gourabhere@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:38:57.340Z"
+    },
+    {
+      "batchNum": 11,
+      "startedAt": "2026-03-21T22:39:02.352Z",
+      "recipients": [
+        "tosantanu@gmail.com",
+        "anitapmandal@gmail.com",
+        "henasanat@yahoo.com",
+        "sudipto.sbyn@gmail.com",
+        "tukiguitarman@yahoo.com",
+        "rana.soma11@gmail.com",
+        "nabokumar09@gmail.com",
+        "sbose84390@aol.com",
+        "upasana.york.88@gmail.com",
+        "sangat000@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "tosantanu@gmail.com",
+        "anitapmandal@gmail.com",
+        "henasanat@yahoo.com",
+        "sudipto.sbyn@gmail.com",
+        "tukiguitarman@yahoo.com",
+        "rana.soma11@gmail.com",
+        "nabokumar09@gmail.com",
+        "sbose84390@aol.com",
+        "upasana.york.88@gmail.com",
+        "sangat000@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:40:06.311Z"
+    },
+    {
+      "batchNum": 12,
+      "startedAt": "2026-03-21T22:40:11.330Z",
+      "recipients": [
+        "soumitagoswami05@gmail.com",
+        "tosanchari@gmail.com",
+        "lopita.majumdar@gmail.com",
+        "sunanda.banerjee@gmail.com",
+        "priyanka16587@gmail.com",
+        "rasmazumder@aol.com",
+        "swarnendu.sen@gmail.com",
+        "mukulsaha89@gmail.com",
+        "nilanb@gmail.com",
+        "art.rajarshi@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "soumitagoswami05@gmail.com",
+        "tosanchari@gmail.com",
+        "lopita.majumdar@gmail.com",
+        "sunanda.banerjee@gmail.com",
+        "priyanka16587@gmail.com",
+        "rasmazumder@aol.com",
+        "swarnendu.sen@gmail.com",
+        "mukulsaha89@gmail.com",
+        "nilanb@gmail.com",
+        "art.rajarshi@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:41:30.515Z"
+    },
+    {
+      "batchNum": 13,
+      "startedAt": "2026-03-21T22:41:35.539Z",
+      "recipients": [
+        "banerjee04ananya@gmai.com",
+        "vbbs04@gmail.com",
+        "bharatiart2000@yahoo.com",
+        "gautambose12408@gmail.com",
+        "natta.saikat@gmail.com",
+        "samratbanerjee120@gmail.com",
+        "ghosh.dipra@gmail.com",
+        "alokdev@hotmail.com",
+        "anna@summitshinecleaning.com",
+        "jamesphelan347@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "banerjee04ananya@gmai.com",
+        "vbbs04@gmail.com",
+        "bharatiart2000@yahoo.com",
+        "gautambose12408@gmail.com",
+        "natta.saikat@gmail.com",
+        "samratbanerjee120@gmail.com",
+        "ghosh.dipra@gmail.com",
+        "alokdev@hotmail.com",
+        "anna@summitshinecleaning.com",
+        "jamesphelan347@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:42:47.152Z"
+    },
+    {
+      "batchNum": 14,
+      "startedAt": "2026-03-21T22:42:52.175Z",
+      "recipients": [
+        "sharmi5002@gmail.com",
+        "enggchapan@gmail.com",
+        "royc.anindya@gmail.com",
+        "samiran.chandra@gmail.com",
+        "sanhitadas_2000@yahoo.com",
+        "banfjax@gmail.com",
+        "palsourav30@gmail.com",
+        "brianmurphy@metaappdesignes.com",
+        "jared@apostillellc.com",
+        "shomgos@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "sharmi5002@gmail.com",
+        "enggchapan@gmail.com",
+        "royc.anindya@gmail.com",
+        "samiran.chandra@gmail.com",
+        "sanhitadas_2000@yahoo.com",
+        "banfjax@gmail.com",
+        "palsourav30@gmail.com",
+        "brianmurphy@metaappdesignes.com",
+        "jared@apostillellc.com",
+        "shomgos@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:44:01.844Z"
+    },
+    {
+      "batchNum": 15,
+      "startedAt": "2026-03-21T22:44:06.870Z",
+      "recipients": [
+        "sudipshita@yahoo.com",
+        "rgarimella99@gmail.com",
+        "asahaech@yahoo.com",
+        "bidhan138@gmail.com",
+        "deba10@gmail.com",
+        "manalimukherjee47@gmail.com",
+        "g.nnandita@gmail.com",
+        "uma.417@gmail.com",
+        "graphiksdue@gmail.com",
+        "vartew@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "sudipshita@yahoo.com",
+        "rgarimella99@gmail.com",
+        "asahaech@yahoo.com",
+        "bidhan138@gmail.com",
+        "deba10@gmail.com",
+        "manalimukherjee47@gmail.com",
+        "g.nnandita@gmail.com",
+        "uma.417@gmail.com",
+        "graphiksdue@gmail.com",
+        "vartew@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:45:18.538Z"
+    },
+    {
+      "batchNum": 16,
+      "startedAt": "2026-03-21T22:45:23.552Z",
+      "recipients": [
+        "harmansekhon@gmail.com",
+        "caden.schmidt@wixful.site",
+        "bandematarom@hotmail.com",
+        "suvodasgupta@gmail.com",
+        "kalyan32258@yahoo.com",
+        "aroyc001@netzero.com",
+        "bns@hotmail.co.in",
+        "info@domainworld.com",
+        "chatterjeebratasree@gmail.com",
+        "dutta.nandini47@gmail.com"
+      ],
+      "sent": [],
+      "failed": [],
+      "retried": [
+        "harmansekhon@gmail.com",
+        "caden.schmidt@wixful.site",
+        "bandematarom@hotmail.com",
+        "suvodasgupta@gmail.com",
+        "kalyan32258@yahoo.com",
+        "aroyc001@netzero.com",
+        "bns@hotmail.co.in",
+        "info@domainworld.com",
+        "chatterjeebratasree@gmail.com",
+        "dutta.nandini47@gmail.com"
+      ],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:46:31.805Z"
+    },
+    {
+      "batchNum": 17,
+      "startedAt": "2026-03-21T22:46:36.818Z",
+      "recipients": [
+        "bithikaroy96@gmail.com",
+        "aaactionllc@gmail.com",
+        "aroyc55@gmail.com",
+        "dutta.shamit2000@gmail.com",
+        "mehta.swati2011@gmail.com",
+        "sonuroy123@gmail.com",
+        "poonam.sanyal@gmail.com",
+        "duttaayan.cs@gmail.com",
+        "shilpikessler@gmail.com",
+        "a@b.com"
+      ],
+      "sent": [
+        "bithikaroy96@gmail.com",
+        "aaactionllc@gmail.com",
+        "aroyc55@gmail.com",
+        "dutta.shamit2000@gmail.com",
+        "mehta.swati2011@gmail.com",
+        "sonuroy123@gmail.com",
+        "poonam.sanyal@gmail.com",
+        "duttaayan.cs@gmail.com",
+        "shilpikessler@gmail.com",
+        "a@b.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:46:48.855Z"
+    },
+    {
+      "batchNum": 18,
+      "startedAt": "2026-03-21T22:46:53.874Z",
+      "recipients": [
+        "anupriyaganguly44@gmail.com",
+        "rajarshi.majumdar@gmail.com",
+        "raka1027@aol.com",
+        "priyachakraborty92@gmail.com",
+        "moushumi.mondal@gmail.com",
+        "bhaskarroy24@gmail.com",
+        "priyanka.ghosh@gmail.com",
+        "shilpibanerjee07@gmail.com",
+        "mmegha.garg@gmail.com",
+        "chandranilay@gmail.com"
+      ],
+      "sent": [
+        "anupriyaganguly44@gmail.com",
+        "rajarshi.majumdar@gmail.com",
+        "raka1027@aol.com",
+        "priyachakraborty92@gmail.com",
+        "moushumi.mondal@gmail.com",
+        "bhaskarroy24@gmail.com",
+        "priyanka.ghosh@gmail.com",
+        "shilpibanerjee07@gmail.com",
+        "mmegha.garg@gmail.com",
+        "chandranilay@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:47:07.013Z"
+    },
+    {
+      "batchNum": 19,
+      "startedAt": "2026-03-21T22:47:12.024Z",
+      "recipients": [
+        "suman.ghosh12@gmail.com",
+        "manokmc@gmail.com",
+        "adelia@crystallclearcrew.com",
+        "hazradipa05@gmail.com",
+        "sculptorpradiprudrapal@gmail.com",
+        "tanaybhaduri@gmail.com",
+        "john.bailey@funcms.net",
+        "mdhar79@yahoo.com",
+        "tanusree.hhalder@gmail.com",
+        "ganguly.joyita@gmail.com"
+      ],
+      "sent": [
+        "suman.ghosh12@gmail.com",
+        "manokmc@gmail.com",
+        "adelia@crystallclearcrew.com",
+        "hazradipa05@gmail.com",
+        "sculptorpradiprudrapal@gmail.com",
+        "tanaybhaduri@gmail.com",
+        "john.bailey@funcms.net",
+        "mdhar79@yahoo.com",
+        "tanusree.hhalder@gmail.com",
+        "ganguly.joyita@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:47:24.189Z"
+    },
+    {
+      "batchNum": 20,
+      "startedAt": "2026-03-21T22:47:29.205Z",
+      "recipients": [
+        "niloy.rc@gmail.com",
+        "kb94311@gmail.com",
+        "inmumanik@gmail.com",
+        "zaim3tariqul1712@gmail.com",
+        "sroy.iitm@gmail.com",
+        "alak.manna@gmail.com",
+        "rajasrichandra@yahoo.com",
+        "2soumaliwithlove@gmail.com",
+        "max@anasuya.com",
+        "mntalukder@yahoo.com"
+      ],
+      "sent": [
+        "niloy.rc@gmail.com",
+        "kb94311@gmail.com",
+        "inmumanik@gmail.com",
+        "zaim3tariqul1712@gmail.com",
+        "sroy.iitm@gmail.com",
+        "alak.manna@gmail.com",
+        "rajasrichandra@yahoo.com",
+        "2soumaliwithlove@gmail.com",
+        "max@anasuya.com",
+        "mntalukder@yahoo.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:47:41.488Z"
+    },
+    {
+      "batchNum": 21,
+      "startedAt": "2026-03-21T22:47:46.513Z",
+      "recipients": [
+        "surajit_c@hotmail.com",
+        "emailtoakhaya@gmail.com",
+        "roy.debasmita@gmail.com",
+        "shreyartha@gmail.com",
+        "info@jaxbengali.org",
+        "navnitadutta7@gmail.com",
+        "atmadeep.mazumdar@gmail.com",
+        "sumantaneogi90@gmail.com",
+        "tapashroyk@msn.com",
+        "chrissy.m.das@icloud.com"
+      ],
+      "sent": [
+        "surajit_c@hotmail.com",
+        "emailtoakhaya@gmail.com",
+        "roy.debasmita@gmail.com",
+        "shreyartha@gmail.com",
+        "info@jaxbengali.org",
+        "navnitadutta7@gmail.com",
+        "atmadeep.mazumdar@gmail.com",
+        "sumantaneogi90@gmail.com",
+        "tapashroyk@msn.com",
+        "chrissy.m.das@icloud.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:47:58.993Z"
+    },
+    {
+      "batchNum": 22,
+      "startedAt": "2026-03-21T22:48:04.014Z",
+      "recipients": [
+        "dipteshm@gmail.com",
+        "senguptaavranil@gmail.com",
+        "abhra.aich@gmail.com",
+        "jchakrab@gmail.com",
+        "hibarnali@gmail.com",
+        "ritabhattacharjee@gmail.com",
+        "johnexum1@outlook.com",
+        "mitaghosh1@yahoo.com",
+        "souvik.ray86@gmail.com",
+        "sajal1986@gmail.com"
+      ],
+      "sent": [
+        "dipteshm@gmail.com",
+        "senguptaavranil@gmail.com",
+        "abhra.aich@gmail.com",
+        "jchakrab@gmail.com",
+        "hibarnali@gmail.com",
+        "ritabhattacharjee@gmail.com",
+        "johnexum1@outlook.com",
+        "mitaghosh1@yahoo.com",
+        "souvik.ray86@gmail.com",
+        "sajal1986@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:48:16.744Z"
+    },
+    {
+      "batchNum": 23,
+      "startedAt": "2026-03-21T22:48:21.760Z",
+      "recipients": [
+        "ana@anasuya.com",
+        "rajanya.ghosh1993@gmail.com",
+        "weekender_in@yahoo.com",
+        "sikhorini@gmail.com",
+        "jiniya.chandra@gmail.com",
+        "slmaitra@gmail.com",
+        "tasmim@tohfabd.com",
+        "neha.mandal@occamsadvisory.com",
+        "ripon.ray@britbanglacovid.com",
+        "souvik.chakraborty87@gmail.com"
+      ],
+      "sent": [
+        "ana@anasuya.com",
+        "rajanya.ghosh1993@gmail.com",
+        "weekender_in@yahoo.com",
+        "sikhorini@gmail.com",
+        "jiniya.chandra@gmail.com",
+        "slmaitra@gmail.com",
+        "tasmim@tohfabd.com",
+        "neha.mandal@occamsadvisory.com",
+        "ripon.ray@britbanglacovid.com",
+        "souvik.chakraborty87@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:48:33.626Z"
+    },
+    {
+      "batchNum": 24,
+      "startedAt": "2026-03-21T22:48:38.644Z",
+      "recipients": [
+        "urmi.kanya@gmail.com",
+        "peshkarcal@yahoo.com",
+        "sunetra.basu@gmail.com",
+        "jan.sourav@gmail.com",
+        "milanekadash1996@gmail.com",
+        "sudeshna.chatterjee1986@gmail.com",
+        "indrani.of.paul@gmail.com",
+        "subhraroy88@yahoo.com",
+        "swagatika.ty@gmail.com",
+        "rinabasu31@gmail.com"
+      ],
+      "sent": [
+        "urmi.kanya@gmail.com",
+        "peshkarcal@yahoo.com",
+        "sunetra.basu@gmail.com",
+        "jan.sourav@gmail.com",
+        "milanekadash1996@gmail.com",
+        "sudeshna.chatterjee1986@gmail.com",
+        "indrani.of.paul@gmail.com",
+        "subhraroy88@yahoo.com",
+        "swagatika.ty@gmail.com",
+        "rinabasu31@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:48:51.420Z"
+    },
+    {
+      "batchNum": 25,
+      "startedAt": "2026-03-21T22:48:56.435Z",
+      "recipients": [
+        "brandon.green@wixclicks.co",
+        "karmakar.2007@gmail.com",
+        "robchatto@aol.com",
+        "raj.goswami@gmail.com",
+        "samirpbhagat@gmail.com",
+        "dolasinha@yahoo.com",
+        "duttasoumyajit86@gmail.com",
+        "sm.mondal@gmail.com",
+        "celina@janprojacksonville.com",
+        "amit.everywhere@gmail.com"
+      ],
+      "sent": [
+        "brandon.green@wixclicks.co",
+        "karmakar.2007@gmail.com",
+        "robchatto@aol.com",
+        "raj.goswami@gmail.com",
+        "samirpbhagat@gmail.com",
+        "dolasinha@yahoo.com",
+        "duttasoumyajit86@gmail.com",
+        "sm.mondal@gmail.com",
+        "celina@janprojacksonville.com",
+        "amit.everywhere@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 10,
+      "completedAt": "2026-03-21T22:49:10.180Z"
+    },
+    {
+      "batchNum": 26,
+      "startedAt": "2026-03-21T22:49:15.196Z",
+      "recipients": [
+        "srabana.m@gmail.com",
+        "varsharoy.86@gmail.com",
+        "info@sagirealty.com",
+        "poddojaroy@gmail.com"
+      ],
+      "sent": [
+        "srabana.m@gmail.com",
+        "varsharoy.86@gmail.com",
+        "info@sagirealty.com",
+        "poddojaroy@gmail.com"
+      ],
+      "failed": [],
+      "retried": [],
+      "verified": true,
+      "verifiedCount": 4,
+      "completedAt": "2026-03-21T22:49:21.689Z"
+    }
+  ],
+  "sent": {
+    "pallavib_00@yahoo.com": {
+      "name": "Pallavi Chakraborty",
+      "email": "pallavib_00@yahoo.com",
+      "sentAt": "2026-03-21T22:34:32.709Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "annem25f@yahoo.co.in": {
+      "name": "Annandita Mukherjee",
+      "email": "annem25f@yahoo.co.in",
+      "sentAt": "2026-03-21T22:34:32.710Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "suvankar.paul@gmail.com": {
+      "name": "Suvankar Paul",
+      "email": "suvankar.paul@gmail.com",
+      "sentAt": "2026-03-21T22:34:32.711Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "melanie@capitalcitycleanguild.com": {
+      "name": "Melanie Payne",
+      "email": "melanie@capitalcitycleanguild.com",
+      "sentAt": "2026-03-21T22:34:32.713Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "schawlia@yahoo.com": {
+      "name": "sangita",
+      "email": "schawlia@yahoo.com",
+      "sentAt": "2026-03-21T22:34:32.714Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "rajibs123@gmail.com": {
+      "name": "Rajib S",
+      "email": "rajibs123@gmail.com",
+      "sentAt": "2026-03-21T22:34:32.715Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "wes.duke@buzzcms.net": {
+      "name": "Wes Duke",
+      "email": "wes.duke@buzzcms.net",
+      "sentAt": "2026-03-21T22:34:32.716Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "sreya.ghosh1510@gmail.com": {
+      "name": "Sreya Ghosh",
+      "email": "sreya.ghosh1510@gmail.com",
+      "sentAt": "2026-03-21T22:34:32.717Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "sumit_system@yahoo.com": {
+      "name": "sumit_system@yahoo.com",
+      "email": "sumit_system@yahoo.com",
+      "sentAt": "2026-03-21T22:34:32.717Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "soma1979p@yahoo.com": {
+      "name": "Soma Choudhury",
+      "email": "soma1979p@yahoo.com",
+      "sentAt": "2026-03-21T22:34:32.718Z",
+      "batchNum": 1,
+      "verified": true
+    },
+    "feedback@smarthumanoid.com": {
+      "name": "Tarun Lalan",
+      "email": "feedback@smarthumanoid.com",
+      "sentAt": "2026-03-21T22:34:49.596Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "drpaulami@gmail.com": {
+      "name": "Paulami Guha",
+      "email": "drpaulami@gmail.com",
+      "sentAt": "2026-03-21T22:34:49.597Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "souvickdesign1@gmail.com": {
+      "name": "souvickdesign1@gmail.com",
+      "email": "souvickdesign1@gmail.com",
+      "sentAt": "2026-03-21T22:34:49.598Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "tinnee223@gmail.com": {
+      "name": "Moumita Mitra",
+      "email": "tinnee223@gmail.com",
+      "sentAt": "2026-03-21T22:34:49.598Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "pranab_nyc@hotmail.com": {
+      "name": "pranab_nyc@hotmail.com",
+      "email": "pranab_nyc@hotmail.com",
+      "sentAt": "2026-03-21T22:34:49.599Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "makhabhi@isu.edu": {
+      "name": "Abhijit",
+      "email": "makhabhi@isu.edu",
+      "sentAt": "2026-03-21T22:34:49.599Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "avranil82@gmail.com": {
+      "name": "avranil82@gmail.com",
+      "email": "avranil82@gmail.com",
+      "sentAt": "2026-03-21T22:34:49.600Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "ray@ameliaclean.com": {
+      "name": "Ray Fountain",
+      "email": "ray@ameliaclean.com",
+      "sentAt": "2026-03-21T22:34:49.601Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "dia.dmitra@gmail.com": {
+      "name": "Dia Mitra",
+      "email": "dia.dmitra@gmail.com",
+      "sentAt": "2026-03-21T22:34:49.601Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "endoscorpion@gmail.com": {
+      "name": "endoscorpion@gmail.com",
+      "email": "endoscorpion@gmail.com",
+      "sentAt": "2026-03-21T22:34:49.602Z",
+      "batchNum": 2,
+      "verified": true
+    },
+    "dbroy05@gmail.com": {
+      "name": "Dibendu Roy",
+      "email": "dbroy05@gmail.com",
+      "sentAt": "2026-03-21T22:35:06.285Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "rituparna1917@gmail.com": {
+      "name": "Rituparna",
+      "email": "rituparna1917@gmail.com",
+      "sentAt": "2026-03-21T22:35:06.285Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "riyachandra1988@gmail.com": {
+      "name": "Sanghamitra Chandra",
+      "email": "riyachandra1988@gmail.com",
+      "sentAt": "2026-03-21T22:35:06.285Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "colleen@janprojacksonville.com": {
+      "name": "Colleen Lauter",
+      "email": "colleen@janprojacksonville.com",
+      "sentAt": "2026-03-21T22:35:06.285Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "shannonjhunjhunwala@gmail.com": {
+      "name": "Shannon Jhunjhunwala",
+      "email": "shannonjhunjhunwala@gmail.com",
+      "sentAt": "2026-03-21T22:35:06.285Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "indranil.india@gmail.com": {
+      "name": "indranil ganguly",
+      "email": "indranil.india@gmail.com",
+      "sentAt": "2026-03-21T22:35:06.286Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "chakfam5@yahoo.com": {
+      "name": "Aparna Chakravarty",
+      "email": "chakfam5@yahoo.com",
+      "sentAt": "2026-03-21T22:35:06.286Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "bdhar75@yahoo.com": {
+      "name": "BANANI DHAR",
+      "email": "bdhar75@yahoo.com",
+      "sentAt": "2026-03-21T22:35:06.286Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "sudiptaganguly4@gmail.com": {
+      "name": "sudiptaganguly4@gmail.com",
+      "email": "sudiptaganguly4@gmail.com",
+      "sentAt": "2026-03-21T22:35:06.286Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "maureen.r@theprofessionalprofiles.com": {
+      "name": "Maureen Rucker",
+      "email": "maureen.r@theprofessionalprofiles.com",
+      "sentAt": "2026-03-21T22:35:06.286Z",
+      "batchNum": 3,
+      "verified": true
+    },
+    "kankana.ari@gmail.com": {
+      "name": "kankana.ari@gmail.com",
+      "email": "kankana.ari@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.188Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "madhumita.mazumdar3@gmail.com": {
+      "name": "Madhumita Mazumdar",
+      "email": "madhumita.mazumdar3@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.189Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "amrriita@gmail.com": {
+      "name": "Amrita",
+      "email": "amrriita@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.189Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "amit.aot@gmail.com": {
+      "name": "Amit Ari",
+      "email": "amit.aot@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.190Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "andy.mukherjee2005@gmail.com": {
+      "name": "Andy Mukherjee",
+      "email": "andy.mukherjee2005@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.190Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "evan.ball@pushcms.net": {
+      "name": "Evan Ball",
+      "email": "evan.ball@pushcms.net",
+      "sentAt": "2026-03-21T22:35:23.191Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "friendshilp1@yahoo.com": {
+      "name": "Shilpa",
+      "email": "friendshilp1@yahoo.com",
+      "sentAt": "2026-03-21T22:35:23.191Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "sourav.roychoudhury@gmail.com": {
+      "name": "Sourav Roychoudhury",
+      "email": "sourav.roychoudhury@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.192Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "raisanyal@yahoo.com": {
+      "name": "Rai Sanyal",
+      "email": "raisanyal@yahoo.com",
+      "sentAt": "2026-03-21T22:35:23.193Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "dindrani74@gmail.com": {
+      "name": "Indrani Dutta",
+      "email": "dindrani74@gmail.com",
+      "sentAt": "2026-03-21T22:35:23.194Z",
+      "batchNum": 4,
+      "verified": true
+    },
+    "angsu.saha01@gmail.com": {
+      "name": "Angsuman Saha",
+      "email": "angsu.saha01@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.596Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "dipak.chebri@gmail.com": {
+      "name": "Dipak Roy",
+      "email": "dipak.chebri@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.597Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "janasangha2003@gmail.com": {
+      "name": "janasangha2003@gmail.com",
+      "email": "janasangha2003@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.598Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "sanjuktacdas@gmail.com": {
+      "name": "Sanjukta Chandra",
+      "email": "sanjuktacdas@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.598Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "joyeeta.all@gmail.com": {
+      "name": "Joyeeta Polley",
+      "email": "joyeeta.all@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.599Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "ghosh.chandra47@gmail.com": {
+      "name": "Chandra Ghosh",
+      "email": "ghosh.chandra47@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.600Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "rupanjanc@gmail.com": {
+      "name": "Rupanjan Choudhury",
+      "email": "rupanjanc@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.601Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "sharmi.p09@gmail.com": {
+      "name": "Sharmistha Poddar",
+      "email": "sharmi.p09@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.601Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "reshmabhadra@gmail.com": {
+      "name": "Reshma Bhadra Das",
+      "email": "reshmabhadra@gmail.com",
+      "sentAt": "2026-03-21T22:35:40.602Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "cchat003@fiu.edu": {
+      "name": "Chiradip Chatterjee",
+      "email": "cchat003@fiu.edu",
+      "sentAt": "2026-03-21T22:35:40.602Z",
+      "batchNum": 5,
+      "verified": true
+    },
+    "lmukhe@yahoo.com": {
+      "name": "Latika Mukherjee",
+      "email": "lmukhe@yahoo.com",
+      "sentAt": "2026-03-21T22:35:57.615Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "runaparamita@gmail.com": {
+      "name": "Paramita Pal",
+      "email": "runaparamita@gmail.com",
+      "sentAt": "2026-03-21T22:35:57.616Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "naskar_s@yahoo.com": {
+      "name": "Sekhar Naskar",
+      "email": "naskar_s@yahoo.com",
+      "sentAt": "2026-03-21T22:35:57.617Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "jim@bamboocando.com": {
+      "name": "James Hinds",
+      "email": "jim@bamboocando.com",
+      "sentAt": "2026-03-21T22:35:57.618Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "maitramunmun224@gmail.com": {
+      "name": "maitramunmun224@gmail.com",
+      "email": "maitramunmun224@gmail.com",
+      "sentAt": "2026-03-21T22:35:57.619Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "swapnalunatyodol@gmail.com": {
+      "name": "SARSUNA PURBAPARA SWAPNALU",
+      "email": "swapnalunatyodol@gmail.com",
+      "sentAt": "2026-03-21T22:35:57.621Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "moonmukherjee@yahoo.com": {
+      "name": "ANUPRIYA MUKHERJEE",
+      "email": "moonmukherjee@yahoo.com",
+      "sentAt": "2026-03-21T22:35:57.622Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "holly_goswami@buildfusion.com": {
+      "name": "Holly Goswami",
+      "email": "holly_goswami@buildfusion.com",
+      "sentAt": "2026-03-21T22:35:57.623Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "munmun_maitra@yahoo.com": {
+      "name": "Munmun Maitra",
+      "email": "munmun_maitra@yahoo.com",
+      "sentAt": "2026-03-21T22:35:57.624Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "roysu2000@gmail.com": {
+      "name": "Sudip Roy",
+      "email": "roysu2000@gmail.com",
+      "sentAt": "2026-03-21T22:35:57.625Z",
+      "batchNum": 6,
+      "verified": true
+    },
+    "scrj.1982@gmail.com": {
+      "name": "Supriya Chatterjee",
+      "email": "scrj.1982@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.793Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "paromita.dutta5@gmail.com": {
+      "name": "Paromita Dutta",
+      "email": "paromita.dutta5@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.794Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "anirban.ninja@gmail.com": {
+      "name": "Anirban Ghosh",
+      "email": "anirban.ninja@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.794Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "dawson.mullins@kitcms.net": {
+      "name": "Dawson Mullins",
+      "email": "dawson.mullins@kitcms.net",
+      "sentAt": "2026-03-21T22:36:13.795Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "dasmayukh@gmail.com": {
+      "name": "Mayukh Das",
+      "email": "dasmayukh@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.795Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "soumo.chakravarty@gmail.com": {
+      "name": "Soumo Chakravarty",
+      "email": "soumo.chakravarty@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.796Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "trt.mondal@gmail.com": {
+      "name": "Tarit Mondal",
+      "email": "trt.mondal@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.797Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "poushalidatta1@gmail.com": {
+      "name": "Poushali Datta",
+      "email": "poushalidatta1@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.798Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "david.russo@epiccms.net": {
+      "name": "David Russo",
+      "email": "david.russo@epiccms.net",
+      "sentAt": "2026-03-21T22:36:13.799Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "rnsanyal@gmail.com": {
+      "name": "rnsanyal@gmail.com",
+      "email": "rnsanyal@gmail.com",
+      "sentAt": "2026-03-21T22:36:13.800Z",
+      "batchNum": 7,
+      "verified": true
+    },
+    "jayanta0@yahoo.com": {
+      "name": "Jay Ghosh",
+      "email": "jayanta0@yahoo.com",
+      "sentAt": "2026-03-21T22:36:31.069Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "indiansoulband19@gmail.com": {
+      "name": "Indian soul band",
+      "email": "indiansoulband19@gmail.com",
+      "sentAt": "2026-03-21T22:36:31.071Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "barna_dev@yahoo.com": {
+      "name": "Barnali Debu",
+      "email": "barna_dev@yahoo.com",
+      "sentAt": "2026-03-21T22:36:31.073Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "swati.dutta1409@gmail.com": {
+      "name": "Swati Dutta",
+      "email": "swati.dutta1409@gmail.com",
+      "sentAt": "2026-03-21T22:36:31.075Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "sonika@mumukshulife.com": {
+      "name": "Sonika Das",
+      "email": "sonika@mumukshulife.com",
+      "sentAt": "2026-03-21T22:36:31.077Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "dr_anjaligupta@yahoo.com": {
+      "name": "Anjali Gupta",
+      "email": "dr_anjaligupta@yahoo.com",
+      "sentAt": "2026-03-21T22:36:31.078Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "sarah.castles1@servicewrapgo.com": {
+      "name": "Sarah",
+      "email": "sarah.castles1@servicewrapgo.com",
+      "sentAt": "2026-03-21T22:36:31.080Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "bagchibhaduristuti93@gmail.com": {
+      "name": "Stuti Bagchi",
+      "email": "bagchibhaduristuti93@gmail.com",
+      "sentAt": "2026-03-21T22:36:31.080Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "tdey5@asu.edu": {
+      "name": "tdey5@asu.edu",
+      "email": "tdey5@asu.edu",
+      "sentAt": "2026-03-21T22:36:31.081Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "ucc.swarnali@gmail.com": {
+      "name": "Swarnali Das",
+      "email": "ucc.swarnali@gmail.com",
+      "sentAt": "2026-03-21T22:36:31.083Z",
+      "batchNum": 8,
+      "verified": true
+    },
+    "suchitrab4@gmail.com": {
+      "name": "suchitrab4@gmail.com",
+      "email": "suchitrab4@gmail.com",
+      "sentAt": "2026-03-21T22:37:04.961Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:04.961Z",
+      "retryAttempt": 1
+    },
+    "kapil.sadhu@gmail.com": {
+      "name": "Kapil Sadhu",
+      "email": "kapil.sadhu@gmail.com",
+      "sentAt": "2026-03-21T22:37:10.858Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:10.858Z",
+      "retryAttempt": 1
+    },
+    "dasban3@yahoo.com": {
+      "name": "Bonnie Das",
+      "email": "dasban3@yahoo.com",
+      "sentAt": "2026-03-21T22:37:15.197Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:15.197Z",
+      "retryAttempt": 1
+    },
+    "janlaurenft4g@hotmail.com": {
+      "name": "Zamecnik Renota",
+      "email": "janlaurenft4g@hotmail.com",
+      "sentAt": "2026-03-21T22:37:19.568Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:19.568Z",
+      "retryAttempt": 1
+    },
+    "daniel@northfloridaclean.com": {
+      "name": "Daniel Bush",
+      "email": "daniel@northfloridaclean.com",
+      "sentAt": "2026-03-21T22:37:23.905Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:23.905Z",
+      "retryAttempt": 1
+    },
+    "goutampus@gmail.com": {
+      "name": "Goutam Panda",
+      "email": "goutampus@gmail.com",
+      "sentAt": "2026-03-21T22:37:31.905Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:31.905Z",
+      "retryAttempt": 1
+    },
+    "joshua@northfloridaclean.com": {
+      "name": "Joshua Taylor",
+      "email": "joshua@northfloridaclean.com",
+      "sentAt": "2026-03-21T22:37:35.908Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:35.908Z",
+      "retryAttempt": 1
+    },
+    "rupan.sanyal@gmail.com": {
+      "name": "Rupan Sanyal",
+      "email": "rupan.sanyal@gmail.com",
+      "sentAt": "2026-03-21T22:37:39.586Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:39.586Z",
+      "retryAttempt": 1
+    },
+    "uttamkgec@gmail.com": {
+      "name": "Uttam Mistry",
+      "email": "uttamkgec@gmail.com",
+      "sentAt": "2026-03-21T22:37:43.373Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:43.373Z",
+      "retryAttempt": 1
+    },
+    "asokchaudhuri@gmail.com": {
+      "name": "Asok Chaudhuri",
+      "email": "asokchaudhuri@gmail.com",
+      "sentAt": "2026-03-21T22:37:46.754Z",
+      "batchNum": 9,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:37:46.754Z",
+      "retryAttempt": 1
+    },
+    "pradipkghimire@gmail.com": {
+      "name": "Pradip Ghimire",
+      "email": "pradipkghimire@gmail.com",
+      "sentAt": "2026-03-21T22:38:18.220Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:18.220Z",
+      "retryAttempt": 1
+    },
+    "subhra.ganguly99@gmail.com": {
+      "name": "Subhra Ganguly",
+      "email": "subhra.ganguly99@gmail.com",
+      "sentAt": "2026-03-21T22:38:23.412Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:23.412Z",
+      "retryAttempt": 1
+    },
+    "r.se47@yahoo.com": {
+      "name": "Krishna Di",
+      "email": "r.se47@yahoo.com",
+      "sentAt": "2026-03-21T22:38:27.713Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:27.713Z",
+      "retryAttempt": 1
+    },
+    "lena@breezycleaners.com": {
+      "name": "Lena Charles",
+      "email": "lena@breezycleaners.com",
+      "sentAt": "2026-03-21T22:38:31.708Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:31.708Z",
+      "retryAttempt": 1
+    },
+    "mitasarkar@aol.com": {
+      "name": "Mita Sarkar",
+      "email": "mitasarkar@aol.com",
+      "sentAt": "2026-03-21T22:38:35.703Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:35.703Z",
+      "retryAttempt": 1
+    },
+    "asikdar28@gmail.com": {
+      "name": "asikdar28@gmail.com",
+      "email": "asikdar28@gmail.com",
+      "sentAt": "2026-03-21T22:38:39.147Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:39.147Z",
+      "retryAttempt": 1
+    },
+    "mrsaugatadas@gmail.com": {
+      "name": "Saugata Das",
+      "email": "mrsaugatadas@gmail.com",
+      "sentAt": "2026-03-21T22:38:43.175Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:43.175Z",
+      "retryAttempt": 1
+    },
+    "arnabsanyal2002@gmail.com": {
+      "name": "Arnab Sanyal",
+      "email": "arnabsanyal2002@gmail.com",
+      "sentAt": "2026-03-21T22:38:46.555Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:46.555Z",
+      "retryAttempt": 1
+    },
+    "chandra.ganguly6@gmail.com": {
+      "name": "Chandra Ganguly",
+      "email": "chandra.ganguly6@gmail.com",
+      "sentAt": "2026-03-21T22:38:50.578Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:50.578Z",
+      "retryAttempt": 1
+    },
+    "gourabhere@gmail.com": {
+      "name": "Gourab Saha",
+      "email": "gourabhere@gmail.com",
+      "sentAt": "2026-03-21T22:38:53.928Z",
+      "batchNum": 10,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:38:53.928Z",
+      "retryAttempt": 1
+    },
+    "tosantanu@gmail.com": {
+      "name": "Santanu Bhattacharya",
+      "email": "tosantanu@gmail.com",
+      "sentAt": "2026-03-21T22:39:25.478Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:25.478Z",
+      "retryAttempt": 1
+    },
+    "anitapmandal@gmail.com": {
+      "name": "Anita Mandal",
+      "email": "anitapmandal@gmail.com",
+      "sentAt": "2026-03-21T22:39:31.305Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:31.305Z",
+      "retryAttempt": 1
+    },
+    "henasanat@yahoo.com": {
+      "name": "SANAT  ROY",
+      "email": "henasanat@yahoo.com",
+      "sentAt": "2026-03-21T22:39:35.709Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:35.709Z",
+      "retryAttempt": 1
+    },
+    "sudipto.sbyn@gmail.com": {
+      "name": "Sudipto",
+      "email": "sudipto.sbyn@gmail.com",
+      "sentAt": "2026-03-21T22:39:40.316Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:40.316Z",
+      "retryAttempt": 1
+    },
+    "tukiguitarman@yahoo.com": {
+      "name": "vikramjit banerjee",
+      "email": "tukiguitarman@yahoo.com",
+      "sentAt": "2026-03-21T22:39:44.003Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:44.003Z",
+      "retryAttempt": 1
+    },
+    "rana.soma11@gmail.com": {
+      "name": "rana.soma11@gmail.com",
+      "email": "rana.soma11@gmail.com",
+      "sentAt": "2026-03-21T22:39:47.280Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:47.280Z",
+      "retryAttempt": 1
+    },
+    "nabokumar09@gmail.com": {
+      "name": "Nabo Roy",
+      "email": "nabokumar09@gmail.com",
+      "sentAt": "2026-03-21T22:39:50.722Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:50.722Z",
+      "retryAttempt": 1
+    },
+    "sbose84390@aol.com": {
+      "name": "Samiksha Bose",
+      "email": "sbose84390@aol.com",
+      "sentAt": "2026-03-21T22:39:54.253Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:54.253Z",
+      "retryAttempt": 1
+    },
+    "upasana.york.88@gmail.com": {
+      "name": "Upasana Banerjee",
+      "email": "upasana.york.88@gmail.com",
+      "sentAt": "2026-03-21T22:39:57.663Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:39:57.663Z",
+      "retryAttempt": 1
+    },
+    "sangat000@gmail.com": {
+      "name": "sangat000@gmail.com",
+      "email": "sangat000@gmail.com",
+      "sentAt": "2026-03-21T22:40:02.362Z",
+      "batchNum": 11,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:40:02.362Z",
+      "retryAttempt": 1
+    },
+    "soumitagoswami05@gmail.com": {
+      "name": "Soumita Goswami",
+      "email": "soumitagoswami05@gmail.com",
+      "sentAt": "2026-03-21T22:40:33.956Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:40:33.956Z",
+      "retryAttempt": 1
+    },
+    "tosanchari@gmail.com": {
+      "name": "Sanchari Bhattacharyya",
+      "email": "tosanchari@gmail.com",
+      "sentAt": "2026-03-21T22:40:39.963Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:40:39.963Z",
+      "retryAttempt": 1
+    },
+    "lopita.majumdar@gmail.com": {
+      "name": "Lopita Majumdar",
+      "email": "lopita.majumdar@gmail.com",
+      "sentAt": "2026-03-21T22:40:47.075Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:40:47.075Z",
+      "retryAttempt": 1
+    },
+    "sunanda.banerjee@gmail.com": {
+      "name": "Sunanda Banerjee",
+      "email": "sunanda.banerjee@gmail.com",
+      "sentAt": "2026-03-21T22:40:52.004Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:40:52.004Z",
+      "retryAttempt": 1
+    },
+    "priyanka16587@gmail.com": {
+      "name": "Priyanka Majumder",
+      "email": "priyanka16587@gmail.com",
+      "sentAt": "2026-03-21T22:40:57.009Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:40:57.009Z",
+      "retryAttempt": 1
+    },
+    "rasmazumder@aol.com": {
+      "name": "Ras Mazumder",
+      "email": "rasmazumder@aol.com",
+      "sentAt": "2026-03-21T22:41:03.870Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:41:03.870Z",
+      "retryAttempt": 1
+    },
+    "swarnendu.sen@gmail.com": {
+      "name": "swarnendu.sen@gmail.com",
+      "email": "swarnendu.sen@gmail.com",
+      "sentAt": "2026-03-21T22:41:07.761Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:41:07.761Z",
+      "retryAttempt": 1
+    },
+    "mukulsaha89@gmail.com": {
+      "name": "Mukul Saha",
+      "email": "mukulsaha89@gmail.com",
+      "sentAt": "2026-03-21T22:41:12.163Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:41:12.163Z",
+      "retryAttempt": 1
+    },
+    "nilanb@gmail.com": {
+      "name": "Nilanjana B",
+      "email": "nilanb@gmail.com",
+      "sentAt": "2026-03-21T22:41:19.125Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:41:19.125Z",
+      "retryAttempt": 1
+    },
+    "art.rajarshi@gmail.com": {
+      "name": "Rajarshi Chattopadhyay",
+      "email": "art.rajarshi@gmail.com",
+      "sentAt": "2026-03-21T22:41:27.073Z",
+      "batchNum": 12,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:41:27.073Z",
+      "retryAttempt": 1
+    },
+    "banerjee04ananya@gmai.com": {
+      "name": "banerjee04ananya@gmai.com",
+      "email": "banerjee04ananya@gmai.com",
+      "sentAt": "2026-03-21T22:41:59.893Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:41:59.893Z",
+      "retryAttempt": 1
+    },
+    "vbbs04@gmail.com": {
+      "name": "vbbs04@gmail.com",
+      "email": "vbbs04@gmail.com",
+      "sentAt": "2026-03-21T22:42:05.827Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:05.827Z",
+      "retryAttempt": 1
+    },
+    "bharatiart2000@yahoo.com": {
+      "name": "Bulbul Chaudhary",
+      "email": "bharatiart2000@yahoo.com",
+      "sentAt": "2026-03-21T22:42:12.788Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:12.788Z",
+      "retryAttempt": 1
+    },
+    "gautambose12408@gmail.com": {
+      "name": "gautambose12408@gmail.com",
+      "email": "gautambose12408@gmail.com",
+      "sentAt": "2026-03-21T22:42:19.031Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:19.031Z",
+      "retryAttempt": 1
+    },
+    "natta.saikat@gmail.com": {
+      "name": "Saikat Natta",
+      "email": "natta.saikat@gmail.com",
+      "sentAt": "2026-03-21T22:42:22.520Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:22.520Z",
+      "retryAttempt": 1
+    },
+    "samratbanerjee120@gmail.com": {
+      "name": "Samrat Banerjee",
+      "email": "samratbanerjee120@gmail.com",
+      "sentAt": "2026-03-21T22:42:26.798Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:26.798Z",
+      "retryAttempt": 1
+    },
+    "ghosh.dipra@gmail.com": {
+      "name": "Dipra Ghosh",
+      "email": "ghosh.dipra@gmail.com",
+      "sentAt": "2026-03-21T22:42:31.078Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:31.078Z",
+      "retryAttempt": 1
+    },
+    "alokdev@hotmail.com": {
+      "name": "alokdev@hotmail.com",
+      "email": "alokdev@hotmail.com",
+      "sentAt": "2026-03-21T22:42:35.620Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:35.620Z",
+      "retryAttempt": 1
+    },
+    "anna@summitshinecleaning.com": {
+      "name": "Anna MacLeod",
+      "email": "anna@summitshinecleaning.com",
+      "sentAt": "2026-03-21T22:42:39.306Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:39.306Z",
+      "retryAttempt": 1
+    },
+    "jamesphelan347@gmail.com": {
+      "name": "James",
+      "email": "jamesphelan347@gmail.com",
+      "sentAt": "2026-03-21T22:42:43.710Z",
+      "batchNum": 13,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:42:43.710Z",
+      "retryAttempt": 1
+    },
+    "sharmi5002@gmail.com": {
+      "name": "sharmi5002@gmail.com",
+      "email": "sharmi5002@gmail.com",
+      "sentAt": "2026-03-21T22:43:16.398Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:16.398Z",
+      "retryAttempt": 1
+    },
+    "enggchapan@gmail.com": {
+      "name": "enggchapan@gmail.com",
+      "email": "enggchapan@gmail.com",
+      "sentAt": "2026-03-21T22:43:21.193Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:21.193Z",
+      "retryAttempt": 1
+    },
+    "royc.anindya@gmail.com": {
+      "name": "Anindya (Peter) Roy Choudhury",
+      "email": "royc.anindya@gmail.com",
+      "sentAt": "2026-03-21T22:43:29.487Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:29.487Z",
+      "retryAttempt": 1
+    },
+    "samiran.chandra@gmail.com": {
+      "name": "Samiran Chandra",
+      "email": "samiran.chandra@gmail.com",
+      "sentAt": "2026-03-21T22:43:34.404Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:34.404Z",
+      "retryAttempt": 1
+    },
+    "sanhitadas_2000@yahoo.com": {
+      "name": "Sanhita Roy",
+      "email": "sanhitadas_2000@yahoo.com",
+      "sentAt": "2026-03-21T22:43:37.886Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:37.886Z",
+      "retryAttempt": 1
+    },
+    "banfjax@gmail.com": {
+      "name": "banfjax@gmail.com",
+      "email": "banfjax@gmail.com",
+      "sentAt": "2026-03-21T22:43:42.902Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:42.902Z",
+      "retryAttempt": 1
+    },
+    "palsourav30@gmail.com": {
+      "name": "Sourav Pal",
+      "email": "palsourav30@gmail.com",
+      "sentAt": "2026-03-21T22:43:46.794Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:46.794Z",
+      "retryAttempt": 1
+    },
+    "brianmurphy@metaappdesignes.com": {
+      "name": "Brian Murphy",
+      "email": "brianmurphy@metaappdesignes.com",
+      "sentAt": "2026-03-21T22:43:51.301Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:51.301Z",
+      "retryAttempt": 1
+    },
+    "jared@apostillellc.com": {
+      "name": "Jared Leiman",
+      "email": "jared@apostillellc.com",
+      "sentAt": "2026-03-21T22:43:54.565Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:54.565Z",
+      "retryAttempt": 1
+    },
+    "shomgos@gmail.com": {
+      "name": "Shom Ghosh",
+      "email": "shomgos@gmail.com",
+      "sentAt": "2026-03-21T22:43:58.355Z",
+      "batchNum": 14,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:43:58.355Z",
+      "retryAttempt": 1
+    },
+    "sudipshita@yahoo.com": {
+      "name": "Ipshita Roy",
+      "email": "sudipshita@yahoo.com",
+      "sentAt": "2026-03-21T22:44:31.122Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:44:31.122Z",
+      "retryAttempt": 1
+    },
+    "rgarimella99@gmail.com": {
+      "name": "RAMARAO GARIMELLA",
+      "email": "rgarimella99@gmail.com",
+      "sentAt": "2026-03-21T22:44:37.321Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:44:37.321Z",
+      "retryAttempt": 1
+    },
+    "asahaech@yahoo.com": {
+      "name": "Amit",
+      "email": "asahaech@yahoo.com",
+      "sentAt": "2026-03-21T22:44:43.719Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:44:43.719Z",
+      "retryAttempt": 1
+    },
+    "bidhan138@gmail.com": {
+      "name": "Bidhan Das",
+      "email": "bidhan138@gmail.com",
+      "sentAt": "2026-03-21T22:44:47.915Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:44:47.915Z",
+      "retryAttempt": 1
+    },
+    "deba10@gmail.com": {
+      "name": "DEBASHIS GANGULY",
+      "email": "deba10@gmail.com",
+      "sentAt": "2026-03-21T22:44:52.837Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:44:52.837Z",
+      "retryAttempt": 1
+    },
+    "manalimukherjee47@gmail.com": {
+      "name": "manalimukherjee47@gmail.com",
+      "email": "manalimukherjee47@gmail.com",
+      "sentAt": "2026-03-21T22:44:57.336Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:44:57.336Z",
+      "retryAttempt": 1
+    },
+    "g.nnandita@gmail.com": {
+      "name": "Nandita Guin",
+      "email": "g.nnandita@gmail.com",
+      "sentAt": "2026-03-21T22:45:01.024Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:45:01.024Z",
+      "retryAttempt": 1
+    },
+    "uma.417@gmail.com": {
+      "name": "Uma Hazra",
+      "email": "uma.417@gmail.com",
+      "sentAt": "2026-03-21T22:45:05.753Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:45:05.753Z",
+      "retryAttempt": 1
+    },
+    "graphiksdue@gmail.com": {
+      "name": "Ananta Kumar Sarkar",
+      "email": "graphiksdue@gmail.com",
+      "sentAt": "2026-03-21T22:45:10.648Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:45:10.648Z",
+      "retryAttempt": 1
+    },
+    "vartew@gmail.com": {
+      "name": "Varsha Ganguly",
+      "email": "vartew@gmail.com",
+      "sentAt": "2026-03-21T22:45:15.034Z",
+      "batchNum": 15,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:45:15.034Z",
+      "retryAttempt": 1
+    },
+    "harmansekhon@gmail.com": {
+      "name": "Harman",
+      "email": "harmansekhon@gmail.com",
+      "sentAt": "2026-03-21T22:45:48.226Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:45:48.226Z",
+      "retryAttempt": 1
+    },
+    "caden.schmidt@wixful.site": {
+      "name": "Caden Schmidt",
+      "email": "caden.schmidt@wixful.site",
+      "sentAt": "2026-03-21T22:45:53.145Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:45:53.145Z",
+      "retryAttempt": 1
+    },
+    "bandematarom@hotmail.com": {
+      "name": "Biyas",
+      "email": "bandematarom@hotmail.com",
+      "sentAt": "2026-03-21T22:46:01.287Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:01.287Z",
+      "retryAttempt": 1
+    },
+    "suvodasgupta@gmail.com": {
+      "name": "suvo dasgupta",
+      "email": "suvodasgupta@gmail.com",
+      "sentAt": "2026-03-21T22:46:06.969Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:06.969Z",
+      "retryAttempt": 1
+    },
+    "kalyan32258@yahoo.com": {
+      "name": "Kalyan Chakrabarti",
+      "email": "kalyan32258@yahoo.com",
+      "sentAt": "2026-03-21T22:46:11.782Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:11.782Z",
+      "retryAttempt": 1
+    },
+    "aroyc001@netzero.com": {
+      "name": "Amitava Roychoudhury",
+      "email": "aroyc001@netzero.com",
+      "sentAt": "2026-03-21T22:46:16.360Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:16.360Z",
+      "retryAttempt": 1
+    },
+    "bns@hotmail.co.in": {
+      "name": "Baidya Nath Sarkar",
+      "email": "bns@hotmail.co.in",
+      "sentAt": "2026-03-21T22:46:19.359Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:19.359Z",
+      "retryAttempt": 1
+    },
+    "info@domainworld.com": {
+      "name": "Joe Miller",
+      "email": "info@domainworld.com",
+      "sentAt": "2026-03-21T22:46:22.430Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:22.430Z",
+      "retryAttempt": 1
+    },
+    "chatterjeebratasree@gmail.com": {
+      "name": "Bratasree Chatterjee",
+      "email": "chatterjeebratasree@gmail.com",
+      "sentAt": "2026-03-21T22:46:25.416Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:25.416Z",
+      "retryAttempt": 1
+    },
+    "dutta.nandini47@gmail.com": {
+      "name": "Nandini Dutta",
+      "email": "dutta.nandini47@gmail.com",
+      "sentAt": "2026-03-21T22:46:28.378Z",
+      "batchNum": 16,
+      "verified": true,
+      "retriedAt": "2026-03-21T22:46:28.378Z",
+      "retryAttempt": 1
+    },
+    "bithikaroy96@gmail.com": {
+      "name": "Bithika Roy",
+      "email": "bithikaroy96@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.268Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "aaactionllc@gmail.com": {
+      "name": "T BANAMBAR PATRA",
+      "email": "aaactionllc@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.270Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "aroyc55@gmail.com": {
+      "name": "Sumana Di",
+      "email": "aroyc55@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.271Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "dutta.shamit2000@gmail.com": {
+      "name": "dutta.shamit2000@gmail.com",
+      "email": "dutta.shamit2000@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.273Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "mehta.swati2011@gmail.com": {
+      "name": "Swati Mehta",
+      "email": "mehta.swati2011@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.273Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "sonuroy123@gmail.com": {
+      "name": "Sonu Roy",
+      "email": "sonuroy123@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.274Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "poonam.sanyal@gmail.com": {
+      "name": "Poonam Sanyal",
+      "email": "poonam.sanyal@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.274Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "duttaayan.cs@gmail.com": {
+      "name": "Ayan Dutta",
+      "email": "duttaayan.cs@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.275Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "shilpikessler@gmail.com": {
+      "name": "shilpikessler@gmail.com",
+      "email": "shilpikessler@gmail.com",
+      "sentAt": "2026-03-21T22:46:45.275Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "a@b.com": {
+      "name": "a@b.com",
+      "email": "a@b.com",
+      "sentAt": "2026-03-21T22:46:45.276Z",
+      "batchNum": 17,
+      "verified": true
+    },
+    "anupriyaganguly44@gmail.com": {
+      "name": "Anupriya",
+      "email": "anupriyaganguly44@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.504Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "rajarshi.majumdar@gmail.com": {
+      "name": "Rajarshi Majumdar",
+      "email": "rajarshi.majumdar@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.506Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "raka1027@aol.com": {
+      "name": "raka1027@aol.com",
+      "email": "raka1027@aol.com",
+      "sentAt": "2026-03-21T22:47:03.508Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "priyachakraborty92@gmail.com": {
+      "name": "priyachakraborty92@gmail.com",
+      "email": "priyachakraborty92@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.508Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "moushumi.mondal@gmail.com": {
+      "name": "Moushumi Mondal",
+      "email": "moushumi.mondal@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.509Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "bhaskarroy24@gmail.com": {
+      "name": "Bhaskar Roy",
+      "email": "bhaskarroy24@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.509Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "priyanka.ghosh@gmail.com": {
+      "name": "priyanka.ghosh@gmail.com",
+      "email": "priyanka.ghosh@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.511Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "shilpibanerjee07@gmail.com": {
+      "name": "Shilpi Banerjee",
+      "email": "shilpibanerjee07@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.512Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "mmegha.garg@gmail.com": {
+      "name": "mmegha.garg@gmail.com",
+      "email": "mmegha.garg@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.513Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "chandranilay@gmail.com": {
+      "name": "Nilay Chandra",
+      "email": "chandranilay@gmail.com",
+      "sentAt": "2026-03-21T22:47:03.514Z",
+      "batchNum": 18,
+      "verified": true
+    },
+    "suman.ghosh12@gmail.com": {
+      "name": "Sumon Ghosh",
+      "email": "suman.ghosh12@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.563Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "manokmc@gmail.com": {
+      "name": "manokmc@gmail.com",
+      "email": "manokmc@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.564Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "adelia@crystallclearcrew.com": {
+      "name": "Adelia Nason",
+      "email": "adelia@crystallclearcrew.com",
+      "sentAt": "2026-03-21T22:47:20.565Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "hazradipa05@gmail.com": {
+      "name": "hazradipa05@gmail.com",
+      "email": "hazradipa05@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.566Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "sculptorpradiprudrapal@gmail.com": {
+      "name": "Pradip RudraPal",
+      "email": "sculptorpradiprudrapal@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.567Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "tanaybhaduri@gmail.com": {
+      "name": "tanaybhaduri@gmail.com",
+      "email": "tanaybhaduri@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.568Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "john.bailey@funcms.net": {
+      "name": "John Bailey",
+      "email": "john.bailey@funcms.net",
+      "sentAt": "2026-03-21T22:47:20.570Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "mdhar79@yahoo.com": {
+      "name": "mdhar79@yahoo.com",
+      "email": "mdhar79@yahoo.com",
+      "sentAt": "2026-03-21T22:47:20.570Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "tanusree.hhalder@gmail.com": {
+      "name": "tanusree.hhalder@gmail.com",
+      "email": "tanusree.hhalder@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.572Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "ganguly.joyita@gmail.com": {
+      "name": "Joyita Ganguly",
+      "email": "ganguly.joyita@gmail.com",
+      "sentAt": "2026-03-21T22:47:20.573Z",
+      "batchNum": 19,
+      "verified": true
+    },
+    "niloy.rc@gmail.com": {
+      "name": "niloy.rc@gmail.com",
+      "email": "niloy.rc@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.014Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "kb94311@gmail.com": {
+      "name": "Kaushiki Bhattacharya",
+      "email": "kb94311@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.017Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "inmumanik@gmail.com": {
+      "name": "inmumanik@gmail.com",
+      "email": "inmumanik@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.019Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "zaim3tariqul1712@gmail.com": {
+      "name": "Tariqul",
+      "email": "zaim3tariqul1712@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.020Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "sroy.iitm@gmail.com": {
+      "name": "Swapnoneel Roy",
+      "email": "sroy.iitm@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.022Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "alak.manna@gmail.com": {
+      "name": "Alak Manna",
+      "email": "alak.manna@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.023Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "rajasrichandra@yahoo.com": {
+      "name": "Rajasri Chandra",
+      "email": "rajasrichandra@yahoo.com",
+      "sentAt": "2026-03-21T22:47:38.023Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "2soumaliwithlove@gmail.com": {
+      "name": "Soumali Dutta",
+      "email": "2soumaliwithlove@gmail.com",
+      "sentAt": "2026-03-21T22:47:38.023Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "max@anasuya.com": {
+      "name": "Maximilian T. H. Suchy",
+      "email": "max@anasuya.com",
+      "sentAt": "2026-03-21T22:47:38.024Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "mntalukder@yahoo.com": {
+      "name": "mntalukder@yahoo.com",
+      "email": "mntalukder@yahoo.com",
+      "sentAt": "2026-03-21T22:47:38.024Z",
+      "batchNum": 20,
+      "verified": true
+    },
+    "surajit_c@hotmail.com": {
+      "name": "Surajit Chakravarty",
+      "email": "surajit_c@hotmail.com",
+      "sentAt": "2026-03-21T22:47:55.533Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "emailtoakhaya@gmail.com": {
+      "name": "AKHAYA MOHANTY",
+      "email": "emailtoakhaya@gmail.com",
+      "sentAt": "2026-03-21T22:47:55.534Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "roy.debasmita@gmail.com": {
+      "name": "Debasmita Roy",
+      "email": "roy.debasmita@gmail.com",
+      "sentAt": "2026-03-21T22:47:55.535Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "shreyartha@gmail.com": {
+      "name": "shreyartha@gmail.com",
+      "email": "shreyartha@gmail.com",
+      "sentAt": "2026-03-21T22:47:55.535Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "info@jaxbengali.org": {
+      "name": "Alex Nelson",
+      "email": "info@jaxbengali.org",
+      "sentAt": "2026-03-21T22:47:55.536Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "navnitadutta7@gmail.com": {
+      "name": "Navnita Dutta",
+      "email": "navnitadutta7@gmail.com",
+      "sentAt": "2026-03-21T22:47:55.537Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "atmadeep.mazumdar@gmail.com": {
+      "name": "Atmadeep Mazumdar",
+      "email": "atmadeep.mazumdar@gmail.com",
+      "sentAt": "2026-03-21T22:47:55.539Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "sumantaneogi90@gmail.com": {
+      "name": "sumantaneogi90@gmail.com",
+      "email": "sumantaneogi90@gmail.com",
+      "sentAt": "2026-03-21T22:47:55.540Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "tapashroyk@msn.com": {
+      "name": "Tapash Roy",
+      "email": "tapashroyk@msn.com",
+      "sentAt": "2026-03-21T22:47:55.541Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "chrissy.m.das@icloud.com": {
+      "name": "chrissy.m.das@icloud.com",
+      "email": "chrissy.m.das@icloud.com",
+      "sentAt": "2026-03-21T22:47:55.542Z",
+      "batchNum": 21,
+      "verified": true
+    },
+    "dipteshm@gmail.com": {
+      "name": "Diptesh",
+      "email": "dipteshm@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.252Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "senguptaavranil@gmail.com": {
+      "name": "senguptaavranil@gmail.com",
+      "email": "senguptaavranil@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.253Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "abhra.aich@gmail.com": {
+      "name": "Abhra Aich",
+      "email": "abhra.aich@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.254Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "jchakrab@gmail.com": {
+      "name": "Jay Chakraborty",
+      "email": "jchakrab@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.255Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "hibarnali@gmail.com": {
+      "name": "Barnali Mondal",
+      "email": "hibarnali@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.256Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "ritabhattacharjee@gmail.com": {
+      "name": "Rita Bhattacharjee",
+      "email": "ritabhattacharjee@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.257Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "johnexum1@outlook.com": {
+      "name": "johnexum1@outlook.com",
+      "email": "johnexum1@outlook.com",
+      "sentAt": "2026-03-21T22:48:13.258Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "mitaghosh1@yahoo.com": {
+      "name": "Mita Ghosh",
+      "email": "mitaghosh1@yahoo.com",
+      "sentAt": "2026-03-21T22:48:13.258Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "souvik.ray86@gmail.com": {
+      "name": "Souvik Ray",
+      "email": "souvik.ray86@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.260Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "sajal1986@gmail.com": {
+      "name": "Sajal Bagchi",
+      "email": "sajal1986@gmail.com",
+      "sentAt": "2026-03-21T22:48:13.261Z",
+      "batchNum": 22,
+      "verified": true
+    },
+    "ana@anasuya.com": {
+      "name": "Anasuya Banerjee",
+      "email": "ana@anasuya.com",
+      "sentAt": "2026-03-21T22:48:30.136Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "rajanya.ghosh1993@gmail.com": {
+      "name": "Rajanya Ghosh",
+      "email": "rajanya.ghosh1993@gmail.com",
+      "sentAt": "2026-03-21T22:48:30.137Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "weekender_in@yahoo.com": {
+      "name": "Rahul Bannerjee",
+      "email": "weekender_in@yahoo.com",
+      "sentAt": "2026-03-21T22:48:30.138Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "sikhorini@gmail.com": {
+      "name": "Sikhorini .mukherjee",
+      "email": "sikhorini@gmail.com",
+      "sentAt": "2026-03-21T22:48:30.139Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "jiniya.chandra@gmail.com": {
+      "name": "Jiniya Chandra",
+      "email": "jiniya.chandra@gmail.com",
+      "sentAt": "2026-03-21T22:48:30.139Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "slmaitra@gmail.com": {
+      "name": "Suvendu Maitra",
+      "email": "slmaitra@gmail.com",
+      "sentAt": "2026-03-21T22:48:30.143Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "tasmim@tohfabd.com": {
+      "name": "Tasmim",
+      "email": "tasmim@tohfabd.com",
+      "sentAt": "2026-03-21T22:48:30.144Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "neha.mandal@occamsadvisory.com": {
+      "name": "Neha Mandal",
+      "email": "neha.mandal@occamsadvisory.com",
+      "sentAt": "2026-03-21T22:48:30.147Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "ripon.ray@britbanglacovid.com": {
+      "name": "Ripon Ray",
+      "email": "ripon.ray@britbanglacovid.com",
+      "sentAt": "2026-03-21T22:48:30.148Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "souvik.chakraborty87@gmail.com": {
+      "name": "Souvik Chakraborty (Old Souvik)",
+      "email": "souvik.chakraborty87@gmail.com",
+      "sentAt": "2026-03-21T22:48:30.148Z",
+      "batchNum": 23,
+      "verified": true
+    },
+    "urmi.kanya@gmail.com": {
+      "name": "urmi rakshit",
+      "email": "urmi.kanya@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.980Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "peshkarcal@yahoo.com": {
+      "name": "peshkarcal@yahoo.com",
+      "email": "peshkarcal@yahoo.com",
+      "sentAt": "2026-03-21T22:48:47.982Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "sunetra.basu@gmail.com": {
+      "name": "Sunetra Basu Ghosh",
+      "email": "sunetra.basu@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.983Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "jan.sourav@gmail.com": {
+      "name": "Sourav Jan",
+      "email": "jan.sourav@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.984Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "milanekadash1996@gmail.com": {
+      "name": "milanekadash1996@gmail.com",
+      "email": "milanekadash1996@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.986Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "sudeshna.chatterjee1986@gmail.com": {
+      "name": "SUDESHNA CHATTERJEE",
+      "email": "sudeshna.chatterjee1986@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.987Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "indrani.of.paul@gmail.com": {
+      "name": "INDRANI PAUL",
+      "email": "indrani.of.paul@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.989Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "subhraroy88@yahoo.com": {
+      "name": "Subhra Roy",
+      "email": "subhraroy88@yahoo.com",
+      "sentAt": "2026-03-21T22:48:47.990Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "swagatika.ty@gmail.com": {
+      "name": "Swagatika Tripathy",
+      "email": "swagatika.ty@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.992Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "rinabasu31@gmail.com": {
+      "name": "Rina Basu Paul",
+      "email": "rinabasu31@gmail.com",
+      "sentAt": "2026-03-21T22:48:47.994Z",
+      "batchNum": 24,
+      "verified": true
+    },
+    "brandon.green@wixclicks.co": {
+      "name": "Brandon Green",
+      "email": "brandon.green@wixclicks.co",
+      "sentAt": "2026-03-21T22:49:06.487Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "karmakar.2007@gmail.com": {
+      "name": "Koushik Karmakar",
+      "email": "karmakar.2007@gmail.com",
+      "sentAt": "2026-03-21T22:49:06.489Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "robchatto@aol.com": {
+      "name": "robchatto@aol.com",
+      "email": "robchatto@aol.com",
+      "sentAt": "2026-03-21T22:49:06.490Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "raj.goswami@gmail.com": {
+      "name": "Raj Goswami",
+      "email": "raj.goswami@gmail.com",
+      "sentAt": "2026-03-21T22:49:06.492Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "samirpbhagat@gmail.com": {
+      "name": "samirpbhagat@gmail.com",
+      "email": "samirpbhagat@gmail.com",
+      "sentAt": "2026-03-21T22:49:06.493Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "dolasinha@yahoo.com": {
+      "name": "Dola Sinha",
+      "email": "dolasinha@yahoo.com",
+      "sentAt": "2026-03-21T22:49:06.496Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "duttasoumyajit86@gmail.com": {
+      "name": "Soumyajit Dutta",
+      "email": "duttasoumyajit86@gmail.com",
+      "sentAt": "2026-03-21T22:49:06.497Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "sm.mondal@gmail.com": {
+      "name": "Subrata Mondal",
+      "email": "sm.mondal@gmail.com",
+      "sentAt": "2026-03-21T22:49:06.499Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "celina@janprojacksonville.com": {
+      "name": "Celina Fouts",
+      "email": "celina@janprojacksonville.com",
+      "sentAt": "2026-03-21T22:49:06.501Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "amit.everywhere@gmail.com": {
+      "name": "Amit.everywhere@gmail.com",
+      "email": "amit.everywhere@gmail.com",
+      "sentAt": "2026-03-21T22:49:06.504Z",
+      "batchNum": 25,
+      "verified": true
+    },
+    "srabana.m@gmail.com": {
+      "name": "Rupa Majumdar",
+      "email": "srabana.m@gmail.com",
+      "sentAt": "2026-03-21T22:49:18.019Z",
+      "batchNum": 26,
+      "verified": true
+    },
+    "varsharoy.86@gmail.com": {
+      "name": "Varsha Roy",
+      "email": "varsharoy.86@gmail.com",
+      "sentAt": "2026-03-21T22:49:18.019Z",
+      "batchNum": 26,
+      "verified": true
+    },
+    "info@sagirealty.com": {
+      "name": "Pawan Agarwal",
+      "email": "info@sagirealty.com",
+      "sentAt": "2026-03-21T22:49:18.020Z",
+      "batchNum": 26,
+      "verified": true
+    },
+    "poddojaroy@gmail.com": {
+      "name": "poddojaroy@gmail.com",
+      "email": "poddojaroy@gmail.com",
+      "sentAt": "2026-03-21T22:49:18.020Z",
+      "batchNum": 26,
+      "verified": true
+    }
+  },
+  "failed": {},
+  "skipped": {
+    "moumita.mukherje@gmail.com": "Already invited",
+    "sumo475@gmail.com": "Already invited",
+    "ranadhir.ghosh@gmail.com": "Already invited",
+    "mukhopadhyay.partha@gmail.com": "Already invited",
+    "rwitichoudhury@gmail.com": "Already invited"
+  },
+  "stats": {
+    "totalSent": 254,
+    "totalFailed": 0,
+    "totalVerified": 254,
+    "totalSkipped": 5,
+    "totalInDB": 341
+  },
+  "lastUpdated": "2026-03-21T22:49:34.300Z",
+  "completedAt": "2026-03-21T22:49:34.300Z"
+}

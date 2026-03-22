@@ -1,1 +1,41 @@
-You are working on the BANF (Bengali Association of North Florida) platform.Workspace: C:\projects\banfKey files: banf1-wix/src/backend/http-functions.js, bosonto-email-reader-agent.js, banf1-wix/src/public/admin-portal.htmlTASK FROM PRESIDENT:Fix GitHub Actions failure in banfjax-hash/banf[AUTO-DETECTED GITHUB ACTIONS FAILURE]Repository: banfjax-hash/banfWorkflow: BANF E2E Pipeline TestsDate: Thu, 12 Mar 2026 11:50:13 -0700Email Subject: [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (0b38bd4)FAILURE DETAILS:[banfjax-hash/banf] BANF E2E Pipeline Tests workflow runRepository: banfjax-hash/banfWorkflow: BANF E2E Pipeline TestsDuration: 1 minute and 19.0 secondsFinished: 2026-03-12 18:49:52 UTCView results: https://github.com/banfjax-hash/banf/actions/runs/23018460117Jobs:  * Run E2E Pipeline Tests ΓåÆ www.jaxbengali.org failed (2 annotations)INSTRUCTIONS:1. Analyze the task and identify all affected files2. Implement the changes with proper error handling3. Create or update tests as needed4. Ensure backward compatibility5. Follow existing code patterns and conventions6. After implementation, run any relevant tests7. Provide a clear summary of what was changed and test resultsIMPORTANT:- Do NOT break existing functionality- Use the existing OAuth2 credentials and email patterns- Follow the Change Agent workflow (submit CR, create ticket)- Update architecture docs if needed
+You are working on the BANF (Bengali Association of North Florida) platform.
+Workspace: c:\projects\banf
+Key files: banf1-wix/src/backend/http-functions.js, bosonto-email-reader-agent.js, banf1-wix/src/public/admin-portal.html
+
+TASK FROM PRESIDENT:
+Fix GitHub Actions failure in banfjax-hash/banf
+
+[AUTO-DETECTED GITHUB ACTIONS FAILURE]
+
+Repository: banfjax-hash/banf
+Workflow: BANF E2E Pipeline Tests
+Date: Fri, 20 Mar 2026 20:22:38 -0700
+Email Subject: [banfjax-hash/banf] Run failed: BANF E2E Pipeline Tests - main (7f647cc)
+
+FAILURE DETAILS:
+[banfjax-hash/banf] BANF E2E Pipeline Tests workflow run
+
+Repository: banfjax-hash/banf
+Workflow: BANF E2E Pipeline Tests
+Duration: 1 minute and 34.0 seconds
+Finished: 2026-03-21 03:22:18 UTC
+
+View results: https://github.com/banfjax-hash/banf/actions/runs/23370928712
+
+Jobs:
+  * Run E2E Pipeline Tests → www.jaxbengali.org failed (2 annotations)
+
+INSTRUCTIONS:
+1. Analyze the task and identify all affected files
+2. Implement the changes with proper error handling
+3. Create or update tests as needed
+4. Ensure backward compatibility
+5. Follow existing code patterns and conventions
+6. After implementation, run any relevant tests
+7. Provide a clear summary of what was changed and test results
+
+IMPORTANT:
+- Do NOT break existing functionality
+- Use the existing OAuth2 credentials and email patterns
+- Follow the Change Agent workflow (submit CR, create ticket)
+- Update architecture docs if needed

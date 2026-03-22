@@ -416,7 +416,7 @@ function renderForm(data) {
   const inv = data.invitation;
   const evt = data.event || {
     eventName: 'BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩',
-    eventDate: '2026-04-25T00:00:00.000Z',
+    eventDate: '2026-04-25',
     eventTime: '11:00 AM – 4:00 PM',
     venue: 'Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092',
     description: 'Join us to celebrate Pohela Boishakh — the Bengali New Year — with a day of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!'
@@ -456,7 +456,9 @@ function renderForm(data) {
     // Event details box
     let detailsHtml = '<div class="label">Event Details</div>';
     if (evt.eventDate) {
-      const d = new Date(evt.eventDate);
+      // Parse date as local (not UTC) to prevent timezone shift
+      const parts = evt.eventDate.split(/[-T]/);
+      const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
       detailsHtml += `<div class="detail-row"><span class="icon">&#128197;</span><span class="value">${d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span></div>`;
     }
     if (evt.eventTime) {
@@ -986,15 +988,19 @@ function showFamilyDuplicateOnSubmit(data) {
 
 // ── Calendar integration helpers ──
 function parseEventDateTime(info) {
-  // Parse event date and derive start/end times
+  // Parse event date as LOCAL (not UTC) to prevent timezone-induced day shift
   let startDate;
   if (info.date) {
-    startDate = new Date(info.date);
+    const parts = String(info.date).split(/[-T]/);
+    if (parts.length >= 3) {
+      startDate = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    } else {
+      startDate = new Date(info.date);
+    }
     if (isNaN(startDate.getTime())) startDate = null;
   }
   if (!startDate) {
-    // Fallback: use a reasonable default
-    startDate = new Date('2026-04-25T11:00:00');
+    startDate = new Date(2026, 3, 25); // April 25, 2026 (local)
   }
 
   // Try to extract start time from eventTime (e.g., "11:00 AM – 4:00 PM")

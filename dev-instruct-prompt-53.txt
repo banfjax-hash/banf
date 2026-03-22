@@ -1,0 +1,40 @@
+You are working on the BANF (Bengali Association of North Florida) platform.
+Workspace: c:\projects\banf
+Key files: banf1-wix/src/backend/http-functions.js, bosonto-email-reader-agent.js, banf1-wix/src/public/admin-portal.html
+
+TASK FROM PRESIDENT:
+Fix GitHub Actions failure in banfjax-hash/banf
+
+[AUTO-DETECTED GITHUB ACTIONS FAILURE]
+
+Repository: banfjax-hash/banf
+Workflow: .github/workflows/android
+Date: Thu, 19 Mar 2026 08:14:34 -0700
+Email Subject: [banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (c8e6af4)
+
+FAILURE DETAILS:
+[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run
+
+Repository: banfjax-hash/banf
+Workflow: .github/workflows/android-ci.yml
+Duration: 0.0 seconds
+Finished: 2026-03-19 15:14:14 UTC
+
+View results: https://github.com/banfjax-hash/banf/actions/runs/23301969772
+
+Jobs:
+
+INSTRUCTIONS:
+1. Analyze the task and identify all affected files
+2. Implement the changes with proper error handling
+3. Create or update tests as needed
+4. Ensure backward compatibility
+5. Follow existing code patterns and conventions
+6. After implementation, run any relevant tests
+7. Provide a clear summary of what was changed and test results
+
+IMPORTANT:
+- Do NOT break existing functionality
+- Use the existing OAuth2 credentials and email patterns
+- Follow the Change Agent workflow (submit CR, create ticket)
+- Update architecture docs if needed

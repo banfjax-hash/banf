@@ -1,0 +1,3797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF Master Membership Dashboard - Year on Year</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #1a1a2e; line-height: 1.5; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  
+  /* Header */
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 40px 30px; border-radius: 16px; margin-bottom: 30px; text-align: center; }
+  .header h1 { font-size: 2.2em; margin-bottom: 8px; font-weight: 700; }
+  .header .subtitle { font-size: 1.1em; opacity: 0.85; }
+  .header .gen-date { font-size: 0.85em; opacity: 0.6; margin-top: 10px; }
+  
+  /* Global Search */
+  .search-bar { background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px; display: flex; gap: 12px; align-items: center; }
+  .search-bar input { flex: 1; padding: 10px 16px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; outline: none; transition: border-color 0.2s; }
+  .search-bar input:focus { border-color: #059669; }
+  .search-bar .search-label { font-weight: 600; color: #374151; white-space: nowrap; }
+  
+  /* Summary Grid */
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 30px; }
+  .summary-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid; transition: transform 0.15s; cursor: pointer; }
+  .summary-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .summary-card h3 { font-size: 1.4em; margin-bottom: 4px; }
+  .summary-card .label { font-size: 0.85em; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; }
+  .summary-card .big-number { font-size: 2em; font-weight: 700; margin: 8px 0; }
+  .summary-card .meta { font-size: 0.85em; color: #6B7280; }
+  .summary-card .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75em; font-weight: 600; margin-left: 6px; }
+  .current-tag { background: #D1FAE5; color: #059669; }
+  
+  /* Year Section */
+  .year-section { background: white; border-radius: 16px; margin-bottom: 24px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .year-header { padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid; transition: background 0.15s; }
+  .year-header:hover { filter: brightness(0.97); }
+  .year-header h2 { font-size: 1.5em; display: flex; align-items: center; gap: 10px; }
+  .year-header .arrow { font-size: 1.2em; transition: transform 0.3s; }
+  .year-header .arrow.open { transform: rotate(180deg); }
+  .year-header .stats { display: flex; gap: 20px; font-size: 0.9em; }
+  .year-header .stat { display: flex; flex-direction: column; align-items: center; }
+  .year-header .stat-val { font-weight: 700; font-size: 1.3em; }
+  .year-header .stat-lbl { font-size: 0.8em; color: #6B7280; }
+  
+  .year-body { display: none; padding: 0 24px 24px; }
+  .year-body.open { display: block; }
+  
+  /* Category breakdown */
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .cat-card { padding: 14px 16px; border-radius: 10px; border: 1px solid #e2e8f0; }
+  .cat-card .cat-name { font-weight: 600; font-size: 0.95em; margin-bottom: 4px; }
+  .cat-card .cat-stats { font-size: 0.85em; color: #6B7280; }
+  .cat-card .cat-amount { font-weight: 700; font-size: 1.1em; }
+  
+  /* Revenue bar */
+  .rev-bar-container { margin: 16px 0; }
+  .rev-bar { height: 24px; border-radius: 12px; display: flex; overflow: hidden; }
+  .rev-segment { height: 100%; transition: width 0.3s; position: relative; }
+  .rev-segment:hover::after { content: attr(data-label); position: absolute; top: -30px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; white-space: nowrap; z-index: 10; }
+  
+  /* Household table */
+  .hh-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+  .hh-table th { background: #f8fafc; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; position: sticky; top: 0; }
+  .hh-table td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+  .hh-table tr:hover td { background: #f0fdf4; }
+  .hh-table tr.highlight td { background: #fef3c7; }
+  .member-list { list-style: none; padding: 0; }
+  .member-list li { padding: 2px 0; }
+  .member-list .email { color: #6B7280; font-size: 0.85em; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.75em; font-weight: 600; margin-left: 4px; }
+  .badge-ec { background: #FEF3C7; color: #92400E; }
+  .badge-ack { background: #D1FAE5; color: #065F46; }
+  .badge-note { background: #FEE2E2; color: #991B1B; }
+  .badge-check { background: #DBEAFE; color: #1E40AF; }
+  .note-text { font-size: 0.8em; color: #DC2626; font-style: italic; margin-top: 4px; }
+  
+  /* Member-only table (historical years) */
+  .member-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+  .member-table th { background: #f8fafc; padding: 8px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
+  .member-table td { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; }
+  .member-table tr:hover td { background: #f0fdf4; }
+  
+  /* Investigation Panel */
+  .investigation-panel { background: #FFFBEB; border: 2px solid #FCD34D; border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .investigation-panel h3 { color: #92400E; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .investigation-item { padding: 10px 0; border-bottom: 1px solid #FDE68A; }
+  .investigation-item:last-child { border-bottom: none; }
+  .investigation-item .status { font-weight: 600; }
+  .status-resolved { color: #059669; }
+  .status-pending { color: #DC2626; }
+  .status-info { color: #0EA5E9; }
+  
+  /* Footer */
+  .footer { text-align: center; padding: 20px; color: #9CA3AF; font-size: 0.85em; }
+  
+  @media (max-width: 768px) {
+    .summary-grid { grid-template-columns: 1fr 1fr; }
+    .year-header { flex-direction: column; gap: 12px; }
+    .year-header .stats { flex-wrap: wrap; }
+    .cat-grid { grid-template-columns: 1fr 1fr; }
+    .hh-table { font-size: 0.8em; }
+    .hh-table th, .hh-table td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>BANF Membership Dashboard</h1>
+  <div class="subtitle">Year-on-Year Master View &bull; All Membership Terms</div>
+  <div class="gen-date">Generated: March 21, 2026 at 11:20 PM &bull; Source: CRM Master Database</div>
+</div>
+
+<!-- Global Search -->
+<div class="search-bar">
+  <span class="search-label">&#128269; Search All Years:</span>
+  <input type="text" id="globalSearch" placeholder="Search by name, email, family ID, category..." oninput="filterAll(this.value)">
+</div>
+
+<!-- Summary Cards -->
+<div class="summary-grid">
+  <div class="summary-card" style="border-left-color:#059669" onclick="toggleYear('2026-27')">
+    <div class="label">Membership Year</div>
+    <h3>2026-27<span class="tag current-tag">CURRENT</span></h3>
+    <div class="big-number" style="color:#059669">$17,372.50</div>
+    <div class="meta">53 paying households &bull; 7 tiers</div>
+  </div>
+  <div class="summary-card" style="border-left-color:#0EA5E9" onclick="toggleYear('2024-25')">
+    <div class="label">Membership Year</div>
+    <h3>2024-25</h3>
+    <div class="big-number" style="color:#0EA5E9">91 members</div>
+    <div class="meta">Member roster only (no payment data)</div>
+  </div>
+  <div class="summary-card" style="border-left-color:#8B5CF6" onclick="toggleYear('2023-24')">
+    <div class="label">Membership Year</div>
+    <h3>2023-24</h3>
+    <div class="big-number" style="color:#8B5CF6">107 members</div>
+    <div class="meta">Member roster only (no payment data)</div>
+  </div>
+  <div class="summary-card" style="border-left-color:#6B7280" onclick="toggleYear('2022-23')">
+    <div class="label">Membership Year</div>
+    <h3>2022-23</h3>
+    <div class="big-number" style="color:#6B7280">105 members</div>
+    <div class="meta">Member roster only (no payment data)</div>
+  </div></div>
+
+<!-- Investigation Panel -->
+<div class="investigation-panel">
+  <h3>&#128270; Investigation Notes</h3>
+  <div class="investigation-item">
+    <span class="status status-resolved">&#10004; RESOLVED</span> &mdash; 
+    <strong>Sharmistha Poddar / Suvankar Paul:</strong> Confirmed as Suvankar Paul's spouse (maiden name Poddar). 
+    In evite listed as "Sharmistha Paul" (sharmi.p09@gmail.com). CRM has her under RFAM-006 with payment rawName "Surojit Da/ Sharmistha Di" from a different family context. 
+    Linked to Suvankar's household RFAM-074 in this dashboard.
+  </div>
+  <div class="investigation-item">
+    <span class="status status-resolved">&#10004; CONFIRMED</span> &mdash;
+    <strong>Santanu Bhattacharya (FY 2026-27):</strong> Payment confirmed by user. 
+    CRM shows $340 (2x$170 EB-Family per person) for household RFAM-088. 
+    Email acknowledgement script created; email pending Gmail rate limit recovery.
+  </div>
+  <div class="investigation-item">
+    <span class="status status-pending">&#9888; UNVERIFIED</span> &mdash;
+    <strong>Anita Mandal / Prabir Mandal (Check Payment):</strong> 
+    User reported payment by check. No digital record found in Wells Fargo statements, Zelle, or CRM. 
+    Anita (RFAM-026) has existing $300 EB-Couple + $100 Reg-Couple payments on record. 
+    Prabir (RFAM-023) has no FY 2026-27 payment record. Needs manual check deposit verification.
+  </div>
+  <div class="investigation-item">
+    <span class="status status-info">&#9432; NOTE</span> &mdash;
+    <strong>Historical Years (2022-25):</strong> Only member roster data available (no detailed payment/tier breakdown). 
+    Category terminology varies by year and is preserved as-is.
+  </div>
+</div>
+
+<div class="year-section" id="section-2026-27">
+  <div class="year-header" style="background:#ECFDF5; border-left-color:#059669" onclick="toggleYear('2026-27')">
+    <h2 style="color:#059669">
+      FY 2026-27 <span class="tag current-tag">CURRENT TERM</span>
+    </h2>
+    <div class="stats">
+      
+        <div class="stat"><span class="stat-val" style="color:#059669">53</span><span class="stat-lbl">Households</span></div>
+        <div class="stat"><span class="stat-val" style="color:#059669">$17,372.50</span><span class="stat-lbl">Revenue</span></div>
+        <div class="stat"><span class="stat-val" style="color:#059669">7</span><span class="stat-lbl">Tiers</span></div>
+      
+    </div>
+    <span class="arrow open" id="arrow-2026-27">&#9660;</span>
+  </div>
+  <div class="year-body open" id="body-2026-27"><h3 style="margin: 16px 0 12px; color:#059669">Membership Tiers / Categories</h3>
+    <div class="cat-grid">
+      <div class="cat-card" style="border-left: 3px solid #059669">
+        <div class="cat-name" style="color:#059669">EB - Family</div>
+        <div class="cat-amount" style="color:#059669">$8,840.00</div>
+        <div class="cat-stats">40 payment records</div>
+      </div>
+      <div class="cat-card" style="border-left: 3px solid #0EA5E9">
+        <div class="cat-name" style="color:#0EA5E9">EB - Couple</div>
+        <div class="cat-amount" style="color:#0EA5E9">$4,800.00</div>
+        <div class="cat-stats">24 payment records</div>
+      </div>
+      <div class="cat-card" style="border-left: 3px solid #8B5CF6">
+        <div class="cat-name" style="color:#8B5CF6">M2 Premium EB - Family</div>
+        <div class="cat-amount" style="color:#8B5CF6">$1,125.00</div>
+        <div class="cat-stats">3 payment records</div>
+      </div>
+      <div class="cat-card" style="border-left: 3px solid #F59E0B">
+        <div class="cat-name" style="color:#F59E0B">M2 Premium - Couple</div>
+        <div class="cat-amount" style="color:#F59E0B">$990.00</div>
+        <div class="cat-stats">3 payment records</div>
+      </div>
+      <div class="cat-card" style="border-left: 3px solid #EF4444">
+        <div class="cat-name" style="color:#EF4444">Reg - Couple</div>
+        <div class="cat-amount" style="color:#EF4444">$700.00</div>
+        <div class="cat-stats">6 payment records</div>
+      </div>
+      <div class="cat-card" style="border-left: 3px solid #EC4899">
+        <div class="cat-name" style="color:#EC4899">Reg - Family</div>
+        <div class="cat-amount" style="color:#EC4899">$537.50</div>
+        <div class="cat-stats">4 payment records</div>
+      </div>
+      <div class="cat-card" style="border-left: 3px solid #6366F1">
+        <div class="cat-name" style="color:#6366F1">EB - Individual</div>
+        <div class="cat-amount" style="color:#6366F1">$380.00</div>
+        <div class="cat-stats">2 payment records</div>
+      </div></div><div class="rev-bar-container"><div class="rev-bar"><div class="rev-segment" style="width:50.9%; background:#059669" data-label="EB - Family: $8,840.00 (50.9%)"></div><div class="rev-segment" style="width:27.6%; background:#0EA5E9" data-label="EB - Couple: $4,800.00 (27.6%)"></div><div class="rev-segment" style="width:6.5%; background:#8B5CF6" data-label="M2 Premium EB - Family: $1,125.00 (6.5%)"></div><div class="rev-segment" style="width:5.7%; background:#F59E0B" data-label="M2 Premium - Couple: $990.00 (5.7%)"></div><div class="rev-segment" style="width:4.0%; background:#EF4444" data-label="Reg - Couple: $700.00 (4.0%)"></div><div class="rev-segment" style="width:3.1%; background:#EC4899" data-label="Reg - Family: $537.50 (3.1%)"></div><div class="rev-segment" style="width:2.2%; background:#6366F1" data-label="EB - Individual: $380.00 (2.2%)"></div></div></div>
+    <h3 style="margin: 20px 0 12px; color:#059669">Household Details (54 households)</h3>
+    <div style="overflow-x:auto">
+    <table class="hh-table" id="table-2026-27">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Household / Family</th>
+          <th>Members</th>
+          <th>Category / Tier</th>
+          <th>Amount</th>
+          <th>Source</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="" data-search="partha &amp; soma &amp; amrita mukhopadhyay partha mukhopadhyay mukhopadhyay.partha@gmail.com soma choudhury soma1979p@yahoo.com eb - family m2 premium eb - family rfam-001">
+          <td>1</td>
+          <td>
+            <strong>Partha &amp; Soma &amp; Amrita Mukhopadhyay</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-001</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Partha Mukhopadhyay <span class="email">mukhopadhyay.partha@gmail.com</span></li><li>Soma Choudhury <span class="email">soma1979p@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">M2 Premium EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$1,055.00</td>
+          <td style="font-size:0.85em">membership_xlsx, wf_zelle</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="rakshit family (6) urmi rakshit urmi.kanya@gmail.com nandini dutta dutta.nandini47@gmail.com soumyajit dutta duttasoumyajit86@gmail.com ayan dutta duttaayan.cs@gmail.com indrani dutta dindrani74@gmail.com eb - couple eb - family reg - couple rfam-072">
+          <td>2</td>
+          <td>
+            <strong>Rakshit Family (6)</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-072</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>urmi rakshit <span class="email">urmi.kanya@gmail.com</span></li><li>Nandini Dutta <span class="email">dutta.nandini47@gmail.com</span></li><li>Soumyajit Dutta <span class="email">duttasoumyajit86@gmail.com</span></li><li>Ayan Dutta <span class="email">duttaayan.cs@gmail.com</span></li><li>Indrani Dutta <span class="email">dindrani74@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$820.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sadhu family (5) kapil sadhu kapil.sadhu@gmail.com sanghamitra chandra riyachandra1988@gmail.com nilay chandra chandranilay@gmail.com jiniya chandra jiniya.chandra@gmail.com eb - family rfam-085">
+          <td>3</td>
+          <td>
+            <strong>Sadhu Family (5)</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-085</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Kapil Sadhu <span class="email">kapil.sadhu@gmail.com</span></li><li>Sanghamitra Chandra <span class="email">riyachandra1988@gmail.com</span></li><li>Nilay Chandra <span class="email">chandranilay@gmail.com</span></li><li>Jiniya Chandra <span class="email">jiniya.chandra@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$680.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="highlight" data-search="paramita &amp; suvankar &amp; sumit pal paramita pal runaparamita@gmail.com suvankar paul suvankar.paul@gmail.com sumit pal sumit_system@yahoo.com sharmistha poddar (paul) sharmi.p09@gmail.com eb - family m2 premium - couple rfam-074">
+          <td>4</td>
+          <td>
+            <strong>Paramita &amp; Suvankar &amp; Sumit Pal</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-074</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Paramita Pal <span class="email">runaparamita@gmail.com</span></li><li>Suvankar Paul <span class="email">suvankar.paul@gmail.com</span></li><li>Sumit Pal <span class="email">sumit_system@yahoo.com</span></li><li>Sharmistha Poddar (Paul) <span class="email">sharmi.p09@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">M2 Premium - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$670.00</td>
+          <td style="font-size:0.85em">membership_xlsx, wf_zelle</td>
+          <td><div class="note-text">Spouse: Sharmistha Poddar (sharmi.p09@gmail.com) - see RFAM-006</div></td>
+        </tr>
+        <tr class="highlight" data-search="santanu &amp; sanchari bhattacharya rajib s rajibs123@gmail.com rita bhattacharjee ritabhattacharjee@gmail.com sanchari bhattacharyya tosanchari@gmail.com santanu bhattacharya tosantanu@gmail.com eb - couple eb - family rfam-088">
+          <td>5</td>
+          <td>
+            <strong>Santanu &amp; Sanchari Bhattacharya</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-088</div>
+            <span class="badge badge-ec">EC</span>
+            <span class="badge badge-ack">ACK PENDING</span>
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Rajib S <span class="email">rajibs123@gmail.com</span></li><li>Rita Bhattacharjee <span class="email">ritabhattacharjee@gmail.com</span></li><li>Sanchari Bhattacharyya <span class="email">tosanchari@gmail.com</span></li><li>Santanu Bhattacharya <span class="email">tosantanu@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$640.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td><div class="note-text">Payment for FY 2026-27 confirmed by user</div></td>
+        </tr>
+        <tr class="" data-search="sumanta &amp; rajanya ghosh sumanta ghosh sumo475@gmail.com rajanya ghosh rajanya.ghosh1993@gmail.com eb - family eb - couple rfam-040">
+          <td>6</td>
+          <td>
+            <strong>Sumanta &amp; Rajanya Ghosh</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-040</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sumanta Ghosh <span class="email">sumo475@gmail.com</span></li><li>Rajanya Ghosh <span class="email">rajanya.ghosh1993@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$640.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="ranadhir ghosh ranadhir ghosh ranadhir.ghosh@gmail.com eb - family m2 premium eb - family rfam-007">
+          <td>7</td>
+          <td>
+            <strong>RANADHIR GHOSH</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-007</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>RANADHIR GHOSH <span class="email">ranadhir.ghosh@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">M2 Premium EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$545.00</td>
+          <td style="font-size:0.85em">membership_xlsx, wf_zelle</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="saha family (4) amit saha asahaech@yahoo.com eb - couple m2 premium - couple rfam-113">
+          <td>8</td>
+          <td>
+            <strong>Saha Family (4)</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-113</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Amit Saha <span class="email">asahaech@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">M2 Premium - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$480.00</td>
+          <td style="font-size:0.85em">membership_xlsx, wf_zelle</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="moushumi &amp; subrata mondal subrata mondal sm.mondal@gmail.com eb - couple reg - family rfam-025">
+          <td>9</td>
+          <td>
+            <strong>Moushumi &amp; Subrata Mondal</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-025</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Subrata Mondal <span class="email">sm.mondal@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$407.50</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="highlight" data-search="anita mandal anita mandal amandalamandal@yahoo.com eb - couple reg - couple rfam-026">
+          <td>10</td>
+          <td>
+            <strong>Anita Mandal</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-026</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Anita Mandal <span class="email">amandalamandal@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span><br><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$400.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td><div class="note-text">User reported Anita/Prabir Mandal paid by check - no digital record found. Current payments: $300 EB-Couple + $100 Reg-Couple</div></td>
+        </tr>
+        <tr class="" data-search="amit chandak amit chandak amit.everywhere@gmail.com m2 premium eb - family rfam-063">
+          <td>11</td>
+          <td>
+            <strong>Amit Chandak</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-063</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Amit Chandak <span class="email">amit.everywhere@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">M2 Premium EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$375.00</td>
+          <td style="font-size:0.85em">wf_zelle</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="alak manna alak manna alak.manna@gmail.com eb - family rfam-070">
+          <td>12</td>
+          <td>
+            <strong>Alak Manna</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-070</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Alak Manna <span class="email">alak.manna@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="swarnendu &amp; sreya sen swarnendu sen swarnendu.sen@gmail.com sreya ghosh sreya.ghosh1510@gmail.com eb - family rfam-003">
+          <td>13</td>
+          <td>
+            <strong>Swarnendu &amp; Sreya Sen</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-003</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Swarnendu Sen <span class="email">swarnendu.sen@gmail.com</span></li><li>Sreya Ghosh <span class="email">sreya.ghosh1510@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="saikat natta saikat natta natta.saikat@gmail.com eb - family rfam-087">
+          <td>14</td>
+          <td>
+            <strong>Saikat Natta</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-087</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Saikat Natta <span class="email">natta.saikat@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="nilanjana b nilanjana b nilanb@gmail.com eb - family rfam-092">
+          <td>15</td>
+          <td>
+            <strong>Nilanjana B</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-092</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Nilanjana B <span class="email">nilanb@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="holly &amp; raj goswami holly goswami holly_goswami@buildfusion.com raj goswami raj.goswami@gmail.com eb - family rfam-106">
+          <td>16</td>
+          <td>
+            <strong>Holly &amp; Raj Goswami</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-106</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Holly Goswami <span class="email">holly_goswami@buildfusion.com</span></li><li>Raj Goswami <span class="email">raj.goswami@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sayani &amp; swapnoneel maitra sayani maitra maitra.sayani@gmail.com swapnoneel roy sroy.iitm@gmail.com eb - family rfam-017">
+          <td>17</td>
+          <td>
+            <strong>Sayani &amp; Swapnoneel Maitra</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-017</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sayani Maitra <span class="email">maitra.sayani@gmail.com</span></li><li>Swapnoneel Roy <span class="email">sroy.iitm@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="chiradip chatterjee chiradip chatterjee cchat003@fiu.edu eb - family rfam-021">
+          <td>18</td>
+          <td>
+            <strong>Chiradip Chatterjee</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-021</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Chiradip Chatterjee <span class="email">cchat003@fiu.edu</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="aparna chakravarty aparna chakravarty chakfam5@yahoo.com eb - family rfam-035">
+          <td>19</td>
+          <td>
+            <strong>Aparna Chakravarty</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-035</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Aparna Chakravarty <span class="email">chakfam5@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="madhumita &amp; atmadeep chakravarty madhumita chakravarty madhumita.mazumdar3@gmail.com atmadeep mazumdar atmadeep.mazumdar@gmail.com eb - family rfam-118">
+          <td>20</td>
+          <td>
+            <strong>Madhumita &amp; Atmadeep Chakravarty</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-118</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Madhumita Chakravarty <span class="email">madhumita.mazumdar3@gmail.com</span></li><li>Atmadeep Mazumdar <span class="email">atmadeep.mazumdar@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="lopita &amp; rajarshi majumdar rajarshi majumdar rajarshi.majumdar@gmail.com eb - family rfam-116">
+          <td>21</td>
+          <td>
+            <strong>Lopita &amp; Rajarshi Majumdar</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-116</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Rajarshi Majumdar <span class="email">rajarshi.majumdar@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="mayukh das mayukh das dasmayukh@gmail.com eb - family rfam-123">
+          <td>22</td>
+          <td>
+            <strong>Mayukh Das</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-123</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Mayukh Das <span class="email">dasmayukh@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sonu &amp; bhaskar roy sonu roy sonuroy123@gmail.com bhaskar roy bhaskarroy24@gmail.com eb - family rfam-047">
+          <td>23</td>
+          <td>
+            <strong>Sonu &amp; Bhaskar Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-047</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sonu Roy <span class="email">sonuroy123@gmail.com</span></li><li>Bhaskar Roy <span class="email">bhaskarroy24@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="padmoja roy padmoja roy poddojaroy@gmail.com eb - family rfam-053">
+          <td>24</td>
+          <td>
+            <strong>Padmoja Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-053</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Padmoja Roy <span class="email">poddojaroy@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="nabo roy nabo roy nabokumar09@gmail.com eb - family rfam-054">
+          <td>25</td>
+          <td>
+            <strong>Nabo Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-054</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Nabo Roy <span class="email">nabokumar09@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="debasmita roy debasmita roy roy.debasmita@gmail.com eb - family rfam-055">
+          <td>26</td>
+          <td>
+            <strong>Debasmita Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-055</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Debasmita Roy <span class="email">roy.debasmita@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$340.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sunetra basu ghosh sunetra basu ghosh sunetra.basu@gmail.com m2 premium - couple rfam-068">
+          <td>27</td>
+          <td>
+            <strong>Sunetra Basu Ghosh</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-068</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sunetra Basu Ghosh <span class="email">sunetra.basu@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">M2 Premium - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$330.00</td>
+          <td style="font-size:0.85em">wf_zelle</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="koushik &amp; bithika karmakar koushik karmakar karmakar.2007@gmail.com bithika roy bithikaroy96@gmail.com eb - couple rfam-004">
+          <td>28</td>
+          <td>
+            <strong>Koushik &amp; Bithika Karmakar</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-004</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Koushik Karmakar <span class="email">karmakar.2007@gmail.com</span></li><li>Bithika Roy <span class="email">bithikaroy96@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="suchitra biswas suchitra biswas suchitrab4@gmail.com eb - couple rfam-094">
+          <td>29</td>
+          <td>
+            <strong>Suchitra Biswas</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-094</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Suchitra Biswas <span class="email">suchitrab4@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="banani &amp; mita dhar banani dhar bdhar75@yahoo.com eb - couple rfam-112">
+          <td>30</td>
+          <td>
+            <strong>BANANI &amp; MITA Dhar</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-112</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>BANANI DHAR <span class="email">bdhar75@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="asok chaudhuri asok chaudhuri asokchaudhuri@gmail.com eb - couple rfam-014">
+          <td>31</td>
+          <td>
+            <strong>Asok Chaudhuri</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-014</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Asok Chaudhuri <span class="email">asokchaudhuri@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="souvik chakraborty souvik chakraborty souvikcha@gmail.com eb - couple rfam-031">
+          <td>32</td>
+          <td>
+            <strong>Souvik Chakraborty</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-031</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Souvik Chakraborty <span class="email">souvikcha@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="dipra ghosh dipra ghosh ghosh.dipra@gmail.com eb - couple rfam-041">
+          <td>33</td>
+          <td>
+            <strong>Dipra Ghosh</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-041</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Dipra Ghosh <span class="email">ghosh.dipra@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="anirban ghosh anirban ghosh anirban.ninja@gmail.com eb - couple rfam-042">
+          <td>34</td>
+          <td>
+            <strong>Anirban Ghosh</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-042</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Anirban Ghosh <span class="email">anirban.ninja@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sanhita roy sanhita roy sanhitadas_2000@yahoo.com eb - couple rfam-057">
+          <td>35</td>
+          <td>
+            <strong>Sanhita Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-057</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sanhita Roy <span class="email">sanhitadas_2000@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$300.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="rwiti choudhury rwiti choudhury rwitichoudhury@gmail.com reg - family rfam-015">
+          <td>36</td>
+          <td>
+            <strong>Rwiti Choudhury</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-015</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Rwiti Choudhury <span class="email">rwitichoudhury@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$215.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="banerjee family (4) sunanda banerjee sunanda.banerjee@gmail.com rahul banerjee weekender_in@yahoo.com reg - couple rfam-114">
+          <td>37</td>
+          <td>
+            <strong>Banerjee Family (4)</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-114</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sunanda Banerjee <span class="email">sunanda.banerjee@gmail.com</span></li><li>Rahul Banerjee <span class="email">weekender_in@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$200.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="uttam mistry uttam mistry uttamkgec@gmail.com eb - individual rfam-091">
+          <td>38</td>
+          <td>
+            <strong>Uttam Mistry</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-091</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Uttam Mistry <span class="email">uttamkgec@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Individual</span></td>
+          <td style="font-weight:700;white-space:nowrap">$190.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="latika mukherjee latika mukherjee lmukhe@yahoo.com eb - individual rfam-027">
+          <td>39</td>
+          <td>
+            <strong>Latika Mukherjee</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-027</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Latika Mukherjee <span class="email">lmukhe@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Individual</span></td>
+          <td style="font-weight:700;white-space:nowrap">$190.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="shamit dutta shamit dutta dutta.shamit2000@gmail.com eb - family rfam-066">
+          <td>40</td>
+          <td>
+            <strong>Shamit Dutta</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-066</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Shamit Dutta <span class="email">dutta.shamit2000@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$170.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="joyeeta polley joyeeta polley joyeeta.all@gmail.com eb - family rfam-073">
+          <td>41</td>
+          <td>
+            <strong>Joyeeta Polley</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-073</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Joyeeta Polley <span class="email">joyeeta.all@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$170.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sudeshna chatterjee sudeshna chatterjee sudeshna.chatterjee1986@gmail.com eb - family rfam-020">
+          <td>42</td>
+          <td>
+            <strong>SUDESHNA CHATTERJEE</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-020</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>SUDESHNA CHATTERJEE <span class="email">sudeshna.chatterjee1986@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$170.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="saugata &amp; reshma &amp; tanmay das reshma das reshmabhadra@gmail.com eb - family rfam-124">
+          <td>43</td>
+          <td>
+            <strong>Saugata &amp; Reshma &amp; Tanmay Das</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-124</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Reshma Das <span class="email">reshmabhadra@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$170.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="sudip roy sudip roy roysu2000@gmail.com eb - family rfam-048">
+          <td>44</td>
+          <td>
+            <strong>Sudip Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-048</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sudip Roy <span class="email">roysu2000@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$170.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="ipshita roy ipshita roy sudipshita@yahoo.com eb - family rfam-060">
+          <td>45</td>
+          <td>
+            <strong>Ipshita Roy</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-060</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Ipshita Roy <span class="email">sudipshita@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$170.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="nandita guin nandita guin g.nnandita@gmail.com eb - couple rfam-071">
+          <td>46</td>
+          <td>
+            <strong>Nandita Guin</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-071</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Nandita Guin <span class="email">g.nnandita@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$150.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="tanay bhaduri tanay bhaduri tanay.bhaduri@gmail.com eb - couple rfam-081">
+          <td>47</td>
+          <td>
+            <strong>Tanay Bhaduri</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-081</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Tanay Bhaduri <span class="email">tanay.bhaduri@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$150.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="dola sinha dola sinha dolasinha@yahoo.com eb - couple rfam-089">
+          <td>48</td>
+          <td>
+            <strong>Dola Sinha</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-089</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Dola Sinha <span class="email">dolasinha@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$150.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="highlight" data-search="sharmistha poddar sharmistha poddar sharmi.p09@gmail.com eb - couple rfam-006">
+          <td>49</td>
+          <td>
+            <strong>Sharmistha Poddar</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-006</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Sharmistha Poddar <span class="email">sharmi.p09@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">EB - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$150.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td><div class="note-text">Sharmistha Poddar = spouse of Suvankar Paul (maiden name Poddar, listed as &quot;Sharmistha Paul&quot; in evite)</div></td>
+        </tr>
+        <tr class="" data-search="suvendu maitra suvendu maitra slmaitra@gmail.com reg - family rfam-016">
+          <td>50</td>
+          <td>
+            <strong>Suvendu Maitra</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-016</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Suvendu Maitra <span class="email">slmaitra@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$107.50</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="munmun maitra munmun maitra munmun_maitra@yahoo.com reg - family rfam-018">
+          <td>51</td>
+          <td>
+            <strong>Munmun Maitra</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-018</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Munmun Maitra <span class="email">munmun_maitra@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Family</span></td>
+          <td style="font-weight:700;white-space:nowrap">$107.50</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="kalyan chakrabarti kalyan chakrabarti kalyan32258@yahoo.com reg - couple rfam-036">
+          <td>52</td>
+          <td>
+            <strong>Kalyan Chakrabarti</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-036</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Kalyan Chakrabarti <span class="email">kalyan32258@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$100.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="" data-search="rupa majumdar rupa majumdar srabana.m@gmail.com reg - couple rfam-117">
+          <td>53</td>
+          <td>
+            <strong>Rupa Majumdar</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-117</div>
+            <span class="badge badge-ec">EC</span>
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Rupa Majumdar <span class="email">srabana.m@gmail.com</span></li>
+            </ul>
+          </td>
+          <td><span style="display:inline-block;padding:2px 6px;border-radius:6px;background:#D1FAE5;font-size:0.85em;margin:1px 0">Reg - Couple</span></td>
+          <td style="font-weight:700;white-space:nowrap">$100.00</td>
+          <td style="font-size:0.85em">membership_xlsx</td>
+          <td>-</td>
+        </tr>
+        <tr class="highlight" data-search="prabir mandal prabir mandal prabirmandal@yahoo.com  rfam-023">
+          <td>54</td>
+          <td>
+            <strong>Prabir Mandal</strong>
+            <div style="font-size:0.8em;color:#9CA3AF">RFAM-023</div>
+            
+            
+          </td>
+          <td>
+            <ul class="member-list">
+              <li>Prabir Mandal <span class="email">prabirmandal@yahoo.com</span></li>
+            </ul>
+          </td>
+          <td></td>
+          <td style="font-weight:700;white-space:nowrap"><span class="badge badge-check">CHECK?</span></td>
+          <td style="font-size:0.85em">-</td>
+          <td><div class="note-text">User reports check payment for FY 2026-27 - no digital record yet. Needs verification.</div></td>
+        </tr></tbody></table></div></div></div>
+<div class="year-section" id="section-2024-25">
+  <div class="year-header" style="background:#F0F9FF; border-left-color:#0EA5E9" onclick="toggleYear('2024-25')">
+    <h2 style="color:#0EA5E9">
+      FY 2024-25
+    </h2>
+    <div class="stats">
+      
+        <div class="stat"><span class="stat-val" style="color:#0EA5E9">91</span><span class="stat-lbl">Members</span></div>
+      
+    </div>
+    <span class="arrow " id="arrow-2024-25">&#9660;</span>
+  </div>
+  <div class="year-body " id="body-2024-25">
+    <div style="padding:12px 0;color:#6B7280;font-style:italic">
+      No detailed payment/tier data available for this year. Showing member roster (91 members).
+    </div>
+    <div style="overflow-x:auto">
+    <table class="member-table" id="table-2024-25">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Family ID</th>
+          <th>EC Member</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-search="ab ghosh abghosh.88@gmail.com rfam-037">
+          <td>1</td>
+          <td><strong>AB Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">abghosh.88@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-037</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amit chandak amit.everywhere@gmail.com rfam-063">
+          <td>2</td>
+          <td><strong>Amit Chandak</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amit.everywhere@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-063</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amit saha asahaech@yahoo.com rfam-113">
+          <td>3</td>
+          <td><strong>Amit Saha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">asahaech@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-113</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amrita amrriita@gmail.com rfam-001">
+          <td>4</td>
+          <td><strong>Amrita</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amrriita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="anirban ghosh anirban.ninja@gmail.com rfam-042">
+          <td>5</td>
+          <td><strong>Anirban Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">anirban.ninja@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-042</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="anita mandal amandalamandal@yahoo.com rfam-026">
+          <td>6</td>
+          <td><strong>Anita Mandal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amandalamandal@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-026</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="arnab sanyal arnabsanyal2002@gmail.com rfam-011">
+          <td>7</td>
+          <td><strong>Arnab Sanyal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">arnabsanyal2002@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-011</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="arnab sikdar callarnabsikdar@gmail.com rfam-093">
+          <td>8</td>
+          <td><strong>Arnab Sikdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">callarnabsikdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-093</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="ayan dutta duttaayan.cs@gmail.com rfam-072">
+          <td>9</td>
+          <td><strong>Ayan Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">duttaayan.cs@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="banani dhar bdhar75@yahoo.com rfam-112">
+          <td>10</td>
+          <td><strong>BANANI DHAR</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bdhar75@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-112</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="barnali debu barna_dev@yahoo.com rfam-101">
+          <td>11</td>
+          <td><strong>Barnali Debu</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">barna_dev@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-101</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="barnali mondal hibarnali@gmail.com rfam-024">
+          <td>12</td>
+          <td><strong>Barnali Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">hibarnali@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-024</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="bhaskar roy bhaskarroy24@gmail.com rfam-047">
+          <td>13</td>
+          <td><strong>Bhaskar Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bhaskarroy24@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-047</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="bithika roy bithikaroy96@gmail.com rfam-004">
+          <td>14</td>
+          <td><strong>Bithika Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bithikaroy96@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-004</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ganguly chandra.ganguly6@gmail.com rfam-115">
+          <td>15</td>
+          <td><strong>Chandra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chandra.ganguly6@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ganguly banfjax@gmail.com rfam-115">
+          <td>16</td>
+          <td><strong>Chandra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">banfjax@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ghosh ghosh.chandra47@gmail.com rfam-038">
+          <td>17</td>
+          <td><strong>Chandra Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ghosh.chandra47@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-038</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chiradip chatterjee cchat003@fiu.edu rfam-021">
+          <td>18</td>
+          <td><strong>Chiradip Chatterjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">cchat003@fiu.edu</td>
+          <td style="font-size:0.85em">RFAM-021</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="debasmita roy roy.debasmita@gmail.com rfam-055">
+          <td>19</td>
+          <td><strong>Debasmita Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">roy.debasmita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-055</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dipak roy dipak.chebri@gmail.com rfam-051">
+          <td>20</td>
+          <td><strong>Dipak Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dipak.chebri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-051</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dipra ghosh ghosh.dipra@gmail.com rfam-041">
+          <td>21</td>
+          <td><strong>Dipra Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ghosh.dipra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-041</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="indrani dutta dindrani74@gmail.com rfam-072">
+          <td>22</td>
+          <td><strong>Indrani Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dindrani74@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jay chakraborty jchakrab@gmail.com rfam-033">
+          <td>23</td>
+          <td><strong>Jay Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jchakrab@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-033</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jay ghosh jayanta0@yahoo.com rfam-039">
+          <td>24</td>
+          <td><strong>Jay Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jayanta0@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-039</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jiniya chandra jiniya.chandra@gmail.com rfam-085">
+          <td>25</td>
+          <td><strong>Jiniya Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jiniya.chandra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="joyeeta polley joyeeta.all@gmail.com rfam-073">
+          <td>26</td>
+          <td><strong>Joyeeta Polley</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">joyeeta.all@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-073</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kat jones (demo) kat_demo@wix.com rfam-105">
+          <td>27</td>
+          <td><strong>Kat Jones (Demo)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kat_demo@wix.com</td>
+          <td style="font-size:0.85em">RFAM-105</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kaushiki bhattacharya kb94311@gmail.com rfam-088">
+          <td>28</td>
+          <td><strong>Kaushiki Bhattacharya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kb94311@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="latika mukherjee lmukhe@yahoo.com rfam-027">
+          <td>29</td>
+          <td><strong>Latika Mukherjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">lmukhe@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-027</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita dhar mdhar79@yahoo.com rfam-112">
+          <td>30</td>
+          <td><strong>MITA DHAR</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mdhar79@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-112</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita ghosh mitaghosh1@yahoo.com rfam-046">
+          <td>31</td>
+          <td><strong>Mita Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mitaghosh1@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-046</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita sarkar mitasarkar@aol.com rfam-109">
+          <td>32</td>
+          <td><strong>Mita Sarkar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mitasarkar@aol.com</td>
+          <td style="font-size:0.85em">RFAM-109</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moumita mitra tinnee223@gmail.com rfam-009">
+          <td>33</td>
+          <td><strong>Moumita Mitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tinnee223@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-009</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moumita mukherjee (ghosh) moumita.mukherje@gmail.com rfam-002">
+          <td>34</td>
+          <td><strong>Moumita Mukherjee (Ghosh)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">moumita.mukherje@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-002</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mukul saha mukulsaha89@gmail.com rfam-113">
+          <td>35</td>
+          <td><strong>Mukul Saha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mukulsaha89@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-113</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nabo roy nabokumar09@gmail.com rfam-054">
+          <td>36</td>
+          <td><strong>Nabo Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">nabokumar09@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-054</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nandini dutta dutta.nandini47@gmail.com rfam-072">
+          <td>37</td>
+          <td><strong>Nandini Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dutta.nandini47@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nandita guin g.nnandita@gmail.com rfam-071">
+          <td>38</td>
+          <td><strong>Nandita Guin</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">g.nnandita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-071</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="nilanjana b nilanb@gmail.com rfam-092">
+          <td>39</td>
+          <td><strong>Nilanjana B</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">nilanb@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-092</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nilay chandra chandranilay@gmail.com rfam-085">
+          <td>40</td>
+          <td><strong>Nilay Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chandranilay@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="padmoja roy poddojaroy@gmail.com rfam-053">
+          <td>41</td>
+          <td><strong>Padmoja Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">poddojaroy@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-053</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="pal d. pal.krishnendu@mayo.edu rfam-100">
+          <td>42</td>
+          <td><strong>Pal D.</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">pal.krishnendu@mayo.edu</td>
+          <td style="font-size:0.85em">RFAM-100</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="pallavi chakraborty pallavib_00@yahoo.com rfam-033">
+          <td>43</td>
+          <td><strong>Pallavi Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">pallavib_00@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-033</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="paromita dutta paromita.dutta5@gmail.com rfam-075">
+          <td>44</td>
+          <td><strong>Paromita Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">paromita.dutta5@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-075</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="partha mukhopadhyay mukhopadhyay.partha@gmail.com rfam-001">
+          <td>45</td>
+          <td><strong>Partha Mukhopadhyay</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mukhopadhyay.partha@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="prabir mandal prabirmandal@yahoo.com rfam-023">
+          <td>46</td>
+          <td><strong>Prabir Mandal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">prabirmandal@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-023</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="prianka natta priyanka16587@gmail.com rfam-119">
+          <td>47</td>
+          <td><strong>Prianka Natta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priyanka16587@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-119</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="priya banerjee priya.test.banf@example.com rfam-064">
+          <td>48</td>
+          <td><strong>Priya Banerjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priya.test.banf@example.com</td>
+          <td style="font-size:0.85em">RFAM-064</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="priyanka ghosh priyanka.ghosh@gmail.com rfam-044">
+          <td>49</td>
+          <td><strong>Priyanka Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priyanka.ghosh@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-044</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="raj goswami raj.goswami@gmail.com rfam-106">
+          <td>50</td>
+          <td><strong>Raj Goswami</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">raj.goswami@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-106</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajanya ghosh rajanya.ghosh1993@gmail.com rfam-040">
+          <td>51</td>
+          <td><strong>Rajanya Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajanya.ghosh1993@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-040</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajib s rajibs123@gmail.com rfam-088">
+          <td>52</td>
+          <td><strong>Rajib S</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajibs123@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="ranadhir ghosh ranadhir.ghosh@gmail.com rfam-007">
+          <td>53</td>
+          <td><strong>RANADHIR GHOSH</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ranadhir.ghosh@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-007</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">JACKSONVILLE</td>
+        </tr>
+        <tr data-search="reshma das reshmabhadra@gmail.com rfam-124">
+          <td>54</td>
+          <td><strong>Reshma Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">reshmabhadra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rita bhattacharjee ritabhattacharjee@gmail.com rfam-088">
+          <td>55</td>
+          <td><strong>Rita Bhattacharjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ritabhattacharjee@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rwiti choudhury rwitichoudhury@gmail.com rfam-015">
+          <td>56</td>
+          <td><strong>Rwiti Choudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rwitichoudhury@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-015</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanhita roy sanhitadas_2000@yahoo.com rfam-057">
+          <td>57</td>
+          <td><strong>Sanhita Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sanhitadas_2000@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-057</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanjukta chandra sanjuktacdas@gmail.com rfam-085">
+          <td>58</td>
+          <td><strong>Sanjukta Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sanjuktacdas@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="santanu bhattacharya tosantanu@gmail.com rfam-088">
+          <td>59</td>
+          <td><strong>Santanu Bhattacharya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tosantanu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="saugata das mrsaugatadas@gmail.com rfam-124">
+          <td>60</td>
+          <td><strong>Saugata Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mrsaugatadas@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sayani maitra maitra.sayani@gmail.com rfam-017">
+          <td>61</td>
+          <td><strong>Sayani Maitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">maitra.sayani@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-017</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sharmistha poddar sharmi.p09@gmail.com rfam-006">
+          <td>62</td>
+          <td><strong>Sharmistha Poddar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sharmi.p09@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-006</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soma choudhury soma1979p@yahoo.com rfam-001">
+          <td>63</td>
+          <td><strong>Soma Choudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">soma1979p@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sonu roy sonuroy123@gmail.com rfam-047">
+          <td>64</td>
+          <td><strong>Sonu Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sonuroy123@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-047</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soumali dutta 2soumaliwithlove@gmail.com rfam-072">
+          <td>65</td>
+          <td><strong>Soumali Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">2soumaliwithlove@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soumyajit dutta duttasoumyajit86@gmail.com rfam-072">
+          <td>66</td>
+          <td><strong>Soumyajit Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">duttasoumyajit86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sourav jan jan.sourav@gmail.com rfam-096">
+          <td>67</td>
+          <td><strong>Sourav Jan</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jan.sourav@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-096</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sourav roychoudhury sourav.roychoudhury@gmail.com rfam-050">
+          <td>68</td>
+          <td><strong>Sourav Roychoudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sourav.roychoudhury@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-050</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik chakraborty souvikcha@gmail.com rfam-031">
+          <td>69</td>
+          <td><strong>Souvik Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvikcha@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-031</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik chakraborty (old souvik) souvik.chakraborty87@gmail.com rfam-090">
+          <td>70</td>
+          <td><strong>Souvik Chakraborty (Old Souvik)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvik.chakraborty87@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-090</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik ray souvik.ray86@gmail.com rfam-056">
+          <td>71</td>
+          <td><strong>Souvik Ray</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvik.ray86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-056</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sreya ghosh sreya.ghosh1510@gmail.com rfam-003">
+          <td>72</td>
+          <td><strong>Sreya Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sreya.ghosh1510@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-003</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subhra ganguly subhra.ganguly99@gmail.com rfam-115">
+          <td>73</td>
+          <td><strong>Subhra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">subhra.ganguly99@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subhra roy subhraroy88@yahoo.com rfam-058">
+          <td>74</td>
+          <td><strong>Subhra Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">subhraroy88@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-058</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subrata mondal sm.mondal@gmail.com rfam-025">
+          <td>75</td>
+          <td><strong>Subrata Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sm.mondal@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-025</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sudeshna chatterjee sudeshna.chatterjee1986@gmail.com rfam-020">
+          <td>76</td>
+          <td><strong>SUDESHNA CHATTERJEE</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sudeshna.chatterjee1986@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-020</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sudip roy roysu2000@gmail.com rfam-048">
+          <td>77</td>
+          <td><strong>Sudip Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">roysu2000@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-048</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sumanta ghosh sumo475@gmail.com rfam-040">
+          <td>78</td>
+          <td><strong>Sumanta Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sumo475@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-040</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sumit pal sumit_system@yahoo.com rfam-074">
+          <td>79</td>
+          <td><strong>Sumit Pal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sumit_system@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-074</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sunetra basu ghosh sunetra.basu@gmail.com rfam-068">
+          <td>80</td>
+          <td><strong>Sunetra Basu Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sunetra.basu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-068</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="supriya supriya.lnct2@gmail.com rfam-083">
+          <td>81</td>
+          <td><strong>Supriya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">supriya.lnct2@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-083</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="supriya chatterjee scrj.1982@gmail.com rfam-019">
+          <td>82</td>
+          <td><strong>Supriya Chatterjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">scrj.1982@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-019</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="suvankar paul suvankar.paul@gmail.com rfam-074">
+          <td>83</td>
+          <td><strong>Suvankar Paul</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">suvankar.paul@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-074</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swapnoneel roy sroy.iitm@gmail.com rfam-017">
+          <td>84</td>
+          <td><strong>Swapnoneel Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sroy.iitm@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-017</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swarnendu sen swarnendu.sen@gmail.com rfam-003">
+          <td>85</td>
+          <td><strong>Swarnendu Sen</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">swarnendu.sen@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-003</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="tanay bhaduri tanay.bhaduri@gmail.com rfam-081">
+          <td>86</td>
+          <td><strong>Tanay Bhaduri</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tanay.bhaduri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-081</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="tanmay das tanmay0562017@gmail.com rfam-124">
+          <td>87</td>
+          <td><strong>Tanmay Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tanmay0562017@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="uma hazra uma.417@gmail.com rfam-108">
+          <td>88</td>
+          <td><strong>Uma Hazra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">uma.417@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-108</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="urmi rakshit urmi.kanya@gmail.com rfam-072">
+          <td>89</td>
+          <td><strong>urmi rakshit</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">urmi.kanya@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="varsha ganguly vartew@gmail.com rfam-115">
+          <td>90</td>
+          <td><strong>Varsha Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">vartew@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="varsha roy varsharoy.86@gmail.com rfam-052">
+          <td>91</td>
+          <td><strong>Varsha Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">varsharoy.86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-052</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr></tbody></table></div></div></div>
+<div class="year-section" id="section-2023-24">
+  <div class="year-header" style="background:#F5F3FF; border-left-color:#8B5CF6" onclick="toggleYear('2023-24')">
+    <h2 style="color:#8B5CF6">
+      FY 2023-24
+    </h2>
+    <div class="stats">
+      
+        <div class="stat"><span class="stat-val" style="color:#8B5CF6">107</span><span class="stat-lbl">Members</span></div>
+      
+    </div>
+    <span class="arrow " id="arrow-2023-24">&#9660;</span>
+  </div>
+  <div class="year-body " id="body-2023-24">
+    <div style="padding:12px 0;color:#6B7280;font-style:italic">
+      No detailed payment/tier data available for this year. Showing member roster (107 members).
+    </div>
+    <div style="overflow-x:auto">
+    <table class="member-table" id="table-2023-24">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Family ID</th>
+          <th>EC Member</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-search="ab ghosh abghosh.88@gmail.com rfam-037">
+          <td>1</td>
+          <td><strong>AB Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">abghosh.88@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-037</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amit chandak amit.everywhere@gmail.com rfam-063">
+          <td>2</td>
+          <td><strong>Amit Chandak</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amit.everywhere@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-063</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amit saha asahaech@yahoo.com rfam-113">
+          <td>3</td>
+          <td><strong>Amit Saha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">asahaech@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-113</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amrita amrriita@gmail.com rfam-001">
+          <td>4</td>
+          <td><strong>Amrita</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amrriita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="anasuya banerjee ana@anasuya.com rfam-114">
+          <td>5</td>
+          <td><strong>Anasuya Banerjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ana@anasuya.com</td>
+          <td style="font-size:0.85em">RFAM-114</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="anirban ghosh anirban.ninja@gmail.com rfam-042">
+          <td>6</td>
+          <td><strong>Anirban Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">anirban.ninja@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-042</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="anita mandal amandalamandal@yahoo.com rfam-026">
+          <td>7</td>
+          <td><strong>Anita Mandal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amandalamandal@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-026</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="aparna chakravarty chakfam5@yahoo.com rfam-035">
+          <td>8</td>
+          <td><strong>Aparna Chakravarty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chakfam5@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-035</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="arnab sanyal arnabsanyal2002@gmail.com rfam-011">
+          <td>9</td>
+          <td><strong>Arnab Sanyal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">arnabsanyal2002@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-011</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="arnab sikdar callarnabsikdar@gmail.com rfam-093">
+          <td>10</td>
+          <td><strong>Arnab Sikdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">callarnabsikdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-093</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="asok chaudhuri asokchaudhuri@gmail.com rfam-014">
+          <td>11</td>
+          <td><strong>Asok Chaudhuri</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">asokchaudhuri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-014</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="atmadeep mazumdar atmadeep.mazumdar@gmail.com rfam-118">
+          <td>12</td>
+          <td><strong>Atmadeep Mazumdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">atmadeep.mazumdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-118</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="ayan dutta duttaayan.cs@gmail.com rfam-072">
+          <td>13</td>
+          <td><strong>Ayan Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">duttaayan.cs@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="banani dhar bdhar75@yahoo.com rfam-112">
+          <td>14</td>
+          <td><strong>BANANI DHAR</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bdhar75@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-112</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="barnali debu barna_dev@yahoo.com rfam-101">
+          <td>15</td>
+          <td><strong>Barnali Debu</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">barna_dev@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-101</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="barnali mondal hibarnali@gmail.com rfam-024">
+          <td>16</td>
+          <td><strong>Barnali Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">hibarnali@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-024</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="bhaskar roy bhaskarroy24@gmail.com rfam-047">
+          <td>17</td>
+          <td><strong>Bhaskar Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bhaskarroy24@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-047</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="bithika roy bithikaroy96@gmail.com rfam-004">
+          <td>18</td>
+          <td><strong>Bithika Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bithikaroy96@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-004</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ganguly chandra.ganguly6@gmail.com rfam-115">
+          <td>19</td>
+          <td><strong>Chandra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chandra.ganguly6@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ganguly banfjax@gmail.com rfam-115">
+          <td>20</td>
+          <td><strong>Chandra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">banfjax@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ghosh ghosh.chandra47@gmail.com rfam-038">
+          <td>21</td>
+          <td><strong>Chandra Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ghosh.chandra47@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-038</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chiradip chatterjee cchat003@fiu.edu rfam-021">
+          <td>22</td>
+          <td><strong>Chiradip Chatterjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">cchat003@fiu.edu</td>
+          <td style="font-size:0.85em">RFAM-021</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="debasmita roy roy.debasmita@gmail.com rfam-055">
+          <td>23</td>
+          <td><strong>Debasmita Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">roy.debasmita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-055</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dipak roy dipak.chebri@gmail.com rfam-051">
+          <td>24</td>
+          <td><strong>Dipak Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dipak.chebri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-051</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dipra ghosh ghosh.dipra@gmail.com rfam-041">
+          <td>25</td>
+          <td><strong>Dipra Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ghosh.dipra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-041</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dola sinha dolasinha@yahoo.com rfam-089">
+          <td>26</td>
+          <td><strong>Dola Sinha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dolasinha@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-089</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="indrani dutta dindrani74@gmail.com rfam-072">
+          <td>27</td>
+          <td><strong>Indrani Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dindrani74@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jay chakraborty jchakrab@gmail.com rfam-033">
+          <td>28</td>
+          <td><strong>Jay Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jchakrab@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-033</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jay ghosh jayanta0@yahoo.com rfam-039">
+          <td>29</td>
+          <td><strong>Jay Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jayanta0@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-039</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jiniya chandra jiniya.chandra@gmail.com rfam-085">
+          <td>30</td>
+          <td><strong>Jiniya Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jiniya.chandra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="joyeeta polley joyeeta.all@gmail.com rfam-073">
+          <td>31</td>
+          <td><strong>Joyeeta Polley</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">joyeeta.all@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-073</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kapil sadhu kapil.sadhu@gmail.com rfam-085">
+          <td>32</td>
+          <td><strong>Kapil Sadhu</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kapil.sadhu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kat jones (demo) kat_demo@wix.com rfam-105">
+          <td>33</td>
+          <td><strong>Kat Jones (Demo)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kat_demo@wix.com</td>
+          <td style="font-size:0.85em">RFAM-105</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kaushiki bhattacharya kb94311@gmail.com rfam-088">
+          <td>34</td>
+          <td><strong>Kaushiki Bhattacharya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kb94311@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="latika mukherjee lmukhe@yahoo.com rfam-027">
+          <td>35</td>
+          <td><strong>Latika Mukherjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">lmukhe@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-027</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="lopita majumdar lopita.majumdar@gmail.com rfam-116">
+          <td>36</td>
+          <td><strong>Lopita Majumdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">lopita.majumdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-116</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="madhumita chakravarty madhumita.mazumdar3@gmail.com rfam-118">
+          <td>37</td>
+          <td><strong>Madhumita Chakravarty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">madhumita.mazumdar3@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-118</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita dhar mdhar79@yahoo.com rfam-112">
+          <td>38</td>
+          <td><strong>MITA DHAR</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mdhar79@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-112</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita ghosh mitaghosh1@yahoo.com rfam-046">
+          <td>39</td>
+          <td><strong>Mita Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mitaghosh1@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-046</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita sarkar mitasarkar@aol.com rfam-109">
+          <td>40</td>
+          <td><strong>Mita Sarkar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mitasarkar@aol.com</td>
+          <td style="font-size:0.85em">RFAM-109</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moumita mitra tinnee223@gmail.com rfam-009">
+          <td>41</td>
+          <td><strong>Moumita Mitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tinnee223@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-009</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moumita mukherjee (ghosh) moumita.mukherje@gmail.com rfam-002">
+          <td>42</td>
+          <td><strong>Moumita Mukherjee (Ghosh)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">moumita.mukherje@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-002</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moushumi mondal moushumi.mondal@gmail.com rfam-025">
+          <td>43</td>
+          <td><strong>Moushumi Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">moushumi.mondal@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-025</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mukul saha mukulsaha89@gmail.com rfam-113">
+          <td>44</td>
+          <td><strong>Mukul Saha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mukulsaha89@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-113</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nabo roy nabokumar09@gmail.com rfam-054">
+          <td>45</td>
+          <td><strong>Nabo Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">nabokumar09@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-054</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nandini dutta dutta.nandini47@gmail.com rfam-072">
+          <td>46</td>
+          <td><strong>Nandini Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dutta.nandini47@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nandita guin g.nnandita@gmail.com rfam-071">
+          <td>47</td>
+          <td><strong>Nandita Guin</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">g.nnandita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-071</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="nilanjana b nilanb@gmail.com rfam-092">
+          <td>48</td>
+          <td><strong>Nilanjana B</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">nilanb@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-092</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nilay chandra chandranilay@gmail.com rfam-085">
+          <td>49</td>
+          <td><strong>Nilay Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chandranilay@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="padmoja roy poddojaroy@gmail.com rfam-053">
+          <td>50</td>
+          <td><strong>Padmoja Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">poddojaroy@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-053</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="pal d. pal.krishnendu@mayo.edu rfam-100">
+          <td>51</td>
+          <td><strong>Pal D.</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">pal.krishnendu@mayo.edu</td>
+          <td style="font-size:0.85em">RFAM-100</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="pallavi chakraborty pallavib_00@yahoo.com rfam-033">
+          <td>52</td>
+          <td><strong>Pallavi Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">pallavib_00@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-033</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="paromita dutta paromita.dutta5@gmail.com rfam-075">
+          <td>53</td>
+          <td><strong>Paromita Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">paromita.dutta5@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-075</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="partha mukhopadhyay mukhopadhyay.partha@gmail.com rfam-001">
+          <td>54</td>
+          <td><strong>Partha Mukhopadhyay</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mukhopadhyay.partha@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="paulami guha drpaulami@gmail.com rfam-005">
+          <td>55</td>
+          <td><strong>Paulami Guha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">drpaulami@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-005</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="poushali datta poushalidatta1@gmail.com rfam-076">
+          <td>56</td>
+          <td><strong>Poushali Datta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">poushalidatta1@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-076</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="priya banerjee priya.test.banf@example.com rfam-064">
+          <td>57</td>
+          <td><strong>Priya Banerjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priya.test.banf@example.com</td>
+          <td style="font-size:0.85em">RFAM-064</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="priyanka ghosh priyanka.ghosh@gmail.com rfam-044">
+          <td>58</td>
+          <td><strong>Priyanka Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priyanka.ghosh@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-044</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rahul banerjee weekender_in@yahoo.com rfam-114">
+          <td>59</td>
+          <td><strong>Rahul Banerjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">weekender_in@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-114</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="raj goswami raj.goswami@gmail.com rfam-106">
+          <td>60</td>
+          <td><strong>Raj Goswami</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">raj.goswami@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-106</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajanya ghosh rajanya.ghosh1993@gmail.com rfam-040">
+          <td>61</td>
+          <td><strong>Rajanya Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajanya.ghosh1993@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-040</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajarshi majumdar rajarshi.majumdar@gmail.com rfam-116">
+          <td>62</td>
+          <td><strong>Rajarshi Majumdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajarshi.majumdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-116</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajib s rajibs123@gmail.com rfam-088">
+          <td>63</td>
+          <td><strong>Rajib S</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajibs123@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="ranadhir ghosh ranadhir.ghosh@gmail.com rfam-007">
+          <td>64</td>
+          <td><strong>RANADHIR GHOSH</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ranadhir.ghosh@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-007</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">JACKSONVILLE</td>
+        </tr>
+        <tr data-search="reshma das reshmabhadra@gmail.com rfam-124">
+          <td>65</td>
+          <td><strong>Reshma Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">reshmabhadra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rita bhattacharjee ritabhattacharjee@gmail.com rfam-088">
+          <td>66</td>
+          <td><strong>Rita Bhattacharjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ritabhattacharjee@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rwiti choudhury rwitichoudhury@gmail.com rfam-015">
+          <td>67</td>
+          <td><strong>Rwiti Choudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rwitichoudhury@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-015</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="saikat natta natta.saikat@gmail.com rfam-087">
+          <td>68</td>
+          <td><strong>Saikat Natta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">natta.saikat@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-087</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sajal bagchi sajal1986@gmail.com rfam-107">
+          <td>69</td>
+          <td><strong>Sajal Bagchi</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sajal1986@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-107</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanghamitra chandra riyachandra1988@gmail.com rfam-085">
+          <td>70</td>
+          <td><strong>Sanghamitra Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">riyachandra1988@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanhita roy sanhitadas_2000@yahoo.com rfam-057">
+          <td>71</td>
+          <td><strong>Sanhita Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sanhitadas_2000@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-057</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanjukta chandra sanjuktacdas@gmail.com rfam-085">
+          <td>72</td>
+          <td><strong>Sanjukta Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sanjuktacdas@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="santanu bhattacharya tosantanu@gmail.com rfam-088">
+          <td>73</td>
+          <td><strong>Santanu Bhattacharya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tosantanu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="saugata das mrsaugatadas@gmail.com rfam-124">
+          <td>74</td>
+          <td><strong>Saugata Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mrsaugatadas@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sayani maitra maitra.sayani@gmail.com rfam-017">
+          <td>75</td>
+          <td><strong>Sayani Maitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">maitra.sayani@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-017</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="shilpi banerjee shilpibanerjee07@gmail.com rfam-114">
+          <td>76</td>
+          <td><strong>Shilpi Banerjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">shilpibanerjee07@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-114</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soma choudhury soma1979p@yahoo.com rfam-001">
+          <td>77</td>
+          <td><strong>Soma Choudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">soma1979p@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sonu roy sonuroy123@gmail.com rfam-047">
+          <td>78</td>
+          <td><strong>Sonu Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sonuroy123@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-047</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soumali dutta 2soumaliwithlove@gmail.com rfam-072">
+          <td>79</td>
+          <td><strong>Soumali Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">2soumaliwithlove@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soumyajit dutta duttasoumyajit86@gmail.com rfam-072">
+          <td>80</td>
+          <td><strong>Soumyajit Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">duttasoumyajit86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sourav jan jan.sourav@gmail.com rfam-096">
+          <td>81</td>
+          <td><strong>Sourav Jan</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jan.sourav@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-096</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sourav roychoudhury sourav.roychoudhury@gmail.com rfam-050">
+          <td>82</td>
+          <td><strong>Sourav Roychoudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sourav.roychoudhury@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-050</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik chakraborty souvikcha@gmail.com rfam-031">
+          <td>83</td>
+          <td><strong>Souvik Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvikcha@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-031</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik chakraborty (old souvik) souvik.chakraborty87@gmail.com rfam-090">
+          <td>84</td>
+          <td><strong>Souvik Chakraborty (Old Souvik)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvik.chakraborty87@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-090</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik ray souvik.ray86@gmail.com rfam-056">
+          <td>85</td>
+          <td><strong>Souvik Ray</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvik.ray86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-056</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sreya ghosh sreya.ghosh1510@gmail.com rfam-003">
+          <td>86</td>
+          <td><strong>Sreya Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sreya.ghosh1510@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-003</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subhra ganguly subhra.ganguly99@gmail.com rfam-115">
+          <td>87</td>
+          <td><strong>Subhra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">subhra.ganguly99@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subhra roy subhraroy88@yahoo.com rfam-058">
+          <td>88</td>
+          <td><strong>Subhra Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">subhraroy88@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-058</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subrata mondal sm.mondal@gmail.com rfam-025">
+          <td>89</td>
+          <td><strong>Subrata Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sm.mondal@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-025</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="suchitra biswas suchitrab4@gmail.com rfam-094">
+          <td>90</td>
+          <td><strong>Suchitra Biswas</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">suchitrab4@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-094</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sudeshna chatterjee sudeshna.chatterjee1986@gmail.com rfam-020">
+          <td>91</td>
+          <td><strong>SUDESHNA CHATTERJEE</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sudeshna.chatterjee1986@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-020</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sudip roy roysu2000@gmail.com rfam-048">
+          <td>92</td>
+          <td><strong>Sudip Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">roysu2000@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-048</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sumanta ghosh sumo475@gmail.com rfam-040">
+          <td>93</td>
+          <td><strong>Sumanta Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sumo475@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-040</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sumit pal sumit_system@yahoo.com rfam-074">
+          <td>94</td>
+          <td><strong>Sumit Pal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sumit_system@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-074</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sunetra basu ghosh sunetra.basu@gmail.com rfam-068">
+          <td>95</td>
+          <td><strong>Sunetra Basu Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sunetra.basu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-068</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="supriya supriya.lnct2@gmail.com rfam-083">
+          <td>96</td>
+          <td><strong>Supriya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">supriya.lnct2@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-083</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="supriya chatterjee scrj.1982@gmail.com rfam-019">
+          <td>97</td>
+          <td><strong>Supriya Chatterjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">scrj.1982@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-019</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="surajit chakravarty surajit_c@hotmail.com rfam-032">
+          <td>98</td>
+          <td><strong>Surajit Chakravarty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">surajit_c@hotmail.com</td>
+          <td style="font-size:0.85em">RFAM-032</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="suvankar paul suvankar.paul@gmail.com rfam-074">
+          <td>99</td>
+          <td><strong>Suvankar Paul</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">suvankar.paul@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-074</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swapnoneel roy sroy.iitm@gmail.com rfam-017">
+          <td>100</td>
+          <td><strong>Swapnoneel Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sroy.iitm@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-017</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swarnendu sen swarnendu.sen@gmail.com rfam-003">
+          <td>101</td>
+          <td><strong>Swarnendu Sen</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">swarnendu.sen@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-003</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="tanay bhaduri tanay.bhaduri@gmail.com rfam-081">
+          <td>102</td>
+          <td><strong>Tanay Bhaduri</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tanay.bhaduri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-081</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="tanmay das tanmay0562017@gmail.com rfam-124">
+          <td>103</td>
+          <td><strong>Tanmay Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tanmay0562017@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="uma hazra uma.417@gmail.com rfam-108">
+          <td>104</td>
+          <td><strong>Uma Hazra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">uma.417@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-108</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="urmi rakshit urmi.kanya@gmail.com rfam-072">
+          <td>105</td>
+          <td><strong>urmi rakshit</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">urmi.kanya@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="varsha ganguly vartew@gmail.com rfam-115">
+          <td>106</td>
+          <td><strong>Varsha Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">vartew@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="varsha roy varsharoy.86@gmail.com rfam-052">
+          <td>107</td>
+          <td><strong>Varsha Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">varsharoy.86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-052</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr></tbody></table></div></div></div>
+<div class="year-section" id="section-2022-23">
+  <div class="year-header" style="background:#F9FAFB; border-left-color:#6B7280" onclick="toggleYear('2022-23')">
+    <h2 style="color:#6B7280">
+      FY 2022-23
+    </h2>
+    <div class="stats">
+      
+        <div class="stat"><span class="stat-val" style="color:#6B7280">105</span><span class="stat-lbl">Members</span></div>
+      
+    </div>
+    <span class="arrow " id="arrow-2022-23">&#9660;</span>
+  </div>
+  <div class="year-body " id="body-2022-23">
+    <div style="padding:12px 0;color:#6B7280;font-style:italic">
+      No detailed payment/tier data available for this year. Showing member roster (105 members).
+    </div>
+    <div style="overflow-x:auto">
+    <table class="member-table" id="table-2022-23">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Family ID</th>
+          <th>EC Member</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-search="ab ghosh abghosh.88@gmail.com rfam-037">
+          <td>1</td>
+          <td><strong>AB Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">abghosh.88@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-037</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amit chandak amit.everywhere@gmail.com rfam-063">
+          <td>2</td>
+          <td><strong>Amit Chandak</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amit.everywhere@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-063</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amit saha asahaech@yahoo.com rfam-113">
+          <td>3</td>
+          <td><strong>Amit Saha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">asahaech@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-113</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="amrita amrriita@gmail.com rfam-001">
+          <td>4</td>
+          <td><strong>Amrita</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amrriita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="anirban ghosh anirban.ninja@gmail.com rfam-042">
+          <td>5</td>
+          <td><strong>Anirban Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">anirban.ninja@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-042</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="anita mandal amandalamandal@yahoo.com rfam-026">
+          <td>6</td>
+          <td><strong>Anita Mandal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">amandalamandal@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-026</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="anjali gupta dr_anjaligupta@yahoo.com rfam-099">
+          <td>7</td>
+          <td><strong>Anjali Gupta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dr_anjaligupta@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-099</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="aparna chakravarty chakfam5@yahoo.com rfam-035">
+          <td>8</td>
+          <td><strong>Aparna Chakravarty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chakfam5@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-035</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="arnab sanyal arnabsanyal2002@gmail.com rfam-011">
+          <td>9</td>
+          <td><strong>Arnab Sanyal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">arnabsanyal2002@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-011</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="arnab sikdar callarnabsikdar@gmail.com rfam-093">
+          <td>10</td>
+          <td><strong>Arnab Sikdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">callarnabsikdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-093</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="asok chaudhuri asokchaudhuri@gmail.com rfam-014">
+          <td>11</td>
+          <td><strong>Asok Chaudhuri</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">asokchaudhuri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-014</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="atmadeep mazumdar atmadeep.mazumdar@gmail.com rfam-118">
+          <td>12</td>
+          <td><strong>Atmadeep Mazumdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">atmadeep.mazumdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-118</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="ayan dutta duttaayan.cs@gmail.com rfam-072">
+          <td>13</td>
+          <td><strong>Ayan Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">duttaayan.cs@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="banani dhar bdhar75@yahoo.com rfam-112">
+          <td>14</td>
+          <td><strong>BANANI DHAR</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bdhar75@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-112</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="barnali debu barna_dev@yahoo.com rfam-101">
+          <td>15</td>
+          <td><strong>Barnali Debu</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">barna_dev@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-101</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="barnali mondal hibarnali@gmail.com rfam-024">
+          <td>16</td>
+          <td><strong>Barnali Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">hibarnali@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-024</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="bhaskar roy bhaskarroy24@gmail.com rfam-047">
+          <td>17</td>
+          <td><strong>Bhaskar Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bhaskarroy24@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-047</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="bithika roy bithikaroy96@gmail.com rfam-004">
+          <td>18</td>
+          <td><strong>Bithika Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">bithikaroy96@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-004</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ganguly chandra.ganguly6@gmail.com rfam-115">
+          <td>19</td>
+          <td><strong>Chandra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chandra.ganguly6@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ganguly banfjax@gmail.com rfam-115">
+          <td>20</td>
+          <td><strong>Chandra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">banfjax@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chandra ghosh ghosh.chandra47@gmail.com rfam-038">
+          <td>21</td>
+          <td><strong>Chandra Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ghosh.chandra47@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-038</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="chiradip chatterjee cchat003@fiu.edu rfam-021">
+          <td>22</td>
+          <td><strong>Chiradip Chatterjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">cchat003@fiu.edu</td>
+          <td style="font-size:0.85em">RFAM-021</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="debasmita roy roy.debasmita@gmail.com rfam-055">
+          <td>23</td>
+          <td><strong>Debasmita Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">roy.debasmita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-055</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dia mitra dia.dmitra@gmail.com rfam-008">
+          <td>24</td>
+          <td><strong>Dia Mitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dia.dmitra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-008</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dipak roy dipak.chebri@gmail.com rfam-051">
+          <td>25</td>
+          <td><strong>Dipak Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dipak.chebri@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-051</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="dipra ghosh ghosh.dipra@gmail.com rfam-041">
+          <td>26</td>
+          <td><strong>Dipra Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ghosh.dipra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-041</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="diptesh dipteshm@gmail.com rfam-127">
+          <td>27</td>
+          <td><strong>Diptesh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dipteshm@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-127</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="holly goswami holly_goswami@buildfusion.com rfam-106">
+          <td>28</td>
+          <td><strong>Holly Goswami</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">holly_goswami@buildfusion.com</td>
+          <td style="font-size:0.85em">RFAM-106</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="indrani dutta dindrani74@gmail.com rfam-072">
+          <td>29</td>
+          <td><strong>Indrani Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dindrani74@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jay chakraborty jchakrab@gmail.com rfam-033">
+          <td>30</td>
+          <td><strong>Jay Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jchakrab@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-033</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jay ghosh jayanta0@yahoo.com rfam-039">
+          <td>31</td>
+          <td><strong>Jay Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jayanta0@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-039</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="jiniya chandra jiniya.chandra@gmail.com rfam-085">
+          <td>32</td>
+          <td><strong>Jiniya Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">jiniya.chandra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="joyeeta polley joyeeta.all@gmail.com rfam-073">
+          <td>33</td>
+          <td><strong>Joyeeta Polley</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">joyeeta.all@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-073</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kapil sadhu kapil.sadhu@gmail.com rfam-085">
+          <td>34</td>
+          <td><strong>Kapil Sadhu</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kapil.sadhu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kat jones (demo) kat_demo@wix.com rfam-105">
+          <td>35</td>
+          <td><strong>Kat Jones (Demo)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kat_demo@wix.com</td>
+          <td style="font-size:0.85em">RFAM-105</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="kaushiki bhattacharya kb94311@gmail.com rfam-088">
+          <td>36</td>
+          <td><strong>Kaushiki Bhattacharya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">kb94311@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="latika mukherjee lmukhe@yahoo.com rfam-027">
+          <td>37</td>
+          <td><strong>Latika Mukherjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">lmukhe@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-027</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="lopita majumdar lopita.majumdar@gmail.com rfam-116">
+          <td>38</td>
+          <td><strong>Lopita Majumdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">lopita.majumdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-116</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="madhumita chakravarty madhumita.mazumdar3@gmail.com rfam-118">
+          <td>39</td>
+          <td><strong>Madhumita Chakravarty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">madhumita.mazumdar3@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-118</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita dhar mdhar79@yahoo.com rfam-112">
+          <td>40</td>
+          <td><strong>MITA DHAR</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mdhar79@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-112</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita ghosh mitaghosh1@yahoo.com rfam-046">
+          <td>41</td>
+          <td><strong>Mita Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mitaghosh1@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-046</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mita sarkar mitasarkar@aol.com rfam-109">
+          <td>42</td>
+          <td><strong>Mita Sarkar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mitasarkar@aol.com</td>
+          <td style="font-size:0.85em">RFAM-109</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moumita mitra tinnee223@gmail.com rfam-009">
+          <td>43</td>
+          <td><strong>Moumita Mitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tinnee223@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-009</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moumita mukherjee (ghosh) moumita.mukherje@gmail.com rfam-002">
+          <td>44</td>
+          <td><strong>Moumita Mukherjee (Ghosh)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">moumita.mukherje@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-002</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="moushumi mondal moushumi.mondal@gmail.com rfam-025">
+          <td>45</td>
+          <td><strong>Moushumi Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">moushumi.mondal@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-025</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="mukul saha mukulsaha89@gmail.com rfam-113">
+          <td>46</td>
+          <td><strong>Mukul Saha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mukulsaha89@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-113</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nabo roy nabokumar09@gmail.com rfam-054">
+          <td>47</td>
+          <td><strong>Nabo Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">nabokumar09@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-054</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nandini dutta dutta.nandini47@gmail.com rfam-072">
+          <td>48</td>
+          <td><strong>Nandini Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">dutta.nandini47@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nandita guin g.nnandita@gmail.com rfam-071">
+          <td>49</td>
+          <td><strong>Nandita Guin</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">g.nnandita@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-071</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="nilanjana b nilanb@gmail.com rfam-092">
+          <td>50</td>
+          <td><strong>Nilanjana B</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">nilanb@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-092</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="nilay chandra chandranilay@gmail.com rfam-085">
+          <td>51</td>
+          <td><strong>Nilay Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">chandranilay@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="padmoja roy poddojaroy@gmail.com rfam-053">
+          <td>52</td>
+          <td><strong>Padmoja Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">poddojaroy@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-053</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="pal d. pal.krishnendu@mayo.edu rfam-100">
+          <td>53</td>
+          <td><strong>Pal D.</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">pal.krishnendu@mayo.edu</td>
+          <td style="font-size:0.85em">RFAM-100</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="pallavi chakraborty pallavib_00@yahoo.com rfam-033">
+          <td>54</td>
+          <td><strong>Pallavi Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">pallavib_00@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-033</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="paromita dutta paromita.dutta5@gmail.com rfam-075">
+          <td>55</td>
+          <td><strong>Paromita Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">paromita.dutta5@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-075</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="partha mukhopadhyay mukhopadhyay.partha@gmail.com rfam-001">
+          <td>56</td>
+          <td><strong>Partha Mukhopadhyay</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mukhopadhyay.partha@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="paulami guha drpaulami@gmail.com rfam-005">
+          <td>57</td>
+          <td><strong>Paulami Guha</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">drpaulami@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-005</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="priya banerjee priya.test.banf@example.com rfam-064">
+          <td>58</td>
+          <td><strong>Priya Banerjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priya.test.banf@example.com</td>
+          <td style="font-size:0.85em">RFAM-064</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="priyanka ghosh priyanka.ghosh@gmail.com rfam-044">
+          <td>59</td>
+          <td><strong>Priyanka Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">priyanka.ghosh@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-044</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="raj goswami raj.goswami@gmail.com rfam-106">
+          <td>60</td>
+          <td><strong>Raj Goswami</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">raj.goswami@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-106</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajanya ghosh rajanya.ghosh1993@gmail.com rfam-040">
+          <td>61</td>
+          <td><strong>Rajanya Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajanya.ghosh1993@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-040</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajarshi majumdar rajarshi.majumdar@gmail.com rfam-116">
+          <td>62</td>
+          <td><strong>Rajarshi Majumdar</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajarshi.majumdar@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-116</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rajib s rajibs123@gmail.com rfam-088">
+          <td>63</td>
+          <td><strong>Rajib S</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rajibs123@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="ranadhir ghosh ranadhir.ghosh@gmail.com rfam-007">
+          <td>64</td>
+          <td><strong>RANADHIR GHOSH</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ranadhir.ghosh@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-007</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">JACKSONVILLE</td>
+        </tr>
+        <tr data-search="reshma das reshmabhadra@gmail.com rfam-124">
+          <td>65</td>
+          <td><strong>Reshma Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">reshmabhadra@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rita bhattacharjee ritabhattacharjee@gmail.com rfam-088">
+          <td>66</td>
+          <td><strong>Rita Bhattacharjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">ritabhattacharjee@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="rwiti choudhury rwitichoudhury@gmail.com rfam-015">
+          <td>67</td>
+          <td><strong>Rwiti Choudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">rwitichoudhury@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-015</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="saikat natta natta.saikat@gmail.com rfam-087">
+          <td>68</td>
+          <td><strong>Saikat Natta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">natta.saikat@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-087</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sajal bagchi sajal1986@gmail.com rfam-107">
+          <td>69</td>
+          <td><strong>Sajal Bagchi</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sajal1986@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-107</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanghamitra chandra riyachandra1988@gmail.com rfam-085">
+          <td>70</td>
+          <td><strong>Sanghamitra Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">riyachandra1988@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanhita roy sanhitadas_2000@yahoo.com rfam-057">
+          <td>71</td>
+          <td><strong>Sanhita Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sanhitadas_2000@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-057</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sanjukta chandra sanjuktacdas@gmail.com rfam-085">
+          <td>72</td>
+          <td><strong>Sanjukta Chandra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sanjuktacdas@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-085</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="santanu bhattacharya tosantanu@gmail.com rfam-088">
+          <td>73</td>
+          <td><strong>Santanu Bhattacharya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tosantanu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-088</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="saugata das mrsaugatadas@gmail.com rfam-124">
+          <td>74</td>
+          <td><strong>Saugata Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mrsaugatadas@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sayani maitra maitra.sayani@gmail.com rfam-017">
+          <td>75</td>
+          <td><strong>Sayani Maitra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">maitra.sayani@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-017</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soma choudhury soma1979p@yahoo.com rfam-001">
+          <td>76</td>
+          <td><strong>Soma Choudhury</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">soma1979p@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-001</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sonu roy sonuroy123@gmail.com rfam-047">
+          <td>77</td>
+          <td><strong>Sonu Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sonuroy123@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-047</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soumali dutta 2soumaliwithlove@gmail.com rfam-072">
+          <td>78</td>
+          <td><strong>Soumali Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">2soumaliwithlove@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="soumyajit dutta duttasoumyajit86@gmail.com rfam-072">
+          <td>79</td>
+          <td><strong>Soumyajit Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">duttasoumyajit86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik chakraborty souvikcha@gmail.com rfam-031">
+          <td>80</td>
+          <td><strong>Souvik Chakraborty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvikcha@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-031</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik chakraborty (old souvik) souvik.chakraborty87@gmail.com rfam-090">
+          <td>81</td>
+          <td><strong>Souvik Chakraborty (Old Souvik)</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvik.chakraborty87@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-090</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="souvik ray souvik.ray86@gmail.com rfam-056">
+          <td>82</td>
+          <td><strong>Souvik Ray</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">souvik.ray86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-056</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sreya ghosh sreya.ghosh1510@gmail.com rfam-003">
+          <td>83</td>
+          <td><strong>Sreya Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sreya.ghosh1510@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-003</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subhra ganguly subhra.ganguly99@gmail.com rfam-115">
+          <td>84</td>
+          <td><strong>Subhra Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">subhra.ganguly99@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subhra roy subhraroy88@yahoo.com rfam-058">
+          <td>85</td>
+          <td><strong>Subhra Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">subhraroy88@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-058</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="subrata mondal sm.mondal@gmail.com rfam-025">
+          <td>86</td>
+          <td><strong>Subrata Mondal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sm.mondal@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-025</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="suchitra biswas suchitrab4@gmail.com rfam-094">
+          <td>87</td>
+          <td><strong>Suchitra Biswas</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">suchitrab4@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-094</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sudeshna chatterjee sudeshna.chatterjee1986@gmail.com rfam-020">
+          <td>88</td>
+          <td><strong>SUDESHNA CHATTERJEE</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sudeshna.chatterjee1986@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-020</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sudip roy roysu2000@gmail.com rfam-048">
+          <td>89</td>
+          <td><strong>Sudip Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">roysu2000@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-048</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sumanta ghosh sumo475@gmail.com rfam-040">
+          <td>90</td>
+          <td><strong>Sumanta Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sumo475@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-040</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sumit pal sumit_system@yahoo.com rfam-074">
+          <td>91</td>
+          <td><strong>Sumit Pal</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sumit_system@yahoo.com</td>
+          <td style="font-size:0.85em">RFAM-074</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="sunetra basu ghosh sunetra.basu@gmail.com rfam-068">
+          <td>92</td>
+          <td><strong>Sunetra Basu Ghosh</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sunetra.basu@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-068</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="supriya supriya.lnct2@gmail.com rfam-083">
+          <td>93</td>
+          <td><strong>Supriya</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">supriya.lnct2@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-083</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="supriya chatterjee scrj.1982@gmail.com rfam-019">
+          <td>94</td>
+          <td><strong>Supriya Chatterjee</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">scrj.1982@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-019</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="surajit chakravarty surajit_c@hotmail.com rfam-032">
+          <td>95</td>
+          <td><strong>Surajit Chakravarty</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">surajit_c@hotmail.com</td>
+          <td style="font-size:0.85em">RFAM-032</td>
+          <td></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="suvankar paul suvankar.paul@gmail.com rfam-074">
+          <td>96</td>
+          <td><strong>Suvankar Paul</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">suvankar.paul@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-074</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swapnoneel roy sroy.iitm@gmail.com rfam-017">
+          <td>97</td>
+          <td><strong>Swapnoneel Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">sroy.iitm@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-017</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swarnendu sen swarnendu.sen@gmail.com rfam-003">
+          <td>98</td>
+          <td><strong>Swarnendu Sen</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">swarnendu.sen@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-003</td>
+          <td></td>
+          <td style="font-size:0.85em"></td>
+        </tr>
+        <tr data-search="swati dutta swati.dutta1409@gmail.com rfam-078">
+          <td>99</td>
+          <td><strong>Swati Dutta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">swati.dutta1409@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-078</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="swati mehta mehta.swati2011@gmail.com rfam-098">
+          <td>100</td>
+          <td><strong>Swati Mehta</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">mehta.swati2011@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-098</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="tanmay das tanmay0562017@gmail.com rfam-124">
+          <td>101</td>
+          <td><strong>Tanmay Das</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">tanmay0562017@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-124</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="uma hazra uma.417@gmail.com rfam-108">
+          <td>102</td>
+          <td><strong>Uma Hazra</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">uma.417@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-108</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="urmi rakshit urmi.kanya@gmail.com rfam-072">
+          <td>103</td>
+          <td><strong>urmi rakshit</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">urmi.kanya@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-072</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="varsha ganguly vartew@gmail.com rfam-115">
+          <td>104</td>
+          <td><strong>Varsha Ganguly</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">vartew@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-115</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr>
+        <tr data-search="varsha roy varsharoy.86@gmail.com rfam-052">
+          <td>105</td>
+          <td><strong>Varsha Roy</strong></td>
+          <td style="color:#6B7280;font-size:0.9em">varsharoy.86@gmail.com</td>
+          <td style="font-size:0.85em">RFAM-052</td>
+          <td><span class="badge badge-ec">EC</span></td>
+          <td style="font-size:0.85em">Jacksonville</td>
+        </tr></tbody></table></div></div></div>
+<div class="year-section">
+  <div class="year-header" style="background:#F8FAFC; border-left-color:#1a1a2e" onclick="toggleYear('comparison')">
+    <h2 style="color:#1a1a2e">&#128202; Year-on-Year Comparison</h2>
+    <span class="arrow" id="arrow-comparison">&#9660;</span>
+  </div>
+  <div class="year-body" id="body-comparison">
+    <table class="hh-table" style="margin-top:12px">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th style="text-align:center;color:#6B7280">2022-23</th><th style="text-align:center;color:#8B5CF6">2023-24</th><th style="text-align:center;color:#0EA5E9">2024-25</th><th style="text-align:center;color:#059669">2026-27 *</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Total Members</strong></td>
+          <td style="text-align:center;font-weight:700">105</td><td style="text-align:center;font-weight:700">107</td><td style="text-align:center;font-weight:700">91</td><td style="text-align:center;font-weight:700">112</td>
+        </tr>
+        <tr>
+          <td><strong>Paying Households</strong></td>
+          <td style="text-align:center;font-weight:700">-</td><td style="text-align:center;font-weight:700">-</td><td style="text-align:center;font-weight:700">-</td><td style="text-align:center;font-weight:700">53</td>
+        </tr>
+        <tr>
+          <td><strong>Total Revenue</strong></td>
+          <td style="text-align:center;font-weight:700;color:#6B7280">-</td><td style="text-align:center;font-weight:700;color:#8B5CF6">-</td><td style="text-align:center;font-weight:700;color:#0EA5E9">-</td><td style="text-align:center;font-weight:700;color:#059669">$17,372.50</td>
+        </tr>
+        <tr>
+          <td><strong>Tiers / Categories</strong></td>
+          <td style="text-align:center">-</td><td style="text-align:center">-</td><td style="text-align:center">-</td><td style="text-align:center">7</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;font-size:0.85em;color:#6B7280">
+      * FY 2026-27 includes all payments previously recorded as "2025-26" in CRM (all were made after Feb 2026).<br>
+      Historical years (2022-25) show member counts only &mdash; no payment/tier data available in CRM.
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  BANF Master Membership Dashboard &bull; Generated 2026-03-22 &bull; 
+  Data: banf-crm-master.json (182 members) &bull; 
+  Linked to CRM Family IDs
+</div>
+</div>
+
+<script>
+function toggleYear(year) {
+  const body = document.getElementById('body-' + year);
+  const arrow = document.getElementById('arrow-' + year);
+  if (body) { body.classList.toggle('open'); }
+  if (arrow) { arrow.classList.toggle('open'); }
+}
+
+function filterAll(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('[data-search]').forEach(row => {
+    if (!q) { row.style.display = ''; return; }
+    row.style.display = row.getAttribute('data-search').includes(q) ? '' : 'none';
+  });
+  // Auto-open all year sections when searching
+  if (q) {
+    document.querySelectorAll('.year-body').forEach(b => b.classList.add('open'));
+    document.querySelectorAll('.arrow').forEach(a => a.classList.add('open'));
+  }
+}
+</script>
+</body>
+</html>

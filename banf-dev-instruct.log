@@ -144,3 +144,403 @@
 [2026-03-16T16:40:08.397Z] [INFO] [DevInstruct] Tests: 6/6 passed
 [2026-03-16T16:40:10.077Z] [INFO] [DevInstruct] Result email sent for INST-18: 200
 [2026-03-16T16:40:10.079Z] [INFO] [DevInstruct] INST-18: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:55:31.923Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-19
+[2026-03-22T01:55:31.925Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-19...
+[2026-03-22T01:55:53.653Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-19
+[2026-03-22T01:55:53.653Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-19.txt (85 chars)
+[2026-03-22T01:55:53.654Z] [INFO] [DevInstruct] Running tests for INST-19...
+[2026-03-22T01:55:58.210Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:55:59.750Z] [INFO] [DevInstruct] Result email sent for INST-19: 200
+[2026-03-22T01:55:59.751Z] [INFO] [DevInstruct] INST-19: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:55:59.753Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-20
+[2026-03-22T01:55:59.755Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-20...
+[2026-03-22T01:56:28.814Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-20
+[2026-03-22T01:56:28.816Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-20.txt (78 chars)
+[2026-03-22T01:56:28.816Z] [INFO] [DevInstruct] Running tests for INST-20...
+[2026-03-22T01:56:33.371Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:56:33.745Z] [INFO] [DevInstruct] Result email sent for INST-20: 200
+[2026-03-22T01:56:33.746Z] [INFO] [DevInstruct] INST-20: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:56:33.748Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-21
+[2026-03-22T01:56:33.748Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-21...
+[2026-03-22T01:56:47.902Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-21
+[2026-03-22T01:56:47.903Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-21.txt (90 chars)
+[2026-03-22T01:56:47.903Z] [INFO] [DevInstruct] Running tests for INST-21...
+[2026-03-22T01:56:54.110Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:56:54.437Z] [INFO] [DevInstruct] Result email sent for INST-21: 200
+[2026-03-22T01:56:54.440Z] [INFO] [DevInstruct] INST-21: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:56:54.442Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-22
+[2026-03-22T01:56:54.443Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-22...
+[2026-03-22T01:57:08.543Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-22
+[2026-03-22T01:57:08.544Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-22.txt (85 chars)
+[2026-03-22T01:57:08.545Z] [INFO] [DevInstruct] Running tests for INST-22...
+[2026-03-22T01:57:13.246Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:57:13.585Z] [INFO] [DevInstruct] Result email sent for INST-22: 200
+[2026-03-22T01:57:13.587Z] [INFO] [DevInstruct] INST-22: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:57:13.589Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-23
+[2026-03-22T01:57:13.590Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-23...
+[2026-03-22T01:57:27.297Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-23
+[2026-03-22T01:57:27.298Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-23.txt (85 chars)
+[2026-03-22T01:57:27.298Z] [INFO] [DevInstruct] Running tests for INST-23...
+[2026-03-22T01:57:33.792Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:57:34.167Z] [INFO] [DevInstruct] Result email sent for INST-23: 200
+[2026-03-22T01:57:34.168Z] [INFO] [DevInstruct] INST-23: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:57:34.170Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-24
+[2026-03-22T01:57:34.171Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-24...
+[2026-03-22T01:57:47.060Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-24
+[2026-03-22T01:57:47.061Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-24.txt (78 chars)
+[2026-03-22T01:57:47.061Z] [INFO] [DevInstruct] Running tests for INST-24...
+[2026-03-22T01:57:51.783Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:57:52.192Z] [INFO] [DevInstruct] Result email sent for INST-24: 200
+[2026-03-22T01:57:52.193Z] [INFO] [DevInstruct] INST-24: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:57:52.194Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-25
+[2026-03-22T01:57:52.195Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-25...
+[2026-03-22T01:58:06.391Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-25
+[2026-03-22T01:58:06.392Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-25.txt (85 chars)
+[2026-03-22T01:58:06.392Z] [INFO] [DevInstruct] Running tests for INST-25...
+[2026-03-22T01:58:13.306Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:58:13.653Z] [INFO] [DevInstruct] Result email sent for INST-25: 200
+[2026-03-22T01:58:13.655Z] [INFO] [DevInstruct] INST-25: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:58:13.656Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-26
+[2026-03-22T01:58:13.657Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-26...
+[2026-03-22T01:58:26.242Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-26
+[2026-03-22T01:58:26.243Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-26.txt (82 chars)
+[2026-03-22T01:58:26.243Z] [INFO] [DevInstruct] Running tests for INST-26...
+[2026-03-22T01:58:32.820Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:58:33.153Z] [INFO] [DevInstruct] Result email sent for INST-26: 200
+[2026-03-22T01:58:33.156Z] [INFO] [DevInstruct] INST-26: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:58:33.157Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-27
+[2026-03-22T01:58:33.158Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-27...
+[2026-03-22T01:58:45.811Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-27
+[2026-03-22T01:58:45.812Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-27.txt (88 chars)
+[2026-03-22T01:58:45.813Z] [INFO] [DevInstruct] Running tests for INST-27...
+[2026-03-22T01:58:52.303Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:58:52.594Z] [INFO] [DevInstruct] Result email sent for INST-27: 200
+[2026-03-22T01:58:52.596Z] [INFO] [DevInstruct] INST-27: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:58:52.599Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-28
+[2026-03-22T01:58:52.599Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-28...
+[2026-03-22T01:59:05.380Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-28
+[2026-03-22T01:59:05.381Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-28.txt (71 chars)
+[2026-03-22T01:59:05.381Z] [INFO] [DevInstruct] Running tests for INST-28...
+[2026-03-22T01:59:10.439Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:59:10.833Z] [INFO] [DevInstruct] Result email sent for INST-28: 200
+[2026-03-22T01:59:10.837Z] [INFO] [DevInstruct] INST-28: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:59:10.839Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-29
+[2026-03-22T01:59:10.841Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-29...
+[2026-03-22T01:59:26.131Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-29
+[2026-03-22T01:59:26.133Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-29.txt (75 chars)
+[2026-03-22T01:59:26.133Z] [INFO] [DevInstruct] Running tests for INST-29...
+[2026-03-22T01:59:32.863Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:59:33.260Z] [INFO] [DevInstruct] Result email sent for INST-29: 200
+[2026-03-22T01:59:33.263Z] [INFO] [DevInstruct] INST-29: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:59:33.265Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-30
+[2026-03-22T01:59:33.267Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-30...
+[2026-03-22T01:59:49.591Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-30
+[2026-03-22T01:59:49.592Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-30.txt (75 chars)
+[2026-03-22T01:59:49.593Z] [INFO] [DevInstruct] Running tests for INST-30...
+[2026-03-22T01:59:57.525Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T01:59:57.947Z] [INFO] [DevInstruct] Result email sent for INST-30: 200
+[2026-03-22T01:59:57.949Z] [INFO] [DevInstruct] INST-30: awaiting_confirmation — Tests: 6/6
+[2026-03-22T01:59:57.950Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-31
+[2026-03-22T01:59:57.950Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-31...
+[2026-03-22T02:00:12.799Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-31
+[2026-03-22T02:00:12.800Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-31.txt (88 chars)
+[2026-03-22T02:00:12.800Z] [INFO] [DevInstruct] Running tests for INST-31...
+[2026-03-22T02:00:18.741Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:00:19.135Z] [INFO] [DevInstruct] Result email sent for INST-31: 200
+[2026-03-22T02:00:19.137Z] [INFO] [DevInstruct] INST-31: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:00:19.141Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-32
+[2026-03-22T02:00:19.143Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-32...
+[2026-03-22T02:00:36.459Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-32
+[2026-03-22T02:00:36.461Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-32.txt (78 chars)
+[2026-03-22T02:00:36.461Z] [INFO] [DevInstruct] Running tests for INST-32...
+[2026-03-22T02:00:44.869Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:00:45.238Z] [INFO] [DevInstruct] Result email sent for INST-32: 200
+[2026-03-22T02:00:45.240Z] [INFO] [DevInstruct] INST-32: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:00:45.242Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-33
+[2026-03-22T02:00:45.242Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-33...
+[2026-03-22T02:01:00.846Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-33
+[2026-03-22T02:01:00.848Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-33.txt (82 chars)
+[2026-03-22T02:01:00.848Z] [INFO] [DevInstruct] Running tests for INST-33...
+[2026-03-22T02:01:09.513Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:01:09.902Z] [INFO] [DevInstruct] Result email sent for INST-33: 200
+[2026-03-22T02:01:09.904Z] [INFO] [DevInstruct] INST-33: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:01:09.906Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-34
+[2026-03-22T02:01:09.907Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-34...
+[2026-03-22T02:01:25.212Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-34
+[2026-03-22T02:01:25.213Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-34.txt (85 chars)
+[2026-03-22T02:01:25.213Z] [INFO] [DevInstruct] Running tests for INST-34...
+[2026-03-22T02:01:31.441Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:01:31.839Z] [INFO] [DevInstruct] Result email sent for INST-34: 200
+[2026-03-22T02:01:31.843Z] [INFO] [DevInstruct] INST-34: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:01:31.846Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-35
+[2026-03-22T02:01:31.848Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-35...
+[2026-03-22T02:01:49.167Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-35
+[2026-03-22T02:01:49.169Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-35.txt (78 chars)
+[2026-03-22T02:01:49.170Z] [INFO] [DevInstruct] Running tests for INST-35...
+[2026-03-22T02:01:57.478Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:01:57.950Z] [INFO] [DevInstruct] Result email sent for INST-35: 200
+[2026-03-22T02:01:57.953Z] [INFO] [DevInstruct] INST-35: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:01:57.956Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-36
+[2026-03-22T02:01:57.957Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-36...
+[2026-03-22T02:02:14.099Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-36
+[2026-03-22T02:02:14.101Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-36.txt (85 chars)
+[2026-03-22T02:02:14.102Z] [INFO] [DevInstruct] Running tests for INST-36...
+[2026-03-22T02:02:22.228Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:02:24.266Z] [INFO] [DevInstruct] Result email sent for INST-36: 200
+[2026-03-22T02:02:24.271Z] [INFO] [DevInstruct] INST-36: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:02:24.275Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-37
+[2026-03-22T02:02:24.277Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-37...
+[2026-03-22T02:02:40.293Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-37
+[2026-03-22T02:02:40.294Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-37.txt (85 chars)
+[2026-03-22T02:02:40.295Z] [INFO] [DevInstruct] Running tests for INST-37...
+[2026-03-22T02:02:47.973Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:02:48.372Z] [INFO] [DevInstruct] Result email sent for INST-37: 200
+[2026-03-22T02:02:48.374Z] [INFO] [DevInstruct] INST-37: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:02:48.376Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-38
+[2026-03-22T02:02:48.377Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-38...
+[2026-03-22T02:03:02.146Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-38
+[2026-03-22T02:03:02.147Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-38.txt (74 chars)
+[2026-03-22T02:03:02.149Z] [INFO] [DevInstruct] Running tests for INST-38...
+[2026-03-22T02:03:08.449Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:03:08.813Z] [INFO] [DevInstruct] Result email sent for INST-38: 200
+[2026-03-22T02:03:08.814Z] [INFO] [DevInstruct] INST-38: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:03:08.816Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-39
+[2026-03-22T02:03:08.816Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-39...
+[2026-03-22T02:03:22.293Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-39
+[2026-03-22T02:03:22.294Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-39.txt (88 chars)
+[2026-03-22T02:03:22.295Z] [INFO] [DevInstruct] Running tests for INST-39...
+[2026-03-22T02:03:28.370Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:03:28.698Z] [INFO] [DevInstruct] Result email sent for INST-39: 200
+[2026-03-22T02:03:28.702Z] [INFO] [DevInstruct] INST-39: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:03:28.705Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-40
+[2026-03-22T02:03:28.706Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-40...
+[2026-03-22T02:03:40.598Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-40
+[2026-03-22T02:03:40.599Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-40.txt (75 chars)
+[2026-03-22T02:03:40.599Z] [INFO] [DevInstruct] Running tests for INST-40...
+[2026-03-22T02:03:46.786Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:03:47.216Z] [INFO] [DevInstruct] Result email sent for INST-40: 200
+[2026-03-22T02:03:47.220Z] [INFO] [DevInstruct] INST-40: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:03:47.222Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-41
+[2026-03-22T02:03:47.224Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-41...
+[2026-03-22T02:04:00.374Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-41
+[2026-03-22T02:04:00.375Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-41.txt (85 chars)
+[2026-03-22T02:04:00.376Z] [INFO] [DevInstruct] Running tests for INST-41...
+[2026-03-22T02:04:07.450Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:04:07.781Z] [INFO] [DevInstruct] Result email sent for INST-41: 200
+[2026-03-22T02:04:07.782Z] [INFO] [DevInstruct] INST-41: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:04:07.784Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-42
+[2026-03-22T02:04:07.785Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-42...
+[2026-03-22T02:04:23.185Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-42
+[2026-03-22T02:04:23.186Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-42.txt (82 chars)
+[2026-03-22T02:04:23.186Z] [INFO] [DevInstruct] Running tests for INST-42...
+[2026-03-22T02:04:29.340Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:04:29.675Z] [INFO] [DevInstruct] Result email sent for INST-42: 200
+[2026-03-22T02:04:29.680Z] [INFO] [DevInstruct] INST-42: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:04:29.683Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-43
+[2026-03-22T02:04:29.685Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-43...
+[2026-03-22T02:04:44.435Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-43
+[2026-03-22T02:04:44.436Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-43.txt (85 chars)
+[2026-03-22T02:04:44.437Z] [INFO] [DevInstruct] Running tests for INST-43...
+[2026-03-22T02:04:49.555Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:04:49.977Z] [INFO] [DevInstruct] Result email sent for INST-43: 200
+[2026-03-22T02:04:49.980Z] [INFO] [DevInstruct] INST-43: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:04:49.984Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-44
+[2026-03-22T02:04:49.985Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-44...
+[2026-03-22T02:05:05.619Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-44
+[2026-03-22T02:05:05.621Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-44.txt (85 chars)
+[2026-03-22T02:05:05.622Z] [INFO] [DevInstruct] Running tests for INST-44...
+[2026-03-22T02:05:12.667Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:05:13.030Z] [INFO] [DevInstruct] Result email sent for INST-44: 200
+[2026-03-22T02:05:13.033Z] [INFO] [DevInstruct] INST-44: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:05:13.037Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-45
+[2026-03-22T02:05:13.038Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-45...
+[2026-03-22T02:05:26.976Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-45
+[2026-03-22T02:05:26.993Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-45.txt (75 chars)
+[2026-03-22T02:05:26.994Z] [INFO] [DevInstruct] Running tests for INST-45...
+[2026-03-22T02:05:33.381Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:05:33.816Z] [INFO] [DevInstruct] Result email sent for INST-45: 200
+[2026-03-22T02:05:33.820Z] [INFO] [DevInstruct] INST-45: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:05:33.825Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-46
+[2026-03-22T02:05:33.827Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-46...
+[2026-03-22T02:05:47.125Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-46
+[2026-03-22T02:05:47.127Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-46.txt (124 chars)
+[2026-03-22T02:05:47.127Z] [INFO] [DevInstruct] Running tests for INST-46...
+[2026-03-22T02:05:53.762Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:05:54.101Z] [INFO] [DevInstruct] Result email sent for INST-46: 200
+[2026-03-22T02:05:54.102Z] [INFO] [DevInstruct] INST-46: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:05:54.104Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-47
+[2026-03-22T02:05:54.105Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-47...
+[2026-03-22T02:06:09.200Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-47
+[2026-03-22T02:06:09.201Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-47.txt (74 chars)
+[2026-03-22T02:06:09.202Z] [INFO] [DevInstruct] Running tests for INST-47...
+[2026-03-22T02:06:14.513Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:06:15.086Z] [INFO] [DevInstruct] Result email sent for INST-47: 200
+[2026-03-22T02:06:15.088Z] [INFO] [DevInstruct] INST-47: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:06:15.090Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-48
+[2026-03-22T02:06:15.091Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-48...
+[2026-03-22T02:06:30.248Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-48
+[2026-03-22T02:06:30.250Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-48.txt (85 chars)
+[2026-03-22T02:06:30.250Z] [INFO] [DevInstruct] Running tests for INST-48...
+[2026-03-22T02:06:37.464Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:06:37.817Z] [INFO] [DevInstruct] Result email sent for INST-48: 200
+[2026-03-22T02:06:37.822Z] [INFO] [DevInstruct] INST-48: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:06:37.826Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-49
+[2026-03-22T02:06:37.828Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-49...
+[2026-03-22T02:07:09.488Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-49
+[2026-03-22T02:07:09.488Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-49.txt (78 chars)
+[2026-03-22T02:07:09.489Z] [INFO] [DevInstruct] Running tests for INST-49...
+[2026-03-22T02:07:14.369Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:07:14.784Z] [INFO] [DevInstruct] Result email sent for INST-49: 200
+[2026-03-22T02:07:14.788Z] [INFO] [DevInstruct] INST-49: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:07:14.791Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-50
+[2026-03-22T02:07:14.793Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-50...
+[2026-03-22T02:07:30.410Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-50
+[2026-03-22T02:07:30.412Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-50.txt (86 chars)
+[2026-03-22T02:07:30.413Z] [INFO] [DevInstruct] Running tests for INST-50...
+[2026-03-22T02:07:37.793Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:07:40.385Z] [INFO] [DevInstruct] Result email sent for INST-50: 200
+[2026-03-22T02:07:40.390Z] [INFO] [DevInstruct] INST-50: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:07:40.394Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-51
+[2026-03-22T02:07:40.396Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-51...
+[2026-03-22T02:07:54.546Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-51
+[2026-03-22T02:07:54.547Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-51.txt (88 chars)
+[2026-03-22T02:07:54.548Z] [INFO] [DevInstruct] Running tests for INST-51...
+[2026-03-22T02:08:04.072Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:08:04.449Z] [INFO] [DevInstruct] Result email sent for INST-51: 200
+[2026-03-22T02:08:04.455Z] [INFO] [DevInstruct] INST-51: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:08:04.461Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-52
+[2026-03-22T02:08:04.462Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-52...
+[2026-03-22T02:08:19.721Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-52
+[2026-03-22T02:08:19.722Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-52.txt (82 chars)
+[2026-03-22T02:08:19.722Z] [INFO] [DevInstruct] Running tests for INST-52...
+[2026-03-22T02:08:29.136Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:08:30.272Z] [INFO] [DevInstruct] Result email sent for INST-52: 200
+[2026-03-22T02:08:30.275Z] [INFO] [DevInstruct] INST-52: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:08:30.276Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-53
+[2026-03-22T02:08:30.277Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-53...
+[2026-03-22T02:08:50.220Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-53
+[2026-03-22T02:08:50.222Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-53.txt (82 chars)
+[2026-03-22T02:08:50.223Z] [INFO] [DevInstruct] Running tests for INST-53...
+[2026-03-22T02:09:01.111Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:09:01.489Z] [INFO] [DevInstruct] Result email sent for INST-53: 200
+[2026-03-22T02:09:01.496Z] [INFO] [DevInstruct] INST-53: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:09:01.502Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-54
+[2026-03-22T02:09:01.504Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-54...
+[2026-03-22T02:09:21.743Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-54
+[2026-03-22T02:09:21.744Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-54.txt (78 chars)
+[2026-03-22T02:09:21.744Z] [INFO] [DevInstruct] Running tests for INST-54...
+[2026-03-22T02:09:29.799Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:09:30.264Z] [INFO] [DevInstruct] Result email sent for INST-54: 200
+[2026-03-22T02:09:30.271Z] [INFO] [DevInstruct] INST-54: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:09:30.277Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-55
+[2026-03-22T02:09:30.279Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-55...
+[2026-03-22T02:09:46.740Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-55
+[2026-03-22T02:09:46.742Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-55.txt (78 chars)
+[2026-03-22T02:09:46.743Z] [INFO] [DevInstruct] Running tests for INST-55...
+[2026-03-22T02:09:55.508Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:09:55.863Z] [INFO] [DevInstruct] Result email sent for INST-55: 200
+[2026-03-22T02:09:55.870Z] [INFO] [DevInstruct] INST-55: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:09:55.876Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-56
+[2026-03-22T02:09:55.878Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-56...
+[2026-03-22T02:10:15.684Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-56
+[2026-03-22T02:10:15.687Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-56.txt (71 chars)
+[2026-03-22T02:10:15.688Z] [INFO] [DevInstruct] Running tests for INST-56...
+[2026-03-22T02:10:25.448Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:10:25.971Z] [INFO] [DevInstruct] Result email sent for INST-56: 200
+[2026-03-22T02:10:25.976Z] [INFO] [DevInstruct] INST-56: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:10:25.983Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-57
+[2026-03-22T02:10:25.985Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-57...
+[2026-03-22T02:10:44.558Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-57
+[2026-03-22T02:10:44.560Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-57.txt (161 chars)
+[2026-03-22T02:10:44.560Z] [INFO] [DevInstruct] Running tests for INST-57...
+[2026-03-22T02:10:53.305Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:10:53.934Z] [INFO] [DevInstruct] Result email sent for INST-57: 200
+[2026-03-22T02:10:53.937Z] [INFO] [DevInstruct] INST-57: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:10:53.941Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-58
+[2026-03-22T02:10:53.942Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-58...
+[2026-03-22T02:11:12.614Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-58
+[2026-03-22T02:11:12.616Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-58.txt (88 chars)
+[2026-03-22T02:11:12.617Z] [INFO] [DevInstruct] Running tests for INST-58...
+[2026-03-22T02:11:20.267Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:11:20.653Z] [INFO] [DevInstruct] Result email sent for INST-58: 200
+[2026-03-22T02:11:20.658Z] [INFO] [DevInstruct] INST-58: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:11:20.661Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-59
+[2026-03-22T02:11:20.663Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-59...
+[2026-03-22T02:11:35.010Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-59
+[2026-03-22T02:11:35.011Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-59.txt (74 chars)
+[2026-03-22T02:11:35.011Z] [INFO] [DevInstruct] Running tests for INST-59...
+[2026-03-22T02:11:42.336Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:11:42.677Z] [INFO] [DevInstruct] Result email sent for INST-59: 200
+[2026-03-22T02:11:42.681Z] [INFO] [DevInstruct] INST-59: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:11:42.685Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-60
+[2026-03-22T02:11:42.687Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-60...
+[2026-03-22T02:12:04.512Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-60
+[2026-03-22T02:12:04.513Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-60.txt (80 chars)
+[2026-03-22T02:12:04.513Z] [INFO] [DevInstruct] Running tests for INST-60...
+[2026-03-22T02:12:11.213Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:12:11.649Z] [INFO] [DevInstruct] Result email sent for INST-60: 200
+[2026-03-22T02:12:11.654Z] [INFO] [DevInstruct] INST-60: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:12:11.658Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-61
+[2026-03-22T02:12:11.659Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-61...
+[2026-03-22T02:12:24.992Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-61
+[2026-03-22T02:12:24.994Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-61.txt (88 chars)
+[2026-03-22T02:12:24.994Z] [INFO] [DevInstruct] Running tests for INST-61...
+[2026-03-22T02:12:32.004Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:12:32.435Z] [INFO] [DevInstruct] Result email sent for INST-61: 200
+[2026-03-22T02:12:32.438Z] [INFO] [DevInstruct] INST-61: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:12:32.440Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-62
+[2026-03-22T02:12:32.440Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-62...
+[2026-03-22T02:12:47.734Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-62
+[2026-03-22T02:12:47.735Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-62.txt (78 chars)
+[2026-03-22T02:12:47.736Z] [INFO] [DevInstruct] Running tests for INST-62...
+[2026-03-22T02:12:55.153Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:12:55.486Z] [INFO] [DevInstruct] Result email sent for INST-62: 200
+[2026-03-22T02:12:55.490Z] [INFO] [DevInstruct] INST-62: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:12:55.494Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-63
+[2026-03-22T02:12:55.503Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-63...
+[2026-03-22T02:13:10.524Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-63
+[2026-03-22T02:13:10.526Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-63.txt (85 chars)
+[2026-03-22T02:13:10.526Z] [INFO] [DevInstruct] Running tests for INST-63...
+[2026-03-22T02:13:16.028Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:13:16.387Z] [INFO] [DevInstruct] Result email sent for INST-63: 200
+[2026-03-22T02:13:16.392Z] [INFO] [DevInstruct] INST-63: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:13:16.396Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-64
+[2026-03-22T02:13:16.397Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-64...
+[2026-03-22T02:13:30.840Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-64
+[2026-03-22T02:13:30.841Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-64.txt (85 chars)
+[2026-03-22T02:13:30.842Z] [INFO] [DevInstruct] Running tests for INST-64...
+[2026-03-22T02:13:37.575Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:13:37.891Z] [INFO] [DevInstruct] Result email sent for INST-64: 200
+[2026-03-22T02:13:37.894Z] [INFO] [DevInstruct] INST-64: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:13:37.897Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-65
+[2026-03-22T02:13:37.898Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-65...
+[2026-03-22T02:13:54.000Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-65
+[2026-03-22T02:13:54.002Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-65.txt (85 chars)
+[2026-03-22T02:13:54.003Z] [INFO] [DevInstruct] Running tests for INST-65...
+[2026-03-22T02:14:02.526Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:14:02.857Z] [INFO] [DevInstruct] Result email sent for INST-65: 200
+[2026-03-22T02:14:02.862Z] [INFO] [DevInstruct] INST-65: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:14:02.867Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-66
+[2026-03-22T02:14:02.868Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-66...
+[2026-03-22T02:14:17.946Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-66
+[2026-03-22T02:14:17.948Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-66.txt (85 chars)
+[2026-03-22T02:14:17.949Z] [INFO] [DevInstruct] Running tests for INST-66...
+[2026-03-22T02:14:25.718Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:14:26.050Z] [INFO] [DevInstruct] Result email sent for INST-66: 200
+[2026-03-22T02:14:26.052Z] [INFO] [DevInstruct] INST-66: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:14:26.054Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-67
+[2026-03-22T02:14:26.055Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-67...
+[2026-03-22T02:14:41.184Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-67
+[2026-03-22T02:14:41.185Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-67.txt (90 chars)
+[2026-03-22T02:14:41.186Z] [INFO] [DevInstruct] Running tests for INST-67...
+[2026-03-22T02:14:49.389Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:14:50.577Z] [INFO] [DevInstruct] Result email sent for INST-67: 200
+[2026-03-22T02:14:50.582Z] [INFO] [DevInstruct] INST-67: awaiting_confirmation — Tests: 6/6
+[2026-03-22T02:14:50.586Z] [INFO] [DevInstruct] Processing INSTRUCT email → INST-68
+[2026-03-22T02:14:50.587Z] [INFO] [DevInstruct] Executing GitHub CLI for INST-68...
+[2026-03-22T02:15:07.301Z] [INFO] [DevInstruct] GitHub Copilot CLI (agent mode) completed for INST-68
+[2026-03-22T02:15:07.302Z] [INFO] [DevInstruct] Output saved to c:\projects\banf\dev-instruct-output-68.txt (169 chars)
+[2026-03-22T02:15:07.303Z] [INFO] [DevInstruct] Running tests for INST-68...
+[2026-03-22T02:15:15.878Z] [INFO] [DevInstruct] Tests: 6/6 passed
+[2026-03-22T02:15:16.192Z] [INFO] [DevInstruct] Result email sent for INST-68: 200
+[2026-03-22T02:15:16.199Z] [INFO] [DevInstruct] INST-68: awaiting_confirmation — Tests: 6/6

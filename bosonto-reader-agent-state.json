@@ -1,5 +1,5 @@
 {
-  "lastScanTime": "2026-03-18T02:00:05.144Z",
+  "lastScanTime": "2026-03-22T03:20:42.312Z",
   "processedEmailIds": [
     "19cb053d5a402261",
     "19cae373e12bd14e",
@@ -286,7 +286,109 @@
     "19cf877be73e7a45",
     "19cf9145347f87b3",
     "19cf91cf1f4b2779",
-    "19cfcf92e3e76a5c"
+    "19cfcf92e3e76a5c",
+    "19d12fa8e71484c4",
+    "19d12c82fe915f04",
+    "19d12c8254260df1",
+    "19d12c81b0286aec",
+    "19d12c817ab335f3",
+    "19d12c812e7b2a95",
+    "19d12c7edbe3c2ce",
+    "19d12c7e131c08a4",
+    "19d12c7d61a07a0d",
+    "19d12c7d3c88d58c",
+    "19d12c7d0317c994",
+    "19d12c7a86d7369b",
+    "19d12c79ec6229dc",
+    "19d12c7863085cb7",
+    "19d12c782d1c572a",
+    "19d12c7802272f2d",
+    "19d12c75c331000f",
+    "19d12c753dc4d661",
+    "19d12c746170251b",
+    "19d12c740a53eb95",
+    "19d12c73e21a4812",
+    "19d12c7175682b5b",
+    "19d12c70ba7e373c",
+    "19d12c6fe7f11810",
+    "19d12c6fa51266af",
+    "19d12c6f92aedfa9",
+    "19d12c6ce18788fa",
+    "19d12c6bf968b3da",
+    "19d12c6b61fc18c4",
+    "19d12c6b5f033efa",
+    "19d12c6b11cf2e78",
+    "19d12c68a20e2da0",
+    "19d12c67e0dd649b",
+    "19d12c67582fcecf",
+    "19d12c66c02d28d5",
+    "19d12c66b720ad04",
+    "19d12c643167d046",
+    "19d12c63504b2616",
+    "19d12c62a07560c3",
+    "19d12c6272408034",
+    "19d12c625618c003",
+    "19d12c5f2efa8a82",
+    "19d12c5e63d06945",
+    "19d12c5da2e5aa11",
+    "19d12c5d7cffe631",
+    "19d12c5d0a6979c5",
+    "19d12c5abfa9d328",
+    "19d12c59eb06b649",
+    "19d12c5921d50db9",
+    "19d12c58eb5699d4",
+    "19d12c58b53affca",
+    "19d12c55f2772895",
+    "19d12c5549c45b88",
+    "19d12c54b547b17d",
+    "19d12c545c0cbc84",
+    "19d12c54326cf2db",
+    "19d12c4f0942b641",
+    "19d12c4e7ae8ee9c",
+    "19d12c4db377bc0a",
+    "19d12c4d7e27b1e3",
+    "19d12c4d28a2ac02",
+    "19d12c4aba44fa2f",
+    "19d12c49e81ddd29",
+    "19d12c492a6c4a1d",
+    "19d12c48f2e014ba",
+    "19d12c48db7680af",
+    "19d12c46909fe746",
+    "19d12c45e036fe27",
+    "19d12c4553662dfd",
+    "19d12c44ec7dfd5a",
+    "19d12c44cea80cbe",
+    "19d12c4281711165",
+    "19d12c419e30eaa8",
+    "19d12c40bcf729fa",
+    "19d12c406a90f666",
+    "19d12c4046842435",
+    "19d12c3df7cd1f11",
+    "19d12c3d000e69c0",
+    "19d12c3c4cd29198",
+    "19d12c3c1a37ad2b",
+    "19d12c3bec786ffc",
+    "19d12c396714fef7",
+    "19d12c38bdb05c14",
+    "19d12c380eb26448",
+    "19d12c37ba45b183",
+    "19d12c379588f0d4",
+    "19d12c354f4225af",
+    "19d12c3471856e9e",
+    "19d12c33aaf799ab",
+    "19d12c33647625be",
+    "19d12c3346e7c0ab",
+    "19d12c30fbceb7c2",
+    "19d12c302e80dbad",
+    "19d12c2f60a9b674",
+    "19d12c2f0109263a",
+    "19d12c2eed531bd3",
+    "19d12c2c97ed5943",
+    "19d12c2bddf74339",
+    "19d12c2b1be3fda1",
+    "19d12c2adbd081b0",
+    "19d12c2abe2d7fe5",
+    "19c35cdd0acb29cf"
   ],
   "processedGuestNames": [],
   "sentEmails": [
@@ -451,10 +553,29 @@
       "pollCycle": 9
     }
   ],
-  "newPayments": [],
-  "pollCount": 1705,
+  "newPayments": [
+    {
+      "gmailId": "19c35cdd0acb29cf",
+      "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+      "subject": "We've got your mobile deposit",
+      "date": "Fri, 6 Feb 2026 17:53:26 -0800 (PST)",
+      "payerName": null,
+      "payerEmail": null,
+      "amount": 250,
+      "source": "check_deposit",
+      "memo": null,
+      "parsed": true,
+      "reference": "Acct ending 0942",
+      "confirmation": "317060215841",
+      "depositDate": "02/06/2026",
+      "isBanf": false,
+      "detectedAt": "2026-03-22T02:15:37.482Z",
+      "pollCycle": 2502
+    }
+  ],
+  "pollCount": 2515,
   "createdAt": "2026-03-02T22:31:15.034Z",
-  "lastSaved": "2026-03-18T21:10:22.685Z",
+  "lastSaved": "2026-03-22T03:20:42.312Z",
   "processedInstructionIds": [],
   "processedQueryIds": [
     "19cb41db4bf0218b",
@@ -639,7 +760,52 @@
     "19cfd09c11873395",
     "19cfd71b08aa5229",
     "19cfd3a86d2a2958",
-    "19cfd38834f037b3"
+    "19cfd38834f037b3",
+    "19d131039e948a5d",
+    "19d12c0de0331bb0",
+    "19d1295ee3a5864f",
+    "19d12930dfb71dfe",
+    "19d1292c345f1915",
+    "19d129186f11ad7b",
+    "19d1290feaaa571d",
+    "19d128b2abcee475",
+    "19d128b0d33ed198",
+    "19d114656e77db3c",
+    "19d1126a1cb9b912",
+    "19d1117a78cb32d8",
+    "19d10f3c3fa803e7",
+    "19d104b2548ee7f7",
+    "19d100fd05a3f4dd",
+    "19d0f9685670b6e7",
+    "19d0ead8869c74f2",
+    "19d0eac3fcea96c4",
+    "19d0e3e457b7c97e",
+    "19d0e01605e6fb5c",
+    "19d0d085a3c699d7",
+    "19d0c2007c173be1",
+    "19d0b9d97a5191dd",
+    "19d0b32ed3cdc56b",
+    "19d0b2a55a75032c",
+    "19d0a263db15122d",
+    "19d0908c3807fca5",
+    "19d080b12442bd44",
+    "19d0788dd2e864cd",
+    "19d075f75a6d6acb",
+    "19d070a5c5eb82e8",
+    "19d068a06956ac5c",
+    "19d05fbd8ac916b5",
+    "19d050a6c3fc5e17",
+    "19d03b118b287ec4",
+    "19d038009be3be6b",
+    "19d02bd3c39532e6",
+    "19d025d79e67ec94",
+    "19d024fa000dd398",
+    "19d01f50adfcd5e1",
+    "19d01f50a3c4e8fd",
+    "19d01f508ad5948d",
+    "19d00d7dc4de7df3",
+    "19cfffda691d7613",
+    "19d135b2e58f76d3"
   ],
   "userQueryResults": [
     {
@@ -8720,6 +8886,1382 @@
         "memoryContext": null
       },
       "processedAt": "2026-03-17T23:55:08.111Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d131039e948a5d",
+        "from": "Daily Passport <hello@dailypassport.com>",
+        "senderEmail": "hello@dailypassport.com",
+        "subject": "6 Things Hotel Staff Wish Guests Would Do",
+        "body": "https://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52q8fqiogyvvrgtjequyhqy6irr4buxw90k8per07lcx0ww3efpm0kv6o1n54n8mj3cfz9kxwfc54spqgi50cp4o34r8kycv2aflhtc34e5yxczz513yllhuqpm87seypoj65jxbopq3o0d8pbxb0z9zrvmado2u9i2jd6j4q2c2chdpqs1eg2lf66xc670buwcqxwfp798mxkqopr1bflcj8sk396xpbh2y9lq9ofic77anod64d151502a7s1fv51clyir9a835uc2z0a1bjvqfwmjbovwnxpn6sjqpbkxzpv8xzxu6ddikw16fsf3rnod7ytsrtj&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52q8fqiogyvvrgtjequyhqy6irr4buxw90k8per07lcx0ww3efpm0kv6o1n54n8mj3cfz9kxwfc54spqgi50cp4o34r8kycv2aflhtc34e5yxczz513yllhuqpm87seypoj65jxbopq3o0d8pbxbnpazr41ooftnrublwjw6077uuqb2m2zd2c3q54g0nd0qrlrgxwr8f0f4sdsr3rr4wjgfut3z5g6fu7b8umqnkfgxodtp8bu37udhf5ft63jh3cr7kbguklkflngwih1ppgvy48kg3tbimn9drcqnbesoiw4bll5mijqorvmlnir1pw5v3pou25t&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nClick\nhere\nhttps://track.dailypassport.com/?xtl=l3d323hr0qmz29jht3bc194iwllt3kdl66wdr7btps5t6t2e3mhhp7gwqs5mi5et6urm49p3ef09cwwnsj3kxkqh70nrrwwo7be8nketvj1hfa9cf4gs12hh5k0kp228uhmfj5wzx6r10dir94webr0t54bjczmciwazmq1to9sre2n0prkr8qa6nj2eklx0i1778bb3ppwo4d5uzzf0pmmjnc378a3nzu33o0zzkxrxzig0bcrqjbpwxh78k7kmnhxehjg3z85o9xiibsx0n49mphjbych8i1nwy7g5aahk51089x0xpumxbv61sf6zo9ar2axpxmrz16j6z7wa2n8lqc67kmg6xl4apw&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n for fewer emails from Daily Passport\n\nhttps://track.dailypassport.com/?xtl=1ukqyduuh8u9g2mhin080er31me8j8ia35xop72kfeazbv1xxhx7fjnwq4m5n8w1i9wgjs2clukibehxqdlbtnca97bwts3nrtn0mupgk6rji5r9zntyifz8cbjcycfxsc33f9f25bi6gzgkcffvlc4bzvs64qol5pn4rmg7s9fh5i59ok4ro602wm702t27j7qmgotwyvd2l78xnozskeziiwxyw1rfpu948u7xplsoz8tbdfdy2sieyd1sf6iankv52fyksq8pfy4j6pm6025icatblxq3d846ft224yt8tv18xa1mqjjf9h&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=9rgvzi34vve0c3pwm56l9237sp6pvzjma7r8z9ms12dk3sao55so0djix7qlcrwjuwqiyxtwi8z65qez3f3ln7zh91fcsm3jz9o7f99u6ze9mz5z98qpj01yvdobm37czj939hxxqfco58jzoxwy385bwuhznj8tfwh6s46e3uzjw1ggsl8dnqq1sczdwaeyybrdjhxdmola2jpui1zmwh9v2oh5kkxa7c150ua81n0rlfo03tsr437wwv4vgzog8so2blfqazvkkdnfn8eikh0b350trxe217ozm93jg9meusrdn4rbu1safqi1x02852l8az414fr326s8lwio7p5v7chy1qjagpx270ity9hw25aw5enz5ckkrvqvstl19dgppoiarznpzfeip55aue14xnjnsur6ebpmhjlzzg5c&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\n6 Things Hotel Staff Wish Guests Would Do\nhttps://track.dailypassport.com/?xtl=c5i8p5stgzggheudv460ccxpfn9tdu2mmz8fbhin2che7mzhydjd18u6rhe9yqta9myf0pox0gtr2lqll5ox551oqkk3rb7l232qe94ez81kqrs8sw48oa6hgmd2zxkdy08803y73p4i2emxe717nw6rift5a3n86ye967ddrbf0pzvvu050noc6bqhblotvsgkod344qhzpykxk4v00jibb51qjswgrirrtnew649v8ulas2hfscyp6rf0vos0g4gmoav7bedi1mlbaggrbdun7ru20v0gthhtsn53dht4oa5c6ijdlu4e50mj7vpilqxb9uujo743gs872k6n9cyf2akrvdpzde971k4zy4q6029ausqk4a12jpgpahtfv8rdweypkwam8jagzowpx6u18cku4q1kf9wvteqa1qc95wwstbyvjq&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nWhen staying at a hotel, the simplest way to show staff your appreciation for their hard work is by being a good guest. Hopefully, respecting check-in and checkout times, not trashing your room, and treating hospitality workers with respect all go without saying. However, there are other, sometimes less obvious things that you can do to make the lives of hotel employees easier. Here are six things hotel staff wish guests would do, as recommended by hospitality workers.\nhttps://track.dailypassport.com/?xtl=5wkl7xrd7xz2uovv07bw72jd8ws8karkd6omu8px8rpkndtvgvj7o39y60jyyucjnk733g8e5p07tvniiao7vndf32nkxd5me5fs0imq0vpm0wqfnf78jpbwy8oknv8d25fzpeinrhdtsf8t6q3k9do0evdnzm55pm5d27bxuwsi50fey09hryiayk6t64a1vt2cgtb48ap2u63d6w4toor51d2h3lpsnkl504x9cfvlx2rebfw2c4jnezaitdgrgapw85xz4v7ho99ude57b2iz2snvw50gxpqyfs7338vec3wbk30gkuwhjxdszyvorgbkl67mt5qcpsqzea46twemzhj6mr6cdk5cmcbeb081sz4m6grpsn9lkllc0ni2f72xaharj0utu5jviejautzww1spcn8q3rotgyqszu5lvfa6p2sf284ehrl25tsrwascaapa&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nRead Article\nhttps://track.dailypassport.com/?xtl=4e8cpw1hwazhh21yww3qn9ddpvpjjawiq35q60iniekmwsnvs4dmb2lncuy2uj0a14f8uh4e0q7v23fgz054dd50wplwiaghodmgv1w8yjswbptdaqf9wj73f68il3w0owduqryn09atgw9eoqvij7oyk562ti5x2qeqc0aewcs54jvc2g562jjipr66hm3jfqhr7nos0wtwa6je2vqf8gw8n4nyfa2o46s0bbcjbzvjwtdj10zdze4l4660r7a5yokvyymbd9ayjbwx90davt5jg9gz38619hdaljb1nikxjg2l9z5yjldv3k5m96y2rhlkyrfs8m6a6d15dfqqdhg6k4vh66ii4zskz5stiiffvo841e3ghbl1auub1rgd8xxkhjcck1ln9d2jqhqw0yuv0s7gwp7vsz71bp&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4e8cpw1hwazhh21yww3qn9ddpvpjjawiq35q60iniekmwsnvs4dmb2lncuy2uj0a14f8uh4e0q7v23fgz054dd50wplwiaghodmgv1w8yjswbptdaqf9wj73f68il3w0owduqryn09atgw9eoqvij7oyk562ti5x2qeqc0aewcs54jvc2g562jjipr66hm3jfqhr7nos0wtwa6je2vqf8gw8n4nyfa2o46s0bbcjbzvjwtdj10zdze4l4660r7a5yokvyymbd9ayjbwx90davt5jg9gz38619hoylgk6qzkdhb2k4d8h8255lm68vs9x94v633zozk2kqcn4ijje4p614d9b11f9y8e0owhtp3a5l3r9imf6lnfhrmrrugcf9atn4iuyeup9di9xg1wi3mapjig0zelgn76sp7&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\n\n\nBy clicking a link in this email, you're agreeing to our\nTerms of Use\nhttps://track.dailypassport.com/?xtl=2npfyp63z7in3qxiv46ti3n8fj1eikwto0ulhmsn8ft4g87398yq47nttno2e4q2vj3h3w3tb3cy4jwg2xtfwhk6l6njm7mly1aelife2mjy2vjh7ddmyl46chm7s5mrytx0bp461qyn4dm9os4msikq4x67eqphq81olki9275s1c9p508j699w3dtsowxu44f5sc0s6sd9o284imqgzp7qclk7knw2o6eoakix1mu6vvp1i0oe6n8vpz5wljvkuww6t1rxxkd26ogz50b9colfpwruz763blgnuj5o4dgaztwdebsi2kpvo6ahbd4ftdjphhta7dhvt6&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n and\nPrivacy Policy\nhttps://track.dailypassport.com/?xtl=394vhzhcmltwh941gohgnqpblss5gz6mfr40xfgpncg3omng3evlhydhih4dxkktno6y1jbxs9076l7e9ui9utlufbqaovq0q7vdpidv0qlo11n134ti8449n6d78nifu5daaa969jyn5tn0e702r00trhf5ercsdlc3r37xkgtpqh0dfjpcexvox2yycwgw0b3wug64lhtx7opc5qu5c9tiig9ittd8l3b6l6nfw7ix5v8u51y34ud3axi91yznu3db1sgxt1261dzker080yiyye6hcybjjxayyzmtqcg0rdc1j07uh0dryfxhq0fr2jzuhqagmpgiy5ifg&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n.\n\n\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52pqqd0q5x2ebhfauixgfyafzw744ea8f3vlkkmk3p5vnceoroo4fap4qyhg4ypdeg5ewhu99k9t28gj82tgfkyl9kjgjdjq5j79thwd56rjgal7ma3nzl2db7yhymsqxn4ukhbqnpy18fjnmib53z03o3umet1mo7m6jq31bac944na2kdr4hk77jgnz77hsubu2pa2p02ifnoajpvo8cdohc8zjaa7iouqzi235336rmv7bxefyopde0uivi49df2k6sngt2pwp9feipl2vb7z414p7v6f5bhs0q05mgujlejcn45a6e1au9rohzla8x6lcsrtbb1&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52pqqd0q5x2ebhfauixgfyafzw744ea8f3vlkkmk3p5vnceoroo4fap4qyhg4ypdeg5ewhu99k9t28gj82tgfkyl9kjgjdjq5j79thwd56rjgal7ma3nzl2db7yhymsqx712ug5mqckw3ua9k2qnoae7oa1y8q63cxjxx5g9xe6llidlkodm5n2kx7ibse6wxychg6pofj9ugw9ibo7s10fc0wjxgxcq0dk2ksf2ul4gcz83rt1argcfvfoog4pp7rovy30kiezupsiuph9j49bh92ypjawenx6ms346ibs7hmm458zpcjxelbdds7cahdto1euud1t&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousaq0tpbs4rn5q6mztekah4hrqaerjgwawhq79bdewq66r42zp1v224cxjpu4dq6f5s8v951an86ltzl3la8r1zkikmpea8n7g03r8bw3le05q9o768fccxrts4zcehxrhusnh4lhb6wein1f5kakaxxc9cjpqybpnxh1whtgophnv9qeci2sz0f91yyfztncfcwt4bedvazac4s2y8iqzm0nhbsn5w5j3a61wy8mux7l4jlcrnnwzacci9xdh3iuqm3x8yo3nd0iu9m5hj82reno9xsj07ky77q760f4zlmrj8je64tey1nbysgukrvy37kfruncjjtippod6i3j0wroeu4b3jnuim23n2dfc798fhya7u4um27ijo85yc68asr4zbkacjlq4fuku8fdnqbs0d2vbmtwp0pzub15h7x7r0c3p65t&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousaq0tpbs4rn5q6mztekah4hrqaerjgwawhq79bdewq66r42zp1v224cxjpu4dq6f5s8v951an86ltzl3la8r1zkikmpea8n7g03r8bw3le05q9o768lizhsa9zkqgdjs81yez677vll1hl4wmhg6na18b3xx83znvg3kgykswfcl96viwpex4cb04kr66eericevv2mpr4rsnu5787hgpd8ifr11la7uapyew64a7x7clk0egjim76d4l2ss5os54qbyerxop0ac0v2abybca47j4m3lao3fjjg2chqiaejub12tz3yrf3uhfjipemohicealur6u8muia7zt4gh7p55bhftynt7cv2b0uhzsleio9iyunckoq2czut3y098gr3gjjzivc0q768s05popr1y6qy18ocbmhieijx8b5fp0dxy0l1n&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=1c5n2fauzlc99dewwd9xxozv4otcejljfdgiyiqkn34khv1vqw4senzsfmikmcqg10ug5bcat1d4rhgrw3favmv1s0phyoroeqommk7s9k1wf2r3pw1l4xpzko2dademgqbs7etgoeo1tfyx9joe6v5fr859rm3lnlnfbvutf23clicb6mgqbvuk7ht8bnlqff42jdm6d3uv6ot40eav0evl7jg2wbdofomn6ikpehmzg799j16qttja5lvkycutxnmwp2zlwsrfnk056f9sjtgsnninwritojov0zmw7fz5siec5u6hqvnlvra5pn8fa7zo5t6n0rvb7erjwnlict7ma4lbwgir66mfhd0xvcvppjetao95gy8agvt1vposi0r7oj6rq1oq75x54em6iwpxsp4p5&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nHow To Avoid 10 Common Mistakes on a Trip Abroad\nhttps://track.dailypassport.com/?xtl=4e8cpw1hwazhh21yww3qn9ddpvpjjawiq35q60iniekmwsnvs4dmb2lncuy2uj0a14f8uh4e0q7v23fgyalmsrzc7bnzbgxbw5c8y0c4n6cfpnxyfpj6neou0u0ajgmc4ho808q9049sx4cbypmuqi7wqtdzjfbg9pmlnv9jkffuxxfe15mfjaecd0a9p59mmny7s8iavj3maxkiuhw64wwuot3yeaynvjx6r3151bg9rhkv8k0qpqxphintp6denxzt95x3ygthy1bvixdos1tfz3eml0iht5rwcdpuute114ox8gkn0dp4bs50y58tzjgl5xvxbd5izq9m4i2860npedntcb9hi4i64by6sf6sifzbe0atte4xmpy6k2o76m8aulbeku7aejq64qsbve69qp1te71zew225n&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nThere’s nothing quite like the anticipation of a trip abroad. However, there are a few key things to keep in mind before you leave if you want your travels to go smoothly. These are 10 common mistakes travelers make on their trips abroad.\nhttps://track.dailypassport.com/?xtl=10d1a58xepg3cz101o6z6884ohi2skm9rxudiupi3unemdjqnjfuubcuufbfl70gvk8bbadz24s5u69vfl37qamysf7fxbqy9s8udk74yl5bhn8djzj1x370agi8vxp676cd3z3mfvkwdym927pk1ve34vj43ju2m7frn6gu0i9gqrx3klyewc8jruh2bgb27v9ix9yb6lu256cnby4uo4vusdd6xlchrcfgsbqu0sdy6dx9pvmri2pbgpoxomfpjnohbnhimukrjuqdj3i6aqppk93aezlusspw40x6507y55ly7f8nlq4uk9tngg0c5qpbj3nw0v5c0pqfckmvbpe56b8zmmt4hui0tvdiupdg3jvq25v5sjw85okdsitn9ns7y3m7yyv4vc3x1530fv0xtxtm8kzz78d9au34riiwcleuyc9its19w&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nRead Article\nhttps://track.dailypassport.com/?xtl=htil2kngr4e139977ozku49mxxweqdxn1t0kivlzey1esblqhdmv4q4yanh7dteb2fnpjgsmhxigw6sagsdigdqhdzprd3plv2xpqztudlpsyqweraqciii8zu274wh515ardyfnslxjzwmw382giwh4w5vq2v3v9llp336zlc5rm9ause6k6kv95e6kdd5cs5who5w58l1lsq7edklo89u8ig34c9yrx88hg2io9948g6isohvlh0fw53jw6yfdfowbs9legrihxug9vup6nc8ffagyggjkztmvzghnjeihaf7i0ap4dbxsf0afdzffjxemiz1zzyf678dip4ly7f9luxer6mqg2kgcm927t1pxqya55ppn9r157vgbfwre15ykt6h70aao0y5mp9i195&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=htil2kngr4e139977ozku49mxxweqdxn1t0kivlzey1esblqhdmv4q4yanh7dteb2fnpjgsmhxigw6sagsdigdqhdzprd3plv2xpqztudlpsyqweraqciii8zu274wh515ardyfnslxjzwmw382giwh4w5vq2v3v9llp336zlc5rm9ause6k6kv95e6kdd5cs5who5w58l1lsq7edklo89u8ig34c9yrx88hg2io9948g6isohvlh0fw53jw6yfdfowbs9legrihxug9vup6nc8ffagyggjkztmvzghnjeihaf7i0ap4dbxsf0afdzffjxemiz1zzyf678dip4ly7f9luxer6mqg2kgcm927t1pxqya55ppn9r157vgbfwre15ykt6h70aao0y5mp9i195&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousaq0tpbs4rn5q6mztekah4hrqaerjgwawhq79bdewq66r42zp1v224cxjpu4dq6f5s8v951an86ltzl3la8r1zkikmpea8n7g03r8bw41apye4vuhkx55wiq2vkv7igwzlzpwa4rv9wj4ijmkoot21iira2n6uikk7wrf9rohc2f3wt5xszm8uqwokuzf7xi57buy8kl39kmxrphwax7dkago02wk4zk1wd0vuvpv1e7uv7rs66nk3r5082ocfrwuvuc5k97pnf88rht830ou00e6qcjd2ru0slctuuf7glaj9s0m60aenbt90y6xkmex9fgcwqf5essapjdtd4wtr9i7pg0lfgu79u999kdp85wiuasem8u7py04q7mhn4rtew1a2z9wi2igchkpfbf0bx7hqcm62454vfpah38ph1g7r6nqofo&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousaq0tpbs4rn5q6mztekah4hrqaerjgwawhq79bdewq66r42zp1v224cxjpu4dq6f5s8v951an86ltzl3la8r1zkikmpea8n7g03r8bw41apye4vuhkx55wiq2vkv7igwzlzpwa4rv9wj4ijmkoot21iira2n6uikk7wrf9rohc2f3wt5xszm8uqwokuzf7xi57buy8kl39kmxrphwax7dkago02wk4zk1wd0vuvpv1ci2kj2pgz2dxzf2gq88j5v2b48qb6ephytp8lgwf0oxfp8wrqmb52agso6qx1gsvu3ciqlxvzpj3zey2nl8m7zeaafv7fv1vtb9j8ms1wofnvma17pn8c8rnjbksl5uiyk17c5mr8qb2sxiefqwo9u1uluv0qv1dkrpu38tuiqqknvcoukllkv6koa7axoyyu7zuyn2u53&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=m73vu3khkk3sjsjjlz2hqu720prrhhypyr3d3llb417rzjzmjbkp8ce00pqddlc6mtbu7y1xawl2gs7t0ecng8p66ytkory66xunx2oqa2eqylnigq2tta0whlgspf6p3schdyhckr6qzw8s3vsttg7f35qt85qam974en4pcorp6mchsr2xjwmq6t8siv6j7xuzcmft1qbbe6uq0l402pzw8056s5fruy0ehd5hi3wtett5uuckxd36kepr8e2rsxswd1m0s31xs4yyc0y9kjirxyws8ezrvnmyq0au2a7tcmgpbgnv637megph5nxe0rlni2h08nvp6x15cd6bxuylkk0dxqt6ef66qlfwa7u2clbpebv3lf7cd77h94h2maphdx3osngva6z5ka0t96hp4mt2htp52thhgj46l3hlkzuc10v1dg21cvcxy&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=m73vu3khkk3sjsjjlz2hqu720prrhhypyr3d3llb417rzjzmjbkp8ce00pqddlc6mtbu7y1xawl2gs7t0ecng8p66ytkory66xunx2oqa2eqylnigq2tta0wi0raercsx77yy6945x8as4pajabwsb5mw3wrvxe3d4gvbftnyag3djo41tdzygrlo2mspwomv24migmlrdtu1xv1p9rz40g43az8zp6lyc49nt3q7rm6ck0aayvi4jsevobu57nba1qep3g5pl3f87yfer6y04pub2aq5acu4ddudvo80q30as9bkissxqf9fwejipniwj0z2mxqf5k1zxp97p0ehjx1dr89fc22z8f055ch9p70cmndren8ug5dud1woaowt92fis2hkuckzfqr065axnhasfyw6wj9697ijp3e8ykx05i0cq4cd5lln5sf3&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=a7l7v4du3sgj1l3cuwc77w7eomqo1daelns1l01amfwy01yr7r36itoo5lc8m9zyzcy0qu3jeljy8qhhn78506hlv8mwshhbms2o47e9owsxyrx0gw9iv0xgwqs2dzhhjg2xn9pcbkiq5nm5ukdcu4u7q4qjoliemczk4miaca0vuvc9d8dxb6xp4wo776etyn17vol9qyb363hcj0vxfb86yldrsa9ybq0osmp22far1yrumlnj3jfzw3zz50mr944kr0eds81zj6d41xlx0jcbndjv0ub9arlxdwhljqmpsb54la77ooxteku72knvide4t4s790opn9p951ho4q7x32qmacgykbdcrh1a5dfz47p4efxdlflzqxlfx00wc4n114azirvzqfe9nnslpc4uwytssvv625bo&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\n5 Airline Rules That Are Newer Than You Think\nhttps://track.dailypassport.com/?xtl=1h4b7fi68n0z95w0s84jyaqgf0pbong4di4eptq29lzccsyx2oye5tub3cecy3kego1600af0x9sdct7a67bll5t2oicurppvv1ip9xzj14p431d6w857kegeg9km43beydjkte1anb64ft7khabxyyasdtmje70gl845gcnqf81q6ny7hisnkssjne7nrgyftri2mxh6s45q1qs9ppwzrwrhvvye4szdup8xv14njj6wgu0q8b21jt3szmtug1d8opgpoyzta7okbyaw52d9hz3xh3nyflr322rx1h9uhk2vcioqpmetkqk47c5vamvcfe0lhvcaqupjdgz3b5e6aojl48g9qgor9m0sc3jhojyi1q69p8di0aeftq489lih96n9kc11tr0ieprybe69819fd3uuoycorsvf15cyk8htr&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nThese days, passengers have grown so accustomed to the modern air travel experience — for better or for worse — that it’s easy to forget how much has changed, even in recent times. Here are five rules of air travel only became the norm in the past 25 years.\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2ftjd3r1uco7ifcyr8qx8zusgz12uljzodp6vxy3263gfxs4spaqx8gk895pvkbkndisa7r4cad23rkigk61gq1d3fnlbtrxautg144qnpzgjpwolh7e0ki09a0h0lk2nsjhu5visq1hduvtq254o4t43mjlj15nqy5kd4n5dvo7eg3g91sle5c24fsov5a8ajnoyk5zmmbti1uii57xi2mey8fbon6kocj0q6sydst4ucgwbfqc39ff29s142twghppqsvwfthm1l8xcelwxz3s24z0lemhn0lsuxyvl5vdqgggx86i45orku3cl5p70c9qt1wpgunyj6p8bw9gbw3ldcop6guch2m9kusx5jmzqvcczsv5wdvxvs05ulmk95t5k4omhjc7yrbghp7cxy&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nRead Article\nhttps://track.dailypassport.com/?xtl=o9jce32ocy2bjtz6nxi9vflnkig6xfdwvc3e2gunkgno07qjlv3dpqghwpyninftv7bksz1c18shwksqyhe5wh5kp3bdnkguze0jh14l32jx3ynpvtztbgq46t8s4wj2upkm8rrfb5g6921tv57948x2xrg9hduyodz9eyxqzsm5qf9fg1tk5xel46k531tf1lkpid8pwo5lyfetrvi7wy73nn08v7jix2xgqorom6evyrptz9txca95nzyywclpazrl5s0l7yn5i1ka9ip4rp4ae49w1nqofm8gnfr2n1kvcnjdf7srz0ekjgr66du7dpjvloq1u30qkgutu0ydc103711awty56cjmuewzn0z3nsozy6d5lj3stcwdm50xw8khu8g53wj3tz6po2v5jqrupk4njh&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=o9jce32ocy2bjtz6nxi9vflnkig6xfdwvc3e2gunkgno07qjlv3dpqghwpyninftv7bksz1c18shwksqyhe5wh5kp3bdnkguze0jh14l32jx3ynpvtztbgq46t8s4wj2upkm8rrfb5g6921tv57948x2xrg9hduyodz9eyxqzsm5qf9fg1tk5xel46k531tf1lkpid8pwo5lyfetrvi7wy73nn08v7jix2xgqorom6evyrptz9txca95nzyywclpazrl5s0l7yn5i1ka9ip4rp4ae3gu18zu3aqlr7hngartftw7d03dl2mdki07jf81ng7rf1ca6u5l0owoghq1gbk1qw693opudozfh6ywzai4ck17sxfvks8fn7rwnc2oydjal505v5uw72tenut0kj9266qlj3&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52pqrwbba267w8mymawcsjnl38c8n57lwl9l428bodp3skztqvbf5xl5c6hb8criimysk6722l6m97sa1iwmp97wsevppshizkdbbtkiie0nviit0jez8uut2cecct4cg8e4b3qwr1xpscgvb0nnrri8yd41xgqs0fi562ow9wjy4l729war73vugxf4okitzx90bkq6g1ai3f9ixa89vbpga3d1c3fm0o1e0p5esbrketr1tyb8c3arzcvgrf7wzk0vps89k29161htgtiee23wthv4fpay2oobdxjeuhy5n3egg245hvdbo4irnc0vkl6ohsqqlj3&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvelmxrzrxskzshmoedd2xkafqztwsm9obr2er8lb39z50djzskg4chuz5b7jo0jgeirmdsailhihg9apytapanglgsmnfg3in3dboaopjd0qr52pqrwbba267w8mymawcsjnl38c8n57lwl9l428bodp3skztqvbf5xl5c6hb8criimysk6722l6m97sa1iwmp97wsevppshizkdbbtkiie0nviit0jez8uut2cecct4cg7sb4f1u3uo6kluyno6fv5geeoymodlswz59l6bilwjbknzsm81p9ccnvtg91lt9nf3ew96j6ecc442j6li5r6wz7n0swuad2kmzilyyh6w3b5aym7d18h16cyb21a7ny2x8wrdfj8i4n1115uufz6jk1vk1sjrvunnzeatolvz7h0sy9k9h3e72zp0vybvqeu0v14bqgxp&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousaq0tpbs4rn5q6mztekah4hrqaerjgwawhq79bdewq66r42zp1v224cxjpu4dq6f5s8v951an86ltzl3la8r1zkikmpea8n7g03r8bw3le05q9onoy9m0ykpwdqba7j5w55xu2ddg7v3vzmke5o7lepsafnnycaecua8ngf3ijbymog6294mwhj1vn7i6k4i90mcj1kotepgww857p33y7raf2yfq6xcg2r9nha2sq0dq7tarpx40tkm2a0awkrdqe5d4bq5na42vctb81blqpdovphx9r1e88ttfyl46rvnh5et4j5njurf33evy4cs8af01kn8vdfmxdwwcc1joqmt2fnyxm01ispf2y7ce80la591keppomvqi1d7lmk78n1si1e2gsspiknb2gqop4oixluk0j5vlpnw1tkuc2rb5w6w2spb&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousaq0tpbs4rn5q6mztekah4hrqaerjgwawhq79bdewq66r42zp1v224cxjpu4dq6f5s8v951an86ltzl3la8r1zkikmpea8n7g03r8bw3le05q9onoyrrjilwqmbpc495iao2m3l3b0jovnpbj2trygel45lvs7yckcj5xy9c5pxm09l9hcgr2xeeyz08c9xxo0ufnqrkp85y5jj9fo2voaa9ce7w8mzoqdi0nrws5pjd0jsxm6wmpolkkhuinyjf96so1v0sb1zmlpux40a24a5phso7j8q7gchuxpiopge5c678ul0k6jp4a95q30hejpktrji3p2e6apxatxw9thz1g04kjx9ivdaxklg5kafdo7camggch5d3u42wacfncd7k3z4q9bbjwe2ow23kkma4pslwwpri8pjz2rv3ny1lqls8hhjm&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=1e4q57q64hby6t0zigsyj1qzjalh1a3wqxkfjpqffkvxh3kyw0oo99nus28il3hrtg3qxw5drls82a426y3v18bi019p95u40o3x4web6kwo93jqn7gmvkuifouu9g4cwzaqw4wcogfr00ak88yqcfflg5s5wx7hc5tvnwmrr20q3nw0bpwagjn9jm0i3nv9t89c3297tr2emwbtpuadlllykayf7tmuj9zf3bfy208kuhw80v240z3zi1bmm45chvhc5q8wbo4b33m1kbub7te65k54d8pz2u0u4ltzg50g86eyrotp2pt18b73scdzsef90nfv9j1mp95no2rtkqy1dtbg&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl30ufmwglwhufe43e3oqlf8fa51ergsz7bjmmzyl95nyd5rjdaufl12cailbhb4lh2u3dlt85i1gybjhmj2mfaycxb9agujlprq2548wjxcj3hmrfuu1ime8fo519zkdroesgxrxal4s5vglb9beqatr3148angefl4doq9c6r3o2mo18gd108jl550jmtcq50vjffwu98p5yqi7ciscjik9vbxjmktokbjib0xbckwak5isy7hjpewxiskci4clscbv3kx0gcxnsvgxyw6gofez1h46ocuf2ehl8wriznc1e20rxhgcqrg7xuxd62yn73sf80hxzjw&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=6r3xujvd4wg3ldpnhniv6jfkw0jjx7x6r3jy0cxd310y2nnne8u56rud86ms2la9l2zv0sm0ldmaor0u2apqlfq9vfxir09yl6xf890vr6lzw1w3unjq1jqwd7h8u76r9hbdloahinyuqadqycdq13ls671nglcg6yu80uzr8w765o89cqwyjfo6h747a623krdkmm25p7k0dbxfb07biaaz9udzft3nf8avcwa9kxhn7qucsjiv2h5kdm3vqq63pst73qjbapds2cuk0ms3slm3ydnn8ndk77846x0y3f2v335qvasi2o7hqit2c4p2b4u0j1m1176rjjo8oojmu5d&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl30ufmwglwhufe43e3oqlf8fa51ergsz7bjmmzyl95nyd5rjdaufl12cailbhb4lh2u3dlt85i1gybjhmj2mface9anhyk4dtpi29d11ahtxyz7na8ac6aqzkgbvo4hg9xcgkjrbjdodn37w8vci4e75znk2ztsnxvkd2l90vtgcnwxbqrdqnxgfgbng463s6ijik7qp363hfqhtt6iuaz3h2me425orlg6jyrqqd14yp9dilfz9f7g72y3iie0cqv2ip6fr2joyen9tygpfnbyelgaeegtbd4h4izz2kv7bn7anhenahkq6k16u2nzv0jegk8omofp&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=itjkc3o92jtrben8op0s5hdj6hdemyzkclzic8ayp2iob7e3qb1gbf2bo4gpj53ztf6y01qdv0jech0mu1hj5fwsgxz4ol53qbr3w2wy72q9xi0n69xvqtrbg3ojaj1ev6nv26nog1qu3u88a7xx967omg4zp5lbyzpqporlz6sawjocsqvet21s31bz0qj92j1qrethbd32n7guwjq8l8flzjw9s8bmc21gfn04fqa2gam0sb5hu52z71toxlkc7bw6vheszwrq7mru6ch14fbm1j3ik9exbvsneblkkudflp80mwvmo63vk0opxsflylxtucj82fesu0gj8puxs&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=sskmz1zpj45ci7hdnjc787vked0fypfz9rd32unlkbxgqkmr5bn8pi1an4xhdl825zrt5mifgux9r2e5fqnh94c0g0bn6p70o4g462h6yqintrgdvjhshujp7quk85aqa622utu79tw67lyg2wjne0ku8z5jtmvpg4vmmrw7apoi9o4u52vwuqqllmvwxy4wu31jhzv9ccniyul21gmv3dh12zltnaty3kyrf725pjjj1bwde43smfdat6p2fx1mpqv9myolzdfcslgzm68wbvigczsq8rua2f0vogkz59gwfotf28fegsqtdeothv5rfjik6msrkiv3mxh&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=1e4q57q64hby6t0zigsyj1qzjalh1a3wqxkfjpqffkvxh3kyw0oo99nus28il3hrtg3qxw5drls82a426y3v18bi019p95u40o3x4web6kwo93jqn7gmvkuifouu9g4cwzaqw4wcogfr00ak88yqcfflg5s5wx7hc5tvnwmrr20q3nw0bpwagjn9jm0i3nv9t89c3297tr2emwbtpuadlllzpcyhko7dj3bk3cktkdki58ahlwdgp4mrpk851i5ebk8f7c26w1y7n1el1qcokakipluq3gilufuo1hy6vfbooq1x3snhl7y10cfe3o1pa7y4p2dp79g4f6wgzt3ljmiq6n1o&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl30ufmwglwhufe43e3oqlf8fa51ergsz7bjmmzyl95nyd5rjdaufl12cailbhb4lh2u3dlt85i1gybjhmj2mfaycxb9agujlprq2548wjxcj3hmrfuu1ime8fo519zkdroesgxrxal4s5vglb9beqatr3148angefl4doq9c6r3o2mo18gd108jl550jmtcq50vjffwjn8rito57wkxcl1g6nrvva35o0ra966h21wsls4ufrt1hgsd17ip4lvd1282f6db1lq1e4r9ngz91a93sisqutmy5avt92yr7ecgq7shasp762qxwry3qymgr1ddyarkqlje&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=6r3xujvd4wg3ldpnhniv6jfkw0jjx7x6r3jy0cxd310y2nnne8u56rud86ms2la9l2zv0sm0ldmaor0u2apqlfq9vfxir09yl6xf890vr6lzw1w3unjq1jqwd7h8u76r9hbdloahinyuqadqycdq13ls671nglcg6yu80uzr8w765o89cqwyjfo6h747a623krdkmm25p7k0dbxfb07mgaxiqxuzlqkne3eykgczxt7o5aepld52mnfezbdray5poxxcsdr1uwq5ixpgpe1quabuy7u5wdv5p1cfuaysjvgrfwwmxbvdqx6zmcjsayu9pva793k6i4z240e0z7t9ifj&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl30ufmwglwhufe43e3oqlf8fa51ergsz7bjmmzyl95nyd5rjdaufl12cailbhb4lh2u3dlt85i1gybjhmj2mface9anhyk4dtpi29d11ahtxyz7na8ac6aqzkgbvo4hg9xcgkjrbjdodn37w8vci4e75znk2ztsnxvkd2l90vtgcnwxbqrdqnxgfgbng463s6ijik7pk1614kb9zymmkk6co0pjcu353o68rrsrlee6o6g86hzoyri9oyzxke4htazdgnqovzs7q5hh866dh92n21m6toaie53qm9t3jdwed2m7mb97gipkeqcxftn3shlnau0wx0fv&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=itjkc3o92jtrben8op0s5hdj6hdemyzkclzic8ayp2iob7e3qb1gbf2bo4gpj53ztf6y01qdv0jech0mu1hj5fwsgxz4ol53qbr3w2wy72q9xi0n69xvqtrbg3ojaj1ev6nv26nog1qu3u88a7xx967omg4zp5lbyzpqporlz6sawjocsqvet21s31bz0qj92j1qrethbd32n7guwuo8itl2qjc7n8a5g5m4haz05ryp4nefb8po5kl2gjdwx9jho8jv17yzmm9926ele1icw8ac8dsobsks88erqwfbcrunq9m1prhvmjlqqqmhczuqf5jw6ie5vrkvjf5deoj9y&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=sskmz1zpj45ci7hdnjc787vked0fypfz9rd32unlkbxgqkmr5bn8pi1an4xhdl825zrt5mifgux9r2e5fqnh94c0g0bn6p70o4g462h6yqintrgdvjhshujp7quk85aqa622utu79tw67lyg2wjne0ku8z5jtmvpg4vmmrw7apoi9o4u52vwuqqllmvwxy4wu31jhzv9ccniyul21gmv3dh12zltnaty3kyrf725pjjj1bwde43smfdat6p2fx1mpqv9myolzdfcslgzm68wbvigczsq8rua2f0vogkz59gwfotf28fegsqtdeothv5rfjik6msrkiv3mxh&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=1ukqyduuh8u9g2mhin080er31me8j8ia35xop72kfeazbv1xxhx7fjnwq4m5n8w1i9wgjs2clukibehxqdlbtnca97bwts3nrtn0mupgk6rji5r9zntyifz8cbjcycfxsc33f9f25bi6gzgkcffvlc4bzvs64qol5pn4rmg7s9fh5i59ok4ro602wm70m4872cgxughmryli1zglp4td6xbd6ktvaffql8nddefe306pfsv61zf6eqcns6pgjxeh8xpiwl6zem23j9mwztvses5pvmdx7zkkbl3ufht6dpyevuojvd2voy92x9&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nWe hope you enjoyed this email. If you'd like to receive fewer emails from Daily Passport, click\nhere\nhttps://track.dailypassport.com/?xtl=l3d323hr0qmz29jht3bc194iwllt3kdl66wdr7btps5t6t2e3mhhp7gwqs5mi5et6urm49p3ef09cwwnsj3kxkqh70nrrwwo7be8nketvj1hfa9cf4gs12hh5k0kp228uhmfj5wzx6r10dir94webr0t54bjczmciwazmq1to9sre2n0prkr8qa6nj2eklx0i1778bb3ppwo4d5uzzf0pmmjnc378a3nzu33o0zzkxrxzig0bcrqjbpwxh78k7kmnhxehjg3z85o9xiibsx0n49mphjbych8i1nwy7g5aahk51089x0xpumxbv61sf6zo9ar2axpxmrz16j6z7wa2n8lqc67kmg6xl4apw&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n.\n\nAre you ready to say \"Bon Voyage\"?\nUnsubscribe\nhttps://track.dailypassport.com/?xul=1bvzcz07yudcf6c9ex3fqvaahmss2hwg68vvif7oxw9ah2baqja4xw1jkudogh43dv5e9uejb1q1x0m6c6pwvl1b622jdjr2so8pbwnrfjd461kxv&__stmp=tca06v&eih=15o1mes1te5u8gntebhqmlkxhpmr&email=banfjax%40gmail.com&ocx_message_id=&ocx_mailing_id=3291168862\n from all Daily Passport emails.\n\nPrivacy Policy\nhttps://track.dailypassport.com/?xtl=394vhzhcmltwh941gohgnqpblss5gz6mfr40xfgpncg3omng3evlhydhih4dxkktno6y1jbxs9076l7e9ui9utlufbqaovq0q7vdpidv0qlo11n134ti8449n6d78nifu5daaa969jyn5tn0e702r00trhf5ercsdlc3r37xkgtpqh0dfjpcexvox2yycwgw0b3wug64lhtx7opc5qtk33udppl7l41rhgi4uvjdepypotq7d5ako55tkv8bd0sytpcufrqnylts3k55p2y3xcbbljrpx30y1dkultz0mtv81e99mcomerishg9glxaene3si2li7oxkjgztk&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nTerms of Use\nhttps://track.dailypassport.com/?xtl=2npfyp63z7in3qxiv46ti3n8fj1eikwto0ulhmsn8ft4g87398yq47nttno2e4q2vj3h3w3tb3cy4jwg2xtfwhk6l6njm7mly1aelife2mjy2vjh7ddmyl46chm7s5mrytx0bp461qyn4dm9os4msikq4x67eqphq81olki9275s1c9p508j699w3dtsowxu44f5sc0s6so7nltm6awlcdzamyr61t6u9lrb10qq1fjypyxxr152i3tmiyhclndkdumohrirrhablqc21abbzlo610eblt2whvx7puzah88xtuop0pt58nyseabfbfzd9izaj75e4cwc5i&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nContact Us\nhttps://track.dailypassport.com/?xtl=5jk13urpkw0dc2fci1f1i2mjrztngjgjhy7crjkmcfac8gwe9zjwk3eksejn0kuq0quphjzlck8ogkwf5bfko7mmde52kcxb1n0n776zmmr2ldqcv4rcm71o115cdzq36pwwihajbotv6crx3t222j6wf92r16n1qtizqm73565xwt8h1tqpiwcb06zjd66gicmtlvpfjkyd82fwi0rcq9o7j7z3vg47rb0q4jxtfqj832ka0tk4prtaa0x03arag6pl17xo3tg3r78zj0hrog5i6z6xei5uzn5nakljmvd1hnwie732hpnbhmdiw07r3pot9w&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\nCopyright © 2026 Daily Passport. All rights reserved.\n\n325 North LaSalle Street, Suite 200, Chicago, IL 60654\nhttps://track.dailypassport.com/?xtl=1ukqyduuh8u9g2mhin080er31me8j8ia35xop72kfeazbv1xxhx7fjnwq4m5n8w1i9wgjs2clukibehxqdlbtnca97bwts3nrtn0mupgk6rji5r9zntyifz8cbjcycfxsc33f9f25bi6gzgkcffvlc4bzvs64qol5pn4rmg7s9fh5i59ok4ro602wm702t27j7qmgotwyvd2l78xnozskeziiwxyw1rfpu948u7xplsoz8tbdfdy2sieyd1sf6iankv52fyksq8pfy4j6pm6025icatblxq3d846ft224yt8tv18xa1mqjjf9h&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tca06v&__onlt=t&email=banfjax%40gmail.com\n\n Advertisements powered by LiveIntent • AdChoices",
+        "date": "Sun, 22 Mar 2026 01:01:50 +0000",
+        "detectedAt": "2026-03-22T01:54:56.531Z",
+        "classification": {
+          "category": "general_info",
+          "categoryType": "safe",
+          "confidence": 0.6857142857142857,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "low"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144512038-r2ls",
+        "classification": {
+          "category": "general_info",
+          "categoryType": "safe",
+          "confidence": 0.6857142857142857,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "low"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:12.577Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d12c0de0331bb0",
+        "from": "\"Mą!l.updąte\" <henasanat@yahoo.com>",
+        "senderEmail": "henasanat@yahoo.com",
+        "subject": "Re: You're Invited: BANF Noboborsho 2026 -",
+        "body": "Thanks for everything you do. We have moved to Jax . I am able to get all information but I have  no understanding how to pay my membership due in timely without any problem . Please send me the process so I can pay as early as possible. Thanks.  Sanat and Hena Roy tele no. 4024309846 or 402 430 0194\r\n    On Saturday, March 21, 2026 at 05:39:40 PM CDT, Bengali Association of North Florida <banfjax@gmail.com> wrote:  \r\n \r\n  \r\n| \r\n|  You're Invited! BANF Noboborsho 2026 — পহেলা বৈশাখ ১৪৩৩ Bengali Association of North Florida |\r\n|  \r\nDear SANAT ROY,\r\n \r\nপ্রিয় বন্ধুরা, নববর্ষের শুভেচ্ছা! We warmly invite you and your family to celebrate Pohela Boishakh with the BANF family. Let us come together to welcome the New Year with joy, culture and community spirit.\r\n  \r\n|  Event Details \r\n| 📅 Date | Saturday, April 25, 2026 |\r\n| 🕐 Time | 11:00 AM â€“ 4:00 PM |\r\n| 📍 Venue | Mill Creek Academy Cafeteria, 3750 International Golf Pkwy, St. Augustine, FL 32092 |\r\n\r\n Join us to celebrate Pohela Boishakh — the Bengali New Year — with a day of culture, music, dance, delicious food and togetherness. শুভ নববর্ষ!Schedule:• 11:00 AM – 12:00 PM �� Snacks / Adda• 12:00 PM – 1:30 PM — Cultural Program• 1:45 PM – 3:00 PM — Lunch• 3:00 PM – 4:00 PM — Wrap Up  |\r\n\r\n \r\n|  When you RSVP, we will ask for: \r\n| ● | Number of adults and kids |\r\n| ● | Vegetarian vs non-vegetarian preference |\r\n| ● | Any allergies or dietary restrictions |\r\n| ● | Interest in cultural program participation |\r\n\r\n  |\r\n\r\n \r\n|   RSVP Now   |\r\n\r\n \r\n Please respond by clicking the button above so we can plan accordingly. \r\n \r\n|  🎭 Cultural Program — Participate & Showcase Your Talent! We are excited to feature cultural performances by our community members at this year's Noboborsho celebration! If you or your family members would like to participate, please fill in the details below. Categories:\r\n💃 Dance 🎤 Song 🎸 Instrumental 🎬 Skit / Drama 📝 Poetry / Recitation Mode:\r\n🧑 Individual 👥 Group Age Groups:\r\n👶 Kid (under 12) 🧑‍🎤 Youth (12-17) 🧑‍💼 Adult (18-59) 👴 Senior (60+) 🌈 Mix 📌 If you are a participant, please ask your mentor to apply. Only mentors, individual performers, and parents (on behalf of their kids) should apply.📌 No EC member can apply as a mentor or individual performer — EC members can only perform in a group managed by a mentor. However, EC members can apply as a parent for their kids.📌 We will try our best to accommodate every request. If demand exceeds the allotted cultural time, priority will be given to: items aligned with the nature of the program, diversity of genre and mode of delivery, and representation by various age groups.  |\r\n\r\n  What to Expect This event is free for all inclusive premium membership(early bird or non early bird). For regular members cost is $30 per adult (Kids 6 years and over upto 17 years $15), and for guest (Adult $40, kids 6 years and over upto 17 years $20). For guest performers will pay regular membership payment - however no option for non inclusion of food. All are requested to avail the early premium membership opportunity.    A Note on Special Dietary Requests: We sincerely apologize, but we may not always be able to accommodate every special food request due to logistical constraints. Our team will try our very best, and you will be informed closer to the event date whether your specific request can be fulfilled. We appreciate your understanding and patience!   |\r\n|   Bengali Association of North Florida\r\n Jacksonville, Florida\r\n banfjax@gmail.com  |\r\n\r\n |",
+        "date": "Sat, 21 Mar 2026 23:35:21 +0000 (UTC)",
+        "detectedAt": "2026-03-22T01:54:57.056Z",
+        "classification": {
+          "category": "general_info",
+          "categoryType": "safe",
+          "confidence": 0.7,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Member reply to BANF email",
+          "priority": "normal"
+        },
+        "isMemberReply": true
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144512601-lbe8",
+        "classification": {
+          "category": "general_info",
+          "categoryType": "safe",
+          "confidence": 0.7,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Member reply to BANF email",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:12.888Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d1126a1cb9b912",
+        "from": "BoT - Banf Jax <botbanf@gmail.com>",
+        "senderEmail": "botbanf@gmail.com",
+        "subject": "Re: Bengali Association of North Florida (BANF) - By Laws Amendment Update (Content & Timeline)",
+        "body": "Dear BANF Members,\r\n\r\nToday is the last day to vote on the Revised Bylaws amendment shared\r\nearlier.\r\n\r\n⚠️ Important:\r\n1. If you have already voted and Do Not wish to change your vote, you DO\r\nNOT have to vote again.\r\n2. Only those who have NOT voted yet or wish to update their vote after the\r\nrevision can participate.\r\n3. Only those who were members in good standing as of 1/31/2026 are\r\neligible to vote.\r\n\r\nThank you for your participation and support.\r\n\r\nPlease cast your vote here:\r\nhttps://docs.google.com/forms/d/e/1FAIpQLSd0Dgmw3Nnl7cvsX3CJ7ifcr19Nef41mmaYHLjczs4xNamCdg/viewform?usp=header\r\n\r\nRegards\r\nSwarnendu, Sayani & Saugata\r\nBoard of Trustees - BANF\r\n\r\nOn Fri, Mar 13, 2026 at 8:10 PM BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n\r\n> Dear Members,\r\n>\r\n> We hope you are doing well.\r\n>\r\n> The *updated draft of the BANF bylaws* is attached herewith.\r\n>\r\n> First and foremost, we would like to extend our *sincere thanks to each\r\n> and every one of you* who took the time to review the earlier draft and\r\n> share your feedback — whether through email, during the GBM, or through\r\n> personal conversations. Your engagement and thoughtful inputs have been\r\n> extremely valuable in strengthening this document.\r\n>\r\n> Based on the feedback received, we have worked to incorporate many of the\r\n> suggestions. In cases where certain suggestions could not be accommodated,\r\n> the reasoning has been shared in the corresponding forum or discussion\r\n> channel for transparency and clarity.\r\n>\r\n> While the document contains several updates, some of the *notable\r\n> additions and refinements include (but are not limited to):*\r\n>\r\n>\r\n>    - Addition of a section on Responsible Usage of Artificial\r\n>    Intelligence (AI)\r\n>    - Clear articulation of Board of Trustees roles and responsibilities\r\n>    - Inclusion of proposed agenda in the notice for General Body Meetings\r\n>    (GBM)\r\n>    - Refinement and clarification of quorum-related verbiage to improve\r\n>    participation requirements and voting clarity\r\n>    - Updates to the membership termination provisions, including notice\r\n>    requirements and procedural safeguards\r\n>\r\n>\r\n> Please note that the above highlights represent *only a summary of key\r\n> updates and not an exhaustive list of all changes*.\r\n>\r\n> We want to ensure that all members have *adequate time to review the\r\n> revised draft carefully* and that no important feedback is missed.\r\n> Accordingly, the *deadline for voting on the bylaws has been extended by\r\n> one week.*\r\n>\r\n> We kindly request all members to review the document and *cast their vote\r\n> by March 22nd.*\r\n>\r\n> *You can cast your vote here ----   *Please Vote here\r\n> <https://docs.google.com/forms/d/e/1FAIpQLSd0Dgmw3Nnl7cvsX3CJ7ifcr19Nef41mmaYHLjczs4xNamCdg/viewform?usp=header>\r\n>\r\n> Should you have any questions or require clarifications, please feel free\r\n> to reach out to any member of the Board of Trustees. We will be happy to\r\n> respond.\r\n>\r\n> Thank you once again for your continued support and participation in\r\n> shaping the future of BANF.\r\n>\r\n>\r\n>\r\n> Warm regards,\r\n>\r\n> Swarnendu, Saugata & Sayani\r\n> Board of Trustees\r\n> Bengali Association of North Florida (BANF)\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n>\r\n> On Thu, Feb 12, 2026 at 11:13 PM BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n>\r\n>> Dear Members of the Bengali Association of North Florida (BANF),\r\n>>\r\n>> Warm greetings to all.\r\n>>\r\n>> The Board of Trustees (BOT) writes to you today with a sense of\r\n>> responsibility, transparency, and forward vision regarding the governance\r\n>> of our beloved community organization.\r\n>>\r\n>> The current bylaws of BANF were last updated in *September 2011*. In the *14+\r\n>> years* since that revision, our Association has experienced significant\r\n>> growth and transformation — in:\r\n>>\r\n>>    -\r\n>>\r\n>>    *Growing number of Members*\r\n>>    -\r\n>>\r\n>>    *Financial responsibilities*\r\n>>    -\r\n>>\r\n>>    *Scope and scale of cultural events and programs*\r\n>>    -\r\n>>\r\n>>    *Community engagement and outreach initiatives*\r\n>>\r\n>> While this growth is a matter of pride for all of us, it has also\r\n>> highlighted that the existing bylaws no longer fully reflect our present\r\n>> operational realities.\r\n>>\r\n>> Through our collective experience — including lessons learned from past\r\n>> operational challenges and mistakes — it has become clear that BANF now\r\n>> requires:\r\n>>\r\n>>    -\r\n>>\r\n>>    *Stricter structural guidelines*\r\n>>    -\r\n>>\r\n>>    *Clearer accountability mechanisms*\r\n>>    -\r\n>>\r\n>>    *Well-defined governance processes*\r\n>>    -\r\n>>\r\n>>    *Stronger financial oversight*\r\n>>    -\r\n>>\r\n>>    *Transparent decision-making frameworks*\r\n>>\r\n>> These updates are not about change for the sake of change. They are about\r\n>> ensuring stability, preventing future issues, protecting the Association’s\r\n>> integrity, and building a governance structure that supports the next\r\n>> generation of BANF members.\r\n>>\r\n>>\r\n>> ------------------------------\r\n>> Why Your Vote Matters\r\n>>\r\n>> As per the current bylaws, *any amendment requires approval from\r\n>> two-thirds (2/3) of all registered members*.\r\n>>\r\n>> This is not merely two-thirds of votes cast — it is two-thirds of the\r\n>> total registered membership. Therefore, *every single member’s vote is\r\n>> crucial* for the amendment to pass.\r\n>>\r\n>> Your participation directly determines the future governance of BANF.\r\n>>\r\n>>\r\n>> *You can cast your vote here ----   *Please Vote here\r\n>> <https://docs.google.com/forms/d/e/1FAIpQLSd0Dgmw3Nnl7cvsX3CJ7ifcr19Nef41mmaYHLjczs4xNamCdg/viewform?usp=header>\r\n>> ****Please note:* Voting eligibility is limited to members whose\r\n>> memberships were valid and in good standing through January 31, 2026.\r\n>> *****\r\n>>\r\n>> ------------------------------\r\n>>\r\n>> Timeline & Member Engagement\r\n>>\r\n>> We strongly encourage all members to review the proposed amendments\r\n>> carefully.\r\n>>\r\n>>    -\r\n>>\r\n>>    *Members will have until March 15 to seek clarifications and cast\r\n>>    their vote.*\r\n>>    -\r\n>>\r\n>>    A detailed *Q&A session will be conducted during the upcoming General\r\n>>    Body Meeting (GBM)*.\r\n>>    -\r\n>>\r\n>>    *Members may also directly contact any Board of Trustee member for\r\n>>    clarification prior to voting.*\r\n>>\r\n>> We welcome questions. We welcome discussion. We welcome engagement.\r\n>>\r\n>> This process is about collective responsibility and shared ownership of\r\n>> BANF’s future.\r\n>>\r\n>> *Below is a concise summary of the most significant upgrades:*\r\n>> ------------------------------\r\n>> Major Structural & Governance Enhancements\r\n>>\r\n>>\r\n>>    -\r\n>>\r\n>>    *Clear Separation of Roles*\r\n>>    -\r\n>>\r\n>>    *Term Limits & Cooling-Off Periods*\r\n>>    -\r\n>>\r\n>>       President: Maximum two consecutive terms with mandatory\r\n>>       cooling-off.\r\n>>       -\r\n>>\r\n>>       BOT: Structured 6-year terms with staggered continuity.\r\n>>       -\r\n>>\r\n>>       EC members: Term caps and cooling-off requirements to prevent\r\n>>       concentration of control.\r\n>>       -\r\n>>\r\n>>    *Revised Election Framework*\r\n>>    -\r\n>>\r\n>>       BOT now oversees elections (replacing the ad-hoc election\r\n>>       committee).\r\n>>       -\r\n>>\r\n>>       Electronic voting formally permitted.\r\n>>       -\r\n>>\r\n>>       Defined quorum rules and run-off election procedures.\r\n>>\r\n>>\r\n>> ------------------------------\r\n>> Financial Oversight & Risk Controls (Significant Upgrade)\r\n>>\r\n>>    -\r\n>>\r\n>>    *Stronger Expense Controls*\r\n>>    -\r\n>>\r\n>>       $2,000+ requires dual authorization.\r\n>>       -\r\n>>\r\n>>       $6,000+ requires General Body approval.\r\n>>       -\r\n>>\r\n>>       Higher-tier threshold for very large expenditures (proposed\r\n>>       additional 2/3 requirement).\r\n>>       -\r\n>>\r\n>>       Clear documentation and retention requirements.\r\n>>       -\r\n>>\r\n>>    *Creation of a Contingency Fund*\r\n>>    -\r\n>>\r\n>>       Separate safeguarded account.\r\n>>       -\r\n>>\r\n>>       Capped surplus transfers (up to 25%).\r\n>>       -\r\n>>\r\n>>       General Body approval required for any usage.\r\n>>       -\r\n>>\r\n>>       Cannot be pledged or used for routine expenses.\r\n>>       -\r\n>>\r\n>>    *Independent Audit Framework*\r\n>>    -\r\n>>\r\n>>       Independent financial review at least once every six activity\r\n>>       cycles.\r\n>>       -\r\n>>\r\n>>       Mandatory reporting to the General Body.\r\n>>       -\r\n>>\r\n>>       Special audit authority if irregularities are suspected.\r\n>>\r\n>>\r\n>> ------------------------------\r\n>> Accountability & Compliance Provisions\r\n>>\r\n>>    -\r\n>>\r\n>>    *Formal Conflict of Interest Policy*\r\n>>    -\r\n>>\r\n>>       Mandatory disclosure and recusal requirements.\r\n>>       -\r\n>>\r\n>>       Prohibition on financial benefit to EC/BOT members or family.\r\n>>       -\r\n>>\r\n>>       Annual written acknowledgment requirement.\r\n>>       -\r\n>>\r\n>>    *Code of Conduct (New Addition)*\r\n>>    -\r\n>>\r\n>>       Anti-harassment and non-discrimination provisions.\r\n>>       -\r\n>>\r\n>>       Enforcement and disciplinary mechanisms.\r\n>>       -\r\n>>\r\n>>    *Defined Removal & Due Process*\r\n>>    -\r\n>>\r\n>>       Written notice and opportunity to respond required.\r\n>>       -\r\n>>\r\n>>       Clear voting thresholds for removal actions.\r\n>>\r\n>> ------------------------------\r\n>> Legal & Compliance Strengthening\r\n>>\r\n>>    -\r\n>>\r\n>>    Expanded IRS 501(c)(3) compliance language.\r\n>>    -\r\n>>\r\n>>    Non-discrimination protections.\r\n>>    -\r\n>>\r\n>>    Indemnification & liability limitation clauses.\r\n>>    -\r\n>>\r\n>>    Defined dissolution distribution rules.\r\n>>    -\r\n>>\r\n>>    Formal data privacy provisions.\r\n>>\r\n>>\r\n>>\r\n>> *Regards,*\r\n>>\r\n>>\r\n>> * Swarnendu, Saugata & Sayani Board of Trustees Bengal Association of\r\n>> North Florida  *\r\n>>\r\n>",
+        "date": "Sat, 21 Mar 2026 12:07:03 -0400",
+        "detectedAt": "2026-03-22T01:54:59.509Z",
+        "classification": {
+          "category": "policy_bylaws",
+          "categoryType": "human_required",
+          "confidence": 0.95,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Policy matters require official EC response",
+          "priority": "medium"
+        },
+        "isMemberReply": true
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144512904-azs3",
+        "classification": {
+          "category": "policy_bylaws",
+          "categoryType": "human_required",
+          "confidence": 0.95,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Policy matters require official EC response",
+          "priority": "medium"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:13.104Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d104b2548ee7f7",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender",
+        "body": "321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />321&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />           SCHEDULE [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#season_schedule]  |   STATS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#team_stats]  |   DEPTH CHART [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#depth_chart]  |   INJURIES [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\nWant more Buccaneers news? Sign up for Buccaneers alerts HERE↗️. [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#subscribe-form]\r\n\r\nBuccaneers Lose 3-Time NFL All-Pro to NFC Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com]    Read More › [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com]\r\n\r\nLike Heavy Sports?\r\n\r\nGo here and check the box\r\n\r\nnext to Heavy Sports\r\n\r\n[https://www.google.com/preferences/source?q=https://heavy.com/]\r\n\r\n321&lctg=&stpe=static\" border=\"0\" style=\"display: block; max-height: 12px !important\" />   321&lctg=&stpe=default\" rel=\"nofollow\" target=\"_blank\"> 321&lctg=&stpe=default&li_coord=desktop&collapse_width=600\" border=\"0\" width=\"600\" style=\"display: block; width: 100% !important; max-width: 600px !important;\" class=\"lihide\" /> [https://sli.heavy.com/click?s=1148114&e=banfjax@gmail.com&p=202621&lctg=&stpe=default\" rel=\"nofollow\" target=\"_blank\"> 321&lctg=&stpe=default&li_coord=mobile&collapse_width=480\" border=\"0\" width=\"480\" style=\"display: block !important; width: 100% !important; max-width: 480px !important;\" /> [https://sli.heavy.com/click?s=1148114&e=banfjax@gmail.com&p=202621&lctg=&stpe=static\" rel=\"nofollow\" target=\"_blank\"> 321&lctg=&stpe=static\" border=\"0\" style=\"display: block; min-height: 1px\" /> [https://sli.heavy.com/click?s=1148115&e=banfjax@gmail.com&p=202621&lctg=&stpe=static\" rel=\"nofollow\" target=\"_blank\"> 321&lctg=&stpe=static\" border=\"0\" style=\"display: block; min-height: 1px\" /> [https://sli.heavy.com/click?s=1148117&e=banfjax@gmail.com&p=2026/t/t-e-wtijkuy-tulukrhlw-c/\r\n\r\nYou're receiving this because you signed up for emails from  Heavy [https://heavy.com/?adt_ei=banfjax@gmail.com] or visited  Heavy [https://heavy.com/?adt_ei=banfjax@gmail.com].\r\n\r\nWant to write for Heavy? Here's how:\r\n\r\nBecome a Heavy Sports contributor [https://heavy.com/be-a-heavy-sports-contributor/?adt_ei=banfjax@gmail.com].\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nunsubscribe https://heavycom.cmail20.com/t/t-u-wtijkuy-tulukrhlw-q/",
+        "date": "Sat, 21 Mar 2026 23:06:36 +1100",
+        "detectedAt": "2026-03-22T01:55:00.392Z",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144513126-m196",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:13.608Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0f9685670b6e7",
+        "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+        "senderEmail": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,205.28 Available balance(as of 03/21/2026 02:27:48 CST ): $8,205.28 This information is accurate as of 03/21/2026 02:27:48 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawal. It is adjusted throughout the day as we authorize, or receive notice of, pending transactions. Available balance does not reflect all of your transactions, such as checks you have written or debit card transactions that have been approved but not submitted for payment by the merchant. For more information regarding our funds availability policy and how we determine your available balance, please refer to your Deposit Account Agreement. Wells Fargo Bank, N.A. Member FDIC. Please do not reply to this email directly. To modify or cancel your alerts, sign on and go to Manage Alerts. 222be9d-614-b414-f5553f3b-162d89f8_69be50df_226c9b-efdc3 3540",
+        "date": "Sat, 21 Mar 2026 01:50:14 -0700 (PDT)",
+        "detectedAt": "2026-03-22T01:55:01.087Z",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144513621-qmip",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:13.887Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0ead8869c74f2",
+        "from": "Subrata Chattopadhyay <robchatto@aol.com>",
+        "senderEmail": "robchatto@aol.com",
+        "subject": "Re: Bengali Association of North Florida (BANF) - By Laws Amendment Update (Content & Timeline)",
+        "body": "Received, thank you. I also vote for it. \r\n\r\n\r\nSent from the all new AOL app for iOS\r\n\r\n\r\nOn Friday, March 13, 2026, 8:10 PM, BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n\r\n\r\nDear Members,\r\n\r\nWe hope you are doing well.\r\n\r\nThe updated draft of the BANF bylaws is attached herewith.\r\n\r\nFirst and foremost, we would like to extend our sincere thanks to each and every one of you who took the time to review the earlier draft and share your feedback — whether through email, during the GBM, or through personal conversations. Your engagement and thoughtful inputs have been extremely valuable in strengthening this document.\r\n\r\nBased on the feedback received, we have worked to incorporate many of the suggestions. In cases where certain suggestions could not be accommodated, the reasoning has been shared in the corresponding forum or discussion channel for transparency and clarity.  \r\n\r\nWhile the document contains several updates, some of the notable additions and refinements include (but are not limited to):\r\n\r\n\r\n   \r\n   - Addition of a section on Responsible Usage of Artificial Intelligence (AI)\r\n   - Clear articulation of Board of Trustees roles and responsibilities\r\n   - Inclusion of proposed agenda in the notice for General Body Meetings (GBM)\r\n   - Refinement and clarification of quorum-related verbiage to improve participation requirements and voting clarity\r\n   - Updates to the membership termination provisions, including notice requirements and procedural safeguards    \r\n\r\n\r\n\r\n\r\nPlease note that the above highlights represent only a summary of key updates and not an exhaustive list of all changes.\r\n\r\nWe want to ensure that all members have adequate time to review the revised draft carefully and that no important feedback is missed. Accordingly, the deadline for voting on the bylaws has been extended by one week.\r\n\r\nWe kindly request all members to review the document and cast their vote by March 22nd.\r\n\r\nYou can cast your vote here ----   Please Vote here\r\n\r\nShould you have any questions or require clarifications, please feel free to reach out to any member of the Board of Trustees. We will be happy to respond.\r\n\r\nThank you once again for your continued support and participation in shaping the future of BANF.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nWarm regards,\r\n\r\nSwarnendu, Saugata & Sayani\r\nBoard of Trustees\r\nBengali Association of North Florida (BANF)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nOn Thu, Feb 12, 2026 at 11:13 PM BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n\r\n\r\nDear Members of the Bengali Association of North Florida (BANF),\r\n\r\nWarm greetings to all.\r\n\r\nThe Board of Trustees (BOT) writes to you today with a sense of responsibility, transparency, and forward vision regarding the governance of our beloved community organization.\r\n\r\nThe current bylaws of BANF were last updated in September 2011. In the 14+ years since that revision, our Association has experienced significant growth and transformation — in:\r\n   \r\n   -    \r\nGrowing number of Members\r\n\r\n   -    \r\nFinancial responsibilities\r\n\r\n   -    \r\nScope and scale of cultural events and programs\r\n\r\n   -    \r\nCommunity engagement and outreach initiatives\r\n\r\n\r\nWhile this growth is a matter of pride for all of us, it has also highlighted that the existing bylaws no longer fully reflect our present operational realities.\r\n\r\nThrough our collective experience — including lessons learned from past operational challenges and mistakes — it has become clear that BANF now requires:\r\n   \r\n   -    \r\nStricter structural guidelines\r\n\r\n   -    \r\nClearer accountability mechanisms\r\n\r\n   -    \r\nWell-defined governance processes\r\n\r\n   -    \r\nStronger financial oversight\r\n\r\n   -    \r\nTransparent decision-making frameworks\r\n\r\n\r\nThese updates are not about change for the sake of change. They are about ensuring stability, preventing future issues, protecting the Association’s integrity, and building a governance structure that supports the next generation of BANF members.\r\n\r\n\r\n\r\n\r\nWhy Your Vote Matters\r\n\r\nAs per the current bylaws, any amendment requires approval from two-thirds (2/3) of all registered members.\r\n\r\nThis is not merely two-thirds of votes cast — it is two-thirds of the total registered membership. Therefore, every single member’s vote is crucial for the amendment to pass.\r\n\r\n\r\n\r\nYour participation directly determines the future governance of BANF.\r\n\r\n\r\n\r\n\r\nYou can cast your vote here ----   Please Vote here\r\n***Please note: Voting eligibility is limited to members whose memberships were valid and in good standing through January 31, 2026.***\r\n\r\n\r\n\r\n\r\nTimeline & Member Engagement\r\n\r\nWe strongly encourage all members to review the proposed amendments carefully.\r\n   \r\n   -    \r\nMembers will have until March 15 to seek clarifications and cast their vote.\r\n\r\n   -    \r\nA detailed Q&A session will be conducted during the upcoming General Body Meeting (GBM).\r\n\r\n   -    \r\nMembers may also directly contact any Board of Trustee member for clarification prior to voting.\r\n\r\n\r\nWe welcome questions. We welcome discussion. We welcome engagement.\r\n\r\n\r\n\r\nThis process is about collective responsibility and shared ownership of BANF’s future.\r\n\r\nBelow is a concise summary of the most significant upgrades:\r\n\r\nMajor Structural & Governance Enhancements\r\n\r\n\r\n   \r\n   -    \r\nClear Separation of Roles\r\n\r\n   -    \r\nTerm Limits & Cooling-Off Periods\r\n      \r\n      -       \r\nPresident: Maximum two consecutive terms with mandatory cooling-off.\r\n\r\n      -       \r\nBOT: Structured 6-year terms with staggered continuity.\r\n\r\n      -       \r\nEC members: Term caps and cooling-off requirements to prevent concentration of control.\r\n\r\n\r\n   -    \r\nRevised Election Framework\r\n      \r\n      -       \r\nBOT now oversees elections (replacing the ad-hoc election committee).\r\n\r\n      -       \r\nElectronic voting formally permitted.\r\n\r\n      -       \r\nDefined quorum rules and run-off election procedures.\r\n\r\n\r\n\r\n  \r\n\r\nFinancial Oversight & Risk Controls (Significant Upgrade)\r\n   \r\n   -    \r\nStronger Expense Controls\r\n      \r\n      -       \r\n$2,000+ requires dual authorization.\r\n\r\n      -       \r\n$6,000+ requires General Body approval.\r\n\r\n      -       \r\nHigher-tier threshold for very large expenditures (proposed additional 2/3 requirement).\r\n\r\n      -       \r\nClear documentation and retention requirements.\r\n\r\n\r\n   -    \r\nCreation of a Contingency Fund\r\n      \r\n      -       \r\nSeparate safeguarded account.\r\n\r\n      -       \r\nCapped surplus transfers (up to 25%).\r\n\r\n      -       \r\nGeneral Body approval required for any usage.\r\n\r\n      -       \r\nCannot be pledged or used for routine expenses.\r\n\r\n\r\n   -    \r\nIndependent Audit Framework\r\n\r\n   \r\n   -    \r\nIndependent financial review at least once every six activity cycles.\r\n\r\n   -    \r\nMandatory reporting to the General Body.\r\n\r\n   -    \r\nSpecial audit authority if irregularities are suspected.\r\n\r\n\r\n\r\nAccountability & Compliance Provisions\r\n   \r\n   -    \r\nFormal Conflict of Interest Policy\r\n      \r\n      -       \r\nMandatory disclosure and recusal requirements.\r\n\r\n      -       \r\nProhibition on financial benefit to EC/BOT members or family.\r\n\r\n      -       \r\nAnnual written acknowledgment requirement.\r\n\r\n\r\n   -    \r\nCode of Conduct (New Addition)\r\n      \r\n      -       \r\nAnti-harassment and non-discrimination provisions.\r\n\r\n      -       \r\nEnforcement and disciplinary mechanisms.\r\n\r\n\r\n   -    \r\nDefined Removal & Due Process\r\n      \r\n      -       \r\nWritten notice and opportunity to respond required.\r\n\r\n      -       \r\nClear voting thresholds for removal actions.\r\n\r\n\r\n\r\nLegal & Compliance Strengthening\r\n   \r\n   -    \r\nExpanded IRS 501(c)(3) compliance language.\r\n\r\n   -    \r\nNon-discrimination protections.\r\n\r\n   -    \r\nIndemnification & liability limitation clauses.\r\n\r\n   -    \r\nDefined dissolution distribution rules.\r\n\r\n   -    \r\nFormal data privacy provisions.\r\n\r\n\r\n\r\nRegards,Swarnendu, Saugata & Sayani\r\nBoard of Trustees\r\nBengal Association of North Florida",
+        "date": "Sat, 21 Mar 2026 04:35:41 +0000 (UTC)",
+        "detectedAt": "2026-03-22T01:55:01.592Z",
+        "classification": {
+          "category": "policy_bylaws",
+          "categoryType": "human_required",
+          "confidence": 0.95,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Policy matters require official EC response",
+          "priority": "medium"
+        },
+        "isMemberReply": true
+      },
+      "result": {
+        "skipped": true,
+        "reason": "rl_do_nothing",
+        "rlRecommendation": {
+          "action": "DO_NOTHING",
+          "confidence": 0.99,
+          "reasoning": "Sender: crm_member | Domain: member_domain | Content: member_query | References BANF | ΓåÆ DO_NOTHING (conf: 99%)",
+          "features": {
+            "senderType": "crm_member",
+            "domainType": "member_domain",
+            "contentPattern": "member_query",
+            "hasBANFReference": true,
+            "bodyLength": "long",
+            "senderDomain": "aol.com",
+            "senderEmail": "robchatto@aol.com",
+            "isCRMMember": true
+          },
+          "contextKey": "crm_member|member_domain|member_query|banf",
+          "source": "context_cmab",
+          "scores": {
+            "DO_NOTHING": null,
+            "NOTIFY_PRESIDENT": 1.8548200450309493,
+            "ACK_ONLY": 1.8548200450309493,
+            "FULL_RESPONSE": 2.6651092223153956
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:13.893Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0eac3fcea96c4",
+        "from": "Subrata Chattopadhyay <robchatto@aol.com>",
+        "senderEmail": "robchatto@aol.com",
+        "subject": "Re: Bengali Association of North Florida (BANF) - By Laws Amendment Update (Content & Timeline)",
+        "body": "Received, thank you.\r\n\r\n\r\nSent from the all new AOL app for iOS\r\n\r\n\r\nOn Friday, March 13, 2026, 8:10 PM, BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n\r\n\r\nDear Members,\r\n\r\nWe hope you are doing well.\r\n\r\nThe updated draft of the BANF bylaws is attached herewith.\r\n\r\nFirst and foremost, we would like to extend our sincere thanks to each and every one of you who took the time to review the earlier draft and share your feedback — whether through email, during the GBM, or through personal conversations. Your engagement and thoughtful inputs have been extremely valuable in strengthening this document.\r\n\r\nBased on the feedback received, we have worked to incorporate many of the suggestions. In cases where certain suggestions could not be accommodated, the reasoning has been shared in the corresponding forum or discussion channel for transparency and clarity.  \r\n\r\nWhile the document contains several updates, some of the notable additions and refinements include (but are not limited to):\r\n\r\n\r\n   \r\n   - Addition of a section on Responsible Usage of Artificial Intelligence (AI)\r\n   - Clear articulation of Board of Trustees roles and responsibilities\r\n   - Inclusion of proposed agenda in the notice for General Body Meetings (GBM)\r\n   - Refinement and clarification of quorum-related verbiage to improve participation requirements and voting clarity\r\n   - Updates to the membership termination provisions, including notice requirements and procedural safeguards    \r\n\r\n\r\n\r\n\r\nPlease note that the above highlights represent only a summary of key updates and not an exhaustive list of all changes.\r\n\r\nWe want to ensure that all members have adequate time to review the revised draft carefully and that no important feedback is missed. Accordingly, the deadline for voting on the bylaws has been extended by one week.\r\n\r\nWe kindly request all members to review the document and cast their vote by March 22nd.\r\n\r\nYou can cast your vote here ----   Please Vote here\r\n\r\nShould you have any questions or require clarifications, please feel free to reach out to any member of the Board of Trustees. We will be happy to respond.\r\n\r\nThank you once again for your continued support and participation in shaping the future of BANF.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nWarm regards,\r\n\r\nSwarnendu, Saugata & Sayani\r\nBoard of Trustees\r\nBengali Association of North Florida (BANF)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nOn Thu, Feb 12, 2026 at 11:13 PM BoT - Banf Jax <botbanf@gmail.com> wrote:\r\n\r\n\r\nDear Members of the Bengali Association of North Florida (BANF),\r\n\r\nWarm greetings to all.\r\n\r\nThe Board of Trustees (BOT) writes to you today with a sense of responsibility, transparency, and forward vision regarding the governance of our beloved community organization.\r\n\r\nThe current bylaws of BANF were last updated in September 2011. In the 14+ years since that revision, our Association has experienced significant growth and transformation — in:\r\n   \r\n   -    \r\nGrowing number of Members\r\n\r\n   -    \r\nFinancial responsibilities\r\n\r\n   -    \r\nScope and scale of cultural events and programs\r\n\r\n   -    \r\nCommunity engagement and outreach initiatives\r\n\r\n\r\nWhile this growth is a matter of pride for all of us, it has also highlighted that the existing bylaws no longer fully reflect our present operational realities.\r\n\r\nThrough our collective experience — including lessons learned from past operational challenges and mistakes — it has become clear that BANF now requires:\r\n   \r\n   -    \r\nStricter structural guidelines\r\n\r\n   -    \r\nClearer accountability mechanisms\r\n\r\n   -    \r\nWell-defined governance processes\r\n\r\n   -    \r\nStronger financial oversight\r\n\r\n   -    \r\nTransparent decision-making frameworks\r\n\r\n\r\nThese updates are not about change for the sake of change. They are about ensuring stability, preventing future issues, protecting the Association’s integrity, and building a governance structure that supports the next generation of BANF members.\r\n\r\n\r\n\r\n\r\nWhy Your Vote Matters\r\n\r\nAs per the current bylaws, any amendment requires approval from two-thirds (2/3) of all registered members.\r\n\r\nThis is not merely two-thirds of votes cast — it is two-thirds of the total registered membership. Therefore, every single member’s vote is crucial for the amendment to pass.\r\n\r\n\r\n\r\nYour participation directly determines the future governance of BANF.\r\n\r\n\r\n\r\n\r\nYou can cast your vote here ----   Please Vote here I vote for it. \r\n***Please note: Voting eligibility is limited to members whose memberships were valid and in good standing through January 31, 2026.***\r\n\r\n\r\n\r\n\r\nTimeline & Member Engagement\r\n\r\nWe strongly encourage all members to review the proposed amendments carefully.\r\n   \r\n   -    \r\nMembers will have until March 15 to seek clarifications and cast their vote.\r\n\r\n   -    \r\nA detailed Q&A session will be conducted during the upcoming General Body Meeting (GBM).\r\n\r\n   -    \r\nMembers may also directly contact any Board of Trustee member for clarification prior to voting.\r\n\r\n\r\nWe welcome questions. We welcome discussion. We welcome engagement.\r\n\r\n\r\n\r\nThis process is about collective responsibility and shared ownership of BANF’s future.\r\n\r\nBelow is a concise summary of the most significant upgrades:\r\n\r\nMajor Structural & Governance Enhancements\r\n\r\n\r\n   \r\n   -    \r\nClear Separation of Roles\r\n\r\n   -    \r\nTerm Limits & Cooling-Off Periods\r\n      \r\n      -       \r\nPresident: Maximum two consecutive terms with mandatory cooling-off.\r\n\r\n      -       \r\nBOT: Structured 6-year terms with staggered continuity.\r\n\r\n      -       \r\nEC members: Term caps and cooling-off requirements to prevent concentration of control.\r\n\r\n\r\n   -    \r\nRevised Election Framework\r\n      \r\n      -       \r\nBOT now oversees elections (replacing the ad-hoc election committee).\r\n\r\n      -       \r\nElectronic voting formally permitted.\r\n\r\n      -       \r\nDefined quorum rules and run-off election procedures.\r\n\r\n\r\n\r\n  \r\n\r\nFinancial Oversight & Risk Controls (Significant Upgrade)\r\n   \r\n   -    \r\nStronger Expense Controls\r\n      \r\n      -       \r\n$2,000+ requires dual authorization.\r\n\r\n      -       \r\n$6,000+ requires General Body approval.\r\n\r\n      -       \r\nHigher-tier threshold for very large expenditures (proposed additional 2/3 requirement).\r\n\r\n      -       \r\nClear documentation and retention requirements.\r\n\r\n\r\n   -    \r\nCreation of a Contingency Fund\r\n      \r\n      -       \r\nSeparate safeguarded account.\r\n\r\n      -       \r\nCapped surplus transfers (up to 25%).\r\n\r\n      -       \r\nGeneral Body approval required for any usage.\r\n\r\n      -       \r\nCannot be pledged or used for routine expenses.\r\n\r\n\r\n   -    \r\nIndependent Audit Framework\r\n\r\n   \r\n   -    \r\nIndependent financial review at least once every six activity cycles.\r\n\r\n   -    \r\nMandatory reporting to the General Body.\r\n\r\n   -    \r\nSpecial audit authority if irregularities are suspected.\r\n\r\n\r\n\r\nAccountability & Compliance Provisions\r\n   \r\n   -    \r\nFormal Conflict of Interest Policy\r\n      \r\n      -       \r\nMandatory disclosure and recusal requirements.\r\n\r\n      -       \r\nProhibition on financial benefit to EC/BOT members or family.\r\n\r\n      -       \r\nAnnual written acknowledgment requirement.\r\n\r\n\r\n   -    \r\nCode of Conduct (New Addition)\r\n      \r\n      -       \r\nAnti-harassment and non-discrimination provisions.\r\n\r\n      -       \r\nEnforcement and disciplinary mechanisms.\r\n\r\n\r\n   -    \r\nDefined Removal & Due Process\r\n      \r\n      -       \r\nWritten notice and opportunity to respond required.\r\n\r\n      -       \r\nClear voting thresholds for removal actions.\r\n\r\n\r\n\r\nLegal & Compliance Strengthening\r\n   \r\n   -    \r\nExpanded IRS 501(c)(3) compliance language.\r\n\r\n   -    \r\nNon-discrimination protections.\r\n\r\n   -    \r\nIndemnification & liability limitation clauses.\r\n\r\n   -    \r\nDefined dissolution distribution rules.\r\n\r\n   -    \r\nFormal data privacy provisions.\r\n\r\n\r\n\r\nRegards,Swarnendu, Saugata & Sayani\r\nBoard of Trustees\r\nBengal Association of North Florida",
+        "date": "Sat, 21 Mar 2026 04:34:14 +0000 (UTC)",
+        "detectedAt": "2026-03-22T01:55:02.108Z",
+        "classification": {
+          "category": "policy_bylaws",
+          "categoryType": "human_required",
+          "confidence": 0.95,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Policy matters require official EC response",
+          "priority": "medium"
+        },
+        "isMemberReply": true
+      },
+      "result": {
+        "skipped": true,
+        "reason": "rl_do_nothing",
+        "rlRecommendation": {
+          "action": "DO_NOTHING",
+          "confidence": 0.99,
+          "reasoning": "Sender: crm_member | Domain: member_domain | Content: member_query | References BANF | ΓåÆ DO_NOTHING (conf: 99%)",
+          "features": {
+            "senderType": "crm_member",
+            "domainType": "member_domain",
+            "contentPattern": "member_query",
+            "hasBANFReference": true,
+            "bodyLength": "long",
+            "senderDomain": "aol.com",
+            "senderEmail": "robchatto@aol.com",
+            "isCRMMember": true
+          },
+          "contextKey": "crm_member|member_domain|member_query|banf",
+          "source": "context_cmab",
+          "scores": {
+            "DO_NOTHING": null,
+            "NOTIFY_PRESIDENT": 1.8548200450309493,
+            "ACK_ONLY": 1.8548200450309493,
+            "FULL_RESPONSE": 2.6651092223153956
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:13.899Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0e01605e6fb5c",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "✌️ Ex-All-Pro Walks in Free Agency",
+        "body": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender in Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Buccaneers Defender Jumps Ship for Super Bowl Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=] George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make $5.25 Million Move With Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Could Target Indiana WR to Replace Evans in Draft [https://heavy.com/sports/nfl/tampa-bay-buccaneers/buccaneers-could-target-indiana-wr-to-replace-evans-in-draft/?adt_ei=banfjax@gmail.com&lctg=]\r\n\r\nSchedule [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#season_schedule]  |   Stats [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#team_stats]  |   Depth Chart [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#depth_chart]  |   Injuries [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\n320&lctg=&stpe=default \">320&lctg=&stpe=default&li_coord=desktop&collapse_width=600\"> [\"https://sli.heavy.com/click?s=1148109&e=banfjax@gmail.com&p=202620&lctg=&stpe=pixel\">   320&lctg=&stpe=pixel\">   320&lctg=&stpe=pixel\">   320&lctg=&stpe=pixel\">   320&lctg=&stpe=pixel\">                                        Share   https://heavycom.cmail19.com/t/t-fb-wtidiuy-tulukrhlw-x/       Tweet   https://heavycom.cmail19.com/t/t-tw-wtidiuy-tulukrhlw-m/       Forward   https://heavycom.forwardtomyfriend.com/t-tulukrhlw-DAF7A12A-wtidiuy-l-c\r\n\r\nHeavy.com [https://heavy.com/?adt_ei=banfjax@gmail.com]\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nYou're receiving this email after subscribing to Heavy.com's Tampa Bay Buccaneers newsletters.  Unsubscribe https://heavycom.cmail19.com/t/t-u-wtidiuy-tulukrhlw-a/\r\n\r\nUnsubscribe https://heavycom.cmail19.com/t/t-u-wtidiuy-tulukrhlw-f/",
+        "date": "Sat, 21 Mar 2026 12:27:31 +1100",
+        "detectedAt": "2026-03-22T01:55:02.757Z",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144513913-xrjd",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:14.154Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0a263db15122d",
+        "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+        "senderEmail": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,205.28 Available balance(as of 03/20/2026 00:52:49 CST ): $8,205.28 This information is accurate as of 03/20/2026 00:52:49 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawal. It is adjusted throughout the day as we authorize, or receive notice of, pending transactions. Available balance does not reflect all of your transactions, such as checks you have written or debit card transactions that have been approved but not submitted for payment by the merchant. For more information regarding our funds availability policy and how we determine your available balance, please refer to your Deposit Account Agreement. Wells Fargo Bank, N.A. Member FDIC. Please do not reply to this email directly. To modify or cancel your alerts, sign on and go to Manage Alerts. 2120f0f-614-b413-14513aec-162d89f8_69bcf0f7_11d412-50847 3540",
+        "date": "Fri, 20 Mar 2026 00:29:30 -0700 (PDT)",
+        "detectedAt": "2026-03-22T01:55:04.466Z",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144514170-78zj",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "needsHuman": true,
+        "memoryContext": {
+          "priorMemories": [
+            {
+              "memory": {
+                "id": "MEM-1774144513886-70864a",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144513621-qmip",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.886Z",
+                "accessCount": 3,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.9160391116684236,
+              "rawSimilarity": 0.6106927465901397
+            }
+          ],
+          "identityInsights": {
+            "emailOrName": "alerts@notify.wellsfargo.com",
+            "knownAliases": [],
+            "preferredName": null,
+            "corrections": [],
+            "insights": [
+              "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip"
+            ],
+            "totalMemories": 1,
+            "highImpact": [
+              {
+                "id": "MEM-1774144513886-70864a",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144513621-qmip",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.886Z",
+                "accessCount": 3,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              }
+            ]
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:14.394Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0908c3807fca5",
+        "from": "Daily Passport <hello@dailypassport.com>",
+        "senderEmail": "hello@dailypassport.com",
+        "subject": "The One Drink You Should Never Order on a Plane",
+        "body": "https://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq477r4mhy59q16g0vdwnpjeutwlewxvvg7s47brpvd160k9lzt0vqooatlzdgk5o67szyvnrdjz1h19njkh2bh3861zqcrfa9uj59wm78afyqtfo2zaqhs0i0844mn4zqaexflye1l8sjxbljoj68sprao6gfuzwxz3kedg9ykmp8fky09cj45fmulmoqaq9b7tu6da19hgo1dib44j8xobx8gqk78lt1xl5nbcwl0qk4eqbyf22cht4dwo5ttp0pqs8708ww80srn3oke6hdwie5p29gvxup5pt15kog5m78j4a7jn0ik752itsz5jmgpqifgmgx0&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq477r4mhy59q16g0vdwnpjeutwlewxvvg7s47brpvd160k9lzt0vqooatlzdgk5o67szyvnrdjz1h19njkh2bh3861zqcrfa9uj59wm78afyqtfo2zaqhs0i0844mn4zqaexflye1l8sjxbljoj68sprao6gfuzwxz3kec58wc9x24t5rpupo4lcjeim5frlq0mt007lpwfi7ewusbu6bl6iwsqv5w1cg0wum23uuzfr39bnauzpwuan3y008vo9tazdot5fnevgwd6ieqwgie0pcz6rkd3gmcws03qn27sn6fjrnxzprluoyl03gr2dqbq27llhj8&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nClick\nhere\nhttps://track.dailypassport.com/?xtl=l3d323hr0qmwe0d8m8e7hw5ce1iou37pzbpgi5ftrq97buffg2h8pjqszio50qaayz3wxqs1d9y6lxvw16p7c1b6ur5sj0eq9g9pnx7avuroloz8466o8egl10kmg7y9ap4hsw9l2obrywyhdjb00z9aeufb1pklzvyoe1nwev3wgc41i52h0hpxglkr5l6m7ni15z4r3zyyayrh939q86semw8983if4g1fj6lre8aeh0alh4tssmnlmx3b8w24qbkb0shfxuy1hx5sy0qdwxjq3unesbmbizivy274a7cwdzhbnr85076i9i7mr2xou7r4fay0hxoy2m9m80lpkgdqnzvyizqj8elz1g&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n for fewer emails from Daily Passport\n\nhttps://track.dailypassport.com/?xtl=1ukqyduuh8u9ctv5m04r29t0tx8i3qqtrsn8mc70akuesm2dqwouifh7d05szluitlrurosil8itl4aka5o3w0kw5svdhjalrxxqt5mkiorobzjob8btgo07j60sb2yivb1wejeo7lq01ygx9o1yuz2g9jp3l94vkl2gbzs04jt98fnbzzbl5v2norsozfyj50olizgd79qgfwc7phkjq102d1xefiicpkopokwvjxcmlr743r0zc5vbktympd48hd805dwkshc03h6jpl82htb521d2hp8dc7cqjmyrdp8jjtlqe0s9aj46xv&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=o9jce32ocy2b4c3kf4x3y74d2wbcmaup2l8achc19d4hrsub4xa1da997lj6qctdaf9v0qo0nph2awdjmhnb7pwaxqtfnonxws2ryzkrn5asp45rtv8txs4sm6pzt6eeo0s18xdfrdb6np5xu4w2a74dkrsmagcnwhks2c7zi5hfycskxqf1d4hcca3hqdh9l2ztb2leo4p9lkcfspiwsytq2kw2xln8rcd439hn0ulmt9e5sgoqhpx5aium3wo2ftza3sxqjtltgzq69izeal6acn5xafcvy1nlk5pyeazfo7t73ak370fl8t9g50bz98hk6kl6h0n45e2noz8tb4ncp1bdarlzo5572u004mcevindejj33mll1po34uqecaf2rh4mtt4eur9ilqnk6uz0x0qb9u&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nThe One Drink You Should Never Order on a Plane\nhttps://track.dailypassport.com/?xtl=k0g3wqxov3pep4va5iofrkw5kbsewfquravcd03z3j92uhhmt7994mt3eb5h2205j9by6yctkptfgkg9st96noidv1dbuz9bz1ljjizmbht9fu91967enau1fn11dcpqc8tfxdzns6jbnkiugsgejfypqwjkaoxdgjjjnlrq9qiy3mq2jg3fccpljb4tx3vrdnjl4ve95mj19gzl6flrlz1kykdilmxqqmnvbn14462tvypkfr4qeeo2inlbhzuio9agggti12em4yk9brq5pl02t7ddw5lwer9rvx8dt7tib5r926ywoc8b2rfgxzh8cf21w5ikbf30tg5gxmwsvh9tkxvdkspub1g5mfx49maamf749darpavjajsid3rblziobi6k9nva7ti83pvvvodm36zdcsdwwtfqsp9&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nEveryone has a favorite beverage when flying on an airplane. But it may surprise you to learn there’s one popular beverage that experts recommend against ordering on an aircraft. Discover the one drink you should skip on your next flight — and what to order instead.\nhttps://track.dailypassport.com/?xtl=79onhb96jgq24rpfqlzuiv9lv7snk6xf6b18auinljaohmn3t448c96ch0uresmvznszv1x7l49wo98rg2uu8c24wsv2mqhqql3c2h03ipi6ftmesutwpntewb45gk4zmq1mmbmr7gxb3flrqlrxggkfemddq9nvwdmavm1j7qvot5bv1v38vry8ny32m2iz1416xuwtgqlhpadmbgeag1kca9sy9rgntnoxxmokvdpkfudebd3l45bk3qaizxo6xyx772qses9sqdrmxv8p70hzrlh76p0hl8o0drnb1s06k4lzlvrz1dz6ewdxug6tkrh03rel3lr9zj1gcsyu91oklxbarca4rdo9zxh1yiiczg1uge73zdad0ct4cfxdx3p13zan17zb2bhppz7fmqtco979m823cak6yeho7hzthj1pz69htvqk5m&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nRead Article\nhttps://track.dailypassport.com/?xtl=67lqtt048nxkj6niayh7nn8a6tkw4s88hgoeae400ydkekih85uizpe2citjgz7l1iun38kfygp6icbrtpxrx2ez053lvn0hni4bprd77j04e60xlpxs9nfvypf02gjqths5wayvj3ivp15ngwzv7py68ueyx0gl6tcf4m3iy71yx1d54wbvuc4f7lallbokp9fgejn2bn6dkf1sogwkkd6q14rffiuktftcivinfrm1jm2k30i9k1fw0yt73fregai8dqyoq6h3bfbasc451pgujhueii6v4vy7v80wh4o0djjv7dpqkf03wt5kw1x4ahx0gmboh3hrg5lkl5dh0sw4stnkscicuilseo87ixbuk2hf4lf9fqgo18ekg4cdjc91msgu7kii4amdbjxhlafr&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=67lqtt048nxkj6niayh7nn8a6tkw4s88hgoeae400ydkekih85uizpe2citjgz7l1iun38kfygp6icbrtpxrx2ez053lvn0hni4bprd77j04e60xlpxs9nfvypf02gjqths5wayvj3ivp15ngwzv7py68ueyx0gl6tcf4m3iy71yx1d54wbvuc4f7lallbokp9fgejn2bn6dkf1sogwkkd6q14rffiuktftcivinfrm1jm2k30i9k1fw0yt73fregai8dqyoq6h3bfbasc451pgujhueii6v4vy7v80wh4o0djjv7dpqkf03wt5kw1x4ahx0gmboh3hrg5lkl5dh0sw4stnkscicuilseo87ixbuk2hf4lf9fqgo18ekg4cdjc91msgu7kii4amdbjxhlafr&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\n\n\nBy clicking a link in this email, you're agreeing to our\nTerms of Use\nhttps://track.dailypassport.com/?xtl=2npfyp63z7imjl84x29xgcodmcxwnjvdpn8h7mxcszrb9hp0jm045hf8rx9ok7gycpc333ll7ovfplcqnw7pg8yxzcia6tz5yup2tjclcp6qhfkxhiz304sfvdcjmyfdajnp0bn4g910wihjipg2wwkoy6ib3h9yeh4m97n2x207axhm2rtywklukwr70ebnevuzwvg8v01fqlqhrdetehnsh3yxm9105ux3563ipbm0j0i5oovc08a4hyr2nl4nonj4nzbmhfej2pfzbrk9g6rv3vund39l1mkg9psx35vifnrtjrc6xmw0yzfdh5a5prj6lu07fh78f8&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n and\nPrivacy Policy\nhttps://track.dailypassport.com/?xtl=394vhzhcmltwzyzkvqhkb3q0bd1u1s9pit6t9qznvtw88c9isueumvmi3njcyha42hfwhyzwzd5dqwscrb31m3eyqg5gpvz03xyjt0m6ughtjymylevts9sypy1mgsakego3qkkziros6xprr5fsd5hplt3g7d91la3ttaekk0jyxzijepd5b0c8gdr9q1r4kem0pvde6mrah5damdsqqvdjrc8hrs2l4pdo36e0rzjl8wzzbken5aiin2kuoidxt9a36mf9a9s4m1z330lqaamuuaeu6osm4rw9h186pctrkszqcoqu3vt45o8w1sev18o26tmt56wo0yefe&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n.\n\n\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq3oed8o6waua2uwd1ge9y0r9yol7ga83if7bpxp8j5lt76uy6rho46md3woe63y7iyrx82l4isklzudb4nb6npcr0w9phyadti6dzqk7yl4hofptbzp2gzm6gwdv3kih4b8ual3jei8349c7rgbdmepm7x9a9q8vecwtyh6kf3in2xedehp644jei09ay966wrovw4db93zaa2oaka05saers8d5s2pppd08aywy92kv9i5d0mhxwli4q8c9fiegbw7sgs8o32ttcq3fo1r8sibjsbh2kp4j3xw28f0ji38kdnccwam5de15oiw6nnyu2o3selzg5z&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq3oed8o6waua2uwd1ge9y0r9yol7ga83if7bpxp8j5lt76uy6rho46md3woe63y7iyrx82l4isklzudb4nb6npcr0w9phyadti6dzqk7yl4hofptbzp2gzm6gwdv3kih8eakcv9irsbwiqc19o4bqni4q8ehp9h4nu50y2ifmj3eihzarfoo5e2yofutga2uzknw5bwjlccwhky1u55023j3nl62a08r7lbq5flqz0qr9ugwghvvttl5ejltxr0lgqojkiwbpzirohri2zda2m93ags18a89nupn7z4elsbrtwp5n2eu5dmvd54cbu2kz9sz4jyofo&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousva3b0qxzadbomrh4envflcf23vvh2qc9b7ye9iy1izsd325tad75megnc1v4s2t2gkii7t2t5at3yd5n3ue35xu022wkprd2w5td64j3544extvwh1d8g53du6i1s1d12jtex6tj1l9pik7ah76w5hthla7uv4o65nr6nym1kswnt5m9vkpwb9dr3ggslzxh90pr6sqwrsxs4yuoruagt6xlpk6n6h2zldzp0m3r07f5nqdig8sc22cbqoht18nn756vndj4oc4jbbej3nhom5u0cn33el57ydmh0xwvbqqeyeyzsansvm5if6mmi1nr9yvrxgdaqphhgyrqbzg8ca2if5wn1r75igsipfwg1fe7iz1ccm04sn2ttomj3ty8ftllprbs31177pw463y3domkupkl4f35dboueov3juva4q5p2xa&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousva3b0qxzadbomrh4envflcf23vvh2qc9b7ye9iy1izsd325tad75megnc1v4s2t2gkii7t2t5at3yd5n3ue35xu022wkprd2w5td64j3544extvwh7j646mx1tw3opdpy3kwypfdhpupx0kfeoq78n0nooro02mqpwos32imqo81qmq31au2r5uurz70n4mk98rfuk0rh8p1unykqu4wkr6j3uj5mia8b8qow6t405dx9n73ugi0d11hv4cq777t21vicrmt81ci7eh1dalsddqogs7mxuvimhg1d0f7130mx9z84ud9fj2s34z5rq5dfuoa9yxsh670xkmsxhmmahvjfplrwbts6j8vs1p8a58i3z906cqshlm0okmrcvfpg4nizo06or34yh170tr0g1u2nse4grc6mxieffifpq5ff6io4fz&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=k0g3wqxov3pep4va5iofrkw5kbsewfquravcd03z3j92uhhmt7994mt3eb5h2205j9by6yctkptfgkg9soomitm2q4ds78z31hr1mdgs681g3zil4cogm3ytpn2okseuk2b355icxovaqls9nfy5ej67wzbn4q21471b1a3voik3wd2csmjw6dybccqo9hso7g0bspsth0u6ma040b0x4b0zu6rm1a4fyqrn6sqq5o3nrs9oh54damduh0qv0ttjc6yzwwm6s4oriq9e2yjyerzvv5p1qg88ojwy8d3bp5b6zsbyr0a21dvdo68z7okafx5yd27ivhr9jerxjiqgrrt2klkarucs54i8j9ywcl99tgto2o4eoggddgtfqfqpxdexjgz2t357y455840e1621szcbu1a9wv1w6xm&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\n6 Incredible Natural Wonders to See Before They Disappear\nhttps://track.dailypassport.com/?xtl=2ymzsl2dfmabpe6bv4tngl79crhri7xqqg4vh2svqg91nrsafvsaasnotytj0sb59osikjy77ny74z8jb5f6yiax80tm2a59ke1qrks18hp19qbbs8lfooeefab8f87a0blxaz0tb3c2oqruyjtchktuj69wrtku14boe4stgwsc6m89puxo4113vqygwazo46gayckzu9ka6ppalg18l48b5mzd8x0vxxiqw85stw0q6gg44zzf4j9upmbm7s7puxnavo5wysf4fh49m6mk28bg5q8c8rhcw9geiibaqi6u177yi53z468wpo0vvx6an0n3glqfhbyk8eci0fdu49ynokvnz4ftswzrxiaruugfnukripqar2qihpnz4isjo96akzkve57nb5lefr3zpt7qgs44n4wwdjmvd31ctxktp7opg&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nIt’s difficult to imagine, but some of the world’s largest and most famous wonders are at risk of disappearing in the coming decades due to climate change and erosion. If you're a lover of the natural world, make sure to check out these six natural wonders before it’s too late.\nhttps://track.dailypassport.com/?xtl=w4nnieybnwxhi75hwbd3s048xls1cezsh3rzoiqq7ukydp4ncjw3ifig34ki16get10g02fthdgwtgirftge1glp5hmkn19oua7aqvrma3bjzktkflkmousuo5wgjznxstczthwbspc5dhpwo4wejhm4fnk35cfg3hpcx6sqheqxw8ws6yo3l2zkqvn8ifdarafw379qycs4s9sh8ms5fb1xk5oytm147o2gk617ybln241zic95de57xhr12erhrzuryoz87wh22x1rtjyugacfhdlbr404pww3xpxyjq4h40jacytfwir0z3c8l6cfdwhpobatwqeslxd6jbhu18watrbbrgnwmve1aafs7rn28gur8i36qbmparchb7npn45gzb0my70288jtta81uj3xj0623kvnn6jgu7yu6650iw7i4dt5joxjm5qq8fy1dtj&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nRead Article\nhttps://track.dailypassport.com/?xtl=t8dgohdsp33g7c245w0ee7grqc8q0hzh9wqkgjlcnfa6r3u0yzfts3gycorxmdfk3ccubowftnbj5rb8ljggmn31luv4ccmk5mkea9uwhbvc3td1iq4nwi3z0q4zw9tpqmwcpj14o118qiftn0unwcijhnlmmuwxohvcxv67zokrgkd6fcf6bp4cvwl6h06otlfi0ojrb5jfe828caxi3folcr3uznp8biwlwcei0yvlj9z6vfiwyk9r979lezuyxv0tj3xas8he35y8e7zcda749jpenjdllagelbyx3hrnswl5waqw5etebzvjam8ki68p8gipks2u9zrutsi18v8q5p5ncf40xki9ddv43ogkc9neynla45whtjoeilk76iqjks418lclll15wypydz4ikue6slg59&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=t8dgohdsp33g7c245w0ee7grqc8q0hzh9wqkgjlcnfa6r3u0yzfts3gycorxmdfk3ccubowftnbj5rb8ljggmn31luv4ccmk5mkea9uwhbvc3td1iq4nwi3z0q4zw9tpqmwcpj14o118qiftn0unwcijhnlmmuwxohvcxv67zokrgkd6fcf6bp4cvwl6h06otlfi0ojrb5jfe828caxi3folcr3uznp8biwlwcei0yvlj9z6vfiwyk9r979lezuyxv0tj3xas8he35y8e7zcda749jpeoog02rbc8bsz8hssotchumdafdt965mb4bn8et2om0v8ljnghl96xdux48wcc4g9n8lhbfiqdf5omptsmfjmfkk7yzcs8c563fm0zm7ljhbcjorgui3dg3r8i4zs8qin5fsff&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousva3b0qxzadbomrh4envflcf23vvh2qc9b7ye9iy1izsd325tad75megnc1v4s2t2gkii7t2t5at3yd5n3ue35xu022wkprd2w5td64j51ty6sahmwf5zfy0pjtastmhfw4vu4n1d4lpyufbt8gajy6a1if5mrnjed0fqbvexma1he7z44v766h2crcaybjd6c5qibyy40d7nrwnmh7tl5h4raws3dp3xioynix6rsc8n8ee7lz2zz3flmij76btlrcyrxhw7rc8hlmk2is72egm2hz72cicz1wx8g9gx7i85n65j8jvrc8tuhjo7qomnvofc0kj5qk20dg6kmuq16bwi2l27vgym0vv1ogtbozaczhtdwhti09hr86r8g5qoh7lmsw3hf5wz5fv4tqai92p68gsmmwhtoz7ngtlg8ox382hdx99&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousva3b0qxzadbomrh4envflcf23vvh2qc9b7ye9iy1izsd325tad75megnc1v4s2t2gkii7t2t5at3yd5n3ue35xu022wkprd2w5td64j51ty6sahmwf5zfy0pjtastmhfw4vu4n1d4lpyufbt8gajy6a1if5mrnjed0fqbvexma1he7z44v766h2crcaybjd6c5qibyy40d7nrwnmh7tl5h4raws3dp3xioynix6rsc8n8eem1ylzlwbjdi3epgfymxk2bx4pj455m8ywccstn5qvp2k3uspnbtru4ejufi1wn453zjr4f761sadc1il9lfychrvvsgiqapepykfv2flpjv7jjhlobjerkeu83ahur9haw1fb2fiximosm78w87m4nxfxc7keqo43vmhd184qbv6khwjle66vc4borbth5w4hmx0&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=m73vu3khkk3s9wdbpmj56591sgfolpt5x7sxhrcn0k2txhi3z5oz5vew48zmewajwjuugx929oukcm911g5ep05wyjjyrwfal33petwx0ulebuf4efqdderv7liupf8js2s3gi20wkchxt4babksgw5e89b0r7z1fyz752lml77mmmqbmmv551g40z2zykuqba3ascayrs9y6etxleemx2u7hqcmd64wsaws0uxh59qij7xbtzpwlzxk6cjtk7cspbm2wblzmnztb5ncpwafnkp4wrasz02pvvyb2161ekrwnpekctctdbfb2yllts36z0fokgc6aiu2mlmrwlko1d8j69jwrhb18qcwgb868708o36kl7eselhpe0bdwouz1bf5hwanqznapk9fm7xgpj87rqrnopmgbg8ok3e51uuk6jbqrrj4qowetjr14&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=m73vu3khkk3s9wdbpmj56591sgfolpt5x7sxhrcn0k2txhi3z5oz5vew48zmewajwjuugx929oukcm911g5ep05wyjjyrwfal33petwx0ulebuf4efqdderv80tcerf0jeigbrrpe4f5q19kuh7vfr39b7gkca0tmumy2xo8hvy0hiljhp86gnlb684z3lze14bnzm64ff1qs7u9o33jybadd38okpu4wezis8vpsx4xha58zd6s8x7nhj2ql4njtk67km3796yu0iv76vsx58s85l9njzb7miaibmpxdjzyt0v3fmi2g4lf3bjd0s7wg4n0sar3ppp13k73zdbfck81p8ab681mdmyu1445k7ct09600cr65239gm6k4rwngj2jyr5z7sc8hgns9szfdljk8db70gaw9w1ay7jlvbtqyx3ivtm3iayk7a19w&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=4rss6xbmsd3jy53dxo26magncm6yl398gfco4wmwkdscgarxpjna0y5qnidaqkxa7epcv0rjvv5zjemwiqfdwsry72akaks92cayoroyeybpwk4gfbm9naxpkv2j7n5tmrzej8fw1z3z8ol6xdq1lwb9gqxtcngp8jhc5c8gpgdoq8douuvx5ea47g0081e6kdlvq7qjaopk0sz49onoa8f1gps9rsckz83eiwkrxf108e4vuw7zexxs4k2e2jskj47n45vz11rf629ibswdm67nn6lwzs3kjg0hsiqtmlrcictzumb9qeiske9jf098p4zzczsk17o26nkta1e1g9zcs4cnto1278ly78p1x80q8g698gwyiqhetp7r0f0616qjt09cye2qh55soev1d&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nThe 10 Most On-Time Major Airports in the U.S.\nhttps://track.dailypassport.com/?xtl=o9jce32ocy2b4c3kf4x3y74d2wbcmaup2l8achc19d4hrsub4xa1da997lj6qctdaf9v0qo0nph2awdjmdksqjzqpu0yxmjlaxwnre63qql5mycgihnwrmna206o7ynwgjdvhi9eds7k0048y9l0gljbh9uysu2yo7r900azd6wejb0mut09axiyuol92rtvlyzodhc5yk0rpf9vw2sn7i6idtdn48clk3cv2kgtxcvixduwh7cct6tkmrn94zqpvlvxcw658v31k11pmty7huvtaqp8pchozmb8r5cupasie99vjnr59kj2zew2nw67053v88w22nsvdaols1f74ify7f0oughqsr3bmtrzgptr8zpghxmdlthklteex06rwkolr8x3zthdr8beabunhgqj1amofr&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nLate flights happen for a number of reasons — from weather to aircraft maintenance or crew availability — but an important factor is the airport you’re flying from. Discover the U.S. airports that ranked highest on the list of most on-time airports in 2024.\nhttps://track.dailypassport.com/?xtl=2ymzsl2dfmabpe6bv4tngl79crhri7xqqg4vh2svqg91nrsafvsaasnotytj0sb59osikjy77ny74z8jb5sjv1tk7pb1u6jryfvh6b5sp7apeghdxo8vyn9bk27u83iq640sug9g952y3iltdoi3tsjgzfc8xuvydgenxp4zt8u8ob5p03h1y3ly7fwm1gwepqsn1o6tvfeqv3o1zze7wrmfpw2yu3by8lo0oqd18j8v9hivxfdsxeil4q4ozdbvzlfxw77k3h02eua2g6qbmz1fnxieqkzlr05qvpqolhxta6iscc46ysgiesam2t44x5niqcbczs5a01966trt1d6xcgxnmi0wfqhgg0djensh4s08yvvbu56hx1v69ijmolerm01j1yfwezfn1jru7je2cmm7gc283zqc76hxij3zsg3jc&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nRead Article\nhttps://track.dailypassport.com/?xtl=28fpfa6ermqyjd2zzsvbo4m80y1axh45ogj5kof6cfgiuxux945fy7y702epbxco3f0x19gtdenrcub1jcmvznzfwthq4clv4c78iqg4vq3rukrk924uwe9bw4pnxmobwf4echlkx1eo8l64ufou3ysyhqqqc1crdp2i5xfkkei0ajthayw4rsmaz8klzdj7rlz33ui6noproht4kbotxbm34rwo0scm883jgzwhre0awwunx4tvxn9i4pgz7soepra4apclsy8fs3l46hcfseadik96hge31jp1bj2bsflo8o6kyj33m1mzudvfqeomiv2yiy31dv4bxuw7l3wrqhttlqqwnkroia23ykjnmd8m5p8knk2b6pebpc1ozt5r1gotl45im18yljn&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=28fpfa6ermqyjd2zzsvbo4m80y1axh45ogj5kof6cfgiuxux945fy7y702epbxco3f0x19gtdenrcub1jcmvznzfwthq4clv4c78iqg4vq3rukrk924uwe9bw4pnxmobwf4echlkx1eo8l64ufou3ysyhqqqc1crdp2i5xfkkei0ajthayw4rsmaz8klzdj7rlz33ui6noproht4kbotxbm34rwo0scm883jgzwhre0awwunx4tvxn9i4pgz7soepra4apclsy98u41h1elfmgfdk353zwbbr210bpv77xrdmy39si48iio4e4658ssxv2ko8kzfssb5tpa2l8wt13auxhl4jsylh7wxeva434r3t6bo5024e3t22ww9c3qi3ssltzreq5jsyx1&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq3ofwjzb1djuqluuffziizwbmi3q77khev6gtv4unpvyr1zxpfva1eo2zw7im5dnp33kuddjjpe6y4uukq4bxknxg5dfwx79vsyl9f3l8vuwwcz7loazq2lwpcyzmz942og8iam1shwn16kxvsi33auwh70tydq8roucn4bubn9njt6kqep8nc9rvl2qpjepykh74gi6mbyrwlk57zzteam7xct8xc313n95tgkrppnzkw6sbuefhqrwfnzrk7yk8k2iqybj8u08azjk2tzeqnaayc82i0n1wgykksosi58x396mg7d4z459g2tjjh5el7iooijh1e&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1\n\nhttps://track.dailypassport.com/?xtl=qnzq7w8bvel9zhq9ghg0s507q8fq1q51m6yyj718j4celmm12rifw6h4xdn1e1qfaf3zp6hly9xso89j15py0q1xff1cj1vcrei0qcp0rw0u7n297ylmopq3ofwjzb1djuqluuffziizwbmi3q77khev6gtv4unpvyr1zxpfva1eo2zw7im5dnp33kuddjjpe6y4uukq4bxknxg5dfwx79vsyl9f3l8vuwwcz7loazq2lwpcyzmz9454h4zhnyw9gk4n0mjpx6frai7ape6zkw25zm3wukv9f68fvn4in3fyjcrswmia1x3719gq3b1b57w8goovpgg9xmsexfaomr2bfj51ool2shz0ydcldj12iv1uiuwwmebh2v482n2kcuzuwyj1g4gmoqgbxy3yebegvhcmi2t56qfyj0d8ukyvrsjj379ubf7grmxhrjbt&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousva3b0qxzadbomrh4envflcf23vvh2qc9b7ye9iy1izsd325tad75megnc1v4s2t2gkii7t2t5at3yd5n3ue35xu022wkprd2w5td64j3544extzd8tmuhzli4jgiepsbbydrukq22jw197pn1grhoz8n225cz3dx24xjmjvyumh2wwzwj07uwpvierj0ssdmucz7uxluv6dmwqwjvbpfqxkid4avfmiqq0h49bhoejfpb5uhnqxe7codfxxgg8gw7hlcnxjn9x5h6oqnju1w2r6y0cz29mbqwsroy69837ufzr2g9u8xcf7om80jkvlexeye65k5emhjqximhohj0uj4rp4vrrux3gzsnuk34b68ock60ul4mqwahcqevbymlyw022fdgtlq6j7u534k1q1468jvr6zg3phoz1a24l7l4hkng5s&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=20ut6ae83ousva3b0qxzadbomrh4envflcf23vvh2qc9b7ye9iy1izsd325tad75megnc1v4s2t2gkii7t2t5at3yd5n3ue35xu022wkprd2w5td64j3544extzd8zss5b6ba8ukabt28f87w5biinf0jm4rklzur2ccqcpw41bfmpv72q5gk6uetbdqqco0m9n0489vdjspukbxh3xpkkuhk3bvuafvhgvgsbrpjotl3ty3fy91ehe11oix8uvp88x0na7fer87fmc0tpuhgi1ll7gw73a00l6k54734mp6umfuiii9a9f80ypn1f6bioec3hutigs20pnm07avrw1q3b67au6a1b4ijmdw296dh8gxwwaykxsx8om76xitbgeyr0axgtmc55ep9hxg3ubhtoylbwgsbwqkniovtcb25a5m7ry4ht9qsgnun1b&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&live_intent_id=29294771-738b-4699-a0d3-c2d05bd42ac1&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=1e4q57q64hby2mdbxrdpci22e28ccyadsu9j4vedjd7nxov6k7b9io3i2k9m89cgscto5k7kle2ieupmatutts0dwh3jvnbey9dm9b9mdwxuxwa3w6ui8t87736mu55k0rhezq3yb5c783hifsesf4pb58x0o0xgczftmo1csp0i9m9b4jszvd7nulry3g0dpoq019upp5rh0nv6h166kdg2hdzgyzrv5noz7v9q96u2acyn18ef2rp8n3ca600u62t4raeyej3bi905nsziguwwju2t346u24rxkjg247uvc63052bg9vuv7iobs9wt0a539f08b1rddh8rrstdoyqsiap7&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl3083epoefmwo2umq6vibqbd02l7v8btgoutb089pbpxsev7mal1wv94ly1wanpgk3zo0b33b3yjqacbwgfhz9brb8e5jg6wo736klg4mhfkj91fji3t4gpp3chd1b05emjgf3v2exu62frkc73401unewa220amq8jr4q0byk4do0drb0xqip5h9ehjy5zlvz2y3th5jpwc8ciiwjeserdha5p288p6e65ya87174w832x9791natfmhe04ukkquabxr4mxdyucohu9pjyonv8j23j7ledr7am188ndw1jqlzx5a0m4c341nxu3sf6beidqa8d97j3&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=6r3xujvd4wg3wbh3lf2pd4d85bxxxqn38ow6xow4efq64qe2bbj12zmtltrhmckguwmy9pkupcbdxm0ww0mz0d5ppp1di96xwia1mjnx22cdn0ic98bpeywfu5kfdn15m9jjivfohu7uy8figsg34aadqd3dnndk6ow3d0ew2p7gqz21uv80g9l39wrcmjhlvnxkaw80u92jbefbbsmlmlcoydpuqxdbnv1wh6esb1utl2k9j55x1mh3noi2gtxljgma95q6b46b1h436h3z2f5m903mo652rhv9xvbxzb7d8vv7c1j3kg8wev6k7w7dhojfd68rtqmkk3603nl90fr&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl3083epoefmwo2umq6vibqbd02l7v8btgoutb089pbpxsev7mal1wv94ly1wanpgk3zo0b33b3yjqacbwgfhz9ftp7goc9pos5x73yyx25wzs0kbeym5r7le99s945j8yvi8jrv71pct8oev9t47c582ohti169f5fdqgl0000i5xn13gxxe7c2blp6grg11xvsx7haxbn8bx8jurt653q2ngye48rtkgbzlrtraba6f6t3ydfcqxwzor2svy4ysg3cxamzrzwpxy9sb4srhb0z6tn819y51cbzdo43zz6kbhkwb8uwp71orc6v4k7d9cayoe3w67t6&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=itjkc3o92jtpxyjcl0in4xfg1igxwwaz40x6pwfjmheltffycbssazqivi1x760ilt8d70ikw2tjjskq2mth1wrjjin8t1ukx6xgjy4v85z8o8t0o0193qpwyuty19f2baop1tyce5toqdwjpfocfudtribk3xio390rm9eto2yoq0qkow36xz9pxez737n97q72k3s2xl373ez7pded86qs37vfqbxw7l8xgmxb8dnuspaydm2xfd8y7i082dfw2b1xpjnz9tto06qokgfz5fo9ka3ldclwuowzbs6ticbznhzkv06cf87vrxestud2z6qq7l1rgtep9v4xd0njt&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=sskmz1zpj45bfytexe4nqvqc4p5owgwuyzl1hhqw6qzzc70ywz4fxg7hkh6w3nffzxxtk4rgo98ilu3bf55znyhx8d0grkbv3rqzc9rp5ugipz417wxux0l7ojpg0kpittjq347ccxed6ht0aoazy3y7tfc8ygx8c8a2e3pxysdae0iomcjt71nzgonu9hddvzzmyhz3nku1zgtj6t3hubi88mo9c2ut86ee4upaior6h0x2f9dwtu9vnh3hfvgtgut5t68xp4ipeat9kizyirsadsinbhtyms99o035gfmauz3fhceiuz2p8md4fd025lcnoh7mf5fklj8&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=1e4q57q64hby2mdbxrdpci22e28ccyadsu9j4vedjd7nxov6k7b9io3i2k9m89cgscto5k7kle2ieupmatutts0dwh3jvnbey9dm9b9mdwxuxwa3w6ui8t87736mu55k0rhezq3yb5c783hifsesf4pb58x0o0xgczftmo1csp0i9m9b4jszvd7nulry3g0dpoq019upp5rh0nv6h166kdg2hdzgyzrv5noz7v9q96u2acyn18ef2rp8n3ca600u62t4raeyej3bi905nsziguwwju2t346u24rxkjg247uvc63052bg9vuv7iobs9wt0a539f08b1rddh8rrstdoyqsiap7&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl3083epoefmwo2umq6vibqbd02l7v8btgoutb089pbpxsev7mal1wv94ly1wanpgk3zo0b33b3yjqacbwgfhz9brb8e5jg6wo736klg4mhfkj91fji3t4gpp3chd1b05emjgf3v2exu62frkc73401unewa220amq8jr4q0byk4do0drb0xqip5h9ehjy5zlvz2y3tgchptlq1n2c16j1lqoy8uaa669teikkm4lxwah3fcchv88m4o9h7b13wy99g3udjnsklzzies0kxzg6mw6ipk3n48wugqzug8f74ryeaqqvrui08ajgo9xxp5yv9txpl6p7jz&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=6r3xujvd4wg3wbh3lf2pd4d85bxxxqn38ow6xow4efq64qe2bbj12zmtltrhmckguwmy9pkupcbdxm0ww0mz0d5ppp1di96xwia1mjnx22cdn0ic98bpeywfu5kfdn15m9jjivfohu7uy8figsg34aadqd3dnndk6ow3d0ew2p7gqz21uv80g9l39wrcmjhlvnxkaw80u92jbefbbsmlmlcoydpuqxdbnv1wh6esb1utl2k9j4zsvpr7bd6njkd8pzxyjj9iycnkwamefiol46uvbahtpqw9ew6u7oi1ky37yv39f6s12u72fhyfv2zlyw2iz88ul19vk9noul0vg5g&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=4wug71xqdl3083epoefmwo2umq6vibqbd02l7v8btgoutb089pbpxsev7mal1wv94ly1wanpgk3zo0b33b3yjqacbwgfhz9ftp7goc9pos5x73yyx25wzs0kbeym5r7le99s945j8yvi8jrv71pct8oev9t47c582ohti169f5fdqgl0000i5xn13gxxe7c2blp6grg11xvsx7haxbn8bx1mosnyaebvk4fahrp0j5ys5qa1n8k5hncilsau0cxu1xkzoql2icxdiyw24wo4f27uhjw7p7ddo1ululd5q9keo94lean049he0dpz9818y4fu5e1zhtey9k8s8wfw&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=itjkc3o92jtpxyjcl0in4xfg1igxwwaz40x6pwfjmheltffycbssazqivi1x760ilt8d70ikw2tjjskq2mth1wrjjin8t1ukx6xgjy4v85z8o8t0o0193qpwyuty19f2baop1tyce5toqdwjpfocfudtribk3xio390rm9eto2yoq0qkow36xz9pxez737n97q72k3s2xl373ez7q6gdmj95b1qc09o0xumuaa5draxhb1qwfna5b47h2qnjhh7jvc25b0d1xyc6y91vjlym0hep0ivnc94f72cpawh6rxqt79poxkvan0quyoj18dsj29hzssihhx20voqhninjp&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=sskmz1zpj45bfytexe4nqvqc4p5owgwuyzl1hhqw6qzzc70ywz4fxg7hkh6w3nffzxxtk4rgo98ilu3bf55znyhx8d0grkbv3rqzc9rp5ugipz417wxux0l7ojpg0kpittjq347ccxed6ht0aoazy3y7tfc8ygx8c8a2e3pxysdae0iomcjt71nzgonu9hddvzzmyhz3nku1zgtj6t3hubi88mo9c2ut86ee4upaior6h0x2f9dwtu9vnh3hfvgtgut5t68xp4ipeat9kizyirsadsinbhtyms99o035gfmauz3fhceiuz2p8md4fd025lcnoh7mf5fklj8&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nhttps://track.dailypassport.com/?xtl=1ukqyduuh8u9ctv5m04r29t0tx8i3qqtrsn8mc70akuesm2dqwouifh7d05szluitlrurosil8itl4aka5o3w0kw5svdhjalrxxqt5mkiorobzjob8btgo07j60sb2yivb1wejeo7lq01ygx9o1yuz2g9jp3l94vkl2gbzs04jt98fnbzzbl5uz9oobtcwz32hokddjltnetaid7jrt6ywx0t5mkghd3uih40o8c9trarvtdcg8kex3g3pdm8d2yzw7pa70oka31woadf8rmumhf8xp9fpf60vpc2dbp53dinpti8cw5w8mvj1&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nWe hope you enjoyed this email. If you'd like to receive fewer emails from Daily Passport, click\nhere\nhttps://track.dailypassport.com/?xtl=l3d323hr0qmwe0d8m8e7hw5ce1iou37pzbpgi5ftrq97buffg2h8pjqszio50qaayz3wxqs1d9y6lxvw16p7c1b6ur5sj0eq9g9pnx7avuroloz8466o8egl10kmg7y9ap4hsw9l2obrywyhdjb00z9aeufb1pklzvyoe1nwev3wgc41i52h0hpxglkr5l6m7ni15z4r3zyyayrh939q86semw8983if4fydj48wglakehakc8wacoby5j4be3wpzda4a0sx877nvqrds3494xifjtojmjfpjg4ypx2zgrtjn1zc57qjaf3yfu8cgdct0tabo9c6t61ag5ag6olrmx6h2wt4786pt2h71x&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n.\n\nAre you ready to say \"Bon Voyage\"?\nUnsubscribe\nhttps://track.dailypassport.com/?xul=1bvzcz07yudcf6c9ex3fqvaahmpgh19yrejm81h2jtau9pm2n7iegrgpwuuq343nf1a3lgcqgouohp3jqbrpfq12y9lfkmmr9ivbjqmo3cn1w7q5z&__stmp=tc6ec4&eih=15o1mes1te5u8gntebhqmlkxhpmr&email=banfjax%40gmail.com&ocx_message_id=&ocx_mailing_id=3289859234\n from all Daily Passport emails.\n\nPrivacy Policy\nhttps://track.dailypassport.com/?xtl=394vhzhcmltwzyzkvqhkb3q0bd1u1s9pit6t9qznvtw88c9isueumvmi3njcyha42hfwhyzwzd5dqwscrb31m3eyqg5gpvz03xyjt0m6ughtjymylevts9sypy1mgsakego3qkkziros6xprr5fsd5hplt3g7d91la3ttaekk0jyxzijepd5b0c8gdr9q1r4kem0pvde6mrah5damdsqqvdjrc8hrs2l4pdo36e0rzjl8wzzbken5aiin2kuoidxt9a36mf9a9s4m1z330lqaamuuaeu6osm4rw9h186pctrkszqcoqu3vt45o8w1sev18o26tmt56wo0yefe&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nTerms of Use\nhttps://track.dailypassport.com/?xtl=2npfyp63z7imjl84x29xgcodmcxwnjvdpn8h7mxcszrb9hp0jm045hf8rx9ok7gycpc333ll7ovfplcqnw7pg8yxzcia6tz5yup2tjclcp6qhfkxhiz304sfvdcjmyfdajnp0bn4g910wihjipg2wwkoy6ib3h9yeh4m97n2x207axhm2rtywklukwr70ebnevuzwvg8v0shr25cp0enh0ntllvp06zpm6w2xyxz55b36j6lnpbohm5q88ci03qji7ysa8slfq8ejtazgrli2ps5x42j9mijwfslg49psop8ydfmlr5emkibt6cgtr56lwqbudinkw0hta&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nContact Us\nhttps://track.dailypassport.com/?xtl=5jk13urpkw0do5uxo5sie8edffm1f2egaxl0jpoz5tabooh2tyu5ru7bgu9pv5t90n6951qw4t199kozuv4tdqbfg23x3fm6bs1vm0i0sg3zp81pa1dp6fzeao46zgbowgzyshqhse306ior1worgvne4g29hu3squk96r1d728bwg7z2bo2wf447eqetgxct54gj74dzbpzxqqogzn5dopfnxdgombefe2qu76stueph9seatvq6ybfvp2p7tgclku20rloixv5j9rzi1ldjybuy88788bz4dfx3v83wrl20rjdu69f5vje4owt6kfk58bp9v&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\nCopyright © 2026 Daily Passport. All rights reserved.\n\n325 North LaSalle Street, Suite 200, Chicago, IL 60654\nhttps://track.dailypassport.com/?xtl=1ukqyduuh8u9ctv5m04r29t0tx8i3qqtrsn8mc70akuesm2dqwouifh7d05szluitlrurosil8itl4aka5o3w0kw5svdhjalrxxqt5mkiorobzjob8btgo07j60sb2yivb1wejeo7lq01ygx9o1yuz2g9jp3l94vkl2gbzs04jt98fnbzzbl5uz9oobtcwz32hokddjltnetaid7jrt6ywx0t5mkghd3uih40o8c9trarvtdcg8kex3g3pdm8d2yzw7pa70oka31woadf8rmumhf8xp9fpf60vpc2dbp53dinpti8cw5w8mvj1&eih=15o1mes1te5u8gntebhqmlkxhpmr&__stmp=tc6ec4&__onlt=t&email=banfjax%40gmail.com\n\n Advertisements powered by LiveIntent • AdChoices",
+        "date": "Fri, 20 Mar 2026 02:16:55 +0000",
+        "detectedAt": "2026-03-22T01:55:04.961Z",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144514410-c9r8",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:14.642Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d0788dd2e864cd",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "😖 Bucs Lose Versatile Vet DB",
+        "body": "Buccaneers Defender Jumps Ship for Super Bowl Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: Buccaneers Could Target Indiana WR to Replace Evans in Draft [https://heavy.com/sports/nfl/tampa-bay-buccaneers/buccaneers-could-target-indiana-wr-to-replace-evans-in-draft/?adt_ei=banfjax@gmail.com&lctg=]      MORE ON THIS STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/buccaneers-could-target-indiana-wr-to-replace-evans-in-draft/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make $5.25 Million Move With Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=] Bucs Predicted to Make Surprise Move With Disappointing 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fifth-year-option-calijah-kancey/?adt_ei=banfjax@gmail.com&lctg=] Bucs GM Candidly Addresses Loss of Superstar WR Mike Evans in NFL Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com&lctg=]\r\n\r\nSchedule [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#season_schedule]  |   Stats [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#team_stats]  |   Depth Chart [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#depth_chart]  |   Injuries [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\n319&lctg=&stpe=default \">319&lctg=&stpe=default&li_coord=desktop&collapse_width=600\"> [\"https://sli.heavy.com/click?s=1148109&e=banfjax@gmail.com&p=202619&lctg=&stpe=pixel\">   319&lctg=&stpe=pixel\">   319&lctg=&stpe=pixel\">   319&lctg=&stpe=pixel\">   319&lctg=&stpe=pixel\">                                        Share   https://heavycom.cmail20.com/t/t-fb-wtioil-tulukrhlw-x/       Tweet   https://heavycom.cmail20.com/t/t-tw-wtioil-tulukrhlw-m/       Forward   https://heavycom.forwardtomyfriend.com/t-tulukrhlw-DAF7A12A-wtioil-l-c\r\n\r\nHeavy.com [https://heavy.com/?adt_ei=banfjax@gmail.com]\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nYou're receiving this email after subscribing to Heavy.com's Tampa Bay Buccaneers newsletters.  Unsubscribe https://heavycom.cmail20.com/t/t-u-wtioil-tulukrhlw-a/\r\n\r\nUnsubscribe https://heavycom.cmail20.com/t/t-u-wtioil-tulukrhlw-f/",
+        "date": "Fri, 20 Mar 2026 06:17:38 +1100",
+        "detectedAt": "2026-03-22T01:55:05.926Z",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.6000000000000001,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144514670-0m8d",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.6000000000000001,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": {
+          "priorMemories": [
+            {
+              "memory": {
+                "id": "MEM-1773791708110-96b763",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "😑 Bucs Lose Unsung Hero",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773791707337-rll3",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T23:55:08.110Z",
+                "accessCount": 1,
+                "lastAccessed": "2026-03-22T01:55:14.662Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.2940297573524498,
+              "rawSimilarity": 0.1982687617887213
+            }
+          ],
+          "identityInsights": {
+            "emailOrName": "newsletters@heavy.com",
+            "knownAliases": [],
+            "preferredName": null,
+            "corrections": [],
+            "insights": [
+              "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Make Big Money Move\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773730298374-fhit",
+              "Processed email from newsletters@heavy.com: subject=\"Buccaneers Make Massive Contract Change With $90 Million Starter...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773766582422-4zuf",
+              "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+              "Processed email from newsletters@heavy.com: subject=\"Buccaneers Lose 3-Time NFL All-Pro to NFC Contender\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513126-m196",
+              "Processed email from newsletters@heavy.com: subject=\"✌️ Ex-All-Pro Walks in Free Agency\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513913-xrjd"
+            ],
+            "totalMemories": 5,
+            "highImpact": [
+              {
+                "id": "MEM-1773730299031-9a23ae",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Make Big Money Move\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773730298374-fhit",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "💰 Bucs Make Big Money Move",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773730298374-fhit",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T06:51:39.031Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1773766582928-f0d0f6",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"Buccaneers Make Massive Contract Change With $90 Million Starter...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773766582422-4zuf",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "Buccaneers Make Massive Contract Change With $90 Million Starter...",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773766582422-4zuf",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T16:56:22.928Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1773791708110-96b763",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "😑 Bucs Lose Unsung Hero",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773791707337-rll3",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T23:55:08.110Z",
+                "accessCount": 1,
+                "lastAccessed": "2026-03-22T01:55:14.662Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144513607-2a52f7",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"Buccaneers Lose 3-Time NFL All-Pro to NFC Contender\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513126-m196",
+                "tags": [
+                  "event_info",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender",
+                  "category": "event_info",
+                  "confidence": 0.6222222222222222,
+                  "approvalId": "QA-1774144513126-m196",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.607Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144514153-295875",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"✌️ Ex-All-Pro Walks in Free Agency\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513913-xrjd",
+                "tags": [
+                  "event_info",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "✌️ Ex-All-Pro Walks in Free Agency",
+                  "category": "event_info",
+                  "confidence": 0.6222222222222222,
+                  "approvalId": "QA-1774144513913-xrjd",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.153Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              }
+            ]
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:14.898Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d05fbd8ac916b5",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...",
+        "body": "319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />319&lctg=&stpe=pixel\" width=\"2\" height=\"6\" border=\"0\" />           SCHEDULE [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#season_schedule]  |   STATS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#team_stats]  |   DEPTH CHART [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#depth_chart]  |   INJURIES [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\nWant more Buccaneers news? Sign up for Buccaneers alerts HERE↗️. [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com#subscribe-form]\r\n\r\n‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com]    Read More › [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com]   Buccaneers Make $5.25 Million Move with Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com]    Read More › [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com]   Bucs Predicted to Fill Void Left by Mike Evans With 1st Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fill-void-mike-evans-kenyon-sadiq/?adt_ei=banfjax@gmail.com]    Read More › [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fill-void-mike-evans-kenyon-sadiq/?adt_ei=banfjax@gmail.com]   George Kittle Weighs In On Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com]    Read More › [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com]\r\n\r\nLike Heavy Sports?\r\n\r\nGo here and check the box\r\n\r\nnext to Heavy Sports\r\n\r\n[https://www.google.com/preferences/source?q=https://heavy.com/]\r\n\r\n319&lctg=&stpe=static\" border=\"0\" style=\"display: block; max-height: 12px !important\" />   319&lctg=&stpe=default\" rel=\"nofollow\" target=\"_blank\"> 319&lctg=&stpe=default&li_coord=desktop&collapse_width=600\" border=\"0\" width=\"600\" style=\"display: block; width: 100% !important; max-width: 600px !important;\" class=\"lihide\" /> [https://sli.heavy.com/click?s=1148114&e=banfjax@gmail.com&p=202619&lctg=&stpe=default\" rel=\"nofollow\" target=\"_blank\"> 319&lctg=&stpe=default&li_coord=mobile&collapse_width=480\" border=\"0\" width=\"480\" style=\"display: block !important; width: 100% !important; max-width: 480px !important;\" /> [https://sli.heavy.com/click?s=1148114&e=banfjax@gmail.com&p=202619&lctg=&stpe=static\" rel=\"nofollow\" target=\"_blank\"> 319&lctg=&stpe=static\" border=\"0\" style=\"display: block; min-height: 1px\" /> [https://sli.heavy.com/click?s=1148115&e=banfjax@gmail.com&p=202619&lctg=&stpe=static\" rel=\"nofollow\" target=\"_blank\"> 319&lctg=&stpe=static\" border=\"0\" style=\"display: block; min-height: 1px\" /> [https://sli.heavy.com/click?s=1148117&e=banfjax@gmail.com&p=2026/t/t-e-wttfkk-tulukrhlw-w/\r\n\r\nYou're receiving this because you signed up for emails from  Heavy [https://heavy.com/?adt_ei=banfjax@gmail.com] or visited  Heavy [https://heavy.com/?adt_ei=banfjax@gmail.com].\r\n\r\nWant to write for Heavy? Here's how:\r\n\r\nBecome a Heavy Sports contributor [https://heavy.com/be-a-heavy-sports-contributor/?adt_ei=banfjax@gmail.com].\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nunsubscribe https://heavycom.cmail20.com/t/t-u-wttfkk-tulukrhlw-yd/",
+        "date": "Thu, 19 Mar 2026 23:04:32 +1100",
+        "detectedAt": "2026-03-22T01:55:06.912Z",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.6000000000000001,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144514919-pvw9",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.6000000000000001,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:15.145Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d050a6c3fc5e17",
+        "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+        "senderEmail": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,205.28 Available balance(as of 03/19/2026 00:52:51 CST ): $8,205.28 Withdrawals PURCHASE AUTHORIZED ON 03/17 NOTARIZE DBA PROOF PROOF.COM NY S586076661839902 CARD 6796 $25.00 CUBESMART967 WEBPAYMENT 260317 ASSOCIATION OF NORTH F $238.84 This information is accurate as of 03/19/2026 00:52:51 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawal. It is adjusted throughout the day as we authorize, or receive notice of, pending transactions. Available balance does not reflect all of your transactions, such as checks you have written or debit card transactions that have been approved but not submitted for payment by the merchant. For more information regarding our funds availability policy and how we determine your available balance, please refer to your Deposit Account Agreement. Wells Fargo Bank, N.A. Member FDIC. Please do not reply to this email directly. To modify or cancel your alerts, sign on and go to Manage Alerts. 29b74c-614-b412-28ea8762-162d89f8_69bb9fd1_90055-6ae43 3540",
+        "date": "Thu, 19 Mar 2026 00:41:01 -0700 (PDT)",
+        "detectedAt": "2026-03-22T01:55:07.425Z",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144515171-lnj7",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "needsHuman": true,
+        "memoryContext": {
+          "priorMemories": [
+            {
+              "memory": {
+                "id": "MEM-1774144514393-9762c7",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144514170-78zj",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.393Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.8967292051722289,
+              "rawSimilarity": 0.5978194849911143
+            },
+            {
+              "memory": {
+                "id": "MEM-1774144513886-70864a",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144513621-qmip",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.886Z",
+                "accessCount": 3,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.896729190555404,
+              "rawSimilarity": 0.5978194849911143
+            }
+          ],
+          "identityInsights": {
+            "emailOrName": "alerts@notify.wellsfargo.com",
+            "knownAliases": [],
+            "preferredName": null,
+            "corrections": [],
+            "insights": [
+              "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+              "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj"
+            ],
+            "totalMemories": 2,
+            "highImpact": [
+              {
+                "id": "MEM-1774144513886-70864a",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144513621-qmip",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.886Z",
+                "accessCount": 3,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144514393-9762c7",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144514170-78zj",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.393Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              }
+            ]
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:15.310Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d038009be3be6b",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "💯 Licht Gets REAL About Evans",
+        "body": "Bucs GM Candidly Addresses Loss of Superstar WR Mike Evans in NFL Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com&lctg=]          READ HIS COMMENTS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/jason-licht-mike-evans-free-agent/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: Bucs Predicted to Fill Void Left by Mike Evans With 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fill-void-mike-evans-kenyon-sadiq/?adt_ei=banfjax@gmail.com&lctg=]      MORE ON THIS STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fill-void-mike-evans-kenyon-sadiq/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make $5.25 Million Move With Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=] Bucs Predicted to Make Surprise Move With Disappointing 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fifth-year-option-calijah-kancey/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make Massive Contract Change With $90 Million Starter [https://heavy.com/sports/nfl/tampa-bay-buccaneers/massive-contract-change-luke-goedeke/?adt_ei=banfjax@gmail.com&lctg=]\r\n\r\nSchedule [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#season_schedule]  |   Stats [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#team_stats]  |   Depth Chart [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#depth_chart]  |   Injuries [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\n318&lctg=&stpe=default \">318&lctg=&stpe=default&li_coord=desktop&collapse_width=600\"> [\"https://sli.heavy.com/click?s=1148109&e=banfjax@gmail.com&p=202618&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">                                        Share   https://heavycom.cmail20.com/t/t-fb-wttdrht-tulukrhlw-x/       Tweet   https://heavycom.cmail20.com/t/t-tw-wttdrht-tulukrhlw-m/       Forward   https://heavycom.forwardtomyfriend.com/t-tulukrhlw-DAF7A12A-wttdrht-l-c\r\n\r\nHeavy.com [https://heavy.com/?adt_ei=banfjax@gmail.com]\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nYou're receiving this email after subscribing to Heavy.com's Tampa Bay Buccaneers newsletters.  Unsubscribe https://heavycom.cmail20.com/t/t-u-wttdrht-tulukrhlw-a/\r\n\r\nUnsubscribe https://heavycom.cmail20.com/t/t-u-wttdrht-tulukrhlw-f/",
+        "date": "Thu, 19 Mar 2026 11:29:26 +1100",
+        "detectedAt": "2026-03-22T01:55:08.375Z",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.7,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144515326-n4a7",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.7,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:15.378Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d025d79e67ec94",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "💰 Bucs Free Up Cap Space",
+        "body": "Buccaneers Make $5.25 Million Move With Cornerback Zyon McCollum [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/zyon-mccollum-contract-restructured/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=]      MORE ON THIS STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Bucs Could Turn to Struggling 1st-Round Talent to Fill Backup QB Role [https://heavy.com/sports/nfl/tampa-bay-buccaneers/bucs-could-turn-to-colts-castoff-to-fill-backup-qb-role/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers’ Split With Mike Evans Took ‘Weird’ Turn: Insider [https://heavy.com/sports/nfl/tampa-bay-buccaneers/split-with-mike-evans-took-weird-turn/?adt_ei=banfjax@gmail.com&lctg=] Bucs Predicted to Make Surprise Move With Disappointing 1st-Round Pick [https://heavy.com/sports/nfl/tampa-bay-buccaneers/fifth-year-option-calijah-kancey/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Make Massive Contract Change With $90 Million Starter [https://heavy.com/sports/nfl/tampa-bay-buccaneers/massive-contract-change-luke-goedeke/?adt_ei=banfjax@gmail.com&lctg=]\r\n\r\nSchedule [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#season_schedule]  |   Stats [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#team_stats]  |   Depth Chart [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#depth_chart]  |   Injuries [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\n318&lctg=&stpe=default \">318&lctg=&stpe=default&li_coord=desktop&collapse_width=600\"> [\"https://sli.heavy.com/click?s=1148109&e=banfjax@gmail.com&p=202618&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">   318&lctg=&stpe=pixel\">                                        Share   https://heavycom.cmail20.com/t/t-fb-wtttujd-tulukrhlw-x/       Tweet   https://heavycom.cmail20.com/t/t-tw-wtttujd-tulukrhlw-m/       Forward   https://heavycom.forwardtomyfriend.com/t-tulukrhlw-DAF7A12A-wtttujd-l-c\r\n\r\nHeavy.com [https://heavy.com/?adt_ei=banfjax@gmail.com]\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nYou're receiving this email after subscribing to Heavy.com's Tampa Bay Buccaneers newsletters.  Unsubscribe https://heavycom.cmail20.com/t/t-u-wtttujd-tulukrhlw-a/\r\n\r\nUnsubscribe https://heavycom.cmail20.com/t/t-u-wtttujd-tulukrhlw-f/",
+        "date": "Thu, 19 Mar 2026 06:12:35 +1100",
+        "detectedAt": "2026-03-22T01:55:09.032Z",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.6000000000000001,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144515394-kdna",
+        "classification": {
+          "category": "profile_update",
+          "categoryType": "safe",
+          "confidence": 0.6000000000000001,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:15.442Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d024fa000dd398",
+        "from": "NABC 2026 Committee <nabcnewyork-gmail.com@shared1.ccsend.com>",
+        "senderEmail": "nabcnewyork-gmail.com@shared1.ccsend.com",
+        "subject": "NABC 2026 - Kumar Sanu tickets, Pancham, IFFA! Check out other Important Updates.",
+        "body": "Email from North American Benga Conference - NABC 2026 New York Join us for the event of the year– Register so you don't miss the ultimate entertainment Galaxy of Stars - The Ultimate Bong Experience Dear Friends, Just a few months left for the biggest celebration of Bengali culture in North America to take place at Westchester County, New York— from the 2nd to the 4th of this July. Enjoy Bengali cuisine, explore a vibrant exhibitors’ showcase, and immerse yourself in days filled with art, culture, and celebration. Cultural Highlights - deatils below You are invited to an unforgettable experience, highlighted by specially curated group productions and a spectacular lineup that includes Dance, Music, Theatre, Film and many more that form the cultural smorgasbord..﻿ Four Engaging North American Programs showcasing exceptional talent and curated performances. Four most powerful theatrical experience from Kolkata you won’t want to miss. Six fabulous NABC special curated progrmas. Pre-NABC Kumar Sanu Night (tickets available now) Sunday Bollywood Dhamaka by Vishal Sheykhar group- songs and dance We look forward to your participation and support. Sponsorship & Donation Opportunities We invite you to be a valued supporter of this grand initiative. Sponsorship/Donation categories include: Benefactor Sponsor - USD1200 Donor Sponsor - USD2500 Premium Donor Sponsor - USD2800 Bronze Sponsor - USD3500 Silver Sponsor - USD5000 Gold Sponsor - USD10000 Platinum Sponsor - USD25000 Diamond Sponsor - USD50000 Do Prepaid hotel rooms remain available exclusively for Benefactors, Donors, Exhibitors and Sponsors. We encourage interested participants to consider registering at one of these levels to secure lodging and ensure full participation in the event.   Your contribution will help us elevate the experience while offering meaningful visibility and recognition. We would be happy to share detailed benefits for each tier. Sponsor/Donor Registration Link: https://nabcapp.com/sponsors_registration Let’s come together to celebrate culture, community, and creativity in the true spirit. Standard Registration Hotel: special NABC discounted rates ended. Due to the high demand for hotel accommodations during the FIFA World Cup, our standard room block has reached capacity. Register & book now: Standard Registration Link: https://nabcapp.com/online_registration Hotel Registration: You may want to register at the hotels directly. All NABC Affiliated Hotels will have shuttle bus to the venue frequently at the peak times. Don’t wait—plan early and be part of NABC 2026, one of the biggest celebrations of business, culture, and community! NABC 2026 Organizing Committee Hosted by CAB In the Spotlight Kumar Sanu Tickets (Available Now) Kumar Sanu concert tickets and standard dinner purchase are available now in our website. Purchase Information: https://nabcapp.com/kumar_sanu_thursday Program Call-outs North American Programs Manavi – is a contemporary Bengali dance-theatre production that explores the intricate colors of a woman's inner world, including her strength, vulnerability, desire, fear, resilience, and quiet joy. It crafts a sophisticated emotional tapestry, encouraging the audience to reflect on the various shades of 'Manavi' . Experience “Dance to Destiny – The Journey of a Dancer”, a powerful dance drama portraying perseverance, passion and purpose. Choreographed and mentored by Dr. Dipanwita Sengupta with the virtual presence and blessings of her revered Guru Shri Kohinoor Sen Barat. Dramas Superhit Vishal & Sheykhar ﻿ Bollywood Sunday Dhamaka Superhit musical duo Vishal and Shekhar will rock the stage on our Sunday finale program. With their superhit songs, full musical band and talented accompanying singers. A show not to be missed! A Glimpse of NABC 2026 Programs Opening Closing Saturday Spectacular Pankh Uttam Kumar Centenary ﻿Pancham Register Now           North American Bengali Conference - NABC 2026 New York | 4 Entrance Way | Purdys, NY 10578 US Unsubscribe | Update Profile | Constant Contact Data Notice",
+        "date": "Wed, 18 Mar 2026 14:57:45 -0400 (EDT)",
+        "detectedAt": "2026-03-22T01:55:09.526Z",
+        "classification": {
+          "category": "cultural_performance",
+          "categoryType": "human_required",
+          "confidence": 0.95,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Performance slots are limited and require EC coordination",
+          "priority": "high"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "skipped": true,
+        "reason": "rl_do_nothing",
+        "rlRecommendation": {
+          "action": "DO_NOTHING",
+          "confidence": 0.8999999999999999,
+          "reasoning": "Learned from 5 observations: marketing|marketing|event_share|nobanf ΓåÆ DO_NOTHING",
+          "features": {
+            "senderType": "marketing",
+            "domainType": "marketing",
+            "contentPattern": "event_share",
+            "hasBANFReference": false,
+            "bodyLength": "long",
+            "senderDomain": "shared1.ccsend.com",
+            "senderEmail": "nabcnewyork-gmail.com@shared1.ccsend.com",
+            "isCRMMember": false
+          },
+          "contextKey": "marketing|marketing|event_share|nobanf",
+          "source": "policy_rule",
+          "ruleId": "RULE-mmiocsj0"
+        }
+      },
+      "processedAt": "2026-03-22T01:55:15.448Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d01f50a3c4e8fd",
+        "from": "website+security@huggingface.co",
+        "senderEmail": "website+security@huggingface.co",
+        "subject": "[HuggingFace] Security alert: token expired",
+        "body": "Dear bbengali association of north florida, One of your tokens (labeled \"banf_llm\" with role \"fineGrained\") has been automatically expired. This valid token was publicly visible at this URL: https://github.com/banfjax-hash/banf/blob/206b35c909833726d4a5342df28d878688cce2c2/BR_TECHNICAL_REFERENCE.md , so for maximum safety we invalidated it. You can refresh your token with a new value at hf.co/settings/tokens . We urge you to never include any tokens in your code to avoid leaking them publicly, for instance when pushing on GitHub. On huggingface.co, you can use Space secrets to inject your HF token into your app. Don't hesitate to reach out for any question you might have. 🤗 The Hugging Face Team Hugging Face: The AI community building the future.",
+        "date": "Wed, 18 Mar 2026 17:18:49 +0000",
+        "detectedAt": "2026-03-22T01:55:10.486Z",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false,
+        "rlOverride": {
+          "action": "NOTIFY_PRESIDENT",
+          "confidence": 0.8999999999999999
+        }
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144515464-xwkl",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": null
+      },
+      "processedAt": "2026-03-22T01:55:15.522Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d01f508ad5948d",
+        "from": "website+security@huggingface.co",
+        "senderEmail": "website+security@huggingface.co",
+        "subject": "[HuggingFace] Security alert: token expired",
+        "body": "Dear bbengali association of north florida, One of your tokens (labeled \"banf_llm\" with role \"fineGrained\") has been automatically expired. This valid token was publicly visible at this URL: https://github.com/banfjax-hash/banf/blob/206b35c909833726d4a5342df28d878688cce2c2/wix-backend-backup/banf-survey.js , so for maximum safety we invalidated it. You can refresh your token with a new value at hf.co/settings/tokens . We urge you to never include any tokens in your code to avoid leaking them publicly, for instance when pushing on GitHub. On huggingface.co, you can use Space secrets to inject your HF token into your app. Don't hesitate to reach out for any question you might have. 🤗 The Hugging Face Team Hugging Face: The AI community building the future.",
+        "date": "Wed, 18 Mar 2026 17:18:48 +0000",
+        "detectedAt": "2026-03-22T01:55:10.965Z",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false,
+        "rlOverride": {
+          "action": "NOTIFY_PRESIDENT",
+          "confidence": 0.8999999999999999
+        }
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144515550-ygyu",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": {
+          "priorMemories": [
+            {
+              "memory": {
+                "id": "MEM-1774144515519-b7d762",
+                "type": "experience",
+                "content": "Processed email from website+security@huggingface.co: subject=\"[HuggingFace] Security alert: token expired\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144515464-xwkl",
+                "tags": [
+                  "event_info",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "website+security@huggingface.co",
+                  "subject": "[HuggingFace] Security alert: token expired",
+                  "category": "event_info",
+                  "confidence": 0.6222222222222222,
+                  "approvalId": "QA-1774144515464-xwkl",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.519Z",
+                "accessCount": 1,
+                "lastAccessed": "2026-03-22T01:55:15.541Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 1.250045076741707,
+              "rawSimilarity": 0.833363385083913
+            }
+          ],
+          "identityInsights": {
+            "emailOrName": "website+security@huggingface.co",
+            "knownAliases": [],
+            "preferredName": null,
+            "corrections": [],
+            "insights": [
+              "Processed email from website+security@huggingface.co: subject=\"[HuggingFace] Security alert: token expired\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144515464-xwkl"
+            ],
+            "totalMemories": 1,
+            "highImpact": [
+              {
+                "id": "MEM-1774144515519-b7d762",
+                "type": "experience",
+                "content": "Processed email from website+security@huggingface.co: subject=\"[HuggingFace] Security alert: token expired\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144515464-xwkl",
+                "tags": [
+                  "event_info",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "website+security@huggingface.co",
+                  "subject": "[HuggingFace] Security alert: token expired",
+                  "category": "event_info",
+                  "confidence": 0.6222222222222222,
+                  "approvalId": "QA-1774144515464-xwkl",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.519Z",
+                "accessCount": 1,
+                "lastAccessed": "2026-03-22T01:55:15.541Z",
+                "confidence": 1,
+                "supersedes": null
+              }
+            ]
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:15.601Z"
+    },
+    {
+      "query": {
+        "gmailId": "19cfffda691d7613",
+        "from": "Wells Fargo <alerts@notify.wellsfargo.com>",
+        "senderEmail": "alerts@notify.wellsfargo.com",
+        "subject": "Account update",
+        "body": "An update on your account activity Here is the update you requested for your Wells Fargo business account XXXXXXXXX0942. Balance summary Ending Balance: $8,469.12 Available balance(as of 03/18/2026 00:53:15 CST ): $8,444.12 Withdrawals PURCHASE AUTHORIZED ON 03/16 EVENTSURED 888-8825902 PA S356075747694976 CARD 6796 $121.92 This information is accurate as of 03/18/2026 00:53:15 CST. For the most current balance and more account details, sign on and select this account. If you have questions, please contact us. wellsfargo.com | Security Center | Contact Us Note about balances: Ending daily balance reflects transactions that have posted to your account and does not reflect pending deposits or withdrawals. The available balance is an indication of funds that are available to you today; however, it may not reflect all transactions that you may have initiated or authorized. Available Balance - our most current record of the amount of money in your account available for your use or withdrawal. It is adjusted throughout the day as we authorize, or receive notice of, pending transactions. Available balance does not reflect all of your transactions, such as checks you have written or debit card transactions that have been approved but not submitted for payment by the merchant. For more information regarding our funds availability policy and how we determine your available balance, please refer to your Deposit Account Agreement. Wells Fargo Bank, N.A. Member FDIC. Please do not reply to this email directly. To modify or cancel your alerts, sign on and go to Manage Alerts. 23e6c1f-614-b411-43b7e139-162d89f8_69ba4ef0_3d5565-7e2b6 3540",
+        "date": "Wed, 18 Mar 2026 01:08:58 -0700 (PDT)",
+        "detectedAt": "2026-03-22T01:55:11.975Z",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774144515617-8yxm",
+        "classification": {
+          "category": "payment_request",
+          "categoryType": "human_required",
+          "confidence": 0.6333333333333333,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Financial matters require human verification",
+          "priority": "high"
+        },
+        "needsHuman": true,
+        "memoryContext": {
+          "priorMemories": [
+            {
+              "memory": {
+                "id": "MEM-1774144515309-fd86d4",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144515171-lnj7",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144515171-lnj7",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.309Z",
+                "accessCount": 1,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.8841327569423987,
+              "rawSimilarity": 0.5894218437413593
+            },
+            {
+              "memory": {
+                "id": "MEM-1774144514393-9762c7",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144514170-78zj",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.393Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.8841327309050525,
+              "rawSimilarity": 0.5894218437413593
+            },
+            {
+              "memory": {
+                "id": "MEM-1774144513886-70864a",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144513621-qmip",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.886Z",
+                "accessCount": 3,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.884132716493552,
+              "rawSimilarity": 0.5894218437413593
+            }
+          ],
+          "identityInsights": {
+            "emailOrName": "alerts@notify.wellsfargo.com",
+            "knownAliases": [],
+            "preferredName": null,
+            "corrections": [],
+            "insights": [
+              "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+              "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj",
+              "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144515171-lnj7"
+            ],
+            "totalMemories": 3,
+            "highImpact": [
+              {
+                "id": "MEM-1774144513886-70864a",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144513621-qmip",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144513621-qmip",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.886Z",
+                "accessCount": 3,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144514393-9762c7",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144514170-78zj",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144514170-78zj",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.393Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144515309-fd86d4",
+                "type": "experience",
+                "content": "Processed email from alerts@notify.wellsfargo.com: subject=\"Account update\", category=payment_request, confidence=0.6333333333333333, needsHuman=true, approvalId=QA-1774144515171-lnj7",
+                "tags": [
+                  "payment_request",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "alerts@notify.wellsfargo.com",
+                  "subject": "Account update",
+                  "category": "payment_request",
+                  "confidence": 0.6333333333333333,
+                  "approvalId": "QA-1774144515171-lnj7",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.309Z",
+                "accessCount": 1,
+                "lastAccessed": "2026-03-22T01:55:15.614Z",
+                "confidence": 1,
+                "supersedes": null
+              }
+            ]
+          }
+        }
+      },
+      "processedAt": "2026-03-22T01:55:15.678Z"
     }
   ],
   "processedDevInstructIds": [
@@ -8769,6 +10311,128 @@
     "19cf6c562ac51de2",
     "19cf76b5d4941912",
     "19cf77a010e64b86",
-    "19cf78136745a28f"
+    "19cf78136745a28f",
+    "19d12eb233015078",
+    "19d12cccc707d3e0",
+    "19d12b874b081ffa",
+    "19d12b2d05993b17",
+    "19d1284d1900bb98",
+    "19d127447a9b1b1d",
+    "19d126f310a234fd",
+    "19d119ea94b064c5",
+    "19d119d4a7cc955b",
+    "19d11430bb25622f",
+    "19d11419a663e730",
+    "19d11378aaab51b7",
+    "19d1136109ea945d",
+    "19d0e7e76f1eb5e9",
+    "19d0e6a955e2ff7d",
+    "19d0e69218c0ec54",
+    "19d0e6072d1b070b",
+    "19d0b55a61f1e0f6",
+    "19d0961b68c2f4c9",
+    "19d096000561a88e",
+    "19d094e319f08136",
+    "19d091cba49ce9fe",
+    "19d090b3adcdde49",
+    "19d08d54247979bb",
+    "19d08d29235c9095",
+    "19d079065d1f6bd0",
+    "19d07830c36d0e7d",
+    "19d0747787c8fb04",
+    "19d073cf5a835557",
+    "19d0710a37015d76",
+    "19d070f20df855dd",
+    "19d07079016d2834",
+    "19d06f4d6e7fdaee",
+    "19d06b193790e697",
+    "19d06a9aa591bf01",
+    "19d03a7e1554b261",
+    "19d03a2c82df0bf8",
+    "19d03a2859b3e04c",
+    "19d03969ccdfa50b",
+    "19d0394079106b49",
+    "19d02ca1a13fa731",
+    "19d02c7e8646f52b",
+    "19d02c544fd4d7d6",
+    "19d02bcf22e38c9b",
+    "19d02b8b89bdf8a0",
+    "19d02408b00e1859",
+    "19d0221eae2b7f9a",
+    "19d020eb5e040c39",
+    "19d020858aa546b2",
+    "19d01fda310ce98a"
+  ],
+  "processedWfLedgerIds": [
+    "19d12fa8e71484c4",
+    "19d0f9685670b6e7",
+    "19d0a263db15122d",
+    "19d050a6c3fc5e17",
+    "19cfffda691d7613",
+    "19cfd09c11873395",
+    "19cfae75c9d888d6",
+    "19cf91cf1f4b2779",
+    "19cf9145347f87b3",
+    "19cf8665c963319d",
+    "19ceb8010fb6ac44",
+    "19ce62f01db79461",
+    "19ce10716484dcf2",
+    "19cdbde013bf849b",
+    "19cd6faf345b98a6",
+    "19cc99da6dc43863",
+    "19cc935d02b0efcd",
+    "19cc90cf5aab74a0",
+    "19cc83945e494534",
+    "19cc7c39d134810c",
+    "19cc6338d721be58",
+    "19cc61d7ca51de50",
+    "19cc5cd92ab2f982",
+    "19cc5855e63894a1",
+    "19cc55c3b68ef5ee",
+    "19cc5147f2db9972",
+    "19cc4d229b365fbc",
+    "19cc45bffafe3362",
+    "19cc266dd231cf54",
+    "19cc0aa45b9feb72",
+    "19cbd52075cb498d",
+    "19cbc4fe3ef5673f",
+    "19cb7fac3249afb9",
+    "19cb328d6aee028b",
+    "19cb04ef473e6ae2",
+    "19caff73c9ec74dd",
+    "19caf1d28f556dd6",
+    "19cac6094eb2b733",
+    "19cac5ad126edf4c",
+    "19cac561ce9421bc",
+    "19cac49af20380f9",
+    "19cab6b6e7c54415",
+    "19cab50ffb60dcec",
+    "19ca39355470cdfc",
+    "19c9e3ceb20b441e",
+    "19c99232d0ba01d9",
+    "19c94065ce8f4fb8",
+    "19c8ed1d69c68957",
+    "19c8ec8aa1bec900",
+    "19c7db82828ff0ba",
+    "19c35e046aab8069",
+    "19c35cdd0acb29cf",
+    "19c35553bd84014f",
+    "19c2e0ed23510576",
+    "19c1a5b2db92f5ac",
+    "19c16a52bad0ea32",
+    "19c154565d3dc330",
+    "19c1484244e91893",
+    "19c0cef32b992946",
+    "19c057937659a61f",
+    "19bae7c333f4e7c0",
+    "19ba8599c6b503d6",
+    "19b8abc9ec9b8c3b",
+    "19b8abbf0e8387dd",
+    "19b865db86f2de0f",
+    "19b865cfbac9bc00",
+    "19b865c4765c6e95",
+    "19b865bc9ee1e18a",
+    "19b8464bfc6b25d8",
+    "19b81b36f4233fd6"
   ]
 }
