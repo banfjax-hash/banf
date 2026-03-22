@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BANF Integrated CRM — Collection Architecture Design</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,sans-serif; background:#0a0a1a; color:#e0e0e0; padding:24px; line-height:1.6; }
+.header { background:linear-gradient(135deg,#0d47a1,#1a1a3e,#4a0e0e); border-radius:16px; padding:36px 40px; margin-bottom:28px; }
+.header h1 { font-size:28px; color:#fff; margin-bottom:8px; }
+.header .sub { color:#aaa; font-size:14px; }
+.section { background:#1a1a2e; border-radius:12px; margin-bottom:20px; border:1px solid #333; overflow:hidden; }
+.section-hdr { background:#222244; padding:16px 24px; font-size:17px; font-weight:600; border-bottom:1px solid #333; display:flex; align-items:center; gap:8px; }
+.section-body { padding:24px; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin-top:16px; }
+.card { background:#16163a; border-radius:10px; padding:20px; border:1px solid #333; }
+.card h3 { font-size:15px; color:#82b1ff; margin-bottom:8px; }
+.card .fields { font-size:12px; color:#999; margin-top:8px; }
+.card .fields code { color:#a5d6a7; font-size:11px; }
+.card .link-badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:600; margin:2px; }
+.link-badge.fk { background:#1b5e20; color:#a5d6a7; }
+.link-badge.ref { background:#1a237e; color:#82b1ff; }
+.link-badge.agg { background:#4a3000; color:#ffb74d; }
+table { width:100%; border-collapse:collapse; font-size:13px; margin-top:12px; }
+th { background:#16163a; padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; color:#888; }
+td { padding:10px 14px; border-bottom:1px solid #222; }
+tr:hover { background:#222240; }
+.mermaid-container { background:#16163a; border-radius:10px; padding:24px; margin:16px 0; overflow-x:auto; }
+.flow-diagram { font-family:monospace; font-size:12px; color:#82b1ff; white-space:pre; line-height:1.4; }
+.tag { display:inline-block; padding:3px 8px; border-radius:4px; font-size:11px; font-weight:600; margin:2px; }
+.tag.core { background:#1b5e20; color:#a5d6a7; }
+.tag.event { background:#4a0e4a; color:#ce93d8; }
+.tag.finance { background:#4a3000; color:#ffb74d; }
+.tag.comms { background:#1a237e; color:#82b1ff; }
+.tag.admin { background:#333; color:#ccc; }
+.impl-phase { display:flex; align-items:flex-start; gap:16px; margin:12px 0; padding:16px; background:#16163a; border-radius:10px; border-left:4px solid #42a5f5; }
+.impl-phase.p1 { border-left-color:#00e676; }
+.impl-phase.p2 { border-left-color:#ff9800; }
+.impl-phase.p3 { border-left-color:#ff5252; }
+.phase-num { font-size:28px; font-weight:700; min-width:40px; }
+.phase-num.p1 { color:#00e676; } .phase-num.p2 { color:#ff9800; } .phase-num.p3 { color:#ff5252; }
+code { background:#2a2a3e; padding:1px 5px; border-radius:3px; font-size:12px; }
+.footer { text-align:center; padding:20px; color:#555; font-size:12px; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏗️ BANF Integrated CRM — Collection Architecture Design</h1>
+    <div class="sub">Unified Information System for Complete Process Automation & Business Insights</div>
+    <div class="sub" style="margin-top:6px;color:#82b1ff">Version 1.0 | March 2026 | Bengali Association of North Florida</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: VISION -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">🎯 Vision & Objectives</div>
+    <div class="section-body">
+        <p>Build a <strong>fully integrated CRM</strong> where every collection is linked — enabling end-to-end automation from event planning → invitations → RSVPs → attendance → expenses → reimbursement → budget tracking, with cross-entity insights and reporting.</p>
+        <table>
+            <tr><th>Objective</th><th>Description</th><th>Key Collections</th></tr>
+            <tr><td>📊 360° Member View</td><td>See all events attended, RSVPs, payments, family group, roles, communication history for any member</td><td>CRMMembers → FamilyGroups → EventAttendance → EviteRSVPs → Payments</td></tr>
+            <tr><td>📅 Event Lifecycle</td><td>Track entire event from creation → budgeting → invitation → RSVP → cultural programs → attendance → expenses → reporting</td><td>EviteEvents → EventBudget → EviteInvitations → EviteRSVPs → EventAttendance → EventExpenses</td></tr>
+            <tr><td>💰 Financial Pipeline</td><td>Link every dollar to an event, approval, receipt, and reimbursement — automated reconciliation</td><td>EventBudget → EventExpenses → ReimbursementTickets → Payments → FinancialLedger</td></tr>
+            <tr><td>📧 Communication Health</td><td>Track email deliverability, auto-reply detection, member preferences, notification exclusions</td><td>CRMMembers → CorporateRecipients → SentEmails → InboxMessages</td></tr>
+            <tr><td>🤖 Process Automation</td><td>Automated workflows: event created → budget allocated → invites sent → RSVPs tracked → attendance → expenses → report</td><td>All collections linked via eventId + memberId</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: ENTITY RELATIONSHIP DIAGRAM -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">🗂️ Entity Relationship Map</div>
+    <div class="section-body">
+        <div class="mermaid-container">
+            <div class="flow-diagram">
+                                      ┌─────────────────┐
+                                      │   CRMMembers    │ ◄─── <span class="tag core">CORE</span>
+                                      │  (memberId, PK) │
+                                      │  familyId → FK  │
+                                      └────────┬────────┘
+                         ┌──────────────────────┼──────────────────────┐
+                         │                      │                      │
+                         ▼                      ▼                      ▼
+               ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+               │  FamilyGroups   │    │   AdminRoles    │    │ CorporateRecip. │
+               │  (familyId, PK) │    │  (memberId, FK) │    │  (email, PK)    │
+               └─────────────────┘    └─────────────────┘    └─────────────────┘
+
+                         ┌─────────────────────────────────────────────┐
+                         │              EviteEvents                    │ ◄─── <span class="tag event">EVENT HUB</span>
+                         │  (eventId, PK)                              │
+                         │  eventName, eventDate, venue, eventTime     │
+                         │  budget, highlights, culturalDetails        │
+                         └────────────────────┬────────────────────────┘
+              ┌──────────────┬────────────────┼────────────────┬──────────────┐
+              ▼              ▼                ▼                ▼              ▼
+    ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+    │EviteInvite.  │ │  EviteRSVPs  │ │EventAttend.  │ │ EventBudget  │ │EventCultural │
+    │(eventId, FK) │ │(eventId, FK) │ │(eventId, FK) │ │(eventId, FK) │ │(eventId, FK) │
+    │(email, FK)   │ │(memberId,FK) │ │(memberId,FK) │ │              │ │              │
+    └──────────────┘ └──────────────┘ └──────────────┘ └──────┬───────┘ └──────────────┘
+                                                              │
+                                                              ▼
+                                          ┌────────────────────────────────┐
+                                          │      EventExpenses             │
+                                          │  (eventId, FK)                 │
+                                          │  (budgetCategoryId, FK)        │
+                                          │  (submittedBy → memberId, FK)  │
+                                          └───────────────┬────────────────┘
+                                                          │
+                                                          ▼
+                                          ┌────────────────────────────────┐
+                                          │    ReimbursementTickets        │
+                                          │  (expenseId, FK)               │
+                                          │  (eventId, FK)                 │
+                                          │  (requestedBy → memberId, FK)  │
+                                          │  (approvedBy → memberId, FK)   │
+                                          └───────────────┬────────────────┘
+                                                          │
+                                                          ▼
+                                          ┌────────────────────────────────┐
+                                          │      FinancialLedger           │
+                                          │  (eventId, FK)                 │
+                                          │  (reimbursementId, FK)         │
+                                          │  (memberId, FK)                │
+                                          └────────────────────────────────┘
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: COLLECTION DETAILS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">📦 Collection Definitions & Links</div>
+    <div class="section-body">
+        <div class="card-grid">
+            <!-- CORE: CRMMembers -->
+            <div class="card">
+                <h3>👤 CRMMembers <span class="tag core">CORE</span></h3>
+                <p>Master member record — every person in the system</p>
+                <div class="fields">
+                    <strong>Key Fields:</strong><br>
+                    <code>memberId</code> (PK), <code>familyId</code> → FamilyGroups,
+                    <code>email</code>, <code>firstName</code>, <code>lastName</code>,
+                    <code>displayName</code>, <code>phone</code>, <code>isActive</code>,
+                    <code>emailDeliverable</code>, <code>isCorporateEmail</code>,
+                    <code>membershipType</code>, <code>memberSince</code>,
+                    <code>isECMember</code>, <code>isBOTMember</code>,
+                    <code>emailOptIn</code>, <code>smsOptIn</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ FamilyGroups</span>
+                    <span class="link-badge ref">← EviteRSVPs</span>
+                    <span class="link-badge ref">← EventAttendance</span>
+                    <span class="link-badge ref">← ReimbursementTickets</span>
+                    <span class="link-badge ref">← AdminRoles</span>
+                    <span class="link-badge ref">← Payments</span>
+                </div>
+            </div>
+
+            <!-- CORE: FamilyGroups -->
+            <div class="card">
+                <h3>👨‍👩‍👧‍👦 FamilyGroups <span class="tag core">CORE</span></h3>
+                <p>Family unit — links adults + minors</p>
+                <div class="fields">
+                    <code>familyId</code> (PK), <code>displayName</code>,
+                    <code>familyType</code> (family/couple/individual),
+                    <code>primaryAdultId</code> → CRMMembers,
+                    <code>secondaryAdultId</code> → CRMMembers,
+                    <code>membershipType</code>, <code>isActive</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge ref">← CRMMembers (1:N)</span>
+                    <span class="link-badge ref">← FamilyHistory</span>
+                </div>
+            </div>
+
+            <!-- EVENT: EviteEvents -->
+            <div class="card">
+                <h3>📅 EviteEvents <span class="tag event">EVENT HUB</span></h3>
+                <p>Central event record — hub for all event-related data</p>
+                <div class="fields">
+                    <code>eventId</code> (PK), <code>eventName</code>,
+                    <code>eventDate</code>, <code>eventTime</code>,
+                    <code>venue</code>, <code>venueAddress</code>,
+                    <code>highlights</code>, <code>culturalDetails</code>,
+                    <code>estimatedBudget</code>, <code>status</code>,
+                    <code>maxCapacity</code>, <code>ticketPrice</code>,
+                    <code>createdBy</code> → CRMMembers
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge ref">← EviteInvitations</span>
+                    <span class="link-badge ref">← EviteRSVPs</span>
+                    <span class="link-badge ref">← EventAttendance</span>
+                    <span class="link-badge ref">← EventBudget</span>
+                    <span class="link-badge ref">← EventCultural</span>
+                    <span class="link-badge ref">← EventExpenses</span>
+                </div>
+            </div>
+
+            <!-- EVENT: EviteInvitations -->
+            <div class="card">
+                <h3>📨 EviteInvitations <span class="tag event">EVENT</span></h3>
+                <p>Per-recipient invitation tracking</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>recipientEmail</code>, <code>recipientName</code>,
+                    <code>token</code>, <code>sentAt</code>, <code>status</code>,
+                    <code>deliveryStatus</code>, <code>openedAt</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge agg">→ CRMMembers (via email)</span>
+                </div>
+            </div>
+
+            <!-- EVENT: EviteRSVPs -->
+            <div class="card">
+                <h3>✅ EviteRSVPs <span class="tag event">EVENT</span></h3>
+                <p>RSVP responses — attending/declined/maybe</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>memberId</code> → CRMMembers, <code>email</code>,
+                    <code>rsvpStatus</code> (attending/declined/maybe),
+                    <code>adultCount</code>, <code>childCount</code>,
+                    <code>guestNames</code>, <code>dietaryNotes</code>,
+                    <code>respondedAt</code>, <code>source</code> (form/email/manual)
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge fk">→ CRMMembers</span>
+                </div>
+            </div>
+
+            <!-- EVENT: EventAttendance -->
+            <div class="card">
+                <h3>📋 EventAttendance <span class="tag event">EVENT</span></h3>
+                <p>Actual attendance at events (check-in)</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>memberId</code> → CRMMembers,
+                    <code>checkedInAt</code>, <code>checkedInBy</code>,
+                    <code>adultCount</code>, <code>childCount</code>,
+                    <code>checkinMethod</code> (manual/qr/auto)
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge fk">→ CRMMembers</span>
+                    <span class="link-badge agg">← EviteRSVPs (compare)</span>
+                </div>
+            </div>
+
+            <!-- EVENT: EventBudget -->
+            <div class="card">
+                <h3>💰 EventBudget <span class="tag finance">FINANCE</span></h3>
+                <p>Budget categories & allocations per event</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>categoryName</code> (venue/food/cultural/decor/misc),
+                    <code>allocatedAmount</code>, <code>spentAmount</code>,
+                    <code>approvedBy</code> → CRMMembers,
+                    <code>notes</code>, <code>status</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge ref">← EventExpenses</span>
+                </div>
+            </div>
+
+            <!-- EVENT: EventCultural -->
+            <div class="card">
+                <h3>🎭 EventCultural <span class="tag event">EVENT</span></h3>
+                <p>Cultural program details — performances, schedule</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>programName</code>, <code>performerNames</code>,
+                    <code>programType</code> (dance/song/drama/other),
+                    <code>startTime</code>, <code>duration</code>,
+                    <code>coordinatorId</code> → CRMMembers,
+                    <code>notes</code>, <code>order</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge fk">→ CRMMembers (coordinator)</span>
+                </div>
+            </div>
+
+            <!-- FINANCE: EventExpenses -->
+            <div class="card">
+                <h3>🧾 EventExpenses <span class="tag finance">FINANCE</span></h3>
+                <p>Individual expense items for an event</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>budgetCategoryId</code> → EventBudget,
+                    <code>description</code>, <code>amount</code>,
+                    <code>vendor</code>, <code>receiptUrl</code>,
+                    <code>submittedBy</code> → CRMMembers,
+                    <code>submittedAt</code>, <code>status</code>,
+                    <code>approvedBy</code> → CRMMembers
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge fk">→ EventBudget</span>
+                    <span class="link-badge ref">← ReimbursementTickets</span>
+                </div>
+            </div>
+
+            <!-- FINANCE: ReimbursementTickets -->
+            <div class="card">
+                <h3>💳 ReimbursementTickets <span class="tag finance">FINANCE</span></h3>
+                <p>Reimbursement requests — linked to expense + event</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>expenseId</code> → EventExpenses,
+                    <code>requestedBy</code> → CRMMembers,
+                    <code>approvedBy</code> → CRMMembers,
+                    <code>amount</code>, <code>status</code> (pending/approved/paid/denied),
+                    <code>paymentMethod</code>, <code>paidAt</code>,
+                    <code>receiptUrl</code>, <code>notes</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge fk">→ EventExpenses</span>
+                    <span class="link-badge fk">→ CRMMembers (requester)</span>
+                    <span class="link-badge fk">→ CRMMembers (approver)</span>
+                    <span class="link-badge ref">← FinancialLedger</span>
+                </div>
+            </div>
+
+            <!-- FINANCE: FinancialLedger -->
+            <div class="card">
+                <h3>📒 FinancialLedger <span class="tag finance">FINANCE</span></h3>
+                <p>Master ledger — every financial transaction</p>
+                <div class="fields">
+                    <code>_id</code> (PK), <code>eventId</code> → EviteEvents,
+                    <code>reimbursementId</code> → ReimbursementTickets,
+                    <code>memberId</code> → CRMMembers,
+                    <code>type</code> (income/expense/reimbursement),
+                    <code>amount</code>, <code>description</code>,
+                    <code>paymentMethod</code>, <code>category</code>,
+                    <code>transactionDate</code>, <code>reference</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge fk">→ EviteEvents</span>
+                    <span class="link-badge fk">→ ReimbursementTickets</span>
+                    <span class="link-badge fk">→ CRMMembers</span>
+                </div>
+            </div>
+
+            <!-- COMMS: CorporateRecipients -->
+            <div class="card">
+                <h3>🏢 CorporateRecipients <span class="tag comms">COMMS</span></h3>
+                <p>Business/corporate email addresses excluded from notifications</p>
+                <div class="fields">
+                    <code>email</code> (PK), <code>name</code>,
+                    <code>domain</code>, <code>reason</code>,
+                    <code>autoReplyPreview</code>,
+                    <code>excludeFromEvents</code>, <code>excludeFromNewsletter</code>,
+                    <code>detectedAt</code>, <code>source</code>
+                </div>
+                <div style="margin-top:8px">
+                    <span class="link-badge agg">→ CRMMembers (via email)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: CROSS-ENTITY QUERIES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">🔍 Cross-Entity Query Examples (Business Insights)</div>
+    <div class="section-body">
+        <table>
+            <tr><th>Query</th><th>Collections Joined</th><th>Insight</th></tr>
+            <tr>
+                <td><strong>Event ROI Report</strong></td>
+                <td>EviteEvents → EventBudget → EventExpenses → EventAttendance → Payments</td>
+                <td>Budget vs actual spend, cost per attendee, revenue from ticket sales, surplus/deficit</td>
+            </tr>
+            <tr>
+                <td><strong>Member Engagement Score</strong></td>
+                <td>CRMMembers → EviteRSVPs → EventAttendance → Payments → FamilyGroups</td>
+                <td>RSVP rate, attendance rate, donation history, family participation — engagement score per member</td>
+            </tr>
+            <tr>
+                <td><strong>RSVP vs Attendance Variance</strong></td>
+                <td>EviteRSVPs → EventAttendance (by eventId + memberId)</td>
+                <td>Who RSVPed but didn't attend? Who attended without RSVP? Helps with planning</td>
+            </tr>
+            <tr>
+                <td><strong>Reimbursement Pipeline</strong></td>
+                <td>ReimbursementTickets → EventExpenses → EventBudget → EviteEvents</td>
+                <td>Pending reimbursements by event, budget category, requester — automate approval workflow</td>
+            </tr>
+            <tr>
+                <td><strong>Email Health Dashboard</strong></td>
+                <td>CRMMembers → EviteInvitations → CorporateRecipients</td>
+                <td>Deliverability rate, bounce rate, corporate exclusions — clean up CRM for effective outreach</td>
+            </tr>
+            <tr>
+                <td><strong>Family Event History</strong></td>
+                <td>FamilyGroups → CRMMembers → EventAttendance → EviteEvents</td>
+                <td>Which events did this family attend? How many members per event? Family participation trends</td>
+            </tr>
+            <tr>
+                <td><strong>Cultural Program Analytics</strong></td>
+                <td>EventCultural → EviteEvents → EventAttendance</td>
+                <td>Which cultural programs had highest attendance? Most popular program types?</td>
+            </tr>
+            <tr>
+                <td><strong>Annual Financial Summary</strong></td>
+                <td>FinancialLedger (group by year/event) → EviteEvents</td>
+                <td>Total income, expenses, reimbursements per year; event-level P&L statements</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: LINK DEFINITIONS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">🔗 Foreign Key / Link Definitions</div>
+    <div class="section-body">
+        <table>
+            <tr><th>From Collection</th><th>Field</th><th>To Collection</th><th>Type</th><th>Notes</th></tr>
+            <tr><td>CRMMembers</td><td><code>familyId</code></td><td>FamilyGroups</td><td>FK (N:1)</td><td>Many members → one family</td></tr>
+            <tr><td>AdminRoles</td><td><code>memberId</code></td><td>CRMMembers</td><td>FK (1:1)</td><td>Admin maps to CRM member</td></tr>
+            <tr><td>EviteInvitations</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Many invitations → one event</td></tr>
+            <tr><td>EviteRSVPs</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Many RSVPs → one event</td></tr>
+            <tr><td>EviteRSVPs</td><td><code>memberId</code></td><td>CRMMembers</td><td>FK (N:1)</td><td>Many RSVPs by one member across events</td></tr>
+            <tr><td>EventAttendance</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Attendance records per event</td></tr>
+            <tr><td>EventAttendance</td><td><code>memberId</code></td><td>CRMMembers</td><td>FK (N:1)</td><td>Attendance records per member</td></tr>
+            <tr><td>EventBudget</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Budget categories per event</td></tr>
+            <tr><td>EventExpenses</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Expense items per event</td></tr>
+            <tr><td>EventExpenses</td><td><code>budgetCategoryId</code></td><td>EventBudget</td><td>FK (N:1)</td><td>Expense → budget line item</td></tr>
+            <tr><td>EventExpenses</td><td><code>submittedBy</code></td><td>CRMMembers</td><td>FK (N:1)</td><td>Who submitted this expense</td></tr>
+            <tr><td>EventCultural</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Cultural programs per event</td></tr>
+            <tr><td>ReimbursementTickets</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Reimbursement linked to event</td></tr>
+            <tr><td>ReimbursementTickets</td><td><code>expenseId</code></td><td>EventExpenses</td><td>FK (1:1)</td><td>Reimbursement for specific expense</td></tr>
+            <tr><td>ReimbursementTickets</td><td><code>requestedBy</code></td><td>CRMMembers</td><td>FK (N:1)</td><td>Who requested reimbursement</td></tr>
+            <tr><td>FinancialLedger</td><td><code>eventId</code></td><td>EviteEvents</td><td>FK (N:1)</td><td>Ledger entry linked to event</td></tr>
+            <tr><td>FinancialLedger</td><td><code>reimbursementId</code></td><td>ReimbursementTickets</td><td>FK (1:1)</td><td>Ledger entry for reimbursement</td></tr>
+            <tr><td>FinancialLedger</td><td><code>memberId</code></td><td>CRMMembers</td><td>FK (N:1)</td><td>Who is the payer/payee</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: AUTOMATED WORKFLOWS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">⚡ Automated Workflow Pipelines</div>
+    <div class="section-body">
+        <div class="mermaid-container">
+            <div class="flow-diagram" style="text-align:center">
+<strong>Event Lifecycle Automation</strong>
+
+  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+  │ 1. Event │───>│ 2.Budget │───>│3.Invites │───>│ 4. RSVP  │───>│5.Attend. │───>│6.Finance │
+  │ Created  │    │ Allocated│    │   Sent   │    │ Tracked  │    │ Checked  │    │ Settled  │
+  └──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────────┘
+       │               │               │               │               │               │
+       ▼               ▼               ▼               ▼               ▼               ▼
+  EviteEvents    EventBudget    EviteInvite.    EviteRSVPs     EventAttend.   FinancialLedger
+                                    │               │                           │
+                               ┌────┘          ┌────┘                      ┌───┘
+                               ▼               ▼                           ▼
+                         CRM bounce      RSVP vs invite          EventExpenses →
+                          cleanup         reconcile            ReimbursementTickets
+
+
+<strong>Email Health Automation</strong>
+
+  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+  │1.Send    │───>│2.Scan    │───>│3.Classify│───>│4.Action  │
+  │ Email    │    │ Gmail    │    │ Response │    │ CRM      │
+  └──────────┘    └──────────┘    └──────────┘    └──────────┘
+                       │               │               │
+                       ▼               ▼               ▼
+                  InboxMessages   Bounce? ──> Deactivate CRM
+                                  AutoReply? ──> CorporateRecipients
+                                  RSVP? ──> EviteRSVPs (LLM parse)
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 7: IMPLEMENTATION PHASES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">🚀 Implementation Phases</div>
+    <div class="section-body">
+        <div class="impl-phase p1">
+            <div class="phase-num p1">P1</div>
+            <div>
+                <strong>Email Health & CRM Cleanup</strong> (Current Sprint)<br>
+                <span style="color:#888">Create new Wix collections: <code>CorporateRecipients</code></span><br>
+                <span style="color:#888">Deploy endpoints: <code>crm_email_cleanup</code>, <code>crm_corporate_filter</code>, <code>crm_email_health</code></span><br>
+                <span style="color:#888">Run CRM cleanup agent on existing bounce/auto-reply backlog</span><br>
+                <span style="color:#888">Add email health checks before each batch send</span>
+            </div>
+        </div>
+        <div class="impl-phase p1">
+            <div class="phase-num p1">P1</div>
+            <div>
+                <strong>Event ↔ RSVP ↔ Attendance Links</strong> (Current Sprint)<br>
+                <span style="color:#888">Ensure <code>eventId</code> + <code>memberId</code> are consistently populated across EviteInvitations, EviteRSVPs, EventAttendance</span><br>
+                <span style="color:#888">Build RSVP vs Attendance reconciliation endpoint</span><br>
+                <span style="color:#888">Add links from RSVP dashboard to member profiles</span>
+            </div>
+        </div>
+        <div class="impl-phase p2">
+            <div class="phase-num p2">P2</div>
+            <div>
+                <strong>Budget & Expense Management</strong> (Next Sprint)<br>
+                <span style="color:#888">Create new collections: <code>EventBudget</code>, <code>EventExpenses</code>, <code>EventCultural</code></span><br>
+                <span style="color:#888">Build budget allocation portal (per event, per category)</span><br>
+                <span style="color:#888">Link expenses → budget categories → reimbursement tickets</span><br>
+                <span style="color:#888">Receipt upload + OCR (Vision API) for expense verification</span>
+            </div>
+        </div>
+        <div class="impl-phase p2">
+            <div class="phase-num p2">P2</div>
+            <div>
+                <strong>Reimbursement Pipeline Integration</strong> (Next Sprint)<br>
+                <span style="color:#888">Link <code>ReimbursementTickets.eventId</code> → <code>EviteEvents</code></span><br>
+                <span style="color:#888">Link <code>ReimbursementTickets.expenseId</code> → <code>EventExpenses</code></span><br>
+                <span style="color:#888">Automate approval workflow: submit → EC review → treasurer approve → mark paid</span><br>
+                <span style="color:#888">Auto-generate ledger entries when reimbursement is paid</span>
+            </div>
+        </div>
+        <div class="impl-phase p3">
+            <div class="phase-num p3">P3</div>
+            <div>
+                <strong>Analytics & Business Intelligence Dashboard</strong> (Future)<br>
+                <span style="color:#888">Unified admin dashboard with cross-entity analytics</span><br>
+                <span style="color:#888">Event ROI reports, member engagement scores, financial summaries</span><br>
+                <span style="color:#888">Predictive analytics: expected attendance from RSVP patterns</span><br>
+                <span style="color:#888">Annual report generator with charts and KPIs</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 8: SAFETY CONSTRAINTS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+    <div class="section-hdr">🛡️ Safety & Non-Interruption Guarantees</div>
+    <div class="section-body">
+        <table>
+            <tr><th>Concern</th><th>Guarantee</th></tr>
+            <tr>
+                <td><strong>RSVP form must stay live</strong></td>
+                <td>All CRM cleanup endpoints are <em>separate functions</em> from RSVP endpoints. They use different Wix Data queries and never modify <code>EviteRSVPs</code>, <code>EviteEvents</code>, or <code>EviteInvitations</code> status fields. The RSVP submit flow (<code>post_evite_rsvp_submit</code>) is completely independent.</td>
+            </tr>
+            <tr>
+                <td><strong>Cleanup must not break invitations</strong></td>
+                <td>The <code>crm_email_cleanup</code> endpoint only modifies <code>CRMMembers</code> records (sets <code>isActive=false</code>). It does NOT delete records — only deactivates. The <code>EviteInvitations</code> records remain intact so historical data is preserved.</td>
+            </tr>
+            <tr>
+                <td><strong>Corporate filter must not remove members</strong></td>
+                <td>The <code>crm_corporate_filter</code> endpoint creates NEW records in <code>CorporateRecipients</code> and only adds flags to existing <code>CRMMembers</code> records (<code>isCorporateEmail=true</code>). No deletions.</td>
+            </tr>
+            <tr>
+                <td><strong>Existing collection schemas unchanged</strong></td>
+                <td>Only NEW fields are added to existing collections (e.g., <code>emailDeliverable</code>, <code>isCorporateEmail</code>). Existing fields and data are never modified by the cleanup process. Wix schemaless design makes adding fields safe.</td>
+            </tr>
+            <tr>
+                <td><strong>Rollback capability</strong></td>
+                <td>All deactivations include timestamps and reasons in the <code>notes</code> field. A <code>reactivateEmail</code> utility can restore any deactivated member. Local agent state file tracks every action for audit.</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="footer">
+    BANF Integrated CRM Collection Architecture v1.0 | Generated March 2026<br>
+    Phase 1: Email Health + CRM Cleanup (in progress) | Phase 2: Budget + Reimbursement | Phase 3: Analytics
+</div>
+
+</body>
+</html>

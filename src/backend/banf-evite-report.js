@@ -2427,6 +2427,276 @@ export async function get_evite_recipients(request) {
 export function options_evite_recipients(request) { return handleCors(); }
 
 // ─────────────────────────────────────────────────────────────
+// 16. CRM EMAIL CLEANUP
+// POST /crm_email_cleanup
+// Body: { bounces: [{ email, reasonCode, isTemporary, details? }], dryRun? }
+// Processes bounce data: deactivates members with permanent failures,
+// keeps temporary failures, returns action report.
+// ─────────────────────────────────────────────────────────────
+
+export async function post_crm_email_cleanup(request) {
+    try {
+        const body = await parseBody(request);
+        const bounces = body.bounces || [];
+        const dryRun = body.dryRun === true;
+        if (!Array.isArray(bounces) || bounces.length === 0) return jsonErr('bounces array required');
+
+        const results = { processed: 0, deactivated: [], kept: [], notFound: [], errors: [], dryRun };
+
+        for (const b of bounces) {
+            if (!b.email) continue;
+            const emailLower = b.email.toLowerCase().trim();
+            results.processed++;
+
+            try {
+                // Look up in Wix native contacts
+                let found = false;
+                let memberRecord = null;
+
+                // Search CRMMembers
+                const crmResult = await wixData.query('CRMMembers')
+                    .eq('email', emailLower)
+                    .find(SA)
+                    .catch(() => ({ items: [] }));
+
+                if (crmResult.items.length > 0) {
+                    memberRecord = crmResult.items[0];
+                    found = true;
+                }
+
+                if (!found) {
+                    // Try case-insensitive search
+                    const allMembers = await wixData.query('CRMMembers')
+                        .contains('email', emailLower)
+                        .limit(5)
+                        .find(SA)
+                        .catch(() => ({ items: [] }));
+                    const match = allMembers.items.find(m => m.email && m.email.toLowerCase() === emailLower);
+                    if (match) { memberRecord = match; found = true; }
+                }
+
+                if (!found) {
+                    results.notFound.push({ email: emailLower, reason: b.reasonCode });
+                    continue;
+                }
+
+                // Decision based on bounce type
+                const isPermanent = !b.isTemporary && (
+                    b.reasonCode === 'address_not_found' ||
+                    b.reasonCode === 'rejected' ||
+                    b.reasonCode === 'invalid_recipient'
+                );
+
+                if (isPermanent) {
+                    // Deactivate member — set isActive=false, add deactivation note
+                    if (!dryRun) {
+                        await wixData.update('CRMMembers', {
+                            ...memberRecord,
+                            isActive: false,
+                            emailDeliverable: false,
+                            deactivatedAt: new Date().toISOString(),
+                            deactivationReason: `Email bounce: ${b.reasonCode} — ${b.details || 'address does not exist'}`,
+                            notes: (memberRecord.notes || '') + `\n[${new Date().toISOString()}] Deactivated: email bounce (${b.reasonCode})`
+                        }, SA);
+                    }
+                    results.deactivated.push({
+                        email: emailLower,
+                        name: memberRecord.displayName || memberRecord.firstName,
+                        reason: b.reasonCode,
+                        memberId: memberRecord.memberId || memberRecord._id
+                    });
+                } else {
+                    // Temporary — keep active but flag
+                    if (!dryRun) {
+                        await wixData.update('CRMMembers', {
+                            ...memberRecord,
+                            emailDeliverable: false,
+                            lastBounceReason: b.reasonCode,
+                            lastBounceDate: new Date().toISOString(),
+                            notes: (memberRecord.notes || '') + `\n[${new Date().toISOString()}] Temp bounce: ${b.reasonCode}`
+                        }, SA);
+                    }
+                    results.kept.push({
+                        email: emailLower,
+                        name: memberRecord.displayName || memberRecord.firstName,
+                        reason: b.reasonCode,
+                        temporary: true
+                    });
+                }
+            } catch (e) {
+                results.errors.push({ email: emailLower, error: e.message });
+            }
+        }
+
+        return jsonOk(results);
+    } catch (e) {
+        return jsonErr('crm_email_cleanup failed: ' + e.message, 500);
+    }
+}
+export function options_crm_email_cleanup(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
+// 17. CRM CORPORATE / AUTO-REPLY FILTER
+// POST /crm_corporate_filter
+// Body: { emails: [{ email, name?, reason?, autoReplyContent? }] }
+// Moves identified corporate/auto-reply emails to CorporateRecipients
+// collection and marks them in CRM as corporate=true.
+// ─────────────────────────────────────────────────────────────
+
+export async function post_crm_corporate_filter(request) {
+    try {
+        const body = await parseBody(request);
+        const emails = body.emails || [];
+        const dryRun = body.dryRun === true;
+        if (!Array.isArray(emails) || emails.length === 0) return jsonErr('emails array required');
+
+        const results = { processed: 0, moved: [], alreadyMoved: [], errors: [], dryRun };
+
+        for (const entry of emails) {
+            if (!entry.email) continue;
+            const emailLower = entry.email.toLowerCase().trim();
+            results.processed++;
+
+            try {
+                // Check if already in CorporateRecipients
+                const existing = await wixData.query('CorporateRecipients')
+                    .eq('email', emailLower)
+                    .find(SA)
+                    .catch(() => ({ items: [] }));
+
+                if (existing.items.length > 0) {
+                    results.alreadyMoved.push({ email: emailLower, name: entry.name });
+                    continue;
+                }
+
+                if (!dryRun) {
+                    // Insert into CorporateRecipients collection
+                    await wixData.insert('CorporateRecipients', {
+                        email: emailLower,
+                        name: entry.name || emailLower.split('@')[0],
+                        domain: emailLower.split('@')[1] || '',
+                        reason: entry.reason || 'auto_reply_detected',
+                        autoReplyPreview: (entry.autoReplyContent || '').substring(0, 500),
+                        detectedAt: new Date().toISOString(),
+                        excludeFromEvents: true,
+                        excludeFromNewsletter: true,
+                        source: 'crm_corporate_filter'
+                    }, SA);
+
+                    // Update CRMMembers if exists — mark as corporate
+                    const crmResult = await wixData.query('CRMMembers')
+                        .eq('email', emailLower)
+                        .find(SA)
+                        .catch(() => ({ items: [] }));
+
+                    if (crmResult.items.length > 0) {
+                        const member = crmResult.items[0];
+                        await wixData.update('CRMMembers', {
+                            ...member,
+                            isCorporateEmail: true,
+                            excludeFromEventNotifications: true,
+                            notes: (member.notes || '') + `\n[${new Date().toISOString()}] Corporate/auto-reply email detected: ${entry.reason || 'auto_reply'}`
+                        }, SA);
+                    }
+                }
+
+                results.moved.push({
+                    email: emailLower,
+                    name: entry.name || emailLower.split('@')[0],
+                    reason: entry.reason || 'auto_reply_detected'
+                });
+            } catch (e) {
+                results.errors.push({ email: emailLower, error: e.message });
+            }
+        }
+
+        return jsonOk(results);
+    } catch (e) {
+        return jsonErr('crm_corporate_filter failed: ' + e.message, 500);
+    }
+}
+export function options_crm_corporate_filter(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
+// 18. CRM EMAIL HEALTH STATUS
+// GET /crm_email_health?summary=true
+// Returns email deliverability report: active, deactivated, corporate, bounced
+// ─────────────────────────────────────────────────────────────
+
+export async function get_crm_email_health(request) {
+    try {
+        const params = request.query || {};
+        const summary = params.summary === 'true';
+
+        // Count active members
+        const activeCount = await wixData.query('CRMMembers')
+            .eq('isActive', true)
+            .count(SA)
+            .catch(() => 0);
+
+        // Count deactivated (bounced)
+        const deactivatedCount = await wixData.query('CRMMembers')
+            .eq('isActive', false)
+            .eq('emailDeliverable', false)
+            .count(SA)
+            .catch(() => 0);
+
+        // Count corporate
+        const corporateCount = await wixData.query('CorporateRecipients')
+            .count(SA)
+            .catch(() => 0);
+
+        // Count members flagged as corporate
+        const corporateMembersCount = await wixData.query('CRMMembers')
+            .eq('isCorporateEmail', true)
+            .count(SA)
+            .catch(() => 0);
+
+        const health = {
+            totalActive: activeCount,
+            totalDeactivated: deactivatedCount,
+            totalCorporateRecipients: corporateCount,
+            corporateMembers: corporateMembersCount,
+            deliverableRate: activeCount > 0 ? ((activeCount - deactivatedCount) / activeCount * 100).toFixed(1) + '%' : 'N/A',
+            lastChecked: new Date().toISOString()
+        };
+
+        if (!summary) {
+            // Include lists
+            const deactivated = await wixData.query('CRMMembers')
+                .eq('isActive', false)
+                .eq('emailDeliverable', false)
+                .limit(100)
+                .find(SA)
+                .catch(() => ({ items: [] }));
+            health.deactivatedList = deactivated.items.map(m => ({
+                email: m.email,
+                name: m.displayName || m.firstName,
+                reason: m.deactivationReason,
+                deactivatedAt: m.deactivatedAt
+            }));
+
+            const corporate = await wixData.query('CorporateRecipients')
+                .limit(100)
+                .find(SA)
+                .catch(() => ({ items: [] }));
+            health.corporateList = corporate.items.map(c => ({
+                email: c.email,
+                name: c.name,
+                domain: c.domain,
+                reason: c.reason,
+                detectedAt: c.detectedAt
+            }));
+        }
+
+        return jsonOk(health);
+    } catch (e) {
+        return jsonErr('crm_email_health failed: ' + e.message, 500);
+    }
+}
+export function options_crm_email_health(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────────────────────
 

@@ -191,7 +191,10 @@ import {
     get_evite_recipients,        options_evite_recipients,
     post_evite_cleanup_invites,  options_evite_cleanup_invites,
     post_evite_update_event,     options_evite_update_event,
-    post_evite_send_correction,  options_evite_send_correction
+    post_evite_send_correction,  options_evite_send_correction,
+    post_crm_email_cleanup,      options_crm_email_cleanup,
+    post_crm_corporate_filter,   options_crm_corporate_filter,
+    get_crm_email_health,        options_crm_email_health
 } from 'backend/banf-evite-report';
 
 import {
@@ -470,6 +473,9 @@ export {
     post_evite_cleanup_invites,  options_evite_cleanup_invites,
     post_evite_update_event,     options_evite_update_event,
     post_evite_send_correction,  options_evite_send_correction,
+    post_crm_email_cleanup,      options_crm_email_cleanup,
+    post_crm_corporate_filter,   options_crm_corporate_filter,
+    get_crm_email_health,        options_crm_email_health,
     // Survey system
     post_survey_setup,              options_survey_setup,
     post_survey_create,             options_survey_create,
