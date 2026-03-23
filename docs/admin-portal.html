@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -364,6 +364,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group">Operations</div>
     <div class="sb-item active" data-panel="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></div>
+    <div class="sb-item" data-panel="ec-profile"><i class="fas fa-user-circle"></i><span>My EC Profile</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="roles"><i class="fas fa-id-badge"></i><span>Role Definitions</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
     <div class="sb-item" data-panel="users"><i class="fas fa-users-cog"></i><span>User Management</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
     <div class="sb-item" data-panel="identity"><i class="fas fa-fingerprint"></i><span>Identity Engine</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
@@ -460,6 +461,108 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
       </div>
     </div>
 
+
+    <!-- MY EC PROFILE -->
+    <div class="portal-section" id="panel-ec-profile">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> My Public Profile</div>
+      <div class="card-a">
+        <h2><i class="fas fa-user-circle"></i> EC Member Profile</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Update your profile photo and bio for the BANF website EC team section.</p>
+
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start" id="ec-profile-grid">
+          <!-- Photo Column -->
+          <div style="text-align:center">
+            <div id="ec-profile-photo-wrap" style="width:180px;height:180px;border-radius:16px;overflow:hidden;margin:0 auto 14px;background:var(--bg2);border:2px dashed var(--line2);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative" onclick="document.getElementById('ec-profile-photo-input').click()">
+              <img id="ec-profile-photo-preview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
+              <div id="ec-profile-photo-placeholder" style="color:var(--dim);font-size:.78rem;text-align:center;padding:12px">
+                <i class="fas fa-camera" style="font-size:2rem;display:block;margin-bottom:8px"></i>
+                Click to upload<br>profile photo
+              </div>
+            </div>
+            <input type="file" id="ec-profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event)">
+            <button class="btn-secondary btn-sm" onclick="document.getElementById('ec-profile-photo-input').click()" style="margin-bottom:6px;width:100%"><i class="fas fa-upload me-1"></i>Upload Photo</button>
+            <button class="btn-secondary btn-sm" onclick="clearProfilePhoto()" style="width:100%;color:var(--red);border-color:rgba(239,68,68,.3)"><i class="fas fa-trash me-1"></i>Remove Photo</button>
+            <div style="font-size:.65rem;color:var(--dim);margin-top:8px">Max 500KB. Square crop recommended. Auto-resized to 400x400.</div>
+          </div>
+
+          <!-- Info Column -->
+          <div>
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">First Name</div>
+                <input id="ec-profile-firstName" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Last Name</div>
+                <input id="ec-profile-lastName" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">EC Title</div>
+                <input id="ec-profile-ecTitle" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Email</div>
+                <input id="ec-profile-email" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--line);margin:16px 0"></div>
+
+            <div style="margin-bottom:10px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Card Summary <span style="color:var(--dim)">(shown on EC card - max 300 chars)</span></div>
+              <textarea id="ec-profile-summary" rows="2" maxlength="300" placeholder="Brief 1-2 line summary for your EC member card" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem;resize:vertical" oninput="updateProfileCharCount('summary',300)"></textarea>
+              <div style="font-size:.65rem;color:var(--dim);text-align:right" id="ec-profile-summary-count">0/300</div>
+            </div>
+
+            <div style="margin-bottom:10px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Full Bio <span style="color:var(--dim)">(shown in profile modal - max 2000 chars)</span></div>
+              <textarea id="ec-profile-bio" rows="5" maxlength="2000" placeholder="Your detailed biography for the profile modal" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem;resize:vertical" oninput="updateProfileCharCount('bio',2000)"></textarea>
+              <div style="font-size:.65rem;color:var(--dim);text-align:right" id="ec-profile-bio-count">0/2000</div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Education</div>
+                <input id="ec-profile-education" placeholder="e.g. Ph.D., Computer Science" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Profession</div>
+                <input id="ec-profile-profession" placeholder="e.g. AI Solution Architect" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+
+            <div style="margin-bottom:14px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Interests <span style="color:var(--dim)">(comma-separated)</span></div>
+              <input id="ec-profile-interests" placeholder="e.g. AI and ML, Bengali Literature, Rabindra Sangeet" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+            </div>
+
+            <div style="display:flex;gap:10px;align-items:center">
+              <button class="btn-primary" onclick="saveECProfile()" id="ec-profile-save-btn"><i class="fas fa-save me-1"></i>Save Profile</button>
+              <div id="ec-profile-status" style="font-size:.78rem;color:var(--muted)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Preview Card -->
+      <div class="card-a" id="ec-profile-preview-card" style="display:none">
+        <h2><i class="fas fa-eye"></i> Profile Preview</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">This is how your profile will appear on the BANF website.</p>
+        <div id="ec-profile-preview-content" style="display:flex;gap:20px;align-items:start;padding:10px;background:var(--bg2);border-radius:10px">
+          <div id="ec-preview-photo" style="width:120px;height:120px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#667eea,#764ba2);flex-shrink:0;display:flex;align-items:center;justify-content:center">
+            <span style="font-size:2rem;font-weight:800;color:#fff" id="ec-preview-initials">?</span>
+          </div>
+          <div>
+            <div style="font-size:1.1rem;font-weight:700;color:#fff" id="ec-preview-name">-</div>
+            <div style="font-size:.82rem;color:var(--accent);font-weight:600;margin-bottom:8px" id="ec-preview-title">-</div>
+            <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px" id="ec-preview-summary">-</div>
+            <div style="font-size:.78rem;color:var(--dim)" id="ec-preview-details"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- â•â•â•â•â•â•â• ROLE DEFINITIONS â•â•â•â•â•â•â• -->
     <div class="portal-section" id="panel-roles">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--blue)"></i> Stage 1: Setup</div>
@@ -4112,7 +4215,7 @@ async function forgotStep3() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager']);
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','ec-profile','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager']);
 let rmbIframeLoaded = false;
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {
@@ -4131,6 +4234,10 @@ function navTo(panel){
   // E-Vite Manager: auto-load events on first visit
   if (panel === 'evite-manager') {
     eviteLoadEvents();
+  }
+  // EC Profile: auto-load on first visit
+  if (panel === 'ec-profile') {
+    loadECProfile();
   }
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
   const target = document.querySelector(`.sb-item[data-panel="${panel}"]`);
@@ -6363,6 +6470,201 @@ function renderAll(){
     {v:LOG.length,k:'Audit Log',cls:'dim'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
   renderRoles();renderUsers();renderDrive();renderEC();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  EC PROFILE: Photo upload + text editing
+// ═══════════════════════════════════════════════════════════════════════
+var _ecProfileLoaded = false;
+var _ecProfilePhotoData = null; // base64 data URL
+
+function updateProfileCharCount(field, max) {
+  var el = document.getElementById('ec-profile-' + field);
+  var cnt = document.getElementById('ec-profile-' + field + '-count');
+  if (el && cnt) cnt.textContent = el.value.length + '/' + max;
+  updateProfilePreview();
+}
+
+function handleProfilePhotoUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+  if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5MB before resize.'); return; }
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      // Resize to 400x400 square, center crop
+      var canvas = document.createElement('canvas');
+      canvas.width = 400; canvas.height = 400;
+      var ctx = canvas.getContext('2d');
+      var size = Math.min(img.width, img.height);
+      var sx = (img.width - size) / 2;
+      var sy = (img.height - size) / 2;
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, 400, 400);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      if (dataUrl.length > 700000) {
+        dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+      }
+      if (dataUrl.length > 700000) {
+        alert('Image still too large after compression. Try a smaller photo.');
+        return;
+      }
+      _ecProfilePhotoData = dataUrl;
+      var preview = document.getElementById('ec-profile-photo-preview');
+      var placeholder = document.getElementById('ec-profile-photo-placeholder');
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+      placeholder.style.display = 'none';
+      updateProfilePreview();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearProfilePhoto() {
+  _ecProfilePhotoData = null;
+  var preview = document.getElementById('ec-profile-photo-preview');
+  var placeholder = document.getElementById('ec-profile-photo-placeholder');
+  preview.src = ''; preview.style.display = 'none';
+  placeholder.style.display = 'block';
+  document.getElementById('ec-profile-photo-input').value = '';
+  updateProfilePreview();
+}
+
+function updateProfilePreview() {
+  if (!CURRENT_ADMIN) return;
+  var card = document.getElementById('ec-profile-preview-card');
+  card.style.display = 'block';
+
+  var nameEl = document.getElementById('ec-preview-name');
+  nameEl.textContent = (CURRENT_ADMIN.firstName || '') + ' ' + (CURRENT_ADMIN.lastName || '');
+
+  var titleEl = document.getElementById('ec-preview-title');
+  titleEl.textContent = CURRENT_ADMIN.ecTitle || 'EC Member';
+
+  var summaryEl = document.getElementById('ec-preview-summary');
+  summaryEl.textContent = document.getElementById('ec-profile-summary').value || '(No summary yet)';
+
+  var detailParts = [];
+  var edu = document.getElementById('ec-profile-education').value;
+  var prof = document.getElementById('ec-profile-profession').value;
+  var interests = document.getElementById('ec-profile-interests').value;
+  if (edu) detailParts.push('<i class="fas fa-graduation-cap me-1"></i>' + edu);
+  if (prof) detailParts.push('<i class="fas fa-briefcase me-1"></i>' + prof);
+  if (interests) detailParts.push('<i class="fas fa-heart me-1"></i>' + interests);
+  document.getElementById('ec-preview-details').innerHTML = detailParts.join(' &nbsp;|&nbsp; ');
+
+  var photoDiv = document.getElementById('ec-preview-photo');
+  var initialsEl = document.getElementById('ec-preview-initials');
+  if (_ecProfilePhotoData) {
+    photoDiv.innerHTML = '<img src="' + _ecProfilePhotoData + '" style="width:100%;height:100%;object-fit:cover">';
+  } else {
+    var initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
+    photoDiv.innerHTML = '';
+    initialsEl = document.createElement('span');
+    initialsEl.style.cssText = 'font-size:2rem;font-weight:800;color:#fff';
+    initialsEl.textContent = initials;
+    photoDiv.appendChild(initialsEl);
+  }
+}
+
+function loadECProfile() {
+  if (!CURRENT_ADMIN || !CURRENT_ADMIN.email) return;
+
+  // Fill read-only fields
+  document.getElementById('ec-profile-firstName').value = CURRENT_ADMIN.firstName || '';
+  document.getElementById('ec-profile-lastName').value = CURRENT_ADMIN.lastName || '';
+  document.getElementById('ec-profile-ecTitle').value = CURRENT_ADMIN.ecTitle || '';
+  document.getElementById('ec-profile-email').value = CURRENT_ADMIN.email || '';
+
+  if (_ecProfileLoaded) return; // Only fetch from API once per session
+
+  var statusEl = document.getElementById('ec-profile-status');
+  statusEl.textContent = 'Loading profile...';
+  statusEl.style.color = 'var(--muted)';
+
+  fetch(API + '/ec_get_ec_profile?email=' + encodeURIComponent(CURRENT_ADMIN.email), {
+    headers: { 'x-user-email': CURRENT_ADMIN.email }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.profile) {
+      var p = data.profile;
+      if (p.profilePhoto) {
+        _ecProfilePhotoData = p.profilePhoto;
+        var preview = document.getElementById('ec-profile-photo-preview');
+        var placeholder = document.getElementById('ec-profile-photo-placeholder');
+        preview.src = p.profilePhoto;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+      if (p.profileSummary) document.getElementById('ec-profile-summary').value = p.profileSummary;
+      if (p.profileBio) document.getElementById('ec-profile-bio').value = p.profileBio;
+      if (p.profileEducation) document.getElementById('ec-profile-education').value = p.profileEducation;
+      if (p.profileProfession) document.getElementById('ec-profile-profession').value = p.profileProfession;
+      if (p.profileInterests) document.getElementById('ec-profile-interests').value = p.profileInterests;
+      updateProfileCharCount('summary', 300);
+      updateProfileCharCount('bio', 2000);
+      statusEl.textContent = p.profileUpdatedAt ? 'Last saved: ' + new Date(p.profileUpdatedAt).toLocaleString() : '';
+    } else {
+      statusEl.textContent = 'No profile saved yet. Fill in your details and click Save.';
+    }
+    updateProfilePreview();
+    _ecProfileLoaded = true;
+  })
+  .catch(function(err) {
+    statusEl.textContent = 'Could not load profile. You can still fill in details and save.';
+    statusEl.style.color = 'var(--orange)';
+    updateProfilePreview();
+  });
+}
+
+function saveECProfile() {
+  if (!CURRENT_ADMIN || !CURRENT_ADMIN.email) { alert('Not logged in.'); return; }
+
+  var btn = document.getElementById('ec-profile-save-btn');
+  var statusEl = document.getElementById('ec-profile-status');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
+  statusEl.textContent = '';
+
+  var body = {
+    email: CURRENT_ADMIN.email,
+    profileSummary: document.getElementById('ec-profile-summary').value.trim(),
+    profileBio: document.getElementById('ec-profile-bio').value.trim(),
+    profileEducation: document.getElementById('ec-profile-education').value.trim(),
+    profileProfession: document.getElementById('ec-profile-profession').value.trim(),
+    profileInterests: document.getElementById('ec-profile-interests').value.trim()
+  };
+  if (_ecProfilePhotoData) body.profilePhoto = _ecProfilePhotoData;
+
+  fetch(API + '/ec_update_ec_profile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-user-email': CURRENT_ADMIN.email },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save me-1"></i>Save Profile';
+    if (data.success) {
+      statusEl.textContent = 'Profile saved! ' + new Date().toLocaleString();
+      statusEl.style.color = 'var(--green)';
+      addLog('PROFILE', 'EC profile updated by ' + CURRENT_ADMIN.email);
+    } else {
+      statusEl.textContent = 'Save failed: ' + (data.error || 'Unknown error');
+      statusEl.style.color = 'var(--red)';
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save me-1"></i>Save Profile';
+    statusEl.textContent = 'Network error. Please try again.';
+    statusEl.style.color = 'var(--red)';
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════

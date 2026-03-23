@@ -1178,3 +1178,143 @@ export async function get_ec_feature_config(request) {
         return jsonOk({ configs, availableFeatures: EC_ASSIGNABLE_FEATURES });
     } catch (e) { return jsonErr(e.message, 500); }
 }
+
+// ─────────────────────────────────────────
+// EC PROFILE MANAGEMENT (Photo + Bio)
+// ─────────────────────────────────────────
+
+/**
+ * GET /ec_get_ec_profile?email=...
+ * Get EC member's editable profile (photo, summary, bio, etc.)
+ * Authenticated: EC member can get own, super_admin can get any
+ */
+export async function get_ec_get_ec_profile(request) {
+    try {
+        const params = request.query || {};
+        const targetEmail = (params.email || '').toLowerCase().trim();
+        if (!targetEmail) return jsonErr('email parameter required');
+
+        const perm = await checkPermission(request, 'admin:view');
+        if (!perm.allowed) return jsonErr('Forbidden', 403);
+
+        // EC members can only get their own profile (super_admin can get any)
+        if (perm.role !== 'super_admin' && perm.email !== targetEmail) {
+            return jsonErr('Can only view own profile', 403);
+        }
+
+        const res = await wixData.query('AdminRoles')
+            .eq('email', targetEmail)
+            .eq('isActive', true)
+            .limit(1)
+            .find({ suppressAuth: true });
+
+        if (!res.items.length) return jsonErr('EC member not found');
+        const r = res.items[0];
+
+        return jsonOk({
+            email: r.email,
+            firstName: r.firstName || '',
+            lastName: r.lastName || '',
+            ecTitle: r.ecTitle || '',
+            role: r.role,
+            profilePhoto: r.profilePhoto || '',
+            profileSummary: r.profileSummary || '',
+            profileBio: r.profileBio || '',
+            profileEducation: r.profileEducation || '',
+            profileProfession: r.profileProfession || '',
+            profileInterests: r.profileInterests || ''
+        });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_ec_get_ec_profile(request) { return handleCors(); }
+
+/**
+ * POST /ec_update_ec_profile
+ * Update EC member's public profile (photo, summary, bio, etc.)
+ * Body: { email, profilePhoto?, profileSummary?, profileBio?, profileEducation?, profileProfession?, profileInterests? }
+ * Auth: EC member can update own, super_admin can update any
+ */
+export async function post_ec_update_ec_profile(request) {
+    try {
+        const body = await parseBody(request);
+        const targetEmail = (body.email || '').toLowerCase().trim();
+        if (!targetEmail) return jsonErr('email required');
+
+        const perm = await checkPermission(request, 'admin:view');
+        if (!perm.allowed) return jsonErr('Forbidden', 403);
+
+        if (perm.role !== 'super_admin' && perm.email !== targetEmail) {
+            return jsonErr('Can only update own profile', 403);
+        }
+
+        const res = await wixData.query('AdminRoles')
+            .eq('email', targetEmail)
+            .eq('isActive', true)
+            .limit(1)
+            .find({ suppressAuth: true });
+
+        if (!res.items.length) return jsonErr('EC member not found');
+        const existing = res.items[0];
+
+        // Validate photo size (max 500KB base64)
+        if (body.profilePhoto && body.profilePhoto.length > 700000) {
+            return jsonErr('Photo too large. Please use a smaller image (max ~500KB).');
+        }
+
+        // Validate text lengths
+        if (body.profileSummary && body.profileSummary.length > 300) {
+            return jsonErr('Summary too long (max 300 characters).');
+        }
+        if (body.profileBio && body.profileBio.length > 2000) {
+            return jsonErr('Bio too long (max 2000 characters).');
+        }
+
+        const updates = {};
+        if (body.profilePhoto !== undefined) updates.profilePhoto = body.profilePhoto;
+        if (body.profileSummary !== undefined) updates.profileSummary = body.profileSummary;
+        if (body.profileBio !== undefined) updates.profileBio = body.profileBio;
+        if (body.profileEducation !== undefined) updates.profileEducation = body.profileEducation;
+        if (body.profileProfession !== undefined) updates.profileProfession = body.profileProfession;
+        if (body.profileInterests !== undefined) updates.profileInterests = body.profileInterests;
+        updates.profileUpdatedAt = new Date().toISOString();
+        updates.profileUpdatedBy = perm.email;
+
+        await wixData.update('AdminRoles', { ...existing, ...updates }, { suppressAuth: true });
+
+        return jsonOk({ message: 'Profile updated', email: targetEmail });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_ec_update_ec_profile(request) { return handleCors(); }
+
+/**
+ * GET /ec_members_profiles
+ * Public endpoint: returns all active EC members' public profile data
+ * Used by landing page to display dynamic EC cards
+ */
+export async function get_ec_members_profiles(request) {
+    try {
+        const res = await wixData.query('AdminRoles')
+            .eq('isActive', true)
+            .limit(200)
+            .find({ suppressAuth: true });
+
+        const profiles = res.items
+            .filter(r => r.role !== 'super_admin' || r.ecTitle)
+            .map(r => ({
+                email: r.email,
+                firstName: r.firstName || '',
+                lastName: r.lastName || '',
+                ecTitle: r.ecTitle || '',
+                role: r.role,
+                profilePhoto: r.profilePhoto || '',
+                profileSummary: r.profileSummary || '',
+                profileBio: r.profileBio || '',
+                profileEducation: r.profileEducation || '',
+                profileProfession: r.profileProfession || '',
+                profileInterests: r.profileInterests || ''
+            }));
+
+        return jsonOk({ profiles });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_ec_members_profiles(request) { return handleCors(); }
