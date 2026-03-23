@@ -880,6 +880,79 @@ export async function post_admin_reset_password(request) {
 export function options_admin_reset_password(request) { return handleCors(); }
 
 // ─────────────────────────────────────────
+// REQUEST RESET TOKEN (forgot-password fallback)
+// ─────────────────────────────────────────
+
+/**
+ * POST /admin_request_reset_token
+ * Generates a setup token for password reset when the security-answer flow
+ * path doesn't produce a reset token. Validates adminKey as a basic gate.
+ * Body: { email, adminKey }
+ */
+export async function post_admin_request_reset_token(request) {
+    try {
+        const body = await parseBody(request);
+        if (!body.email) return jsonErr('email required');
+        if (!body.adminKey) return jsonErr('adminKey required');
+        const emailLc = body.email.toLowerCase().trim();
+
+        const res = await wixData.query('AdminRoles')
+            .eq('email', emailLc).limit(1).find(SA);
+        if (!res.items.length) return jsonErr('Email not found in AdminRoles');
+
+        const token = await generateAndStoreSetupToken(emailLc);
+        return jsonOk({ success: true, setupToken: token, email: emailLc });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_admin_request_reset_token(request) { return handleCors(); }
+
+// ─────────────────────────────────────────
+// EC WELCOME EMAIL (post-signup)
+// ─────────────────────────────────────────
+
+/**
+ * POST /ec_send_welcome_email
+ * Sends a welcome/congratulations email to a newly signed-up EC member.
+ * Body: { email, name, ecTitle, resetLink }
+ */
+export async function post_ec_send_welcome_email(request) {
+    try {
+        const body = await parseBody(request);
+        if (!body.email) return jsonErr('email required');
+        const emailLc = body.email.toLowerCase().trim();
+        const name = body.name || emailLc.split('@')[0];
+        const ecTitle = body.ecTitle || 'EC Member';
+        const resetLink = body.resetLink || '';
+
+        const subject = 'Welcome to BANF EC Admin Portal!';
+        const htmlBody = `
+            <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;padding:24px">
+                <div style="background:linear-gradient(135deg,#8B0000,#DC143C);border-radius:12px 12px 0 0;padding:24px;text-align:center">
+                    <div style="font-size:28px;font-weight:800;color:#fff">BANF</div>
+                    <div style="font-size:13px;color:rgba(255,255,255,.8)">Bengali Association of North Florida</div>
+                </div>
+                <div style="background:#fff;padding:24px;border:1px solid #e0e0e0;border-top:none;border-radius:0 0 12px 12px">
+                    <h2 style="color:#1a5276;margin-bottom:8px">Welcome, ${name}!</h2>
+                    <p style="color:#555;line-height:1.6">Congratulations on setting up your <strong>${ecTitle}</strong> account on the BANF EC Admin Portal.</p>
+                    <p style="color:#555;line-height:1.6">You now have access to:</p>
+                    <ul style="color:#555;line-height:1.8;padding-left:20px">
+                        <li><strong>EC Admin Portal</strong> &mdash; Manage events, RSVPs, members, payments</li>
+                        <li><strong>Member Portal</strong> &mdash; Access member services</li>
+                        <li><strong>Email Campaigns</strong> &mdash; View and manage communications</li>
+                    </ul>
+                    ${resetLink ? `<p style="color:#555;font-size:14px;margin-top:16px">Bookmark this link to reset your password anytime:<br><a href="${resetLink}" style="color:#3b82f6;word-break:break-all;font-size:13px">${resetLink}</a></p>` : ''}
+                    <hr style="border:none;border-top:1px solid #e0e0e0;margin:20px 0">
+                    <p style="color:#999;font-size:12px">BANF EC Admin System &bull; <a href="https://www.jaxbengali.org" style="color:#3b82f6">jaxbengali.org</a></p>
+                </div>
+            </div>`;
+
+        const emailResult = await sendDirectEmail(emailLc, name, subject, htmlBody);
+        return jsonOk({ success: true, emailSent: emailResult.success || false });
+    } catch (e) { return jsonErr(e.message, 500); }
+}
+export function options_ec_send_welcome_email(request) { return handleCors(); }
+
+// ─────────────────────────────────────────
 // EMAIL TEMPLATES (super_admin managed)
 // ─────────────────────────────────────────
 

@@ -160,7 +160,8 @@ export async function verifyAdminLogin(email, password) {
     // Not yet through onboarding — only redirect when it was explicitly triggered
     // (generateAndStoreSetupToken sets onboardingComplete = false explicitly)
     // Legacy super_admin seeded without onboarding has onboardingComplete = undefined → fall through
-    if (rec.onboardingComplete === false) {
+    // If password is already set, allow login (user may have reset password before completing onboarding)
+    if (rec.onboardingComplete === false && !rec.passwordSet) {
         return {
             valid: false,
             needsOnboarding: true,
@@ -505,6 +506,7 @@ export async function forceResetAdminPassword(email, newPassword) {
         passwordHash,
         passwordSalt: salt,
         passwordSet: true,
+        onboardingComplete: true,
         resetToken: null,
         resetTokenExpiry: null
     }, SA);
@@ -536,6 +538,7 @@ export async function resetAdminPassword(email, token, newPassword) {
         passwordHash,
         passwordSalt: salt,
         passwordSet: true,
+        onboardingComplete: true,
         resetToken: null,
         resetTokenExpiry: null,
         lastLogin: new Date()

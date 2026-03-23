@@ -84,7 +84,9 @@ import {
     post_admin_reset_password, options_admin_reset_password,
     post_admin_signup_send_code, options_admin_signup_send_code,
     post_admin_signup_verify_code, options_admin_signup_verify_code,
-    post_admin_signup_direct, options_admin_signup_direct
+    post_admin_signup_direct, options_admin_signup_direct,
+    post_admin_request_reset_token, options_admin_request_reset_token,
+    post_ec_send_welcome_email, options_ec_send_welcome_email
 } from 'backend/admin-api';
 
 import {
@@ -383,6 +385,8 @@ export {
     post_admin_signup_send_code, options_admin_signup_send_code,
     post_admin_signup_verify_code, options_admin_signup_verify_code,
     post_admin_signup_direct, options_admin_signup_direct,
+    post_admin_request_reset_token, options_admin_request_reset_token,
+    post_ec_send_welcome_email, options_ec_send_welcome_email,
     // Event Attendance v5.13.0
     post_admin_approve_attendance, options_admin_approve_attendance,
     get_admin_attendance,           options_admin_attendance,
