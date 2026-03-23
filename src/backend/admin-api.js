@@ -924,8 +924,9 @@ export async function post_ec_send_welcome_email(request) {
         const ecTitle = body.ecTitle || 'EC Member';
         const resetLink = body.resetLink || '';
 
-        const subject = 'Welcome to BANF EC Admin Portal!';
-        const htmlBody = `
+        // Support custom subject/html for campaign sends
+        const subject = body.customSubject || 'Welcome to BANF EC Admin Portal!';
+        const htmlBody = body.customHtml || `
             <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;padding:24px">
                 <div style="background:linear-gradient(135deg,#8B0000,#DC143C);border-radius:12px 12px 0 0;padding:24px;text-align:center">
                     <div style="font-size:28px;font-weight:800;color:#fff">BANF</div>

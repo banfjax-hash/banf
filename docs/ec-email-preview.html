@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EC Member Email Preview — BANF</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background:#0f1117; color:#e0e0e0; padding:24px; }
+  h1 { font-size:1.4rem; margin-bottom:6px; }
+  .subtitle { color:#888; font-size:.85rem; margin-bottom:24px; }
+  .controls { background:#1a1d27; border:1px solid #2a2d37; border-radius:10px; padding:18px; margin-bottom:24px; display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
+  .controls label { font-size:.78rem; color:#999; }
+  .controls select, .controls button { background:#23262f; color:#e0e0e0; border:1px solid #3a3d47; border-radius:6px; padding:8px 14px; font-size:.82rem; }
+  .controls button { cursor:pointer; font-weight:600; }
+  .controls button:hover { background:#2d3040; }
+  .btn-send { background:linear-gradient(135deg,#8B0000,#DC143C) !important; color:#fff !important; border:none !important; padding:10px 24px !important; }
+  .btn-send:hover { opacity:.9; }
+  .btn-send:disabled { opacity:.4; cursor:not-allowed; }
+
+  .email-envelope { background:#1a1d27; border:1px solid #2a2d37; border-radius:10px; margin-bottom:20px; overflow:hidden; }
+  .env-header { padding:16px 20px; border-bottom:1px solid #2a2d37; }
+  .env-row { display:flex; gap:8px; margin-bottom:6px; font-size:.82rem; }
+  .env-label { color:#666; min-width:60px; font-weight:600; }
+  .env-value { color:#ccc; }
+  .env-subject { color:#fff; font-weight:700; font-size:.95rem; }
+  .env-body { padding:20px; background:#fff; }
+
+  .member-tabs { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:16px; }
+  .member-tab { background:#23262f; border:1px solid #3a3d47; border-radius:6px; padding:6px 14px; font-size:.75rem; cursor:pointer; color:#aaa; }
+  .member-tab.active { background:#8B0000; color:#fff; border-color:#DC143C; }
+  .member-tab:hover { background:#2d3040; }
+
+  .status-bar { background:#1a1d27; border:1px solid #2a2d37; border-radius:10px; padding:14px 20px; margin-bottom:20px; }
+  .status-bar .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:.7rem; font-weight:700; margin-right:8px; }
+  .badge-info { background:rgba(59,130,246,.15); color:#3b82f6; }
+  .badge-warn { background:rgba(245,158,11,.15); color:#f59e0b; }
+  .badge-ok { background:rgba(34,197,94,.15); color:#22c55e; }
+  .badge-red { background:rgba(239,68,68,.15); color:#ef4444; }
+
+  #send-log { margin-top:16px; font-size:.78rem; color:#888; max-height:200px; overflow-y:auto; }
+  #send-log div { padding:3px 0; border-bottom:1px solid #1a1d27; }
+  .log-ok { color:#22c55e; }
+  .log-err { color:#ef4444; }
+</style>
+</head>
+<body>
+
+<h1>📧 EC Member Email — Preview & Send</h1>
+<div class="subtitle">Review subject, content, and recipient list before sending. Emails sent from banfjax@gmail.com via Gmail API.</div>
+
+<div class="status-bar">
+  <span class="badge badge-warn">⚠ PREVIEW MODE</span>
+  <span style="font-size:.82rem;color:#bbb">No emails will be sent until you click "Send to All EC Members" below. Review each member's email first.</span>
+</div>
+
+<div class="member-tabs" id="member-tabs"></div>
+
+<div class="email-envelope" id="email-envelope">
+  <div class="env-header">
+    <div class="env-row"><span class="env-label">From:</span><span class="env-value">BANF Admin &lt;banfjax@gmail.com&gt;</span></div>
+    <div class="env-row"><span class="env-label">To:</span><span class="env-value" id="env-to">—</span></div>
+    <div class="env-row"><span class="env-label">Subject:</span><span class="env-value env-subject" id="env-subject">—</span></div>
+  </div>
+  <div class="env-body" id="env-body"></div>
+</div>
+
+<div class="controls">
+  <div>
+    <label>Send Mode</label><br>
+    <select id="send-mode">
+      <option value="test">🧪 Test — Send all to President only</option>
+      <option value="live">🚀 Live — Send to actual recipients</option>
+    </select>
+  </div>
+  <button class="btn-send" id="btn-send" onclick="sendAllEmails()">📤 Send to All EC Members (7)</button>
+  <div id="send-status" style="font-size:.82rem;color:#888"></div>
+</div>
+<div id="send-log"></div>
+
+<script>
+const API = 'https://www.jaxbengali.org/_functions';
+const PORTAL_URL = 'https://banfjax-hash.github.io/banf/admin-portal.html';
+const LOGIN_URL = 'https://banfjax-hash.github.io/banf/ec-admin-login.html';
+const SITE_URL = 'https://www.jaxbengali.org';
+
+// EC Members (active, excluding Soumyajit who was deactivated)
+const EC_MEMBERS = [
+  { email: 'ranadhir.ghosh@gmail.com',       firstName: 'Ranadhir',  lastName: 'Ghosh',         ecTitle: 'President' },
+  { email: 'mukhopadhyay.partha@gmail.com',   firstName: 'Partha',    lastName: 'Mukhopadhyay',  ecTitle: 'Vice President' },
+  { email: 'amit.everywhere@gmail.com',       firstName: 'Amit',      lastName: 'Chandak',       ecTitle: 'Treasurer' },
+  { email: 'rajanya.ghosh@gmail.com',         firstName: 'Rajanya',   lastName: 'Ghosh',         ecTitle: 'General Secretary' },
+  { email: 'moumita.mukherje@gmail.com',      firstName: 'Moumita',   lastName: 'Ghosh',         ecTitle: 'Cultural Secretary' },
+  { email: 'sumo475@gmail.com',              firstName: 'Sumanta',   lastName: 'Ghosh',         ecTitle: 'Event Coordinator' },
+  { email: 'rwitichoudhury@gmail.com',        firstName: 'Rwiti',     lastName: 'Choudhury',     ecTitle: 'Puja Coordinator' },
+];
+
+function getSubject(m) {
+  return `Action Required: Complete Your BANF EC Admin Setup — ${m.ecTitle}`;
+}
+
+function getSignupUrl(m) {
+  const expires = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days
+  return `${LOGIN_URL}?signup=true&email=${encodeURIComponent(m.email)}&expires=${expires}`;
+}
+
+function getEmailHtml(m) {
+  const signupUrl = getSignupUrl(m);
+  return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 620px; margin: 0 auto; padding: 0;">
+    <!-- Header Banner -->
+    <div style="background: linear-gradient(135deg, #8B0000, #DC143C); padding: 28px 24px; border-radius: 8px 8px 0 0; text-align: center;">
+        <div style="font-size: 32px; font-weight: 800; color: #fff; letter-spacing: 2px;">BANF</div>
+        <div style="font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 4px;">Bengali Association of North Florida</div>
+        <div style="font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px;">EC Admin onboarding — Noboborsho 2026</div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="background: #ffffff; padding: 28px 24px; border: 1px solid #e0e0e0; border-top: none;">
+        <h2 style="color: #1a1a2e; margin: 0 0 12px 0; font-size: 20px;">Namaskar ${m.firstName}!</h2>
+
+        <p style="color: #444; font-size: 15px;">As <strong>${m.ecTitle}</strong> for BANF Noboborsho 2026, you have a dedicated admin account on our new <strong>EC Admin Portal</strong>. Please complete the following steps to get fully set up:</p>
+
+        <!-- Step 1 -->
+        <div style="background: #f8f9ff; border-left: 4px solid #8B0000; border-radius: 0 8px 8px 0; padding: 16px 18px; margin: 18px 0;">
+            <div style="font-weight: 700; color: #1a1a2e; font-size: 15px; margin-bottom: 6px;">Step 1: Sign Up &amp; Set Password</div>
+            <p style="color: #555; font-size: 14px; margin: 0 0 10px 0;">Click the button below to create your account. Use this email address (<strong>${m.email}</strong>) and set a strong password.</p>
+            <a href="${signupUrl}" style="display: inline-block; background: linear-gradient(135deg, #8B0000, #DC143C); color: #fff; padding: 12px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px;">Sign Up Now &rarr;</a>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="background: #f0fdf4; border-left: 4px solid #16a34a; border-radius: 0 8px 8px 0; padding: 16px 18px; margin: 18px 0;">
+            <div style="font-weight: 700; color: #1a1a2e; font-size: 15px; margin-bottom: 6px;">Step 2: Log In &amp; Explore the Portal</div>
+            <p style="color: #555; font-size: 14px; margin: 0 0 8px 0;">After signup, log in to the <a href="${PORTAL_URL}" style="color: #3b82f6; font-weight: 600;">EC Admin Portal</a> and explore:</p>
+            <ul style="color: #555; font-size: 14px; margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li><strong>Dashboard</strong> — Overview of event &amp; membership status</li>
+                <li><strong>Procurement</strong> — Submit budget requests for your area</li>
+                <li><strong>E-Vite Manager</strong> — Track invitation delivery &amp; RSVPs</li>
+                <li><strong>Ledger</strong> — View financial transactions</li>
+            </ul>
+        </div>
+
+        <!-- Step 3: NEW FEATURE -->
+        <div style="background: #fefce8; border-left: 4px solid #eab308; border-radius: 0 8px 8px 0; padding: 16px 18px; margin: 18px 0;">
+            <div style="font-weight: 700; color: #1a1a2e; font-size: 15px; margin-bottom: 6px;">Step 3: Update Your EC Profile ⭐ <span style="font-size:11px;color:#DC143C;font-weight:400">(NEW)</span></div>
+            <p style="color: #555; font-size: 14px; margin: 0 0 8px 0;">We've added a new <strong>"My EC Profile"</strong> section in the portal. Please:</p>
+            <ul style="color: #555; font-size: 14px; margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li><strong>Upload your profile photo</strong> — This will appear on the BANF website's EC team page</li>
+                <li><strong>Write a short summary</strong> (1-2 lines for your EC member card)</li>
+                <li><strong>Add your bio</strong> — education, profession, interests</li>
+            </ul>
+            <p style="color: #777; font-size: 13px; margin: 8px 0 0 0;">Photos are auto-resized. You can update anytime.</p>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align: center; margin: 24px 0 16px 0;">
+            <a href="${signupUrl}" style="display: inline-block; background: linear-gradient(135deg, #8B0000, #DC143C); color: #fff; padding: 14px 36px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; letter-spacing: 0.5px;">Get Started &rarr;</a>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
+
+        <!-- Quick Links -->
+        <p style="color: #777; font-size: 13px; margin-bottom: 6px;"><strong>Quick Links:</strong></p>
+        <ul style="color: #777; font-size: 13px; line-height: 1.8; padding-left: 18px; margin: 0;">
+            <li><a href="${LOGIN_URL}" style="color: #3b82f6;">EC Admin Login</a></li>
+            <li><a href="${PORTAL_URL}" style="color: #3b82f6;">EC Admin Portal</a></li>
+            <li><a href="${SITE_URL}" style="color: #3b82f6;">BANF Website</a></li>
+        </ul>
+
+        <p style="color: #777; font-size: 13px; margin-top: 16px;">If you have any questions, reply to this email or reach out to the President directly.</p>
+
+        <p style="color: #444; margin-top: 20px;">Thank you for your service to BANF!<br><strong>BANF Admin Team</strong></p>
+    </div>
+
+    <!-- Footer -->
+    <div style="background: #1a1a2e; color: #888; padding: 16px; text-align: center; font-size: 12px; border-radius: 0 0 8px 8px;">
+        Bengali Association of North Florida &bull; Jacksonville, FL<br>
+        <a href="${SITE_URL}" style="color: #aaa;">www.jaxbengali.org</a>
+    </div>
+</body>
+</html>`;
+}
+
+// ── Render ──
+let currentIdx = 0;
+
+function renderTabs() {
+  const tabsEl = document.getElementById('member-tabs');
+  tabsEl.innerHTML = EC_MEMBERS.map((m, i) =>
+    `<div class="member-tab ${i === currentIdx ? 'active' : ''}" onclick="selectMember(${i})">${m.firstName} (${m.ecTitle})</div>`
+  ).join('');
+}
+
+function selectMember(i) {
+  currentIdx = i;
+  renderTabs();
+  renderEmail();
+}
+
+function renderEmail() {
+  const m = EC_MEMBERS[currentIdx];
+  document.getElementById('env-to').textContent = `${m.firstName} ${m.lastName} <${m.email}>`;
+  document.getElementById('env-subject').textContent = getSubject(m);
+  document.getElementById('env-body').innerHTML = getEmailHtml(m);
+}
+
+// ── Send ──
+async function sendAllEmails() {
+  const mode = document.getElementById('send-mode').value;
+  const btn = document.getElementById('btn-send');
+  const statusEl = document.getElementById('send-status');
+  const logEl = document.getElementById('send-log');
+
+  if (mode === 'live') {
+    if (!confirm('⚠️ LIVE MODE: This will send real emails to ALL 7 EC members.\n\nAre you sure?')) return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Sending...';
+  logEl.innerHTML = '';
+  let sent = 0, failed = 0;
+
+  for (const m of EC_MEMBERS) {
+    const recipient = mode === 'test' ? 'ranadhir.ghosh@gmail.com' : m.email;
+    const subject = mode === 'test'
+      ? `[TEST for ${m.firstName}] ${getSubject(m)}`
+      : getSubject(m);
+    const html = getEmailHtml(m);
+
+    statusEl.textContent = `Sending to ${m.firstName}...`;
+    try {
+      const resp = await fetch(API + '/ec_send_welcome_email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: recipient,
+          name: m.firstName + ' ' + m.lastName,
+          ecTitle: m.ecTitle,
+          customSubject: subject,
+          customHtml: html
+        })
+      });
+      const data = await resp.json();
+      if (data.success) {
+        logEl.innerHTML += `<div class="log-ok">✅ ${m.firstName} (${m.ecTitle}) → ${recipient}</div>`;
+        sent++;
+      } else {
+        logEl.innerHTML += `<div class="log-err">❌ ${m.firstName}: ${data.error || 'Failed'}</div>`;
+        failed++;
+      }
+    } catch(e) {
+      logEl.innerHTML += `<div class="log-err">❌ ${m.firstName}: ${e.message}</div>`;
+      failed++;
+    }
+    // Small delay between sends
+    await new Promise(r => setTimeout(r, 1500));
+  }
+
+  btn.disabled = false;
+  btn.textContent = `📤 Send to All EC Members (7)`;
+  statusEl.textContent = `Done: ${sent} sent, ${failed} failed`;
+  statusEl.style.color = failed > 0 ? '#ef4444' : '#22c55e';
+}
+
+// Init
+renderTabs();
+renderEmail();
+</script>
+</body>
+</html>
