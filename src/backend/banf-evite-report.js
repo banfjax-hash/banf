@@ -1208,6 +1208,10 @@ async function getGmailTokenDirect() {
 
 // ── Build branded HTML invitation email (enhanced with eviteConfig support) ──
 function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
+    // ⚠️ Safeguard: warn if highlights looks like generic placeholder (no pricing info)
+    if (event.highlights && !/\$\d/.test(event.highlights) && /alpona|cultural performances|authentic/.test(event.highlights)) {
+        console.warn('[EVITE] WARNING: highlights appears to be placeholder text — missing pricing info. Review before sending.');
+    }
     const eventDate = event.eventDate ? new Date(event.eventDate) : null;
     const dateStr = eventDate
         ? eventDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })
@@ -1281,9 +1285,9 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)">
 
 <!-- Header -->
-<tr><td style="background:linear-gradient(135deg,#8B0000,#DC143C);padding:32px 40px;text-align:center">
+<tr><td style="background-color:#8B0000;background-image:linear-gradient(135deg,#8B0000,#DC143C);padding:32px 40px;text-align:center">
   <div style="font-size:14px;color:rgba(255,255,255,.8);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">You're Invited!</div>
-  <div style="font-size:26px;font-weight:700;color:#fff;line-height:1.3">${_esc(event.eventName)}</div>
+  <div style="font-size:26px;font-weight:700;color:#ffffff;line-height:1.3">${_esc(event.eventName)}</div>
   <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:8px">${BANF_ORG}</div>
 </td></tr>
 
@@ -1315,7 +1319,7 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
   <!-- RSVP Button -->
   <table width="100%" cellpadding="0" cellspacing="0">
   <tr><td align="center" style="padding:12px 0 24px">
-    <a href="${rsvpUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:30px;letter-spacing:.5px;box-shadow:0 4px 16px rgba(139,0,0,.3)">
+    <a href="${rsvpUrl}" style="display:inline-block;background-color:#8B0000;background-image:linear-gradient(135deg,#8B0000,#DC143C);color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:30px;letter-spacing:.5px">
       RSVP Now
     </a>
   </td></tr></table>
@@ -1355,18 +1359,15 @@ function buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig) {
 </body></html>`;
 }
 
-// Escape HTML special chars AND convert ALL non-ASCII to numeric entities.
-// This ensures the HTML body is pure ASCII — no encoding chain issues.
+// Escape HTML special chars. Non-ASCII chars are kept as UTF-8 since the
+// email body is base64-encoded with charset=utf-8. This avoids numeric
+// entity rendering issues in Yahoo/AOL/Outlook email clients.
 function _esc(s) {
     return String(s || '')
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/[^\x00-\x7F]/gu, function(ch) {
-            // Use 'u' flag so surrogate pairs are a single match
-            return '&#' + ch.codePointAt(0) + ';';
-        });
+        .replace(/"/g, '&quot;');
 }
 
 // ── RFC 2047 MIME encoding for non-ASCII headers ──
@@ -1408,18 +1409,33 @@ async function sendInviteEmail(to, toName, subject, html, accessToken) {
     const toHeader = safeName ? `${safeName} <${to}>` : to;
     const fromName = mimeEncodeIfNeeded(BANF_ORG);
 
-    // Base64 encode the HTML body with RFC 2045 line wrapping (76-char lines)
-    const bodyB64 = wrapBase64(btoa(unescape(encodeURIComponent(html))));
+    // Build multipart/alternative with text/plain + text/html for maximum compatibility
+    const plainText = html.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+        .replace(/&#\d+;/g, '').replace(/\s{2,}/g, ' ').trim().substring(0, 2000);
+    const boundary = 'BANF_MIME_' + Date.now();
+    const htmlB64 = wrapBase64(btoa(unescape(encodeURIComponent(html))));
+    const textB64 = wrapBase64(btoa(unescape(encodeURIComponent(plainText))));
 
     const message = [
         `To: ${toHeader}`,
         `From: ${fromName} <${BANF_EMAIL}>`,
         `Subject: ${safeSubject}`,
         `MIME-Version: 1.0`,
+        `Content-Type: multipart/alternative; boundary="${boundary}"`,
+        '',
+        `--${boundary}`,
+        `Content-Type: text/plain; charset=utf-8`,
+        `Content-Transfer-Encoding: base64`,
+        '',
+        textB64,
+        `--${boundary}`,
         `Content-Type: text/html; charset=utf-8`,
         `Content-Transfer-Encoding: base64`,
         '',
-        bodyB64
+        htmlB64,
+        `--${boundary}--`
     ].join('\r\n');
     const raw = btoa(message)
         .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
@@ -1507,13 +1523,13 @@ export async function post_evite_send_invites(request) {
         if (recipients.length === 0) return jsonErr('No recipients found');
 
         const accessToken = await getGmailToken();
-        // Pure ASCII subject: strip ALL non-ASCII chars from event name
+        // Keep Bengali/Unicode in subject — mimeEncodeIfNeeded() will RFC 2047
+        // encode it. Replace smart quotes/dashes with ASCII equivalents.
         const safeEventName = (event.eventName || '')
             .replace(/[\u2018\u2019\u201A]/g, "'")
             .replace(/[\u201C\u201D\u201E]/g, '"')
             .replace(/[\u2013\u2014]/g, ' - ')
             .replace(/\u2026/g, '...')
-            .replace(/[^\x20-\x7E]/g, '')
             .replace(/\s{2,}/g, ' ')
             .trim();
         const subject = "You're Invited: " + safeEventName;
@@ -2287,7 +2303,7 @@ function buildCorrectionEmail(recipientName, event, wrongText, correctText, rsvp
 <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08)">
 
 <!-- Header -->
-<tr><td style="background:linear-gradient(135deg,#b45309,#d97706);padding:28px 40px;text-align:center">
+<tr><td style="background-color:#b45309;background-image:linear-gradient(135deg,#b45309,#d97706);padding:28px 40px;text-align:center">
   <div style="font-size:14px;color:rgba(255,255,255,.9);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px">&#9888;&#65039; Date Correction Notice</div>
   <div style="font-size:22px;font-weight:700;color:#fff;line-height:1.3">${safeEventName}</div>
   <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:6px">${BANF_ORG}</div>
@@ -2339,7 +2355,7 @@ function buildCorrectionEmail(recipientName, event, wrongText, correctText, rsvp
   <!-- RSVP Button -->
   <table width="100%" cellpadding="0" cellspacing="0">
   <tr><td align="center" style="padding:8px 0 24px">
-    <a href="${rsvpUrl}" style="display:inline-block;background:linear-gradient(135deg,#8B0000,#DC143C);color:#fff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:30px;letter-spacing:.5px;box-shadow:0 4px 16px rgba(139,0,0,.3)">
+    <a href="${rsvpUrl}" style="display:inline-block;background-color:#8B0000;background-image:linear-gradient(135deg,#8B0000,#DC143C);color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;padding:14px 40px;border-radius:30px;letter-spacing:.5px">
       Update / Confirm RSVP
     </a>
   </td></tr></table>
@@ -2425,6 +2441,101 @@ export async function get_evite_recipients(request) {
     }
 }
 export function options_evite_recipients(request) { return handleCors(); }
+
+// ─────────────────────────────────────────────────────────────
+// 17. RESEND INVITATIONS — resend original invitation (with fixed template)
+// POST /evite_resend_invites
+// Body: { eventId, emails: ["a@yahoo.com",...], limit?, offset?, reason? }
+// Reuses existing tokens from EviteInvitations so RSVP links stay the same.
+// ─────────────────────────────────────────────────────────────
+
+export async function post_evite_resend_invites(request) {
+    try {
+        const body = await parseBody(request);
+        const { eventId, emails = [] } = body;
+        const limit = parseInt(body.limit) || 10;
+        const offset = parseInt(body.offset) || 0;
+        const reason = body.reason || '';
+        if (!eventId) return jsonErr('Missing eventId');
+        if (!emails.length) return jsonErr('Missing emails array');
+
+        let event;
+        try { event = await wixData.get('EviteEvents', eventId, SA); } catch (_) {}
+        if (!event) return jsonErr('Event not found: ' + eventId);
+
+        // Fetch existing invitations for these emails
+        const emailSet = new Set(emails.map(e => e.toLowerCase()));
+        const invResult = await wixData.query(EVITE_COLLECTION)
+            .eq('eventId', eventId)
+            .limit(500)
+            .find(SA)
+            .catch(() => ({ items: [] }));
+
+        // Deduplicate by email, keep latest
+        const byEmail = {};
+        for (const inv of invResult.items) {
+            const key = inv.recipientEmail.toLowerCase();
+            if (emailSet.has(key)) {
+                if (!byEmail[key] || new Date(inv.sentAt) > new Date(byEmail[key].sentAt)) {
+                    byEmail[key] = inv;
+                }
+            }
+        }
+        const toResend = Object.values(byEmail);
+        if (toResend.length === 0) return jsonOk({ message: 'No matching invitations found', sent: 0 });
+
+        // Apply offset/limit for batching
+        const batch = toResend.slice(offset, offset + limit);
+        const results = {
+            sent: 0, failed: 0, total: toResend.length,
+            batchSize: batch.length, offset, hasMore: (offset + limit) < toResend.length,
+            nextOffset: offset + limit, details: []
+        };
+
+        const accessToken = await getGmailToken();
+        const safeEventName = (event.eventName || '')
+            .replace(/[\u2018\u2019\u201A]/g, "'")
+            .replace(/[\u201C\u201D\u201E]/g, '"')
+            .replace(/[\u2013\u2014]/g, ' - ')
+            .replace(/\u2026/g, '...')
+            .replace(/\s{2,}/g, ' ').trim();
+        const subject = "You're Invited: " + safeEventName;
+
+        let eviteConfig = null;
+        try { eviteConfig = event.eviteConfig ? JSON.parse(event.eviteConfig) : null; } catch (_) {}
+
+        for (const inv of batch) {
+            try {
+                const recipientName = inv.recipientName || inv.recipientEmail.split('@')[0];
+                // Reuse the EXISTING token so the original RSVP link still works
+                const rsvpUrl = `${RSVP_FORM_URL}?token=${inv.token}&eventId=${eventId}`;
+                let html = buildInvitationEmail(recipientName, event, rsvpUrl, eviteConfig);
+
+                // Inject resend notice after the greeting if a reason is provided
+                if (reason) {
+                    const notice = `<div style="background:#fff3e0;border:1px solid #ffcc80;border-radius:10px;padding:12px 16px;margin:0 0 20px;font-size:13px;color:#795548;line-height:1.6">`
+                        + `<strong>&#128232; Why am I receiving this again?</strong> ${_esc(reason)}</div>`;
+                    html = html.replace(
+                        /<p style="font-size:15px;color:#555;margin:0 0 24px/,
+                        notice + '<p style="font-size:15px;color:#555;margin:0 0 24px'
+                    );
+                }
+
+                const sendResult = await sendInviteEmail(inv.recipientEmail, recipientName, subject, html, accessToken);
+                results.details.push({ name: recipientName, email: inv.recipientEmail, sent: sendResult.ok, error: sendResult.error });
+                if (sendResult.ok) results.sent++; else results.failed++;
+            } catch (e) {
+                results.details.push({ name: inv.recipientName, email: inv.recipientEmail, sent: false, error: e.message });
+                results.failed++;
+            }
+        }
+
+        return jsonOk(results);
+    } catch (e) {
+        return jsonErr('resend_invites failed: ' + e.message, 500);
+    }
+}
+export function options_evite_resend_invites(request) { return handleCors(); }
 
 // ─────────────────────────────────────────────────────────────
 // 16. CRM EMAIL CLEANUP
