@@ -1,5 +1,5 @@
 {
-  "lastScanTime": "2026-03-22T03:20:42.312Z",
+  "lastScanTime": "2026-03-23T00:03:38.130Z",
   "processedEmailIds": [
     "19cb053d5a402261",
     "19cae373e12bd14e",
@@ -388,7 +388,34 @@
     "19d12c2b1be3fda1",
     "19d12c2adbd081b0",
     "19d12c2abe2d7fe5",
-    "19c35cdd0acb29cf"
+    "19c35cdd0acb29cf",
+    "19d16d80e7f9d3a8",
+    "19d1800f2c4a784d",
+    "19d1800f0b9432d4",
+    "19d1800b0bfcac36",
+    "19d1800ae1537f69",
+    "19d18006f1ed3753",
+    "19d18006dee262c0",
+    "19d18002df0a39cc",
+    "19d18002abce8ffa",
+    "19d17ffea4df0c6b",
+    "19d17ffe913d0186",
+    "19d17ffa91f21cc9",
+    "19d17ffa61a05cdd",
+    "19d17ff66a195cd2",
+    "19d17ff65d37a5ff",
+    "19d17ff255a5291d",
+    "19d17ff23a83cf3f",
+    "19d17fee2a7fc2cf",
+    "19d17fedf766bf47",
+    "19d17fe9e97c6a84",
+    "19d17fe9cf8a6167",
+    "19d17fe5cf3a8d3c",
+    "19d17fe5bb245f6e",
+    "19d17fe1b55a13ad",
+    "19d17fe193c50b1a",
+    "19d17fdd88f4d71d",
+    "19d17fdd47831bd5"
   ],
   "processedGuestNames": [],
   "sentEmails": [
@@ -573,9 +600,9 @@
       "pollCycle": 2502
     }
   ],
-  "pollCount": 2515,
+  "pollCount": 2676,
   "createdAt": "2026-03-02T22:31:15.034Z",
-  "lastSaved": "2026-03-22T03:20:42.312Z",
+  "lastSaved": "2026-03-23T00:03:38.130Z",
   "processedInstructionIds": [],
   "processedQueryIds": [
     "19cb41db4bf0218b",
@@ -805,7 +832,12 @@
     "19d01f508ad5948d",
     "19d00d7dc4de7df3",
     "19cfffda691d7613",
-    "19d135b2e58f76d3"
+    "19d135b2e58f76d3",
+    "19d15dbcb4754bcf",
+    "19d166f968219484",
+    "19d16cced3de5167",
+    "19d16dff5a0f7713",
+    "19d1768fb3739b2d"
   ],
   "userQueryResults": [
     {
@@ -9409,8 +9441,8 @@
                 "impact": "high",
                 "relatedEmails": [],
                 "createdAt": "2026-03-17T23:55:08.110Z",
-                "accessCount": 1,
-                "lastAccessed": "2026-03-22T01:55:14.662Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T21:18:31.998Z",
                 "confidence": 1,
                 "supersedes": null
               },
@@ -9505,8 +9537,8 @@
                 "impact": "high",
                 "relatedEmails": [],
                 "createdAt": "2026-03-17T23:55:08.110Z",
-                "accessCount": 1,
-                "lastAccessed": "2026-03-22T01:55:14.662Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T21:18:31.998Z",
                 "confidence": 1,
                 "supersedes": null
               },
@@ -10262,6 +10294,330 @@
         }
       },
       "processedAt": "2026-03-22T01:55:15.678Z"
+    },
+    {
+      "query": {
+        "gmailId": "19d1768fb3739b2d",
+        "from": "Heavy on Buccaneers <newsletters@heavy.com>",
+        "senderEmail": "newsletters@heavy.com",
+        "subject": "❤️ Winfield's Fiancée a TRUE Hero",
+        "body": "Bucs All-Pro Antoine Winfield Jr.'s Fiancée Hailed as ‘Unexpected Hero’ After Accident [https://heavy.com/sports/nfl/tampa-bay-buccaneers/antoine-winfield-fiancee-unexpected-hero/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/antoine-winfield-fiancee-unexpected-hero/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: Bucs’ 6-Foot-4, 270-Pound Defender Called NFL’s ‘Most Underpaid Player’ [https://heavy.com/sports/nfl/tampa-bay-buccaneers/yaya-diaby-nfl-most-underpaid-player/?adt_ei=banfjax@gmail.com&lctg=]      READ THE STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/yaya-diaby-nfl-most-underpaid-player/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Buccaneers Lose 3-Time NFL All-Pro to NFC Contender in Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Defender Jumps Ship for Super Bowl Contender [https://heavy.com/sports/nfl/tampa-bay-buccaneers/kindle-vildor-signs-super-bowl-contender/?adt_ei=banfjax@gmail.com&lctg=] George Kittle Weighs in on Recruiting Pitch to Mike Evans [https://heavy.com/sports/nfl/tampa-bay-buccaneers/george-kittle-weighs-in-on-recruiting-pitch-to-mike-evans/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Lose 6-Foot-8 Fill-In Starter to AFC Team [https://heavy.com/sports/nfl/tampa-bay-buccaneers/free-agent-charlie-heck-miami-dolphins/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Could Target Indiana WR to Replace Evans in Draft [https://heavy.com/sports/nfl/tampa-bay-buccaneers/buccaneers-could-target-indiana-wr-to-replace-evans-in-draft/?adt_ei=banfjax@gmail.com&lctg=]\r\n\r\nSchedule [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#season_schedule]  |   Stats [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#team_stats]  |   Depth Chart [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#depth_chart]  |   Injuries [https://heavy.com/sports/nfl/tampa-bay-buccaneers/?adt_ei=banfjax@gmail.com?adt_ei=banfjax@gmail.com#injury_report]\r\n\r\n322&lctg=&stpe=default \">322&lctg=&stpe=default&li_coord=desktop&collapse_width=600\"> [\"https://sli.heavy.com/click?s=1148109&e=banfjax@gmail.com&p=202622&lctg=&stpe=pixel\">   322&lctg=&stpe=pixel\">   322&lctg=&stpe=pixel\">   322&lctg=&stpe=pixel\">   322&lctg=&stpe=pixel\">                                        Share   https://heavycom.cmail19.com/t/t-fb-wtikua-tulukrhlw-x/       Tweet   https://heavycom.cmail19.com/t/t-tw-wtikua-tulukrhlw-m/       Forward   https://heavycom.forwardtomyfriend.com/t-tulukrhlw-DAF7A12A-wtikua-l-c\r\n\r\nHeavy.com [https://heavy.com/?adt_ei=banfjax@gmail.com]\r\n\r\nHeavy Inc.\r\n\r\n55 Post Road West\r\n\r\nWestport, CT 06880\r\n\r\nYou're receiving this email after subscribing to Heavy.com's Tampa Bay Buccaneers newsletters.  Unsubscribe https://heavycom.cmail19.com/t/t-u-wtikua-tulukrhlw-a/\r\n\r\nUnsubscribe https://heavycom.cmail19.com/t/t-u-wtikua-tulukrhlw-f/",
+        "date": "Mon, 23 Mar 2026 08:17:14 +1100",
+        "detectedAt": "2026-03-22T21:18:31.918Z",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "isMemberReply": false
+      },
+      "result": {
+        "success": true,
+        "approvalId": "QA-1774214312012-vz5i",
+        "classification": {
+          "category": "event_info",
+          "categoryType": "safe",
+          "confidence": 0.6222222222222222,
+          "isDrive": false,
+          "needsHuman": true,
+          "reason": "Safe category but needs more training samples",
+          "priority": "normal"
+        },
+        "needsHuman": true,
+        "memoryContext": {
+          "priorMemories": [
+            {
+              "memory": {
+                "id": "MEM-1773791708110-96b763",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "😑 Bucs Lose Unsung Hero",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773791707337-rll3",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T23:55:08.110Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T21:18:31.998Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              "score": 0.28560460573948787,
+              "rawSimilarity": 0.19302567207160798
+            }
+          ],
+          "identityInsights": {
+            "emailOrName": "newsletters@heavy.com",
+            "knownAliases": [],
+            "preferredName": null,
+            "corrections": [],
+            "insights": [
+              "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Make Big Money Move\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773730298374-fhit",
+              "Processed email from newsletters@heavy.com: subject=\"Buccaneers Make Massive Contract Change With $90 Million Starter...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773766582422-4zuf",
+              "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+              "Processed email from newsletters@heavy.com: subject=\"Buccaneers Lose 3-Time NFL All-Pro to NFC Contender\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513126-m196",
+              "Processed email from newsletters@heavy.com: subject=\"✌️ Ex-All-Pro Walks in Free Agency\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513913-xrjd",
+              "Processed email from newsletters@heavy.com: subject=\"😖 Bucs Lose Versatile Vet DB\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144514670-0m8d",
+              "Processed email from newsletters@heavy.com: subject=\"‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144514919-pvw9",
+              "Processed email from newsletters@heavy.com: subject=\"💯 Licht Gets REAL About Evans\", category=profile_update, confidence=0.7, needsHuman=true, approvalId=QA-1774144515326-n4a7",
+              "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Free Up Cap Space\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144515394-kdna"
+            ],
+            "totalMemories": 9,
+            "highImpact": [
+              {
+                "id": "MEM-1773730299031-9a23ae",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Make Big Money Move\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773730298374-fhit",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "💰 Bucs Make Big Money Move",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773730298374-fhit",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T06:51:39.031Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1773766582928-f0d0f6",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"Buccaneers Make Massive Contract Change With $90 Million Starter...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773766582422-4zuf",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "Buccaneers Make Massive Contract Change With $90 Million Starter...",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773766582422-4zuf",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T16:56:22.928Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1773791708110-96b763",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"😑 Bucs Lose Unsung Hero\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1773791707337-rll3",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "😑 Bucs Lose Unsung Hero",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1773791707337-rll3",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-17T23:55:08.110Z",
+                "accessCount": 2,
+                "lastAccessed": "2026-03-22T21:18:31.998Z",
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144513607-2a52f7",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"Buccaneers Lose 3-Time NFL All-Pro to NFC Contender\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513126-m196",
+                "tags": [
+                  "event_info",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "Buccaneers Lose 3-Time NFL All-Pro to NFC Contender",
+                  "category": "event_info",
+                  "confidence": 0.6222222222222222,
+                  "approvalId": "QA-1774144513126-m196",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:13.607Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144514153-295875",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"✌️ Ex-All-Pro Walks in Free Agency\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774144513913-xrjd",
+                "tags": [
+                  "event_info",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "✌️ Ex-All-Pro Walks in Free Agency",
+                  "category": "event_info",
+                  "confidence": 0.6222222222222222,
+                  "approvalId": "QA-1774144513913-xrjd",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.153Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144514896-fc1467",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"😖 Bucs Lose Versatile Vet DB\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144514670-0m8d",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "😖 Bucs Lose Versatile Vet DB",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1774144514670-0m8d",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:14.896Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144515142-47e0a7",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144514919-pvw9",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "‘I Don’t Feel Betrayed’: Buccaneers GM Addresses Loss of $155 Million All-Pro...",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1774144514919-pvw9",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.143Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144515377-1484eb",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"💯 Licht Gets REAL About Evans\", category=profile_update, confidence=0.7, needsHuman=true, approvalId=QA-1774144515326-n4a7",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "💯 Licht Gets REAL About Evans",
+                  "category": "profile_update",
+                  "confidence": 0.7,
+                  "approvalId": "QA-1774144515326-n4a7",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.377Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              },
+              {
+                "id": "MEM-1774144515440-7d5f75",
+                "type": "experience",
+                "content": "Processed email from newsletters@heavy.com: subject=\"💰 Bucs Free Up Cap Space\", category=profile_update, confidence=0.6000000000000001, needsHuman=true, approvalId=QA-1774144515394-kdna",
+                "tags": [
+                  "profile_update",
+                  "email_processed"
+                ],
+                "context": {
+                  "email": "newsletters@heavy.com",
+                  "subject": "💰 Bucs Free Up Cap Space",
+                  "category": "profile_update",
+                  "confidence": 0.6000000000000001,
+                  "approvalId": "QA-1774144515394-kdna",
+                  "memberName": "unknown",
+                  "source": "user_query_agent"
+                },
+                "source": "unknown",
+                "impact": "high",
+                "relatedEmails": [],
+                "createdAt": "2026-03-22T01:55:15.441Z",
+                "accessCount": 0,
+                "lastAccessed": null,
+                "confidence": 1,
+                "supersedes": null
+              }
+            ]
+          }
+        }
+      },
+      "processedAt": "2026-03-22T21:18:32.249Z"
     }
   ],
   "processedDevInstructIds": [
@@ -10361,7 +10717,8 @@
     "19d0221eae2b7f9a",
     "19d020eb5e040c39",
     "19d020858aa546b2",
-    "19d01fda310ce98a"
+    "19d01fda310ce98a",
+    "19d16754d4446409"
   ],
   "processedWfLedgerIds": [
     "19d12fa8e71484c4",

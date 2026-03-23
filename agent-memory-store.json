@@ -162,18 +162,18 @@
       "filtering"
     ],
     "context": {
-      "skippedMarketing": 1,
+      "skippedMarketing": 0,
       "skippedReplied": 0,
       "skippedDrive": 0,
-      "userQueryCount": 0,
+      "userQueryCount": 1,
       "source": "email_reader_agent"
     },
     "source": "unknown",
     "impact": "low",
     "relatedEmails": [],
     "createdAt": "2026-03-16T01:22:28.397Z",
-    "accessCount": 9,
-    "lastAccessed": "2026-03-22T02:25:40.751Z",
+    "accessCount": 10,
+    "lastAccessed": "2026-03-22T21:18:31.931Z",
     "confidence": 1,
     "supersedes": null
   },
@@ -328,8 +328,8 @@
     "impact": "high",
     "relatedEmails": [],
     "createdAt": "2026-03-17T23:55:08.110Z",
-    "accessCount": 1,
-    "lastAccessed": "2026-03-22T01:55:14.662Z",
+    "accessCount": 2,
+    "lastAccessed": "2026-03-22T21:18:31.998Z",
     "confidence": 1,
     "supersedes": null
   },
@@ -768,6 +768,32 @@
     "impact": "high",
     "relatedEmails": [],
     "createdAt": "2026-03-22T01:55:15.677Z",
+    "accessCount": 0,
+    "lastAccessed": null,
+    "confidence": 1,
+    "supersedes": null
+  },
+  {
+    "id": "MEM-1774214312248-4a74f4",
+    "type": "experience",
+    "content": "Processed email from newsletters@heavy.com: subject=\"❤️ Winfield's Fiancée a TRUE Hero\", category=event_info, confidence=0.6222222222222222, needsHuman=true, approvalId=QA-1774214312012-vz5i",
+    "tags": [
+      "event_info",
+      "email_processed"
+    ],
+    "context": {
+      "email": "newsletters@heavy.com",
+      "subject": "❤️ Winfield's Fiancée a TRUE Hero",
+      "category": "event_info",
+      "confidence": 0.6222222222222222,
+      "approvalId": "QA-1774214312012-vz5i",
+      "memberName": "unknown",
+      "source": "user_query_agent"
+    },
+    "source": "unknown",
+    "impact": "high",
+    "relatedEmails": [],
+    "createdAt": "2026-03-22T21:18:32.248Z",
     "accessCount": 0,
     "lastAccessed": null,
     "confidence": 1,

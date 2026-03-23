@@ -9,12 +9,27 @@ const fs = require('fs');
 const crm = JSON.parse(fs.readFileSync('banf-crm-master.json', 'utf8'));
 const membersByYear = JSON.parse(fs.readFileSync('_yoy_members_by_year.json', 'utf8'));
 
+// ---- EC Term to Membership Year mapping ----
+// Each EC term = 2 consecutive membership years with same fee structure
+// Membership year starts after Saraswati Puja (late Jan / early Feb)
+const EC_TERMS = {
+  '20-22': { label: 'EC 2020-22', years: ['2021-22', '2022-23'] },
+  '22-24': { label: 'EC 2022-24', years: ['2023-24', '2024-25'] },
+  '24-26': { label: 'EC 2024-26', years: ['2025-26', '2026-27'] },
+};
+function getECTerm(membershipYear) {
+  for (const [key, term] of Object.entries(EC_TERMS)) {
+    if (term.years.includes(membershipYear)) return term.label;
+  }
+  return '';
+}
+
 // ---- Build payment data per year (household level) ----
 const paymentsByYear = {};
 (crm.members || []).forEach(m => {
   (m.paymentRecords || []).forEach(p => {
-    // ALL payments in CRM are post-Feb 2026 → remap 2025-26 to 2026-27
-    const year = p.year === '2025-26' ? '2026-27' : p.year;
+    // Keep year as-is from CRM — no remapping
+    const year = p.year;
     if (!paymentsByYear[year]) paymentsByYear[year] = {};
     const fid = m.familyId || m.email;
     if (!paymentsByYear[year][fid]) {
@@ -49,39 +64,39 @@ Object.keys(paymentsByYear).forEach(y => {
   });
 });
 
-// ---- Apply corrections for 2026-27 ----
+// ---- Apply corrections ----
+// Santanu: Zelle payment for 2026-27 confirmed
 const y2627 = paymentsByYear['2026-27'] || {};
-
-// Fix: Santanu payment for 2026-27 confirmed by user
 if (y2627['RFAM-088']) {
-  y2627['RFAM-088'].notes.push('Payment for FY 2026-27 confirmed by user');
-  // Update display name to include spouse
+  y2627['RFAM-088'].notes.push('Zelle payment for FY 2026-27 confirmed by user');
   y2627['RFAM-088'].familyDisplayName = 'Santanu & Sanchari Bhattacharya';
   if (!y2627['RFAM-088'].members.find(m => m.email === 'tosanchari@gmail.com')) {
     y2627['RFAM-088'].members.push({ name: 'Sanchari Bhattacharyya', email: 'tosanchari@gmail.com', phone: '' });
   }
 }
 
-// Fix: Sharmistha Poddar (RFAM-006) is spouse of Suvankar Paul (RFAM-074)
-if (y2627['RFAM-006']) {
-  y2627['RFAM-006'].notes.push('Sharmistha Poddar = spouse of Suvankar Paul (maiden name Poddar, listed as "Sharmistha Paul" in evite)');
+// Sharmistha Poddar / Suvankar Paul — XLSX payment for 2025-26
+const y2526 = paymentsByYear['2025-26'] || {};
+if (y2526['RFAM-006']) {
+  y2526['RFAM-006'].notes.push('Sharmistha Poddar = spouse of Suvankar Paul (maiden name Poddar, listed as "Sharmistha Paul" in evite)');
 }
-if (y2627['RFAM-074']) {
-  y2627['RFAM-074'].notes.push('Spouse: Sharmistha Poddar (sharmi.p09@gmail.com) - see RFAM-006');
-  if (!y2627['RFAM-074'].members.find(m => m.email === 'sharmi.p09@gmail.com')) {
-    y2627['RFAM-074'].members.push({ name: 'Sharmistha Poddar (Paul)', email: 'sharmi.p09@gmail.com', phone: '' });
+if (y2526['RFAM-074']) {
+  y2526['RFAM-074'].notes.push('Spouse: Sharmistha Poddar (sharmi.p09@gmail.com) — see RFAM-006');
+  if (!y2526['RFAM-074'].members.find(m => m.email === 'sharmi.p09@gmail.com')) {
+    y2526['RFAM-074'].members.push({ name: 'Sharmistha Poddar (Paul)', email: 'sharmi.p09@gmail.com', phone: '' });
   }
 }
 
-// Note: Anita Mandal / Prabir Mandal check payment investigation
-if (y2627['RFAM-026']) {
-  y2627['RFAM-026'].notes.push('User reported Anita/Prabir Mandal paid by check - no digital record found. Current payments: $300 EB-Couple + $100 Reg-Couple');
+// Prabir Mandal — check payment, unknown year
+if (y2526['RFAM-026']) {
+  y2526['RFAM-026'].notes.push('User reported Anita/Prabir Mandal paid by check — no digital record found. Current payments: $300 EB-Couple + $100 Reg-Couple');
 }
-if (y2627['RFAM-023']) {
-  y2627['RFAM-023'].notes.push('Prabir Mandal - no payment record found in CRM. User reports check payment.');
-} else {
-  // Add Prabir as a note-only household
-  y2627['RFAM-023'] = {
+if (y2526['RFAM-023']) {
+  y2526['RFAM-023'].notes.push('Prabir Mandal — no payment record found in CRM. User reports check payment.');
+} else if (!y2627['RFAM-023']) {
+  // Add Prabir as a note-only household under 2025-26 (pending verification)
+  if (!paymentsByYear['2025-26']) paymentsByYear['2025-26'] = {};
+  paymentsByYear['2025-26']['RFAM-023'] = {
     familyId: 'RFAM-023',
     familyDisplayName: 'Prabir Mandal',
     members: [{ name: 'Prabir Mandal', email: 'prabirmandal@yahoo.com', phone: '' }],
@@ -91,22 +106,16 @@ if (y2627['RFAM-023']) {
     isEC: false,
     city: 'Jacksonville',
     state: 'FL',
-    notes: ['User reports check payment for FY 2026-27 - no digital record yet. Needs verification.']
+    notes: ['User reports check payment — year unconfirmed. Needs manual verification.']
   };
 }
 
-// ---- Merge membershipYears data for 2025-26 into 2026-27 ----
-// (since 2025-26 = 2026-27 per date rule)
-const remappedMembersByYear = { ...membersByYear };
-if (remappedMembersByYear['2025-26'] && !remappedMembersByYear['2026-27-full']) {
-  remappedMembersByYear['2026-27-full'] = remappedMembersByYear['2025-26'];
-  delete remappedMembersByYear['2025-26'];
-}
+// ---- No year remapping needed — CRM data has correct years ----
 
 // ---- Build yearly summary stats ----
 function getYearStats(year) {
   const hhs = paymentsByYear[year] ? Object.values(paymentsByYear[year]) : [];
-  const members = remappedMembersByYear[year] || remappedMembersByYear[year + '-full'] || [];
+  const members = membersByYear[year] || [];
   const totalRev = hhs.reduce((a, h) => a + h.totalAmount, 0);
   const cats = {};
   hhs.forEach(h => h.payments.forEach(p => {
@@ -125,20 +134,15 @@ function getYearStats(year) {
 }
 
 // ---- Years to display ----
-const allYears = ['2022-23', '2023-24', '2024-25', '2026-27'];
+const allYears = ['2022-23', '2023-24', '2024-25', '2025-26', '2026-27'];
 const yearStats = allYears.map(getYearStats);
-
-// For 2026-27, use the merged member count from 2025-26 
-const y2627stat = yearStats.find(s => s.year === '2026-27');
-if (y2627stat && remappedMembersByYear['2026-27-full']) {
-  y2627stat.memberCount = remappedMembersByYear['2026-27-full'].length;
-}
 
 // ---- Color scheme per year ----
 const yearColors = {
   '2022-23': { primary: '#6B7280', bg: '#F9FAFB', border: '#D1D5DB', badge: '#E5E7EB' },
   '2023-24': { primary: '#8B5CF6', bg: '#F5F3FF', border: '#C4B5FD', badge: '#EDE9FE' },
   '2024-25': { primary: '#0EA5E9', bg: '#F0F9FF', border: '#7DD3FC', badge: '#E0F2FE' },
+  '2025-26': { primary: '#F59E0B', bg: '#FFFBEB', border: '#FCD34D', badge: '#FEF3C7' },
   '2026-27': { primary: '#059669', bg: '#ECFDF5', border: '#6EE7B7', badge: '#D1FAE5' }
 };
 
@@ -283,9 +287,10 @@ let html = `<!DOCTYPE html>
 [...yearStats].reverse().forEach(s => {
   const c = yearColors[s.year] || yearColors['2022-23'];
   const isCurrent = s.year === '2026-27';
+  const ecTerm = getECTerm(s.year);
   html += `
   <div class="summary-card" style="border-left-color:${c.primary}" onclick="toggleYear('${s.year}')">
-    <div class="label">Membership Year</div>
+    <div class="label">Membership Year${ecTerm ? ' &bull; ' + ecTerm : ''}</div>
     <h3>${s.year}${isCurrent ? '<span class="tag current-tag">CURRENT</span>' : ''}</h3>
     <div class="big-number" style="color:${c.primary}">${s.hasPaymentData ? fmt$(s.totalRevenue) : s.memberCount + ' members'}</div>
     <div class="meta">${s.hasPaymentData ? s.householdCount + ' paying households &bull; ' + Object.keys(s.categories).length + ' tiers' : 'Member roster only (no payment data)'}</div>
@@ -305,16 +310,21 @@ html += `</div>
   </div>
   <div class="investigation-item">
     <span class="status status-resolved">&#10004; CONFIRMED</span> &mdash;
-    <strong>Santanu Bhattacharya (FY 2026-27):</strong> Payment confirmed by user. 
-    CRM shows $340 (2x$170 EB-Family per person) for household RFAM-088. 
-    Email acknowledgement script created; email pending Gmail rate limit recovery.
+    <strong>Santanu Bhattacharya (FY 2026-27):</strong> Zelle payment for M2 Premium confirmed by user. 
+    CRM shows XLSX payment ($340 EB-Family) for FY 2025-26 and Zelle payment ($375 M2 Premium) for FY 2026-27.
   </div>
   <div class="investigation-item">
     <span class="status status-pending">&#9888; UNVERIFIED</span> &mdash;
     <strong>Anita Mandal / Prabir Mandal (Check Payment):</strong> 
     User reported payment by check. No digital record found in Wells Fargo statements, Zelle, or CRM. 
     Anita (RFAM-026) has existing $300 EB-Couple + $100 Reg-Couple payments on record. 
-    Prabir (RFAM-023) has no FY 2026-27 payment record. Needs manual check deposit verification.
+    Prabir (RFAM-023) has no payment record. Year unconfirmed. Needs manual check deposit verification.
+  </div>
+  <div class="investigation-item">
+    <span class="status status-info">&#9432; NOTE</span> &mdash;
+    <strong>EC Term / Year Mapping:</strong> Years are grouped by EC term. 
+    EC 22-24 covers FY 2022-23 &amp; 2023-24. EC 24-26 covers FY 2024-25 &amp; 2025-26. EC 26-28 covers FY 2026-27+.
+    Fees remain the same within each EC term. Payment source: XLSX = 2025-26, Zelle = 2026-27.
   </div>
   <div class="investigation-item">
     <span class="status status-info">&#9432; NOTE</span> &mdash;
@@ -331,13 +341,14 @@ html += `</div>
   const isCurrent = year === '2026-27';
   const isOpen = isCurrent; // auto-open current year
   const households = paymentsByYear[year] ? Object.values(paymentsByYear[year]).sort((a, b) => b.totalAmount - a.totalAmount) : [];
-  const members = (year === '2026-27' ? remappedMembersByYear['2026-27-full'] : remappedMembersByYear[year]) || [];
+  const members = membersByYear[year] || [];
+  const ecTermLabel = getECTerm(year);
 
   html += `
 <div class="year-section" id="section-${year}">
   <div class="year-header" style="background:${c.bg}; border-left-color:${c.primary}" onclick="toggleYear('${year}')">
     <h2 style="color:${c.primary}">
-      FY ${year}${isCurrent ? ' <span class="tag current-tag">CURRENT TERM</span>' : ''}
+      FY ${year}${ecTermLabel ? ' <span style="font-size:0.6em;opacity:0.7">(' + ecTermLabel + ')</span>' : ''}${isCurrent ? ' <span class="tag current-tag">CURRENT</span>' : ''}
     </h2>
     <div class="stats">
       ${stats.hasPaymentData ? `
@@ -471,7 +482,7 @@ html += `
       <thead>
         <tr>
           <th>Metric</th>
-          ${allYears.map(y => `<th style="text-align:center;color:${(yearColors[y]||{}).primary||'#333'}">${y}${y === '2026-27' ? ' *' : ''}</th>`).join('')}
+          ${allYears.map(y => `<th style="text-align:center;color:${(yearColors[y]||{}).primary||'#333'}">${y}<br><span style="font-size:0.7em;opacity:0.6">${getECTerm(y)}</span></th>`).join('')}
         </tr>
       </thead>
       <tbody>
@@ -506,7 +517,8 @@ html += `
       </tbody>
     </table>
     <div style="margin-top:12px;font-size:0.85em;color:#6B7280">
-      * FY 2026-27 includes all payments previously recorded as "2025-26" in CRM (all were made after Feb 2026).<br>
+      EC Terms: EC 20-22 → FY 2021-22 &amp; 2022-23 | EC 22-24 → FY 2023-24 &amp; 2024-25 | EC 24-26 → FY 2025-26 &amp; 2026-27<br>
+      FY 2025-26 data sourced from Membership XLSX. FY 2026-27 data from Zelle payments.<br>
       Historical years (2022-25) show member counts only &mdash; no payment/tier data available in CRM.
     </div>
   </div>
@@ -550,4 +562,8 @@ fs.writeFileSync('BANF_MEMBERSHIP_YOY_DASHBOARD.html', html);
 console.log('Dashboard generated: BANF_MEMBERSHIP_YOY_DASHBOARD.html');
 console.log('Size:', (html.length / 1024).toFixed(1), 'KB');
 console.log('Years:', allYears.join(', '));
-console.log('Current year (2026-27):', Object.values(paymentsByYear['2026-27'] || {}).length, 'households');
+allYears.forEach(y => {
+  const hhs = paymentsByYear[y] ? Object.values(paymentsByYear[y]).length : 0;
+  const mems = (membersByYear[y] || []).length;
+  console.log(`  ${y} (${getECTerm(y)}): ${hhs} households, ${mems} members`);
+});

@@ -1,0 +1,400 @@
+{
+  "sent": {
+    "abghosh.88@gmail.com": {
+      "name": "AB Ghosh",
+      "email": "abghosh.88@gmail.com",
+      "sentAt": "2026-03-23T00:00:05.918Z",
+      "batchNum": 1
+    },
+    "ananyadas999@gmail.com": {
+      "name": "Ananya Das",
+      "email": "ananyadas999@gmail.com",
+      "sentAt": "2026-03-23T00:00:05.918Z",
+      "batchNum": 1
+    },
+    "amandalamandal@yahoo.com": {
+      "name": "Anita Mandal",
+      "email": "amandalamandal@yahoo.com",
+      "sentAt": "2026-03-23T00:00:22.708Z",
+      "batchNum": 2
+    },
+    "maildasantara@gmail.com": {
+      "name": "Antara Das",
+      "email": "maildasantara@gmail.com",
+      "sentAt": "2026-03-23T00:00:22.709Z",
+      "batchNum": 2
+    },
+    "callarnabsikdar@gmail.com": {
+      "name": "Arnab Sikdar",
+      "email": "callarnabsikdar@gmail.com",
+      "sentAt": "2026-03-23T00:00:39.706Z",
+      "batchNum": 3
+    },
+    "drchiradeb@gmail.com": {
+      "name": "Chirajyoti Deb",
+      "email": "drchiradeb@gmail.com",
+      "sentAt": "2026-03-23T00:00:39.707Z",
+      "batchNum": 3
+    },
+    "chrissy.m.das@gmail.com": {
+      "name": "Chrissy Das",
+      "email": "chrissy.m.das@gmail.com",
+      "sentAt": "2026-03-23T00:00:56.704Z",
+      "batchNum": 4
+    },
+    "debanjanmtr@gmail.com": {
+      "name": "Debanjan Mitra",
+      "email": "debanjanmtr@gmail.com",
+      "sentAt": "2026-03-23T00:00:56.705Z",
+      "batchNum": 4
+    },
+    "ghoshdebkumar31@gmail.com": {
+      "name": "Debkumar Ghosh",
+      "email": "ghoshdebkumar31@gmail.com",
+      "sentAt": "2026-03-23T00:01:13.706Z",
+      "batchNum": 5
+    },
+    "irenesen28@gmail.com": {
+      "name": "Irene Sen",
+      "email": "irenesen28@gmail.com",
+      "sentAt": "2026-03-23T00:01:13.707Z",
+      "batchNum": 5
+    },
+    "kgourab90@gmail.com": {
+      "name": "Gourab K",
+      "email": "kgourab90@gmail.com",
+      "sentAt": "2026-03-23T00:01:30.907Z",
+      "batchNum": 6
+    },
+    "madhusn@gmail.com": {
+      "name": "Madhu SN",
+      "email": "madhusn@gmail.com",
+      "sentAt": "2026-03-23T00:01:30.908Z",
+      "batchNum": 6
+    },
+    "moumita.mukherje@gmail.com": {
+      "name": "Moumita Mukherjee",
+      "email": "moumita.mukherje@gmail.com",
+      "sentAt": "2026-03-23T00:01:47.700Z",
+      "batchNum": 7
+    },
+    "pal.krishnendu@mayo.edu": {
+      "name": "Krishnendu Pal",
+      "email": "pal.krishnendu@mayo.edu",
+      "sentAt": "2026-03-23T00:01:47.700Z",
+      "batchNum": 7
+    },
+    "pallavi.solaiappan@gmail.com": {
+      "name": "Pallavi S",
+      "email": "pallavi.solaiappan@gmail.com",
+      "sentAt": "2026-03-23T00:02:04.597Z",
+      "batchNum": 8
+    },
+    "mukhopadhyay.partha@gmail.com": {
+      "name": "Partha Mukhopadhyay",
+      "email": "mukhopadhyay.partha@gmail.com",
+      "sentAt": "2026-03-23T00:02:04.598Z",
+      "batchNum": 8
+    },
+    "prabirmandal@yahoo.com": {
+      "name": "Prabir Mandal",
+      "email": "prabirmandal@yahoo.com",
+      "sentAt": "2026-03-23T00:02:21.596Z",
+      "batchNum": 9
+    },
+    "rnm205@hotmail.com": {
+      "name": "Raghunath Mukherjee",
+      "email": "rnm205@hotmail.com",
+      "sentAt": "2026-03-23T00:02:21.597Z",
+      "batchNum": 9
+    },
+    "ranadhir.ghosh@gmail.com": {
+      "name": "Ranadhir Ghosh",
+      "email": "ranadhir.ghosh@gmail.com",
+      "sentAt": "2026-03-23T00:02:38.559Z",
+      "batchNum": 10
+    },
+    "ratan.royin@gmail.com": {
+      "name": "Ratan Royin",
+      "email": "ratan.royin@gmail.com",
+      "sentAt": "2026-03-23T00:02:38.560Z",
+      "batchNum": 10
+    },
+    "rwitichoudhury@gmail.com": {
+      "name": "Rwiti Choudhury",
+      "email": "rwitichoudhury@gmail.com",
+      "sentAt": "2026-03-23T00:02:55.390Z",
+      "batchNum": 11
+    },
+    "sanjeev04@gmail.com": {
+      "name": "Sanjeev",
+      "email": "sanjeev04@gmail.com",
+      "sentAt": "2026-03-23T00:02:55.390Z",
+      "batchNum": 11
+    },
+    "sankalanhazra@gmail.com": {
+      "name": "Sankalan Hazra",
+      "email": "sankalanhazra@gmail.com",
+      "sentAt": "2026-03-23T00:03:12.294Z",
+      "batchNum": 12
+    },
+    "maitra.sayani@gmail.com": {
+      "name": "Sayani Maitra",
+      "email": "maitra.sayani@gmail.com",
+      "sentAt": "2026-03-23T00:03:12.295Z",
+      "batchNum": 12
+    },
+    "dutta.shamit@mayo.edu": {
+      "name": "Shamit Dutta",
+      "email": "dutta.shamit@mayo.edu",
+      "sentAt": "2026-03-23T00:03:29.182Z",
+      "batchNum": 13
+    },
+    "souvikcha@gmail.com": {
+      "name": "Souvik Chakraborty",
+      "email": "souvikcha@gmail.com",
+      "sentAt": "2026-03-23T00:03:29.183Z",
+      "batchNum": 13
+    },
+    "sumo475@gmail.com": {
+      "name": "Sumanta Ghosh",
+      "email": "sumo475@gmail.com",
+      "sentAt": "2026-03-23T00:03:46.495Z",
+      "batchNum": 14
+    },
+    "supriya.lnct2@gmail.com": {
+      "name": "Supriya",
+      "email": "supriya.lnct2@gmail.com",
+      "sentAt": "2026-03-23T00:03:46.496Z",
+      "batchNum": 14
+    },
+    "tanay.bhaduri@gmail.com": {
+      "name": "Tanay Bhaduri",
+      "email": "tanay.bhaduri@gmail.com",
+      "sentAt": "2026-03-23T00:04:03.176Z",
+      "batchNum": 15
+    },
+    "tanmay0562017@gmail.com": {
+      "name": "Tanmay Das",
+      "email": "tanmay0562017@gmail.com",
+      "sentAt": "2026-03-23T00:04:03.176Z",
+      "batchNum": 15
+    },
+    "tanmoy.banerjee2009@gmail.com": {
+      "name": "Tanmoy Banerjee",
+      "email": "tanmoy.banerjee2009@gmail.com",
+      "sentAt": "2026-03-23T00:04:19.355Z",
+      "batchNum": 16
+    }
+  },
+  "failed": {},
+  "batches": [
+    {
+      "batchNum": 1,
+      "startedAt": "2026-03-23T00:00:01.820Z",
+      "recipients": [
+        "abghosh.88@gmail.com",
+        "ananyadas999@gmail.com"
+      ],
+      "sent": [
+        "abghosh.88@gmail.com",
+        "ananyadas999@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 2,
+      "startedAt": "2026-03-23T00:00:20.926Z",
+      "recipients": [
+        "amandalamandal@yahoo.com",
+        "maildasantara@gmail.com"
+      ],
+      "sent": [
+        "amandalamandal@yahoo.com",
+        "maildasantara@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 3,
+      "startedAt": "2026-03-23T00:00:37.723Z",
+      "recipients": [
+        "callarnabsikdar@gmail.com",
+        "drchiradeb@gmail.com"
+      ],
+      "sent": [
+        "callarnabsikdar@gmail.com",
+        "drchiradeb@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 4,
+      "startedAt": "2026-03-23T00:00:54.717Z",
+      "recipients": [
+        "chrissy.m.das@gmail.com",
+        "debanjanmtr@gmail.com"
+      ],
+      "sent": [
+        "chrissy.m.das@gmail.com",
+        "debanjanmtr@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 5,
+      "startedAt": "2026-03-23T00:01:11.715Z",
+      "recipients": [
+        "ghoshdebkumar31@gmail.com",
+        "irenesen28@gmail.com"
+      ],
+      "sent": [
+        "ghoshdebkumar31@gmail.com",
+        "irenesen28@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 6,
+      "startedAt": "2026-03-23T00:01:28.724Z",
+      "recipients": [
+        "kgourab90@gmail.com",
+        "madhusn@gmail.com"
+      ],
+      "sent": [
+        "kgourab90@gmail.com",
+        "madhusn@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 7,
+      "startedAt": "2026-03-23T00:01:45.923Z",
+      "recipients": [
+        "moumita.mukherje@gmail.com",
+        "pal.krishnendu@mayo.edu"
+      ],
+      "sent": [
+        "moumita.mukherje@gmail.com",
+        "pal.krishnendu@mayo.edu"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 8,
+      "startedAt": "2026-03-23T00:02:02.718Z",
+      "recipients": [
+        "pallavi.solaiappan@gmail.com",
+        "mukhopadhyay.partha@gmail.com"
+      ],
+      "sent": [
+        "pallavi.solaiappan@gmail.com",
+        "mukhopadhyay.partha@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 9,
+      "startedAt": "2026-03-23T00:02:19.607Z",
+      "recipients": [
+        "prabirmandal@yahoo.com",
+        "rnm205@hotmail.com"
+      ],
+      "sent": [
+        "prabirmandal@yahoo.com",
+        "rnm205@hotmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 10,
+      "startedAt": "2026-03-23T00:02:36.613Z",
+      "recipients": [
+        "ranadhir.ghosh@gmail.com",
+        "ratan.royin@gmail.com"
+      ],
+      "sent": [
+        "ranadhir.ghosh@gmail.com",
+        "ratan.royin@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 11,
+      "startedAt": "2026-03-23T00:02:53.576Z",
+      "recipients": [
+        "rwitichoudhury@gmail.com",
+        "sanjeev04@gmail.com"
+      ],
+      "sent": [
+        "rwitichoudhury@gmail.com",
+        "sanjeev04@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 12,
+      "startedAt": "2026-03-23T00:03:10.402Z",
+      "recipients": [
+        "sankalanhazra@gmail.com",
+        "maitra.sayani@gmail.com"
+      ],
+      "sent": [
+        "sankalanhazra@gmail.com",
+        "maitra.sayani@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 13,
+      "startedAt": "2026-03-23T00:03:27.311Z",
+      "recipients": [
+        "dutta.shamit@mayo.edu",
+        "souvikcha@gmail.com"
+      ],
+      "sent": [
+        "dutta.shamit@mayo.edu",
+        "souvikcha@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 14,
+      "startedAt": "2026-03-23T00:03:44.193Z",
+      "recipients": [
+        "sumo475@gmail.com",
+        "supriya.lnct2@gmail.com"
+      ],
+      "sent": [
+        "sumo475@gmail.com",
+        "supriya.lnct2@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 15,
+      "startedAt": "2026-03-23T00:04:01.516Z",
+      "recipients": [
+        "tanay.bhaduri@gmail.com",
+        "tanmay0562017@gmail.com"
+      ],
+      "sent": [
+        "tanay.bhaduri@gmail.com",
+        "tanmay0562017@gmail.com"
+      ],
+      "failed": []
+    },
+    {
+      "batchNum": 16,
+      "startedAt": "2026-03-23T00:04:18.192Z",
+      "recipients": [
+        "tanmoy.banerjee2009@gmail.com"
+      ],
+      "sent": [
+        "tanmoy.banerjee2009@gmail.com"
+      ],
+      "failed": []
+    }
+  ],
+  "startedAt": "2026-03-23T00:00:01.818Z"
+}

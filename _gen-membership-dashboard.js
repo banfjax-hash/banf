@@ -3,17 +3,18 @@
 const fs = require('fs');
 const households = require('./_membership_households.json');
 
-// FY 2026-27 Tier Structure (EC Term: Feb 2026 - Mid Feb 2027)
-// SIMPLE RULE: Any payment made after Feb 2026 = FY 2026-27
+// Membership Tier Structure (EC Term 24-26: FY 2025-26 & FY 2026-27)
+// Year assignment: XLSX data = FY 2025-26, Zelle payments = FY 2026-27
+// Fees are the same within each EC term
 // Categories kept as-is from CRM payment records
 const tierConfig = {
   'M2 Premium EB - Family': { color: '#7c3aed', bg: '#faf5ff', border: '#e9d5ff', badge: 'M2 PREMIUM', icon: 'P', desc: 'M2 Premium Early Bird - All 17 events | Family', rate: 375 },
   'M2 Premium - Couple': { color: '#6d28d9', bg: '#faf5ff', border: '#e9d5ff', badge: 'M2 PREMIUM', icon: 'P', desc: 'M2 Premium - All 17 events | Couple', rate: 330 },
-  'EB - Family': { color: '#1d4ed8', bg: '#eff6ff', border: '#bfdbfe', badge: 'EARLY BIRD', icon: 'F', desc: 'Early Bird - Family Membership | FY 2026-27', rate: 340 },
-  'EB - Couple': { color: '#0891b2', bg: '#ecfeff', border: '#a5f3fc', badge: 'EARLY BIRD', icon: 'C', desc: 'Early Bird - Couple Membership | FY 2026-27', rate: 230 },
-  'EB - Individual': { color: '#059669', bg: '#f0fdf4', border: '#bbf7d0', badge: 'EARLY BIRD', icon: 'I', desc: 'Early Bird - Individual Membership | FY 2026-27', rate: 190 },
-  'Reg - Family': { color: '#d97706', bg: '#fffbeb', border: '#fde68a', badge: 'REGULAR', icon: 'F', desc: 'Regular - Family Membership | FY 2026-27', rate: 280 },
-  'Reg - Couple': { color: '#ea580c', bg: '#fff7ed', border: '#fed7aa', badge: 'REGULAR', icon: 'C', desc: 'Regular - Couple Membership | FY 2026-27', rate: 255 },
+  'EB - Family': { color: '#1d4ed8', bg: '#eff6ff', border: '#bfdbfe', badge: 'EARLY BIRD', icon: 'F', desc: 'Early Bird - Family Membership | EC 24-26', rate: 340 },
+  'EB - Couple': { color: '#0891b2', bg: '#ecfeff', border: '#a5f3fc', badge: 'EARLY BIRD', icon: 'C', desc: 'Early Bird - Couple Membership | EC 24-26', rate: 230 },
+  'EB - Individual': { color: '#059669', bg: '#f0fdf4', border: '#bbf7d0', badge: 'EARLY BIRD', icon: 'I', desc: 'Early Bird - Individual Membership | EC 24-26', rate: 190 },
+  'Reg - Family': { color: '#d97706', bg: '#fffbeb', border: '#fde68a', badge: 'REGULAR', icon: 'F', desc: 'Regular - Family Membership | EC 24-26', rate: 280 },
+  'Reg - Couple': { color: '#ea580c', bg: '#fff7ed', border: '#fed7aa', badge: 'REGULAR', icon: 'C', desc: 'Regular - Couple Membership | EC 24-26', rate: 255 },
 };
 
 const tierOrder = [

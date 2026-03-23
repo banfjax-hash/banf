@@ -621,12 +621,35 @@
       "status": "pending",
       "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515617-8yxm&action=approve",
       "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774144515617-8yxm&action=reject"
+    },
+    {
+      "id": "QA-1774214312012-vz5i",
+      "timestamp": "2026-03-22T21:18:32.012Z",
+      "email": {
+        "from": "newsletters@heavy.com",
+        "subject": "❤️ Winfield's Fiancée a TRUE Hero",
+        "body": "Bucs All-Pro Antoine Winfield Jr.'s Fiancée Hailed as ‘Unexpected Hero’ After Accident [https://heavy.com/sports/nfl/tampa-bay-buccaneers/antoine-winfield-fiancee-unexpected-hero/?adt_ei=banfjax@gmail.com&lctg=]          READ THIS NEWS [https://heavy.com/sports/nfl/tampa-bay-buccaneers/antoine-winfield-fiancee-unexpected-hero/?adt_ei=banfjax@gmail.com&lctg=]          PLUS: Bucs’ 6-Foot-4, 270-Pound Defender Called NFL’s ‘Most Underpaid Player’ [https://heavy.com/sports/nfl/tampa-bay-buccaneers/yaya-diaby-nfl-most-underpaid-player/?adt_ei=banfjax@gmail.com&lctg=]      READ THE STORY [https://heavy.com/sports/nfl/tampa-bay-buccaneers/yaya-diaby-nfl-most-underpaid-player/?adt_ei=banfjax@gmail.com&lctg=]         MORE BUCCANEERS NEWS: Buccaneers Lose 3-Time NFL All-Pro to NFC Contender in Free Agency [https://heavy.com/sports/nfl/tampa-bay-buccaneers/all-pro-jt-gray-nfc-rival/?adt_ei=banfjax@gmail.com&lctg=] Buccaneers Defender Jumps Ship for Super Bowl Contender [https://heavy.com/sports/n"
+      },
+      "classification": {
+        "category": "event_info",
+        "categoryType": "safe",
+        "confidence": 0.6222222222222222,
+        "isDrive": false,
+        "needsHuman": true,
+        "reason": "Safe category but needs more training samples",
+        "priority": "normal"
+      },
+      "reasoning": "Sender is not in our CRM - may be prospective member. Email contains clear request/question",
+      "suggestedResponse": "Dear there,\n\nThank you for your interest in BANF events!\n\nOur upcoming event is **Bosonto Utsob 2026** (Spring Festival):\n- **Date:** Saturday, March 7, 2026\n- **Location:** Southside Community Center, 10080 Beach Blvd, Jacksonville FL 32246\n- **Time:** 11:00 AM EST onwards\n\nFor more details and to RSVP, please visit www.jaxbengali.org or check your Evite invitation.\n\nBest regards,\nBANF Team",
+      "status": "pending",
+      "approvalUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774214312012-vz5i&action=approve",
+      "rejectUrl": "https://banfjax-hash.github.io/banf1/query-approval.html?id=QA-1774214312012-vz5i&action=reject"
     }
   ],
   "approvedResponses": [],
   "rejectedResponses": [],
   "statistics": {
-    "totalProcessed": 27,
+    "totalProcessed": 28,
     "totalApproved": 0,
     "totalRejected": 0,
     "totalAutoResponded": 0,

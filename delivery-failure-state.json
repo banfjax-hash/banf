@@ -83,7 +83,12 @@
     "19d02d94d5a6aebd",
     "19d02c3794c09811",
     "19d0225d4c5a5d5f",
-    "19d135bdc1772384"
+    "19d135bdc1772384",
+    "19d17b8c39a79050",
+    "19d17caec8c323d5",
+    "19d17e3a7264d486",
+    "19d17f2b5fa796f8",
+    "19d1800046ceac2c"
   ],
   "flaggedEmails": {
     "rajanya.ghosh@gmail.com": {
@@ -323,6 +328,62 @@
       "actionTaken": true,
       "suspended": true,
       "suspendedAt": "2026-03-22T01:55:22.675Z"
+    },
+    "anna@summitshinecleaning.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T22:48:32.432Z",
+      "lastBounce": "2026-03-22T23:48:32.497Z",
+      "bounceCount": 2,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T22:48:32.432Z"
+    },
+    "lena@breezycleaners.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T23:08:32.298Z",
+      "lastBounce": "2026-03-22T23:08:32.298Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T23:08:32.298Z"
+    },
+    "brianmurphy@metaappdesignes.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-22T23:33:31.981Z",
+      "lastBounce": "2026-03-22T23:33:31.981Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-22T23:33:31.981Z"
+    },
+    "melanie@capitalcitycleanguild.com": {
+      "reason": "temporary_failure",
+      "isTemporary": true,
+      "flaggedAt": "2026-03-23T00:03:37.027Z",
+      "lastBounce": "2026-03-23T00:03:37.027Z",
+      "bounceCount": 1,
+      "recoveryAction": "escalate",
+      "recoveryTarget": null,
+      "memberName": null,
+      "householdId": null,
+      "actionTaken": true,
+      "suspended": true,
+      "suspendedAt": "2026-03-23T00:03:37.027Z"
     }
   },
   "recoveryActions": [
@@ -1093,16 +1154,64 @@
         "status": "not-sent",
         "reason": "Use --send to enable"
       }
+    },
+    {
+      "failedEmail": "anna@summitshinecleaning.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T22:48:32.432Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "lena@breezycleaners.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T23:08:32.298Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "brianmurphy@metaappdesignes.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-22T23:33:31.981Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
+    },
+    {
+      "failedEmail": "melanie@capitalcitycleanguild.com",
+      "bounceReason": "temporary_failure",
+      "isTemporary": true,
+      "action": "escalate",
+      "confidence": 0,
+      "timestamp": "2026-03-23T00:03:37.027Z",
+      "sendResult": {
+        "status": "not-sent",
+        "reason": "Use --send to enable"
+      }
     }
   ],
   "escalations": [],
   "spouseVerifications": [],
   "stats": {
-    "totalBouncesProcessed": 84,
+    "totalBouncesProcessed": 89,
     "totalRecovered": 0,
-    "totalEscalated": 64,
-    "totalFlagged": 64
+    "totalEscalated": 68,
+    "totalFlagged": 68
   },
   "createdAt": "2026-03-12T00:40:03.652Z",
-  "lastSaved": "2026-03-22T02:25:41.564Z"
+  "lastSaved": "2026-03-23T00:03:37.027Z"
 }

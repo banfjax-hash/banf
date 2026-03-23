@@ -1,31 +1,31 @@
 {
   "pipelineStatus": "ACTIVE",
   "health": "GREEN",
-  "lastScanTime": "2026-03-22T03:20:42.312Z",
-  "nextPollAt": "2026-03-22T03:25:42.324Z",
+  "lastScanTime": "2026-03-23T00:03:38.130Z",
+  "nextPollAt": "2026-03-23T00:08:38.158Z",
   "pollIntervalMin": 5,
-  "pollCount": 2515,
+  "pollCount": 2676,
   "autoSend": false,
   "batchSize": 3,
   "upSince": "2026-03-02T22:31:15.034Z",
   "lastCycle": {
-    "duration": "4.7s",
+    "duration": "9.5s",
     "newRsvps": 0,
     "newPayments": 0,
     "newMembers": 0,
     "paymentFollowups": 0,
     "instructions": 0,
     "userQueries": 0,
-    "deliveryFailures": 0
+    "deliveryFailures": 1
   },
   "driveConfig": null,
   "totals": {
-    "processedEmails": 388,
+    "processedEmails": 415,
     "totalRsvps": 14,
     "totalPayments": 1,
     "totalEmailsSent": 4,
     "totalInstructions": 0,
-    "totalQueries": 64
+    "totalQueries": 65
   },
   "activeDrives": [
     "Evite RSVP Pipeline",
@@ -111,8 +111,8 @@
       "email": "ΓÇö",
       "time": "2026-03-02T22:31:33.794Z",
       "detail": "yes",
-      "cycle": 2515
+      "cycle": 2676
     }
   ],
-  "updatedAt": "2026-03-22T03:20:42.324Z"
+  "updatedAt": "2026-03-23T00:03:38.158Z"
 }

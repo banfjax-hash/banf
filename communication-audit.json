@@ -618,12 +618,34 @@
           }
         }
       }
+    },
+    {
+      "id": "AUDIT-1774214312075-6iem",
+      "timestamp": "2026-03-22T21:18:32.075Z",
+      "action": "send_email",
+      "agent": "user_query_agent",
+      "to": "ranadhir.ghosh@gmail.com",
+      "subject": "≡ƒöì Query Response Approval: event_info [QA-1774214312012-vz5i]",
+      "complianceScore": 90,
+      "complianceLevel": "excellent",
+      "violations": [],
+      "warnings": [
+        "NON_ASCII_SUBJECT: Subject contains non-ASCII characters ΓÇö will be RFC 2047 encoded",
+        "UNREPLACED_PLACEHOLDERS: Found [reason] ΓÇö may be template errors"
+      ],
+      "result": "sent",
+      "evidence": {
+        "originalSubject": "≡ƒöì Query Response Approval: event_info [QA-1774214312012-vz5i]",
+        "encodedSubject": "=?UTF-8?B?4omhxpLDtsOsIFF1ZXJ5IFJlc3BvbnNlIEFwcHJvdmFsOiBldmVudF9pbmZv?=\r\n =?UTF-8?B?IFtRQS0xNzc0MjE0MzEyMDEyLXZ6NWld?=",
+        "hasNonAscii": true,
+        "recipientValid": true
+      }
     }
   ],
   "stats": {
-    "total": 27,
-    "passed": 21,
+    "total": 28,
+    "passed": 22,
     "failed": 6,
-    "warnings": 21
+    "warnings": 22
   }
 }

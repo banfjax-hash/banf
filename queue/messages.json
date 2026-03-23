@@ -2007,6 +2007,36 @@
         "updatedAt": "2026-03-22T02:15:16.442Z",
         "lastError": null,
         "dedupKey": "github_failure-1774145716439-psmsja"
+      },
+      {
+        "id": "msg_1774198331220_d0fhtk",
+        "queue": "general",
+        "payload": {
+          "emailId": "github_failure-1774198331219-e1ewcm",
+          "phase": "github_failure",
+          "from": "banfjax-hash <notifications@github.com>",
+          "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (62fc227)",
+          "data": {
+            "gmailId": "19d16754d4446409",
+            "from": "banfjax-hash <notifications@github.com>",
+            "subject": "[banfjax-hash/banf] Run failed: .github/workflows/android-ci.yml - main (62fc227)",
+            "body": "[banfjax-hash/banf] .github/workflows/android-ci.yml workflow run\r\n\r\nRepository: banfjax-hash/banf\r\nWorkflow: .github/workflows/android-ci.yml\r\nDuration: 0.0 seconds\r\nFinished: 2026-03-22 16:50:58 UTC\r\n\r\nView results: https://github.com/banfjax-hash/banf/actions/runs/23407780733\r\n\r\nJobs:\r\n\r\n\r\n-- \r\nYou are receiving this because you are subscribed to this thread.\r\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B673PKX66SNDH2KA5EANRQD4SAKYNA5CNFSNUACCM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTMMJVGQ4DEMJSGI2DKJJTIIYTONZUGE4TQMRVHCTHEZLBONXW5IFFMV3GK3TUWFRXGX3TMV2HI2LOM5ZV6Y3MNFRWW",
+            "date": "Sun, 22 Mar 2026 09:51:18 -0700",
+            "repo": "banfjax-hash/banf",
+            "workflow": ".github/workflows/android",
+            "pattern": "/\\brun failed\\b/i",
+            "detectedAt": "2026-03-22T16:51:52.380Z"
+          },
+          "enqueuedAt": "2026-03-22T16:52:11.219Z"
+        },
+        "priority": "normal",
+        "status": "pending",
+        "attempts": 0,
+        "maxRetries": 3,
+        "createdAt": "2026-03-22T16:52:11.220Z",
+        "updatedAt": "2026-03-22T16:52:11.220Z",
+        "lastError": null,
+        "dedupKey": "github_failure-1774198331219-e1ewcm"
       }
     ],
     "user_query": [],
@@ -2408,6 +2438,14 @@
     "github_failure-1774145716439-psmsja": {
       "queue": "general",
       "enqueuedAt": "2026-03-22T02:15:16.442Z"
+    },
+    "github_failure-1774198331219-e1ewcm": {
+      "queue": "general",
+      "enqueuedAt": "2026-03-22T16:52:11.220Z"
+    },
+    "user_query-1774214311933-ac6pix": {
+      "queue": "user_query",
+      "enqueuedAt": "2026-03-22T21:18:31.935Z"
     }
   },
   "createdAt": "2026-03-16T01:15:00.835Z"

@@ -192,6 +192,7 @@ import {
     post_evite_cleanup_invites,  options_evite_cleanup_invites,
     post_evite_update_event,     options_evite_update_event,
     post_evite_send_correction,  options_evite_send_correction,
+    post_evite_resend_invites,   options_evite_resend_invites,
     post_crm_email_cleanup,      options_crm_email_cleanup,
     post_crm_corporate_filter,   options_crm_corporate_filter,
     get_crm_email_health,        options_crm_email_health
@@ -592,6 +593,8 @@ import { getHtml as getUnifiedDashboardHtml } from 'backend/portals/unified-dash
 import { getHtml as getLandingHtml } from 'backend/portals/landing-html';
 import { getHtml as getReimbursementHtml } from 'backend/portals/reimbursement-html';
 import { getHtml as getReimbursementGuideHtml } from 'backend/portals/reimbursement-guide-html';
+import { getHtml as getPipelineTechdocHtml } from 'backend/portals/pipeline-techdoc-html';
+import { getHtml as getMasterDashboardHtml } from 'backend/portals/master-dashboard-html';
 
 // Suppress auth for backend operations
 const SA = { suppressAuth: true };
@@ -6922,6 +6925,14 @@ export function get_reimbursement_guide(request) {
     return htmlPage(getReimbursementGuideHtml());
 }
 export function options_reimbursement_guide(request) { return handleCors(); }
+
+// GET /_functions/pipeline_techdoc — Pipeline technical documentation (super admin / stakeholders)
+export function get_pipeline_techdoc(request) { return htmlPage(getPipelineTechdocHtml()); }
+export function options_pipeline_techdoc(request) { return handleCors(); }
+
+// GET /_functions/master_dashboard — Master admin dashboard (EC admin / super admin)
+export function get_master_dashboard(request) { return htmlPage(getMasterDashboardHtml()); }
+export function options_master_dashboard(request) { return handleCors(); }
 
 // GET /_functions/join   membership drive / new member onboarding
 export function get_join(request)          { return pageRedirect('/join.html'); }

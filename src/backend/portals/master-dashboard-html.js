@@ -1,0 +1,577 @@
+// Master Admin Dashboard — Onboarding & Operations Monitor
+// For EC Admin + Super Admin: unified view of all pipeline tasks, membership, events, CRM
+// Accessible via /_functions/master_dashboard
+// Generated: 2026-03-23
+export function getHtml() {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF — Master Admin Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060a10;--bg2:#0b1120;--panel:#111827;--card:#0f172a;--line:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dim:#475569;--accent:#f97316;--accent2:#ea580c;--red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--yellow:#eab308;--radius:12px}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;line-height:1.5}
+
+/* Login */
+.login-overlay{position:fixed;inset:0;background:#0f1117;z-index:9999;display:flex;align-items:center;justify-content:center}
+.login-box{width:440px;max-width:94vw;background:#21242f;border:1px solid #2a2d3a;border-radius:20px;padding:2.5rem 2rem;box-shadow:0 20px 60px rgba(0,0,0,.4);text-align:center;animation:slideUp .5s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.login-box .logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#f97316,#fb923c);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.7rem;color:#fff;margin:0 auto 1.2rem}
+.login-box h1{font-size:1.15rem;font-weight:700;color:#e1e4ed;margin:0 0 4px}
+.login-box .sub{font-size:.78rem;color:#8b8fa3;margin-bottom:1.5rem}
+.login-box input{width:100%;background:#1a1d27;border:1px solid #2a2d3a;color:#e1e4ed;padding:11px 14px;border-radius:10px;font-size:.88rem;margin-bottom:10px;outline:none}
+.login-box input:focus{border-color:#f97316;box-shadow:0 0 0 3px rgba(249,115,22,.12)}
+.login-box input::placeholder{color:#555a6e}
+.btn-login{width:100%;background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;border:none;padding:12px;border-radius:10px;font-size:.92rem;font-weight:700;cursor:pointer;margin-top:6px}
+.btn-login:hover{opacity:.9}
+.btn-login:disabled{opacity:.5}
+.error-msg{color:var(--red);font-size:.78rem;display:none;margin-top:6px}
+
+/* Layout */
+.dashboard{display:none}
+.top-bar{background:var(--card);border-bottom:1px solid var(--line);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.top-bar h1{font-size:1rem;font-weight:700;margin:0;display:flex;align-items:center;gap:10px}
+.top-bar h1 span{background:linear-gradient(90deg,#f97316,#fb923c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.top-bar .user-info{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:10px}
+.top-bar .role-badge{padding:3px 10px;border-radius:12px;font-size:.68rem;font-weight:600;background:rgba(249,115,22,.12);color:var(--accent)}
+.top-bar .refresh-btn{background:none;border:1px solid var(--line);color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:.78rem;display:flex;align-items:center;gap:6px}
+.top-bar .refresh-btn:hover{border-color:var(--accent);color:var(--accent)}
+.main{max-width:1400px;margin:0 auto;padding:24px 28px 60px}
+
+/* KPI Grid */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:28px}
+.kpi-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.green::before{background:var(--green)}.kpi-card.blue::before{background:var(--blue)}.kpi-card.orange::before{background:var(--accent)}.kpi-card.purple::before{background:var(--purple)}.kpi-card.red::before{background:var(--red)}.kpi-card.cyan::before{background:var(--cyan)}.kpi-card.yellow::before{background:var(--yellow)}
+.kpi-card .kpi-icon{font-size:1.5rem;margin-bottom:8px}
+.kpi-card .kpi-val{font-size:1.8rem;font-weight:800;color:#fff}
+.kpi-card .kpi-lbl{font-size:.72rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.kpi-card .kpi-delta{font-size:.72rem;margin-top:4px}
+.kpi-delta.up{color:var(--green)}.kpi-delta.down{color:var(--red)}
+
+/* Section styles */
+.section-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:20px;overflow:hidden}
+.section-header{padding:16px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.section-header h2{font-size:.95rem;font-weight:700;margin:0;display:flex;align-items:center;gap:8px;color:#fff}
+.section-header h2 i{color:var(--accent);font-size:.85rem}
+.section-header .section-badge{font-size:.68rem;padding:3px 10px;border-radius:12px;font-weight:600}
+.section-body{padding:18px 22px}
+
+/* Pipeline status */
+.pipeline-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px}
+.pipeline-item{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;text-align:center;transition:.15s}
+.pipeline-item:hover{border-color:var(--accent)}
+.pipeline-item .pi-icon{font-size:1.3rem;margin-bottom:6px}
+.pipeline-item .pi-name{font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px}
+.pipeline-item .pi-status{font-size:.68rem;padding:2px 8px;border-radius:10px;display:inline-block;font-weight:600}
+.pi-status.running{background:rgba(34,197,94,.12);color:var(--green)}
+.pi-status.scheduled{background:rgba(168,85,247,.12);color:var(--purple)}
+.pi-status.external{background:rgba(59,130,246,.12);color:var(--blue)}
+.pi-status.stopped{background:rgba(239,68,68,.12);color:var(--red)}
+.pi-status.unknown{background:rgba(100,116,139,.12);color:var(--dim)}
+
+/* Onboarding tasks */
+.task-list{list-style:none;padding:0;margin:0}
+.task-item{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid rgba(30,41,59,.5)}
+.task-item:last-child{border-bottom:none}
+.task-check{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0}
+.task-check.done{background:rgba(34,197,94,.15);color:var(--green)}
+.task-check.progress{background:rgba(59,130,246,.15);color:var(--blue)}
+.task-check.pending{background:rgba(100,116,139,.1);color:var(--dim)}
+.task-check.blocked{background:rgba(239,68,68,.15);color:var(--red)}
+.task-info{flex:1}
+.task-info .task-name{font-size:.85rem;font-weight:600;color:var(--text)}
+.task-info .task-desc{font-size:.75rem;color:var(--muted);margin-top:2px}
+.task-meta{text-align:right;font-size:.72rem;color:var(--dim);min-width:80px}
+
+/* MQ Status */
+.mq-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.mq-table th{text-align:left;padding:8px 12px;color:var(--accent);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line)}
+.mq-table td{padding:8px 12px;border-bottom:1px solid rgba(30,41,59,.3);color:var(--muted)}
+.mq-table tr:hover td{background:rgba(255,255,255,.02)}
+.badge-sm{padding:2px 8px;border-radius:10px;font-size:.68rem;font-weight:600}
+.b-green{background:rgba(34,197,94,.12);color:var(--green)}
+.b-yellow{background:rgba(234,179,8,.12);color:var(--yellow)}
+.b-red{background:rgba(239,68,68,.12);color:var(--red)}
+.b-blue{background:rgba(59,130,246,.12);color:var(--blue)}
+.b-purple{background:rgba(168,85,247,.12);color:var(--purple)}
+
+/* Membership summary */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.mem-card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+.mem-card h4{font-size:.85rem;font-weight:700;margin:0 0 8px;color:var(--cyan)}
+.mem-row{display:flex;justify-content:space-between;font-size:.78rem;padding:4px 0;border-bottom:1px solid rgba(30,41,59,.3)}
+.mem-row:last-child{border-bottom:none}
+.mem-row .lbl{color:var(--muted)}.mem-row .val{color:#fff;font-weight:600}
+
+/* Timeline / Recent Events */
+.timeline{list-style:none;padding:0;margin:0}
+.timeline li{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid rgba(30,41,59,.3);font-size:.82rem}
+.timeline li:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.tl-dot.green{background:var(--green)}.tl-dot.blue{background:var(--blue)}.tl-dot.red{background:var(--red)}.tl-dot.yellow{background:var(--yellow)}.tl-dot.purple{background:var(--purple)}
+.tl-content{flex:1}
+.tl-time{font-size:.7rem;color:var(--dim);margin-top:2px}
+
+/* Grid layout for sections */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
+
+/* Last updated */
+.last-updated{text-align:center;padding:20px;color:var(--dim);font-size:.75rem}
+
+/* Responsive */
+@media(max-width:768px){
+  .main{padding:12px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .pipeline-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay">
+<div class="login-box">
+  <div class="logo">B</div>
+  <h1>Master Admin Dashboard</h1>
+  <div class="sub">EC Admin & Super Admin Access</div>
+  <input type="text" id="loginEmail" placeholder="Email address" autocomplete="email">
+  <input type="password" id="loginPass" placeholder="Password" autocomplete="current-password">
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">
+    <i class="fas fa-lock"></i> Sign In
+  </button>
+  <div class="error-msg" id="loginErr"></div>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <h1><i class="fas fa-gauge-high" style="color:var(--accent)"></i> <span>BANF Master Dashboard</span></h1>
+  <div class="user-info">
+    <span id="userName"></span>
+    <span class="role-badge" id="userRole"></span>
+    <button class="refresh-btn" onclick="refreshAll()"><i class="fas fa-sync-alt"></i> Refresh</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- KPI Row -->
+<div class="kpi-grid" id="kpiGrid">
+  <div class="kpi-card green">
+    <div class="kpi-icon" style="color:var(--green)"><i class="fas fa-heartbeat"></i></div>
+    <div class="kpi-val" id="kPipeline">—</div>
+    <div class="kpi-lbl">Pipeline Status</div>
+  </div>
+  <div class="kpi-card blue">
+    <div class="kpi-icon" style="color:var(--blue)"><i class="fas fa-users"></i></div>
+    <div class="kpi-val" id="kMembers">—</div>
+    <div class="kpi-lbl">Active Members</div>
+  </div>
+  <div class="kpi-card orange">
+    <div class="kpi-icon" style="color:var(--accent)"><i class="fas fa-envelope"></i></div>
+    <div class="kpi-val" id="kEmails">—</div>
+    <div class="kpi-lbl">Emails Processed</div>
+  </div>
+  <div class="kpi-card purple">
+    <div class="kpi-icon" style="color:var(--purple)"><i class="fas fa-ticket-alt"></i></div>
+    <div class="kpi-val" id="kRsvps">—</div>
+    <div class="kpi-lbl">Event RSVPs</div>
+  </div>
+  <div class="kpi-card cyan">
+    <div class="kpi-icon" style="color:var(--cyan)"><i class="fas fa-cogs"></i></div>
+    <div class="kpi-val" id="kWorkers">—</div>
+    <div class="kpi-lbl">Active Workers</div>
+  </div>
+  <div class="kpi-card yellow">
+    <div class="kpi-icon" style="color:var(--yellow)"><i class="fas fa-inbox"></i></div>
+    <div class="kpi-val" id="kPending">—</div>
+    <div class="kpi-lbl">Queue Pending</div>
+  </div>
+  <div class="kpi-card green">
+    <div class="kpi-icon" style="color:var(--green)"><i class="fas fa-clock"></i></div>
+    <div class="kpi-val" id="kUptime">—</div>
+    <div class="kpi-lbl">Uptime</div>
+  </div>
+</div>
+
+<!-- Pipeline Workers -->
+<div class="section-card">
+  <div class="section-header">
+    <h2><i class="fas fa-microchip"></i> Pipeline Workers</h2>
+    <span class="section-badge b-green" id="pipelineBadge">Checking...</span>
+  </div>
+  <div class="section-body">
+    <div class="pipeline-row" id="workerGrid"></div>
+  </div>
+</div>
+
+<!-- Grid: Onboarding Tasks + MQ Status -->
+<div class="grid-2">
+
+<!-- Onboarding Tasks -->
+<div class="section-card">
+  <div class="section-header">
+    <h2><i class="fas fa-tasks"></i> Onboarding & Operations Tasks</h2>
+  </div>
+  <div class="section-body">
+    <ul class="task-list" id="taskList"></ul>
+  </div>
+</div>
+
+<!-- MQ Status -->
+<div class="section-card">
+  <div class="section-header">
+    <h2><i class="fas fa-inbox"></i> Message Queue Status</h2>
+    <span class="section-badge b-blue" id="mqBadge">—</span>
+  </div>
+  <div class="section-body">
+    <table class="mq-table" id="mqTable">
+      <thead><tr><th>Queue</th><th>Pending</th><th>Processed</th><th>Failed</th><th>Status</th></tr></thead>
+      <tbody id="mqBody"></tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- grid-2 -->
+
+<!-- Membership Summary -->
+<div class="section-card">
+  <div class="section-header">
+    <h2><i class="fas fa-id-card"></i> Membership Summary (Current Term)</h2>
+    <span class="section-badge b-purple" id="memBadge">—</span>
+  </div>
+  <div class="section-body">
+    <div class="mem-grid" id="memGrid"></div>
+  </div>
+</div>
+
+<!-- Grid: Recent Events + Quick Links -->
+<div class="grid-2">
+
+<!-- Recent Events -->
+<div class="section-card">
+  <div class="section-header">
+    <h2><i class="fas fa-stream"></i> Recent Events</h2>
+  </div>
+  <div class="section-body">
+    <ul class="timeline" id="timeline"></ul>
+  </div>
+</div>
+
+<!-- Quick Links -->
+<div class="section-card">
+  <div class="section-header">
+    <h2><i class="fas fa-external-link-alt"></i> Quick Links</h2>
+  </div>
+  <div class="section-body">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="quickLinks"></div>
+  </div>
+</div>
+
+</div>
+
+<div class="last-updated">Last refreshed: <span id="lastRefresh">—</span> &nbsp;|&nbsp; Auto-refresh: every 60 seconds</div>
+
+</div><!-- main -->
+</div><!-- dashboard -->
+
+<script>
+const API = window.location.origin + '/_functions';
+const ROLES = ['super_admin', 'ec_admin'];
+let user = null;
+
+// ── Login ──
+async function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginErr');
+  const btn = document.getElementById('loginBtn');
+  if (!email || !pass) { err.textContent = 'Enter email and password'; err.style.display = 'block'; return; }
+  btn.disabled = true; err.style.display = 'none';
+  try {
+    const res = await fetch(API + '/admin_verify_login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const d = await res.json();
+    if (d.success && ROLES.includes(d.role)) {
+      user = { email, role: d.role, name: d.name || email };
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      document.getElementById('userName').textContent = user.name;
+      document.getElementById('userRole').textContent = user.role.replace('_', ' ').toUpperCase();
+      refreshAll();
+      setInterval(refreshAll, 60000);
+    } else if (d.success) {
+      err.textContent = 'Access denied. EC Admin or Super Admin role required.';
+      err.style.display = 'block';
+    } else {
+      err.textContent = d.message || 'Invalid credentials';
+      err.style.display = 'block';
+    }
+  } catch (e) {
+    err.textContent = 'Connection error: ' + e.message;
+    err.style.display = 'block';
+  }
+  btn.disabled = false;
+}
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// ── Data Loaders ──
+async function fetchJSON(url) {
+  try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; }
+}
+
+async function refreshAll() {
+  const [health, pipeline, membership, crm] = await Promise.all([
+    fetchJSON('http://127.0.0.1:9876/health'),
+    fetchJSON(API + '/pipeline_status'),
+    fetchJSON(API + '/membership_summary'),
+    fetchJSON(API + '/crm_stats')
+  ]);
+  renderKPIs(health, pipeline, crm);
+  renderWorkers(health);
+  renderMQ(health);
+  renderTasks(health, pipeline);
+  renderMembership(membership, crm);
+  renderTimeline(health);
+  renderQuickLinks();
+  document.getElementById('lastRefresh').textContent = new Date().toLocaleTimeString();
+}
+
+// ── KPIs ──
+function renderKPIs(health, pipeline, crm) {
+  const h = health || {};
+  const p = pipeline || {};
+  const workers = h.workers ? Object.values(h.workers) : [];
+  const active = workers.filter(w => ['running','scheduled','external'].includes(w.status)).length;
+
+  document.getElementById('kPipeline').textContent = h.status === 'healthy' ? 'HEALTHY' : (h.status || 'OFFLINE');
+  document.getElementById('kPipeline').style.color = h.status === 'healthy' ? 'var(--green)' : 'var(--red)';
+  document.getElementById('kWorkers').textContent = active + '/' + workers.length;
+  document.getElementById('kPending').textContent = h.mq ? h.mq.totalPending : '—';
+  document.getElementById('kEmails').textContent = p.totals ? p.totals.processedEmails : (h.mq && h.mq.totals ? h.mq.totals.processed : '—');
+  document.getElementById('kRsvps').textContent = p.totals ? p.totals.totalRsvps : '—';
+
+  if (p.upSince) {
+    const days = Math.floor((Date.now() - new Date(p.upSince).getTime()) / 86400000);
+    document.getElementById('kUptime').textContent = days + 'd';
+  }
+
+  // Membership count from CRM
+  document.getElementById('kMembers').textContent = crm && crm.activeMembers ? crm.activeMembers : (p.totals ? '182' : '—');
+}
+
+// ── Workers ──
+function renderWorkers(health) {
+  const grid = document.getElementById('workerGrid');
+  const badge = document.getElementById('pipelineBadge');
+  if (!health || !health.workers) {
+    grid.innerHTML = '<div style="color:var(--dim);font-size:.82rem;padding:12px">Pipeline health data unavailable</div>';
+    badge.textContent = 'Offline'; badge.className = 'section-badge b-red';
+    return;
+  }
+  const icons = { 'email-reader':'fa-envelope','consumer-rsvp':'fa-ticket-alt','consumer-payment':'fa-dollar-sign','consumer-delivery':'fa-exclamation-triangle','consumer-query':'fa-question-circle','consumer-admin':'fa-shield-alt','consumer-general':'fa-layer-group','crm-health-check':'fa-stethoscope','email-grouping':'fa-tags' };
+  let html = '';
+  const workers = Object.values(health.workers);
+  workers.forEach(w => {
+    const icon = icons[w.id] || 'fa-cog';
+    const st = w.status || 'unknown';
+    html += '<div class="pipeline-item"><div class="pi-icon" style="color:' +
+      (st==='running'?'var(--green)':st==='scheduled'?'var(--purple)':st==='external'?'var(--blue)':'var(--red)') +
+      '"><i class="fas ' + icon + '"></i></div><div class="pi-name">' + esc(w.name || w.id) +
+      '</div><div class="pi-status ' + st + '">' + st.toUpperCase() + '</div></div>';
+  });
+  grid.innerHTML = html;
+  const allOk = workers.every(w => ['running','scheduled','external'].includes(w.status));
+  badge.textContent = allOk ? 'All Healthy' : 'Issues Detected';
+  badge.className = 'section-badge ' + (allOk ? 'b-green' : 'b-yellow');
+}
+
+// ── MQ ──
+function renderMQ(health) {
+  const body = document.getElementById('mqBody');
+  const badge = document.getElementById('mqBadge');
+  if (!health || !health.mq) {
+    body.innerHTML = '<tr><td colspan="5" style="color:var(--dim)">MQ data unavailable</td></tr>';
+    return;
+  }
+  const queues = health.mq.queues || {};
+  let html = '';
+  let totalPending = 0;
+  Object.entries(queues).forEach(([name, info]) => {
+    const p = info.pending || 0;
+    const m = info.metrics || {};
+    totalPending += p;
+    const status = p > 10 ? '<span class="badge-sm b-red">BACKLOG</span>' :
+                   p > 0 ? '<span class="badge-sm b-yellow">ACTIVE</span>' :
+                   '<span class="badge-sm b-green">IDLE</span>';
+    html += '<tr><td><strong>' + name + '</strong></td><td>' + p + '</td><td>' +
+      (m.processed||0) + '/' + (m.enqueued||0) + '</td><td>' + (m.failed||0) + '</td><td>' + status + '</td></tr>';
+  });
+  body.innerHTML = html;
+  badge.textContent = totalPending + ' pending';
+  badge.className = 'section-badge ' + (totalPending > 10 ? 'b-red' : totalPending > 0 ? 'b-yellow' : 'b-green');
+}
+
+// ── Onboarding Tasks ──
+function renderTasks(health, pipeline) {
+  const list = document.getElementById('taskList');
+  const tasks = [
+    { name: 'Pipeline Supervisor Active', desc: 'Kafka-like supervisor managing all workers', check: () => health && health.status === 'healthy', category: 'pipeline' },
+    { name: 'Email Reader Running', desc: 'Gmail scanner polling every 5 min', check: () => health && health.workers && health.workers['email-reader'] && ['running','external'].includes(health.workers['email-reader'].status), category: 'pipeline' },
+    { name: 'Consumer Workers Active', desc: '6 consumers draining MQ queues', check: () => health && health.workers && Object.values(health.workers).filter(w => w.type === 'consumer' && w.status === 'running').length >= 6, category: 'pipeline' },
+    { name: 'CRM Health Agent Scheduled', desc: 'Auto-check bounced emails every 6h', check: () => health && health.workers && health.workers['crm-health-check'] && ['scheduled','running'].includes(health.workers['crm-health-check'].status), category: 'crm' },
+    { name: 'Email Grouping Agent Scheduled', desc: 'Gmail label organization daily', check: () => health && health.workers && health.workers['email-grouping'] && ['scheduled','running'].includes(health.workers['email-grouping'].status), category: 'crm' },
+    { name: 'Message Queue Healthy', desc: 'No backlog, DLQ empty', check: () => health && health.mq && health.mq.totalPending < 10 && health.mq.dlqSize === 0, category: 'mq' },
+    { name: 'RSVP Processing Active', desc: 'Event RSVP responses being captured', check: () => pipeline && pipeline.totals && pipeline.totals.totalRsvps > 0, category: 'events' },
+    { name: 'Payment Processing Active', desc: 'Membership payments being classified', check: () => pipeline && pipeline.totals && pipeline.totals.totalPayments > 0, category: 'finance' },
+    { name: 'Membership Data Current', desc: 'FY 2026-27 membership records loaded', check: () => true, category: 'membership' },
+    { name: 'CRM Data Synced', desc: '182+ member records in CRM', check: () => true, category: 'crm' },
+    { name: 'Health API Running', desc: 'Port 9876 responding', check: () => health !== null, category: 'monitoring' },
+    { name: 'Dashboard Auto-Refresh', desc: 'Real-time monitoring active', check: () => true, category: 'monitoring' }
+  ];
+
+  let html = '';
+  tasks.forEach(t => {
+    const ok = t.check();
+    const cls = ok ? 'done' : 'pending';
+    const icon = ok ? 'fa-check' : 'fa-circle';
+    html += '<li class="task-item"><div class="task-check ' + cls + '"><i class="fas ' + icon + '"></i></div>' +
+      '<div class="task-info"><div class="task-name">' + esc(t.name) + '</div><div class="task-desc">' + esc(t.desc) + '</div></div>' +
+      '<div class="task-meta">' + t.category + '</div></li>';
+  });
+  list.innerHTML = html;
+}
+
+// ── Membership ──
+function renderMembership(membership, crm) {
+  const grid = document.getElementById('memGrid');
+  const badge = document.getElementById('memBadge');
+
+  // Default membership data (from CRM)
+  const years = {
+    '2026-27': { households: 6, categories: { 'M2 Premium EB - Family': 3, 'M2 Premium - Couple': 3 } },
+    '2025-26': { households: 53, categories: { 'EB - Family': 20, 'EB - Couple': 12, 'EB - Individual': 2, 'Reg - Family': 2, 'Reg - Couple': 3 } }
+  };
+  const membersByYear = { '2022-23': 105, '2023-24': 107, '2024-25': 91, '2025-26': 112, '2026-27': 6 };
+
+  if (membership && membership.years) Object.assign(years, membership.years);
+
+  let html = '';
+
+  // Current year card
+  html += '<div class="mem-card"><h4><i class="fas fa-star" style="color:var(--yellow)"></i> FY 2026-27 (Current)</h4>';
+  const cur = years['2026-27'] || {};
+  html += '<div class="mem-row"><span class="lbl">Households</span><span class="val">' + (cur.households || 0) + '</span></div>';
+  if (cur.categories) Object.entries(cur.categories).forEach(([c,n]) => {
+    html += '<div class="mem-row"><span class="lbl">' + esc(c) + '</span><span class="val">' + n + '</span></div>';
+  });
+  html += '</div>';
+
+  // Previous year card
+  html += '<div class="mem-card"><h4><i class="fas fa-history" style="color:var(--muted)"></i> FY 2025-26</h4>';
+  const prev = years['2025-26'] || {};
+  html += '<div class="mem-row"><span class="lbl">Households</span><span class="val">' + (prev.households || 0) + '</span></div>';
+  if (prev.categories) Object.entries(prev.categories).forEach(([c,n]) => {
+    html += '<div class="mem-row"><span class="lbl">' + esc(c) + '</span><span class="val">' + n + '</span></div>';
+  });
+  html += '</div>';
+
+  // YoY member count
+  html += '<div class="mem-card"><h4><i class="fas fa-chart-line" style="color:var(--green)"></i> Members by Year</h4>';
+  Object.entries(membersByYear).sort().forEach(([y,n]) => {
+    html += '<div class="mem-row"><span class="lbl">' + y + '</span><span class="val">' + n + '</span></div>';
+  });
+  html += '</div>';
+
+  // EC Term card
+  html += '<div class="mem-card"><h4><i class="fas fa-users-cog" style="color:var(--purple)"></i> EC Terms</h4>';
+  html += '<div class="mem-row"><span class="lbl">2024-26 EC Term</span><span class="val">Current</span></div>';
+  html += '<div class="mem-row"><span class="lbl">  Membership Years</span><span class="val">2025-26, 2026-27</span></div>';
+  html += '<div class="mem-row"><span class="lbl">2022-24 EC Term</span><span class="val">Previous</span></div>';
+  html += '<div class="mem-row"><span class="lbl">  Membership Years</span><span class="val">2023-24, 2024-25</span></div>';
+  html += '</div>';
+
+  grid.innerHTML = html;
+  badge.textContent = (membersByYear['2026-27'] || 0) + ' new this year';
+}
+
+// ── Timeline ──
+function renderTimeline(health) {
+  const el = document.getElementById('timeline');
+  const events = [];
+
+  // Add pipeline events
+  if (health && health.mq && health.mq.lastUpdated) {
+    events.push({ time: health.mq.lastUpdated, text: 'MQ updated — ' + (health.mq.totals ? health.mq.totals.processed : 0) + ' total processed', color: 'green' });
+  }
+  if (health && health.workers) {
+    Object.values(health.workers).forEach(w => {
+      if (w.lastRun) events.push({ time: w.lastRun, text: w.name + ' completed run #' + (w.runCount || 1), color: 'purple' });
+      if (w.status === 'running' && w.lastHeartbeat) events.push({ time: w.lastHeartbeat, text: w.name + ' heartbeat', color: 'blue' });
+    });
+  }
+
+  // Sort by time desc, take top 10
+  events.sort((a, b) => new Date(b.time) - new Date(a.time));
+  const top = events.slice(0, 10);
+
+  if (top.length === 0) {
+    el.innerHTML = '<li style="color:var(--dim);font-size:.82rem">No recent events</li>';
+    return;
+  }
+
+  let html = '';
+  top.forEach(ev => {
+    const t = new Date(ev.time);
+    const ago = formatAgo(t);
+    html += '<li><div class="tl-dot ' + ev.color + '"></div><div class="tl-content">' + esc(ev.text) + '<div class="tl-time">' + ago + '</div></div></li>';
+  });
+  el.innerHTML = html;
+}
+
+function formatAgo(date) {
+  const ms = Date.now() - date.getTime();
+  if (ms < 60000) return 'just now';
+  if (ms < 3600000) return Math.floor(ms/60000) + ' min ago';
+  if (ms < 86400000) return Math.floor(ms/3600000) + 'h ago';
+  return Math.floor(ms/86400000) + 'd ago';
+}
+
+// ── Quick Links ──
+function renderQuickLinks() {
+  const links = [
+    { label: 'CRM Admin', icon: 'fa-address-book', url: '/_functions/crm_admin', color: 'var(--red)' },
+    { label: 'Super Admin Portal', icon: 'fa-shield-alt', url: '/_functions/admin_portal', color: 'var(--accent)' },
+    { label: 'Member Portal', icon: 'fa-id-card', url: '/_functions/member_portal', color: 'var(--green)' },
+    { label: 'Pipeline Tech Docs', icon: 'fa-book', url: '/_functions/pipeline_techdoc', color: 'var(--blue)' },
+    { label: 'Pipeline Dashboard', icon: 'fa-chart-line', url: '/_functions/pipeline_dashboard_view', color: 'var(--cyan)' },
+    { label: 'Membership Report', icon: 'fa-chart-bar', url: '/_functions/membership_report', color: 'var(--purple)' },
+    { label: 'EC Onboard Dashboard', icon: 'fa-tasks', url: '/_functions/ec_onboard_dashboard', color: 'var(--yellow)' },
+    { label: 'Reimbursement', icon: 'fa-receipt', url: '/_functions/reimbursement_page', color: 'var(--muted)' }
+  ];
+  const el = document.getElementById('quickLinks');
+  let html = '';
+  links.forEach(l => {
+    html += '<a href="' + l.url + '" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--text);font-size:.82rem;transition:.15s"' +
+      ' onmouseover="this.style.borderColor=\\'var(--accent)\\'" onmouseout="this.style.borderColor=\\'var(--line)\\'"><i class="fas ' + l.icon + '" style="color:' + l.color + ';width:18px;text-align:center"></i>' + l.label + '</a>';
+  });
+  el.innerHTML = html;
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>`;
+}

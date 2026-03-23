@@ -1,0 +1,91 @@
+[2026-03-23 00:00:01] === RSVP RESEND: 31 Missing Recipients ===
+[2026-03-23 00:00:01] Event ID: 61849b36-68e5-41fc-885d-998feafc21f2
+[2026-03-23 00:00:01] Total recipients: 31
+[2026-03-23 00:00:01] Batch size: 2
+[2026-03-23 00:00:01] 
+[2026-03-23 00:00:01] Sending to 31 recipients (0 already sent)
+[2026-03-23 00:00:01] 
+[2026-03-23 00:00:01] ─── Batch 1 (2 recipients) ───
+[2026-03-23 00:00:05]   ✓ AB Ghosh <abghosh.88@gmail.com>
+[2026-03-23 00:00:05]   ✓ Ananya Das <ananyadas999@gmail.com>
+[2026-03-23 00:00:05]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:00:05]   Waiting 15s...
+[2026-03-23 00:00:20] ─── Batch 2 (2 recipients) ───
+[2026-03-23 00:00:22]   ✓ Anita Mandal <amandalamandal@yahoo.com>
+[2026-03-23 00:00:22]   ✓ Antara Das <maildasantara@gmail.com>
+[2026-03-23 00:00:22]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:00:22]   Waiting 15s...
+[2026-03-23 00:00:37] ─── Batch 3 (2 recipients) ───
+[2026-03-23 00:00:39]   ✓ Arnab Sikdar <callarnabsikdar@gmail.com>
+[2026-03-23 00:00:39]   ✓ Chirajyoti Deb <drchiradeb@gmail.com>
+[2026-03-23 00:00:39]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:00:39]   Waiting 15s...
+[2026-03-23 00:00:54] ─── Batch 4 (2 recipients) ───
+[2026-03-23 00:00:56]   ✓ Chrissy Das <chrissy.m.das@gmail.com>
+[2026-03-23 00:00:56]   ✓ Debanjan Mitra <debanjanmtr@gmail.com>
+[2026-03-23 00:00:56]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:00:56]   Waiting 15s...
+[2026-03-23 00:01:11] ─── Batch 5 (2 recipients) ───
+[2026-03-23 00:01:13]   ✓ Debkumar Ghosh <ghoshdebkumar31@gmail.com>
+[2026-03-23 00:01:13]   ✓ Irene Sen <irenesen28@gmail.com>
+[2026-03-23 00:01:13]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:01:13]   Waiting 15s...
+[2026-03-23 00:01:28] ─── Batch 6 (2 recipients) ───
+[2026-03-23 00:01:30]   ✓ Gourab K <kgourab90@gmail.com>
+[2026-03-23 00:01:30]   ✓ Madhu SN <madhusn@gmail.com>
+[2026-03-23 00:01:30]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:01:30]   Waiting 15s...
+[2026-03-23 00:01:45] ─── Batch 7 (2 recipients) ───
+[2026-03-23 00:01:47]   ✓ Moumita Mukherjee <moumita.mukherje@gmail.com>
+[2026-03-23 00:01:47]   ✓ Krishnendu Pal <pal.krishnendu@mayo.edu>
+[2026-03-23 00:01:47]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:01:47]   Waiting 15s...
+[2026-03-23 00:02:02] ─── Batch 8 (2 recipients) ───
+[2026-03-23 00:02:04]   ✓ Pallavi S <pallavi.solaiappan@gmail.com>
+[2026-03-23 00:02:04]   ✓ Partha Mukhopadhyay <mukhopadhyay.partha@gmail.com>
+[2026-03-23 00:02:04]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:02:04]   Waiting 15s...
+[2026-03-23 00:02:19] ─── Batch 9 (2 recipients) ───
+[2026-03-23 00:02:21]   ✓ Prabir Mandal <prabirmandal@yahoo.com>
+[2026-03-23 00:02:21]   ✓ Raghunath Mukherjee <rnm205@hotmail.com>
+[2026-03-23 00:02:21]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:02:21]   Waiting 15s...
+[2026-03-23 00:02:36] ─── Batch 10 (2 recipients) ───
+[2026-03-23 00:02:38]   ✓ Ranadhir Ghosh <ranadhir.ghosh@gmail.com>
+[2026-03-23 00:02:38]   ✓ Ratan Royin <ratan.royin@gmail.com>
+[2026-03-23 00:02:38]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:02:38]   Waiting 15s...
+[2026-03-23 00:02:53] ─── Batch 11 (2 recipients) ───
+[2026-03-23 00:02:55]   ✓ Rwiti Choudhury <rwitichoudhury@gmail.com>
+[2026-03-23 00:02:55]   ✓ Sanjeev <sanjeev04@gmail.com>
+[2026-03-23 00:02:55]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:02:55]   Waiting 15s...
+[2026-03-23 00:03:10] ─── Batch 12 (2 recipients) ───
+[2026-03-23 00:03:12]   ✓ Sankalan Hazra <sankalanhazra@gmail.com>
+[2026-03-23 00:03:12]   ✓ Sayani Maitra <maitra.sayani@gmail.com>
+[2026-03-23 00:03:12]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:03:12]   Waiting 15s...
+[2026-03-23 00:03:27] ─── Batch 13 (2 recipients) ───
+[2026-03-23 00:03:29]   ✓ Shamit Dutta <dutta.shamit@mayo.edu>
+[2026-03-23 00:03:29]   ✓ Souvik Chakraborty <souvikcha@gmail.com>
+[2026-03-23 00:03:29]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:03:29]   Waiting 15s...
+[2026-03-23 00:03:44] ─── Batch 14 (2 recipients) ───
+[2026-03-23 00:03:46]   ✓ Sumanta Ghosh <sumo475@gmail.com>
+[2026-03-23 00:03:46]   ✓ Supriya <supriya.lnct2@gmail.com>
+[2026-03-23 00:03:46]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:03:46]   Waiting 15s...
+[2026-03-23 00:04:01] ─── Batch 15 (2 recipients) ───
+[2026-03-23 00:04:03]   ✓ Tanay Bhaduri <tanay.bhaduri@gmail.com>
+[2026-03-23 00:04:03]   ✓ Tanmay Das <tanmay0562017@gmail.com>
+[2026-03-23 00:04:03]   Batch result: Sent 2, Failed 0
+[2026-03-23 00:04:03]   Waiting 15s...
+[2026-03-23 00:04:18] ─── Batch 16 (1 recipients) ───
+[2026-03-23 00:04:19]   ✓ Tanmoy Banerjee <tanmoy.banerjee2009@gmail.com>
+[2026-03-23 00:04:19]   Batch result: Sent 1, Failed 0
+[2026-03-23 00:04:19] 
+[2026-03-23 00:04:19] === RESEND SUMMARY ===
+[2026-03-23 00:04:19] Total sent:   31/31
+[2026-03-23 00:04:19] Total failed: 0
+[2026-03-23 00:04:19] 
+[2026-03-23 00:04:19] NOTE: Payel Banerjee has no email address in CRM/contacts/Google — contact via Tanmoy Banerjee (tanmoy.banerjee2009@gmail.com)
