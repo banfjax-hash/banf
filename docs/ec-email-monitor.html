@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EC Email Campaign Monitor — BANF</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --bg: #0f1117; --bg2: #1a1d27; --bg3: #23262f;
+    --text: #e0e0e0; --muted: #999; --dim: #666; --line: #2a2d37;
+    --green: #22c55e; --red: #ef4444; --blue: #3b82f6; --orange: #f59e0b; --purple: #a855f7; --accent: #DC143C;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:var(--bg); color:var(--text); padding:24px; min-height:100vh; }
+  h1 { font-size:1.4rem; margin-bottom:4px; }
+  .subtitle { color:var(--muted); font-size:.82rem; margin-bottom:20px; }
+
+  .kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-bottom:24px; }
+  .kpi { background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:18px 16px; text-align:center; }
+  .kpi .v { font-size:1.8rem; font-weight:800; }
+  .kpi .k { font-size:.72rem; color:var(--muted); margin-top:4px; text-transform:uppercase; letter-spacing:.5px; }
+  .kpi.green .v { color:var(--green); }
+  .kpi.red .v { color:var(--red); }
+  .kpi.blue .v { color:var(--blue); }
+  .kpi.orange .v { color:var(--orange); }
+  .kpi.purple .v { color:var(--purple); }
+
+  .card { background:var(--bg2); border:1px solid var(--line); border-radius:10px; padding:20px; margin-bottom:20px; }
+  .card h2 { font-size:1rem; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .card h2 i { color:var(--accent); }
+
+  table { width:100%; border-collapse:collapse; font-size:.82rem; }
+  th { text-align:left; padding:10px 12px; background:var(--bg3); color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid var(--line); }
+  td { padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.04); }
+  tr:hover td { background:rgba(255,255,255,.02); }
+
+  .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:.7rem; font-weight:700; }
+  .badge-ok { background:rgba(34,197,94,.12); color:var(--green); }
+  .badge-fail { background:rgba(239,68,68,.12); color:var(--red); }
+  .badge-pending { background:rgba(245,158,11,.12); color:var(--orange); }
+  .badge-done { background:rgba(59,130,246,.12); color:var(--blue); }
+  .badge-na { background:rgba(255,255,255,.06); color:var(--dim); }
+
+  .timeline { position:relative; padding-left:28px; }
+  .timeline::before { content:''; position:absolute; left:8px; top:4px; bottom:4px; width:2px; background:var(--line); }
+  .tl-item { position:relative; margin-bottom:16px; }
+  .tl-item::before { content:''; position:absolute; left:-24px; top:4px; width:12px; height:12px; border-radius:50%; border:2px solid var(--line); background:var(--bg2); }
+  .tl-item.ok::before { background:var(--green); border-color:var(--green); }
+  .tl-item.fail::before { background:var(--red); border-color:var(--red); }
+  .tl-time { font-size:.7rem; color:var(--dim); }
+  .tl-text { font-size:.82rem; }
+
+  .progress-bar { width:100%; height:8px; background:var(--bg3); border-radius:4px; overflow:hidden; margin:8px 0; }
+  .progress-fill { height:100%; border-radius:4px; transition:width .5s; }
+
+  .refresh-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+  .refresh-bar button { background:var(--bg3); color:var(--text); border:1px solid var(--line); border-radius:6px; padding:6px 14px; font-size:.78rem; cursor:pointer; }
+  .refresh-bar button:hover { background:rgba(255,255,255,.08); }
+  .auto-refresh { font-size:.72rem; color:var(--dim); }
+
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:800px) { .grid-2 { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<h1><i class="fas fa-satellite-dish" style="color:var(--accent)"></i> EC Email Campaign Monitor</h1>
+<div class="subtitle">Real-time monitoring of EC onboarding emails + member activity tracking</div>
+
+<div class="refresh-bar">
+  <div>
+    <button onclick="refreshOnboardingStatus()"><i class="fas fa-sync-alt me-1"></i> Refresh Live Status</button>
+    <span class="auto-refresh" id="last-refresh">Last refresh: —</span>
+  </div>
+  <div style="font-size:.78rem;color:var(--muted)">Campaign: March 23, 2026</div>
+</div>
+
+<!-- KPI Row -->
+<div class="kpi-row">
+  <div class="kpi green"><div class="v" id="kpi-sent">—</div><div class="k">Emails Sent</div></div>
+  <div class="kpi red"><div class="v" id="kpi-failed">—</div><div class="k">Failed</div></div>
+  <div class="kpi blue"><div class="v" id="kpi-signedup">—</div><div class="k">Signed Up</div></div>
+  <div class="kpi orange"><div class="v" id="kpi-pending">—</div><div class="k">Pending Signup</div></div>
+  <div class="kpi purple"><div class="v" id="kpi-profile">—</div><div class="k">Profile Updated</div></div>
+</div>
+
+<!-- Delivery + Onboarding Progress -->
+<div class="card">
+  <h2><i class="fas fa-paper-plane"></i> Email Delivery &amp; Onboarding Status</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>EC Member</th>
+        <th>Title</th>
+        <th>Email</th>
+        <th>Email Sent</th>
+        <th>Delivery Time</th>
+        <th>Signed Up</th>
+        <th>Password Set</th>
+        <th>Profile Updated</th>
+      </tr>
+    </thead>
+    <tbody id="status-table"></tbody>
+  </table>
+</div>
+
+<div class="grid-2">
+  <!-- Timeline -->
+  <div class="card">
+    <h2><i class="fas fa-stream"></i> Send Timeline</h2>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <!-- Onboarding Progress -->
+  <div class="card">
+    <h2><i class="fas fa-tasks"></i> Overall Onboarding Progress</h2>
+    <div id="progress-section"></div>
+  </div>
+</div>
+
+<!-- Detailed Email Log -->
+<div class="card">
+  <h2><i class="fas fa-file-alt"></i> Detailed Email Log</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Recipient</th>
+        <th>Subject</th>
+        <th>Status Code</th>
+        <th>API Response</th>
+        <th>Latency</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody id="detail-log"></tbody>
+  </table>
+</div>
+
+<script>
+const API = 'https://www.jaxbengali.org/_functions';
+
+// Campaign results (baked in from send run)
+const CAMPAIGN = {
+  "campaign": "EC Onboarding Email",
+  "startTime": "2026-03-23T19:58:48.494Z",
+  "endTime": "2026-03-23T19:59:04.737Z",
+  "totalMembers": 7,
+  "sent": 7,
+  "failed": 0,
+  "results": [
+    {"email":"ranadhir.ghosh@gmail.com","firstName":"Ranadhir","lastName":"Ghosh","ecTitle":"President","subject":"Action Required: Complete Your BANF EC Admin Setup — President","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":1389,"sentAt":"2026-03-23T19:58:49.889Z"},
+    {"email":"mukhopadhyay.partha@gmail.com","firstName":"Partha","lastName":"Mukhopadhyay","ecTitle":"Vice President","subject":"Action Required: Complete Your BANF EC Admin Setup — Vice President","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":442,"sentAt":"2026-03-23T19:58:52.344Z"},
+    {"email":"amit.everywhere@gmail.com","firstName":"Amit","lastName":"Chandak","ecTitle":"Treasurer","subject":"Action Required: Complete Your BANF EC Admin Setup — Treasurer","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":452,"sentAt":"2026-03-23T19:58:54.804Z"},
+    {"email":"rajanya.ghosh@gmail.com","firstName":"Rajanya","lastName":"Ghosh","ecTitle":"General Secretary","subject":"Action Required: Complete Your BANF EC Admin Setup — General Secretary","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":452,"sentAt":"2026-03-23T19:58:57.259Z"},
+    {"email":"moumita.mukherje@gmail.com","firstName":"Moumita","lastName":"Ghosh","ecTitle":"Cultural Secretary","subject":"Action Required: Complete Your BANF EC Admin Setup — Cultural Secretary","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":552,"sentAt":"2026-03-23T19:58:59.822Z"},
+    {"email":"sumo475@gmail.com","firstName":"Sumanta","lastName":"Ghosh","ecTitle":"Event Coordinator","subject":"Action Required: Complete Your BANF EC Admin Setup — Event Coordinator","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":444,"sentAt":"2026-03-23T19:59:02.278Z"},
+    {"email":"rwitichoudhury@gmail.com","firstName":"Rwiti","lastName":"Choudhury","ecTitle":"Puja Coordinator","subject":"Action Required: Complete Your BANF EC Admin Setup — Puja Coordinator","success":true,"emailSent":false,"statusCode":200,"error":null,"elapsed":452,"sentAt":"2026-03-23T19:59:04.736Z"}
+  ]
+};
+
+// Live onboarding status (refreshed from API)
+let liveStatus = {};
+
+function fmtTime(iso) {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+
+function renderKPIs() {
+  document.getElementById('kpi-sent').textContent = CAMPAIGN.sent;
+  document.getElementById('kpi-failed').textContent = CAMPAIGN.failed;
+
+  var signedUp = 0, profileDone = 0, pending = 0;
+  CAMPAIGN.results.forEach(function(r) {
+    var ls = liveStatus[r.email];
+    if (ls && ls.passwordSet) signedUp++;
+    else pending++;
+    if (ls && ls.profileUpdatedAt) profileDone++;
+  });
+  document.getElementById('kpi-signedup').textContent = signedUp;
+  document.getElementById('kpi-pending').textContent = pending;
+  document.getElementById('kpi-profile').textContent = profileDone;
+}
+
+function renderStatusTable() {
+  var html = '';
+  CAMPAIGN.results.forEach(function(r) {
+    var ls = liveStatus[r.email] || {};
+    var emailBadge = r.success
+      ? '<span class="badge badge-ok"><i class="fas fa-check me-1"></i>Sent</span>'
+      : '<span class="badge badge-fail"><i class="fas fa-times me-1"></i>Failed</span>';
+    var signupBadge = ls.passwordSet
+      ? '<span class="badge badge-ok"><i class="fas fa-check me-1"></i>Done</span>'
+      : '<span class="badge badge-pending"><i class="fas fa-clock me-1"></i>Pending</span>';
+    var pwBadge = ls.passwordSet
+      ? '<span class="badge badge-ok">Set</span>'
+      : '<span class="badge badge-na">Not Set</span>';
+    var profileBadge = ls.profileUpdatedAt
+      ? '<span class="badge badge-ok">Updated</span>'
+      : '<span class="badge badge-na">Not Yet</span>';
+
+    html += '<tr>'
+      + '<td><strong>' + r.firstName + ' ' + r.lastName + '</strong></td>'
+      + '<td>' + r.ecTitle + '</td>'
+      + '<td style="font-size:.75rem;color:var(--dim)">' + r.email + '</td>'
+      + '<td>' + emailBadge + '</td>'
+      + '<td style="font-size:.75rem">' + r.elapsed + 'ms</td>'
+      + '<td>' + signupBadge + '</td>'
+      + '<td>' + pwBadge + '</td>'
+      + '<td>' + profileBadge + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('status-table').innerHTML = html;
+}
+
+function renderTimeline() {
+  var html = '';
+  CAMPAIGN.results.forEach(function(r, i) {
+    var cls = r.success ? 'ok' : 'fail';
+    html += '<div class="tl-item ' + cls + '">'
+      + '<div class="tl-time">' + fmtTime(r.sentAt) + ' (' + r.elapsed + 'ms)</div>'
+      + '<div class="tl-text">' + (r.success ? '&#x2705;' : '&#x274C;') + ' ' + r.firstName + ' ' + r.lastName + ' &mdash; ' + r.ecTitle + '</div>'
+      + '</div>';
+  });
+  document.getElementById('timeline').innerHTML = html;
+}
+
+function renderProgress() {
+  var total = CAMPAIGN.results.length;
+  var steps = [
+    { label: 'Email Delivered', count: CAMPAIGN.sent, color: 'var(--green)' },
+    { label: 'Account Created (Signup)', count: 0, color: 'var(--blue)' },
+    { label: 'Password Set', count: 0, color: 'var(--purple)' },
+    { label: 'Profile Photo Uploaded', count: 0, color: 'var(--orange)' },
+    { label: 'Profile Bio Updated', count: 0, color: 'var(--accent)' }
+  ];
+
+  CAMPAIGN.results.forEach(function(r) {
+    var ls = liveStatus[r.email] || {};
+    if (ls.passwordSet) { steps[1].count++; steps[2].count++; }
+    if (ls.profilePhoto) steps[3].count++;
+    if (ls.profileUpdatedAt) steps[4].count++;
+  });
+
+  var html = '';
+  steps.forEach(function(s) {
+    var pct = Math.round(s.count / total * 100);
+    html += '<div style="margin-bottom:16px">'
+      + '<div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px">'
+      + '<span>' + s.label + '</span>'
+      + '<span style="color:var(--muted)">' + s.count + '/' + total + ' (' + pct + '%)</span>'
+      + '</div>'
+      + '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%;background:' + s.color + '"></div></div>'
+      + '</div>';
+  });
+  document.getElementById('progress-section').innerHTML = html;
+}
+
+function renderDetailLog() {
+  var html = '';
+  CAMPAIGN.results.forEach(function(r, i) {
+    var statusBadge = r.statusCode === 200
+      ? '<span class="badge badge-ok">200</span>'
+      : '<span class="badge badge-fail">' + r.statusCode + '</span>';
+    var responseBadge = r.success
+      ? '<span class="badge badge-ok">success: true</span>'
+      : '<span class="badge badge-fail">' + (r.error || 'failed') + '</span>';
+    html += '<tr>'
+      + '<td>' + (i+1) + '</td>'
+      + '<td>' + r.firstName + ' &lt;' + r.email + '&gt;</td>'
+      + '<td style="font-size:.72rem;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.subject + '</td>'
+      + '<td>' + statusBadge + '</td>'
+      + '<td>' + responseBadge + '</td>'
+      + '<td>' + r.elapsed + 'ms</td>'
+      + '<td style="font-size:.72rem">' + fmtTime(r.sentAt) + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('detail-log').innerHTML = html;
+}
+
+async function refreshOnboardingStatus() {
+  document.getElementById('last-refresh').textContent = 'Refreshing...';
+  try {
+    // Fetch all EC member profiles (public endpoint)
+    var resp = await fetch(API + '/ec_members_profiles');
+    var data = await resp.json();
+    if (data.success && data.profiles) {
+      liveStatus = {};
+      data.profiles.forEach(function(p) {
+        liveStatus[p.email] = {
+          firstName: p.firstName,
+          lastName: p.lastName,
+          ecTitle: p.ecTitle,
+          passwordSet: !!(p.firstName && p.lastName), // infer from onboarding data
+          profilePhoto: p.profilePhoto || '',
+          profileSummary: p.profileSummary || '',
+          profileBio: p.profileBio || '',
+          profileUpdatedAt: p.profileUpdatedAt || null
+        };
+      });
+    }
+
+    // Also fetch onboarding progress for more accurate data
+    try {
+      var resp2 = await fetch(API + '/ec_onboard_progress');
+      var data2 = await resp2.json();
+      if (data2.members) {
+        data2.members.forEach(function(m) {
+          if (liveStatus[m.email]) {
+            liveStatus[m.email].passwordSet = m.passwordSet || false;
+            liveStatus[m.email].onboardingComplete = m.onboardingComplete || false;
+          } else {
+            liveStatus[m.email] = {
+              passwordSet: m.passwordSet || false,
+              onboardingComplete: m.onboardingComplete || false,
+              profilePhoto: '',
+              profileUpdatedAt: null
+            };
+          }
+        });
+      }
+    } catch(e2) { /* onboard_progress may need auth */ }
+
+    renderAll();
+    document.getElementById('last-refresh').textContent = 'Last refresh: ' + new Date().toLocaleTimeString();
+  } catch(e) {
+    document.getElementById('last-refresh').textContent = 'Refresh failed: ' + e.message;
+  }
+}
+
+function renderAll() {
+  renderKPIs();
+  renderStatusTable();
+  renderTimeline();
+  renderProgress();
+  renderDetailLog();
+}
+
+// Initial render
+renderAll();
+// Auto-refresh on load
+refreshOnboardingStatus();
+// Auto-refresh every 30 seconds
+setInterval(refreshOnboardingStatus, 30000);
+</script>
+</body>
+</html>

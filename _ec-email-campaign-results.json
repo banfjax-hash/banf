@@ -1,0 +1,101 @@
+{
+  "campaign": "EC Onboarding Email",
+  "startTime": "2026-03-23T19:58:48.494Z",
+  "endTime": "2026-03-23T19:59:04.737Z",
+  "totalMembers": 7,
+  "sent": 7,
+  "failed": 0,
+  "results": [
+    {
+      "email": "ranadhir.ghosh@gmail.com",
+      "firstName": "Ranadhir",
+      "lastName": "Ghosh",
+      "ecTitle": "President",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — President",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 1389,
+      "sentAt": "2026-03-23T19:58:49.889Z"
+    },
+    {
+      "email": "mukhopadhyay.partha@gmail.com",
+      "firstName": "Partha",
+      "lastName": "Mukhopadhyay",
+      "ecTitle": "Vice President",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — Vice President",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 442,
+      "sentAt": "2026-03-23T19:58:52.344Z"
+    },
+    {
+      "email": "amit.everywhere@gmail.com",
+      "firstName": "Amit",
+      "lastName": "Chandak",
+      "ecTitle": "Treasurer",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — Treasurer",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 452,
+      "sentAt": "2026-03-23T19:58:54.804Z"
+    },
+    {
+      "email": "rajanya.ghosh@gmail.com",
+      "firstName": "Rajanya",
+      "lastName": "Ghosh",
+      "ecTitle": "General Secretary",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — General Secretary",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 452,
+      "sentAt": "2026-03-23T19:58:57.259Z"
+    },
+    {
+      "email": "moumita.mukherje@gmail.com",
+      "firstName": "Moumita",
+      "lastName": "Ghosh",
+      "ecTitle": "Cultural Secretary",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — Cultural Secretary",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 552,
+      "sentAt": "2026-03-23T19:58:59.822Z"
+    },
+    {
+      "email": "sumo475@gmail.com",
+      "firstName": "Sumanta",
+      "lastName": "Ghosh",
+      "ecTitle": "Event Coordinator",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — Event Coordinator",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 444,
+      "sentAt": "2026-03-23T19:59:02.278Z"
+    },
+    {
+      "email": "rwitichoudhury@gmail.com",
+      "firstName": "Rwiti",
+      "lastName": "Choudhury",
+      "ecTitle": "Puja Coordinator",
+      "subject": "Action Required: Complete Your BANF EC Admin Setup — Puja Coordinator",
+      "success": true,
+      "emailSent": false,
+      "statusCode": 200,
+      "error": null,
+      "elapsed": 452,
+      "sentAt": "2026-03-23T19:59:04.736Z"
+    }
+  ]
+}
