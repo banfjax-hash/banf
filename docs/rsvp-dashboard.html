@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BANF — RSVP Analytics Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#060a10;--bg2:#0b1120;--panel:#111827;--card:#0f172a;--line:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dim:#475569;--accent:#f97316;--red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--yellow:#eab308;--pink:#ec4899;--radius:12px}
+*{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.5;padding:0}
+.top-bar{background:var(--card);border-bottom:1px solid var(--line);padding:14px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100}
+.top-bar .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#fb923c);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;color:#fff;flex-shrink:0}
+.top-bar h1{font-size:1rem;font-weight:700;margin:0;background:linear-gradient(90deg,var(--accent),#fb923c);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.top-bar .sub{font-size:.72rem;color:var(--dim);margin-top:-2px}
+.top-bar .refresh-btn{margin-left:auto;background:rgba(249,115,22,.12);color:var(--accent);border:1px solid rgba(249,115,22,.3);border-radius:8px;padding:6px 14px;font-size:.78rem;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.top-bar .refresh-btn:hover{background:rgba(249,115,22,.2)}
+.top-bar .refresh-btn.loading i{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.container-dash{max-width:1340px;margin:0 auto;padding:20px 24px 60px}
+.event-banner{background:linear-gradient(135deg,rgba(249,115,22,.1),rgba(168,85,247,.08));border:1px solid rgba(249,115,22,.2);border-radius:var(--radius);padding:18px 24px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+.event-banner .ev-name{font-size:1.1rem;font-weight:700;color:#fff}
+.event-banner .ev-detail{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.event-banner .ev-detail i{color:var(--accent);font-size:.7rem}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden}
+.kpi .kpi-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:700;margin-bottom:4px}
+.kpi .kpi-val{font-size:1.7rem;font-weight:800;color:#fff;line-height:1.1}
+.kpi .kpi-sub{font-size:.72rem;color:var(--muted);margin-top:2px}
+.kpi .kpi-icon{position:absolute;top:14px;right:14px;font-size:1.2rem;opacity:.25}
+.kpi.green .kpi-val{color:var(--green)}.kpi.green .kpi-icon{color:var(--green)}
+.kpi.red .kpi-val{color:var(--red)}.kpi.red .kpi-icon{color:var(--red)}
+.kpi.blue .kpi-val{color:var(--blue)}.kpi.blue .kpi-icon{color:var(--blue)}
+.kpi.purple .kpi-val{color:var(--purple)}.kpi.purple .kpi-icon{color:var(--purple)}
+.kpi.yellow .kpi-val{color:var(--yellow)}.kpi.yellow .kpi-icon{color:var(--yellow)}
+.kpi.cyan .kpi-val{color:var(--cyan)}.kpi.cyan .kpi-icon{color:var(--cyan)}
+.kpi.pink .kpi-val{color:var(--pink)}.kpi.pink .kpi-icon{color:var(--pink)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.card-p{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.card-p h3{font-size:.88rem;font-weight:700;color:#fff;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+.card-p h3 i{color:var(--accent);font-size:.8rem}
+.chart-wrap{position:relative;max-height:260px;display:flex;justify-content:center}
+.stat-list{list-style:none;padding:0;margin:0}
+.stat-list li{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:.82rem}
+.stat-list li:last-child{border-bottom:none}
+.stat-list .label{display:flex;align-items:center;gap:8px}
+.stat-list .dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.stat-list .count{font-weight:700;color:#fff;font-size:.9rem}
+.badge-s{display:inline-flex;align-items:center;padding:3px 10px;border-radius:999px;font-size:.68rem;font-weight:600}
+.badge-s.yes{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.badge-s.no{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.badge-s.maybe{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
+.badge-s.unclear{background:rgba(148,163,184,.12);color:var(--muted);border:1px solid rgba(148,163,184,.25)}
+table.tb{width:100%;border-collapse:collapse;font-size:.78rem}
+table.tb th{background:var(--bg2);color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:.68rem;padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;position:sticky;top:0}
+table.tb td{padding:7px 10px;border-bottom:1px solid var(--line);color:var(--text)}
+table.tb tr:hover td{background:rgba(249,115,22,.04)}
+.scroll-table{max-height:360px;overflow-y:auto;border:1px solid var(--line);border-radius:var(--radius)}
+.notes-card{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:8px}
+.notes-card .n-name{font-size:.75rem;font-weight:700;color:var(--accent)}
+.notes-card .n-text{font-size:.8rem;color:var(--text);margin-top:2px}
+.notes-card .n-rsvp{font-size:.68rem;color:var(--dim)}
+.perf-card{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+.perf-card .p-name{font-size:.82rem;font-weight:700;color:#fff}
+.perf-card .p-detail{font-size:.75rem;color:var(--muted);margin-top:4px}
+.perf-tag{display:inline-block;background:rgba(168,85,247,.15);color:var(--purple);border:1px solid rgba(168,85,247,.3);border-radius:6px;padding:2px 8px;font-size:.68rem;font-weight:600;margin:2px 4px 2px 0}
+.empty-state{text-align:center;padding:40px;color:var(--dim);font-size:.88rem}
+.empty-state i{font-size:2rem;opacity:.3;margin-bottom:10px;display:block}
+.capacity-bar{background:var(--bg2);height:18px;border-radius:999px;overflow:hidden;margin-top:6px}
+.capacity-bar .fill{height:100%;border-radius:999px;transition:width .6s ease}
+.section-title{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);font-weight:700;margin:24px 0 10px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--line)}
+.tab-row{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.tab-btn{background:var(--bg2);color:var(--muted);border:1px solid var(--line);border-radius:8px;padding:6px 14px;font-size:.75rem;font-weight:600;cursor:pointer;transition:.15s}
+.tab-btn:hover{color:var(--text);border-color:var(--line)}
+.tab-btn.active{background:rgba(249,115,22,.12);color:var(--accent);border-color:rgba(249,115,22,.3)}
+.loading-overlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.loading-overlay .spinner{width:40px;height:40px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.loading-overlay p{color:var(--muted);font-size:.88rem}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <p>Loading RSVP analytics…</p>
+</div>
+
+<div class="top-bar">
+    <div class="logo">B</div>
+    <div>
+        <h1>RSVP Analytics Dashboard</h1>
+        <div class="sub">Bay Area Noboborsho Festival</div>
+    </div>
+    <button class="refresh-btn" onclick="loadData()"><i class="fas fa-sync-alt"></i> Refresh</button>
+</div>
+
+<div class="container-dash">
+
+    <!-- Event banner -->
+    <div class="event-banner" id="eventBanner"></div>
+
+    <!-- KPI row -->
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <!-- Capacity bar -->
+    <div class="card-p" id="capacityCard" style="margin-bottom:20px"></div>
+
+    <!-- Charts row -->
+    <div class="section-title"><i class="fas fa-chart-pie"></i> Response Breakdown</div>
+    <div class="grid-2">
+        <div class="card-p">
+            <h3><i class="fas fa-chart-pie"></i> RSVP Status</h3>
+            <div class="chart-wrap"><canvas id="chartRsvp"></canvas></div>
+        </div>
+        <div class="card-p">
+            <h3><i class="fas fa-users"></i> Attendee Composition</h3>
+            <div class="chart-wrap"><canvas id="chartAttendees"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Dietary details -->
+    <div class="section-title"><i class="fas fa-utensils"></i> Dietary Breakdown Details</div>
+    <div class="grid-3">
+        <div class="card-p">
+            <h3><i class="fas fa-chart-pie"></i> Dietary Preferences</h3>
+            <div class="chart-wrap"><canvas id="chartDietary"></canvas></div>
+        </div>
+        <div class="card-p">
+            <h3><i class="fas fa-drumstick-bite"></i> Veg vs Non-Veg (Meal Count)</h3>
+            <div class="chart-wrap"><canvas id="chartVegNonveg"></canvas></div>
+        </div>
+        <div class="card-p" id="dietaryDetailCard">
+            <h3><i class="fas fa-list-check"></i> Dietary Summary</h3>
+        </div>
+    </div>
+
+    <!-- Cultural program -->
+    <div class="section-title"><i class="fas fa-music"></i> Cultural Program</div>
+    <div class="grid-2">
+        <div class="card-p">
+            <h3><i class="fas fa-theater-masks"></i> Performances by Category</h3>
+            <div class="chart-wrap"><canvas id="chartCulturalCat"></canvas></div>
+        </div>
+        <div class="card-p">
+            <h3><i class="fas fa-users-cog"></i> Performance Mode & Age Group</h3>
+            <div class="grid-2" style="margin:0">
+                <div><div class="chart-wrap"><canvas id="chartCulturalMode"></canvas></div></div>
+                <div><div class="chart-wrap"><canvas id="chartCulturalAge"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cultural performers list -->
+    <div class="card-p" id="performersCard" style="margin-bottom:20px"></div>
+
+    <!-- Dietary notes/special requests -->
+    <div class="section-title"><i class="fas fa-sticky-note"></i> Special Notes & Dietary Requests</div>
+    <div class="card-p" id="notesCard" style="margin-bottom:20px"></div>
+
+    <!-- RSVP details table -->
+    <div class="section-title"><i class="fas fa-table"></i> RSVP Details</div>
+    <div class="tab-row" id="statusTabs"></div>
+    <div class="card-p" style="padding:0;overflow:hidden">
+        <div class="scroll-table" id="rsvpTableWrap"></div>
+    </div>
+
+    <!-- Needs review -->
+    <div class="section-title"><i class="fas fa-exclamation-triangle"></i> Needs Review (Low Confidence)</div>
+    <div class="card-p" style="padding:0;overflow:hidden">
+        <div class="scroll-table" id="reviewTableWrap"></div>
+    </div>
+
+    <div style="text-align:center;padding:30px;font-size:.7rem;color:var(--dim)">
+        Generated at <span id="genTime">—</span> · BANF Admin
+    </div>
+</div>
+
+<script>
+const API_BASE = 'https://www.jaxbengali.org/_functions';
+const EVENT_ID = '61849b36-68e5-41fc-885d-998feafc21f2';
+let chartInstances = {};
+
+async function loadData() {
+    const btn = document.querySelector('.refresh-btn');
+    btn.classList.add('loading');
+    document.getElementById('loadingOverlay').classList.remove('hidden');
+    try {
+        const res = await fetch(`${API_BASE}/evite_attendance_report?eventId=${EVENT_ID}`);
+        const json = await res.json();
+        if (!json.worksheet) throw new Error(json.error || 'No data');
+        render(json.worksheet);
+    } catch (e) {
+        alert('Failed to load: ' + e.message);
+    } finally {
+        btn.classList.remove('loading');
+        document.getElementById('loadingOverlay').classList.add('hidden');
+    }
+}
+
+function render(ws) {
+    renderEventBanner(ws.event);
+    renderKPIs(ws);
+    renderCapacity(ws);
+    renderCharts(ws);
+    renderDietaryDetail(ws.dietary, ws.rows);
+    renderCultural(ws.cultural);
+    renderNotes(ws.notes);
+    renderTable(ws.rows);
+    renderReview(ws.needsReview);
+    document.getElementById('genTime').textContent = new Date(ws.generatedAt).toLocaleString();
+}
+
+/* ── Event Banner ── */
+function renderEventBanner(ev) {
+    const d = ev.eventDate ? new Date(ev.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+    document.getElementById('eventBanner').innerHTML = `
+        <div style="flex:1;min-width:200px">
+            <div class="ev-name">${esc(ev.eventName)}</div>
+        </div>
+        <div class="ev-detail"><i class="fas fa-calendar"></i> ${esc(d)}</div>
+        <div class="ev-detail"><i class="fas fa-map-marker-alt"></i> ${esc(ev.venue || '—')}</div>
+        <div class="ev-detail"><i class="fas fa-users"></i> Capacity: ${ev.capacity || '—'}</div>
+    `;
+}
+
+/* ── KPI Cards ── */
+function renderKPIs(ws) {
+    const s = ws.summary, h = ws.headcount, c = ws.cultural || {}, d = ws.dietary || {};
+    const kpis = [
+        { label:'Total Responses', val:s.totalResponses, sub:'from email scan', icon:'fa-envelope', cls:'' },
+        { label:'Attending', val:s.attending, sub:`${Math.round(s.attending/Math.max(s.totalResponses,1)*100)}% of responses`, icon:'fa-check-circle', cls:'green' },
+        { label:'Not Attending', val:s.notAttending, sub:'declined', icon:'fa-times-circle', cls:'red' },
+        { label:'Maybe / Unclear', val:s.maybe + s.unclear, sub:`${s.maybe} maybe · ${s.unclear} unclear`, icon:'fa-question-circle', cls:'yellow' },
+        { label:'Total Adults', val:h.adults, sub:'confirmed attending', icon:'fa-user', cls:'blue' },
+        { label:'Total Kids', val:h.kids, sub:'confirmed attending', icon:'fa-child', cls:'cyan' },
+        { label:'Total Headcount', val:h.totalHeads, sub:`of ${ws.event.capacity || '?'} capacity`, icon:'fa-people-group', cls:'purple' },
+        { label:'Vegetarian', val:d.vegTotal || 0, sub:`${d.vegTotal && h.totalHeads ? Math.round(d.vegTotal/h.totalHeads*100) : 0}% of attendees`, icon:'fa-leaf', cls:'green' },
+        { label:'Non-Vegetarian', val:d.nonVegTotal || 0, sub:`${d.nonVegTotal && h.totalHeads ? Math.round(d.nonVegTotal/h.totalHeads*100) : 0}% of attendees`, icon:'fa-drumstick-bite', cls:'red' },
+        { label:'Special Dietary', val:countSpecialDietary(d), sub:'vegan · allergy · other', icon:'fa-wheat-awn-circle-exclamation', cls:'yellow' },
+        { label:'Cultural Performers', val:c.totalParticipants || 0, sub:`${c.totalPerformances || 0} performances`, icon:'fa-music', cls:'pink' }
+    ];
+    document.getElementById('kpiRow').innerHTML = kpis.map(k => `
+        <div class="kpi ${k.cls}">
+            <div class="kpi-label">${k.label}</div>
+            <div class="kpi-val">${k.val}</div>
+            <div class="kpi-sub">${k.sub}</div>
+            <i class="fas ${k.icon} kpi-icon"></i>
+        </div>
+    `).join('');
+}
+
+/* ── Capacity Bar ── */
+function renderCapacity(ws) {
+    const h = ws.headcount, cap = ws.event.capacity || 300;
+    const pct = Math.min(Math.round(h.totalHeads / cap * 100), 100);
+    const color = pct > 90 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+    document.getElementById('capacityCard').innerHTML = `
+        <h3><i class="fas fa-gauge-high"></i> Venue Capacity</h3>
+        <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px">
+            <span>${h.totalHeads} confirmed</span>
+            <span style="color:var(--muted)">${h.capacityRemaining != null ? h.capacityRemaining + ' remaining' : ''} of ${cap}</span>
+        </div>
+        <div class="capacity-bar"><div class="fill" style="width:${pct}%;background:${color}"></div></div>
+        <div style="text-align:center;font-size:.72rem;color:var(--dim);margin-top:4px">${pct}% filled</div>
+    `;
+}
+
+/* ── Charts ── */
+function renderCharts(ws) {
+    Object.values(chartInstances).forEach(c => c.destroy());
+    chartInstances = {};
+    const s = ws.summary, h = ws.headcount, d = ws.dietary;
+
+    // RSVP status doughnut
+    chartInstances.rsvp = new Chart(document.getElementById('chartRsvp'), {
+        type:'doughnut',
+        data:{labels:['Attending','Not Attending','Maybe','Unclear'],datasets:[{data:[s.attending,s.notAttending,s.maybe,s.unclear],backgroundColor:['#22c55e','#ef4444','#eab308','#64748b'],borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
+    });
+
+    // Adults vs Kids
+    chartInstances.attendees = new Chart(document.getElementById('chartAttendees'), {
+        type:'doughnut',
+        data:{labels:['Adults','Kids'],datasets:[{data:[h.adults,h.kids],backgroundColor:['#3b82f6','#06b6d4'],borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
+    });
+
+    // Dietary breakdown
+    const dietKeys = Object.keys(d.breakdown || {}), dietVals = Object.values(d.breakdown || {});
+    const dietColors = dietKeys.map(k => k === 'vegetarian' ? '#22c55e' : k === 'non_vegetarian' ? '#ef4444' : '#64748b');
+    chartInstances.dietary = new Chart(document.getElementById('chartDietary'), {
+        type:'doughnut',
+        data:{labels:dietKeys.map(k=>k.replace(/_/g,' ')),datasets:[{data:dietVals,backgroundColor:dietColors,borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
+    });
+
+    // Veg vs Non-Veg counts
+    chartInstances.vegNonveg = new Chart(document.getElementById('chartVegNonveg'), {
+        type:'bar',
+        data:{labels:['Vegetarian','Non-Vegetarian'],datasets:[{label:'Meal Count',data:[d.vegTotal,d.nonVegTotal],backgroundColor:['#22c55e','#ef4444'],borderRadius:6,barThickness:40}]},
+        options:{responsive:true,maintainAspectRatio:true,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:'#1e293b'},ticks:{color:'#94a3b8'}},y:{grid:{display:false},ticks:{color:'#e2e8f0',font:{weight:600}}}}}
+    });
+}
+
+/* ── Dietary Detail Card ── */
+function renderDietaryDetail(d, rows) {
+    const el = document.getElementById('dietaryDetailCard');
+    if (!el) return;
+    const b = d && d.breakdown ? d.breakdown : {};
+    const dietLabels = { vegetarian: 'Vegetarian', non_vegetarian: 'Non-Vegetarian', mixed: 'Mixed', vegan: 'Vegan', unknown: 'Unknown' };
+    const dietIcons = { vegetarian: 'fa-leaf', non_vegetarian: 'fa-drumstick-bite', mixed: 'fa-bowl-food', vegan: 'fa-seedling', unknown: 'fa-question' };
+    const dietColors = { vegetarian: 'var(--green)', non_vegetarian: 'var(--red)', mixed: 'var(--yellow)', vegan: 'var(--cyan)', unknown: 'var(--dim)' };
+    let html = '<ul class="stat-list">';
+    Object.entries(b).sort((a,b) => b[1]-a[1]).forEach(([k,v]) => {
+        const lbl = dietLabels[k] || k.replace(/_/g,' ');
+        const icon = dietIcons[k] || 'fa-utensils';
+        const color = dietColors[k] || 'var(--muted)';
+        html += `<li><span class="label"><span class="dot" style="background:${color}"></span><i class="fas ${icon}" style="color:${color};font-size:.7rem"></i> ${esc(lbl)}</span><span class="count">${v}</span></li>`;
+    });
+    // Show special dietary notes from attending rows
+    const specialNotes = [];
+    const attending = rows && rows.attending ? rows.attending : [];
+    attending.forEach(r => {
+        if (r.notes && /diet|allerg|gluten|nut|dairy|vegan|halal|kosher|lactose|celiac/i.test(r.notes)) {
+            specialNotes.push({ name: r.senderName, note: r.notes });
+        }
+    });
+    html += '</ul>';
+    if (specialNotes.length) {
+        html += '<div style="margin-top:12px;font-size:.72rem;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:.5px"><i class="fas fa-exclamation-triangle me-1"></i>Special Dietary Requests</div>';
+        specialNotes.forEach(n => {
+            html += `<div class="notes-card" style="margin-top:6px"><div class="n-name">${esc(n.name)}</div><div class="n-text">${esc(n.note)}</div></div>`;
+        });
+    }
+    html += `<div style="margin-top:10px;font-size:.72rem;color:var(--dim);text-align:center">Total Meals: <strong style="color:var(--green)">${d.vegTotal || 0}</strong> Veg · <strong style="color:var(--red)">${d.nonVegTotal || 0}</strong> Non-Veg</div>`;
+    el.innerHTML = `<h3><i class="fas fa-list-check"></i> Dietary Summary</h3>${html}`;
+}
+
+/* ── Cultural Program ── */
+function renderCultural(c) {
+    if (!c || c.totalParticipants === 0) {
+        ['chartCulturalCat','chartCulturalMode','chartCulturalAge'].forEach(id => {
+            const ctx = document.getElementById(id);
+            if (ctx) ctx.parentElement.innerHTML = '<div class="empty-state"><i class="fas fa-music"></i>No cultural program signups yet</div>';
+        });
+        document.getElementById('performersCard').innerHTML = '<h3><i class="fas fa-star"></i> Performers</h3><div class="empty-state"><i class="fas fa-music"></i>No performances registered yet</div>';
+        return;
+    }
+
+    const catLabels = { dance: 'Dance', song: 'Song', instrumental: 'Instrumental', skit: 'Skit/Drama', poetry: 'Poetry/Recitation', other: 'Other' };
+    const modeLabels = { individual: 'Individual', small_group: 'Small Group', large_group: 'Large Group', unknown: 'Unknown' };
+    const ageLabels = { kid: 'Kids', youth: 'Youth', adult: 'Adult', senior: 'Senior', mix: 'Mixed', unknown: 'Unknown' };
+    const catColors = ['#a855f7','#ec4899','#3b82f6','#22c55e','#eab308','#64748b'];
+    const modeColors = ['#06b6d4','#f97316','#84cc16','#64748b'];
+    const ageColors = ['#ec4899','#eab308','#3b82f6','#22c55e','#a855f7','#64748b'];
+
+    // By category
+    const cats = Object.entries(c.byCategory);
+    chartInstances.culturalCat = new Chart(document.getElementById('chartCulturalCat'), {
+        type:'doughnut',
+        data:{labels:cats.map(([k])=>catLabels[k]||k),datasets:[{data:cats.map(([,v])=>v),backgroundColor:catColors.slice(0,cats.length),borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
+    });
+
+    // By mode
+    const modes = Object.entries(c.byMode);
+    chartInstances.culturalMode = new Chart(document.getElementById('chartCulturalMode'), {
+        type:'doughnut',
+        data:{labels:modes.map(([k])=>modeLabels[k]||k),datasets:[{data:modes.map(([,v])=>v),backgroundColor:modeColors.slice(0,modes.length),borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:10},padding:8}}}}
+    });
+
+    // By age group
+    const ages = Object.entries(c.byAgeGroup);
+    chartInstances.culturalAge = new Chart(document.getElementById('chartCulturalAge'), {
+        type:'doughnut',
+        data:{labels:ages.map(([k])=>ageLabels[k]||k),datasets:[{data:ages.map(([,v])=>v),backgroundColor:ageColors.slice(0,ages.length),borderWidth:0}]},
+        options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:10},padding:8}}}}
+    });
+
+    // Performers list
+    const html = c.performers.map(p => {
+        const detailHtml = (p.details || []).map(d => `
+            <div style="margin-top:4px">
+                <span class="perf-tag">${esc(catLabels[d.category] || d.category)}</span>
+                <span class="perf-tag">${esc(modeLabels[d.mode] || d.mode)}</span>
+                <span class="perf-tag">${esc(ageLabels[d.ageGroup] || d.ageGroup)}</span>
+                ${d.language ? `<span class="perf-tag">${esc(d.language)}</span>` : ''}
+                ${d.description ? `<div class="p-detail" style="margin-top:2px">${esc(d.description)}</div>` : ''}
+                ${d.memberNames && d.memberNames.length ? `<div class="p-detail">Members: ${esc(d.memberNames.join(', '))}</div>` : ''}
+            </div>`).join('');
+        return `<div class="perf-card"><div class="p-name">${esc(p.name)} <span style="font-size:.72rem;color:var(--dim);font-weight:400">· ${p.performances} performance${p.performances!==1?'s':''}</span></div>${detailHtml}</div>`;
+    }).join('');
+    document.getElementById('performersCard').innerHTML = `<h3><i class="fas fa-star"></i> Performers (${c.totalParticipants})</h3>${html}`;
+}
+
+/* ── Notes ── */
+function renderNotes(notes) {
+    const el = document.getElementById('notesCard');
+    if (!notes || !notes.length) {
+        el.innerHTML = '<h3><i class="fas fa-sticky-note"></i> Special Notes</h3><div class="empty-state"><i class="fas fa-clipboard"></i>No special notes or dietary requests</div>';
+        return;
+    }
+    const html = notes.map(n => `
+        <div class="notes-card">
+            <div class="n-name">${esc(n.name)} <span class="n-rsvp badge-s ${n.rsvp}" style="margin-left:6px">${n.rsvp}</span></div>
+            <div class="n-text">${esc(n.note)}</div>
+        </div>`).join('');
+    el.innerHTML = `<h3><i class="fas fa-sticky-note"></i> Special Notes & Dietary (${notes.length})</h3>${html}`;
+}
+
+/* ── RSVP Table ── */
+let currentTab = 'attending';
+function renderTable(rows) {
+    const tabs = [
+        { key:'attending', label:'Attending', count:(rows.attending||[]).length, cls:'yes' },
+        { key:'notAttending', label:'Not Attending', count:(rows.notAttending||[]).length, cls:'no' },
+        { key:'maybe', label:'Maybe', count:(rows.maybe||[]).length, cls:'maybe' },
+        { key:'unclear', label:'Unclear', count:(rows.unclear||[]).length, cls:'unclear' }
+    ];
+    document.getElementById('statusTabs').innerHTML = tabs.map(t => `
+        <button class="tab-btn ${t.key===currentTab?'active':''}" onclick="switchTab('${t.key}')">${t.label} <span class="badge-s ${t.cls}" style="margin-left:4px">${t.count}</span></button>`).join('');
+    window._rows = rows;
+    renderTableRows(rows[currentTab] || []);
+}
+function switchTab(key) { currentTab = key; renderTable(window._rows); }
+function renderTableRows(arr) {
+    if (!arr.length) {
+        document.getElementById('rsvpTableWrap').innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i>No entries</div>';
+        return;
+    }
+    const hdr = '<tr><th>#</th><th>Name</th><th>Email</th><th>Adults</th><th>Kids</th><th>Total</th><th>Dietary</th><th>Veg</th><th>Non-Veg</th><th>Notes</th><th>Cultural</th><th>Confidence</th></tr>';
+    const rows = arr.map((r,i) => {
+        const cultural = r.culturalParticipant ? '<span class="badge-s yes">Yes</span>' : '<span style="color:var(--dim)">—</span>';
+        return `<tr>
+            <td>${i+1}</td>
+            <td style="font-weight:600">${esc(r.senderName)}</td>
+            <td style="color:var(--muted)">${esc(r.email)}</td>
+            <td>${r.adults}</td>
+            <td>${r.kids}</td>
+            <td style="font-weight:700">${r.totalAttendees}</td>
+            <td>${esc((r.dietary||'').replace(/_/g,' '))}</td>
+            <td>${r.vegCount}</td>
+            <td>${r.nonVegCount}</td>
+            <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(r.notes)}">${esc(r.notes || '—')}</td>
+            <td>${cultural}</td>
+            <td><span style="color:${r.llmConfidence >= 80 ? 'var(--green)' : r.llmConfidence >= 55 ? 'var(--yellow)' : 'var(--red)'}">${r.llmConfidence}%</span></td>
+        </tr>`;
+    }).join('');
+    document.getElementById('rsvpTableWrap').innerHTML = `<table class="tb">${hdr}${rows}</table>`;
+}
+
+/* ── Needs Review ── */
+function renderReview(items) {
+    const el = document.getElementById('reviewTableWrap');
+    if (!items || !items.length) {
+        el.innerHTML = '<div class="empty-state"><i class="fas fa-check-circle" style="color:var(--green)"></i>All entries have sufficient confidence</div>';
+        return;
+    }
+    const hdr = '<tr><th>#</th><th>Name</th><th>Email</th><th>Status</th><th>Adults</th><th>Kids</th><th>Confidence</th><th>Subject</th></tr>';
+    const rows = items.map((r,i) => `<tr>
+        <td>${i+1}</td>
+        <td style="font-weight:600">${esc(r.senderName || '')}</td>
+        <td style="color:var(--muted)">${esc(r.from || '')}</td>
+        <td><span class="badge-s ${r.rsvpStatus}">${r.rsvpStatus}</span></td>
+        <td>${r.adults || 0}</td>
+        <td>${r.kids || 0}</td>
+        <td style="color:var(--red)">${Math.round((r.llmConfidence || 0) * 100)}%</td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.subject || '')}</td>
+    </tr>`).join('');
+    el.innerHTML = `<table class="tb">${hdr}${rows}</table>`;
+}
+
+function countSpecialDietary(d) {
+    if (!d || !d.breakdown) return 0;
+    let count = 0;
+    Object.entries(d.breakdown).forEach(([k,v]) => {
+        if (k !== 'non_vegetarian' && k !== 'vegetarian' && k !== 'unknown') count += v;
+    });
+    return count;
+}
+
+function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+loadData();
+</script>
+</body>
+</html>
