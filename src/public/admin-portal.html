@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -364,6 +364,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group">Operations</div>
     <div class="sb-item active" data-panel="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></div>
+    <div class="sb-item" data-panel="ec-profile"><i class="fas fa-user-circle"></i><span>My EC Profile</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="roles"><i class="fas fa-id-badge"></i><span>Role Definitions</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
     <div class="sb-item" data-panel="users"><i class="fas fa-users-cog"></i><span>User Management</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
     <div class="sb-item" data-panel="identity"><i class="fas fa-fingerprint"></i><span>Identity Engine</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
@@ -379,6 +380,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group">Testing</div>
     <div class="sb-item" data-panel="e2e-test"><i class="fas fa-vial"></i><span>E2E Test Suite</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 4</span></div>
+
+    <div class="sb-group">AI Agents</div>
+    <div class="sb-item" data-panel="agent-monitor"><i class="fas fa-robot"></i><span>Agent Monitor</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group">Finance</div>
     <div class="sb-item" data-panel="procurement"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
@@ -460,6 +464,108 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
       </div>
     </div>
 
+
+    <!-- MY EC PROFILE -->
+    <div class="portal-section" id="panel-ec-profile">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> My Public Profile</div>
+      <div class="card-a">
+        <h2><i class="fas fa-user-circle"></i> EC Member Profile</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Update your profile photo and bio for the BANF website EC team section.</p>
+
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start" id="ec-profile-grid">
+          <!-- Photo Column -->
+          <div style="text-align:center">
+            <div id="ec-profile-photo-wrap" style="width:180px;height:180px;border-radius:16px;overflow:hidden;margin:0 auto 14px;background:var(--bg2);border:2px dashed var(--line2);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative" onclick="document.getElementById('ec-profile-photo-input').click()">
+              <img id="ec-profile-photo-preview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
+              <div id="ec-profile-photo-placeholder" style="color:var(--dim);font-size:.78rem;text-align:center;padding:12px">
+                <i class="fas fa-camera" style="font-size:2rem;display:block;margin-bottom:8px"></i>
+                Click to upload<br>profile photo
+              </div>
+            </div>
+            <input type="file" id="ec-profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event)">
+            <button class="btn-secondary btn-sm" onclick="document.getElementById('ec-profile-photo-input').click()" style="margin-bottom:6px;width:100%"><i class="fas fa-upload me-1"></i>Upload Photo</button>
+            <button class="btn-secondary btn-sm" onclick="clearProfilePhoto()" style="width:100%;color:var(--red);border-color:rgba(239,68,68,.3)"><i class="fas fa-trash me-1"></i>Remove Photo</button>
+            <div style="font-size:.65rem;color:var(--dim);margin-top:8px">Max 500KB. Square crop recommended. Auto-resized to 400x400.</div>
+          </div>
+
+          <!-- Info Column -->
+          <div>
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">First Name</div>
+                <input id="ec-profile-firstName" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Last Name</div>
+                <input id="ec-profile-lastName" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">EC Title</div>
+                <input id="ec-profile-ecTitle" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Email</div>
+                <input id="ec-profile-email" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--line);margin:16px 0"></div>
+
+            <div style="margin-bottom:10px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Card Summary <span style="color:var(--dim)">(shown on EC card - max 300 chars)</span></div>
+              <textarea id="ec-profile-summary" rows="2" maxlength="300" placeholder="Brief 1-2 line summary for your EC member card" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem;resize:vertical" oninput="updateProfileCharCount('summary',300)"></textarea>
+              <div style="font-size:.65rem;color:var(--dim);text-align:right" id="ec-profile-summary-count">0/300</div>
+            </div>
+
+            <div style="margin-bottom:10px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Full Bio <span style="color:var(--dim)">(shown in profile modal - max 2000 chars)</span></div>
+              <textarea id="ec-profile-bio" rows="5" maxlength="2000" placeholder="Your detailed biography for the profile modal" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem;resize:vertical" oninput="updateProfileCharCount('bio',2000)"></textarea>
+              <div style="font-size:.65rem;color:var(--dim);text-align:right" id="ec-profile-bio-count">0/2000</div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Education</div>
+                <input id="ec-profile-education" placeholder="e.g. Ph.D., Computer Science" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Profession</div>
+                <input id="ec-profile-profession" placeholder="e.g. AI Solution Architect" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+
+            <div style="margin-bottom:14px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Interests <span style="color:var(--dim)">(comma-separated)</span></div>
+              <input id="ec-profile-interests" placeholder="e.g. AI and ML, Bengali Literature, Rabindra Sangeet" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+            </div>
+
+            <div style="display:flex;gap:10px;align-items:center">
+              <button class="btn-primary" onclick="saveECProfile()" id="ec-profile-save-btn"><i class="fas fa-save me-1"></i>Save Profile</button>
+              <div id="ec-profile-status" style="font-size:.78rem;color:var(--muted)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Preview Card -->
+      <div class="card-a" id="ec-profile-preview-card" style="display:none">
+        <h2><i class="fas fa-eye"></i> Profile Preview</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">This is how your profile will appear on the BANF website.</p>
+        <div id="ec-profile-preview-content" style="display:flex;gap:20px;align-items:start;padding:10px;background:var(--bg2);border-radius:10px">
+          <div id="ec-preview-photo" style="width:120px;height:120px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#667eea,#764ba2);flex-shrink:0;display:flex;align-items:center;justify-content:center">
+            <span style="font-size:2rem;font-weight:800;color:#fff" id="ec-preview-initials">?</span>
+          </div>
+          <div>
+            <div style="font-size:1.1rem;font-weight:700;color:#fff" id="ec-preview-name">-</div>
+            <div style="font-size:.82rem;color:var(--accent);font-weight:600;margin-bottom:8px" id="ec-preview-title">-</div>
+            <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px" id="ec-preview-summary">-</div>
+            <div style="font-size:.78rem;color:var(--dim)" id="ec-preview-details"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- â•â•â•â•â•â•â• ROLE DEFINITIONS â•â•â•â•â•â•â• -->
     <div class="portal-section" id="panel-roles">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--blue)"></i> Stage 1: Setup</div>
@@ -1636,10 +1742,13 @@ We will try our best to accommodate every request. If demand exceeds the allotte
       <!-- Actions -->
       <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(34,197,94,.3)">
         <h2><i class="fas fa-paper-plane"></i> Actions</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Create the event, then send invitations. Use Dry Run to test with president only.</p>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Save your configuration, then send invitations. Use Dry Run to test with president only.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
           <button onclick="eviteCreateEvent()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
-            <i class="fas fa-plus me-1"></i>Create Event
+            <i class="fas fa-save me-1"></i><span id="ev-save-btn-text">Save Event Config</span>
+          </button>
+          <button onclick="eviteExportConfig()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer" title="Export config as JSON for local scripts">
+            <i class="fas fa-download me-1"></i>Export Config
           </button>
           <button onclick="eviteDryRun()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
             <i class="fas fa-vial me-1"></i>Dry Run (President Only)
@@ -1648,7 +1757,7 @@ We will try our best to accommodate every request. If demand exceeds the allotte
             <i class="fas fa-paper-plane me-1"></i>Send Invitations
           </button>
           <button onclick="eviteLoadEvents()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer">
-            <i class="fas fa-sync me-1"></i>Refresh Events
+            <i class="fas fa-sync me-1"></i>Refresh
           </button>
         </div>
         <div id="ev-action-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
@@ -1710,6 +1819,80 @@ We will try our best to accommodate every request. If demand exceeds the allotte
               <tbody id="ev-dash-tbody"></tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AGENT MONITOR PANEL ── -->
+    <div class="portal-section" id="panel-agent-monitor">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Agent Monitoring Dashboard &mdash; AI Agent Fleet Overview</div>
+
+      <!-- KPI Row -->
+      <div class="kpi-grid" id="am-kpi-grid" style="margin-bottom:16px">
+        <div class="kpi"><div class="v" id="am-kpi-total">--</div><div class="l">Total Agents</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-active">--</div><div class="l">Active</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-model" style="font-size:.82rem">--</div><div class="l">LLM Model</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-llm-status">--</div><div class="l">LLM Status</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-version">--</div><div class="l">Platform Version</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-capabilities">--</div><div class="l">Capabilities</div></div>
+      </div>
+
+      <!-- Agent Table -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-robot"></i> Agent Profiles</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">All registered agent profiles and their current state. Click any row to view details and recent activity logs.</p>
+        <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+          <button onclick="loadAgentMonitor()" style="background:var(--bg2);border:1px solid var(--line);color:var(--accent);padding:6px 16px;border-radius:8px;font-size:.82rem;cursor:pointer"><i class="fas fa-sync me-1"></i>Refresh All</button>
+          <span id="am-last-refresh" style="font-size:.75rem;color:var(--dim);margin-left:8px"></span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="t" id="am-agents-table">
+            <thead>
+              <tr><th>Agent</th><th>Category</th><th>Status</th><th>Auto-Reply</th><th>Context Scope</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="am-agents-tbody">
+              <tr><td colspan="6" style="text-align:center;color:var(--dim)">Loading agents&hellip;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Agent Detail / Log Viewer (hidden until agent clicked) -->
+      <div class="card-a" id="am-detail-card" style="margin-bottom:16px;display:none;border:1px solid var(--accent)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h2 id="am-detail-title" style="margin:0"><i class="fas fa-terminal"></i> Agent Detail</h2>
+          <button onclick="document.getElementById('am-detail-card').style.display='none'" style="background:none;border:1px solid var(--line);color:var(--muted);padding:4px 12px;border-radius:6px;font-size:.75rem;cursor:pointer"><i class="fas fa-times me-1"></i>Close</button>
+        </div>
+        <div id="am-detail-meta" style="font-size:.82rem;color:var(--muted);margin-bottom:12px"></div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">System Prompt</label>
+          <pre id="am-detail-prompt" style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:.78rem;color:#e2e8f0;white-space:pre-wrap;max-height:200px;overflow-y:auto"></pre>
+        </div>
+        <div style="margin-bottom:8px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Reply Template</label>
+          <pre id="am-detail-template" style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:.78rem;color:#e2e8f0;white-space:pre-wrap;max-height:120px;overflow-y:auto"></pre>
+        </div>
+        <h3 style="margin-bottom:8px"><i class="fas fa-history me-1"></i> Recent Activity Log</h3>
+        <div id="am-detail-logs" style="max-height:400px;overflow-y:auto">
+          <p style="font-size:.82rem;color:var(--dim)">Select an agent to view logs.</p>
+        </div>
+      </div>
+
+      <!-- Platform Health -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-heartbeat"></i> Platform Health</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Backend module health and capability listing from the /health endpoint.</p>
+        <div id="am-health-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <div style="text-align:center;color:var(--dim);font-size:.82rem;grid-column:1/-1">Loading health data&hellip;</div>
+        </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="card-a">
+        <h2><i class="fas fa-toolbox"></i> Agent Capabilities</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Tools and capabilities available to the AI agent system.</p>
+        <div id="am-capabilities" style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:.82rem;color:var(--dim)">Loading&hellip;</span>
         </div>
       </div>
     </div>
@@ -3706,7 +3889,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     _saveCredsToLocalStorage(email, pass, '', '');
     var dbU = AUTH_DB[email];
     CURRENT_ADMIN = {
-      email: email, roles: dbU ? dbU.roles : [result.adminRole || 'ec-member'],
+      email: email, roles: (result.roles && result.roles.length) ? result.roles : (dbU ? dbU.roles : [result.adminRole || 'ec-member']),
       role: result.adminRole || (dbU ? dbU.roles[0] : 'ec-member'),
       firstName: result.firstName || '', lastName: result.lastName || '',
       ecTitle: result.ecTitle || (dbU ? dbU.ecTitle : ''), name: (result.firstName || '') + ' ' + (result.lastName || '')
@@ -4109,7 +4292,7 @@ async function forgotStep3() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager']);
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','ec-profile','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager','agent-monitor']);
 let rmbIframeLoaded = false;
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {
@@ -4124,6 +4307,18 @@ function navTo(panel){
       return;
     }
     if (!rmbIframeLoaded) loadRmbIframe();
+  }
+  // E-Vite Manager: auto-load events on first visit
+  if (panel === 'evite-manager') {
+    eviteLoadEvents();
+  }
+  // EC Profile: auto-load on first visit
+  if (panel === 'ec-profile') {
+    loadECProfile();
+  }
+  // Agent Monitor: auto-load on first visit
+  if (panel === 'agent-monitor') {
+    loadAgentMonitor();
   }
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
   const target = document.querySelector(`.sb-item[data-panel="${panel}"]`);
@@ -5672,33 +5867,59 @@ function eviteRemoveImage() {
 async function eviteCreateEvent() {
   const config = collectEviteConfig();
   if (!config.event.eventName) return eviteShowMsg('Event name is required.', true);
-  eviteShowMsg('Creating event...', false);
+  eviteShowMsg(EVITE_CURRENT_EVENT_ID ? 'Updating event...' : 'Creating event...', false);
   try {
+    const payload = {
+      eventName: config.event.eventName,
+      eventDate: config.event.eventDate,
+      eventTime: config.event.eventTime,
+      venue: config.event.venue,
+      description: config.event.description,
+      highlights: config.event.highlights,
+      capacity: config.event.capacity,
+      eviteConfig: config
+    };
+    if (EVITE_CURRENT_EVENT_ID) payload.eventId = EVITE_CURRENT_EVENT_ID;
     const resp = await fetch(API + '/evite_create_event', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventName: config.event.eventName,
-        eventDate: config.event.eventDate,
-        eventTime: config.event.eventTime,
-        venue: config.event.venue,
-        description: config.event.description,
-        highlights: config.event.highlights,
-        capacity: config.event.capacity,
-        eviteConfig: config
-      })
+      body: JSON.stringify(payload)
     });
     const data = await resp.json();
     if (data.eventId) {
       EVITE_CURRENT_EVENT_ID = data.eventId;
-      eviteShowMsg((data.existing ? 'Event already exists' : 'Event created') + '. ID: ' + data.eventId, false);
-      eviteLoadEvents();
+      if (data.existing) {
+        // Deployed backend doesn't support updates — auto-export the config
+        eviteExportConfig();
+      } else {
+        eviteShowMsg('Event created. ID: ' + data.eventId, false);
+        eviteLoadEvents();
+      }
     } else {
-      eviteShowMsg(data.error || 'Failed to create event.', true);
+      eviteShowMsg(data.error || 'Failed to save event.', true);
     }
   } catch (e) {
     eviteShowMsg('API error: ' + e.message, true);
   }
+}
+
+function eviteExportConfig() {
+  const config = collectEviteConfig();
+  const json = JSON.stringify(config, null, 2);
+  // Download as file
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'evite-config-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  // Also copy to clipboard
+  navigator.clipboard.writeText(json).then(() => {
+    eviteShowMsg('Config exported and copied to clipboard. Save the file, then run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js save-config evite-config.json</code>', false);
+  }).catch(() => {
+    eviteShowMsg('Config exported as file. Run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js save-config evite-config.json</code> to save to Wix DB.', false);
+  });
 }
 
 async function eviteSendInvites(recipientType, customEmails) {
@@ -5724,6 +5945,8 @@ async function eviteSendInvites(recipientType, customEmails) {
     const data = await resp.json();
     if (data.sent !== undefined) {
       eviteShowMsg('Done! Sent: ' + data.sent + ', Failed: ' + data.failed + ', Total: ' + data.total, data.failed > 0);
+    } else if (data.error && data.error.includes('Gmail token')) {
+      eviteShowMsg('<b>Gmail token needs refresh.</b> Your event config has been saved. To send invitations, please run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js send-test</code> (dry-run) or <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js send-ec</code> (all EC) from the project folder — or contact your developer to refresh the deployed Gmail token.', true);
     } else {
       eviteShowMsg(data.error || 'Send failed.', true);
     }
@@ -5767,8 +5990,10 @@ async function eviteLoadEvents() {
     const data = await resp.json();
     if (!data.events || data.events.length === 0) {
       el.innerHTML = 'No events found. Create one above.';
+      EVITE_EVENTS_CACHE = [];
       return;
     }
+    EVITE_EVENTS_CACHE = data.events;
     let html = '<table class="t" style="font-size:.82rem"><thead><tr><th>Event</th><th>Date</th><th>Invites</th><th>RSVPs</th><th>Created</th><th>Action</th></tr></thead><tbody>';
     data.events.forEach(ev => {
       const d = ev.eventDate ? new Date(ev.eventDate).toLocaleDateString() : '—';
@@ -5777,15 +6002,83 @@ async function eviteLoadEvents() {
     });
     html += '</tbody></table>';
     el.innerHTML = html;
+    // Auto-select the main Noboborsho event if none selected
+    if (!EVITE_CURRENT_EVENT_ID) {
+      const main = data.events.find(e => e._id === '61849b36-68e5-41fc-885d-998feafc21f2') || data.events.find(e => e.eviteConfig);
+      if (main) eviteSelectEvent(main._id);
+    }
   } catch (e) {
     el.innerHTML = 'Error loading events: ' + e.message;
   }
 }
 
+let EVITE_EVENTS_CACHE = []; // cached events from last load
+
 function eviteSelectEvent(id) {
   EVITE_CURRENT_EVENT_ID = id;
-  eviteShowMsg('Selected event: ' + id, false);
+  // Find event in cache and populate form
+  const ev = EVITE_EVENTS_CACHE.find(e => e._id === id);
+  if (ev) {
+    let cfg = null;
+    try { cfg = ev.eviteConfig ? (typeof ev.eviteConfig === 'string' ? JSON.parse(ev.eviteConfig) : ev.eviteConfig) : null; } catch(_) {}
+    if (cfg) {
+      evitePopulateForm(cfg, ev);
+      eviteShowMsg('Loaded config for: ' + (ev.eventName || id), false);
+    } else {
+      // Populate from top-level event fields even if no eviteConfig
+      if (ev.eventName) document.getElementById('ev-eventName').value = ev.eventName;
+      if (ev.eventDate) document.getElementById('ev-eventDate').value = ev.eventDate.substring(0, 10);
+      if (ev.eventTime) document.getElementById('ev-eventTime').value = ev.eventTime;
+      if (ev.venue) document.getElementById('ev-venue').value = ev.venue;
+      if (ev.description) document.getElementById('ev-description').value = ev.description;
+      eviteShowMsg('Selected event: ' + (ev.eventName || id) + ' (no saved config — fill in details)', false);
+    }
+  } else {
+    eviteShowMsg('Selected event: ' + id, false);
+  }
   eviteLoadEvents();
+}
+
+function evitePopulateForm(cfg, ev) {
+  // Event details
+  const e = cfg.event || {};
+  if (e.eventName) document.getElementById('ev-eventName').value = e.eventName;
+  if (e.eventDate) document.getElementById('ev-eventDate').value = e.eventDate;
+  if (e.eventTime) document.getElementById('ev-eventTime').value = e.eventTime;
+  if (e.venue) document.getElementById('ev-venue').value = e.venue;
+  if (e.description) document.getElementById('ev-description').value = e.description;
+  if (e.highlights) document.getElementById('ev-highlights').value = e.highlights;
+  if (e.capacity) document.getElementById('ev-capacity').value = e.capacity;
+  if (e.rsvpDeadline) document.getElementById('ev-rsvpDeadline').value = e.rsvpDeadline;
+  // Design
+  const d = cfg.design || {};
+  if (d.introText) document.getElementById('ev-introText').value = d.introText;
+  if (d.imageUrl) {
+    document.getElementById('ev-imageUrl').value = d.imageUrl;
+    document.getElementById('ev-imagePreviewImg').src = d.imageUrl;
+    document.getElementById('ev-imagePreview').style.display = 'block';
+  }
+  // RSVP
+  const r = cfg.rsvp || {};
+  if (r.collectGuests !== undefined) document.getElementById('ev-collectGuests').checked = r.collectGuests;
+  if (r.collectFood !== undefined) document.getElementById('ev-collectFood').checked = r.collectFood;
+  if (r.collectAllergy !== undefined) document.getElementById('ev-collectAllergy').checked = r.collectAllergy;
+  if (r.allowMaybe !== undefined) document.getElementById('ev-allowMaybe').checked = r.allowMaybe;
+  // Cultural
+  const c = cfg.cultural || {};
+  if (c.enabled !== undefined) {
+    document.getElementById('ev-culturalEnabled').checked = c.enabled;
+    const fields = document.getElementById('ev-cultural-fields');
+    if (fields) fields.style.display = c.enabled ? 'block' : 'none';
+  }
+  if (c.header) document.getElementById('ev-culturalHeader').value = c.header;
+  if (c.description) document.getElementById('ev-culturalDesc').value = c.description;
+  if (c.categories) document.getElementById('ev-categories').value = c.categories.join(', ');
+  if (c.modes) document.getElementById('ev-modes').value = c.modes.join(', ');
+  if (c.ageGroups) document.getElementById('ev-ageGroups').value = c.ageGroups.join(', ');
+  if (c.askLanguage !== undefined) document.getElementById('ev-askLanguage').checked = c.askLanguage;
+  if (c.askDescription !== undefined) document.getElementById('ev-askDescription').checked = c.askDescription;
+  if (c.notes && c.notes.length > 0) document.getElementById('ev-culturalNotes').value = c.notes.join('\n');
 }
 
 // Editable recipient list — client-side only, no backend changes
@@ -5813,6 +6106,7 @@ async function eviteLoadRecipientPreview() {
 
   try {
     const resp = await fetch(API + '/evite_recipients?type=' + encodeURIComponent(type));
+    if (!resp.ok) throw new Error('Endpoint not available (status ' + resp.status + ')');
     const data = await resp.json();
     if (data.members) {
       EVITE_RECIPIENT_LIST = data.members.map(m => ({
@@ -5830,7 +6124,7 @@ async function eviteLoadRecipientPreview() {
   } catch (e) {
     countEl.textContent = '';
     addRow.style.display = 'none';
-    previewEl.innerHTML = 'Error loading members: ' + e.message;
+    previewEl.innerHTML = '<span style="color:var(--yellow)"><i class="fas fa-info-circle me-1"></i>Recipient preview unavailable — the backend will load ' + type + ' members automatically when you send. You can proceed with Send Invitations.</span>';
   }
 }
 
@@ -6257,6 +6551,370 @@ function renderAll(){
     {v:LOG.length,k:'Audit Log',cls:'dim'},
   ].map(k=>`<div class="kpi ${k.cls}"><div class="v">${k.v}</div><div class="k">${k.k}</div></div>`).join('');
   renderRoles();renderUsers();renderDrive();renderEC();renderFeedback();renderDevBoard();renderE2E(null);renderLog('dash-log',8);renderLog('full-log');renderDriveStatus();renderIdentityGraph();renderRoleHistory();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  EC PROFILE: Photo upload + text editing
+// ═══════════════════════════════════════════════════════════════════════
+var _ecProfileLoaded = false;
+var _ecProfilePhotoData = null; // base64 data URL
+
+function updateProfileCharCount(field, max) {
+  var el = document.getElementById('ec-profile-' + field);
+  var cnt = document.getElementById('ec-profile-' + field + '-count');
+  if (el && cnt) cnt.textContent = el.value.length + '/' + max;
+  updateProfilePreview();
+}
+
+function handleProfilePhotoUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+  if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5MB before resize.'); return; }
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      // Resize to 400x400 square, center crop
+      var canvas = document.createElement('canvas');
+      canvas.width = 400; canvas.height = 400;
+      var ctx = canvas.getContext('2d');
+      var size = Math.min(img.width, img.height);
+      var sx = (img.width - size) / 2;
+      var sy = (img.height - size) / 2;
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, 400, 400);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      if (dataUrl.length > 700000) {
+        dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+      }
+      if (dataUrl.length > 700000) {
+        alert('Image still too large after compression. Try a smaller photo.');
+        return;
+      }
+      _ecProfilePhotoData = dataUrl;
+      var preview = document.getElementById('ec-profile-photo-preview');
+      var placeholder = document.getElementById('ec-profile-photo-placeholder');
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+      placeholder.style.display = 'none';
+      updateProfilePreview();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearProfilePhoto() {
+  _ecProfilePhotoData = null;
+  var preview = document.getElementById('ec-profile-photo-preview');
+  var placeholder = document.getElementById('ec-profile-photo-placeholder');
+  preview.src = ''; preview.style.display = 'none';
+  placeholder.style.display = 'block';
+  document.getElementById('ec-profile-photo-input').value = '';
+  updateProfilePreview();
+}
+
+function updateProfilePreview() {
+  if (!CURRENT_ADMIN) return;
+  var card = document.getElementById('ec-profile-preview-card');
+  card.style.display = 'block';
+
+  var nameEl = document.getElementById('ec-preview-name');
+  nameEl.textContent = (CURRENT_ADMIN.firstName || '') + ' ' + (CURRENT_ADMIN.lastName || '');
+
+  var titleEl = document.getElementById('ec-preview-title');
+  titleEl.textContent = CURRENT_ADMIN.ecTitle || 'EC Member';
+
+  var summaryEl = document.getElementById('ec-preview-summary');
+  summaryEl.textContent = document.getElementById('ec-profile-summary').value || '(No summary yet)';
+
+  var detailParts = [];
+  var edu = document.getElementById('ec-profile-education').value;
+  var prof = document.getElementById('ec-profile-profession').value;
+  var interests = document.getElementById('ec-profile-interests').value;
+  if (edu) detailParts.push('<i class="fas fa-graduation-cap me-1"></i>' + edu);
+  if (prof) detailParts.push('<i class="fas fa-briefcase me-1"></i>' + prof);
+  if (interests) detailParts.push('<i class="fas fa-heart me-1"></i>' + interests);
+  document.getElementById('ec-preview-details').innerHTML = detailParts.join(' &nbsp;|&nbsp; ');
+
+  var photoDiv = document.getElementById('ec-preview-photo');
+  var initialsEl = document.getElementById('ec-preview-initials');
+  if (_ecProfilePhotoData) {
+    photoDiv.innerHTML = '<img src="' + _ecProfilePhotoData + '" style="width:100%;height:100%;object-fit:cover">';
+  } else {
+    var initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
+    photoDiv.innerHTML = '';
+    initialsEl = document.createElement('span');
+    initialsEl.style.cssText = 'font-size:2rem;font-weight:800;color:#fff';
+    initialsEl.textContent = initials;
+    photoDiv.appendChild(initialsEl);
+  }
+}
+
+function loadECProfile() {
+  if (!CURRENT_ADMIN || !CURRENT_ADMIN.email) return;
+
+  // Fill read-only fields
+  document.getElementById('ec-profile-firstName').value = CURRENT_ADMIN.firstName || '';
+  document.getElementById('ec-profile-lastName').value = CURRENT_ADMIN.lastName || '';
+  document.getElementById('ec-profile-ecTitle').value = CURRENT_ADMIN.ecTitle || '';
+  document.getElementById('ec-profile-email').value = CURRENT_ADMIN.email || '';
+
+  if (_ecProfileLoaded) return; // Only fetch from API once per session
+
+  var statusEl = document.getElementById('ec-profile-status');
+  statusEl.textContent = 'Loading profile...';
+  statusEl.style.color = 'var(--muted)';
+
+  fetch(API + '/ec_get_ec_profile?email=' + encodeURIComponent(CURRENT_ADMIN.email), {
+    headers: { 'x-user-email': CURRENT_ADMIN.email }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.profile) {
+      var p = data.profile;
+      if (p.profilePhoto) {
+        _ecProfilePhotoData = p.profilePhoto;
+        var preview = document.getElementById('ec-profile-photo-preview');
+        var placeholder = document.getElementById('ec-profile-photo-placeholder');
+        preview.src = p.profilePhoto;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+      if (p.profileSummary) document.getElementById('ec-profile-summary').value = p.profileSummary;
+      if (p.profileBio) document.getElementById('ec-profile-bio').value = p.profileBio;
+      if (p.profileEducation) document.getElementById('ec-profile-education').value = p.profileEducation;
+      if (p.profileProfession) document.getElementById('ec-profile-profession').value = p.profileProfession;
+      if (p.profileInterests) document.getElementById('ec-profile-interests').value = p.profileInterests;
+      updateProfileCharCount('summary', 300);
+      updateProfileCharCount('bio', 2000);
+      statusEl.textContent = p.profileUpdatedAt ? 'Last saved: ' + new Date(p.profileUpdatedAt).toLocaleString() : '';
+    } else {
+      statusEl.textContent = 'No profile saved yet. Fill in your details and click Save.';
+    }
+    updateProfilePreview();
+    _ecProfileLoaded = true;
+  })
+  .catch(function(err) {
+    statusEl.textContent = 'Could not load profile. You can still fill in details and save.';
+    statusEl.style.color = 'var(--orange)';
+    updateProfilePreview();
+  });
+}
+
+function saveECProfile() {
+  if (!CURRENT_ADMIN || !CURRENT_ADMIN.email) { alert('Not logged in.'); return; }
+
+  var btn = document.getElementById('ec-profile-save-btn');
+  var statusEl = document.getElementById('ec-profile-status');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
+  statusEl.textContent = '';
+
+  var body = {
+    email: CURRENT_ADMIN.email,
+    profileSummary: document.getElementById('ec-profile-summary').value.trim(),
+    profileBio: document.getElementById('ec-profile-bio').value.trim(),
+    profileEducation: document.getElementById('ec-profile-education').value.trim(),
+    profileProfession: document.getElementById('ec-profile-profession').value.trim(),
+    profileInterests: document.getElementById('ec-profile-interests').value.trim()
+  };
+  if (_ecProfilePhotoData) body.profilePhoto = _ecProfilePhotoData;
+
+  fetch(API + '/ec_update_ec_profile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-user-email': CURRENT_ADMIN.email },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save me-1"></i>Save Profile';
+    if (data.success) {
+      statusEl.textContent = 'Profile saved! ' + new Date().toLocaleString();
+      statusEl.style.color = 'var(--green)';
+      _ecProfileLoaded = false;
+      addLog('PROFILE', 'EC profile updated by ' + CURRENT_ADMIN.email);
+    } else {
+      statusEl.textContent = 'Save failed: ' + (data.error || 'Unknown error');
+      statusEl.style.color = 'var(--red)';
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save me-1"></i>Save Profile';
+    statusEl.textContent = 'Network error. Please try again.';
+    statusEl.style.color = 'var(--red)';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  AGENT MONITOR
+// ═══════════════════════════════════════════════════════════════════════
+var _amAgents = [];
+
+async function loadAgentMonitor() {
+  var refreshIcon = document.querySelector('#panel-agent-monitor .fa-sync');
+  if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+  try {
+    var headers = {};
+    if (CURRENT_ADMIN && CURRENT_ADMIN.email) {
+      headers['x-user-email'] = CURRENT_ADMIN.email;
+    }
+
+    var results = await Promise.allSettled([
+      fetch(API + '/agent_status').then(function(r) { return r.json(); }),
+      fetch(API + '/admin_agents', { headers: headers }).then(function(r) { return r.json(); }),
+      fetch(API + '/health').then(function(r) { return r.json(); })
+    ]);
+
+    var statusData = results[0].status === 'fulfilled' ? results[0].value : null;
+    var agentsData = results[1].status === 'fulfilled' ? results[1].value : null;
+    var healthData = results[2].status === 'fulfilled' ? results[2].value : null;
+
+    // ── KPIs from agent_status ──
+    if (statusData && statusData.success && statusData.agent) {
+      var ag = statusData.agent;
+      document.getElementById('am-kpi-version').textContent = ag.version || '--';
+      document.getElementById('am-kpi-model').textContent = (ag.model || '--').split('/').pop();
+      document.getElementById('am-kpi-capabilities').textContent = (ag.capabilities || []).length;
+
+      var llmOk = ag.modelTest && ag.modelTest.status === 'ok';
+      var llmEl = document.getElementById('am-kpi-llm-status');
+      llmEl.textContent = llmOk ? 'Online' : (ag.modelTest ? ag.modelTest.status + ' (' + (ag.modelTest.code || '') + ')' : 'Unknown');
+      llmEl.style.color = llmOk ? 'var(--green)' : 'var(--red)';
+
+      // Capabilities badges
+      var capEl = document.getElementById('am-capabilities');
+      if (ag.capabilities && ag.capabilities.length) {
+        capEl.innerHTML = ag.capabilities.map(function(c) {
+          return '<span style="background:var(--bg2);border:1px solid var(--line);padding:4px 10px;border-radius:6px;font-size:.78rem;color:#e2e8f0">' + escHtml(c) + '</span>';
+        }).join('');
+      }
+    }
+
+    // ── Agent profiles table ──
+    _amAgents = [];
+    if (agentsData && agentsData.success && agentsData.agents) {
+      _amAgents = agentsData.agents;
+    } else if (agentsData && Array.isArray(agentsData)) {
+      _amAgents = agentsData;
+    }
+
+    document.getElementById('am-kpi-total').textContent = _amAgents.length || '--';
+    var activeCount = _amAgents.filter(function(a) { return a.isActive !== false; }).length;
+    document.getElementById('am-kpi-active').textContent = activeCount;
+
+    var tbody = document.getElementById('am-agents-tbody');
+    if (_amAgents.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--dim)">No agent profiles found. Agents may need to be seeded via the admin_agents endpoint.</td></tr>';
+    } else {
+      tbody.innerHTML = _amAgents.map(function(a, i) {
+        var active = a.isActive !== false;
+        var cats = (a.contextCategories || []).join(', ') || '--';
+        return '<tr style="cursor:pointer" onclick="showAgentDetail(' + i + ')">' +
+          '<td><strong>' + escHtml(a.name || a.agentId || 'Agent ' + (i + 1)) + '</strong><div style="font-size:.72rem;color:var(--dim)">' + escHtml(a.agentId || '') + '</div></td>' +
+          '<td>' + escHtml(a.category || '--') + '</td>' +
+          '<td>' + (active ? '<span class="badge-s" style="background:rgba(34,197,94,.15);color:var(--green)">Active</span>' : '<span class="badge-s" style="background:rgba(239,68,68,.15);color:var(--red)">Inactive</span>') + '</td>' +
+          '<td>' + (a.autoReply ? '<span style="color:var(--green)">Yes</span>' : '<span style="color:var(--dim)">No</span>') + '</td>' +
+          '<td style="font-size:.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(cats) + '</td>' +
+          '<td><button onclick="event.stopPropagation();showAgentDetail(' + i + ')" style="background:none;border:1px solid var(--line);color:var(--accent);padding:3px 10px;border-radius:6px;font-size:.72rem;cursor:pointer"><i class="fas fa-search me-1"></i>View</button></td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    // ── Health modules ──
+    if (healthData && healthData.success) {
+      var hGrid = document.getElementById('am-health-grid');
+      var modules = healthData.modules || {};
+      var html = '';
+      Object.keys(modules).forEach(function(group) {
+        var items = modules[group] || [];
+        html += '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px">' +
+          '<div style="font-size:.82rem;font-weight:600;color:#fff;margin-bottom:8px;text-transform:capitalize">' + escHtml(group) + ' <span style="color:var(--dim);font-weight:400">(' + items.length + ')</span></div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:4px">' +
+          items.map(function(m) {
+            return '<span style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);padding:2px 8px;border-radius:4px;font-size:.72rem;color:var(--green)">' + escHtml(m) + '</span>';
+          }).join('') +
+          '</div></div>';
+      });
+      hGrid.innerHTML = html || '<div style="color:var(--dim);font-size:.82rem">No module data available.</div>';
+    }
+
+    document.getElementById('am-last-refresh').textContent = 'Last refreshed: ' + new Date().toLocaleTimeString();
+
+  } catch (err) {
+    console.error('Agent monitor error:', err);
+  } finally {
+    if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+  }
+}
+
+function showAgentDetail(idx) {
+  var a = _amAgents[idx];
+  if (!a) return;
+  var card = document.getElementById('am-detail-card');
+  card.style.display = 'block';
+
+  document.getElementById('am-detail-title').innerHTML = '<i class="fas fa-terminal me-1"></i> ' + escHtml(a.name || a.agentId);
+  document.getElementById('am-detail-meta').innerHTML =
+    '<strong>ID:</strong> ' + escHtml(a.agentId || '--') +
+    ' &nbsp;|&nbsp; <strong>Category:</strong> ' + escHtml(a.category || '--') +
+    ' &nbsp;|&nbsp; <strong>Active:</strong> ' + (a.isActive !== false ? '<span style="color:var(--green)">Yes</span>' : '<span style="color:var(--red)">No</span>') +
+    ' &nbsp;|&nbsp; <strong>Auto-Reply:</strong> ' + (a.autoReply ? 'Yes' : 'No') +
+    (a.contextCategories ? ' &nbsp;|&nbsp; <strong>Context:</strong> ' + escHtml((a.contextCategories || []).join(', ')) : '');
+
+  document.getElementById('am-detail-prompt').textContent = a.systemPrompt || '(No system prompt configured)';
+  document.getElementById('am-detail-template').textContent = a.replyTemplate || '(No reply template configured)';
+
+  // Load recent logs
+  var logsEl = document.getElementById('am-detail-logs');
+  logsEl.innerHTML = '<p style="font-size:.82rem;color:var(--dim)"><i class="fas fa-spinner fa-spin me-1"></i>Loading activity logs&hellip;</p>';
+
+  var headers = {};
+  if (CURRENT_ADMIN && CURRENT_ADMIN.email) {
+    headers['x-user-email'] = CURRENT_ADMIN.email;
+  }
+
+  fetch(API + '/agent_history?agentId=' + encodeURIComponent(a.agentId || ''), { headers: headers })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var logs = [];
+      if (data.success && data.history) logs = data.history;
+      else if (data.success && data.logs) logs = data.logs;
+      else if (Array.isArray(data)) logs = data;
+
+      if (logs.length === 0) {
+        logsEl.innerHTML = '<p style="font-size:.82rem;color:var(--dim)">No activity logs found for this agent.</p>';
+        return;
+      }
+
+      logsEl.innerHTML = '<div style="overflow-x:auto"><table class="t"><thead><tr>' +
+        '<th>Time</th><th>User Message</th><th>Response</th><th>Tools Used</th><th>Status</th>' +
+        '</tr></thead><tbody>' +
+        logs.slice(0, 50).map(function(log) {
+          var ts = log.timestamp ? new Date(log.timestamp).toLocaleString() : '--';
+          var msg = (log.userMessage || log.query || '--').substring(0, 80);
+          var resp = (log.agentResponse || log.response || '--').substring(0, 100);
+          var tools = (log.toolsUsed || []).join(', ') || '--';
+          var ok = log.success !== false;
+          return '<tr>' +
+            '<td style="white-space:nowrap;font-size:.75rem">' + escHtml(ts) + '</td>' +
+            '<td style="font-size:.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis">' + escHtml(msg) + '</td>' +
+            '<td style="font-size:.78rem;max-width:250px;overflow:hidden;text-overflow:ellipsis">' + escHtml(resp) + '</td>' +
+            '<td style="font-size:.75rem">' + escHtml(tools) + '</td>' +
+            '<td>' + (ok ? '<span style="color:var(--green)">OK</span>' : '<span style="color:var(--red)">Fail</span>') + '</td>' +
+            '</tr>';
+        }).join('') +
+        '</tbody></table></div>';
+    })
+    .catch(function(err) {
+      logsEl.innerHTML = '<p style="font-size:.82rem;color:var(--red)">Failed to load logs: ' + escHtml(err.message) + '</p>';
+    });
+
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ═══════════════════════════════════════════════════════════════════════

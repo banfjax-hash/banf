@@ -1,6 +1,6 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (434533 bytes)
-// Generated: 2026-03-24T14:36:37.018Z
+// Source: admin-portal.html (449537 bytes)
+// Generated: 2026-03-24T16:02:49.714Z
 export function getHtml() { return `﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -383,6 +383,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group">Testing</div>
     <div class="sb-item" data-panel="e2e-test"><i class="fas fa-vial"></i><span>E2E Test Suite</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 4</span></div>
+
+    <div class="sb-group">AI Agents</div>
+    <div class="sb-item" data-panel="agent-monitor"><i class="fas fa-robot"></i><span>Agent Monitor</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group">Finance</div>
     <div class="sb-item" data-panel="procurement"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
@@ -1819,6 +1822,80 @@ We will try our best to accommodate every request. If demand exceeds the allotte
               <tbody id="ev-dash-tbody"></tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AGENT MONITOR PANEL ── -->
+    <div class="portal-section" id="panel-agent-monitor">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Agent Monitoring Dashboard &mdash; AI Agent Fleet Overview</div>
+
+      <!-- KPI Row -->
+      <div class="kpi-grid" id="am-kpi-grid" style="margin-bottom:16px">
+        <div class="kpi"><div class="v" id="am-kpi-total">--</div><div class="l">Total Agents</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-active">--</div><div class="l">Active</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-model" style="font-size:.82rem">--</div><div class="l">LLM Model</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-llm-status">--</div><div class="l">LLM Status</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-version">--</div><div class="l">Platform Version</div></div>
+        <div class="kpi"><div class="v" id="am-kpi-capabilities">--</div><div class="l">Capabilities</div></div>
+      </div>
+
+      <!-- Agent Table -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-robot"></i> Agent Profiles</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">All registered agent profiles and their current state. Click any row to view details and recent activity logs.</p>
+        <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
+          <button onclick="loadAgentMonitor()" style="background:var(--bg2);border:1px solid var(--line);color:var(--accent);padding:6px 16px;border-radius:8px;font-size:.82rem;cursor:pointer"><i class="fas fa-sync me-1"></i>Refresh All</button>
+          <span id="am-last-refresh" style="font-size:.75rem;color:var(--dim);margin-left:8px"></span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="t" id="am-agents-table">
+            <thead>
+              <tr><th>Agent</th><th>Category</th><th>Status</th><th>Auto-Reply</th><th>Context Scope</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="am-agents-tbody">
+              <tr><td colspan="6" style="text-align:center;color:var(--dim)">Loading agents&hellip;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Agent Detail / Log Viewer (hidden until agent clicked) -->
+      <div class="card-a" id="am-detail-card" style="margin-bottom:16px;display:none;border:1px solid var(--accent)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h2 id="am-detail-title" style="margin:0"><i class="fas fa-terminal"></i> Agent Detail</h2>
+          <button onclick="document.getElementById('am-detail-card').style.display='none'" style="background:none;border:1px solid var(--line);color:var(--muted);padding:4px 12px;border-radius:6px;font-size:.75rem;cursor:pointer"><i class="fas fa-times me-1"></i>Close</button>
+        </div>
+        <div id="am-detail-meta" style="font-size:.82rem;color:var(--muted);margin-bottom:12px"></div>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">System Prompt</label>
+          <pre id="am-detail-prompt" style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:.78rem;color:#e2e8f0;white-space:pre-wrap;max-height:200px;overflow-y:auto"></pre>
+        </div>
+        <div style="margin-bottom:8px">
+          <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Reply Template</label>
+          <pre id="am-detail-template" style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:.78rem;color:#e2e8f0;white-space:pre-wrap;max-height:120px;overflow-y:auto"></pre>
+        </div>
+        <h3 style="margin-bottom:8px"><i class="fas fa-history me-1"></i> Recent Activity Log</h3>
+        <div id="am-detail-logs" style="max-height:400px;overflow-y:auto">
+          <p style="font-size:.82rem;color:var(--dim)">Select an agent to view logs.</p>
+        </div>
+      </div>
+
+      <!-- Platform Health -->
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-heartbeat"></i> Platform Health</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Backend module health and capability listing from the /health endpoint.</p>
+        <div id="am-health-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
+          <div style="text-align:center;color:var(--dim);font-size:.82rem;grid-column:1/-1">Loading health data&hellip;</div>
+        </div>
+      </div>
+
+      <!-- Capabilities -->
+      <div class="card-a">
+        <h2><i class="fas fa-toolbox"></i> Agent Capabilities</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Tools and capabilities available to the AI agent system.</p>
+        <div id="am-capabilities" style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-size:.82rem;color:var(--dim)">Loading&hellip;</span>
         </div>
       </div>
     </div>
@@ -4218,7 +4295,7 @@ async function forgotStep3() {
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard','ec-profile','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager']);
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','ec-profile','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager','agent-monitor']);
 let rmbIframeLoaded = false;
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {
@@ -4241,6 +4318,10 @@ function navTo(panel){
   // EC Profile: auto-load on first visit
   if (panel === 'ec-profile') {
     loadECProfile();
+  }
+  // Agent Monitor: auto-load on first visit
+  if (panel === 'agent-monitor') {
+    loadAgentMonitor();
   }
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
   const target = document.querySelector(\`.sb-item[data-panel="\${panel}"]\`);
@@ -6656,6 +6737,7 @@ function saveECProfile() {
     if (data.success) {
       statusEl.textContent = 'Profile saved! ' + new Date().toLocaleString();
       statusEl.style.color = 'var(--green)';
+      _ecProfileLoaded = false;
       addLog('PROFILE', 'EC profile updated by ' + CURRENT_ADMIN.email);
     } else {
       statusEl.textContent = 'Save failed: ' + (data.error || 'Unknown error');
@@ -6668,6 +6750,174 @@ function saveECProfile() {
     statusEl.textContent = 'Network error. Please try again.';
     statusEl.style.color = 'var(--red)';
   });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  AGENT MONITOR
+// ═══════════════════════════════════════════════════════════════════════
+var _amAgents = [];
+
+async function loadAgentMonitor() {
+  var refreshIcon = document.querySelector('#panel-agent-monitor .fa-sync');
+  if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+  try {
+    var headers = {};
+    if (CURRENT_ADMIN && CURRENT_ADMIN.email) {
+      headers['x-user-email'] = CURRENT_ADMIN.email;
+    }
+
+    var results = await Promise.allSettled([
+      fetch(API + '/agent_status').then(function(r) { return r.json(); }),
+      fetch(API + '/admin_agents', { headers: headers }).then(function(r) { return r.json(); }),
+      fetch(API + '/health').then(function(r) { return r.json(); })
+    ]);
+
+    var statusData = results[0].status === 'fulfilled' ? results[0].value : null;
+    var agentsData = results[1].status === 'fulfilled' ? results[1].value : null;
+    var healthData = results[2].status === 'fulfilled' ? results[2].value : null;
+
+    // ── KPIs from agent_status ──
+    if (statusData && statusData.success && statusData.agent) {
+      var ag = statusData.agent;
+      document.getElementById('am-kpi-version').textContent = ag.version || '--';
+      document.getElementById('am-kpi-model').textContent = (ag.model || '--').split('/').pop();
+      document.getElementById('am-kpi-capabilities').textContent = (ag.capabilities || []).length;
+
+      var llmOk = ag.modelTest && ag.modelTest.status === 'ok';
+      var llmEl = document.getElementById('am-kpi-llm-status');
+      llmEl.textContent = llmOk ? 'Online' : (ag.modelTest ? ag.modelTest.status + ' (' + (ag.modelTest.code || '') + ')' : 'Unknown');
+      llmEl.style.color = llmOk ? 'var(--green)' : 'var(--red)';
+
+      // Capabilities badges
+      var capEl = document.getElementById('am-capabilities');
+      if (ag.capabilities && ag.capabilities.length) {
+        capEl.innerHTML = ag.capabilities.map(function(c) {
+          return '<span style="background:var(--bg2);border:1px solid var(--line);padding:4px 10px;border-radius:6px;font-size:.78rem;color:#e2e8f0">' + escHtml(c) + '</span>';
+        }).join('');
+      }
+    }
+
+    // ── Agent profiles table ──
+    _amAgents = [];
+    if (agentsData && agentsData.success && agentsData.agents) {
+      _amAgents = agentsData.agents;
+    } else if (agentsData && Array.isArray(agentsData)) {
+      _amAgents = agentsData;
+    }
+
+    document.getElementById('am-kpi-total').textContent = _amAgents.length || '--';
+    var activeCount = _amAgents.filter(function(a) { return a.isActive !== false; }).length;
+    document.getElementById('am-kpi-active').textContent = activeCount;
+
+    var tbody = document.getElementById('am-agents-tbody');
+    if (_amAgents.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--dim)">No agent profiles found. Agents may need to be seeded via the admin_agents endpoint.</td></tr>';
+    } else {
+      tbody.innerHTML = _amAgents.map(function(a, i) {
+        var active = a.isActive !== false;
+        var cats = (a.contextCategories || []).join(', ') || '--';
+        return '<tr style="cursor:pointer" onclick="showAgentDetail(' + i + ')">' +
+          '<td><strong>' + escHtml(a.name || a.agentId || 'Agent ' + (i + 1)) + '</strong><div style="font-size:.72rem;color:var(--dim)">' + escHtml(a.agentId || '') + '</div></td>' +
+          '<td>' + escHtml(a.category || '--') + '</td>' +
+          '<td>' + (active ? '<span class="badge-s" style="background:rgba(34,197,94,.15);color:var(--green)">Active</span>' : '<span class="badge-s" style="background:rgba(239,68,68,.15);color:var(--red)">Inactive</span>') + '</td>' +
+          '<td>' + (a.autoReply ? '<span style="color:var(--green)">Yes</span>' : '<span style="color:var(--dim)">No</span>') + '</td>' +
+          '<td style="font-size:.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escHtml(cats) + '</td>' +
+          '<td><button onclick="event.stopPropagation();showAgentDetail(' + i + ')" style="background:none;border:1px solid var(--line);color:var(--accent);padding:3px 10px;border-radius:6px;font-size:.72rem;cursor:pointer"><i class="fas fa-search me-1"></i>View</button></td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    // ── Health modules ──
+    if (healthData && healthData.success) {
+      var hGrid = document.getElementById('am-health-grid');
+      var modules = healthData.modules || {};
+      var html = '';
+      Object.keys(modules).forEach(function(group) {
+        var items = modules[group] || [];
+        html += '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px">' +
+          '<div style="font-size:.82rem;font-weight:600;color:#fff;margin-bottom:8px;text-transform:capitalize">' + escHtml(group) + ' <span style="color:var(--dim);font-weight:400">(' + items.length + ')</span></div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:4px">' +
+          items.map(function(m) {
+            return '<span style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);padding:2px 8px;border-radius:4px;font-size:.72rem;color:var(--green)">' + escHtml(m) + '</span>';
+          }).join('') +
+          '</div></div>';
+      });
+      hGrid.innerHTML = html || '<div style="color:var(--dim);font-size:.82rem">No module data available.</div>';
+    }
+
+    document.getElementById('am-last-refresh').textContent = 'Last refreshed: ' + new Date().toLocaleTimeString();
+
+  } catch (err) {
+    console.error('Agent monitor error:', err);
+  } finally {
+    if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+  }
+}
+
+function showAgentDetail(idx) {
+  var a = _amAgents[idx];
+  if (!a) return;
+  var card = document.getElementById('am-detail-card');
+  card.style.display = 'block';
+
+  document.getElementById('am-detail-title').innerHTML = '<i class="fas fa-terminal me-1"></i> ' + escHtml(a.name || a.agentId);
+  document.getElementById('am-detail-meta').innerHTML =
+    '<strong>ID:</strong> ' + escHtml(a.agentId || '--') +
+    ' &nbsp;|&nbsp; <strong>Category:</strong> ' + escHtml(a.category || '--') +
+    ' &nbsp;|&nbsp; <strong>Active:</strong> ' + (a.isActive !== false ? '<span style="color:var(--green)">Yes</span>' : '<span style="color:var(--red)">No</span>') +
+    ' &nbsp;|&nbsp; <strong>Auto-Reply:</strong> ' + (a.autoReply ? 'Yes' : 'No') +
+    (a.contextCategories ? ' &nbsp;|&nbsp; <strong>Context:</strong> ' + escHtml((a.contextCategories || []).join(', ')) : '');
+
+  document.getElementById('am-detail-prompt').textContent = a.systemPrompt || '(No system prompt configured)';
+  document.getElementById('am-detail-template').textContent = a.replyTemplate || '(No reply template configured)';
+
+  // Load recent logs
+  var logsEl = document.getElementById('am-detail-logs');
+  logsEl.innerHTML = '<p style="font-size:.82rem;color:var(--dim)"><i class="fas fa-spinner fa-spin me-1"></i>Loading activity logs&hellip;</p>';
+
+  var headers = {};
+  if (CURRENT_ADMIN && CURRENT_ADMIN.email) {
+    headers['x-user-email'] = CURRENT_ADMIN.email;
+  }
+
+  fetch(API + '/agent_history?agentId=' + encodeURIComponent(a.agentId || ''), { headers: headers })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var logs = [];
+      if (data.success && data.history) logs = data.history;
+      else if (data.success && data.logs) logs = data.logs;
+      else if (Array.isArray(data)) logs = data;
+
+      if (logs.length === 0) {
+        logsEl.innerHTML = '<p style="font-size:.82rem;color:var(--dim)">No activity logs found for this agent.</p>';
+        return;
+      }
+
+      logsEl.innerHTML = '<div style="overflow-x:auto"><table class="t"><thead><tr>' +
+        '<th>Time</th><th>User Message</th><th>Response</th><th>Tools Used</th><th>Status</th>' +
+        '</tr></thead><tbody>' +
+        logs.slice(0, 50).map(function(log) {
+          var ts = log.timestamp ? new Date(log.timestamp).toLocaleString() : '--';
+          var msg = (log.userMessage || log.query || '--').substring(0, 80);
+          var resp = (log.agentResponse || log.response || '--').substring(0, 100);
+          var tools = (log.toolsUsed || []).join(', ') || '--';
+          var ok = log.success !== false;
+          return '<tr>' +
+            '<td style="white-space:nowrap;font-size:.75rem">' + escHtml(ts) + '</td>' +
+            '<td style="font-size:.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis">' + escHtml(msg) + '</td>' +
+            '<td style="font-size:.78rem;max-width:250px;overflow:hidden;text-overflow:ellipsis">' + escHtml(resp) + '</td>' +
+            '<td style="font-size:.75rem">' + escHtml(tools) + '</td>' +
+            '<td>' + (ok ? '<span style="color:var(--green)">OK</span>' : '<span style="color:var(--red)">Fail</span>') + '</td>' +
+            '</tr>';
+        }).join('') +
+        '</tbody></table></div>';
+    })
+    .catch(function(err) {
+      logsEl.innerHTML = '<p style="font-size:.82rem;color:var(--red)">Failed to load logs: ' + escHtml(err.message) + '</p>';
+    });
+
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ═══════════════════════════════════════════════════════════════════════
