@@ -1,6 +1,6 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (449537 bytes)
-// Generated: 2026-03-24T16:02:49.714Z
+// Source: admin-portal.html (449538 bytes)
+// Generated: 2026-03-24T16:33:44.313Z
 export function getHtml() { return `﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6721,9 +6721,9 @@ function saveECProfile() {
     profileBio: document.getElementById('ec-profile-bio').value.trim(),
     profileEducation: document.getElementById('ec-profile-education').value.trim(),
     profileProfession: document.getElementById('ec-profile-profession').value.trim(),
-    profileInterests: document.getElementById('ec-profile-interests').value.trim()
+    profileInterests: document.getElementById('ec-profile-interests').value.trim(),
+    profilePhoto: _ecProfilePhotoData || ''
   };
-  if (_ecProfilePhotoData) body.profilePhoto = _ecProfilePhotoData;
 
   fetch(API + '/ec_update_ec_profile', {
     method: 'POST',
@@ -6738,6 +6738,7 @@ function saveECProfile() {
       statusEl.textContent = 'Profile saved! ' + new Date().toLocaleString();
       statusEl.style.color = 'var(--green)';
       _ecProfileLoaded = false;
+      loadECProfile();
       addLog('PROFILE', 'EC profile updated by ' + CURRENT_ADMIN.email);
     } else {
       statusEl.textContent = 'Save failed: ' + (data.error || 'Unknown error');
