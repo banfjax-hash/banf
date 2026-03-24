@@ -6672,8 +6672,8 @@ function loadECProfile() {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    if (data.profile) {
-      var p = data.profile;
+    if (data.success && data.email) {
+      var p = data;
       if (p.profilePhoto) {
         _ecProfilePhotoData = p.profilePhoto;
         var preview = document.getElementById('ec-profile-photo-preview');

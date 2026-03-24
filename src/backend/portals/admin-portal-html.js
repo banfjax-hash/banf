@@ -1,6 +1,6 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (449538 bytes)
-// Generated: 2026-03-24T16:33:44.313Z
+// Source: admin-portal.html (449544 bytes)
+// Generated: 2026-03-24T16:42:29.603Z
 export function getHtml() { return `﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6675,8 +6675,8 @@ function loadECProfile() {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    if (data.profile) {
-      var p = data.profile;
+    if (data.success && data.email) {
+      var p = data;
       if (p.profilePhoto) {
         _ecProfilePhotoData = p.profilePhoto;
         var preview = document.getElementById('ec-profile-photo-preview');
