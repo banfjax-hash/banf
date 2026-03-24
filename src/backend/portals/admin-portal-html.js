@@ -1,7 +1,7 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (239690 bytes)
-// Generated: 2026-03-10T21:10:04.226Z
-export function getHtml() { return `<!DOCTYPE html>
+// Source: admin-portal.html (434533 bytes)
+// Generated: 2026-03-24T14:36:37.018Z
+export function getHtml() { return `﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -10,6 +10,7 @@ export function getHtml() { return `<!DOCTYPE html>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <style>
 :root{--bg:#060a10;--bg2:#0b1120;--panel:#111827;--card:#0f172a;--line:#1e293b;--line2:#334155;--text:#e2e8f0;--muted:#94a3b8;--dim:#475569;--accent:#f97316;--accent2:#ea580c;--red:#ef4444;--green:#22c55e;--blue:#3b82f6;--purple:#a855f7;--cyan:#06b6d4;--yellow:#eab308;--pink:#ec4899;--lime:#84cc16;--teal:#14b8a6;--indigo:#6366f1;--radius:12px;--radius-sm:8px}
 *{box-sizing:border-box;scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
@@ -194,15 +195,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <i class="fas fa-lock me-1"></i>BANF EC Admin Auth System
       </div>
 
-      <div class="test-creds">
-        <div class="fw-bold mb-1"><i class="fas fa-info-circle me-1"></i>Default Offline Passwords (before first signup)</div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">President:</span> <code>ranadhir.ghosh@gmail.com</code> / <code>banf-super-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--blue);font-size:.68rem">Senior Officers (VP/Treasurer/Sec):</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:2px"><span style="color:var(--cyan);font-size:.68rem">Coordinators:</span> <code style="font-size:.68rem">banf-ec-2026</code></div>
-        <div style="margin-top:6px;font-size:.68rem;color:#555a6e"><i class="fas fa-exclamation-triangle me-1" style="color:var(--yellow)"></i>After first signup, use your chosen password.</div>
-        <div class="ec-member-list" style="margin-top:6px">
-          <strong>EC Members:</strong> ranadhir.ghosh &middot; mukhopadhyay.partha &middot; amit.everywhere &middot; rajanya.ghosh &middot; moumita.mukherje &middot; duttasoumyajit86 &middot; sumo475 &middot; rwitichoudhury
-        </div>
+      <div style="background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:.72rem;color:var(--muted)">
+        <div class="fw-bold mb-1"><i class="fas fa-lock me-1"></i>EC Admin Access</div>
+        <div>Only authorized EC members can sign in here. Contact the President for access.</div>
       </div>
     </div>
 
@@ -372,6 +367,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
 
     <div class="sb-group">Operations</div>
     <div class="sb-item active" data-panel="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></div>
+    <div class="sb-item" data-panel="ec-profile"><i class="fas fa-user-circle"></i><span>My EC Profile</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="roles"><i class="fas fa-id-badge"></i><span>Role Definitions</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
     <div class="sb-item" data-panel="users"><i class="fas fa-users-cog"></i><span>User Management</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 2</span></div>
     <div class="sb-item" data-panel="identity"><i class="fas fa-fingerprint"></i><span>Identity Engine</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
@@ -391,12 +387,16 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <div class="sb-group">Finance</div>
     <div class="sb-item" data-panel="procurement"><i class="fas fa-file-invoice-dollar"></i><span>Procurement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="reimbursement" id="rmb-nav-item"><i class="fas fa-receipt"></i><span>Reimbursement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="ledger-report"><i class="fas fa-book"></i><span>Ledger Report</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="income-summary"><i class="fas fa-chart-pie"></i><span>Income Summary</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="event-expenses"><i class="fas fa-calendar-check"></i><span>Event Expenses</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group">Events</div>
     <div class="sb-item" data-panel="evite-manager"><i class="fas fa-envelope-open-text"></i><span>E-Vite Manager</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group" id="president-group" style="display:none">President</div>
     <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="ec-revoke" id="president-ec-revoke" style="display:none"><i class="fas fa-ban"></i><span>Revoke EC Role</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
     <div class="sb-group">Audit</div>
     <div class="sb-item" data-panel="activity"><i class="fas fa-history"></i><span>Activity Log</span><span style="margin-left:auto;font-size:.6rem;color:var(--dim);">Phase 3</span></div>
@@ -429,7 +429,6 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <tr><td><i class="fas fa-clipboard-list me-1" style="color:var(--orange)"></i>Dev Board / Approval</td><td><span class="badge-s badge-orange">4. Delivery</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
               <tr><td><i class="fas fa-vial me-1" style="color:var(--yellow)"></i>E2E Test Suite</td><td><span class="badge-s badge-yellow">5. QA</span></td><td><span class="badge-s badge-green">Active</span></td></tr>
               <tr style="background:rgba(34,197,94,.06)"><td><i class="fas fa-file-invoice-dollar me-1" style="color:var(--green)"></i><strong>Finance (Procurement + Reimbursement)</strong></td><td><span class="badge-s badge-green">LIVE</span></td><td><span class="badge-s badge-green" style="cursor:pointer" onclick="navTo('procurement')">Go →</span></td></tr>
-              <tr style="background:rgba(34,197,94,.06)"><td><i class="fas fa-envelope-open-text me-1" style="color:var(--green)"></i><strong>E-Vite Manager (Event Invitations)</strong></td><td><span class="badge-s badge-green">LIVE</span></td><td><span class="badge-s badge-green" style="cursor:pointer" onclick="navTo('evite-manager')">Go →</span></td></tr>
             </tbody></table>
           </div>
         </div>
@@ -460,11 +459,113 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         </div>
         <div style="margin-top:12px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.78rem;color:var(--muted);">
           <i class="fas fa-info-circle me-1" style="color:var(--accent)"></i>
-          <strong>Live Now:</strong> Dashboard, Finance (Procurement + AI Reimbursement), EC Replacement (President), E-Vite Manager. Other modules (Role Definitions, User Management, Identity Engine, Drives, Feedback, Dev Board, E2E, Audit) will be launched step-wise.
+          <strong>Live Now:</strong> Dashboard, Finance (Procurement + AI Reimbursement), EC Replacement (President). Other modules (Role Definitions, User Management, Identity Engine, Drives, Feedback, Dev Board, E2E, Audit) will be launched step-wise.
         </div>
       </div>
     </div>
 
+
+    <!-- MY EC PROFILE -->
+    <div class="portal-section" id="panel-ec-profile">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> My Public Profile</div>
+      <div class="card-a">
+        <h2><i class="fas fa-user-circle"></i> EC Member Profile</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:14px">Update your profile photo and bio for the BANF website EC team section.</p>
+
+        <div style="display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start" id="ec-profile-grid">
+          <!-- Photo Column -->
+          <div style="text-align:center">
+            <div id="ec-profile-photo-wrap" style="width:180px;height:180px;border-radius:16px;overflow:hidden;margin:0 auto 14px;background:var(--bg2);border:2px dashed var(--line2);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative" onclick="document.getElementById('ec-profile-photo-input').click()">
+              <img id="ec-profile-photo-preview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
+              <div id="ec-profile-photo-placeholder" style="color:var(--dim);font-size:.78rem;text-align:center;padding:12px">
+                <i class="fas fa-camera" style="font-size:2rem;display:block;margin-bottom:8px"></i>
+                Click to upload<br>profile photo
+              </div>
+            </div>
+            <input type="file" id="ec-profile-photo-input" accept="image/*" style="display:none" onchange="handleProfilePhotoUpload(event)">
+            <button class="btn-secondary btn-sm" onclick="document.getElementById('ec-profile-photo-input').click()" style="margin-bottom:6px;width:100%"><i class="fas fa-upload me-1"></i>Upload Photo</button>
+            <button class="btn-secondary btn-sm" onclick="clearProfilePhoto()" style="width:100%;color:var(--red);border-color:rgba(239,68,68,.3)"><i class="fas fa-trash me-1"></i>Remove Photo</button>
+            <div style="font-size:.65rem;color:var(--dim);margin-top:8px">Max 500KB. Square crop recommended. Auto-resized to 400x400.</div>
+          </div>
+
+          <!-- Info Column -->
+          <div>
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">First Name</div>
+                <input id="ec-profile-firstName" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Last Name</div>
+                <input id="ec-profile-lastName" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">EC Title</div>
+                <input id="ec-profile-ecTitle" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Email</div>
+                <input id="ec-profile-email" disabled style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--dim);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--line);margin:16px 0"></div>
+
+            <div style="margin-bottom:10px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Card Summary <span style="color:var(--dim)">(shown on EC card - max 300 chars)</span></div>
+              <textarea id="ec-profile-summary" rows="2" maxlength="300" placeholder="Brief 1-2 line summary for your EC member card" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem;resize:vertical" oninput="updateProfileCharCount('summary',300)"></textarea>
+              <div style="font-size:.65rem;color:var(--dim);text-align:right" id="ec-profile-summary-count">0/300</div>
+            </div>
+
+            <div style="margin-bottom:10px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Full Bio <span style="color:var(--dim)">(shown in profile modal - max 2000 chars)</span></div>
+              <textarea id="ec-profile-bio" rows="5" maxlength="2000" placeholder="Your detailed biography for the profile modal" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem;resize:vertical" oninput="updateProfileCharCount('bio',2000)"></textarea>
+              <div style="font-size:.65rem;color:var(--dim);text-align:right" id="ec-profile-bio-count">0/2000</div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:10px">
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Education</div>
+                <input id="ec-profile-education" placeholder="e.g. Ph.D., Computer Science" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Profession</div>
+                <input id="ec-profile-profession" placeholder="e.g. AI Solution Architect" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+              </div>
+            </div>
+
+            <div style="margin-bottom:14px">
+              <div style="font-size:.7rem;color:var(--muted);margin-bottom:4px">Interests <span style="color:var(--dim)">(comma-separated)</span></div>
+              <input id="ec-profile-interests" placeholder="e.g. AI and ML, Bengali Literature, Rabindra Sangeet" style="width:100%;padding:8px 12px;background:var(--bg2);border:1px solid var(--line);color:var(--text);border-radius:6px;font-size:.82rem">
+            </div>
+
+            <div style="display:flex;gap:10px;align-items:center">
+              <button class="btn-primary" onclick="saveECProfile()" id="ec-profile-save-btn"><i class="fas fa-save me-1"></i>Save Profile</button>
+              <div id="ec-profile-status" style="font-size:.78rem;color:var(--muted)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Preview Card -->
+      <div class="card-a" id="ec-profile-preview-card" style="display:none">
+        <h2><i class="fas fa-eye"></i> Profile Preview</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">This is how your profile will appear on the BANF website.</p>
+        <div id="ec-profile-preview-content" style="display:flex;gap:20px;align-items:start;padding:10px;background:var(--bg2);border-radius:10px">
+          <div id="ec-preview-photo" style="width:120px;height:120px;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#667eea,#764ba2);flex-shrink:0;display:flex;align-items:center;justify-content:center">
+            <span style="font-size:2rem;font-weight:800;color:#fff" id="ec-preview-initials">?</span>
+          </div>
+          <div>
+            <div style="font-size:1.1rem;font-weight:700;color:#fff" id="ec-preview-name">-</div>
+            <div style="font-size:.82rem;color:var(--accent);font-weight:600;margin-bottom:8px" id="ec-preview-title">-</div>
+            <div style="font-size:.82rem;color:var(--muted);margin-bottom:8px" id="ec-preview-summary">-</div>
+            <div style="font-size:.78rem;color:var(--dim)" id="ec-preview-details"></div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- â•â•â•â•â•â•â• ROLE DEFINITIONS â•â•â•â•â•â•â• -->
     <div class="portal-section" id="panel-roles">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--blue)"></i> Stage 1: Setup</div>
@@ -894,6 +995,295 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
       </div>
     </div>
 
+    <!-- ═══ LEDGER REPORT PANEL ═══ -->
+    <div class="portal-section" id="panel-ledger-report">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Financial Ledger Report</div>
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-book me-1"></i>Ledger Report — Income &amp; Expense</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">View all financial entries filtered by date range, type, and category. Totals update automatically.</p>
+        <!-- Date Range Presets -->
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="7d">Last 7 Days</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="30d">Last 30 Days</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="thisMonth">This Month</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="lastMonth">Last Month</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="thisQuarter">This Quarter</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="lastQuarter">Last Quarter</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn active" data-range="ytd">Year to Date</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="lastYear">Last Year</button>
+          <button class="btn btn-sm btn-outline-info ledger-range-btn" data-range="custom">Custom</button>
+        </div>
+        <!-- Custom date picker (hidden by default) -->
+        <div id="ledger-custom-dates" style="display:none;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+          <label style="font-size:.78rem;color:var(--muted)">From:</label>
+          <input type="date" id="ledger-date-from" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:4px 8px;border-radius:6px;font-size:.82rem">
+          <label style="font-size:.78rem;color:var(--muted)">To:</label>
+          <input type="date" id="ledger-date-to" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:4px 8px;border-radius:6px;font-size:.82rem">
+          <button class="btn btn-sm btn-info" onclick="applyCustomLedgerRange()">Apply</button>
+        </div>
+        <!-- Filters -->
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center">
+          <select id="ledger-type-filter" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadLedgerReport()">
+            <option value="">All Types</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+          <select id="ledger-category-filter" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadLedgerReport()">
+            <option value="">All Categories</option>
+            <optgroup label="Income">
+              <option value="membership">Membership</option>
+              <option value="event_ticket">Event Ticket</option>
+              <option value="sponsorship">Sponsorship</option>
+              <option value="donation">Donation</option>
+              <option value="advertisement">Advertisement</option>
+              <option value="zelle_income">Zelle Income</option>
+              <option value="check">Check Deposit</option>
+              <option value="other_income">Other Income</option>
+            </optgroup>
+            <optgroup label="Expense">
+              <option value="venue">Venue</option>
+              <option value="catering">Catering</option>
+              <option value="decoration">Decoration</option>
+              <option value="photography">Photography</option>
+              <option value="printing">Printing</option>
+              <option value="sound_music">Sound/Music</option>
+              <option value="apparel">Apparel</option>
+              <option value="prasad">Prasad</option>
+              <option value="admin">Admin</option>
+              <option value="insurance">Insurance</option>
+              <option value="food_grocery">Food/Grocery</option>
+              <option value="bank_fee">Bank Fee</option>
+              <option value="transport">Transport</option>
+              <option value="debit_card">Debit Card</option>
+              <option value="zelle_expense">Zelle Expense</option>
+              <option value="other_expense">Other Expense</option>
+            </optgroup>
+          </select>
+          <button class="btn btn-sm btn-outline-light" onclick="exportLedgerCSV()" title="Export to CSV"><i class="fas fa-download me-1"></i>CSV</button>
+        </div>
+        <!-- KPI Cards -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px" id="ledger-kpis">
+          <div class="kpi green"><div class="v" id="ledger-kpi-income">$0</div><div class="k">Total Income</div></div>
+          <div class="kpi red"><div class="v" id="ledger-kpi-expense">$0</div><div class="k">Total Expense</div></div>
+          <div class="kpi blue"><div class="v" id="ledger-kpi-net">$0</div><div class="k">Net</div></div>
+          <div class="kpi cyan"><div class="v" id="ledger-kpi-count">0</div><div class="k">Entries</div></div>
+        </div>
+        <!-- Table -->
+        <div style="overflow-x:auto">
+          <table class="t">
+            <thead><tr>
+              <th style="cursor:pointer" onclick="sortLedger('entryDate')">Date <i class="fas fa-sort"></i></th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th style="cursor:pointer;text-align:right" onclick="sortLedger('amount')">Amount <i class="fas fa-sort"></i></th>
+              <th>Event</th>
+              <th>Reconciled</th>
+            </tr></thead>
+            <tbody id="ledger-table-body"><tr><td colspan="7" style="text-align:center;color:var(--muted)">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div id="ledger-pagination" style="display:flex;justify-content:center;gap:6px;margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- ═══ LEDGER DETAIL OVERLAY ═══ -->
+    <div id="ledger-detail-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9999;overflow-y:auto;padding:24px" onclick="if(event.target===this)closeLedgerDetail()">
+      <div style="max-width:860px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden">
+        <!-- Header -->
+        <div id="ld-header" style="padding:16px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)">
+          <div id="ld-icon" style="width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem"></div>
+          <div style="flex:1">
+            <div id="ld-title" style="font-size:1rem;font-weight:700;color:var(--text)"></div>
+            <div id="ld-subtitle" style="font-size:.78rem;color:var(--muted)"></div>
+          </div>
+          <div id="ld-amount" style="font-size:1.3rem;font-weight:700"></div>
+          <button onclick="closeLedgerDetail()" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px 8px" title="Close"><i class="fas fa-times"></i></button>
+        </div>
+        <!-- Base Info Grid -->
+        <div id="ld-base" style="padding:16px 24px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;border-bottom:1px solid var(--line)"></div>
+        <!-- Linked Data Section -->
+        <div id="ld-linked" style="padding:16px 24px">
+          <div id="ld-linked-loading" style="text-align:center;color:var(--muted);padding:16px;display:none"><i class="fas fa-spinner fa-spin"></i> Loading linked details...</div>
+          <div id="ld-linked-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MEMBER PROFILE OVERLAY ═══ -->
+    <div id="member-profile-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10001;overflow-y:auto;padding:24px" onclick="if(event.target===this)this.style.display='none'">
+      <div style="max-width:720px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden">
+        <div style="padding:16px 24px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)">
+          <i class="fas fa-user-circle" style="font-size:1.6rem;color:var(--accent)"></i>
+          <div style="flex:1"><div id="mp-name" style="font-size:1rem;font-weight:700;color:var(--text)"></div><div id="mp-subtitle" style="font-size:.78rem;color:var(--muted)"></div></div>
+          <button onclick="document.getElementById('member-profile-overlay').style.display='none'" style="background:none;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;padding:4px 8px"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="mp-content" style="padding:16px 24px"><div style="text-align:center;color:var(--muted)"><i class="fas fa-spinner fa-spin"></i> Loading member profile...</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ INCOME SUMMARY PANEL ═══ -->
+    <div class="portal-section" id="panel-income-summary">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Income Summary</div>
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-chart-pie me-1"></i>Income Summary — Year Overview</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Total income by category for the selected year. Membership, sponsorship, tickets, donations at a glance.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <label style="font-size:.82rem;color:var(--muted)">Year:</label>
+          <select id="income-year-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadIncomeSummary()">
+          </select>
+        </div>
+        <!-- Income KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px" id="income-kpi-grid"></div>
+        <!-- Income Chart -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;position:relative;height:300px">
+            <canvas id="income-pie-chart"></canvas>
+          </div>
+          <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;position:relative;height:300px">
+            <canvas id="income-bar-chart"></canvas>
+          </div>
+        </div>
+        <!-- Income Table -->
+        <table class="t">
+          <thead><tr><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">% of Total</th><th style="text-align:right">Entries</th></tr></thead>
+          <tbody id="income-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ EVENT EXPENSES PANEL ═══ -->
+    <div class="portal-section" id="panel-event-expenses">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Event-wise Expense Breakdown</div>
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-calendar-check me-1"></i>Expense Breakdown by Event</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">All expenses grouped by event. Reimbursement entries are auto-linked. Treasurer/VP/President can upload Excel summaries, add manual expenses, reconcile, approve, and lock.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+          <label style="font-size:.82rem;color:var(--muted)">Year:</label>
+          <select id="event-exp-year-select" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 10px;border-radius:6px;font-size:.82rem" onchange="loadEventExpenses()">
+          </select>
+          <button id="btn-add-event-expense" onclick="openAddExpenseModal()" style="display:none;background:var(--green);color:#000;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600"><i class="fas fa-plus me-1"></i>Add Expense</button>
+          <button id="btn-upload-excel" onclick="document.getElementById('excel-upload-input').click()" style="display:none;background:var(--blue);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600"><i class="fas fa-file-excel me-1"></i>Upload Excel</button>
+          <button id="btn-create-template" onclick="openExpenseTemplateModal()" style="display:none;background:var(--purple);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600"><i class="fas fa-clipboard-list me-1"></i>Create Template</button>
+          <input type="file" id="excel-upload-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleExpenseExcelUpload(event)">
+        </div>
+        <!-- Event Expense KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px" id="event-exp-kpis"></div>
+        <!-- Event Expense Chart -->
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px;position:relative;height:350px">
+          <canvas id="event-expense-chart"></canvas>
+        </div>
+        <!-- Event Expense Table (per event with drill-down) -->
+        <div id="event-expense-cards"></div>
+      </div>
+    </div>
+
+    <!-- ═══ EXPENSE TEMPLATE MODAL ═══ -->
+    <div id="expense-template-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;overflow-y:auto">
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;max-width:700px;width:95%;margin:40px auto">
+        <h3 id="expense-tmpl-title" style="margin:0 0 8px"><i class="fas fa-clipboard-list me-1"></i>Event Expense Report</h3>
+        <p style="font-size:.76rem;color:var(--muted);margin-bottom:16px">Build an expense report from reimbursements and manual entries. All matching reimbursements are prefilled. Add remaining items, then submit for approval.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div><label style="font-size:.78rem;color:var(--muted)">Event</label>
+            <select id="tmpl-event" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem" onchange="refreshTemplateLines()"></select></div>
+          <div><label style="font-size:.78rem;color:var(--muted)">Source</label>
+            <span id="tmpl-source-label" style="display:block;padding:7px 10px;font-size:.85rem;color:var(--muted)">Manual</span></div>
+        </div>
+        <!-- Reimbursement-linked items (auto) -->
+        <div id="tmpl-reimbursement-section" style="margin-bottom:16px">
+          <div style="font-size:.82rem;font-weight:600;margin-bottom:8px;color:var(--green)"><i class="fas fa-link me-1"></i>Linked Reimbursement Entries</div>
+          <div id="tmpl-reimb-lines" style="font-size:.8rem;color:var(--muted)">Select an event to load...</div>
+        </div>
+        <!-- Manual / Excel items -->
+        <div id="tmpl-manual-section">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:.82rem;font-weight:600;color:var(--yellow)"><i class="fas fa-edit me-1"></i>Additional Expense Items</span>
+            <button onclick="addTemplateLine()" style="background:var(--accent);color:#fff;border:none;padding:3px 10px;border-radius:4px;font-size:.72rem;cursor:pointer"><i class="fas fa-plus me-1"></i>Add Line</button>
+          </div>
+          <div id="tmpl-manual-lines"></div>
+          <p style="font-size:.72rem;color:var(--dim);margin-top:6px"><i class="fas fa-info-circle me-1"></i>Additional items will prompt for reimbursement submission. Add notes for context.</p>
+        </div>
+        <!-- Summary -->
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;font-size:.82rem">
+            <div><span style="color:var(--green);font-weight:700" id="tmpl-reimb-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Reimbursed</span></div>
+            <div><span style="color:var(--yellow);font-weight:700" id="tmpl-manual-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Additional</span></div>
+            <div><span style="color:var(--red);font-weight:700" id="tmpl-grand-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Grand Total</span></div>
+          </div>
+        </div>
+        <div id="tmpl-status-msg" style="display:none;font-size:.8rem;margin-top:10px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button onclick="closeExpenseTemplateModal()" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem">Cancel</button>
+          <button id="btn-save-template" onclick="saveExpenseTemplate()" style="background:var(--green);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-save me-1"></i>Save Report</button>
+          <button id="btn-submit-approval-template" onclick="submitExpenseForApproval()" style="background:var(--blue);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-paper-plane me-1"></i>Submit for Approval</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ EXCEL RECONCILIATION MODAL ═══ -->
+    <div id="excel-recon-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center;overflow-y:auto">
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;max-width:800px;width:95%;margin:40px auto">
+        <h3 style="margin:0 0 8px"><i class="fas fa-file-excel me-1" style="color:#22c55e"></i>Excel Expense Reconciliation</h3>
+        <p style="font-size:.76rem;color:var(--muted);margin-bottom:16px">The system has read your Excel file and matched line items against submitted reimbursements. Green items are matched; yellow items need reimbursement submission.</p>
+        <div style="margin-bottom:12px">
+          <label style="font-size:.78rem;color:var(--muted)">Event</label>
+          <select id="excel-recon-event" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></select>
+        </div>
+        <div id="excel-recon-table" style="overflow-x:auto;margin-bottom:16px"></div>
+        <div style="background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;text-align:center;font-size:.82rem">
+            <div><span style="color:var(--green);font-weight:700" id="recon-matched-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Matched</span></div>
+            <div><span style="color:var(--yellow);font-weight:700" id="recon-unmatched-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Unmatched</span></div>
+            <div><span style="color:var(--red);font-weight:700" id="recon-excel-total">$0.00</span><br><span style="color:var(--muted);font-size:.72rem">Excel Total</span></div>
+            <div><span style="font-weight:700" id="recon-match-pct">0%</span><br><span style="color:var(--muted);font-size:.72rem">Match Rate</span></div>
+          </div>
+        </div>
+        <div id="recon-status-msg" style="display:none;font-size:.8rem;margin-top:10px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+          <button onclick="closeExcelReconModal()" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem">Cancel</button>
+          <button onclick="submitSelectedForReimbursement()" style="background:var(--yellow);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-hand-holding-usd me-1"></i>Submit Selected for Reimbursement</button>
+          <button onclick="saveExcelExpenseReport()" style="background:var(--green);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-save me-1"></i>Save Expense Report</button>
+          <button id="btn-recon-approve" onclick="submitReconForApproval()" style="display:none;background:var(--blue);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-paper-plane me-1"></i>Submit for Approval</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ADD/EDIT EXPENSE MODAL ═══ -->
+    <div id="expense-modal-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);z-index:9999;align-items:center;justify-content:center">
+      <div style="background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:24px;max-width:480px;width:90%">
+        <h3 id="expense-modal-title" style="margin:0 0 16px"><i class="fas fa-file-invoice-dollar me-1"></i>Add Expense</h3>
+        <input type="hidden" id="exp-entry-id">
+        <div style="display:grid;gap:10px">
+          <div><label style="font-size:.78rem;color:var(--muted)">Event</label>
+            <select id="exp-event" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></select></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="font-size:.78rem;color:var(--muted)">Category</label>
+              <select id="exp-category" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem">
+                <option value="venue">Venue</option><option value="catering">Catering</option><option value="decoration">Decoration</option>
+                <option value="photography">Photography</option><option value="sound_music">Sound/Music</option><option value="other_expense">Other</option>
+              </select></div>
+            <div><label style="font-size:.78rem;color:var(--muted)">Amount ($)</label>
+              <input type="number" id="exp-amount" step="0.01" min="0" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+          </div>
+          <div><label style="font-size:.78rem;color:var(--muted)">Description</label>
+            <input type="text" id="exp-description" maxlength="200" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="font-size:.78rem;color:var(--muted)">Paid To</label>
+              <input type="text" id="exp-payee" maxlength="100" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+            <div><label style="font-size:.78rem;color:var(--muted)">Date</label>
+              <input type="date" id="exp-date" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+          </div>
+          <div><label style="font-size:.78rem;color:var(--muted)">Reference / Note</label>
+            <input type="text" id="exp-reference" maxlength="200" style="width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 10px;border-radius:6px;font-size:.85rem"></div>
+        </div>
+        <div id="expense-modal-error" style="display:none;color:var(--red);font-size:.8rem;margin-top:10px"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+          <button onclick="closeExpenseModal()" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:.82rem">Cancel</button>
+          <button id="btn-save-expense" onclick="saveExpense()" style="background:var(--green);color:#000;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:.82rem"><i class="fas fa-save me-1"></i>Save</button>
+        </div>
+      </div>
+    </div>
+
     <div class="portal-section" id="panel-activity">
       <div class="stg-label"><i class="fas fa-circle" style="color:var(--dim)"></i> Audit</div>
       <div class="card-a">
@@ -1013,7 +1403,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
           </div>
           <div style="margin-left:auto;display:flex;gap:8px">
             <button onclick="openRmbFullscreen()" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.3);color:var(--accent);padding:6px 14px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer" title="Open in new tab"><i class="fas fa-external-link-alt me-1"></i>Full Screen</button>
-            <a href="https://www.jaxbengali.org/_functions/reimbursement_guide" target="_blank" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--blue);padding:6px 14px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center"><i class="fas fa-book-open me-1"></i>Guide</a>
+            <a href="ec-finance-user-guide.html" target="_blank" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:var(--blue);padding:6px 14px;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center"><i class="fas fa-book-open me-1"></i>Guide</a>
           </div>
         </div>
         <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:8px 12px;font-size:.76rem;color:var(--green)">
@@ -1061,7 +1451,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
               <option value="rajanya.ghosh@gmail.com">Rajanya Ghosh — General Secretary</option>
               <option value="moumita.mukherje@gmail.com">Moumita Mukherjee — Cultural Secretary</option>
               <option value="duttasoumyajit86@gmail.com">Soumyajit Dutta — Food Coordinator</option>
-              <option value="sumo475@gmail.com">Sumanta Datta — Event Coordinator</option>
+              <option value="sumo475@gmail.com">Dr. Sumanta Ghosh — Event Coordinator</option>
               <option value="rwitichoudhury@gmail.com">Rwiti Choudhury — Puja Coordinator</option>
             </select>
           </div>
@@ -1131,6 +1521,49 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
         <h2><i class="fas fa-history"></i> Replacement History</h2>
         <table class="t"><thead><tr><th>Member</th><th>Action</th><th>Initiated</th><th>Status</th><th>Finalized</th></tr></thead>
         <tbody id="ecr-history"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ═══ REVOKE EC ADMIN ROLE PANEL (President Only) ═══ -->
+    <div class="portal-section" id="panel-ec-revoke">
+      <div class="stg-label"><i class="fas fa-circle" style="color:#dc2626"></i> President — Revoke EC Admin Role</div>
+
+      <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(220,38,38,.3)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#dc2626,#991b1b);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff"><i class="fas fa-ban"></i></div>
+          <div>
+            <h2 style="margin:0;font-size:1rem"><i class="fas fa-user-slash me-1"></i>Revoke EC Admin Access</h2>
+            <p style="font-size:.72rem;color:var(--muted);margin:0">President-only: immediately revoke an EC member's admin portal access</p>
+          </div>
+        </div>
+        <div style="background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.15);border-radius:10px;padding:12px;margin-bottom:16px;font-size:.8rem;color:#dc2626">
+          <i class="fas fa-exclamation-triangle me-1"></i><strong>Restricted Access:</strong> Only the BANF President can revoke EC admin roles. The member will immediately lose access to the admin portal and see a "role revoked" notification on their next login attempt.
+        </div>
+      </div>
+
+      <div class="card-a" style="margin-bottom:16px">
+        <h2><i class="fas fa-user-minus"></i> Revoke Access</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">EC Member to Revoke</label>
+            <select id="revoke-member" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem">
+              <option value="">Select EC Member...</option>
+              <option value="mukhopadhyay.partha@gmail.com">Partha Mukhopadhyay — Vice President</option>
+              <option value="amit.everywhere@gmail.com">Amit Chandak — Treasurer</option>
+              <option value="rajanya.ghosh@gmail.com">Rajanya Ghosh — General Secretary</option>
+              <option value="moumita.mukherje@gmail.com">Dr. Moumita Ghosh — Cultural Secretary</option>
+              <option value="duttasoumyajit86@gmail.com">Soumyajit Dutta — Food Coordinator</option>
+              <option value="sumo475@gmail.com">Dr. Sumanta Ghosh — Event Coordinator</option>
+              <option value="rwitichoudhury@gmail.com">Rwiti Chowdhury — Puja Coordinator</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Reason</label>
+            <input type="text" id="revoke-reason" placeholder="e.g. Term ended, Role change..." style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:#fff;font-size:.85rem;box-sizing:border-box">
+          </div>
+        </div>
+        <button onclick="revokeEcAdminRole()" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-size:.85rem;font-weight:600"><i class="fas fa-ban me-1"></i>Revoke EC Admin Role</button>
+        <div id="revoke-msg" style="margin-top:12px;font-size:.82rem;display:none;padding:10px 14px;border-radius:8px"></div>
       </div>
     </div>
 
@@ -1295,16 +1728,27 @@ We will try our best to accommodate every request. If demand exceeds the allotte
           <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Custom Emails (one per line: email or &ldquo;Name &lt;email&gt;&rdquo;)</label>
           <textarea id="ev-customEmails" rows="5" placeholder="john@example.com&#10;Jane Doe <jane@example.com>" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.82rem;resize:vertical"></textarea>
         </div>
+        <!-- Inline add recipient row -->
+        <div id="ev-addRecipientRow" style="display:none;margin-bottom:8px;display:none">
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="ev-addName" placeholder="Name" style="flex:1;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.8rem">
+            <input id="ev-addEmail" placeholder="Email" style="flex:1.5;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.8rem">
+            <button onclick="eviteAddRecipient()" style="background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.78rem;cursor:pointer;white-space:nowrap"><i class="fas fa-plus me-1"></i>Add</button>
+          </div>
+        </div>
         <div id="ev-recipientPreview" style="display:none;max-height:300px;overflow-y:auto;background:var(--bg2);border-radius:8px;padding:12px;font-size:.78rem;color:var(--muted)"></div>
       </div>
 
       <!-- Actions -->
       <div class="card-a" style="margin-bottom:16px;border:1px solid rgba(34,197,94,.3)">
         <h2><i class="fas fa-paper-plane"></i> Actions</h2>
-        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Create the event, then send invitations. Use Dry Run to test with president only.</p>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Save your configuration, then send invitations. Use Dry Run to test with president only.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
           <button onclick="eviteCreateEvent()" style="background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
-            <i class="fas fa-plus me-1"></i>Create Event
+            <i class="fas fa-save me-1"></i><span id="ev-save-btn-text">Save Event Config</span>
+          </button>
+          <button onclick="eviteExportConfig()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer" title="Export config as JSON for local scripts">
+            <i class="fas fa-download me-1"></i>Export Config
           </button>
           <button onclick="eviteDryRun()" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer">
             <i class="fas fa-vial me-1"></i>Dry Run (President Only)
@@ -1313,7 +1757,7 @@ We will try our best to accommodate every request. If demand exceeds the allotte
             <i class="fas fa-paper-plane me-1"></i>Send Invitations
           </button>
           <button onclick="eviteLoadEvents()" style="background:var(--bg2);border:1px solid var(--line);color:#fff;padding:10px 24px;border-radius:8px;font-size:.88rem;cursor:pointer">
-            <i class="fas fa-sync me-1"></i>Refresh Events
+            <i class="fas fa-sync me-1"></i>Refresh
           </button>
         </div>
         <div id="ev-action-msg" style="margin-top:8px;font-size:.82rem;display:none"></div>
@@ -1324,6 +1768,58 @@ We will try our best to accommodate every request. If demand exceeds the allotte
         <h2><i class="fas fa-list"></i> Existing Events</h2>
         <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Previously created events and their invite/RSVP status.</p>
         <div id="ev-events-list" style="font-size:.82rem;color:var(--dim)">Click &ldquo;Refresh Events&rdquo; to load.</div>
+      </div>
+
+      <!-- RSVP Dashboard -->
+      <div class="card-a" id="ev-dashboard-card">
+        <h2><i class="fas fa-chart-bar"></i> RSVP Dashboard</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Live summary &amp; detail view of invitation responses for the selected event.</p>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <button onclick="eviteLoadDashboard()" class="btn-primary"><i class="fas fa-sync-alt me-1"></i>Load / Refresh Dashboard</button>
+          <button onclick="eviteExportDashboard()" class="btn-secondary"><i class="fas fa-download me-1"></i>Export CSV</button>
+          <label style="font-size:.75rem;color:var(--muted);margin-left:auto;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="ev-dash-auto-refresh" style="accent-color:var(--accent)"> Auto-refresh (30s)</label>
+        </div>
+        <div id="ev-dash-msg" style="font-size:.82rem;display:none;margin-bottom:10px"></div>
+
+        <!-- Summary KPIs -->
+        <div id="ev-dash-summary" style="display:none">
+          <h3><i class="fas fa-poll me-1"></i> Response Summary</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-response"></div>
+
+          <h3><i class="fas fa-users me-1"></i> Attendance</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-attendance"></div>
+
+          <h3><i class="fas fa-utensils me-1"></i> Food Preferences</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-food"></div>
+          <div id="ev-dash-dietary-notes" style="display:none;margin-bottom:14px"></div>
+
+          <h3><i class="fas fa-music me-1"></i> Cultural Program</h3>
+          <div class="kpi-grid" id="ev-dash-kpi-cultural"></div>
+          <div id="ev-dash-performances" style="display:none;margin-bottom:14px"></div>
+        </div>
+
+        <!-- Detail Table -->
+        <div id="ev-dash-detail" style="display:none;margin-top:14px">
+          <h3><i class="fas fa-list-alt me-1"></i> Individual Responses</h3>
+          <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+            <button onclick="eviteDashFilter('all')" class="btn-secondary ev-df-btn active" style="padding:3px 10px;font-size:.72rem">All</button>
+            <button onclick="eviteDashFilter('yes')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Attending</button>
+            <button onclick="eviteDashFilter('no')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Declined</button>
+            <button onclick="eviteDashFilter('maybe')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Maybe</button>
+            <button onclick="eviteDashFilter('pending')" class="btn-secondary ev-df-btn" style="padding:3px 10px;font-size:.72rem">Pending</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="t" id="ev-dash-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Name</th><th>Email</th><th>Status</th><th>Adults</th><th>Kids</th>
+                  <th>Veg</th><th>Non-Veg</th><th>Dietary</th><th>Cultural</th><th>Notes</th><th>Responded</th>
+                </tr>
+              </thead>
+              <tbody id="ev-dash-tbody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1339,6 +1835,26 @@ const API = 'https://www.jaxbengali.org/_functions';
 let CURRENT_ADMIN = null; // { email, role, firstName, lastName, ecTitle, roles }
 let SIGNUP_STATE = {}; // temp state for signup flow
 let FORGOT_STATE = {}; // temp state for forgot flow
+
+// ── BRUTE FORCE PROTECTION ──
+var _loginAttempts = 0;
+var _lockoutUntil = 0;
+var _MAX_ATTEMPTS = 5;
+var _LOCKOUT_MS = 60000;
+function _checkLockout() {
+  if (Date.now() < _lockoutUntil) {
+    var secs = Math.ceil((_lockoutUntil - Date.now()) / 1000);
+    showError('login-error', '\\u26D4 Too many failed attempts. Please wait ' + secs + ' seconds.');
+    return true;
+  }
+  if (_lockoutUntil > 0 && Date.now() >= _lockoutUntil) { _loginAttempts = 0; _lockoutUntil = 0; }
+  return false;
+}
+function _recordFailedAttempt() {
+  _loginAttempts++;
+  if (_loginAttempts >= _MAX_ATTEMPTS) { _lockoutUntil = Date.now() + _LOCKOUT_MS; }
+}
+function _resetAttempts() { _loginAttempts = 0; _lockoutUntil = 0; }
 const SQ_LABELS = {
   city_born: 'What city were you born in?',
   pet_name: 'What is the name of your first pet?',
@@ -1452,11 +1968,8 @@ function _getSecurityQA(email) {
   return dbUser ? { q: dbUser.securityQ, a: dbUser.securityA } : null;
 }
 
-// Legacy CREDS kept only for backward compat — primary auth is AUTH_DB
-const CREDS = {
-  'ranadhir.ghosh':{pw:'banf-super-2026',name:'Ranadhir Ghosh',initials:'RG'},
-  'admin':{pw:'banf-admin-2026',name:'Admin',initials:'AD'}
-};
+// Legacy CREDS removed — all auth uses AUTH_DB + localStorage
+const CREDS = {};
 
 // CRM Members â€” realistic dataset matching CRMMembers collection schema
 const CRM = [
@@ -1691,6 +2204,1574 @@ async function apiCall(endpoint, body) {
   }
 }
 
+async function apiGet(endpoint, params) {
+  try {
+    const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+    const resp = await fetch(API + '/' + endpoint + qs);
+    return await resp.json();
+  } catch (e) {
+    return { success: false, error: 'Network error: ' + e.message };
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  FINANCIAL REPORTING — Ledger, Income Summary, Event Expenses
+// ═══════════════════════════════════════════════════════════════════════
+
+// --- Ledger Report State ---
+let _ledgerEntries = [];
+let _ledgerDateFrom = null;
+let _ledgerDateTo = null;
+let _ledgerSortField = 'entryDate';
+let _ledgerSortAsc = false;
+let _ledgerPage = 1;
+const LEDGER_PAGE_SIZE = 50;
+
+function getLedgerDateRange(range) {
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
+  let from, to = new Date(y, m, d, 23, 59, 59);
+  switch(range) {
+    case '7d': from = new Date(y, m, d - 7); break;
+    case '30d': from = new Date(y, m, d - 30); break;
+    case 'thisMonth': from = new Date(y, m, 1); break;
+    case 'lastMonth': from = new Date(y, m - 1, 1); to = new Date(y, m, 0, 23, 59, 59); break;
+    case 'thisQuarter': from = new Date(y, Math.floor(m/3)*3, 1); break;
+    case 'lastQuarter': { const qs = Math.floor(m/3)*3 - 3; from = new Date(y, qs, 1); to = new Date(y, qs + 3, 0, 23, 59, 59); break; }
+    case 'lastYear': from = new Date(y - 1, 0, 1); to = new Date(y - 1, 11, 31, 23, 59, 59); break;
+    case 'ytd': default: from = new Date(y, 0, 1); break;
+  }
+  return { from, to };
+}
+
+// Wire up range buttons
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.ledger-range-btn');
+  if (!btn) return;
+  document.querySelectorAll('.ledger-range-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const range = btn.dataset.range;
+  if (range === 'custom') {
+    document.getElementById('ledger-custom-dates').style.display = 'flex';
+    return;
+  }
+  document.getElementById('ledger-custom-dates').style.display = 'none';
+  const dr = getLedgerDateRange(range);
+  _ledgerDateFrom = dr.from;
+  _ledgerDateTo = dr.to;
+  _ledgerPage = 1;
+  loadLedgerReport();
+});
+
+function applyCustomLedgerRange() {
+  const f = document.getElementById('ledger-date-from').value;
+  const t = document.getElementById('ledger-date-to').value;
+  if (!f || !t) return;
+  _ledgerDateFrom = new Date(f + 'T00:00:00');
+  _ledgerDateTo = new Date(t + 'T23:59:59');
+  _ledgerPage = 1;
+  loadLedgerReport();
+}
+
+async function loadLedgerReport() {
+  if (!_ledgerDateFrom) {
+    const dr = getLedgerDateRange('ytd');
+    _ledgerDateFrom = dr.from;
+    _ledgerDateTo = dr.to;
+  }
+  const tbody = document.getElementById('ledger-table-body');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted)"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>';
+
+  const typeF = document.getElementById('ledger-type-filter').value;
+  const catF = document.getElementById('ledger-category-filter').value;
+  const year = _ledgerDateFrom.getFullYear();
+
+  const params = { year: year, limit: 1000 };
+  if (typeF) params.type = typeF;
+  if (catF) params.category = catF;
+  const data = await apiGet('ledger', params);
+
+  if (!data.success) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--red)">Error: ' + (data.error || 'Failed to load') + '</td></tr>';
+    return;
+  }
+
+  // Filter entries client-side by date range (API filters by year, we narrow to exact range)
+  _ledgerEntries = (data.entries || []).filter(e => {
+    const ed = new Date(e.entryDate);
+    return ed >= _ledgerDateFrom && ed <= _ledgerDateTo;
+  });
+
+  // If lastYear or cross-year custom range, might need to fetch previous year too
+  if (_ledgerDateTo.getFullYear() !== _ledgerDateFrom.getFullYear()) {
+    const params2 = { year: _ledgerDateTo.getFullYear(), limit: 1000 };
+    if (typeF) params2.type = typeF;
+    if (catF) params2.category = catF;
+    const data2 = await apiGet('ledger', params2);
+    if (data2.success && data2.entries) {
+      const more = data2.entries.filter(e => {
+        const ed = new Date(e.entryDate);
+        return ed >= _ledgerDateFrom && ed <= _ledgerDateTo;
+      });
+      _ledgerEntries = _ledgerEntries.concat(more);
+    }
+  }
+
+  // Sort
+  sortLedgerEntries();
+  // Render KPIs
+  renderLedgerKPIs();
+  // Render table
+  renderLedgerTable();
+}
+
+function sortLedger(field) {
+  if (_ledgerSortField === field) _ledgerSortAsc = !_ledgerSortAsc;
+  else { _ledgerSortField = field; _ledgerSortAsc = field === 'entryDate' ? false : true; }
+  sortLedgerEntries();
+  renderLedgerTable();
+}
+
+function sortLedgerEntries() {
+  _ledgerEntries.sort((a, b) => {
+    let va = a[_ledgerSortField], vb = b[_ledgerSortField];
+    if (_ledgerSortField === 'entryDate') { va = new Date(va).getTime(); vb = new Date(vb).getTime(); }
+    if (typeof va === 'number' && typeof vb === 'number') return _ledgerSortAsc ? va - vb : vb - va;
+    return _ledgerSortAsc ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+}
+
+function renderLedgerKPIs() {
+  const inc = _ledgerEntries.filter(e => e.type === 'income').reduce((s, e) => s + (e.amount || 0), 0);
+  const exp = _ledgerEntries.filter(e => e.type === 'expense').reduce((s, e) => s + (e.amount || 0), 0);
+  document.getElementById('ledger-kpi-income').textContent = '$' + inc.toLocaleString('en-US', {minimumFractionDigits:2});
+  document.getElementById('ledger-kpi-expense').textContent = '$' + exp.toLocaleString('en-US', {minimumFractionDigits:2});
+  document.getElementById('ledger-kpi-net').textContent = '$' + (inc - exp).toLocaleString('en-US', {minimumFractionDigits:2});
+  document.getElementById('ledger-kpi-count').textContent = _ledgerEntries.length;
+}
+
+function renderLedgerTable() {
+  const tbody = document.getElementById('ledger-table-body');
+  const start = (_ledgerPage - 1) * LEDGER_PAGE_SIZE;
+  const page = _ledgerEntries.slice(start, start + LEDGER_PAGE_SIZE);
+
+  if (!page.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted)">No entries found for this period.</td></tr>';
+    document.getElementById('ledger-pagination').innerHTML = '';
+    return;
+  }
+
+  tbody.innerHTML = page.map((e, idx) => {
+    const dt = new Date(e.entryDate);
+    const dateStr = dt.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+    const isInc = e.type === 'income';
+    const amtColor = isInc ? 'var(--green)' : 'var(--red)';
+    const sign = isInc ? '+' : '-';
+    const cat = (e.category || '').replace(/_/g, ' ');
+    const recon = e.reconciled ? '<i class="fas fa-check-circle" style="color:var(--green)"></i>' : '<i class="fas fa-times-circle" style="color:var(--dim)"></i>';
+    const ri = start + idx;
+    return '<tr onclick="openLedgerDetail(' + ri + ')" style="cursor:pointer" onmouseenter="this.style.background=\\'rgba(139,92,246,.08)\\'" onmouseleave="this.style.background=\\'\\'">' +
+      '<td style="white-space:nowrap">' + dateStr + '</td>' +
+      '<td>' + (e.description || '-') + ' <i class="fas fa-external-link-alt" style="font-size:.6rem;color:var(--dim);margin-left:4px"></i></td>' +
+      '<td style="text-transform:capitalize">' + cat + '</td>' +
+      '<td><span style="color:' + amtColor + ';font-weight:600;text-transform:capitalize">' + e.type + '</span></td>' +
+      '<td style="text-align:right;color:' + amtColor + ';font-weight:600">' + sign + '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2}) + '</td>' +
+      '<td>' + (e.eventName || '-') + '</td>' +
+      '<td style="text-align:center">' + recon + '</td>' +
+      '</tr>';
+  }).join('');
+
+  // Pagination
+  const totalPages = Math.ceil(_ledgerEntries.length / LEDGER_PAGE_SIZE);
+  const pag = document.getElementById('ledger-pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  let pagHtml = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const active = i === _ledgerPage ? 'background:var(--accent);color:#fff;' : 'background:var(--bg2);color:var(--muted);';
+    pagHtml += '<button onclick="_ledgerPage=' + i + ';renderLedgerTable()" style="border:1px solid var(--line);' + active + 'padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.78rem">' + i + '</button>';
+  }
+  pag.innerHTML = pagHtml;
+}
+
+function exportLedgerCSV() {
+  if (!_ledgerEntries.length) return;
+  const headers = ['Date','Description','Category','Type','Amount','Event','Vendor','Payment Method','Reference','Reconciled'];
+  const rows = _ledgerEntries.map(e => [
+    new Date(e.entryDate).toISOString().split('T')[0],
+    '"' + (e.description || '').replace(/"/g, '""') + '"',
+    e.category || '',
+    e.type || '',
+    e.amount || 0,
+    '"' + (e.eventName || '').replace(/"/g, '""') + '"',
+    '"' + (e.vendorName || '').replace(/"/g, '""') + '"',
+    e.paymentMethod || '',
+    e.referenceNo || '',
+    e.reconciled ? 'Yes' : 'No'
+  ]);
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'BANF_Ledger_' + new Date().toISOString().split('T')[0] + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+//  LEDGER DETAIL DRILL-DOWN
+// ═══════════════════════════════════════════════════════════════════════
+
+function closeLedgerDetail() { document.getElementById('ledger-detail-overlay').style.display = 'none'; }
+
+function _ld(label, value, icon) {
+  if (!value && value !== 0) return '';
+  const ic = icon ? '<i class="fas fa-' + icon + '" style="color:var(--accent);margin-right:4px;font-size:.7rem"></i>' : '';
+  return '<div style="margin-bottom:4px"><span style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">' + label + '</span><div style="font-size:.85rem;color:var(--text)">' + ic + value + '</div></div>';
+}
+
+function openLedgerDetail(idx) {
+  const e = _ledgerEntries[idx];
+  if (!e) return;
+  const overlay = document.getElementById('ledger-detail-overlay');
+  const isInc = e.type === 'income';
+  const color = isInc ? 'var(--green)' : 'var(--red)';
+  const sign = isInc ? '+' : '-';
+  const catIcons = {membership:'id-card',event_ticket:'ticket-alt',sponsorship:'handshake',donation:'heart',advertisement:'bullhorn',zelle_income:'bolt',check:'money-check-alt',other_income:'coins',venue:'building',catering:'utensils',decoration:'paint-brush',photography:'camera',printing:'print',sound_music:'music',apparel:'tshirt',prasad:'hand-holding-heart',admin:'cog',insurance:'shield-alt',food_grocery:'shopping-basket',bank_fee:'university',transport:'truck',debit_card:'credit-card',zelle_expense:'bolt',reimbursement:'receipt',other_expense:'ellipsis-h'};
+  const catIcon = catIcons[e.category] || (isInc ? 'arrow-down' : 'arrow-up');
+
+  // Header
+  document.getElementById('ld-icon').style.cssText = 'width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:' + (isInc ? 'rgba(34,197,94,.15)' : 'rgba(239,68,68,.15)') + ';color:' + color;
+  document.getElementById('ld-icon').innerHTML = '<i class="fas fa-' + catIcon + '"></i>';
+  document.getElementById('ld-title').textContent = e.description || 'Ledger Entry';
+  document.getElementById('ld-subtitle').textContent = new Date(e.entryDate).toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+  document.getElementById('ld-amount').style.color = color;
+  document.getElementById('ld-amount').textContent = sign + '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2});
+
+  // Base info grid
+  const cat = (e.category || '').replace(/_/g, ' ');
+  let base = '';
+  base += _ld('Category', '<span style="text-transform:capitalize">' + cat + '</span>', catIcon);
+  base += _ld('Type', '<span style="color:' + color + ';font-weight:600;text-transform:capitalize">' + e.type + '</span>');
+  base += _ld('Payment Method', (e.paymentMethod || '').replace(/_/g, ' ') || '-', 'wallet');
+  base += _ld('Payer / Payee', e.payerOrPayee || '-', 'user');
+  if (e.eventName) base += _ld('Event', e.eventName, 'calendar-alt');
+  if (e.reference) base += _ld('Reference', e.reference, 'hashtag');
+  base += _ld('Source', (e.source || 'manual').replace(/_/g, ' '), 'database');
+  base += _ld('Reconciled', e.reconciled ? '<span style="color:var(--green)"><i class="fas fa-check-circle"></i> Yes</span>' : '<span style="color:var(--dim)"><i class="fas fa-times-circle"></i> No</span>');
+  if (e.notes) base += '<div style="grid-column:1/-1">' + _ld('Notes', e.notes, 'sticky-note') + '</div>';
+  document.getElementById('ld-base').innerHTML = base;
+
+  // Linked data — load async based on category
+  const linkedContent = document.getElementById('ld-linked-content');
+  const linkedLoading = document.getElementById('ld-linked-loading');
+  linkedContent.innerHTML = '';
+  linkedLoading.style.display = 'block';
+  overlay.style.display = 'block';
+
+  loadLinkedData(e).then(html => {
+    linkedLoading.style.display = 'none';
+    linkedContent.innerHTML = html;
+  }).catch(err => {
+    linkedLoading.style.display = 'none';
+    linkedContent.innerHTML = '<div style="color:var(--dim);font-size:.82rem">Could not load linked details.</div>';
+  });
+}
+
+async function apiGetAuth(endpoint, params) {
+  const p = Object.assign({}, params || {});
+  if (CURRENT_ADMIN && CURRENT_ADMIN.email) p.user_email = CURRENT_ADMIN.email;
+  return apiGet(endpoint, p);
+}
+
+async function loadLinkedData(e) {
+  const cat = e.category || '';
+  const src = e.source || '';
+  let html = '';
+
+  // ── INCOME CATEGORIES ──
+  if (e.type === 'income') {
+    // Membership
+    if (cat === 'membership') {
+      html += await renderMembershipMapping(e);
+    }
+    // Sponsorship
+    else if (cat === 'sponsorship') {
+      html += await renderSponsorshipMapping(e);
+    }
+    // Zelle income
+    else if (cat === 'zelle_income') {
+      html += renderZelleMapping(e);
+      if (e.payerOrPayee) html += await renderMemberLookup(e.payerOrPayee);
+    }
+    // Check deposit
+    else if (cat === 'check') {
+      html += renderCheckMapping(e);
+    }
+    // Event ticket / donation
+    else if (cat === 'event_ticket' || cat === 'donation') {
+      html += renderEventIncomeMapping(e);
+      if (e.payerOrPayee) html += await renderMemberLookup(e.payerOrPayee);
+    }
+    else {
+      html += renderGenericMapping(e);
+      if (e.payerOrPayee) html += await renderMemberLookup(e.payerOrPayee);
+    }
+  }
+  // ── EXPENSE CATEGORIES ──
+  else {
+    // Reimbursement-sourced
+    if (src === 'reimbursement' || (e.reference && e.reference.startsWith('RMB-'))) {
+      html += await renderReimbursementMapping(e);
+    }
+    // Event-linked expense
+    else if (e.eventId || e.eventName) {
+      html += await renderEventExpenseMapping(e);
+    }
+    // Debit card / bank
+    else if (cat === 'debit_card') {
+      html += renderDebitCardMapping(e);
+    }
+    // Zelle expense
+    else if (cat === 'zelle_expense') {
+      html += renderZelleMapping(e);
+    }
+    else {
+      html += renderGenericMapping(e);
+    }
+
+    // Procurement lookup for expenses
+    if (e.eventId || e.reference) {
+      html += await renderProcurementMapping(e);
+    }
+
+    // AI Enrichment Intelligence Panel with Data Lineage
+    const aiNotes = e.notes || '';
+    if (aiNotes.includes('[ExpenseIQ]') || aiNotes.includes('[ExpenseIQ-Enriched]') || aiNotes.startsWith('AI-enriched:')) {
+      html += renderExpenseIQPanel(e);
+    }
+  }
+
+  if (!html) html = '<div style="color:var(--dim);font-size:.82rem;padding:8px 0">No linked details available for this entry.</div>';
+  return html;
+}
+
+function _ldSection(title, icon, content) {
+  return '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-' + icon + '" style="color:var(--accent)"></i>' + title + '</div>' + content + '</div>';
+}
+
+function _ldRow(pairs) {
+  return '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:6px 16px;padding:10px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--line);margin-bottom:6px">' +
+    pairs.map(p => '<div><div style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.4px">' + p[0] + '</div><div style="font-size:.82rem;color:var(--text)">' + (p[1] || '-') + '</div></div>').join('') + '</div>';
+}
+
+function _ldMemberLink(name, searchQ) {
+  return '<a href="#" onclick="event.preventDefault();event.stopPropagation();openMemberProfile(\\'' + (searchQ || name || '').replace(/'/g, "\\\\'") + '\\')" style="color:var(--accent);text-decoration:none;font-weight:600"><i class="fas fa-user me-1" style="font-size:.7rem"></i>' + (name || 'Unknown') + '</a>';
+}
+
+// ── Membership ──
+async function renderMembershipMapping(e) {
+  let memberHtml = '';
+  if (e.payerOrPayee) {
+    try {
+      const data = await apiGetAuth('crm_member_search', { q: e.payerOrPayee, limit: 3 });
+      if (data.members && data.members.length) {
+        const m = data.members[0];
+        memberHtml = _ldRow([
+          ['Member', _ldMemberLink(m.displayName || m.email, m.email || m.displayName)],
+          ['Email', m.email || '-'],
+          ['Phone', m.phone || '-'],
+          ['Membership Type', m.memberType || m.membershipCategory || '-'],
+          ['Tier', m.tier || m.membershipTier || '-'],
+          ['Member Since', m.memberSince ? new Date(m.memberSince).toLocaleDateString() : '-'],
+          ['Life Member', m.isLifeMember ? '<span style="color:var(--green)">Yes</span>' : 'No'],
+          ['Family ID', m.familyId || '-']
+        ]);
+      }
+    } catch (_) {}
+  }
+  if (!memberHtml) {
+    memberHtml = _ldRow([['Payer', e.payerOrPayee || '-'], ['Reference', e.reference || '-']]);
+  }
+  return _ldSection('Membership Details', 'id-card', memberHtml +
+    '<div style="font-size:.72rem;color:var(--muted);margin-top:4px"><i class="fas fa-info-circle me-1"></i>Click member name to view full profile with family, contact, and payment history.</div>');
+}
+
+// ── Sponsorship ──
+async function renderSponsorshipMapping(e) {
+  let sponsorHtml = '';
+  try {
+    const data = await apiGet('sponsors');
+    if (data.success && data.sponsors) {
+      const match = data.sponsors.find(s => {
+        const name = (s.companyName || s.name || '').toLowerCase();
+        const payer = (e.payerOrPayee || '').toLowerCase();
+        return name === payer || name.includes(payer) || payer.includes(name);
+      });
+      if (match) {
+        sponsorHtml = _ldRow([
+          ['Sponsor', match.companyName || match.name],
+          ['Tier', match.tier || '-'],
+          ['Contact', match.contactName || '-'],
+          ['Email', match.email || '-'],
+          ['Phone', match.phone || '-'],
+          ['Amount', '$' + (match.amount || e.amount || 0).toLocaleString()],
+          ['Active', match.active ? '<span style="color:var(--green)">Yes</span>' : 'No'],
+          ['Year', match.year || '-']
+        ]);
+      }
+    }
+  } catch (_) {}
+  if (!sponsorHtml) {
+    sponsorHtml = _ldRow([['Sponsor', e.payerOrPayee || '-'], ['Amount', '$' + (e.amount || 0).toLocaleString()], ['Reference', e.reference || '-']]);
+  }
+  return _ldSection('Sponsorship Details', 'handshake', sponsorHtml);
+}
+
+// ── Zelle ──
+function renderZelleMapping(e) {
+  return _ldSection('Zelle Transfer', 'bolt',
+    _ldRow([
+      [e.type === 'income' ? 'Received From' : 'Sent To', e.payerOrPayee || '-'],
+      ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+      ['Confirmation', e.reference || '-'],
+      ['Source', (e.source || '').replace(/_/g, ' ')]
+    ]));
+}
+
+// ── Check Deposit ──
+function renderCheckMapping(e) {
+  return _ldSection('Check Deposit', 'money-check-alt',
+    _ldRow([
+      ['Deposited', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Bank Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+      ['Confirmation', e.reference || '-'],
+      ['Bank Description', e.bankDescription || e.description || '-']
+    ]));
+}
+
+// ── Event Income (ticket, donation) ──
+function renderEventIncomeMapping(e) {
+  return _ldSection('Event Income', 'calendar-alt',
+    _ldRow([
+      ['Event', e.eventName || '-'],
+      ['Category', (e.category || '').replace(/_/g, ' ')],
+      ['Payer', e.payerOrPayee || '-'],
+      ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+      ['Payment Method', (e.paymentMethod || '').replace(/_/g, ' ')]
+    ]));
+}
+
+// ── ExpenseIQ Data Lineage Panel ──
+function renderExpenseIQPanel(e) {
+  const notes = e.notes || '';
+
+  // Try to parse structured lineage JSON
+  let lineage = null;
+  const lineageMatch = notes.match(/\\[LINEAGE\\](.+?)$/s);
+  if (lineageMatch) {
+    try { lineage = JSON.parse(lineageMatch[1]); } catch (_) {}
+  }
+
+  // Parse confidence from notes text
+  const confMatch = notes.match(/confidence:\\s*(\\w+)/i) || notes.match(/(HIGH|MEDIUM|LOW)\\s+confidence/i);
+  const confidence = lineage ? (lineage.confidence || '').toUpperCase() : (confMatch ? confMatch[1].toUpperCase() : '');
+  const confColor = confidence === 'HIGH' ? '#16a34a' : confidence === 'MEDIUM' ? '#d97706' : '#dc2626';
+  const confBadge = confidence ? '<span style="display:inline-block;padding:2px 10px;border-radius:10px;font-size:.7rem;font-weight:700;color:#fff;background:' + confColor + ';letter-spacing:.03em">' + confidence + '</span>' : '';
+
+  let panelHtml = '<div style="font-size:.72rem;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-robot"></i>Automatically analyzed by ExpenseIQ engine</div>';
+
+  // ── Summary row ──
+  let summaryRows = [];
+  if (e.eventName) summaryRows.push(['Linked Event', '<strong style="color:var(--accent)">' + e.eventName + '</strong>']);
+  if (e.category) summaryRows.push(['Category', '<span style="text-transform:capitalize;font-weight:600">' + e.category.replace(/_/g, ' ') + '</span>']);
+  if (confidence) summaryRows.push(['Confidence', confBadge]);
+  if (lineage && lineage.analyzedAt) summaryRows.push(['Analyzed', new Date(lineage.analyzedAt).toLocaleString()]);
+  if (summaryRows.length) panelHtml += _ldRow(summaryRows);
+
+  // ── Analysis Steps (Data Lineage Trail) ──
+  let steps = [];
+  if (lineage && lineage.steps && lineage.steps.length) {
+    steps = lineage.steps;
+  } else {
+    // Parse steps from pipe-delimited notes (legacy format)
+    const cleanNotes = notes.replace(/\\[LINEAGE\\].+$/s, '').replace(/\\[ExpenseIQ(-Enriched)?\\]\\s*/g, '');
+    const segments = cleanNotes.split(' | ').filter(s => s && !s.startsWith('Auto-parsed') && !s.startsWith('AI-enriched'));
+    for (const seg of segments) {
+      if (seg.startsWith('Hypothesis:')) steps.push({ step: 'date_proximity', detail: seg.replace('Hypothesis: ', ''), icon: 'calendar-alt' });
+      else if (seg.includes('via document correlation')) steps.push({ step: 'document_verification', detail: seg, icon: 'file-alt' });
+      else if (seg.includes('aligns with') || seg.includes('typically purchased') || seg.includes('within 7 days')) steps.push({ step: 'purpose_verification', detail: seg, icon: 'check-double' });
+      else if (seg.startsWith('Documents:')) steps.push({ step: 'document_scan', detail: seg, icon: 'folder-open' });
+      else if (seg.match(/confidence:\\s*\\w+/i)) continue;
+      else steps.push({ step: 'analysis', detail: seg, icon: 'search' });
+    }
+  }
+
+  if (steps.length) {
+    panelHtml += '<div style="margin-top:10px;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:6px"><i class="fas fa-project-diagram me-1" style="color:var(--accent)"></i>Data Lineage Trail</div>';
+    panelHtml += '<div style="position:relative;padding-left:22px;border-left:2px solid var(--accent);margin-left:8px">';
+    const stepLabels = { merchant_id: 'Merchant Identified', date_proximity: 'Date Proximity', document_verification: 'Document Verified', document_scan: 'Documents Found', purpose_verification: 'Purpose Verified', post_event: 'Post-Event', analysis: 'Analysis' };
+    steps.forEach((s, i) => {
+      const label = stepLabels[s.step] || s.step.replace(/_/g, ' ');
+      const icon = s.icon || 'circle';
+      panelHtml += '<div style="position:relative;margin-bottom:8px;padding:8px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--line)">' +
+        '<div style="position:absolute;left:-28px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg1)"></div>' +
+        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">' +
+          '<i class="fas fa-' + icon + '" style="color:var(--accent);font-size:.7rem;width:14px;text-align:center"></i>' +
+          '<span style="font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.04em">Step ' + (i + 1) + ': ' + label + '</span>' +
+        '</div>' +
+        '<div style="font-size:.8rem;color:var(--text);line-height:1.4">' + escHtml(s.detail) + '</div>' +
+        (s.source ? '<div style="font-size:.68rem;color:var(--muted);margin-top:2px"><i class="fas fa-database me-1"></i>' + escHtml(s.source) + '</div>' : '') +
+      '</div>';
+    });
+    panelHtml += '</div>';
+  }
+
+  // ── Linked Documents (clickable data lineage) ──
+  let docs = [];
+  if (lineage && lineage.documents && lineage.documents.length) {
+    docs = lineage.documents;
+  } else {
+    // Parse from notes text
+    const docMatch = notes.match(/Documents:\\s*(.+?)(?:\\s*\\||$)/);
+    if (docMatch) {
+      docs = docMatch[1].split(',').map(d => d.trim()).filter(Boolean).map(p => {
+        const parts = p.split('/');
+        return { folder: parts.length > 1 ? parts[0] : '.', file: parts[parts.length - 1], path: p, type: 'file' };
+      });
+    }
+  }
+
+  if (docs.length) {
+    panelHtml += '<div style="margin-top:10px;font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:6px"><i class="fas fa-folder-open me-1" style="color:var(--accent)"></i>Linked Evidence Documents (' + docs.length + ')</div>';
+    const typeIcons = { document: 'file-pdf', script: 'file-code', spreadsheet: 'file-excel', image: 'file-image', file: 'file' };
+    const typeColors = { document: '#ef4444', script: '#3b82f6', spreadsheet: '#22c55e', image: '#f59e0b', file: '#6b7280' };
+    docs.forEach(d => {
+      const icon = typeIcons[d.type] || 'file';
+      const color = typeColors[d.type] || '#6b7280';
+      panelHtml += '<div style="display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--bg2);border-radius:6px;border:1px solid var(--line);margin-bottom:4px;cursor:pointer" ' +
+        'onclick="openDocLineage(\\'' + escAttr(d.path) + '\\')" title="Click to view: ' + escAttr(d.path) + '">' +
+        '<i class="fas fa-' + icon + '" style="color:' + color + ';font-size:.9rem;width:16px;text-align:center"></i>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-size:.8rem;color:var(--text);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escHtml(d.file) + '</div>' +
+          '<div style="font-size:.68rem;color:var(--muted)">' + escHtml(d.folder) + ' &middot; ' + (d.type || 'file') + '</div>' +
+        '</div>' +
+        '<i class="fas fa-external-link-alt" style="color:var(--muted);font-size:.65rem"></i>' +
+      '</div>';
+    });
+  }
+
+  // ── Event Match Method ──
+  if (lineage && lineage.eventMatch) {
+    const method = lineage.eventMatch.method === 'document_correlation' ?
+      '<span style="color:#16a34a"><i class="fas fa-link me-1"></i>Document Correlation</span> &mdash; event linked via matching documents in workspace' :
+      '<span style="color:#d97706"><i class="fas fa-calendar-alt me-1"></i>Date Proximity</span> &mdash; event linked by purchase date within event preparation window';
+    panelHtml += '<div style="margin-top:8px;padding:6px 12px;background:rgba(139,92,246,.05);border:1px solid var(--accent);border-radius:8px;font-size:.76rem">' +
+      '<span style="font-weight:700;color:var(--accent)">Match Method:</span> ' + method + '</div>';
+  }
+
+  return _ldSection('AI Expense Intelligence &mdash; Data Lineage', 'brain', panelHtml);
+}
+
+function escHtml(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escAttr(s) { return String(s || '').replace(/'/g,"\\\\'").replace(/"/g,'&quot;'); }
+
+function openDocLineage(path) {
+  // Open document in a new tab — for GitHub-hosted repos, link to raw file
+  const ghBase = 'https://github.com/banfjax-hash/banf/blob/main/';
+  const url = ghBase + encodeURIComponent(path).replace(/%2F/g, '/');
+  window.open(url, '_blank');
+}
+
+// ── Debit Card ──
+function renderDebitCardMapping(e) {
+  let html = _ldRow([
+    ['Merchant', e.payerOrPayee || e.description || '-'],
+    ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+    ['Bank Date', e.bankDate ? new Date(e.bankDate).toLocaleDateString() : '-'],
+    ['Source', (e.source || '').replace(/_/g, ' ')]
+  ]);
+
+  // Parse ExpenseIQ intelligence from notes
+  const notes = e.notes || '';
+  const iqMatch = notes.match(/\\[ExpenseIQ\\]\\s*(.+?)(?:\\s*\\(confidence:\\s*(\\w+)\\))?$/);
+  if (iqMatch) {
+    const iqDetails = iqMatch[1].split(' | ').filter(Boolean);
+    const confidence = iqMatch[2] || '';
+    const confColor = confidence === 'high' ? '#16a34a' : confidence === 'medium' ? '#d97706' : '#dc2626';
+    const confLabel = confidence ? \`<span style="display:inline-block;padding:1px 8px;border-radius:10px;font-size:.68rem;font-weight:600;color:#fff;background:\${confColor}">\${confidence.toUpperCase()}</span>\` : '';
+
+    let iqRows = [];
+    for (const detail of iqDetails) {
+      if (detail.startsWith('Documents:')) {
+        const docs = detail.replace('Documents: ', '').split(', ');
+        iqRows.push(['Linked Documents', docs.map(d => '<code style="font-size:.72rem;background:var(--surface);padding:1px 6px;border-radius:4px;margin:0 2px">' + d.replace(/</g,'&lt;') + '</code>').join('<br>')]);
+      } else if (detail.startsWith('Hypothesis:')) {
+        iqRows.push(['Hypothesis', detail.replace('Hypothesis: ', '')]);
+      } else if (detail.includes('via document correlation')) {
+        iqRows.push(['Verification', '<span style="color:#16a34a"><i class="fas fa-check-circle me-1"></i>' + detail + '</span>']);
+      } else {
+        iqRows.push(['Analysis', detail]);
+      }
+    }
+    if (confidence) iqRows.push(['Confidence', confLabel]);
+    if (e.eventName) iqRows.push(['Linked Event', '<strong>' + (e.eventName || '') + '</strong>']);
+
+    html += _ldSection('AI Expense Intelligence', 'brain',
+      '<div style="font-size:.72rem;color:var(--accent);margin-bottom:6px"><i class="fas fa-robot me-1"></i>Automatically analyzed by ExpenseIQ engine</div>' +
+      _ldRow(iqRows));
+  } else if (e.eventName) {
+    html += _ldRow([['Linked Event', '<strong>' + e.eventName + '</strong>']]);
+  }
+
+  return _ldSection('Debit Card Transaction', 'credit-card', html);
+}
+
+// ── Generic ──
+function renderGenericMapping(e) {
+  const pairs = [['Description', e.description || '-'], ['Amount', '$' + (e.amount || 0).toLocaleString('en-US', {minimumFractionDigits:2})]];
+  if (e.payerOrPayee) pairs.push([e.type === 'income' ? 'Payer' : 'Payee', e.payerOrPayee]);
+  if (e.reference) pairs.push(['Reference', e.reference]);
+  return _ldSection(e.type === 'income' ? 'Income Details' : 'Expense Details', e.type === 'income' ? 'arrow-down' : 'arrow-up', _ldRow(pairs));
+}
+
+// ── Member Lookup (for Zelle etc) ──
+async function renderMemberLookup(name) {
+  try {
+    const data = await apiGetAuth('crm_member_search', { q: name, limit: 3 });
+    if (!data.members || !data.members.length) return '';
+    let html = '';
+    data.members.forEach(m => {
+      html += _ldRow([
+        ['Name', _ldMemberLink(m.displayName || m.email, m.email || m.displayName)],
+        ['Email', m.email || '-'],
+        ['Phone', m.phone || '-'],
+        ['Type', m.memberType || '-'],
+        ['Family', m.familyId || '-']
+      ]);
+    });
+    return _ldSection('Linked Member', 'user-check', html +
+      '<div style="font-size:.72rem;color:var(--muted);margin-top:4px"><i class="fas fa-info-circle me-1"></i>Click name to view full member profile.</div>');
+  } catch (_) { return ''; }
+}
+
+// ── Reimbursement ──
+async function renderReimbursementMapping(e) {
+  let ticketHtml = '';
+  try {
+    const data = await apiGet('reimbursement_list');
+    if (data.success && data.tickets) {
+      const ticketId = e.reference || e.sourceId;
+      const ticket = data.tickets.find(t => t.id === ticketId);
+      if (ticket) {
+        const statusColors = {draft:'var(--dim)',pending_approval:'var(--yellow)',approved:'var(--green)',rejected:'var(--red)',payment_made:'var(--blue)',completed:'var(--green)'};
+        const stColor = statusColors[ticket.status] || 'var(--muted)';
+        ticketHtml += _ldRow([
+          ['Ticket ID', '<span style="font-weight:700;color:var(--accent)">' + ticket.id + '</span>'],
+          ['Status', '<span style="color:' + stColor + ';font-weight:600;text-transform:capitalize">' + (ticket.status || '').replace(/_/g, ' ') + '</span>'],
+          ['Requester', ticket.requesterName || ticket.requester || '-'],
+          ['Event', ticket.event || '-'],
+          ['Total Amount', '$' + (ticket.totalAmount || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+          ['Paid By', ticket.paidBy || '-']
+        ]);
+        // Receipts
+        if (ticket.receipts && ticket.receipts.length) {
+          ticketHtml += '<div style="margin-top:8px;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px"><i class="fas fa-receipt me-1" style="color:var(--accent)"></i>Receipts (' + ticket.receipts.length + ')</div>';
+          ticket.receipts.forEach((r, i) => {
+            ticketHtml += _ldRow([['#' + (i+1), r.description || '-'], ['Amount', '$' + (r.amount || 0).toFixed(2)], ['Category', r.category || '-'], ['Vendor', r.vendor || '-']]);
+          });
+        }
+        // Approvals
+        if (ticket.approvals && ticket.approvals.length) {
+          ticketHtml += '<div style="margin-top:8px;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px"><i class="fas fa-check-double me-1" style="color:var(--green)"></i>Approval Chain</div>';
+          ticket.approvals.forEach(a => {
+            const aColor = a.decision === 'approved' ? 'var(--green)' : a.decision === 'rejected' ? 'var(--red)' : 'var(--yellow)';
+            ticketHtml += _ldRow([['Approver', a.approver || '-'], ['Role', a.approverRole || '-'], ['Decision', '<span style="color:' + aColor + ';font-weight:600;text-transform:capitalize">' + (a.decision || '-') + '</span>'], ['Date', a.date ? new Date(a.date).toLocaleDateString() : '-'], ['Notes', a.notes || '-']]);
+          });
+        }
+        // Payment
+        if (ticket.paymentMade) {
+          ticketHtml += _ldRow([['Payment Method', ticket.paymentMethod || '-'], ['Payment Reference', ticket.paymentReference || '-'], ['Paid By', ticket.paymentMadeBy || '-'], ['Paid At', ticket.paymentMadeAt ? new Date(ticket.paymentMadeAt).toLocaleDateString() : '-']]);
+        }
+      }
+    }
+  } catch (_) {}
+  if (!ticketHtml) {
+    ticketHtml = _ldRow([['Reimbursement Ref', e.reference || e.sourceId || '-'], ['Event', e.eventName || '-']]);
+  }
+  return _ldSection('Reimbursement Ticket', 'receipt', ticketHtml);
+}
+
+// ── Event Expense ──
+async function renderEventExpenseMapping(e) {
+  let evHtml = '';
+  try {
+    const year = new Date(e.entryDate).getFullYear();
+    const data = await apiGet('event_expenses', { year: year, eventId: e.eventId || '' });
+    if (data.success && data.events) {
+      const ev = data.events.find(ev => ev.eventId === e.eventId) || data.events[0];
+      if (ev) {
+        evHtml += _ldRow([
+          ['Event', ev.eventName || '-'],
+          ['Total Budget', '$' + (ev.total || 0).toLocaleString('en-US', {minimumFractionDigits:2})],
+          ['Approved', ev.approved ? '<span style="color:var(--green)"><i class="fas fa-check"></i> Yes</span>' : '<span style="color:var(--yellow)">Pending</span>'],
+          ['Approved By', ev.approvedBy || '-'],
+          ['Locked', ev.locked ? 'Yes' : 'No']
+        ]);
+        if (ev.entries && ev.entries.length) {
+          evHtml += '<div style="margin-top:8px;font-size:.78rem;font-weight:600;color:var(--text);margin-bottom:4px"><i class="fas fa-list me-1" style="color:var(--accent)"></i>Expense Breakdown (' + ev.entries.length + ' items)</div>';
+          ev.entries.forEach(x => {
+            const isCurrent = Math.abs((x.amount || 0) - (e.amount || 0)) < 0.01 && x.description === e.description;
+            const highlight = isCurrent ? 'border:1px solid var(--accent);background:rgba(139,92,246,.08);' : '';
+            evHtml += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px 16px;padding:8px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--line);margin-bottom:4px;' + highlight + '">' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">ITEM</div><div style="font-size:.82rem;color:var(--text)">' + (isCurrent ? '<i class="fas fa-arrow-right" style="color:var(--accent);margin-right:4px;font-size:.65rem"></i>' : '') + (x.description || '-') + '</div></div>' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">AMOUNT</div><div style="font-size:.82rem;color:var(--red)">$' + (x.amount || 0).toFixed(2) + '</div></div>' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">CATEGORY</div><div style="font-size:.82rem;color:var(--text);text-transform:capitalize">' + (x.category || '-').replace(/_/g, ' ') + '</div></div>' +
+              '<div><div style="font-size:.68rem;color:var(--muted)">VENDOR</div><div style="font-size:.82rem;color:var(--text)">' + (x.payerOrPayee || '-') + '</div></div></div>';
+          });
+        }
+      }
+    }
+  } catch (_) {}
+  if (!evHtml) {
+    evHtml = _ldRow([['Event', e.eventName || '-'], ['Event ID', e.eventId || '-'], ['Amount', '$' + (e.amount || 0).toFixed(2)]]);
+  }
+  return _ldSection('Event Expense Details', 'calendar-check', evHtml);
+}
+
+// ── Procurement ──
+async function renderProcurementMapping(e) {
+  try {
+    const data = await apiGet('procurement_list');
+    if (!data.success || !data.requests) return '';
+    const matches = data.requests.filter(p => {
+      if (e.reference && p.id === e.reference) return true;
+      if (e.eventId && p.event === e.eventId && Math.abs((p.amount || 0) - (e.amount || 0)) < 1) return true;
+      return false;
+    });
+    if (!matches.length) return '';
+    let html = '';
+    matches.forEach(p => {
+      const stColors = {pending:'var(--yellow)',approved:'var(--green)',rejected:'var(--red)',completed:'var(--green)',receipt_submitted:'var(--blue)'};
+      html += _ldRow([
+        ['Procurement ID', '<span style="font-weight:700;color:var(--accent)">' + (p.id || '-') + '</span>'],
+        ['Status', '<span style="color:' + (stColors[p.status] || 'var(--muted)') + ';text-transform:capitalize;font-weight:600">' + (p.status || '-').replace(/_/g, ' ') + '</span>'],
+        ['Vendor', p.vendor || '-'],
+        ['Category', (p.category || '-').replace(/_/g, ' ')],
+        ['Amount', '$' + (p.amount || 0).toFixed(2)],
+        ['Requester', p.requester || '-'],
+        ['Event', p.event || '-'],
+        ['Urgent', p.urgent ? '<span style="color:var(--red)">Yes</span>' : 'No']
+      ]);
+    });
+    return _ldSection('Procurement Request', 'shopping-cart', html);
+  } catch (_) { return ''; }
+}
+
+// ── Member Profile Overlay ──
+async function openMemberProfile(query) {
+  const overlay = document.getElementById('member-profile-overlay');
+  const content = document.getElementById('mp-content');
+  document.getElementById('mp-name').textContent = query;
+  document.getElementById('mp-subtitle').textContent = 'Loading profile...';
+  content.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px"><i class="fas fa-spinner fa-spin"></i> Loading member profile...</div>';
+  overlay.style.display = 'block';
+
+  try {
+    const data = await apiGetAuth('crm_member_search', { q: query, limit: 1 });
+    if (!data.members || !data.members.length) {
+      content.innerHTML = '<div style="text-align:center;color:var(--dim);padding:24px"><i class="fas fa-user-slash" style="font-size:2rem;margin-bottom:8px;display:block"></i>Member not found for "' + query + '"</div>';
+      document.getElementById('mp-subtitle').textContent = 'Not found';
+      return;
+    }
+    const m = data.members[0];
+    document.getElementById('mp-name').textContent = m.displayName || m.email;
+    document.getElementById('mp-subtitle').textContent = (m.memberType || 'Member') + (m.isLifeMember ? ' • Life Member' : '') + (m.isActive ? ' • Active' : '');
+
+    let html = '';
+    // Contact
+    html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-address-card" style="color:var(--accent)"></i>Contact Information</div>';
+    html += _ldRow([
+      ['Email', m.email || '-'],
+      ['Phone', m.phone || '-'],
+      ['Address', [m.address, m.city, m.state, m.zip].filter(Boolean).join(', ') || '-'],
+      ['City', m.city || '-'],
+      ['State', m.state || '-']
+    ]);
+    html += '</div>';
+
+    // Membership
+    html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-id-card" style="color:var(--accent)"></i>Membership</div>';
+    html += _ldRow([
+      ['Member Type', m.memberType || '-'],
+      ['Tier', m.tier || m.membershipTier || '-'],
+      ['Category', m.membershipCategory || '-'],
+      ['Member Since', m.memberSince ? new Date(m.memberSince).toLocaleDateString() : '-'],
+      ['Life Member', m.isLifeMember ? '<span style="color:var(--green)">Yes</span>' : 'No'],
+      ['Active', m.isActive ? '<span style="color:var(--green)">Yes</span>' : '<span style="color:var(--red)">No</span>'],
+      ['Membership Years', m.membershipYears || '-'],
+      ['Family ID', m.familyId || '-']
+    ]);
+    html += '</div>';
+
+    // Family
+    html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-people-roof" style="color:var(--accent)"></i>Family</div>';
+    html += _ldRow([
+      ['Spouse', m.spouseName || m.spouse || '-'],
+      ['Children', (m.childrenNames || m.children || []).join ? (m.childrenNames || m.children || []).join(', ') || '-' : (m.childrenNames || m.children || '-')]
+    ]);
+    // Extended family
+    if (m.familyId) {
+      try {
+        const fData = await apiGetAuth('crm_family', { familyId: m.familyId });
+        if (fData.family) {
+          const fam = fData.family;
+          if (fam.adults && fam.adults.length > 0) {
+            let aHtml = fam.adults.map(a => '<span style="color:var(--text);margin-right:12px"><i class="fas fa-user" style="font-size:.65rem;color:var(--accent);margin-right:3px"></i>' + (a.displayName || a.name || a.email || '-') + '</span>').join('');
+            html += '<div style="padding:6px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;margin-bottom:4px"><div style="font-size:.68rem;color:var(--muted)">FAMILY ADULTS</div><div style="font-size:.82rem">' + aHtml + '</div></div>';
+          }
+          if (fam.minors && fam.minors.length > 0) {
+            let mHtml = fam.minors.map(c => '<span style="color:var(--text);margin-right:12px"><i class="fas fa-child" style="font-size:.65rem;color:var(--purple);margin-right:3px"></i>' + (c.name || '-') + (c.age ? ' (age ' + c.age + ')' : '') + '</span>').join('');
+            html += '<div style="padding:6px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;margin-bottom:4px"><div style="font-size:.68rem;color:var(--muted)">CHILDREN / MINORS</div><div style="font-size:.82rem">' + mHtml + '</div></div>';
+          }
+        }
+      } catch (_) {}
+    }
+    html += '</div>';
+
+    // Professional
+    if (m.profession || m.employer || m.education) {
+      html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-briefcase" style="color:var(--accent)"></i>Professional</div>';
+      html += _ldRow([
+        ['Profession', m.profession || '-'],
+        ['Employer', m.employer || '-'],
+        ['Education', m.education || '-'],
+        ['Skills', Array.isArray(m.skills) ? m.skills.join(', ') : (m.skills || '-')]
+      ]);
+      html += '</div>';
+    }
+
+    // Payment History (if available)
+    if (m.payments && m.payments.length) {
+      html += '<div style="margin-bottom:16px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="fas fa-dollar-sign" style="color:var(--green)"></i>Payment History</div>';
+      m.payments.forEach(p => {
+        html += _ldRow([['Date', p.date || '-'], ['Amount', '$' + (p.amount || 0)], ['Method', p.method || '-'], ['Category', p.category || '-'], ['Reference', p.reference || '-']]);
+      });
+      html += '</div>';
+    }
+
+    // Notes
+    if (m.notes || m.adminNotes) {
+      html += '<div style="margin-bottom:8px"><div style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:6px"><i class="fas fa-sticky-note" style="color:var(--accent);margin-right:6px"></i>Notes</div>';
+      html += '<div style="font-size:.82rem;color:var(--text);padding:8px 14px;background:var(--bg2);border:1px solid var(--line);border-radius:8px">' + (m.notes || m.adminNotes || '-') + '</div></div>';
+    }
+
+    content.innerHTML = html;
+  } catch (err) {
+    content.innerHTML = '<div style="text-align:center;color:var(--red);padding:24px"><i class="fas fa-exclamation-triangle" style="font-size:1.5rem;margin-bottom:8px;display:block"></i>Error loading profile: ' + err.message + '</div>';
+  }
+}
+
+// --- Income Summary ---
+let _incomePieChart = null;
+let _incomeBarChart = null;
+
+async function loadIncomeSummary() {
+  const yearSel = document.getElementById('income-year-select');
+  const year = yearSel.value || new Date().getFullYear();
+  const data = await apiGet('ledger', { year: year, type: 'income', limit: 1000 });
+  if (!data.success) return;
+
+  const entries = data.entries || [];
+  const INCOME_CATS = ['membership','event_ticket','sponsorship','donation','advertisement','other_income'];
+  const catTotals = {};
+  const catCounts = {};
+  let grandTotal = 0;
+  INCOME_CATS.forEach(c => { catTotals[c] = 0; catCounts[c] = 0; });
+  entries.forEach(e => {
+    const c = e.category || 'other_income';
+    if (!catTotals[c]) catTotals[c] = 0;
+    if (!catCounts[c]) catCounts[c] = 0;
+    catTotals[c] += e.amount || 0;
+    catCounts[c]++;
+    grandTotal += e.amount || 0;
+  });
+
+  // KPIs
+  const kpiGrid = document.getElementById('income-kpi-grid');
+  const kpiColors = {membership:'green',event_ticket:'blue',sponsorship:'purple',donation:'pink',advertisement:'yellow',other_income:'cyan'};
+  kpiGrid.innerHTML = INCOME_CATS.map(c => {
+    const label = c.replace(/_/g, ' ');
+    return '<div class="kpi ' + (kpiColors[c] || 'blue') + '"><div class="v">$' + (catTotals[c] || 0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k" style="text-transform:capitalize">' + label + '</div></div>';
+  }).join('') + '<div class="kpi green"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Grand Total</div></div>';
+
+  // Table
+  const tbody = document.getElementById('income-table-body');
+  tbody.innerHTML = INCOME_CATS.filter(c => catTotals[c] > 0).map(c => {
+    const pct = grandTotal > 0 ? ((catTotals[c] / grandTotal) * 100).toFixed(1) : '0.0';
+    return '<tr><td style="text-transform:capitalize">' + c.replace(/_/g,' ') + '</td><td style="text-align:right;color:var(--green);font-weight:600">$' + catTotals[c].toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">' + pct + '%</td><td style="text-align:right">' + catCounts[c] + '</td></tr>';
+  }).join('') + '<tr style="border-top:2px solid var(--line);font-weight:700"><td>Total</td><td style="text-align:right;color:var(--green)">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">100%</td><td style="text-align:right">' + entries.length + '</td></tr>';
+
+  // Charts
+  const activeLabels = INCOME_CATS.filter(c => catTotals[c] > 0);
+  const activeData = activeLabels.map(c => catTotals[c]);
+  const chartColors = ['#22c55e','#3b82f6','#a855f7','#ec4899','#eab308','#06b6d4'];
+  const bgColors = activeLabels.map((_, i) => chartColors[i % chartColors.length]);
+
+  if (_incomePieChart) _incomePieChart.destroy();
+  const pieCtx = document.getElementById('income-pie-chart').getContext('2d');
+  _incomePieChart = new Chart(pieCtx, {
+    type: 'doughnut',
+    data: { labels: activeLabels.map(c => c.replace(/_/g,' ')), datasets: [{ data: activeData, backgroundColor: bgColors, borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'bottom', labels:{color:'#94a3b8',font:{size:11}} }, title:{display:true,text:'Income by Category',color:'#e2e8f0'} } }
+  });
+
+  // Monthly bar chart
+  const months = Array.from({length:12}, (_,i) => i);
+  const monthLabels = months.map(i => new Date(2024,i).toLocaleString('en-US',{month:'short'}));
+  const monthData = months.map(mi => entries.filter(e => new Date(e.entryDate).getMonth() === mi).reduce((s,e) => s + (e.amount||0), 0));
+
+  if (_incomeBarChart) _incomeBarChart.destroy();
+  const barCtx = document.getElementById('income-bar-chart').getContext('2d');
+  _incomeBarChart = new Chart(barCtx, {
+    type: 'bar',
+    data: { labels: monthLabels, datasets: [{ label: 'Monthly Income', data: monthData, backgroundColor: '#22c55e88', borderColor: '#22c55e', borderWidth: 1 }] },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y:{ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}}, x:{ticks:{color:'#94a3b8'},grid:{display:false}} }, plugins: { legend:{display:false}, title:{display:true,text:'Monthly Income Trend',color:'#e2e8f0'} } }
+  });
+}
+
+// --- Event Expenses (with CRUD + Approval) ---
+let _eventExpenseChart = null;
+let _eventExpenseData = null;  // cached response from get_event_expenses
+
+const BANF_EVENTS = [
+  { id:'bosonto-utsob-2026', name:'Bosonto Utsob'},{ id:'noboborsho-2026', name:'Noboborsho'},
+  { id:'kids-summer-sports-2026', name:'Kids Summer Sports Training'},{ id:'summer-workshops-kids-2026', name:'Summer Workshops — Kids'},
+  { id:'summer-workshops-general-2026', name:'Summer Workshops — General'},{ id:'sports-day-2026', name:'Sports Day'},
+  { id:'spondon-2026', name:'Spondon'},{ id:'mahalaya-2026', name:'Mahalaya'},
+  { id:'durga-puja-2026', name:'Durga Puja Day 1 & 2 + Lunch'},{ id:'lakshmi-puja-2026', name:'Lakshmi Puja'},
+  { id:'bijoya-sonmiloni-2026', name:'Bijoya Sonmiloni'},{ id:'artist-program-day1-2026', name:'Artist Program Day 1 + Dinner'},
+  { id:'artist-program-day2-2026', name:'Artist Program Day 2 + Dinner'},{ id:'kali-puja-2026', name:'Kali Puja + Lunch'},
+  { id:'natok-dinner-2026', name:'Natok (Drama) + Dinner'},{ id:'winter-picnic-2027', name:'Winter Picnic'},
+  { id:'saraswati-puja-2027', name:'Saraswati Puja'}
+];
+
+function isExpensePrivileged() {
+  if (!CURRENT_ADMIN) return false;
+  return ['President','Vice President','Treasurer'].includes(CURRENT_ADMIN.ecTitle);
+}
+function isPresident() {
+  return CURRENT_ADMIN && CURRENT_ADMIN.email === 'ranadhir.ghosh@gmail.com';
+}
+
+async function loadEventExpenses() {
+  const yearSel = document.getElementById('event-exp-year-select');
+  const year = yearSel.value || new Date().getFullYear();
+
+  // Show/hide action buttons based on role
+  const priv0 = isExpensePrivileged();
+  const addBtn = document.getElementById('btn-add-event-expense');
+  if (addBtn) addBtn.style.display = priv0 ? '' : 'none';
+  const uploadBtn = document.getElementById('btn-upload-excel');
+  if (uploadBtn) uploadBtn.style.display = priv0 ? '' : 'none';
+  const tmplBtn = document.getElementById('btn-create-template');
+  if (tmplBtn) tmplBtn.style.display = priv0 ? '' : 'none';
+
+  const data = await apiGet('event_expenses', { year: year });
+  if (!data || !data.success) {
+    // Fallback to old ledger endpoint
+    return loadEventExpensesFallback(year);
+  }
+  _eventExpenseData = data;
+
+  const evts = data.events || [];
+  const grandTotal = data.grandTotal || 0;
+
+  // KPIs
+  const kpiGrid = document.getElementById('event-exp-kpis');
+  kpiGrid.innerHTML = '<div class="kpi red"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Total Expenses</div></div>' +
+    '<div class="kpi orange"><div class="v">' + evts.length + '</div><div class="k">Events</div></div>' +
+    '<div class="kpi blue"><div class="v">' + evts.reduce((s,e) => s + (e.entries||[]).length, 0) + '</div><div class="k">Entries</div></div>' +
+    (evts.length > 0 ? '<div class="kpi purple"><div class="v">$' + (grandTotal / evts.length).toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Avg per Event</div></div>' : '') +
+    '<div class="kpi green"><div class="v">' + evts.filter(e => e.approved).length + '/' + evts.length + '</div><div class="k">Approved</div></div>';
+
+  // Event cards with drill-down
+  const cardsDiv = document.getElementById('event-expense-cards');
+  const priv = isExpensePrivileged();
+  const pres = isPresident();
+  cardsDiv.innerHTML = evts.sort((a,b) => b.total - a.total).map(ev => {
+    const statusBadge = ev.approved
+      ? '<span style="background:#22c55e22;color:var(--green);padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock me-1"></i>Approved by ' + (ev.approvedBy || '') + '</span>'
+      : '<span style="background:#eab30822;color:#eab308;padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock-open me-1"></i>Pending Approval</span>';
+    const approveBtn = priv && !ev.approved ? '<button onclick="approveEventExpense(\\'' + ev.eventId + '\\',\\'' + (ev.eventName||'').replace(/'/g,"\\\\'") + '\\')" style="background:var(--green);color:#000;border:none;padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;font-weight:600"><i class="fas fa-check me-1"></i>Approve & Lock</button>' : '';
+    const unlockBtn = pres && ev.approved ? '<button onclick="unlockEventExpense(\\'' + ev.eventId + '\\')" style="background:var(--red);color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;font-weight:600"><i class="fas fa-unlock me-1"></i>Unlock (Exception)</button>' : '';
+
+    const entries = (ev.entries || []).sort((a,b) => new Date(b.entryDate) - new Date(a.entryDate));
+    const rows = entries.map(e => {
+      const dt = new Date(e.entryDate);
+      const editBtn = priv && !ev.locked ? '<button onclick="openEditExpenseModal(\\'' + e.id + '\\',\\'' + ev.eventId + '\\',\\'' + (ev.eventName||'').replace(/'/g,"\\\\'") + '\\')" style="background:none;border:none;color:var(--blue);cursor:pointer;font-size:.78rem" title="Edit"><i class="fas fa-edit"></i></button>' : '';
+      return '<tr><td>' + dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + '</td><td style="text-transform:capitalize">' + (e.category||'').replace(/_/g,' ') + '</td><td>' + (e.description||'') + '</td><td style="text-align:right;color:var(--red);font-weight:600">$' + (e.amount||0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td>' + (e.payerOrPayee||'') + '</td><td style="font-size:.72rem;color:var(--muted)">' + (e.source||'') + '</td><td>' + editBtn + '</td></tr>';
+    }).join('');
+
+    return '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px">' +
+      '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">' +
+        '<strong style="font-size:.92rem">' + (ev.eventName||ev.eventId) + '</strong>' +
+        '<span style="color:var(--red);font-weight:700;margin-left:auto">$' + (ev.total||0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</span>' +
+        statusBadge + approveBtn + unlockBtn +
+      '</div>' +
+      '<div style="overflow-x:auto"><table class="t" style="font-size:.8rem"><thead><tr><th>Date</th><th>Category</th><th>Description</th><th style="text-align:right">Amount</th><th>Paid To</th><th>Source</th><th></th></tr></thead><tbody>' + (rows || '<tr><td colspan="7" style="text-align:center;color:var(--muted)">No entries</td></tr>') + '</tbody></table></div>' +
+    '</div>';
+  }).join('') || '<p style="color:var(--muted);text-align:center">No expense entries found for this year.</p>';
+
+  // Chart — stacked bar
+  const expCats = ['venue','catering','decoration','photography','sound_music','other_expense'];
+  const catColors = ['#ef4444','#f97316','#eab308','#a855f7','#06b6d4','#6366f1'];
+  const eventNames = evts.sort((a,b) => b.total - a.total).map(e => e.eventName || e.eventId);
+  const datasets = expCats.map((cat, i) => ({
+    label: cat.replace(/_/g,' '), borderWidth: 0, backgroundColor: catColors[i],
+    data: evts.sort((a,b) => b.total - a.total).map(ev => (ev.entries||[]).filter(e => {
+      if (cat === 'other_expense') return !['venue','catering','decoration','photography','sound_music'].includes(e.category);
+      return e.category === cat;
+    }).reduce((s,e) => s + (e.amount||0), 0))
+  }));
+
+  if (_eventExpenseChart) _eventExpenseChart.destroy();
+  const ctx = document.getElementById('event-expense-chart').getContext('2d');
+  _eventExpenseChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: eventNames.map(n => n.length > 20 ? n.slice(0,20)+'...' : n), datasets },
+    options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,ticks:{color:'#94a3b8'},grid:{display:false}}, y:{stacked:true,ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}} }, plugins: { legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11}}}, title:{display:true,text:'Expense Breakdown by Event',color:'#e2e8f0'} } }
+  });
+}
+
+// Fallback if event_expenses endpoint not yet deployed
+async function loadEventExpensesFallback(year) {
+  const data = await apiGet('ledger', { year: year, type: 'expense', limit: 1000 });
+  if (!data.success) return;
+  const entries = data.entries || [];
+  const events = {};
+  let grandTotal = 0;
+  entries.forEach(e => {
+    const ev = e.eventName || '(Unassigned)';
+    if (!events[ev]) events[ev] = { total: 0, venue:0, catering:0, decoration:0, photography:0, sound_music:0, other:0 };
+    const cat = e.category || 'other_expense';
+    const amt = e.amount || 0;
+    events[ev].total += amt;
+    grandTotal += amt;
+    if (['venue','catering','decoration','photography','sound_music'].includes(cat)) events[ev][cat] += amt;
+    else events[ev].other += amt;
+  });
+  const eventNames = Object.keys(events).sort((a,b) => events[b].total - events[a].total);
+  const kpiGrid = document.getElementById('event-exp-kpis');
+  kpiGrid.innerHTML = '<div class="kpi red"><div class="v">$' + grandTotal.toLocaleString('en-US',{minimumFractionDigits:2}) + '</div><div class="k">Total Expenses</div></div>' +
+    '<div class="kpi orange"><div class="v">' + eventNames.length + '</div><div class="k">Events</div></div>' +
+    '<div class="kpi blue"><div class="v">' + entries.length + '</div><div class="k">Entries</div></div>';
+  const cardsDiv = document.getElementById('event-expense-cards');
+  cardsDiv.innerHTML = '<div style="overflow-x:auto"><table class="t"><thead><tr><th>Event</th><th style="text-align:right">Total</th><th style="text-align:right">Venue</th><th style="text-align:right">Catering</th><th style="text-align:right">Decoration</th><th style="text-align:right">Photo</th><th style="text-align:right">Sound</th><th style="text-align:right">Other</th></tr></thead><tbody>' +
+    eventNames.map(ev => {
+      const d = events[ev];
+      return '<tr><td>' + ev + '</td><td style="text-align:right;font-weight:600;color:var(--red)">$' + d.total.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.venue.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.catering.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.decoration.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.photography.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.sound_music.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td style="text-align:right">$' + d.other.toLocaleString('en-US',{minimumFractionDigits:2}) + '</td></tr>';
+    }).join('') + '</tbody></table></div>';
+  // Chart
+  const expCats = ['venue','catering','decoration','photography','sound_music','other'];
+  const catColors = ['#ef4444','#f97316','#eab308','#a855f7','#06b6d4','#6366f1'];
+  const datasets = expCats.map((cat, i) => ({ label: cat.replace(/_/g,' '), data: eventNames.map(ev => events[ev][cat] || 0), backgroundColor: catColors[i], borderWidth: 0 }));
+  if (_eventExpenseChart) _eventExpenseChart.destroy();
+  const ctx = document.getElementById('event-expense-chart').getContext('2d');
+  _eventExpenseChart = new Chart(ctx, { type: 'bar', data: { labels: eventNames.map(n => n.length > 20 ? n.slice(0,20)+'...' : n), datasets }, options: { responsive: true, maintainAspectRatio: false, scales: { x:{stacked:true,ticks:{color:'#94a3b8'},grid:{display:false}}, y:{stacked:true,ticks:{color:'#94a3b8',callback:v=>'$'+v.toLocaleString()},grid:{color:'#1e293b'}} }, plugins: { legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11}}}, title:{display:true,text:'Expense Breakdown by Event',color:'#e2e8f0'} } } });
+}
+
+// Expense modal helpers
+function openAddExpenseModal() {
+  document.getElementById('expense-modal-title').innerHTML = '<i class="fas fa-plus me-1"></i>Add Expense';
+  document.getElementById('exp-entry-id').value = '';
+  document.getElementById('exp-amount').value = '';
+  document.getElementById('exp-description').value = '';
+  document.getElementById('exp-payee').value = '';
+  document.getElementById('exp-reference').value = '';
+  document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('expense-modal-error').style.display = 'none';
+  // Populate event dropdown
+  const evSel = document.getElementById('exp-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '">' + e.name + '</option>').join('');
+  document.getElementById('expense-modal-overlay').style.display = 'flex';
+}
+
+function openEditExpenseModal(entryId, eventId, eventName) {
+  if (!_eventExpenseData) return;
+  // Find entry in cached data
+  let entry = null;
+  (_eventExpenseData.events || []).forEach(ev => {
+    (ev.entries || []).forEach(e => { if (e.id === entryId) entry = e; });
+  });
+  if (!entry) return alert('Entry not found');
+  document.getElementById('expense-modal-title').innerHTML = '<i class="fas fa-edit me-1"></i>Edit Expense';
+  document.getElementById('exp-entry-id').value = entryId;
+  const evSel = document.getElementById('exp-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '"' + (e.id === eventId ? ' selected' : '') + '>' + e.name + '</option>').join('');
+  document.getElementById('exp-category').value = entry.category || 'other_expense';
+  document.getElementById('exp-amount').value = entry.amount || '';
+  document.getElementById('exp-description').value = entry.description || '';
+  document.getElementById('exp-payee').value = entry.payerOrPayee || '';
+  document.getElementById('exp-date').value = entry.entryDate ? new Date(entry.entryDate).toISOString().split('T')[0] : '';
+  document.getElementById('exp-reference').value = entry.reference || '';
+  document.getElementById('expense-modal-error').style.display = 'none';
+  document.getElementById('expense-modal-overlay').style.display = 'flex';
+}
+
+function closeExpenseModal() {
+  document.getElementById('expense-modal-overlay').style.display = 'none';
+}
+
+async function saveExpense() {
+  const errEl = document.getElementById('expense-modal-error');
+  errEl.style.display = 'none';
+  const amount = parseFloat(document.getElementById('exp-amount').value);
+  if (!amount || amount <= 0) { errEl.textContent = 'Please enter a valid amount.'; errEl.style.display = 'block'; return; }
+
+  const evSel = document.getElementById('exp-event');
+  const selectedEvent = BANF_EVENTS.find(e => e.id === evSel.value);
+  const body = {
+    email: CURRENT_ADMIN.email,
+    entryId: document.getElementById('exp-entry-id').value || undefined,
+    eventId: evSel.value,
+    eventName: selectedEvent ? selectedEvent.name : evSel.value,
+    category: document.getElementById('exp-category').value,
+    amount: amount,
+    description: document.getElementById('exp-description').value,
+    payerOrPayee: document.getElementById('exp-payee').value,
+    entryDate: document.getElementById('exp-date').value,
+    reference: document.getElementById('exp-reference').value
+  };
+
+  const btn = document.getElementById('btn-save-expense');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
+  const res = await apiCall('event_expense_add', body);
+  btn.disabled = false; btn.innerHTML = '<i class="fas fa-save me-1"></i>Save';
+
+  if (res.success) {
+    closeExpenseModal();
+    addLog('EXPENSE', (body.entryId ? 'Updated' : 'Added') + ' expense: $' + amount + ' for ' + body.eventName);
+    loadEventExpenses();
+  } else {
+    errEl.textContent = res.error || 'Failed to save expense.';
+    errEl.style.display = 'block';
+  }
+}
+
+async function approveEventExpense(eventId, eventName) {
+  if (!confirm('Approve and lock all expenses for "' + eventName + '"? Once approved, expenses cannot be modified unless the President raises an exception.')) return;
+  const year = document.getElementById('event-exp-year-select').value || new Date().getFullYear();
+  const res = await apiCall('event_expense_approve', { email: CURRENT_ADMIN.email, eventId: eventId, eventName: eventName, year: year });
+  if (res.success) {
+    addLog('APPROVE', 'Approved event expenses for ' + eventName);
+    loadEventExpenses();
+  } else {
+    alert(res.error || 'Failed to approve.');
+  }
+}
+
+async function unlockEventExpense(eventId) {
+  const reason = prompt('Reason for unlocking approved expenses (President exception):');
+  if (!reason) return;
+  const res = await apiCall('event_expense_exception', { email: CURRENT_ADMIN.email, eventId: eventId, reason: reason });
+  if (res.success) {
+    addLog('EXCEPTION', 'President unlocked event expenses for ' + eventId + ': ' + reason);
+    loadEventExpenses();
+  } else {
+    alert(res.error || 'Failed to unlock.');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// EXCEL EXPENSE UPLOAD & RECONCILIATION
+// ═══════════════════════════════════════════════════
+let _excelReconData = null;
+
+async function handleExpenseExcelUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = ''; // reset for re-upload
+
+  const ext = file.name.split('.').pop().toLowerCase();
+  let rows = [];
+
+  if (ext === 'csv') {
+    const text = await file.text();
+    rows = parseCSVRows(text);
+  } else {
+    // Use SheetJS for xlsx/xls
+    if (!window.XLSX) {
+      const s = document.createElement('script');
+      s.src = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+      document.head.appendChild(s);
+      await new Promise((res, rej) => { s.onload = res; s.onerror = () => rej(new Error('Failed to load SheetJS')); });
+    }
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: 'array' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    rows = XLSX.utils.sheet_to_json(ws, { defval: '' });
+  }
+
+  if (!rows.length) return alert('No data found in file.');
+
+  // Normalize column names (find: description/item, amount/cost, category, date, vendor/payee)
+  const excelItems = rows.map((r, i) => {
+    const desc = r.description || r.Description || r.item || r.Item || r.name || r.Name || r['Line Item'] || '';
+    const amt = parseFloat(r.amount || r.Amount || r.cost || r.Cost || r.total || r.Total || 0) || 0;
+    const cat = r.category || r.Category || r.type || r.Type || '';
+    const dt = r.date || r.Date || '';
+    const payee = r.vendor || r.Vendor || r.payee || r.Payee || r['Paid To'] || '';
+    return { index: i + 1, description: String(desc).trim(), amount: Math.round(amt * 100) / 100, category: cat, date: dt, payee: payee };
+  }).filter(it => it.description || it.amount > 0);
+
+  // Show event selector + reconciliation modal
+  const evSel = document.getElementById('excel-recon-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '">' + e.name + '</option>').join('');
+
+  _excelReconData = { fileName: file.name, items: excelItems, matched: {} };
+  document.getElementById('excel-recon-overlay').style.display = 'flex';
+
+  // Load reimbursement-linked entries for the first event
+  await reconcileExcelWithReimbursements();
+}
+
+function parseCSVRows(text) {
+  const lines = text.split('\\n').map(l => l.trim()).filter(Boolean);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.replace(/"/g, '').trim());
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = vals[i] || ''; });
+    return obj;
+  });
+}
+
+async function reconcileExcelWithReimbursements() {
+  if (!_excelReconData) return;
+  const eventId = document.getElementById('excel-recon-event').value;
+  const year = document.getElementById('event-exp-year-select').value || new Date().getFullYear();
+
+  // Fetch existing expense entries for this event (includes reimbursement-sourced ones)
+  const data = await apiGet('event_expenses', { year: year, eventId: eventId });
+  const eventEntries = [];
+  (data.events || []).forEach(ev => { (ev.entries || []).forEach(e => eventEntries.push(e)); });
+
+  // Match excel items to ledger entries by description similarity + amount
+  const items = _excelReconData.items;
+  const matched = {};
+  items.forEach(xl => {
+    const descLower = xl.description.toLowerCase();
+    let bestMatch = null, bestScore = 0;
+    eventEntries.forEach(le => {
+      let score = 0;
+      const leDesc = (le.description || '').toLowerCase();
+      // Amount match (exact or close)
+      if (xl.amount > 0 && Math.abs(xl.amount - (le.amount || 0)) < 0.02) score += 50;
+      // Description word overlap
+      const xlWords = descLower.split(/\\s+/).filter(w => w.length > 2);
+      const leWords = leDesc.split(/\\s+/).filter(w => w.length > 2);
+      const overlap = xlWords.filter(w => leWords.some(lw => lw.includes(w) || w.includes(lw))).length;
+      if (xlWords.length > 0) score += (overlap / xlWords.length) * 40;
+      // Reference/source match
+      if (le.source === 'reimbursement') score += 5;
+      if (score > bestScore) { bestScore = score; bestMatch = { entry: le, score: score }; }
+    });
+    matched[xl.index] = bestScore >= 45 ? bestMatch : null;
+  });
+  _excelReconData.matched = matched;
+  _excelReconData.eventEntries = eventEntries;
+
+  renderExcelReconTable();
+}
+
+function renderExcelReconTable() {
+  const items = _excelReconData.items;
+  const matched = _excelReconData.matched;
+  let matchedTotal = 0, unmatchedTotal = 0, excelTotal = 0;
+
+  const rows = items.map(xl => {
+    const m = matched[xl.index];
+    excelTotal += xl.amount;
+    const isMatched = !!m;
+    if (isMatched) matchedTotal += xl.amount; else unmatchedTotal += xl.amount;
+    const bg = isMatched ? 'rgba(34,197,94,0.08)' : 'rgba(234,179,8,0.08)';
+    const icon = isMatched ? '<i class="fas fa-check-circle" style="color:var(--green)"></i>' : '<input type="checkbox" class="recon-select" data-idx="' + xl.index + '" checked>';
+    const matchInfo = isMatched ? '<span style="color:var(--green);font-size:.72rem">' + (m.entry.source === 'reimbursement' ? 'RMB: ' : '') + (m.entry.description || '').substring(0, 40) + ' ($' + (m.entry.amount || 0).toFixed(2) + ')</span>' : '<span style="color:var(--yellow);font-size:.72rem">No reimbursement found</span>';
+    return '<tr style="background:' + bg + '"><td>' + icon + '</td><td>' + xl.description + '</td><td class="num">$' + xl.amount.toFixed(2) + '</td><td style="text-transform:capitalize">' + (xl.category || '—') + '</td><td>' + (xl.payee || '—') + '</td><td>' + matchInfo + '</td></tr>';
+  }).join('');
+
+  document.getElementById('excel-recon-table').innerHTML = '<table class="t" style="font-size:.8rem"><thead><tr><th style="width:30px"></th><th>Description</th><th style="text-align:right">Amount</th><th>Category</th><th>Vendor</th><th>Reimbursement Match</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  document.getElementById('recon-matched-total').textContent = '$' + matchedTotal.toFixed(2);
+  document.getElementById('recon-unmatched-total').textContent = '$' + unmatchedTotal.toFixed(2);
+  document.getElementById('recon-excel-total').textContent = '$' + excelTotal.toFixed(2);
+  const pct = excelTotal > 0 ? Math.round((matchedTotal / excelTotal) * 100) : 0;
+  document.getElementById('recon-match-pct').textContent = pct + '%';
+  document.getElementById('recon-match-pct').style.color = pct === 100 ? 'var(--green)' : pct >= 50 ? 'var(--yellow)' : 'var(--red)';
+
+  // Show approval button only when all matched (100%)
+  document.getElementById('btn-recon-approve').style.display = pct === 100 ? '' : 'none';
+}
+
+function closeExcelReconModal() {
+  document.getElementById('excel-recon-overlay').style.display = 'none';
+  _excelReconData = null;
+}
+
+async function submitSelectedForReimbursement() {
+  if (!_excelReconData) return;
+  const items = _excelReconData.items;
+  const matched = _excelReconData.matched;
+  const checkboxes = document.querySelectorAll('.recon-select:checked');
+  const selected = [];
+  checkboxes.forEach(cb => {
+    const idx = parseInt(cb.dataset.idx);
+    const item = items.find(it => it.index === idx);
+    if (item && !matched[idx]) selected.push(item);
+  });
+
+  if (!selected.length) return alert('No unmatched items selected.');
+  const eventId = document.getElementById('excel-recon-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+
+  // Navigate to reimbursement panel with pre-filled data
+  const msg = 'The following ' + selected.length + ' items from "' + eventName + '" need reimbursement submission:\\n\\n' +
+    selected.map((s, i) => (i + 1) + '. ' + s.description + ' — $' + s.amount.toFixed(2)).join('\\n') +
+    '\\n\\nWould you like to navigate to the Reimbursement portal to submit these?';
+  if (confirm(msg)) {
+    // Store in sessionStorage for the reimbursement page to pick up
+    sessionStorage.setItem('banf_prefill_reimbursement', JSON.stringify({
+      eventId: eventId,
+      items: selected.map(s => ({ item: s.description, cost: s.amount, category: s.category, payee: s.payee }))
+    }));
+    closeExcelReconModal();
+    navTo('reimbursement');
+  }
+}
+
+async function saveExcelExpenseReport() {
+  if (!_excelReconData) return;
+  const eventId = document.getElementById('excel-recon-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+  const items = _excelReconData.items;
+  const matched = _excelReconData.matched;
+
+  // Add unmatched items as manual expense entries
+  let addedCount = 0;
+  for (const xl of items) {
+    if (matched[xl.index]) continue; // already in ledger via reimbursement
+    const res = await apiCall('event_expense_add', {
+      email: CURRENT_ADMIN.email,
+      eventId: eventId, eventName: eventName,
+      category: mapExcelCategory(xl.category),
+      amount: xl.amount,
+      description: xl.description,
+      payerOrPayee: xl.payee,
+      entryDate: xl.date || new Date().toISOString().split('T')[0],
+      reference: 'Excel import: ' + _excelReconData.fileName
+    });
+    if (res.success) addedCount++;
+  }
+
+  const statusEl = document.getElementById('recon-status-msg');
+  statusEl.style.display = 'block';
+  statusEl.style.color = 'var(--green)';
+  statusEl.innerHTML = '<i class="fas fa-check-circle me-1"></i>Saved ' + addedCount + ' additional expense entries for ' + eventName + '. Reload to see updated totals.';
+  addLog('EXPENSE', 'Excel import: added ' + addedCount + ' entries for ' + eventName + ' from ' + _excelReconData.fileName);
+
+  // Refresh after short delay
+  setTimeout(() => { closeExcelReconModal(); loadEventExpenses(); }, 2000);
+}
+
+async function submitReconForApproval() {
+  const eventId = document.getElementById('excel-recon-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+  closeExcelReconModal();
+  approveEventExpense(eventId, eventName);
+}
+
+function mapExcelCategory(cat) {
+  const c = (cat || '').toLowerCase();
+  if (/venue|hall|room|space/i.test(c)) return 'venue';
+  if (/cater|food|meal|lunch|dinner/i.test(c)) return 'catering';
+  if (/decor|flower|balloon/i.test(c)) return 'decoration';
+  if (/photo|video|camera/i.test(c)) return 'photography';
+  if (/sound|music|dj|band|speaker/i.test(c)) return 'sound_music';
+  return 'other_expense';
+}
+
+// ═══════════════════════════════════════════════════
+// EXPENSE TEMPLATE (FROM REIMBURSEMENTS)
+// ═══════════════════════════════════════════════════
+let _templateManualLines = [];
+
+function openExpenseTemplateModal() {
+  const evSel = document.getElementById('tmpl-event');
+  evSel.innerHTML = BANF_EVENTS.map(e => '<option value="' + e.id + '">' + e.name + '</option>').join('');
+  document.getElementById('tmpl-source-label').textContent = 'Manual Template';
+  _templateManualLines = [];
+  document.getElementById('tmpl-manual-lines').innerHTML = '';
+  document.getElementById('tmpl-status-msg').style.display = 'none';
+  document.getElementById('expense-template-overlay').style.display = 'flex';
+  refreshTemplateLines();
+}
+
+function closeExpenseTemplateModal() {
+  document.getElementById('expense-template-overlay').style.display = 'none';
+}
+
+async function refreshTemplateLines() {
+  const eventId = document.getElementById('tmpl-event').value;
+  const year = document.getElementById('event-exp-year-select').value || new Date().getFullYear();
+  const reimbDiv = document.getElementById('tmpl-reimb-lines');
+  reimbDiv.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading reimbursement data...';
+
+  const data = await apiGet('event_expenses', { year: year, eventId: eventId });
+  const entries = [];
+  (data.events || []).forEach(ev => { (ev.entries || []).forEach(e => entries.push(e)); });
+  const reimbEntries = entries.filter(e => e.source === 'reimbursement');
+  const manualEntries = entries.filter(e => e.source !== 'reimbursement');
+
+  if (reimbEntries.length === 0 && manualEntries.length === 0) {
+    reimbDiv.innerHTML = '<span style="color:var(--muted)">No existing expense entries for this event. Add items below.</span>';
+  } else {
+    const rows = reimbEntries.map(e =>
+      '<tr style="background:rgba(34,197,94,0.06)"><td><i class="fas fa-check-circle" style="color:var(--green)"></i></td><td>' + (e.description || '') + '</td><td class="num">$' + (e.amount || 0).toFixed(2) + '</td><td style="text-transform:capitalize">' + (e.category || '').replace(/_/g, ' ') + '</td><td>' + (e.payerOrPayee || '') + '</td><td style="font-size:.72rem;color:var(--green)">Reimbursed</td></tr>'
+    ).join('');
+    const manualRows = manualEntries.map(e =>
+      '<tr><td><i class="fas fa-edit" style="color:var(--yellow)"></i></td><td>' + (e.description || '') + '</td><td class="num">$' + (e.amount || 0).toFixed(2) + '</td><td style="text-transform:capitalize">' + (e.category || '').replace(/_/g, ' ') + '</td><td>' + (e.payerOrPayee || '') + '</td><td style="font-size:.72rem;color:var(--yellow)">Manual</td></tr>'
+    ).join('');
+    reimbDiv.innerHTML = '<table class="t" style="font-size:.8rem"><thead><tr><th style="width:30px"></th><th>Description</th><th style="text-align:right">Amount</th><th>Category</th><th>Paid To</th><th>Source</th></tr></thead><tbody>' + rows + manualRows + '</tbody></table>';
+  }
+
+  const reimbTotal = reimbEntries.reduce((s, e) => s + (e.amount || 0), 0) + manualEntries.reduce((s, e) => s + (e.amount || 0), 0);
+  updateTemplateTotals(reimbTotal);
+}
+
+function addTemplateLine() {
+  const idx = _templateManualLines.length;
+  _templateManualLines.push({ description: '', amount: 0, category: 'other_expense', payee: '', notes: '' });
+  const container = document.getElementById('tmpl-manual-lines');
+  const row = document.createElement('div');
+  row.style.cssText = 'display:grid;grid-template-columns:2fr 100px 120px 1fr 30px;gap:6px;margin-bottom:6px;align-items:center';
+  row.id = 'tmpl-line-' + idx;
+  row.innerHTML = '<input type="text" placeholder="Description" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].description=this.value;updateTemplateTotals()">' +
+    '<input type="number" step="0.01" min="0" placeholder="$0.00" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem;text-align:right" onchange="_templateManualLines[' + idx + '].amount=parseFloat(this.value)||0;updateTemplateTotals()">' +
+    '<select style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 6px;border-radius:4px;font-size:.78rem" onchange="_templateManualLines[' + idx + '].category=this.value"><option value="venue">Venue</option><option value="catering">Catering</option><option value="decoration">Decoration</option><option value="photography">Photography</option><option value="sound_music">Sound/Music</option><option value="other_expense" selected>Other</option></select>' +
+    '<input type="text" placeholder="Paid to" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].payee=this.value">' +
+    '<button onclick="removeTemplateLine(' + idx + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.85rem" title="Remove"><i class="fas fa-trash-alt"></i></button>';
+  container.appendChild(row);
+}
+
+function removeTemplateLine(idx) {
+  _templateManualLines.splice(idx, 1);
+  // Re-render all manual lines
+  const container = document.getElementById('tmpl-manual-lines');
+  container.innerHTML = '';
+  _templateManualLines.forEach((_, i) => { addTemplateLineUI(i); });
+  updateTemplateTotals();
+}
+
+function addTemplateLineUI(idx) {
+  const ml = _templateManualLines[idx];
+  const container = document.getElementById('tmpl-manual-lines');
+  const row = document.createElement('div');
+  row.style.cssText = 'display:grid;grid-template-columns:2fr 100px 120px 1fr 30px;gap:6px;margin-bottom:6px;align-items:center';
+  row.id = 'tmpl-line-' + idx;
+  row.innerHTML = '<input type="text" value="' + (ml.description || '') + '" placeholder="Description" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].description=this.value;updateTemplateTotals()">' +
+    '<input type="number" step="0.01" min="0" value="' + (ml.amount || '') + '" placeholder="$0.00" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem;text-align:right" onchange="_templateManualLines[' + idx + '].amount=parseFloat(this.value)||0;updateTemplateTotals()">' +
+    '<select style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 6px;border-radius:4px;font-size:.78rem" onchange="_templateManualLines[' + idx + '].category=this.value"><option value="venue"' + (ml.category === 'venue' ? ' selected' : '') + '>Venue</option><option value="catering"' + (ml.category === 'catering' ? ' selected' : '') + '>Catering</option><option value="decoration"' + (ml.category === 'decoration' ? ' selected' : '') + '>Decoration</option><option value="photography"' + (ml.category === 'photography' ? ' selected' : '') + '>Photography</option><option value="sound_music"' + (ml.category === 'sound_music' ? ' selected' : '') + '>Sound/Music</option><option value="other_expense"' + (ml.category === 'other_expense' ? ' selected' : '') + '>Other</option></select>' +
+    '<input type="text" value="' + (ml.payee || '') + '" placeholder="Paid to" style="background:var(--bg2);border:1px solid var(--line);color:var(--text);padding:5px 8px;border-radius:4px;font-size:.8rem" onchange="_templateManualLines[' + idx + '].payee=this.value">' +
+    '<button onclick="removeTemplateLine(' + idx + ')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:.85rem" title="Remove"><i class="fas fa-trash-alt"></i></button>';
+  container.appendChild(row);
+}
+
+function updateTemplateTotals(reimbTotal) {
+  if (reimbTotal !== undefined) window._tmplReimbTotal = reimbTotal;
+  const rt = window._tmplReimbTotal || 0;
+  const mt = _templateManualLines.reduce((s, l) => s + (l.amount || 0), 0);
+  document.getElementById('tmpl-reimb-total').textContent = '$' + rt.toFixed(2);
+  document.getElementById('tmpl-manual-total').textContent = '$' + mt.toFixed(2);
+  document.getElementById('tmpl-grand-total').textContent = '$' + (rt + mt).toFixed(2);
+}
+
+async function saveExpenseTemplate() {
+  const eventId = document.getElementById('tmpl-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+  const manualLines = _templateManualLines.filter(l => l.description && l.amount > 0);
+
+  if (manualLines.length === 0) {
+    const el = document.getElementById('tmpl-status-msg');
+    el.style.display = 'block'; el.style.color = 'var(--yellow)';
+    el.textContent = 'No additional items to save. Existing reimbursement entries are already recorded.';
+    return;
+  }
+
+  // Confirm: additional items without reimbursement will be flagged
+  if (!confirm('You are adding ' + manualLines.length + ' additional expense item(s) for "' + eventName + '". These items do not have linked reimbursements and will be flagged for review.\\n\\nProceed?')) return;
+
+  let added = 0;
+  for (const line of manualLines) {
+    const res = await apiCall('event_expense_add', {
+      email: CURRENT_ADMIN.email,
+      eventId: eventId, eventName: eventName,
+      category: line.category || 'other_expense',
+      amount: line.amount,
+      description: line.description,
+      payerOrPayee: line.payee,
+      entryDate: new Date().toISOString().split('T')[0],
+      reference: 'Template: needs reimbursement'
+    });
+    if (res.success) added++;
+  }
+
+  const el = document.getElementById('tmpl-status-msg');
+  el.style.display = 'block'; el.style.color = 'var(--green)';
+  el.innerHTML = '<i class="fas fa-check-circle me-1"></i>Saved ' + added + ' expense entries. Items without reimbursement are flagged for submission.';
+  addLog('EXPENSE', 'Template: saved ' + added + ' entries for ' + eventName);
+  setTimeout(() => { closeExpenseTemplateModal(); loadEventExpenses(); }, 2000);
+}
+
+async function submitExpenseForApproval() {
+  const eventId = document.getElementById('tmpl-event').value;
+  const eventName = BANF_EVENTS.find(e => e.id === eventId)?.name || eventId;
+
+  // Check if there are unmatched manual lines that still need saving
+  const unsaved = _templateManualLines.filter(l => l.description && l.amount > 0);
+  if (unsaved.length > 0) {
+    if (!confirm('There are ' + unsaved.length + ' unsaved additional item(s). Save them before submitting for approval?')) return;
+    await saveExpenseTemplate();
+  }
+
+  closeExpenseTemplateModal();
+  approveEventExpense(eventId, eventName);
+}
+
+// --- Populate year selectors & auto-load on panel visit ---
+let _financeYearsLoaded = false;
+async function loadFinanceYears() {
+  if (_financeYearsLoaded) return;
+  _financeYearsLoaded = true;
+  const data = await apiGet('ledger_years');
+  const years = (data.years || []).sort().reverse();
+  if (!years.length) years.push(new Date().getFullYear());
+  ['income-year-select','event-exp-year-select'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = years.map(y => '<option value="' + y + '"' + (y === new Date().getFullYear() ? ' selected' : '') + '>' + y + '</option>').join('');
+  });
+}
+
+// Hook into navTo for lazy-loading finance panels
+const _origNavTo = navTo;
+navTo = function(panel) {
+  _origNavTo(panel);
+  if (panel === 'ledger-report') { loadLedgerReport(); }
+  if (panel === 'income-summary') { loadFinanceYears().then(() => loadIncomeSummary()); }
+  if (panel === 'event-expenses') { loadFinanceYears().then(() => loadEventExpenses()); }
+};
+
 // ── SIGN IN (offline-first, matching ec-admin-login.html) ──
 document.getElementById('btn-login').addEventListener('click', async () => {
   var rawInput = (document.getElementById('login-email').value || '').trim();
@@ -1699,13 +3780,13 @@ document.getElementById('btn-login').addEventListener('click', async () => {
 
   hideMsg('login-error'); hideMsg('login-success'); hideMsg('login-info');
 
+  if (_checkLockout()) return;
   if (!email) return showError('login-error', 'Please enter your email address.');
-
-  // ── OFFLINE-FIRST: check localStorage → AUTH_DB.offlinePw ──
   var storedPw = _getSecurePassword(email);
   if (storedPw && pass === storedPw) {
     var dbUser = AUTH_DB[email];
     if (dbUser) {
+      _resetAttempts();
       CURRENT_ADMIN = {
         email: email, roles: dbUser.roles, role: dbUser.roles[0] || 'ec-member',
         firstName: dbUser.firstName, lastName: dbUser.lastName,
@@ -1716,21 +3797,7 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     }
   }
 
-  // ── LEGACY CREDS fallback (admin/ranadhir.ghosh username login) ──
-  for (var uname in CREDS) {
-    if ((email === uname || email === uname + '@gmail.com') && CREDS[uname].pw === pass) {
-      var cred = CREDS[uname];
-      var resolvedEmail = uname.includes('@') ? uname : uname + '@gmail.com';
-      var dbEntry = AUTH_DB[resolvedEmail];
-      CURRENT_ADMIN = dbEntry
-        ? { email: resolvedEmail, roles: dbEntry.roles, role: dbEntry.roles[0], firstName: dbEntry.firstName, lastName: dbEntry.lastName, ecTitle: dbEntry.ecTitle, name: dbEntry.name }
-        : { email: resolvedEmail, roles: ['admin'], role: 'super_admin', firstName: cred.name.split(' ')[0], lastName: cred.name.split(' ').slice(1).join(' '), ecTitle: 'Super Admin', name: cred.name };
-      enterPortal(CURRENT_ADMIN, resolvedEmail);
-      return;
-    }
-  }
-
-  // ── BACKEND API (last resort) ──
+  // ── BACKEND API ──
   var btn = document.getElementById('btn-login');
   btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Signing in...';
 
@@ -1744,10 +3811,11 @@ document.getElementById('btn-login').addEventListener('click', async () => {
       return;
     }
     // Save credentials to localStorage for future offline login
+    _resetAttempts();
     _saveCredsToLocalStorage(email, pass, '', '');
     var dbU = AUTH_DB[email];
     CURRENT_ADMIN = {
-      email: email, roles: dbU ? dbU.roles : [result.adminRole || 'ec-member'],
+      email: email, roles: (result.roles && result.roles.length) ? result.roles : (dbU ? dbU.roles : [result.adminRole || 'ec-member']),
       role: result.adminRole || (dbU ? dbU.roles[0] : 'ec-member'),
       firstName: result.firstName || '', lastName: result.lastName || '',
       ecTitle: result.ecTitle || (dbU ? dbU.ecTitle : ''), name: (result.firstName || '') + ' ' + (result.lastName || '')
@@ -1757,7 +3825,10 @@ document.getElementById('btn-login').addEventListener('click', async () => {
     showInfo('login-info', 'Your account needs setup. Please use Sign Up to complete your account.');
     SIGNUP_STATE.email = email;
     SIGNUP_STATE.token = result.setupToken;
+  } else if (result.error && result.error.toLowerCase().indexOf('revoked') !== -1) {
+    showError('login-error', '<i class="fas fa-ban me-1"></i>' + result.error);
   } else {
+    _recordFailedAttempt();
     showError('login-error', result.error || 'Login failed.');
   }
 });
@@ -1801,15 +3872,19 @@ function enterPortal(user, email) {
     var initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
     avatarEl.textContent = initials;
   }
-  // President-only UI: show EC Replacement section only for president
+  // President-only UI: show EC Replacement and Revoke sections only for president
   var isPresident = CURRENT_ADMIN && CURRENT_ADMIN.email === 'ranadhir.ghosh@gmail.com';
   var presGroup = document.getElementById('president-group');
   var presItem = document.getElementById('president-ec-replace');
+  var presRevoke = document.getElementById('president-ec-revoke');
   if (presGroup) presGroup.style.display = isPresident ? '' : 'none';
   if (presItem) presItem.style.display = isPresident ? '' : 'none';
-  // Reimbursement: visible for all logged-in EC members
+  if (presRevoke) presRevoke.style.display = isPresident ? '' : 'none';
+  // Reimbursement: visible ONLY for Treasurer, VP, President
+  var rmbPrivilegedRoles = ['President', 'Vice President', 'Treasurer'];
+  var isRmbPrivileged = CURRENT_ADMIN && rmbPrivilegedRoles.includes(CURRENT_ADMIN.ecTitle);
   var rmbItem = document.getElementById('rmb-nav-item');
-  if (rmbItem) rmbItem.style.display = '';
+  if (rmbItem) rmbItem.style.display = isRmbPrivileged ? '' : 'none';
   // Load procurement data on portal load
   loadProcurementData();
   if (isPresident) loadEcReplacementData();
@@ -1880,18 +3955,30 @@ async function signupStep2Submit() {
   if (SIGNUP_STATE.offlineMode) {
     // Offline mode — save creds to localStorage using shared persistence
     _saveCredsToLocalStorage(SIGNUP_STATE.email, pass, sq, sa.toLowerCase());
-    // Background backend sync attempt
-    (async function() {
-      try {
-        var r = await apiCall('admin_signup_direct', { email: SIGNUP_STATE.email });
-        var tok = r.setupToken || SIGNUP_STATE.token;
-        if (tok) {
-          await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: tok, password: pass }).catch(function(){});
-          await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: tok, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() }).catch(function(){});
-          await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: tok }).catch(function(){});
-        }
-      } catch(e) {}
-    })();
+
+    // Await backend sync (not fire-and-forget)
+    showInfo('signup-error-2', '<i class="fas fa-spinner fa-spin me-1"></i>Syncing with server...');
+    try {
+      var tok = null;
+      // Try admin_signup_direct first
+      var r = await apiCall('admin_signup_direct', { email: SIGNUP_STATE.email });
+      tok = r.setupToken || null;
+
+      // Fallback: admin_request_reset_token if signup_direct failed (passwordSet:true)
+      if (!tok) {
+        var tokenResult = await apiCall('admin_request_reset_token', { email: SIGNUP_STATE.email, adminKey: 'banf-bosonto-2026-live' });
+        tok = tokenResult.setupToken || null;
+      }
+
+      if (tok) {
+        await apiCall('admin_set_password', { email: SIGNUP_STATE.email, token: tok, password: pass });
+        await apiCall('admin_save_profile', { email: SIGNUP_STATE.email, token: tok, phone: 'N/A', securityQuestion: sq, securityAnswer: sa.toLowerCase() });
+        await apiCall('admin_onboard_complete', { email: SIGNUP_STATE.email, token: tok }).catch(function(){});
+      }
+    } catch(e) {
+      console.error('Backend sync error:', e);
+    }
+    hideMsg('signup-error-2');
     showStep('signup', 3);
     return;
   }
@@ -2080,35 +4167,80 @@ async function forgotStep3() {
   if (!pass || pass.length < 8) return showError('forgot-error-3', 'Password must be at least 8 characters.');
   if (pass !== pass2) return showError('forgot-error-3', 'Passwords do not match.');
 
-  // Save new password to localStorage immediately
+  // Save new password to localStorage immediately (for offline access)
   var qa = _getSecurityQA(FORGOT_STATE.email);
   _saveCredsToLocalStorage(FORGOT_STATE.email, pass, qa ? qa.q : '', qa ? qa.a : '');
 
-  // Try API reset in background
-  (async function() {
-    try {
-      await apiCall('admin_reset_password', {
-        email: FORGOT_STATE.email,
-        token: FORGOT_STATE.resetToken,
-        password: pass
-      });
-    } catch(e) {}
-  })();
+  // Show loading state
+  showInfo('forgot-error-3', '<i class="fas fa-spinner fa-spin me-1"></i>Updating your password...');
+
+  var backendOk = false;
+  try {
+    var tok = FORGOT_STATE.resetToken;
+
+    // Path A: Get a real reset token if in offline mode
+    if (FORGOT_STATE.offlineMode && FORGOT_STATE.offlineAnswer) {
+      var ansResult = await apiCall('admin_verify_security_answer', { email: FORGOT_STATE.email, answer: FORGOT_STATE.offlineAnswer.toLowerCase() });
+      if (ansResult.resetToken) tok = ansResult.resetToken;
+    }
+
+    // Path A continued: Use the real reset token
+    if (tok && !tok.startsWith('offline-')) {
+      var resetResult = await apiCall('admin_reset_password', { email: FORGOT_STATE.email, token: tok, password: pass });
+      if (resetResult.success) backendOk = true;
+    }
+
+    // Path B: Fallback — get a setup token and use admin_set_password
+    if (!backendOk) {
+      var tokenResult = await apiCall('admin_request_reset_token', { email: FORGOT_STATE.email, adminKey: 'banf-bosonto-2026-live' });
+      if (tokenResult.setupToken) {
+        var pwResult = await apiCall('admin_set_password', { email: FORGOT_STATE.email, token: tokenResult.setupToken, password: pass });
+        if (pwResult.success) {
+          backendOk = true;
+          // Also persist security Q/A if available
+          if (qa && qa.q) {
+            await apiCall('admin_save_profile', { email: FORGOT_STATE.email, token: tokenResult.setupToken, phone: 'N/A', securityQuestion: qa.q, securityAnswer: (qa.a || '').toLowerCase() }).catch(function(){});
+          }
+        }
+      }
+    }
+  } catch(e) {
+    console.error('Password reset error:', e);
+  }
+
+  hideMsg('forgot-error-3');
+
+  if (!backendOk) {
+    showInfo('forgot-error-3', '<i class="fas fa-exclamation-triangle me-1" style="color:#fbbf24"></i>Password saved locally. Server sync may have failed — if login issues persist, contact the President.');
+  }
 
   showStep('forgot', 4);
 }
 
 // ── NAV ──
-const ADMIN_ACTIVE_PANELS = new Set(['dashboard','procurement','reimbursement','ec-replacement','evite-manager']); // Dashboard + Finance + President + Evite panels are live
+const ADMIN_ACTIVE_PANELS = new Set(['dashboard','ec-profile','procurement','reimbursement','ec-replacement','ledger-report','income-summary','event-expenses','evite-manager']);
 let rmbIframeLoaded = false;
 function navTo(panel){
   if (!ADMIN_ACTIVE_PANELS.has(panel)) {
     adminComingSoon(panel);
     return;
   }
-  // Lazy-load reimbursement iframe on first visit
-  if (panel === 'reimbursement' && !rmbIframeLoaded) {
-    loadRmbIframe();
+  // Reimbursement: enforce Treasurer/VP/President role gate
+  if (panel === 'reimbursement') {
+    var rmbRoles = ['President', 'Vice President', 'Treasurer'];
+    if (!CURRENT_ADMIN || !rmbRoles.includes(CURRENT_ADMIN.ecTitle)) {
+      alert('Access Restricted: Only Treasurer, Vice President, and President can access the Reimbursement module.\\n\\nOther EC members must use the Procurement panel first to get budget approval, then submit reimbursement through the approved procurement ticket.');
+      return;
+    }
+    if (!rmbIframeLoaded) loadRmbIframe();
+  }
+  // E-Vite Manager: auto-load events on first visit
+  if (panel === 'evite-manager') {
+    eviteLoadEvents();
+  }
+  // EC Profile: auto-load on first visit
+  if (panel === 'ec-profile') {
+    loadECProfile();
   }
   document.querySelectorAll('.sb-item').forEach(s=>s.classList.remove('active'));
   const target = document.querySelector(\`.sb-item[data-panel="\${panel}"]\`);
@@ -2124,7 +4256,7 @@ function loadRmbIframe() {
   const email = encodeURIComponent(CURRENT_ADMIN.email);
   const name = encodeURIComponent(CURRENT_ADMIN.firstName + ' ' + (CURRENT_ADMIN.lastName || ''));
   const role = encodeURIComponent(CURRENT_ADMIN.ecTitle || '');
-  iframe.src = 'https://www.jaxbengali.org/_functions/reimbursement_page?autologin=' + email + '&name=' + name + '&role=' + role;
+  iframe.src = 'https://banfjax-hash.github.io/banf/reimbursement-test.html?autologin=' + email + '&name=' + name + '&role=' + role;
   iframe.onload = function() {
     const loader = document.getElementById('rmb-iframe-loading');
     if (loader) loader.style.display = 'none';
@@ -2137,7 +4269,7 @@ function openRmbFullscreen() {
   const email = encodeURIComponent(CURRENT_ADMIN.email);
   const name = encodeURIComponent(CURRENT_ADMIN.firstName + ' ' + (CURRENT_ADMIN.lastName || ''));
   const role = encodeURIComponent(CURRENT_ADMIN.ecTitle || '');
-  window.open('https://www.jaxbengali.org/_functions/reimbursement_page?autologin=' + email + '&name=' + name + '&role=' + role, '_blank');
+  window.open('https://banfjax-hash.github.io/banf/reimbursement-test.html?autologin=' + email + '&name=' + name + '&role=' + role, '_blank');
 }
 
 function adminComingSoon(panel) {
@@ -3618,6 +5750,8 @@ function eviteRecipientTypeChanged() {
   document.getElementById('ev-customEmailsWrap').style.display = type === 'custom' ? 'block' : 'none';
   document.getElementById('ev-recipientCount').textContent = '';
   document.getElementById('ev-recipientPreview').style.display = 'none';
+  document.getElementById('ev-addRecipientRow').style.display = 'none';
+  EVITE_RECIPIENT_LIST = [];
 }
 
 // Toggle cultural fields visibility
@@ -3655,33 +5789,59 @@ function eviteRemoveImage() {
 async function eviteCreateEvent() {
   const config = collectEviteConfig();
   if (!config.event.eventName) return eviteShowMsg('Event name is required.', true);
-  eviteShowMsg('Creating event...', false);
+  eviteShowMsg(EVITE_CURRENT_EVENT_ID ? 'Updating event...' : 'Creating event...', false);
   try {
+    const payload = {
+      eventName: config.event.eventName,
+      eventDate: config.event.eventDate,
+      eventTime: config.event.eventTime,
+      venue: config.event.venue,
+      description: config.event.description,
+      highlights: config.event.highlights,
+      capacity: config.event.capacity,
+      eviteConfig: config
+    };
+    if (EVITE_CURRENT_EVENT_ID) payload.eventId = EVITE_CURRENT_EVENT_ID;
     const resp = await fetch(API + '/evite_create_event', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventName: config.event.eventName,
-        eventDate: config.event.eventDate,
-        eventTime: config.event.eventTime,
-        venue: config.event.venue,
-        description: config.event.description,
-        highlights: config.event.highlights,
-        capacity: config.event.capacity,
-        eviteConfig: config
-      })
+      body: JSON.stringify(payload)
     });
     const data = await resp.json();
     if (data.eventId) {
       EVITE_CURRENT_EVENT_ID = data.eventId;
-      eviteShowMsg((data.existing ? 'Event already exists' : 'Event created') + '. ID: ' + data.eventId, false);
-      eviteLoadEvents();
+      if (data.existing) {
+        // Deployed backend doesn't support updates — auto-export the config
+        eviteExportConfig();
+      } else {
+        eviteShowMsg('Event created. ID: ' + data.eventId, false);
+        eviteLoadEvents();
+      }
     } else {
-      eviteShowMsg(data.error || 'Failed to create event.', true);
+      eviteShowMsg(data.error || 'Failed to save event.', true);
     }
   } catch (e) {
     eviteShowMsg('API error: ' + e.message, true);
   }
+}
+
+function eviteExportConfig() {
+  const config = collectEviteConfig();
+  const json = JSON.stringify(config, null, 2);
+  // Download as file
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'evite-config-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  // Also copy to clipboard
+  navigator.clipboard.writeText(json).then(() => {
+    eviteShowMsg('Config exported and copied to clipboard. Save the file, then run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js save-config evite-config.json</code>', false);
+  }).catch(() => {
+    eviteShowMsg('Config exported as file. Run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js save-config evite-config.json</code> to save to Wix DB.', false);
+  });
 }
 
 async function eviteSendInvites(recipientType, customEmails) {
@@ -3707,11 +5867,17 @@ async function eviteSendInvites(recipientType, customEmails) {
     const data = await resp.json();
     if (data.sent !== undefined) {
       eviteShowMsg('Done! Sent: ' + data.sent + ', Failed: ' + data.failed + ', Total: ' + data.total, data.failed > 0);
+    } else if (data.error && data.error.includes('Gmail token')) {
+      eviteShowMsg('<b>Gmail token needs refresh.</b> Your event config has been saved. To send invitations, please run: <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js send-test</code> (dry-run) or <code style="background:#1a1d27;padding:2px 6px;border-radius:4px">node _evite-admin-ops.js send-ec</code> (all EC) from the project folder — or contact your developer to refresh the deployed Gmail token.', true);
     } else {
       eviteShowMsg(data.error || 'Send failed.', true);
     }
   } catch (e) {
-    eviteShowMsg('API error: ' + e.message, true);
+    if (e.message && e.message.includes('Failed to fetch')) {
+      eviteShowMsg('Send initiated! The server is processing emails (may take a minute for large lists). Check the RSVP Dashboard for delivery status.', false);
+    } else {
+      eviteShowMsg('API error: ' + e.message, true);
+    }
   }
 }
 
@@ -3721,7 +5887,10 @@ function eviteDryRun() {
 
 function eviteSendAll() {
   const type = document.getElementById('ev-recipientType').value;
-  if (type === 'custom') {
+  // If recipient list was loaded & possibly edited, use that directly
+  if (EVITE_RECIPIENT_LIST.length > 0) {
+    eviteSendInvites('custom', EVITE_RECIPIENT_LIST);
+  } else if (type === 'custom') {
     const lines = (document.getElementById('ev-customEmails').value || '').split('\\n').filter(l => l.trim());
     const emails = lines.map(line => {
       const m = line.match(/^(.+?)\\s*<(.+?)>$/);
@@ -3743,8 +5912,10 @@ async function eviteLoadEvents() {
     const data = await resp.json();
     if (!data.events || data.events.length === 0) {
       el.innerHTML = 'No events found. Create one above.';
+      EVITE_EVENTS_CACHE = [];
       return;
     }
+    EVITE_EVENTS_CACHE = data.events;
     let html = '<table class="t" style="font-size:.82rem"><thead><tr><th>Event</th><th>Date</th><th>Invites</th><th>RSVPs</th><th>Created</th><th>Action</th></tr></thead><tbody>';
     data.events.forEach(ev => {
       const d = ev.eventDate ? new Date(ev.eventDate).toLocaleDateString() : '—';
@@ -3753,52 +5924,373 @@ async function eviteLoadEvents() {
     });
     html += '</tbody></table>';
     el.innerHTML = html;
+    // Auto-select the main Noboborsho event if none selected
+    if (!EVITE_CURRENT_EVENT_ID) {
+      const main = data.events.find(e => e._id === '61849b36-68e5-41fc-885d-998feafc21f2') || data.events.find(e => e.eviteConfig);
+      if (main) eviteSelectEvent(main._id);
+    }
   } catch (e) {
     el.innerHTML = 'Error loading events: ' + e.message;
   }
 }
 
+let EVITE_EVENTS_CACHE = []; // cached events from last load
+
 function eviteSelectEvent(id) {
   EVITE_CURRENT_EVENT_ID = id;
-  eviteShowMsg('Selected event: ' + id, false);
+  // Find event in cache and populate form
+  const ev = EVITE_EVENTS_CACHE.find(e => e._id === id);
+  if (ev) {
+    let cfg = null;
+    try { cfg = ev.eviteConfig ? (typeof ev.eviteConfig === 'string' ? JSON.parse(ev.eviteConfig) : ev.eviteConfig) : null; } catch(_) {}
+    if (cfg) {
+      evitePopulateForm(cfg, ev);
+      eviteShowMsg('Loaded config for: ' + (ev.eventName || id), false);
+    } else {
+      // Populate from top-level event fields even if no eviteConfig
+      if (ev.eventName) document.getElementById('ev-eventName').value = ev.eventName;
+      if (ev.eventDate) document.getElementById('ev-eventDate').value = ev.eventDate.substring(0, 10);
+      if (ev.eventTime) document.getElementById('ev-eventTime').value = ev.eventTime;
+      if (ev.venue) document.getElementById('ev-venue').value = ev.venue;
+      if (ev.description) document.getElementById('ev-description').value = ev.description;
+      eviteShowMsg('Selected event: ' + (ev.eventName || id) + ' (no saved config — fill in details)', false);
+    }
+  } else {
+    eviteShowMsg('Selected event: ' + id, false);
+  }
   eviteLoadEvents();
 }
+
+function evitePopulateForm(cfg, ev) {
+  // Event details
+  const e = cfg.event || {};
+  if (e.eventName) document.getElementById('ev-eventName').value = e.eventName;
+  if (e.eventDate) document.getElementById('ev-eventDate').value = e.eventDate;
+  if (e.eventTime) document.getElementById('ev-eventTime').value = e.eventTime;
+  if (e.venue) document.getElementById('ev-venue').value = e.venue;
+  if (e.description) document.getElementById('ev-description').value = e.description;
+  if (e.highlights) document.getElementById('ev-highlights').value = e.highlights;
+  if (e.capacity) document.getElementById('ev-capacity').value = e.capacity;
+  if (e.rsvpDeadline) document.getElementById('ev-rsvpDeadline').value = e.rsvpDeadline;
+  // Design
+  const d = cfg.design || {};
+  if (d.introText) document.getElementById('ev-introText').value = d.introText;
+  if (d.imageUrl) {
+    document.getElementById('ev-imageUrl').value = d.imageUrl;
+    document.getElementById('ev-imagePreviewImg').src = d.imageUrl;
+    document.getElementById('ev-imagePreview').style.display = 'block';
+  }
+  // RSVP
+  const r = cfg.rsvp || {};
+  if (r.collectGuests !== undefined) document.getElementById('ev-collectGuests').checked = r.collectGuests;
+  if (r.collectFood !== undefined) document.getElementById('ev-collectFood').checked = r.collectFood;
+  if (r.collectAllergy !== undefined) document.getElementById('ev-collectAllergy').checked = r.collectAllergy;
+  if (r.allowMaybe !== undefined) document.getElementById('ev-allowMaybe').checked = r.allowMaybe;
+  // Cultural
+  const c = cfg.cultural || {};
+  if (c.enabled !== undefined) {
+    document.getElementById('ev-culturalEnabled').checked = c.enabled;
+    const fields = document.getElementById('ev-cultural-fields');
+    if (fields) fields.style.display = c.enabled ? 'block' : 'none';
+  }
+  if (c.header) document.getElementById('ev-culturalHeader').value = c.header;
+  if (c.description) document.getElementById('ev-culturalDesc').value = c.description;
+  if (c.categories) document.getElementById('ev-categories').value = c.categories.join(', ');
+  if (c.modes) document.getElementById('ev-modes').value = c.modes.join(', ');
+  if (c.ageGroups) document.getElementById('ev-ageGroups').value = c.ageGroups.join(', ');
+  if (c.askLanguage !== undefined) document.getElementById('ev-askLanguage').checked = c.askLanguage;
+  if (c.askDescription !== undefined) document.getElementById('ev-askDescription').checked = c.askDescription;
+  if (c.notes && c.notes.length > 0) document.getElementById('ev-culturalNotes').value = c.notes.join('\\n');
+}
+
+// Editable recipient list — client-side only, no backend changes
+let EVITE_RECIPIENT_LIST = []; // [{name, email, role?, added?}]
 
 async function eviteLoadRecipientPreview() {
   const type = document.getElementById('ev-recipientType').value;
   const previewEl = document.getElementById('ev-recipientPreview');
   const countEl = document.getElementById('ev-recipientCount');
+  const addRow = document.getElementById('ev-addRecipientRow');
   previewEl.style.display = 'block';
   previewEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading...';
 
   if (type === 'custom') {
+    addRow.style.display = 'none';
     const lines = (document.getElementById('ev-customEmails').value || '').split('\\n').filter(l => l.trim());
-    countEl.textContent = lines.length + ' recipient(s)';
-    previewEl.innerHTML = lines.map(l => '<div>' + l + '</div>').join('') || 'No emails entered.';
+    EVITE_RECIPIENT_LIST = lines.map(line => {
+      const m = line.match(/^(.+?)\\s*<(.+?)>$/);
+      if (m) return { name: m[1].trim(), email: m[2].trim() };
+      return { name: line.trim().split('@')[0], email: line.trim() };
+    }).filter(e => e.email.includes('@'));
+    eviteRenderRecipientTable();
     return;
   }
 
   try {
     const resp = await fetch(API + '/evite_recipients?type=' + encodeURIComponent(type));
+    if (!resp.ok) throw new Error('Endpoint not available (status ' + resp.status + ')');
     const data = await resp.json();
     if (data.members) {
-      const filtered = data.members;
-      countEl.textContent = filtered.length + ' recipient(s)';
-      let html = '<table style="width:100%;font-size:.78rem"><thead><tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Name</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Email</th></tr></thead><tbody>';
-      filtered.forEach(m => {
-        const name = m.name || m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0];
-        html += '<tr><td style="padding:4px 8px">' + name + '</td><td style="padding:4px 8px">' + (m.email || '') + '</td></tr>';
-      });
-      html += '</tbody></table>';
-      previewEl.innerHTML = html;
+      EVITE_RECIPIENT_LIST = data.members.map(m => ({
+        name: m.name || m.displayName || ((m.firstName || '') + ' ' + (m.lastName || '')).trim() || m.email.split('@')[0],
+        email: m.email || '',
+        role: m.role || ''
+      }));
+      addRow.style.display = 'block';
+      eviteRenderRecipientTable();
     } else {
       countEl.textContent = '';
+      addRow.style.display = 'none';
       previewEl.innerHTML = 'Could not load member list: ' + (data.error || 'unknown error');
     }
   } catch (e) {
     countEl.textContent = '';
-    previewEl.innerHTML = 'Error loading members: ' + e.message;
+    addRow.style.display = 'none';
+    previewEl.innerHTML = '<span style="color:var(--yellow)"><i class="fas fa-info-circle me-1"></i>Recipient preview unavailable — the backend will load ' + type + ' members automatically when you send. You can proceed with Send Invitations.</span>';
   }
+}
+
+function eviteRenderRecipientTable() {
+  const previewEl = document.getElementById('ev-recipientPreview');
+  const countEl = document.getElementById('ev-recipientCount');
+  countEl.textContent = EVITE_RECIPIENT_LIST.length + ' recipient(s)';
+  if (EVITE_RECIPIENT_LIST.length === 0) { previewEl.innerHTML = 'No recipients.'; return; }
+  let html = '<table style="width:100%;font-size:.78rem"><thead><tr><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Name</th><th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--line)">Email</th><th style="text-align:center;padding:4px 8px;border-bottom:1px solid var(--line);width:40px"></th></tr></thead><tbody>';
+  EVITE_RECIPIENT_LIST.forEach((m, i) => {
+    const badge = m.added ? ' <span style="background:var(--accent);color:#fff;font-size:.65rem;padding:1px 6px;border-radius:4px">added</span>' : '';
+    html += '<tr><td style="padding:4px 8px">' + (m.name || '') + badge + '</td><td style="padding:4px 8px">' + (m.email || '') + '</td>';
+    html += '<td style="text-align:center;padding:4px"><button onclick="eviteRemoveRecipient(' + i + ')" title="Remove" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:.9rem"><i class="fas fa-times-circle"></i></button></td></tr>';
+  });
+  html += '</tbody></table>';
+  previewEl.innerHTML = html;
+}
+
+function eviteRemoveRecipient(idx) {
+  EVITE_RECIPIENT_LIST.splice(idx, 1);
+  eviteRenderRecipientTable();
+}
+
+function eviteAddRecipient() {
+  const nameEl = document.getElementById('ev-addName');
+  const emailEl = document.getElementById('ev-addEmail');
+  const email = (emailEl.value || '').trim();
+  const name = (nameEl.value || '').trim() || email.split('@')[0];
+  if (!email || !email.includes('@')) { alert('Enter a valid email address.'); return; }
+  if (EVITE_RECIPIENT_LIST.some(r => r.email.toLowerCase() === email.toLowerCase())) { alert('Already in list.'); return; }
+  EVITE_RECIPIENT_LIST.push({ name, email, added: true });
+  nameEl.value = ''; emailEl.value = '';
+  eviteRenderRecipientTable();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  EVITE DASHBOARD FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════
+
+let EVITE_DASH_DATA = null;
+let EVITE_DASH_FILTER = 'all';
+let EVITE_DASH_TIMER = null;
+
+function eviteDashMsg(msg, isError) {
+  const el = document.getElementById('ev-dash-msg');
+  el.style.display = 'block';
+  el.style.color = isError ? '#ef4444' : 'var(--green)';
+  el.innerHTML = (isError ? '<i class="fas fa-times-circle me-1"></i>' : '<i class="fas fa-check-circle me-1"></i>') + msg;
+  if (!isError) setTimeout(() => { el.style.display = 'none'; }, 5000);
+}
+
+async function eviteLoadDashboard() {
+  if (!EVITE_CURRENT_EVENT_ID) return eviteDashMsg('Select an event first (use Refresh Events above).', true);
+  const msgEl = document.getElementById('ev-dash-msg');
+  msgEl.style.display = 'block';
+  msgEl.style.color = 'var(--muted)';
+  msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading dashboard...';
+  try {
+    const resp = await fetch(API + '/evite_invite_status?eventId=' + encodeURIComponent(EVITE_CURRENT_EVENT_ID));
+    const data = await resp.json();
+    if (data.error) return eviteDashMsg(data.error, true);
+    EVITE_DASH_DATA = data;
+    eviteRenderDashboard();
+    msgEl.style.display = 'none';
+
+    // auto-refresh
+    const autoEl = document.getElementById('ev-dash-auto-refresh');
+    if (autoEl.checked && !EVITE_DASH_TIMER) {
+      EVITE_DASH_TIMER = setInterval(eviteLoadDashboard, 30000);
+    }
+  } catch (e) {
+    eviteDashMsg('API error: ' + e.message, true);
+  }
+}
+
+document.getElementById('ev-dash-auto-refresh')?.addEventListener('change', function() {
+  if (this.checked) {
+    if (!EVITE_DASH_TIMER && EVITE_CURRENT_EVENT_ID) {
+      EVITE_DASH_TIMER = setInterval(eviteLoadDashboard, 30000);
+    }
+  } else {
+    clearInterval(EVITE_DASH_TIMER);
+    EVITE_DASH_TIMER = null;
+  }
+});
+
+function eviteKpi(value, label, colorClass) {
+  return '<div class="kpi ' + colorClass + '"><div class="v">' + value + '</div><div class="k">' + label + '</div></div>';
+}
+
+function eviteRenderDashboard() {
+  if (!EVITE_DASH_DATA) return;
+  const s = EVITE_DASH_DATA.summary;
+  const inv = EVITE_DASH_DATA.invitations || [];
+
+  // Response KPIs
+  document.getElementById('ev-dash-kpi-response').innerHTML =
+    eviteKpi(s.total, 'Total Invited', 'blue') +
+    eviteKpi(s.sent, 'Emails Sent', 'cyan') +
+    eviteKpi(s.responded, 'Responded', 'green') +
+    eviteKpi(s.pending, 'Pending', 'yellow') +
+    eviteKpi(s.attending, 'Attending', 'green') +
+    eviteKpi(s.declined, 'Declined', 'red') +
+    eviteKpi(s.maybe, 'Maybe', 'orange');
+
+  // Attendance KPIs
+  document.getElementById('ev-dash-kpi-attendance').innerHTML =
+    eviteKpi(s.totalGuests, 'Total Guests', 'purple') +
+    eviteKpi(s.totalAdults, 'Adults', 'blue') +
+    eviteKpi(s.totalKids, 'Kids', 'cyan');
+
+  // Food KPIs
+  var totalMeals = s.food.veg + s.food.nonVeg;
+  document.getElementById('ev-dash-kpi-food').innerHTML =
+    eviteKpi(totalMeals, 'Total Meals', 'orange') +
+    eviteKpi(s.food.veg, 'Vegetarian', 'green') +
+    eviteKpi(s.food.nonVeg, 'Non-Vegetarian', 'red') +
+    eviteKpi(s.food.special, 'Special Diet', 'purple');
+
+  // Dietary notes
+  var dnEl = document.getElementById('ev-dash-dietary-notes');
+  if (s.food.dietaryNotes && s.food.dietaryNotes.length > 0) {
+    dnEl.style.display = 'block';
+    var dnHtml = '<div style="font-size:.78rem;color:var(--muted);margin-top:6px"><strong>Dietary Notes:</strong><ul style="margin:4px 0 0 18px;padding:0">';
+    s.food.dietaryNotes.forEach(function(dn) {
+      dnHtml += '<li><strong>' + esc(dn.name) + ':</strong> ' + esc(dn.note) + '</li>';
+    });
+    dnHtml += '</ul></div>';
+    dnEl.innerHTML = dnHtml;
+  } else {
+    dnEl.style.display = 'none';
+  }
+
+  // Cultural KPIs
+  document.getElementById('ev-dash-kpi-cultural').innerHTML =
+    eviteKpi(s.cultural.participants, 'Participants', 'purple') +
+    eviteKpi(s.cultural.totalPerformances, 'Performances', 'pink');
+
+  // Performance details
+  var pfEl = document.getElementById('ev-dash-performances');
+  if (s.cultural.performances && s.cultural.performances.length > 0) {
+    pfEl.style.display = 'block';
+    var pfHtml = '<table class="t" style="font-size:.78rem;margin-top:6px"><thead><tr><th>Performer</th><th>Category</th><th>Mode</th><th>Age Group</th><th>Language</th><th>Description</th><th>Members</th></tr></thead><tbody>';
+    s.cultural.performances.forEach(function(p) {
+      pfHtml += '<tr><td>' + esc(p.performer) + '</td><td>' + esc(p.category) + '</td><td>' + esc(p.mode) + '</td><td>' + esc(p.ageGroup) + '</td><td>' + esc(p.language) + '</td><td>' + esc(p.description) + '</td><td>' + (p.memberCount || 1) + (p.memberNames && p.memberNames.length ? ' (' + p.memberNames.map(esc).join(', ') + ')' : '') + '</td></tr>';
+    });
+    pfHtml += '</tbody></table>';
+    pfEl.innerHTML = pfHtml;
+  } else {
+    pfEl.style.display = 'none';
+  }
+
+  document.getElementById('ev-dash-summary').style.display = 'block';
+  document.getElementById('ev-dash-detail').style.display = 'block';
+
+  // Render detail table
+  eviteRenderDetailTable();
+}
+
+function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function eviteRenderDetailTable() {
+  if (!EVITE_DASH_DATA) return;
+  var inv = EVITE_DASH_DATA.invitations || [];
+  var filter = EVITE_DASH_FILTER;
+  var filtered = inv;
+  if (filter === 'yes') filtered = inv.filter(function(i) { return i.rsvpStatus === 'yes'; });
+  else if (filter === 'no') filtered = inv.filter(function(i) { return i.rsvpStatus === 'no'; });
+  else if (filter === 'maybe') filtered = inv.filter(function(i) { return i.rsvpStatus === 'maybe'; });
+  else if (filter === 'pending') filtered = inv.filter(function(i) { return !i.responded; });
+
+  var tbody = document.getElementById('ev-dash-tbody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:var(--dim);padding:20px">No responses matching this filter.</td></tr>';
+    return;
+  }
+
+  var html = '';
+  filtered.forEach(function(inv, idx) {
+    var statusBadge = '';
+    if (inv.rsvpStatus === 'yes') statusBadge = '<span class="badge-s badge-green">Attending</span>';
+    else if (inv.rsvpStatus === 'no') statusBadge = '<span class="badge-s badge-red">Declined</span>';
+    else if (inv.rsvpStatus === 'maybe') statusBadge = '<span class="badge-s badge-yellow">Maybe</span>';
+    else statusBadge = '<span class="badge-s badge-dim">Pending</span>';
+
+    var culturalInfo = '';
+    if (inv.culturalParticipant && inv.cultural && inv.cultural.performances) {
+      culturalInfo = '<span class="badge-s badge-purple">Yes (' + inv.cultural.performances.length + ')</span>';
+    } else if (inv.culturalParticipant) {
+      culturalInfo = '<span class="badge-s badge-purple">Yes</span>';
+    } else if (inv.responded) {
+      culturalInfo = '<span class="badge-s badge-dim">No</span>';
+    } else {
+      culturalInfo = '—';
+    }
+
+    var respondedAt = inv.respondedAt ? new Date(inv.respondedAt).toLocaleString() : '—';
+    var dietary = inv.dietary ? inv.dietary.replace(/_/g, ' ') : '—';
+
+    html += '<tr>' +
+      '<td>' + (idx + 1) + '</td>' +
+      '<td>' + esc(inv.recipientName) + '</td>' +
+      '<td style="font-size:.75rem">' + esc(inv.recipientEmail) + '</td>' +
+      '<td>' + statusBadge + '</td>' +
+      '<td style="text-align:center">' + (inv.adults || '—') + '</td>' +
+      '<td style="text-align:center">' + (inv.kids || '—') + '</td>' +
+      '<td style="text-align:center">' + (inv.vegCount || '—') + '</td>' +
+      '<td style="text-align:center">' + (inv.nonVegCount || '—') + '</td>' +
+      '<td>' + dietary + '</td>' +
+      '<td>' + culturalInfo + '</td>' +
+      '<td style="max-width:150px;font-size:.75rem;word-break:break-word">' + esc(inv.notes) + '</td>' +
+      '<td style="font-size:.72rem;white-space:nowrap">' + respondedAt + '</td></tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function eviteDashFilter(f) {
+  EVITE_DASH_FILTER = f;
+  document.querySelectorAll('.ev-df-btn').forEach(function(btn) { btn.classList.remove('active'); });
+  event.target.classList.add('active');
+  eviteRenderDetailTable();
+}
+
+function eviteExportDashboard() {
+  if (!EVITE_DASH_DATA || !EVITE_DASH_DATA.invitations) return eviteDashMsg('Load the dashboard first.', true);
+  var inv = EVITE_DASH_DATA.invitations;
+  var csv = 'Name,Email,Status,Adults,Kids,Veg,NonVeg,Dietary,Cultural Participant,Notes,Responded At\\n';
+  inv.forEach(function(i) {
+    csv += '"' + (i.recipientName || '').replace(/"/g, '""') + '","' +
+      (i.recipientEmail || '') + '",' +
+      (i.rsvpStatus || 'pending') + ',' +
+      (i.adults || 0) + ',' + (i.kids || 0) + ',' +
+      (i.vegCount || 0) + ',' + (i.nonVegCount || 0) + ',"' +
+      (i.dietary || '').replace(/"/g, '""') + '",' +
+      (i.culturalParticipant ? 'Yes' : 'No') + ',"' +
+      (i.notes || '').replace(/"/g, '""') + '",' +
+      (i.respondedAt ? new Date(i.respondedAt).toLocaleString() : '') + '\\n';
+  });
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'evite-rsvp-responses.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -3929,6 +6421,46 @@ async function reverseEcSuspension(id) {
   } catch(e) { alert('API error: ' + e.message); }
 }
 
+// ── Revoke EC Admin Role (President Only) ──
+async function revokeEcAdminRole() {
+  var member = document.getElementById('revoke-member').value;
+  var reason = document.getElementById('revoke-reason').value.trim();
+  var msgEl = document.getElementById('revoke-msg');
+
+  if (!CURRENT_ADMIN || CURRENT_ADMIN.email !== 'ranadhir.ghosh@gmail.com') {
+    showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-lock me-1"></i>Only the BANF President can revoke EC admin roles.');
+    return;
+  }
+  if (!member) { showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-exclamation-circle me-1"></i>Please select an EC member.'); return; }
+  if (!reason) { showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-exclamation-circle me-1"></i>Please provide a reason.'); return; }
+
+  if (!confirm('⚠️ REVOKE EC ADMIN ROLE\\n\\nThis will immediately revoke admin portal access for:\\n' + member + '\\n\\nReason: ' + reason + '\\n\\nThe member will see a "role revoked" message on their next login attempt.\\n\\nAre you sure?')) return;
+
+  showRevokeMsg(msgEl, 'var(--accent)', '<i class="fas fa-spinner fa-spin me-1"></i>Revoking EC admin role...');
+
+  try {
+    var result = await apiCall('admin_role_revoke', {
+      adminKey: 'banf-bosonto-2026-live',
+      presidentEmail: CURRENT_ADMIN.email,
+      email: member,
+      reason: reason
+    });
+    if (result && result.success) {
+      showRevokeMsg(msgEl, 'var(--green)', '<i class="fas fa-check-circle me-1"></i>EC admin role revoked for ' + member + '. They will no longer be able to log in to the admin portal.');
+      addLog('EC_REVOKE', 'Role revoked for ' + member + ' — Reason: ' + reason);
+      document.getElementById('revoke-reason').value = '';
+      document.getElementById('revoke-member').value = '';
+    } else {
+      showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-times-circle me-1"></i>' + (result.error || 'Revocation failed.'));
+    }
+  } catch(e) {
+    showRevokeMsg(msgEl, '#dc2626', '<i class="fas fa-times-circle me-1"></i>API error: ' + e.message);
+  }
+}
+function showRevokeMsg(el, color, html) {
+  el.style.display = 'block'; el.style.color = color; el.innerHTML = html;
+}
+
 function renderAll(){
   document.getElementById('dash-kpis').innerHTML=[
     {v:ROLES.length,k:'Defined Roles',cls:'blue'},
@@ -3944,17 +6476,220 @@ function renderAll(){
 }
 
 // ═══════════════════════════════════════════════════════════════════════
+//  EC PROFILE: Photo upload + text editing
+// ═══════════════════════════════════════════════════════════════════════
+var _ecProfileLoaded = false;
+var _ecProfilePhotoData = null; // base64 data URL
+
+function updateProfileCharCount(field, max) {
+  var el = document.getElementById('ec-profile-' + field);
+  var cnt = document.getElementById('ec-profile-' + field + '-count');
+  if (el && cnt) cnt.textContent = el.value.length + '/' + max;
+  updateProfilePreview();
+}
+
+function handleProfilePhotoUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+  if (file.size > 5 * 1024 * 1024) { alert('Image too large. Max 5MB before resize.'); return; }
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      // Resize to 400x400 square, center crop
+      var canvas = document.createElement('canvas');
+      canvas.width = 400; canvas.height = 400;
+      var ctx = canvas.getContext('2d');
+      var size = Math.min(img.width, img.height);
+      var sx = (img.width - size) / 2;
+      var sy = (img.height - size) / 2;
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, 400, 400);
+      var dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      if (dataUrl.length > 700000) {
+        dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+      }
+      if (dataUrl.length > 700000) {
+        alert('Image still too large after compression. Try a smaller photo.');
+        return;
+      }
+      _ecProfilePhotoData = dataUrl;
+      var preview = document.getElementById('ec-profile-photo-preview');
+      var placeholder = document.getElementById('ec-profile-photo-placeholder');
+      preview.src = dataUrl;
+      preview.style.display = 'block';
+      placeholder.style.display = 'none';
+      updateProfilePreview();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearProfilePhoto() {
+  _ecProfilePhotoData = null;
+  var preview = document.getElementById('ec-profile-photo-preview');
+  var placeholder = document.getElementById('ec-profile-photo-placeholder');
+  preview.src = ''; preview.style.display = 'none';
+  placeholder.style.display = 'block';
+  document.getElementById('ec-profile-photo-input').value = '';
+  updateProfilePreview();
+}
+
+function updateProfilePreview() {
+  if (!CURRENT_ADMIN) return;
+  var card = document.getElementById('ec-profile-preview-card');
+  card.style.display = 'block';
+
+  var nameEl = document.getElementById('ec-preview-name');
+  nameEl.textContent = (CURRENT_ADMIN.firstName || '') + ' ' + (CURRENT_ADMIN.lastName || '');
+
+  var titleEl = document.getElementById('ec-preview-title');
+  titleEl.textContent = CURRENT_ADMIN.ecTitle || 'EC Member';
+
+  var summaryEl = document.getElementById('ec-preview-summary');
+  summaryEl.textContent = document.getElementById('ec-profile-summary').value || '(No summary yet)';
+
+  var detailParts = [];
+  var edu = document.getElementById('ec-profile-education').value;
+  var prof = document.getElementById('ec-profile-profession').value;
+  var interests = document.getElementById('ec-profile-interests').value;
+  if (edu) detailParts.push('<i class="fas fa-graduation-cap me-1"></i>' + edu);
+  if (prof) detailParts.push('<i class="fas fa-briefcase me-1"></i>' + prof);
+  if (interests) detailParts.push('<i class="fas fa-heart me-1"></i>' + interests);
+  document.getElementById('ec-preview-details').innerHTML = detailParts.join(' &nbsp;|&nbsp; ');
+
+  var photoDiv = document.getElementById('ec-preview-photo');
+  var initialsEl = document.getElementById('ec-preview-initials');
+  if (_ecProfilePhotoData) {
+    photoDiv.innerHTML = '<img src="' + _ecProfilePhotoData + '" style="width:100%;height:100%;object-fit:cover">';
+  } else {
+    var initials = ((CURRENT_ADMIN.firstName || '?')[0] + (CURRENT_ADMIN.lastName || '?')[0]).toUpperCase();
+    photoDiv.innerHTML = '';
+    initialsEl = document.createElement('span');
+    initialsEl.style.cssText = 'font-size:2rem;font-weight:800;color:#fff';
+    initialsEl.textContent = initials;
+    photoDiv.appendChild(initialsEl);
+  }
+}
+
+function loadECProfile() {
+  if (!CURRENT_ADMIN || !CURRENT_ADMIN.email) return;
+
+  // Fill read-only fields
+  document.getElementById('ec-profile-firstName').value = CURRENT_ADMIN.firstName || '';
+  document.getElementById('ec-profile-lastName').value = CURRENT_ADMIN.lastName || '';
+  document.getElementById('ec-profile-ecTitle').value = CURRENT_ADMIN.ecTitle || '';
+  document.getElementById('ec-profile-email').value = CURRENT_ADMIN.email || '';
+
+  if (_ecProfileLoaded) return; // Only fetch from API once per session
+
+  var statusEl = document.getElementById('ec-profile-status');
+  statusEl.textContent = 'Loading profile...';
+  statusEl.style.color = 'var(--muted)';
+
+  fetch(API + '/ec_get_ec_profile?email=' + encodeURIComponent(CURRENT_ADMIN.email), {
+    headers: { 'x-user-email': CURRENT_ADMIN.email }
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.profile) {
+      var p = data.profile;
+      if (p.profilePhoto) {
+        _ecProfilePhotoData = p.profilePhoto;
+        var preview = document.getElementById('ec-profile-photo-preview');
+        var placeholder = document.getElementById('ec-profile-photo-placeholder');
+        preview.src = p.profilePhoto;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+      if (p.profileSummary) document.getElementById('ec-profile-summary').value = p.profileSummary;
+      if (p.profileBio) document.getElementById('ec-profile-bio').value = p.profileBio;
+      if (p.profileEducation) document.getElementById('ec-profile-education').value = p.profileEducation;
+      if (p.profileProfession) document.getElementById('ec-profile-profession').value = p.profileProfession;
+      if (p.profileInterests) document.getElementById('ec-profile-interests').value = p.profileInterests;
+      updateProfileCharCount('summary', 300);
+      updateProfileCharCount('bio', 2000);
+      statusEl.textContent = p.profileUpdatedAt ? 'Last saved: ' + new Date(p.profileUpdatedAt).toLocaleString() : '';
+    } else {
+      statusEl.textContent = 'No profile saved yet. Fill in your details and click Save.';
+    }
+    updateProfilePreview();
+    _ecProfileLoaded = true;
+  })
+  .catch(function(err) {
+    statusEl.textContent = 'Could not load profile. You can still fill in details and save.';
+    statusEl.style.color = 'var(--orange)';
+    updateProfilePreview();
+  });
+}
+
+function saveECProfile() {
+  if (!CURRENT_ADMIN || !CURRENT_ADMIN.email) { alert('Not logged in.'); return; }
+
+  var btn = document.getElementById('ec-profile-save-btn');
+  var statusEl = document.getElementById('ec-profile-status');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
+  statusEl.textContent = '';
+
+  var body = {
+    email: CURRENT_ADMIN.email,
+    profileSummary: document.getElementById('ec-profile-summary').value.trim(),
+    profileBio: document.getElementById('ec-profile-bio').value.trim(),
+    profileEducation: document.getElementById('ec-profile-education').value.trim(),
+    profileProfession: document.getElementById('ec-profile-profession').value.trim(),
+    profileInterests: document.getElementById('ec-profile-interests').value.trim()
+  };
+  if (_ecProfilePhotoData) body.profilePhoto = _ecProfilePhotoData;
+
+  fetch(API + '/ec_update_ec_profile', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-user-email': CURRENT_ADMIN.email },
+    body: JSON.stringify(body)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save me-1"></i>Save Profile';
+    if (data.success) {
+      statusEl.textContent = 'Profile saved! ' + new Date().toLocaleString();
+      statusEl.style.color = 'var(--green)';
+      addLog('PROFILE', 'EC profile updated by ' + CURRENT_ADMIN.email);
+    } else {
+      statusEl.textContent = 'Save failed: ' + (data.error || 'Unknown error');
+      statusEl.style.color = 'var(--red)';
+    }
+  })
+  .catch(function(err) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-save me-1"></i>Save Profile';
+    statusEl.textContent = 'Network error. Please try again.';
+    statusEl.style.color = 'var(--red)';
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
 //  AUTO-LOGIN: Check sessionStorage on page load
 // ═══════════════════════════════════════════════════════════════════════
 (function autoLoginCheck() {
   try {
     var session = JSON.parse(sessionStorage.getItem('banf_admin_session') || 'null');
     if (session && session.email) {
+      // Re-validate: session email must exist in AUTH_DB with a valid EC/admin role
       var dbUser = AUTH_DB[session.email];
+      var validRoles = ['super-admin','admin','ec-member','business-stakeholder'];
+      var sessionRoles = session.roles || (dbUser ? dbUser.roles : []);
+      var hasValidRole = sessionRoles.some(function(r) { return validRoles.indexOf(r) >= 0; });
+      if (!dbUser && !hasValidRole) {
+        sessionStorage.removeItem('banf_admin_session');
+        return; // Forged session — reject
+      }
       CURRENT_ADMIN = {
         email: session.email,
-        roles: session.roles || (dbUser ? dbUser.roles : ['ec-member']),
-        role: (session.roles || [])[0] || (dbUser ? dbUser.roles[0] : 'ec-member'),
+        roles: dbUser ? dbUser.roles : sessionRoles,
+        role: (dbUser ? dbUser.roles[0] : sessionRoles[0]) || 'ec-member',
         firstName: session.firstName || (dbUser ? dbUser.firstName : ''),
         lastName: session.lastName || (dbUser ? dbUser.lastName : ''),
         ecTitle: session.ecTitle || (dbUser ? dbUser.ecTitle : ''),
