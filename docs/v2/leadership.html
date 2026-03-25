@@ -399,9 +399,37 @@
             if (e.key === 'Escape') closeEcModal();
         });
 
-        // Render on load
+        // Render hardcoded data first, then overlay dynamic API data
         document.addEventListener('DOMContentLoaded', function() {
             renderECCards();
+            // Fetch live profiles from API and overlay onto hardcoded data
+            fetch('https://www.jaxbengali.org/_functions/ec_members_profiles')
+              .then(function(r) { return r.json(); })
+              .then(function(data) {
+                if (!data.success || !data.profiles || !data.profiles.length) return;
+                var updated = false;
+                data.profiles.forEach(function(p) {
+                  // Match by email (most reliable)
+                  var m = EC_MEMBERS.find(function(x) { return x.email === p.email; });
+                  if (!m) return;
+                  // Overlay dynamic fields if they have content
+                  if (p.profilePhoto && p.profilePhoto.length > 100) { m.photoUrl = p.profilePhoto; updated = true; }
+                  if (p.profileSummary) { m.summary = p.profileSummary; updated = true; }
+                  if (p.profileBio) { m.fullBio = p.profileBio; updated = true; }
+                  if (p.profileEducation) { m.education = p.profileEducation; updated = true; }
+                  if (p.profileProfession) { m.profession = p.profileProfession; updated = true; }
+                  if (p.profileInterests) {
+                    m.interests = p.profileInterests.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+                    updated = true;
+                  }
+                  if (p.firstName && p.lastName) {
+                    var fullName = (p.firstName + ' ' + p.lastName).trim();
+                    if (fullName.length > 2) { m.name = fullName; updated = true; }
+                  }
+                });
+                if (updated) renderECCards();
+              })
+              .catch(function() { /* Silently use hardcoded data as fallback */ });
         });
 
         // CRM override for EC photos

@@ -1,6 +1,6 @@
 // Auto-generated - do not edit directly
-// Source: admin-portal.html (449544 bytes)
-// Generated: 2026-03-24T16:42:29.603Z
+// Source: admin-portal.html (471638 bytes)
+// Generated: 2026-03-24T18:21:59.166Z
 export function getHtml() { return `﻿<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1780,6 +1780,7 @@ We will try our best to accommodate every request. If demand exceeds the allotte
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
           <button onclick="eviteLoadDashboard()" class="btn-primary"><i class="fas fa-sync-alt me-1"></i>Load / Refresh Dashboard</button>
           <button onclick="eviteExportDashboard()" class="btn-secondary"><i class="fas fa-download me-1"></i>Export CSV</button>
+          <a href="https://banfjax-hash.github.io/banf/rsvp-dashboard.html" target="_blank" style="background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(249,115,22,.15));border:1px solid rgba(168,85,247,.3);color:var(--purple);padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px"><i class="fas fa-chart-pie"></i> Full RSVP Analytics Dashboard</a>
           <label style="font-size:.75rem;color:var(--muted);margin-left:auto;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="ev-dash-auto-refresh" style="accent-color:var(--accent)"> Auto-refresh (30s)</label>
         </div>
         <div id="ev-dash-msg" style="font-size:.82rem;display:none;margin-bottom:10px"></div>
@@ -1821,6 +1822,81 @@ We will try our best to accommodate every request. If demand exceeds the allotte
               </thead>
               <tbody id="ev-dash-tbody"></tbody>
             </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Scan Attendance Report -->
+      <div class="card-a" id="ev-scan-report-card">
+        <h2><i class="fas fa-envelope-open-text"></i> Email Scan Attendance Report</h2>
+        <p style="font-size:.78rem;color:var(--muted);margin-bottom:12px">AI-powered email scan report &mdash; parses RSVP responses from inbox emails using LLM. Complementary to the invite-based RSVP dashboard above.</p>
+
+        <!-- Scan Controls -->
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
+          <button onclick="evScanLoadReport()" class="btn-primary"><i class="fas fa-sync-alt me-1"></i>Load Report</button>
+          <button onclick="evScanInbox(false)" style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer"><i class="fas fa-envelope me-1"></i>Scan New Emails</button>
+          <button onclick="evScanInbox(true)" class="btn-secondary"><i class="fas fa-redo me-1"></i>Re-scan All</button>
+          <button onclick="evScanExportCSV()" class="btn-secondary"><i class="fas fa-download me-1"></i>Export CSV</button>
+          <a href="https://banfjax-hash.github.io/banf/rsvp-dashboard.html" target="_blank" style="background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(249,115,22,.15));border:1px solid rgba(168,85,247,.3);color:var(--purple);padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px"><i class="fas fa-chart-pie"></i> Full RSVP Analytics Dashboard</a>
+          <a href="https://banfjax-hash.github.io/banf/evite-report.html" target="_blank" style="background:var(--bg2);border:1px solid var(--line);color:var(--accent);padding:8px 18px;border-radius:8px;font-size:.82rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px"><i class="fas fa-external-link-alt"></i> Standalone Email Scan Report</a>
+          <label style="font-size:.75rem;color:var(--muted);margin-left:auto;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="ev-scan-auto-refresh" style="accent-color:var(--accent)"> Auto-refresh (30s)</label>
+        </div>
+        <div id="ev-scan-msg" style="font-size:.82rem;display:none;margin-bottom:10px"></div>
+        <div id="ev-scan-summary" style="font-size:.82rem;color:var(--dim);margin-bottom:12px;display:none"></div>
+
+        <!-- 10 KPI Summary Cards -->
+        <div id="ev-scan-kpis" style="display:none;margin-bottom:16px">
+          <h3 style="font-size:.82rem;color:var(--muted);margin-bottom:8px"><i class="fas fa-poll me-1"></i>Scan Summary</h3>
+          <div class="kpi-grid" id="ev-scan-kpi-grid"></div>
+        </div>
+
+        <!-- Tabbed Report View -->
+        <div id="ev-scan-tabs-wrap" style="display:none">
+          <div style="display:flex;gap:0;border-bottom:2px solid rgba(255,255,255,.1);margin-bottom:0">
+            <div class="ev-scan-tab active" onclick="evScanSwitchTab('attending')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid var(--accent);margin-bottom:-2px;color:#fff">Attending</div>
+            <div class="ev-scan-tab" onclick="evScanSwitchTab('declined')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--dim)">Declined</div>
+            <div class="ev-scan-tab" onclick="evScanSwitchTab('maybe')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--dim)">Maybe</div>
+            <div class="ev-scan-tab" onclick="evScanSwitchTab('unclear')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--dim)">Unclear</div>
+            <div class="ev-scan-tab" onclick="evScanSwitchTab('dietary')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--dim)">Dietary</div>
+            <div class="ev-scan-tab" onclick="evScanSwitchTab('notes')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--dim)">Notes</div>
+            <div class="ev-scan-tab" onclick="evScanSwitchTab('review')" style="padding:8px 16px;font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:var(--dim)">Review</div>
+          </div>
+          <!-- Search & toolbar -->
+          <div style="display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;align-items:center">
+            <input id="ev-scan-filter" placeholder="Filter by name / email / notes..." oninput="evScanApplyFilter()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.82rem;width:250px"/>
+          </div>
+
+          <!-- Attending Tab -->
+          <div id="ev-scan-tab-attending" class="ev-scan-tabcontent" style="display:block">
+            <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-attending"></tr></thead><tbody id="ev-scan-tbody-attending"></tbody></table></div>
+          </div>
+          <!-- Declined Tab -->
+          <div id="ev-scan-tab-declined" class="ev-scan-tabcontent" style="display:none">
+            <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-declined"></tr></thead><tbody id="ev-scan-tbody-declined"></tbody></table></div>
+          </div>
+          <!-- Maybe Tab -->
+          <div id="ev-scan-tab-maybe" class="ev-scan-tabcontent" style="display:none">
+            <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-maybe"></tr></thead><tbody id="ev-scan-tbody-maybe"></tbody></table></div>
+          </div>
+          <!-- Unclear Tab -->
+          <div id="ev-scan-tab-unclear" class="ev-scan-tabcontent" style="display:none">
+            <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-unclear"></tr></thead><tbody id="ev-scan-tbody-unclear"></tbody></table></div>
+          </div>
+          <!-- Dietary Tab -->
+          <div id="ev-scan-tab-dietary" class="ev-scan-tabcontent" style="display:none">
+            <h3 style="font-size:.82rem;color:var(--muted);margin-bottom:8px"><i class="fas fa-utensils me-1"></i>Dietary Breakdown (Confirmed Attending)</h3>
+            <div class="kpi-grid" id="ev-scan-diet-grid" style="margin-bottom:12px"></div>
+            <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-dietary"></tr></thead><tbody id="ev-scan-tbody-dietary"></tbody></table></div>
+          </div>
+          <!-- Notes Tab -->
+          <div id="ev-scan-tab-notes" class="ev-scan-tabcontent" style="display:none">
+            <h3 style="font-size:.82rem;color:var(--muted);margin-bottom:8px"><i class="fas fa-sticky-note me-1"></i>Special Requests &amp; Notes</h3>
+            <div id="ev-scan-notes-list"></div>
+          </div>
+          <!-- Review Tab -->
+          <div id="ev-scan-tab-review" class="ev-scan-tabcontent" style="display:none">
+            <div id="ev-scan-review-alert" style="background:rgba(255,200,0,.1);border:1px solid rgba(255,200,0,.3);border-radius:8px;padding:10px 14px;margin-bottom:10px;font-size:.82rem"></div>
+            <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-review"></tr></thead><tbody id="ev-scan-tbody-review"></tbody></table></div>
           </div>
         </div>
       </div>
@@ -3277,8 +3353,9 @@ async function loadEventExpenses() {
   const priv = isExpensePrivileged();
   const pres = isPresident();
   cardsDiv.innerHTML = evts.sort((a,b) => b.total - a.total).map(ev => {
+    const approvedByLink = ev.approvedBy ? _ldMemberLink(ev.approvedBy, ev.approvedBy) : '';
     const statusBadge = ev.approved
-      ? '<span style="background:#22c55e22;color:var(--green);padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock me-1"></i>Approved by ' + (ev.approvedBy || '') + '</span>'
+      ? '<span style="background:#22c55e22;color:var(--green);padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock me-1"></i>Approved by ' + approvedByLink + '</span>'
       : '<span style="background:#eab30822;color:#eab308;padding:2px 8px;border-radius:4px;font-size:.72rem;font-weight:600"><i class="fas fa-lock-open me-1"></i>Pending Approval</span>';
     const approveBtn = priv && !ev.approved ? '<button onclick="approveEventExpense(\\'' + ev.eventId + '\\',\\'' + (ev.eventName||'').replace(/'/g,"\\\\'") + '\\')" style="background:var(--green);color:#000;border:none;padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;font-weight:600"><i class="fas fa-check me-1"></i>Approve & Lock</button>' : '';
     const unlockBtn = pres && ev.approved ? '<button onclick="unlockEventExpense(\\'' + ev.eventId + '\\')" style="background:var(--red);color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;font-weight:600"><i class="fas fa-unlock me-1"></i>Unlock (Exception)</button>' : '';
@@ -3287,7 +3364,8 @@ async function loadEventExpenses() {
     const rows = entries.map(e => {
       const dt = new Date(e.entryDate);
       const editBtn = priv && !ev.locked ? '<button onclick="openEditExpenseModal(\\'' + e.id + '\\',\\'' + ev.eventId + '\\',\\'' + (ev.eventName||'').replace(/'/g,"\\\\'") + '\\')" style="background:none;border:none;color:var(--blue);cursor:pointer;font-size:.78rem" title="Edit"><i class="fas fa-edit"></i></button>' : '';
-      return '<tr><td>' + dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + '</td><td style="text-transform:capitalize">' + (e.category||'').replace(/_/g,' ') + '</td><td>' + (e.description||'') + '</td><td style="text-align:right;color:var(--red);font-weight:600">$' + (e.amount||0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td>' + (e.payerOrPayee||'') + '</td><td style="font-size:.72rem;color:var(--muted)">' + (e.source||'') + '</td><td>' + editBtn + '</td></tr>';
+      const paidToCell = e.payerOrPayee ? _ldMemberLink(e.payerOrPayee, e.payerOrPayee) : '';
+      return '<tr><td>' + dt.toLocaleDateString('en-US',{month:'short',day:'numeric'}) + '</td><td style="text-transform:capitalize">' + (e.category||'').replace(/_/g,' ') + '</td><td>' + (e.description||'') + '</td><td style="text-align:right;color:var(--red);font-weight:600">$' + (e.amount||0).toLocaleString('en-US',{minimumFractionDigits:2}) + '</td><td>' + paidToCell + '</td><td style="font-size:.72rem;color:var(--muted)">' + (e.source||'') + '</td><td>' + editBtn + '</td></tr>';
     }).join('');
 
     return '<div style="background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px">' +
@@ -6375,6 +6453,296 @@ function eviteExportDashboard() {
 }
 
 // ═══════════════════════════════════════════════════════════════════
+//  EMAIL SCAN ATTENDANCE REPORT (evite_attendance_report API)
+// ═══════════════════════════════════════════════════════════════════
+
+var EV_SCAN_DATA = null;
+var EV_SCAN_SORT = {};
+var EV_SCAN_TIMER = null;
+
+var EV_SCAN_COLS = [
+  { key:'senderName', label:'Name', sortable:true },
+  { key:'email', label:'Email', sortable:true },
+  { key:'rsvpStatus', label:'RSVP', sortable:true },
+  { key:'adults', label:'Adults', sortable:true },
+  { key:'kids', label:'Kids', sortable:true },
+  { key:'totalAttendees', label:'Total', sortable:true },
+  { key:'dietary', label:'Dietary', sortable:true },
+  { key:'vegCount', label:'Veg#', sortable:true },
+  { key:'nonVegCount', label:'NonVeg#', sortable:true },
+  { key:'notes', label:'Notes', sortable:false },
+  { key:'llmConfidence', label:'Confidence', sortable:true },
+  { key:'receivedAt', label:'Received', sortable:true }
+];
+
+function evScanMsg(msg, isError) {
+  var el = document.getElementById('ev-scan-msg');
+  el.style.display = 'block';
+  el.style.color = isError ? '#ef4444' : 'var(--green)';
+  el.innerHTML = (isError ? '<i class="fas fa-times-circle me-1"></i>' : '<i class="fas fa-check-circle me-1"></i>') + msg;
+  if (!isError) setTimeout(function() { el.style.display = 'none'; }, 5000);
+}
+
+async function evScanLoadReport() {
+  if (!EVITE_CURRENT_EVENT_ID) return evScanMsg('Select an event first (use Refresh Events above).', true);
+  var msgEl = document.getElementById('ev-scan-msg');
+  msgEl.style.display = 'block';
+  msgEl.style.color = 'var(--muted)';
+  msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading email scan report...';
+  try {
+    var resp = await fetch(API + '/evite_attendance_report?eventId=' + encodeURIComponent(EVITE_CURRENT_EVENT_ID));
+    var data = await resp.json();
+    if (!data.success && data.error) return evScanMsg(data.error, true);
+    EV_SCAN_DATA = data.worksheet || data;
+    evScanRenderAll();
+    msgEl.style.display = 'none';
+    // auto-refresh
+    var autoEl = document.getElementById('ev-scan-auto-refresh');
+    if (autoEl && autoEl.checked && !EV_SCAN_TIMER) {
+      EV_SCAN_TIMER = setInterval(evScanLoadReport, 30000);
+    }
+  } catch(e) {
+    evScanMsg('API error: ' + e.message, true);
+  }
+}
+
+document.getElementById('ev-scan-auto-refresh')?.addEventListener('change', function() {
+  if (this.checked) {
+    if (!EV_SCAN_TIMER && EVITE_CURRENT_EVENT_ID) EV_SCAN_TIMER = setInterval(evScanLoadReport, 30000);
+  } else {
+    clearInterval(EV_SCAN_TIMER);
+    EV_SCAN_TIMER = null;
+  }
+});
+
+async function evScanInbox(rescanAll) {
+  if (!EVITE_CURRENT_EVENT_ID) return evScanMsg('Select an event first.', true);
+  var msgEl = document.getElementById('ev-scan-msg');
+  msgEl.style.display = 'block';
+  msgEl.style.color = 'var(--muted)';
+  msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>' + (rescanAll ? 'Re-scanning all emails (LLM)...' : 'Scanning new emails (LLM parse)...') + ' This may take 1-2 minutes.';
+  var sumEl = document.getElementById('ev-scan-summary');
+  sumEl.style.display = 'block';
+  sumEl.textContent = 'Processing...';
+  try {
+    var resp = await fetch(API + '/evite_scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ eventId: EVITE_CURRENT_EVENT_ID, rescanAll: !!rescanAll, maxEmails: 200 })
+    });
+    var d = await resp.json();
+    if (d.success) {
+      sumEl.textContent = 'Scanned ' + (d.matched || 0) + ' matching emails | Newly parsed: ' + (d.newlyParsed || 0) + ' | Errors: ' + (d.errors ? d.errors.length : 0);
+      evScanMsg('Scan complete - ' + (d.newlyParsed || 0) + ' new RSVPs parsed');
+      await evScanLoadReport();
+    } else {
+      evScanMsg(d.error || 'Scan failed', true);
+      sumEl.textContent = 'Scan failed: ' + (d.error || 'Unknown error');
+    }
+  } catch(e) {
+    evScanMsg('Error: ' + e.message, true);
+    sumEl.textContent = 'Error: ' + e.message;
+  }
+}
+
+function evScanRenderAll() {
+  if (!EV_SCAN_DATA) return;
+  var w = EV_SCAN_DATA;
+  // KPIs
+  var s = w.summary || {};
+  var h = w.headcount || {};
+  var kpiGrid = document.getElementById('ev-scan-kpi-grid');
+  kpiGrid.innerHTML =
+    eviteKpi(s.attending || 0, 'Attending', 'green') +
+    eviteKpi(s.notAttending || 0, 'Declined', 'red') +
+    eviteKpi(s.maybe || 0, 'Maybe', 'yellow') +
+    eviteKpi(s.unclear || 0, 'Unclear', '') +
+    eviteKpi(h.adults || 0, 'Adults', 'blue') +
+    eviteKpi(h.kids || 0, 'Kids', 'cyan') +
+    eviteKpi(h.vegCount || 0, 'Veg Meals', 'green') +
+    eviteKpi(h.nonVegCount || 0, 'Non-Veg', 'orange') +
+    eviteKpi(h.totalHeads || 0, 'Total Heads', 'purple') +
+    eviteKpi(h.capacityRemaining !== null && h.capacityRemaining !== undefined ? h.capacityRemaining : '--', 'Capacity Left', '');
+  document.getElementById('ev-scan-kpis').style.display = '';
+  document.getElementById('ev-scan-tabs-wrap').style.display = '';
+
+  // Tables
+  evScanBuildTable('attending', (w.rows && w.rows.attending) || []);
+  evScanBuildTable('declined', (w.rows && w.rows.notAttending) || []);
+  evScanBuildTable('maybe', (w.rows && w.rows.maybe) || []);
+  evScanBuildTable('unclear', (w.rows && w.rows.unclear) || []);
+  evScanBuildTable('dietary', (w.rows && w.rows.attending) || []);
+  evScanBuildTable('review', w.needsReview || []);
+
+  // Dietary breakdown
+  var dietGrid = document.getElementById('ev-scan-diet-grid');
+  var bd = (w.dietary && w.dietary.breakdown) || {};
+  var dietLabels = { vegetarian: 'Vegetarian', non_vegetarian: 'Non-Veg', vegan: 'Vegan', mixed: 'Mixed', unknown: 'Unknown' };
+  var dietColors = { vegetarian: 'green', non_vegetarian: 'red', vegan: 'purple', mixed: 'orange', unknown: '' };
+  var dietHtml = '';
+  for (var dk in bd) {
+    dietHtml += eviteKpi(bd[dk] || 0, dietLabels[dk] || dk, dietColors[dk] || '');
+  }
+  dietGrid.innerHTML = dietHtml || '<div style="font-size:.78rem;color:var(--dim)">No dietary data</div>';
+
+  // Notes
+  var notesEl = document.getElementById('ev-scan-notes-list');
+  var notes = w.notes || [];
+  if (!notes.length) {
+    notesEl.innerHTML = '<div style="font-size:.82rem;color:var(--dim);padding:12px">No special notes recorded.</div>';
+  } else {
+    var nh = '';
+    notes.forEach(function(n) {
+      nh += '<div style="padding:8px 12px;border-left:3px solid var(--accent);background:rgba(249,168,37,.08);margin-bottom:6px;border-radius:0 6px 6px 0;font-size:.82rem">' +
+        '<strong>' + esc(n.note) + '</strong>' +
+        '<div style="font-size:.75rem;color:var(--dim);margin-top:2px">' + esc(n.name) + ' -- RSVP: ' + esc(n.rsvp) + '</div></div>';
+    });
+    notesEl.innerHTML = nh;
+  }
+
+  // Review alert
+  var review = w.needsReview || [];
+  document.getElementById('ev-scan-review-alert').innerHTML = review.length
+    ? '<i class="fas fa-exclamation-triangle me-1" style="color:#f59e0b"></i><strong>' + review.length + ' responses</strong> have low AI confidence (&lt;55%) and may need manual review.'
+    : '<i class="fas fa-check-circle me-1" style="color:var(--green)"></i>All parsed responses have acceptable confidence levels.';
+}
+
+function evScanConfBar(pct) {
+  pct = Number(pct) || 0;
+  var cls = pct < 55 ? 'color:#ef4444' : pct < 75 ? 'color:#f59e0b' : 'color:var(--green)';
+  return '<div style="display:inline-flex;align-items:center;gap:4px"><div style="width:50px;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden"><div style="height:6px;border-radius:3px;width:' + pct + '%;background:' + (pct < 55 ? '#ef4444' : pct < 75 ? '#f59e0b' : '#22c55e') + '"></div></div><span style="font-size:.72rem;' + cls + '">' + pct + '%</span></div>';
+}
+
+function evScanRsvpBadge(status) {
+  if (status === 'yes') return '<span class="badge-s badge-green">Yes</span>';
+  if (status === 'no') return '<span class="badge-s badge-red">No</span>';
+  if (status === 'maybe') return '<span class="badge-s badge-yellow">Maybe</span>';
+  return '<span class="badge-s badge-dim">' + esc(status || 'unclear') + '</span>';
+}
+
+function evScanDietBadge(d) {
+  if (!d) return '--';
+  var dc = { vegetarian:'badge-green', non_vegetarian:'badge-red', vegan:'badge-purple', mixed:'badge-yellow', unknown:'badge-dim' };
+  return '<span class="badge-s ' + (dc[d] || 'badge-dim') + '">' + esc(d.replace(/_/g,' ')) + '</span>';
+}
+
+function evScanBuildTable(tabKey, rows) {
+  var theadId = 'ev-scan-thead-' + tabKey;
+  var tbodyId = 'ev-scan-tbody-' + tabKey;
+  var thead = document.getElementById(theadId);
+  var tbody = document.getElementById(tbodyId);
+  if (!thead || !tbody) return;
+  // header
+  var th = '';
+  EV_SCAN_COLS.forEach(function(c, ci) {
+    var sortAttr = c.sortable ? ' onclick="evScanSort(\\'' + tabKey + '\\',' + ci + ')" style="cursor:pointer"' : '';
+    var sortCls = '';
+    var ss = EV_SCAN_SORT[tabKey];
+    if (ss && ss.col === ci) sortCls = ss.dir === 'asc' ? ' style="cursor:pointer" class="sort-asc"' : ' style="cursor:pointer" class="sort-desc"';
+    if (sortCls) sortAttr = ' onclick="evScanSort(\\'' + tabKey + '\\',' + ci + ')"' + sortCls;
+    th += '<th' + sortAttr + '>' + c.label + '</th>';
+  });
+  thead.innerHTML = th;
+  // body
+  if (!rows || rows.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="' + EV_SCAN_COLS.length + '" style="text-align:center;color:var(--dim);padding:16px">No records</td></tr>';
+    return;
+  }
+  var html = '';
+  rows.forEach(function(r) {
+    html += '<tr>';
+    EV_SCAN_COLS.forEach(function(c) {
+      var val = r[c.key] != null ? r[c.key] : '';
+      var td = '';
+      if (c.key === 'rsvpStatus') td = evScanRsvpBadge(val);
+      else if (c.key === 'dietary') td = evScanDietBadge(val);
+      else if (c.key === 'llmConfidence') td = evScanConfBar(val);
+      else if (c.key === 'receivedAt') td = val ? new Date(val).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '';
+      else if (c.key === 'notes') td = '<span style="max-width:120px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + esc(String(val)) + '">' + esc(String(val)) + '</span>';
+      else td = esc(String(val));
+      html += '<td style="font-size:.78rem">' + td + '</td>';
+    });
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function evScanSort(tabKey, colIdx) {
+  if (!EV_SCAN_DATA || !EV_SCAN_DATA.rows) return;
+  var cur = EV_SCAN_SORT[tabKey] || {};
+  var dir = (cur.col === colIdx && cur.dir === 'asc') ? 'desc' : 'asc';
+  EV_SCAN_SORT[tabKey] = { col: colIdx, dir: dir };
+  var key = EV_SCAN_COLS[colIdx].key;
+  var rowMap = { attending:'attending', declined:'notAttending', maybe:'maybe', unclear:'unclear', dietary:'attending', review:'__review' };
+  var rowKey = rowMap[tabKey];
+  var rows = rowKey === '__review' ? (EV_SCAN_DATA.needsReview || []) : ((EV_SCAN_DATA.rows && EV_SCAN_DATA.rows[rowKey]) || []);
+  rows.sort(function(a, b) {
+    var va = a[key] != null ? a[key] : '';
+    var vb = b[key] != null ? b[key] : '';
+    if (typeof va === 'number' && typeof vb === 'number') return dir === 'asc' ? va - vb : vb - va;
+    return dir === 'asc' ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+  });
+  evScanBuildTable(tabKey, rows);
+}
+
+function evScanSwitchTab(name) {
+  document.querySelectorAll('.ev-scan-tab').forEach(function(t) {
+    var isActive = t.textContent.trim().toLowerCase() === name || t.getAttribute('onclick').indexOf("'" + name + "'") >= 0;
+    t.style.borderBottomColor = isActive ? 'var(--accent)' : 'transparent';
+    t.style.color = isActive ? '#fff' : 'var(--dim)';
+  });
+  document.querySelectorAll('.ev-scan-tabcontent').forEach(function(c) {
+    c.style.display = c.id === 'ev-scan-tab-' + name ? 'block' : 'none';
+  });
+}
+
+function evScanApplyFilter() {
+  if (!EV_SCAN_DATA || !EV_SCAN_DATA.rows) return;
+  var q = (document.getElementById('ev-scan-filter').value || '').toLowerCase();
+  var tabs = [
+    { tab:'attending', key:'attending' },
+    { tab:'declined', key:'notAttending' },
+    { tab:'maybe', key:'maybe' },
+    { tab:'unclear', key:'unclear' }
+  ];
+  tabs.forEach(function(t) {
+    var allRows = (EV_SCAN_DATA.rows[t.key] || []);
+    var filtered = !q ? allRows : allRows.filter(function(r) {
+      return (r.senderName || '').toLowerCase().indexOf(q) >= 0 ||
+        (r.email || '').toLowerCase().indexOf(q) >= 0 ||
+        (r.notes || '').toLowerCase().indexOf(q) >= 0;
+    });
+    evScanBuildTable(t.tab, filtered);
+  });
+}
+
+function evScanExportCSV() {
+  if (!EV_SCAN_DATA || !EV_SCAN_DATA.rows) return evScanMsg('Load the report first.', true);
+  var all = [].concat(
+    EV_SCAN_DATA.rows.attending || [],
+    EV_SCAN_DATA.rows.notAttending || [],
+    EV_SCAN_DATA.rows.maybe || [],
+    EV_SCAN_DATA.rows.unclear || []
+  );
+  var headers = EV_SCAN_COLS.map(function(c) { return c.label; }).join(',');
+  var csvRows = all.map(function(r) {
+    return EV_SCAN_COLS.map(function(c) {
+      var v = r[c.key] != null ? r[c.key] : '';
+      if (c.key === 'receivedAt') v = v ? new Date(v).toLocaleDateString() : '';
+      return '"' + String(v).replace(/"/g, '""') + '"';
+    }).join(',');
+  });
+  var csv = [headers].concat(csvRows).join('\\n');
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  var evtName = ((EV_SCAN_DATA.event && EV_SCAN_DATA.event.eventName) || 'evite').replace(/\\s+/g, '_');
+  a.download = 'BANF_Email_Scan_Attendance_' + evtName + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ═══════════════════════════════════════════════════════════════════
 //  EC REPLACEMENT FUNCTIONS (President Only)
 // ═══════════════════════════════════════════════════════════════════
 
@@ -6721,9 +7089,12 @@ function saveECProfile() {
     profileBio: document.getElementById('ec-profile-bio').value.trim(),
     profileEducation: document.getElementById('ec-profile-education').value.trim(),
     profileProfession: document.getElementById('ec-profile-profession').value.trim(),
-    profileInterests: document.getElementById('ec-profile-interests').value.trim(),
-    profilePhoto: _ecProfilePhotoData || ''
+    profileInterests: document.getElementById('ec-profile-interests').value.trim()
   };
+  // Only include photo if user has one loaded (avoids clearing existing photo)
+  if (_ecProfilePhotoData) {
+    body.profilePhoto = _ecProfilePhotoData;
+  }
 
   fetch(API + '/ec_update_ec_profile', {
     method: 'POST',

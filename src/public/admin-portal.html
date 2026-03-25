@@ -7086,9 +7086,12 @@ function saveECProfile() {
     profileBio: document.getElementById('ec-profile-bio').value.trim(),
     profileEducation: document.getElementById('ec-profile-education').value.trim(),
     profileProfession: document.getElementById('ec-profile-profession').value.trim(),
-    profileInterests: document.getElementById('ec-profile-interests').value.trim(),
-    profilePhoto: _ecProfilePhotoData || ''
+    profileInterests: document.getElementById('ec-profile-interests').value.trim()
   };
+  // Only include photo if user has one loaded (avoids clearing existing photo)
+  if (_ecProfilePhotoData) {
+    body.profilePhoto = _ecProfilePhotoData;
+  }
 
   fetch(API + '/ec_update_ec_profile', {
     method: 'POST',
