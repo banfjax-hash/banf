@@ -31,21 +31,20 @@ function openMemberPortal(section) {
     window.open(portalFn + routeParam, '_blank');
 }
 
-// ── EC Admin Login Modal ──
+// ── EC Admin Login — redirect to dedicated login page ──
+// ec-admin-login.html has full auth flow: offline credentials, backend API,
+// signup, forgot password, security questions. The inline modal only supports
+// API-based login which fails for EC members who haven't completed backend
+// onboarding. Using the dedicated page ensures consistent experience
+// whether accessed from email links or the website.
 function openEcLoginModal() {
-    var overlay = document.getElementById('ecLoginOverlay');
-    overlay.classList.add('show');
-    document.getElementById('ecLoginError').style.display = 'none';
-    document.getElementById('ecLoginEmail').value = '';
-    document.getElementById('ecLoginPassword').value = '';
-    // Reset to login form view
-    var form = overlay.querySelector('form');
-    if (form) form.style.display = '';
-    var signupMsg = document.getElementById('ecSignupNotice');
-    if (signupMsg) signupMsg.style.display = 'none';
-    document.getElementById('ecLoginEmail').focus();
+    window.location.href = '../ec-admin-login.html';
 }
-function closeEcLogin() { document.getElementById('ecLoginOverlay').classList.remove('show'); }
+function closeEcLogin() {
+    // Legacy — modal no longer used, but keep for any residual calls
+    var overlay = document.getElementById('ecLoginOverlay');
+    if (overlay) overlay.classList.remove('show');
+}
 function handleEcLogin(e) {
     e.preventDefault();
     var email = document.getElementById('ecLoginEmail').value.trim();
