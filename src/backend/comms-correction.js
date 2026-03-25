@@ -1338,8 +1338,16 @@ export async function get_comms_dashboard_data(request) {
         const perm = await requireAdmin(request);
         if (!perm.allowed) return jsonErr('Admin access required', 403);
 
-        const all   = await wixData.query(COLLECTION).limit(1000).find(SA);
-        const items = all.items;
+        let items = [];
+        try {
+            const all = await wixData.query(COLLECTION).limit(1000).find(SA);
+            items = all.items;
+        } catch (qe) {
+            if (qe.message && qe.message.includes('WDE0025')) {
+                // Collection doesn't exist yet — return empty dashboard
+                items = [];
+            } else { throw qe; }
+        }
         const today = todayStr();
 
         // ── Summary stats ───────────────────────────────────────

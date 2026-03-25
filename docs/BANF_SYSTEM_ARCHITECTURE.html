@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF System Architecture — Technical Reference</title>
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1628;--deep:#0f2847;--accent-blue:#2563eb;--accent-cyan:#06b6d4;
+  --accent-green:#10b981;--accent-amber:#f59e0b;--accent-rose:#f43f5e;
+  --accent-violet:#8b5cf6;--accent-indigo:#6366f1;--accent-orange:#f97316;
+  --bg:#f1f5f9;--card:#ffffff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.1),0 8px 32px rgba(0,0,0,.06);
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+a{color:var(--accent-blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ===== HEADER ===== */
+.site-header{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--deep) 40%,#1e3a5f 100%);
+  color:#fff;padding:2.5rem 2rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.site-header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 50%,rgba(37,99,235,.15) 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 30%,rgba(6,182,212,.12) 0%,transparent 50%);
+}
+.site-header>*{position:relative;z-index:1}
+.site-header h1{font-size:2.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem}
+.site-header .subtitle{font-size:1.1rem;opacity:.85;font-weight:400}
+.badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:.2rem .7rem;border-radius:20px;font-size:.78rem;margin-top:.6rem}
+
+/* ===== TOC ===== */
+.toc{
+  max-width:960px;margin:2rem auto;background:var(--card);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:1.8rem 2rem;
+}
+.toc h2{font-size:1.2rem;margin-bottom:1rem;color:var(--accent-blue)}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.5rem}
+.toc-item{
+  display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;border-radius:var(--radius-sm);
+  transition:background .15s;font-size:.92rem;
+}
+.toc-item:hover{background:var(--bg);text-decoration:none}
+.toc-num{
+  width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+
+/* ===== LAYOUT ===== */
+.container{max-width:1080px;margin:0 auto;padding:0 1.2rem 3rem}
+
+/* ===== SECTION ===== */
+.section{margin-top:2.2rem}
+.section-header{
+  display:flex;align-items:center;gap:.8rem;padding:1rem 1.4rem;
+  border-radius:var(--radius) var(--radius) 0 0;cursor:pointer;user-select:none;
+  color:#fff;font-weight:700;font-size:1.15rem;position:relative;
+  transition:filter .15s;
+}
+.section-header:hover{filter:brightness(1.08)}
+.section-header .chevron{
+  margin-left:auto;transition:transform .25s;font-size:1.2rem;
+}
+.section-header.collapsed .chevron{transform:rotate(-90deg)}
+.section-body{
+  background:var(--card);border-radius:0 0 var(--radius) var(--radius);
+  box-shadow:var(--shadow);padding:1.6rem 1.8rem;overflow:hidden;
+  transition:max-height .35s ease,padding .35s ease;
+}
+.section-body.hidden{max-height:0!important;padding-top:0;padding-bottom:0;overflow:hidden}
+
+/* Section colors */
+.sec-0 .section-header{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+.sec-1 .section-header{background:linear-gradient(135deg,var(--accent-blue),#1d4ed8)}
+.sec-2 .section-header{background:linear-gradient(135deg,var(--accent-cyan),#0891b2)}
+.sec-3 .section-header{background:linear-gradient(135deg,var(--accent-green),#059669)}
+.sec-4 .section-header{background:linear-gradient(135deg,var(--accent-amber),#d97706)}
+.sec-5 .section-header{background:linear-gradient(135deg,var(--accent-rose),#e11d48)}
+.sec-6 .section-header{background:linear-gradient(135deg,var(--accent-indigo),#4f46e5)}
+.sec-7 .section-header{background:linear-gradient(135deg,var(--accent-orange),#ea580c)}
+
+/* ===== TYPOGRAPHY ===== */
+h3{font-size:1.15rem;font-weight:700;margin:1.5rem 0 .7rem;color:var(--text)}
+h4{font-size:1rem;font-weight:600;margin:1.2rem 0 .5rem;color:var(--text)}
+p,.list-text{margin-bottom:.7rem;color:#334155}
+ul,ol{margin:0 0 .8rem 1.5rem}
+li{margin-bottom:.3rem}
+strong{font-weight:600}
+code{background:#f0f4f8;padding:.12em .35em;border-radius:4px;font-size:.88em;font-family:'Cascadia Code',Consolas,monospace}
+
+/* ===== CARDS ===== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;margin:1rem 0}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.2rem 1.3rem;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.card-title{font-weight:700;font-size:1rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.card-accent{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
+.card-inner{display:flex;gap:.9rem}
+.card ul{margin:.3rem 0 0 1.2rem;font-size:.88rem}
+.card li{margin-bottom:.2rem}
+.card-badge{
+  display:inline-block;padding:.15rem .5rem;border-radius:10px;font-size:.72rem;font-weight:600;
+  margin-right:.3rem;margin-bottom:.2rem;
+}
+
+/* ===== TABLES ===== */
+.table-wrap{overflow-x:auto;margin:1rem 0}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{background:#f8fafc;font-weight:600;text-align:left;padding:.6rem .8rem;border-bottom:2px solid var(--border)}
+td{padding:.55rem .8rem;border-bottom:1px solid var(--border)}
+tr:hover td{background:#f8fafc}
+.check{color:var(--accent-green);font-weight:700}
+.cross{color:var(--accent-rose);font-weight:700}
+
+/* ===== DIAGRAM COMPONENTS ===== */
+.diagram{
+  background:linear-gradient(135deg,#f8fafc,#eef2f7);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.5rem;margin:1.2rem 0;overflow-x:auto;
+}
+.diagram-title{font-size:.82rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem}
+
+/* Architecture boxes */
+.arch-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:.8rem 0;align-items:stretch}
+.arch-box{
+  border-radius:var(--radius-sm);padding:.8rem 1rem;text-align:center;font-size:.82rem;
+  font-weight:600;min-width:130px;flex:1;max-width:200px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.2rem;position:relative;
+  border:2px solid transparent;transition:transform .15s;
+}
+.arch-box:hover{transform:scale(1.03)}
+.arch-box small{font-weight:400;font-size:.72rem;opacity:.8}
+.box-blue{background:#dbeafe;border-color:#93c5fd;color:#1e40af}
+.box-green{background:#d1fae5;border-color:#6ee7b7;color:#065f46}
+.box-amber{background:#fef3c7;border-color:#fcd34d;color:#92400e}
+.box-violet{background:#ede9fe;border-color:#c4b5fd;color:#5b21b6}
+.box-rose{background:#ffe4e6;border-color:#fda4af;color:#9f1239}
+.box-cyan{background:#cffafe;border-color:#67e8f9;color:#155e75}
+.box-slate{background:#e2e8f0;border-color:#94a3b8;color:#334155}
+.box-orange{background:#ffedd5;border-color:#fdba74;color:#9a3412}
+.box-indigo{background:#e0e7ff;border-color:#a5b4fc;color:#3730a3}
+
+/* Arrows */
+.arrow-down{
+  text-align:center;padding:.3rem 0;font-size:1.3rem;color:var(--muted);line-height:1;
+}
+.arrow-right{padding:0 .2rem;font-size:1.1rem;color:var(--muted);display:flex;align-items:center}
+
+/* Flow */
+.flow-vertical{display:flex;flex-direction:column;align-items:center;gap:0}
+.flow-horizontal{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;justify-content:center}
+
+/* Pipeline steps */
+.pipeline{margin:1rem 0}
+.pipe-step{
+  display:flex;gap:.8rem;align-items:flex-start;padding:.7rem 0;
+  border-left:3px solid var(--accent-cyan);margin-left:1rem;padding-left:1.2rem;
+  position:relative;
+}
+.pipe-step::before{
+  content:'';position:absolute;left:-7px;top:.85rem;width:11px;height:11px;
+  border-radius:50%;background:var(--accent-cyan);border:2px solid var(--card);
+}
+.pipe-step:last-child{border-left-color:transparent}
+.pipe-label{font-weight:600;font-size:.9rem}
+.pipe-desc{font-size:.84rem;color:var(--muted)}
+
+/* Hierarchy tree */
+.tree{font-size:.88rem;line-height:1.8}
+.tree .t-node{padding-left:1.5rem;border-left:2px solid var(--border);margin-left:.5rem}
+.tree .t-root{font-weight:700;font-size:1rem}
+.tree .t-label{
+  display:inline-block;padding:.1rem .5rem;border-radius:4px;font-weight:600;font-size:.82rem;
+  margin-right:.3rem;
+}
+
+/* ER Diagram */
+.er-group{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:1rem 1.2rem;margin:.6rem 0;
+}
+.er-group-title{font-weight:700;font-size:.95rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem}
+.er-tables{display:flex;flex-wrap:wrap;gap:.5rem}
+.er-table{
+  background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:.35rem .65rem;
+  font-size:.8rem;font-weight:500;white-space:nowrap;
+}
+
+/* Relationship lines */
+.rel-list{margin:1rem 0;font-size:.88rem}
+.rel-item{
+  display:flex;align-items:center;gap:.5rem;padding:.35rem 0;
+  border-bottom:1px solid #f1f5f9;
+}
+.rel-arrow{color:var(--accent-blue);font-weight:700;font-size:.9rem}
+.rel-via{color:var(--muted);font-size:.78rem;font-style:italic}
+
+/* Onboarding steps */
+.onboard-steps{counter-reset:step;margin:1rem 0}
+.onboard-step{
+  display:flex;gap:.8rem;align-items:flex-start;margin-bottom:.6rem;
+  counter-increment:step;
+}
+.onboard-step::before{
+  content:counter(step);width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.78rem;
+  font-weight:700;color:#fff;flex-shrink:0;
+}
+.step-violet .onboard-step::before{background:var(--accent-violet)}
+.step-amber .onboard-step::before{background:var(--accent-amber)}
+.step-green .onboard-step::before{background:var(--accent-green)}
+
+/* Monitor badges */
+.status-badge{
+  display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .7rem;
+  border-radius:20px;font-size:.78rem;font-weight:600;
+}
+.status-green{background:#d1fae5;color:#065f46}
+.status-amber{background:#fef3c7;color:#92400e}
+.status-blue{background:#dbeafe;color:#1e40af}
+
+/* ===== FOOTER ===== */
+.site-footer{
+  text-align:center;padding:2rem;font-size:.82rem;color:var(--muted);
+  border-top:1px solid var(--border);margin-top:2rem;
+}
+
+/* ===== PRINT ===== */
+@media print{
+  .site-header{background:var(--navy)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .section-body.hidden{max-height:none!important;padding:1.6rem 1.8rem!important;overflow:visible!important}
+  .section-header .chevron{display:none}
+  body{font-size:12px}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .site-header h1{font-size:1.6rem}
+  .container{padding:0 .6rem 2rem}
+  .section-body{padding:1rem}
+  .card-grid{grid-template-columns:1fr}
+  .arch-row{flex-direction:column;align-items:center}
+  .arch-box{max-width:100%;min-width:0}
+  .toc-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HEADER ==================== -->
+<header class="site-header">
+  <h1>🏛️ BANF System Architecture</h1>
+  <div class="subtitle">Bengali Association of North Florida — Technical Platform Reference</div>
+  <div class="badge">📍 jaxbengali.org &nbsp;|&nbsp; v5.5 &nbsp;|&nbsp; AI-Powered Community Management</div>
+</header>
+
+<!-- ==================== TABLE OF CONTENTS ==================== -->
+<nav class="toc">
+  <h2>📋 Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#sec0" class="toc-item"><span class="toc-num" style="background:#7c3aed">0</span> Problem Statement &amp; Vision</a>
+    <a href="#sec1" class="toc-item"><span class="toc-num" style="background:var(--accent-blue)">1</span> Platform Architecture Overview</a>
+    <a href="#sec2" class="toc-item"><span class="toc-num" style="background:var(--accent-cyan)">2</span> DevOps Ecosystem</a>
+    <a href="#sec3" class="toc-item"><span class="toc-num" style="background:var(--accent-green)">3</span> Role Categories (RBAC)</a>
+    <a href="#sec4" class="toc-item"><span class="toc-num" style="background:var(--accent-amber)">4</span> Onboarding Drives</a>
+    <a href="#sec5" class="toc-item"><span class="toc-num" style="background:var(--accent-rose)">5</span> Dashboard Portals</a>
+    <a href="#sec6" class="toc-item"><span class="toc-num" style="background:var(--accent-indigo)">6</span> Monitoring Dashboards</a>
+    <a href="#sec7" class="toc-item"><span class="toc-num" style="background:var(--accent-orange)">7</span> Data Collections &amp; Relationships</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- SECTION 0: PROBLEM STATEMENT & VISION                        -->
+<!-- ============================================================ -->
+<div class="section sec-0" id="sec0">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§0 &nbsp;Problem Statement &amp; Vision</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🏠 About BANF</h3>
+    <p>The <strong>Bengali Association of North Florida (BANF)</strong> is a cultural nonprofit community organization based in <strong>Jacksonville, FL</strong>. It serves <strong>180+ member families</strong> of Bengali heritage, organizing <strong>17+ events per year</strong> — from Durga Puja and Saraswati Puja to Bosonto Utsob (Noboborsho), Rabindra-Nazrul Jayanti, picnics, and more.</p>
+
+    <h3>⚠️ The Problem</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-rose)"></div>
+          <div>
+            <div class="card-title">📊 Scattered Data</div>
+            <p style="font-size:.88rem">Member records spread across Google Sheets, personal email, WhatsApp groups, and handwritten notes. No single source of truth.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-amber)"></div>
+          <div>
+            <div class="card-title">🔄 Annual EC Turnover</div>
+            <p style="font-size:.88rem">Executive Committee changes every year. Institutional memory is lost with each transition — passwords, contacts, vendor relationships, event history all walk out the door.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-violet)"></div>
+          <div>
+            <div class="card-title">💸 Manual Finance Tracking</div>
+            <p style="font-size:.88rem">Payment tracking via screenshots, WhatsApp confirmations, and manual spreadsheets. No reconciliation between Zelle receipts, bank statements, and member records.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-blue)"></div>
+          <div>
+            <div class="card-title">📧 Communication Chaos</div>
+            <p style="font-size:.88rem">RSVP tracked via Evite (unreliable), email blasts from personal Gmail, no automated follow-ups, no delivery tracking, no response classification.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-green)"></div>
+          <div>
+            <div class="card-title">🎪 Event Management Overload</div>
+            <p style="font-size:.88rem">17+ events/year — each requiring venue booking, RSVP management, food counts, volunteer coordination, expense tracking. All done manually by volunteers.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-cyan)"></div>
+          <div>
+            <div class="card-title">🤷 No Self-Service</div>
+            <p style="font-size:.88rem">Members can't look up their own payment history, RSVP status, or membership tier. Every query goes to EC members who are volunteers themselves.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>🚀 The Vision</h3>
+    <p>Build an <strong>AI-powered, fully automated community management platform</strong> that eliminates manual overhead and preserves institutional memory across EC transitions.</p>
+
+    <div class="diagram">
+      <div class="diagram-title">Vision: From Manual to Autonomous</div>
+      <div class="arch-row">
+        <div class="arch-box box-rose" style="max-width:260px">
+          <div>❌ Before</div>
+          <small>Spreadsheets, WhatsApp, manual email, lost history, scattered payments</small>
+        </div>
+        <div class="arrow-right">⟹</div>
+        <div class="arch-box box-green" style="max-width:260px">
+          <div>✅ After</div>
+          <small>Unified platform, AI agents, auto-reconciliation, persistent memory, self-service portals</small>
+        </div>
+      </div>
+    </div>
+
+    <h4>Key Design Principles</h4>
+    <ul>
+      <li><strong>Zero Manual Overhead</strong> — Every recurring task is automated via agents and pipelines</li>
+      <li><strong>Institutional Memory</strong> — All decisions, communications, and financials are permanently recorded in 65 data collections</li>
+      <li><strong>EC-Transition Resilient</strong> — New EC members onboard via guided flows; historical context is preserved</li>
+      <li><strong>AI-First</strong> — Member queries answered by RAG-powered chatbot; emails auto-classified and routed; payments auto-reconciled</li>
+      <li><strong>Self-Service</strong> — Members, EC, and admins each get purpose-built portals requiring zero training</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 1: PLATFORM ARCHITECTURE OVERVIEW                    -->
+<!-- ============================================================ -->
+<div class="section sec-1" id="sec1">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§1 &nbsp;Platform Architecture Overview</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🏗️ Architecture Diagram</h3>
+    <div class="diagram">
+      <div class="diagram-title">Development Environment</div>
+      <div class="arch-row">
+        <div class="arch-box box-blue">
+          <div>💻 VS Code</div>
+          <small>Primary IDE · Wix CLI · Node.js</small>
+        </div>
+        <div class="arch-box box-violet">
+          <div>🤖 GitHub Copilot CLI</div>
+          <small>Claude Opus 4.6 · Agentic Workflows</small>
+        </div>
+        <div class="arch-box box-slate">
+          <div>🧠 AI Models</div>
+          <small>Claude · Llama 3.1-8B · HuggingFace</small>
+        </div>
+        <div class="arch-box box-cyan">
+          <div>📦 Git + GitHub</div>
+          <small>banfjax-hash/banf · GitHub Pages</small>
+        </div>
+      </div>
+
+      <div class="arrow-down">⬇</div>
+      <div style="text-align:center;font-size:.78rem;color:var(--muted);margin-bottom:.5rem">
+        <code>npx wix publish</code> &nbsp;→&nbsp; Auto-publish pipeline &nbsp;→&nbsp; Verified deployment
+      </div>
+      <div class="arrow-down">⬇</div>
+
+      <div class="diagram-title" style="margin-top:.5rem">Production Stack</div>
+      <div class="arch-row">
+        <div class="arch-box box-green">
+          <div>🌐 Wix Platform</div>
+          <small>jaxbengali.org · Velo Backend</small>
+        </div>
+        <div class="arch-box box-amber">
+          <div>🗄️ 65 Collections</div>
+          <small>Members · Events · Finance · AI</small>
+        </div>
+        <div class="arch-box box-orange">
+          <div>📧 Gmail API</div>
+          <small>OAuth2 · Send/Receive · Classify</small>
+        </div>
+        <div class="arch-box box-indigo">
+          <div>📁 Google Drive</div>
+          <small>Doc Storage · Archive Sync</small>
+        </div>
+      </div>
+      <div class="arch-row" style="margin-top:.6rem">
+        <div class="arch-box box-rose">
+          <div>🏦 Wells Fargo / Zelle</div>
+          <small>Payment Monitoring Pipeline</small>
+        </div>
+        <div class="arch-box box-cyan">
+          <div>🏫 Facilitron</div>
+          <small>Venue Booking · SJCSD Schools</small>
+        </div>
+        <div class="arch-box box-violet">
+          <div>📨 Evite</div>
+          <small>RSVP Tracking · Event Invites</small>
+        </div>
+        <div class="arch-box box-blue">
+          <div>150+ HTTP APIs</div>
+          <small>Velo Endpoints · RBAC · Agents</small>
+        </div>
+      </div>
+    </div>
+
+    <h3>🔄 Data Flow: Development → Production</h3>
+    <div class="diagram">
+      <div class="diagram-title">Deployment Pipeline</div>
+      <div class="flow-horizontal">
+        <div class="arch-box box-blue" style="min-width:100px;max-width:140px;flex:0">VS Code<small>Write Code</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-cyan" style="min-width:100px;max-width:140px;flex:0">Git<small>Commit &amp; Push</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-slate" style="min-width:100px;max-width:140px;flex:0">GitHub<small>main branch</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-amber" style="min-width:100px;max-width:140px;flex:0">Wix CLI<small>npx wix publish</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-green" style="min-width:100px;max-width:160px;flex:0">🌐 jaxbengali.org<small>Live Site</small></div>
+      </div>
+    </div>
+
+    <h3>🔄 Runtime Flow: User Request</h3>
+    <div class="diagram">
+      <div class="diagram-title">Request Lifecycle</div>
+      <div class="flow-horizontal">
+        <div class="arch-box box-green" style="min-width:90px;max-width:120px;flex:0">👤 User<small>Browser</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-blue" style="min-width:90px;max-width:130px;flex:0">Wix Site<small>Frontend</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-violet" style="min-width:100px;max-width:140px;flex:0">Velo Backend<small>HTTP Functions</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-amber" style="min-width:100px;max-width:140px;flex:0">Collections DB<small>65 Tables</small></div>
+      </div>
+      <div style="text-align:center;margin-top:.5rem;font-size:.82rem;color:var(--muted)">
+        Also connects to: Gmail API · AI Agents · RAG Engine · Google Drive · External APIs
+      </div>
+    </div>
+
+    <h3>🧠 AI Model Stack</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-violet)"></div>
+          <div>
+            <div class="card-title">Claude (Opus/Sonnet)</div>
+            <p style="font-size:.85rem">Code generation, orchestration, complex reasoning, deployment automation. Powers GitHub Copilot CLI agentic workflows.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-green)"></div>
+          <div>
+            <div class="card-title">Llama 3.1-8B</div>
+            <p style="font-size:.85rem">Member-facing AI chatbot. Handles queries about events, membership, payments, and organizational info in real-time.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-cyan)"></div>
+          <div>
+            <div class="card-title">HuggingFace Sentence-Transformers</div>
+            <p style="font-size:.85rem">RAG embeddings for knowledge base search. Converts KB articles to vectors for semantic similarity retrieval.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 2: DEVOPS ECOSYSTEM                                  -->
+<!-- ============================================================ -->
+<div class="section sec-2" id="sec2">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§2 &nbsp;DevOps Ecosystem</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🔧 Development-to-Production Pipeline</h3>
+    <div class="diagram">
+      <div class="diagram-title">Complete CI/CD Flow</div>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">💻 Code in VS Code (with Copilot)</div>
+            <div class="pipe-desc">Write/edit Velo backend code, frontend components, agent scripts. GitHub Copilot CLI (Claude Opus 4.6) assists with generation, testing, debugging.</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">📦 Git Commit &amp; Push to GitHub</div>
+            <div class="pipe-desc">Push to <code>main</code> branch at <code>github.com/banfjax-hash/banf</code>. All changes tracked with full history.</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">🌐 GitHub Pages Auto-Deploy</div>
+            <div class="pipe-desc"><code>docs/</code> folder serves static assets — RSVP forms, dashboards, QR code pages — via GitHub Pages at banfjax-hash.github.io/banf/.</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">🚀 Wix CLI Publish</div>
+            <div class="pipe-desc"><code>npx wix publish</code> deploys Velo backend, HTTP functions, and page code to jaxbengali.org production environment.</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">🤖 Auto-Publish System</div>
+            <div class="pipe-desc"><code>auto-wix-publish.js</code> — Spawns Wix publish command, auto-confirms prompts (selects local code), 5-minute timeout with retry, detects "Published successfully" message.</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">✅ Post-Publish Verification</div>
+            <div class="pipe-desc">HTTPS GET to jaxbengali.org, collection probe endpoint check, automated test suite execution (<code>run_test_suite</code>).</div>
+          </div>
+        </div>
+        <div class="pipe-step">
+          <div>
+            <div class="pipe-label">📊 Pipeline Monitoring (every 5 min)</div>
+            <div class="pipe-desc">2,594+ poll cycles since Mar 2, 2026. Health: <span class="status-badge status-green">🟢 GREEN</span>. Monitors RSVP pipeline, Zelle payments, user queries.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>📁 Key DevOps Files</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>Purpose</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td><code>auto-wix-publish.js</code></td><td>Auto-publish orchestrator</td><td>Spawns Wix CLI, handles prompts, retries on failure</td></tr>
+          <tr><td><code>publish-agent.js</code></td><td>Intelligent publish agent</td><td>Pre-checks, validation, rollback support</td></tr>
+          <tr><td><code>banf-auto-publish.bat</code></td><td>Windows batch launcher</td><td>Starts auto-publish pipeline from command line</td></tr>
+          <tr><td><code>monitor.ps1</code></td><td>PowerShell pipeline monitor</td><td>Continuous health checks, status polling</td></tr>
+          <tr><td><code>ecosystem.config.js</code></td><td>PM2 process config</td><td>Defines monitored services, restart policies</td></tr>
+          <tr><td><code>banf-pipeline-test-agent.js</code></td><td>Pipeline test runner</td><td>End-to-end pipeline validation suite</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>📈 Monitoring Statistics</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">🔄 Poll Cycles</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--accent-cyan)">2,594+</div>
+        <div style="font-size:.82rem;color:var(--muted)">Since March 2, 2026</div>
+      </div>
+      <div class="card">
+        <div class="card-title">⏱️ Poll Interval</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--accent-blue)">5 min</div>
+        <div style="font-size:.82rem;color:var(--muted)">Continuous monitoring</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🟢 System Health</div>
+        <div style="font-size:1.8rem;font-weight:800;color:var(--accent-green)">GREEN</div>
+        <div style="font-size:.82rem;color:var(--muted)">All systems operational</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 3: ROLE CATEGORIES (RBAC)                            -->
+<!-- ============================================================ -->
+<div class="section sec-3" id="sec3">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§3 &nbsp;Role Categories (RBAC)</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🏗️ Role Hierarchy</h3>
+    <div class="diagram">
+      <div class="diagram-title">Access Control Hierarchy</div>
+      <div class="tree">
+        <div class="t-root"><span class="t-label" style="background:#f43f5e;color:#fff">SUPER_ADMIN</span> banfjax@gmail.com — VP / System Administrator</div>
+        <div class="t-node">
+          <div>🔒 Full platform access, user management, security config, data deletion, agent configuration</div>
+          <div style="margin-top:.5rem"><span class="t-label" style="background:var(--accent-blue);color:#fff">ADMIN</span> Granted by Super Admin</div>
+          <div class="t-node">
+            <div>👥 Member management, payments, email, knowledge base, agents, reports, CRM access</div>
+            <div style="margin-top:.5rem"><span class="t-label" style="background:var(--accent-green);color:#fff">EC_MEMBER</span> Executive Committee</div>
+            <div class="t-node">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.3rem;margin:.4rem 0">
+                <div>🎖️ <strong>President</strong> — Launch membership drive, approve budgets</div>
+                <div>🔧 <strong>Vice President</strong> — System administration, technical ops</div>
+                <div>📝 <strong>General Secretary</strong> — Communications, minutes</div>
+                <div>💰 <strong>Treasurer</strong> — Financial reporting, payment verification</div>
+                <div>🎭 <strong>Cultural Secretary</strong> — Event management, RSVP monitoring</div>
+                <div>🤝 <strong>Joint Secretary</strong> — Member coordination</div>
+                <div>📰 <strong>Publication Secretary</strong> — Magazine (Jagriti), newsletters</div>
+                <div>⚽ <strong>Sports Secretary</strong> — Sports events, outdoor activities</div>
+                <div>🎵 <strong>Entertainment Secretary</strong> — Entertainment events</div>
+              </div>
+              <div style="margin-top:.5rem"><span class="t-label" style="background:var(--accent-amber);color:#fff">MEMBER</span> General Members</div>
+              <div class="t-node">
+                <div>View own profile, payment history, RSVP to events, submit complaints, chat with AI agent, browse directory</div>
+                <div style="margin-top:.5rem"><span class="t-label" style="background:var(--muted);color:#fff">GUEST</span> Public Access</div>
+                <div class="t-node">
+                  <div>View landing page, event calendar, membership plans</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>📊 Permission Matrix</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Permission</th><th>Super Admin</th><th>Admin</th><th>EC Member</th><th>Member</th><th>Guest</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Manage roles</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>Delete data</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>Manage members</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>Manage CRM</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>View reports</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>Approve responses</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>Record payments</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>Manage events</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+          <tr><td>View own profile</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td></tr>
+          <tr><td>RSVP to events</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td></tr>
+          <tr><td>Chat with AI</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td></tr>
+          <tr><td>View landing page</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>🔧 Implementation Details</h4>
+    <ul>
+      <li><strong>Source:</strong> <code>src/backend/rbac.js</code> — 272 lines</li>
+      <li><strong>Storage:</strong> <code>AdminRoles</code> collection</li>
+      <li><strong>Caching:</strong> 5-minute in-memory role cache for performance</li>
+      <li><strong>Enforcement:</strong> Every HTTP endpoint validates role before processing</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 4: ONBOARDING DRIVES                                 -->
+<!-- ============================================================ -->
+<div class="section sec-4" id="sec4">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§4 &nbsp;Onboarding Drives</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🎖️ EC Onboarding Flow</h3>
+    <p style="font-size:.88rem;color:var(--muted)">Source: <code>src/backend/ec-onboarding-gate.js</code> — 936 lines</p>
+    <div class="diagram">
+      <div class="diagram-title">Executive Committee Member Onboarding</div>
+      <div class="onboard-steps step-violet">
+        <div class="onboard-step"><div><strong>Super Admin creates EC member in AdminRoles</strong><br><span style="font-size:.84rem;color:var(--muted)">Sets role, EC title, email, and permissions</span></div></div>
+        <div class="onboard-step"><div><strong>Welcome email sent</strong><br><span style="font-size:.84rem;color:var(--muted)">Uses <code>role_welcome</code> template with personalized content</span></div></div>
+        <div class="onboard-step"><div><strong>EC member receives portal URL + journey link</strong><br><span style="font-size:.84rem;color:var(--muted)">Direct link to EC-specific onboarding page</span></div></div>
+        <div class="onboard-step"><div><strong>First login: Set password + security question</strong><br><span style="font-size:.84rem;color:var(--muted)">Secure credential setup with validation</span></div></div>
+        <div class="onboard-step"><div><strong>Complete profile</strong><br><span style="font-size:.84rem;color:var(--muted)">Upload photo, write bio, confirm EC title</span></div></div>
+        <div class="onboard-step"><div><strong>Feature access unlocked based on role</strong><br><span style="font-size:.84rem;color:var(--muted)">Role-specific tabs and capabilities enabled</span></div></div>
+        <div class="onboard-step"><div><strong>Gate enforcement active</strong><br><span style="font-size:.84rem;color:var(--muted)">Must complete all onboarding steps before accessing platform features</span></div></div>
+      </div>
+    </div>
+
+    <h3>🎫 Membership Drive Flow</h3>
+    <p style="font-size:.88rem;color:var(--muted)">Source: <code>src/backend/membership-drive.js</code> — 1,429 lines</p>
+    <div class="diagram">
+      <div class="diagram-title">Annual Membership Drive (e.g., FY 2026-27)</div>
+      <div class="onboard-steps step-amber">
+        <div class="onboard-step"><div><strong>President launches drive for fiscal year</strong><br><span style="font-size:.84rem;color:var(--muted)">Configures FY period, activates membership tiers</span></div></div>
+        <div class="onboard-step"><div><strong>7 membership categories published to landing page</strong><br><span style="font-size:.84rem;color:var(--muted)">Family, Individual, Senior, Student, Patron, Lifetime, Honorary</span></div></div>
+        <div class="onboard-step"><div><strong>Members browse plans and select tier</strong><br><span style="font-size:.84rem;color:var(--muted)">Landing page displays pricing, benefits, and enrollment form</span></div></div>
+        <div class="onboard-step"><div><strong>Payment via Zelle / Venmo / check / cash</strong><br><span style="font-size:.84rem;color:var(--muted)">Multiple payment methods accepted</span></div></div>
+        <div class="onboard-step"><div><strong>Payment detected by pipeline → auto-reconciled</strong><br><span style="font-size:.84rem;color:var(--muted)">Zelle scanner monitors Gmail for payment receipts, matches to members</span></div></div>
+        <div class="onboard-step"><div><strong>Member registered in Members collection</strong><br><span style="font-size:.84rem;color:var(--muted)">Full profile created with tier, payment status, family links</span></div></div>
+        <div class="onboard-step"><div><strong>Welcome email sent</strong><br><span style="font-size:.84rem;color:var(--muted)"><code>member_welcome</code> template with login credentials and portal link</span></div></div>
+        <div class="onboard-step"><div><strong>Member can login to Member Portal</strong><br><span style="font-size:.84rem;color:var(--muted)">Full access to profile, payments, events, RSVP, AI chat</span></div></div>
+      </div>
+    </div>
+
+    <h3>📝 Member Self-Signup Flow</h3>
+    <div class="diagram">
+      <div class="diagram-title">New Member Registration</div>
+      <div class="onboard-steps step-green">
+        <div class="onboard-step"><div><strong>Visit jaxbengali.org → MemberSignup page</strong><br><span style="font-size:.84rem;color:var(--muted)">Public access point for new member registration</span></div></div>
+        <div class="onboard-step"><div><strong>Fill registration form</strong><br><span style="font-size:.84rem;color:var(--muted)">Name, email, phone, family details, address</span></div></div>
+        <div class="onboard-step"><div><strong>Verification code sent to email</strong><br><span style="font-size:.84rem;color:var(--muted)">6-digit code via Gmail API for email ownership verification</span></div></div>
+        <div class="onboard-step"><div><strong>Code verified → account created</strong><br><span style="font-size:.84rem;color:var(--muted)">Account created with PENDING status in MemberRegistrations</span></div></div>
+        <div class="onboard-step"><div><strong>Pending membership activation by admin</strong><br><span style="font-size:.84rem;color:var(--muted)">Admin reviews, activates, assigns to membership tier</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 5: DASHBOARD PORTALS                                 -->
+<!-- ============================================================ -->
+<div class="section sec-5" id="sec5">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§5 &nbsp;Dashboard Portals</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🖥️ Portal Ecosystem</h3>
+    <p>Eight purpose-built portals serve different audiences — from public visitors to system administrators.</p>
+
+    <div class="card-grid">
+      <!-- Admin Portal -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-blue)"></div>
+          <div>
+            <div class="card-title">🛡️ Admin Portal</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">admin-portal-html.js — 239 KB</div>
+            <div>
+              <span class="card-badge" style="background:#dbeafe;color:#1e40af">14 Tabs</span>
+              <span class="card-badge" style="background:#dbeafe;color:#1e40af">Auth: Email + Password + Security Q</span>
+            </div>
+            <ul>
+              <li>Dashboard — Real-time KPIs &amp; overview</li>
+              <li>Members — Full member management</li>
+              <li>Payments — Record &amp; reconcile payments</li>
+              <li>Vendors — Vendor directory &amp; contracts</li>
+              <li>Sponsors — Sponsorship management</li>
+              <li>Ads — Advertisement placement</li>
+              <li>Career — Career guidance sessions</li>
+              <li>Archive — Historical document storage</li>
+              <li>Email Queue — Outbound email management</li>
+              <li>Auto-Responses — AI response configuration</li>
+              <li>Knowledge Base — KB article management</li>
+              <li>Agents — AI agent profiles &amp; history</li>
+              <li>Roles — RBAC role management</li>
+              <li>Reports — Analytics &amp; exports</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- CRM Admin Portal -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-violet)"></div>
+          <div>
+            <div class="card-title">📊 CRM Admin Portal</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">crm-admin-html.js</div>
+            <div>
+              <span class="card-badge" style="background:#ede9fe;color:#5b21b6">6 Modules</span>
+              <span class="card-badge" style="background:#ede9fe;color:#5b21b6">12 Dimensions</span>
+            </div>
+            <ul>
+              <li>Family Units — Household management</li>
+              <li>Members — 12-dimension member profiles</li>
+              <li>Org Roles — Historical role tracking</li>
+              <li>Awards — Recognition &amp; awards registry</li>
+              <li>Volunteer Records — Service history</li>
+              <li>Communication History — Contact log</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Member Portal -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-green)"></div>
+          <div>
+            <div class="card-title">👤 Member Portal</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">member-portal-html.js</div>
+            <div>
+              <span class="card-badge" style="background:#d1fae5;color:#065f46">7 Features</span>
+              <span class="card-badge" style="background:#d1fae5;color:#065f46">Self-Service</span>
+            </div>
+            <ul>
+              <li>Profile — View &amp; edit personal info</li>
+              <li>Payments — Payment history &amp; receipts</li>
+              <li>Events — Upcoming event calendar</li>
+              <li>RSVP — Event RSVP management</li>
+              <li>Complaints — Submit &amp; track complaints</li>
+              <li>AI Chat — RAG-powered chatbot</li>
+              <li>Directory — Member directory browsing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Landing Page -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-amber)"></div>
+          <div>
+            <div class="card-title">🌐 Landing Page</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">landing-html.js</div>
+            <div>
+              <span class="card-badge" style="background:#fef3c7;color:#92400e">Public Access</span>
+            </div>
+            <ul>
+              <li>Event Calendar — 17+ events/year</li>
+              <li>Membership Plans — 7 tiers displayed</li>
+              <li>Sponsorship — 4 sponsorship tiers</li>
+              <li>Join Now — Registration entry point</li>
+              <li>Newsletter — Email signup</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reimbursement Portal -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-rose)"></div>
+          <div>
+            <div class="card-title">💸 Reimbursement Portal</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">reimbursement-html.js</div>
+            <div>
+              <span class="card-badge" style="background:#ffe4e6;color:#9f1239">Expense Workflow</span>
+            </div>
+            <ul>
+              <li>Expense tracking &amp; submission</li>
+              <li>Multi-level approval workflow</li>
+              <li>Receipt upload &amp; OCR</li>
+              <li>Category-based classification</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unified Dashboard -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-cyan)"></div>
+          <div>
+            <div class="card-title">📈 Unified Dashboard</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">unified-dashboard-html.js</div>
+            <div>
+              <span class="card-badge" style="background:#cffafe;color:#155e75">Real-Time</span>
+            </div>
+            <ul>
+              <li>Real-time KPIs across all domains</li>
+              <li>Cross-role consolidated view</li>
+              <li>System health monitoring</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stakeholder Portal -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-indigo)"></div>
+          <div>
+            <div class="card-title">🤝 Stakeholder Portal</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">BANF_STAKEHOLDER_PORTAL.html</div>
+            <div>
+              <span class="card-badge" style="background:#e0e7ff;color:#3730a3">External View</span>
+            </div>
+            <ul>
+              <li>External stakeholder information</li>
+              <li>Partnership &amp; sponsorship details</li>
+              <li>Community impact metrics</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Super Admin Portal -->
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-orange)"></div>
+          <div>
+            <div class="card-title">⚙️ Super Admin Portal</div>
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.4rem">BANF_SUPER_ADMIN_PORTAL.html</div>
+            <div>
+              <span class="card-badge" style="background:#ffedd5;color:#9a3412">System-Wide</span>
+            </div>
+            <ul>
+              <li>System-wide controls &amp; configuration</li>
+              <li>Security settings &amp; audit logs</li>
+              <li>User &amp; role bootstrapping</li>
+              <li>Agent &amp; pipeline management</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 6: MONITORING DASHBOARDS                             -->
+<!-- ============================================================ -->
+<div class="section sec-6" id="sec6">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§6 &nbsp;Monitoring Dashboards</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>📡 Pipeline Monitor</h3>
+    <div class="diagram">
+      <div class="diagram-title">Continuous Monitoring — Polls Every 5 Minutes</div>
+      <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin:.5rem 0">
+        <div>
+          <div style="font-size:.78rem;color:var(--muted)">Status</div>
+          <span class="status-badge status-green">🟢 ACTIVE</span>
+        </div>
+        <div>
+          <div style="font-size:.78rem;color:var(--muted)">Health</div>
+          <span class="status-badge status-green">🟢 GREEN</span>
+        </div>
+        <div>
+          <div style="font-size:.78rem;color:var(--muted)">Cycles</div>
+          <span class="status-badge status-blue">2,594+</span>
+        </div>
+        <div>
+          <div style="font-size:.78rem;color:var(--muted)">Since</div>
+          <span class="status-badge status-blue">Mar 2, 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <h4>Monitored Pipelines</h4>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-indigo)"></div>
+          <div>
+            <div class="card-title">📩 Evite RSVP Pipeline</div>
+            <ul>
+              <li>Email RSVP parsing from Evite</li>
+              <li>Response tracking (Yes / No / Maybe)</li>
+              <li>Family deduplication</li>
+              <li>Guest count aggregation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-green)"></div>
+          <div>
+            <div class="card-title">💰 Zelle Payment Pipeline</div>
+            <ul>
+              <li>Payment receipt detection in Gmail</li>
+              <li>Auto-reconciliation with member records</li>
+              <li>Amount &amp; sender matching</li>
+              <li>Acknowledgement email generation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-inner">
+          <div class="card-accent" style="background:var(--accent-violet)"></div>
+          <div>
+            <div class="card-title">💬 User Query Pipeline</div>
+            <ul>
+              <li>Member question routing</li>
+              <li>AI response generation (RAG)</li>
+              <li>Intent classification</li>
+              <li>Escalation to human if needed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>📧 Email Automation Pipeline</h3>
+    <p style="font-size:.88rem;color:var(--muted)">Source: <code>email-automation.js</code> — 442 lines</p>
+    <div class="diagram">
+      <div class="diagram-title">Email Processing Flow</div>
+      <div class="flow-horizontal">
+        <div class="arch-box box-orange" style="min-width:80px;max-width:100px;flex:0">📥 Gmail<small>Inbox</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-violet" style="min-width:90px;max-width:110px;flex:0">🏷️ Classify<small>10 Intents</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-amber" style="min-width:90px;max-width:110px;flex:0">⚡ Priority<small>4 Levels</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-blue" style="min-width:80px;max-width:100px;flex:0">📋 Queue<small>EmailQueue</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-cyan" style="min-width:80px;max-width:100px;flex:0">🤖 Agent<small>RAG + AI</small></div>
+        <div class="arrow-right">→</div>
+        <div class="arch-box box-green" style="min-width:80px;max-width:110px;flex:0">📤 Send<small>Auto / Review</small></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem">
+      <div>
+        <h4>🏷️ Intent Types (10)</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+          <span class="card-badge" style="background:#e0e7ff;color:#3730a3">event_inquiry</span>
+          <span class="card-badge" style="background:#d1fae5;color:#065f46">membership</span>
+          <span class="card-badge" style="background:#fef3c7;color:#92400e">payment</span>
+          <span class="card-badge" style="background:#ffe4e6;color:#9f1239">complaint</span>
+          <span class="card-badge" style="background:#dbeafe;color:#1e40af">sponsorship</span>
+          <span class="card-badge" style="background:#ede9fe;color:#5b21b6">volunteer</span>
+          <span class="card-badge" style="background:#ffedd5;color:#9a3412">career</span>
+          <span class="card-badge" style="background:#cffafe;color:#155e75">publication</span>
+          <span class="card-badge" style="background:#e2e8f0;color:#334155">contact</span>
+          <span class="card-badge" style="background:#f1f5f9;color:#64748b">general_inquiry</span>
+        </div>
+      </div>
+      <div>
+        <h4>⚡ Priority Levels (4)</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+          <span class="card-badge" style="background:#fecaca;color:#991b1b">🔴 urgent</span>
+          <span class="card-badge" style="background:#fed7aa;color:#9a3412">🟠 high</span>
+          <span class="card-badge" style="background:#dbeafe;color:#1e40af">🔵 normal</span>
+          <span class="card-badge" style="background:#e2e8f0;color:#334155">⚪ low</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>📊 RSVP Monitoring</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">📈 Real-time RSVP Counts</div>
+        <p style="font-size:.85rem">Per-event RSVP tracking with live counters for Yes/No/Maybe responses.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">👨‍👩‍👧‍👦 Family Deduplication</div>
+        <p style="font-size:.85rem">Detects duplicate RSVPs from same family. Links to CRM family groups.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🍽️ Dietary Tracking</div>
+        <p style="font-size:.85rem">Vegetarian / non-vegetarian counts for food planning and vendor coordination.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ Attendance Reconciliation</div>
+        <p style="font-size:.85rem">Post-event: Compare RSVP list vs actual attendance for future planning.</p>
+      </div>
+    </div>
+
+    <h3>📊 Membership Drive Monitoring</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">📅 Year-on-Year Dashboard</div>
+        <p style="font-size:.85rem">Historical comparison from 2022-23 through 2026-27. Trend analysis and growth metrics.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🎫 Per-Tier Enrollment</div>
+        <p style="font-size:.85rem">Enrollment counts and revenue broken down by membership tier.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🏠 Household Grouping</div>
+        <p style="font-size:.85rem">Members linked to CRM family units. Household-level membership view.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">✉️ Payment Acknowledgement</div>
+        <p style="font-size:.85rem">Automated payment confirmation emails with receipt and tier details.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 7: DATA COLLECTIONS & RELATIONSHIPS                  -->
+<!-- ============================================================ -->
+<div class="section sec-7" id="sec7">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span>§7 &nbsp;Data Collections &amp; Relationships</span>
+    <span class="chevron">▼</span>
+  </div>
+  <div class="section-body">
+
+    <h3>🗄️ 65 Collections — Grouped by Domain</h3>
+
+    <!-- Group 1 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-blue)">🔐</span> 1. Identity &amp; Auth <span style="font-size:.78rem;color:var(--muted);font-weight:400">(5 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-blue)">Members</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-blue)">MemberAuth</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-blue)">MemberSessions</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-blue)">MemberRegistrations</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-blue)">AdminRoles</div>
+      </div>
+    </div>
+
+    <!-- Group 2 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-violet)">👨‍👩‍👧‍👦</span> 2. Family &amp; CRM <span style="font-size:.78rem;color:var(--muted);font-weight:400">(8 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">FamilyGroups</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">FamilyMembers</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">FamilyHistory</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">CRMMembers</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">MemberOrgRoles</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">MemberAwards</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">MemberVolunteer</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-violet)">MemberCommunications</div>
+      </div>
+    </div>
+
+    <!-- Group 3 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-green)">💰</span> 3. Finance <span style="font-size:.78rem;color:var(--muted);font-weight:400">(6 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-green)">Payments</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-green)">FinancialLedger</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-green)">MembershipConfig</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-green)">MembershipDrive</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-green)">MembershipRegistrations</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-green)">ReimbursementTickets</div>
+      </div>
+    </div>
+
+    <!-- Group 4 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-amber)">🎪</span> 4. Events <span style="font-size:.78rem;color:var(--muted);font-weight:400">(5 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-amber)">Events</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-amber)">EventRSVPs</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-amber)">EventAttendance</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-amber)">EventExpenseApprovals</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-amber)">EviteEvents</div>
+      </div>
+    </div>
+
+    <!-- Group 5 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-rose)">📧</span> 5. Communications <span style="font-size:.78rem;color:var(--muted);font-weight:400">(8 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">EmailQueue</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">SentEmails</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">InboxMessages</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">EmailTemplates</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">AutoResponses</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">Announcements</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">EviteRSVPs</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-rose)">ContactGroups</div>
+      </div>
+    </div>
+
+    <!-- Group 6 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-cyan)">📋</span> 6. Surveys <span style="font-size:.78rem;color:var(--muted);font-weight:400">(5 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-cyan)">Surveys</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-cyan)">SurveyResponses</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-cyan)">SurveyRecipients</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-cyan)">SurveyAggregates</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-cyan)">SurveyEscalations</div>
+      </div>
+    </div>
+
+    <!-- Group 7 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-indigo)">🧠</span> 7. AI &amp; Knowledge <span style="font-size:.78rem;color:var(--muted);font-weight:400">(4 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-indigo)">KnowledgeBase</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-indigo)">AgentProfiles</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-indigo)">AgentHistory</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-indigo)">ArchiveLearning</div>
+      </div>
+    </div>
+
+    <!-- Group 8 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:var(--accent-orange)">📸</span> 8. Content &amp; Media <span style="font-size:.78rem;color:var(--muted);font-weight:400">(6 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid var(--accent-orange)">Documents</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-orange)">PhotoAlbums</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-orange)">Photos</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-orange)">Magazines</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-orange)">RadioSchedule</div>
+        <div class="er-table" style="border-left:3px solid var(--accent-orange)">RadioStations</div>
+      </div>
+    </div>
+
+    <!-- Group 9 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:#ec4899">🏢</span> 9. External <span style="font-size:.78rem;color:var(--muted);font-weight:400">(5 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid #ec4899">Sponsors</div>
+        <div class="er-table" style="border-left:3px solid #ec4899">SponsorTiers</div>
+        <div class="er-table" style="border-left:3px solid #ec4899">Vendors</div>
+        <div class="er-table" style="border-left:3px solid #ec4899">Advertisements</div>
+        <div class="er-table" style="border-left:3px solid #ec4899">CorporateRecipients</div>
+      </div>
+    </div>
+
+    <!-- Group 10 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:#78716c">⚙️</span> 10. System <span style="font-size:.78rem;color:var(--muted);font-weight:400">(7 collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid #78716c">SiteConfig</div>
+        <div class="er-table" style="border-left:3px solid #78716c">SiteContent</div>
+        <div class="er-table" style="border-left:3px solid #78716c">ECYearStatus</div>
+        <div class="er-table" style="border-left:3px solid #78716c">ECFeatureConfig</div>
+        <div class="er-table" style="border-left:3px solid #78716c">GoogleTokens</div>
+        <div class="er-table" style="border-left:3px solid #78716c">DriveSync</div>
+        <div class="er-table" style="border-left:3px solid #78716c">DevBoardState</div>
+      </div>
+    </div>
+
+    <!-- Group 11 -->
+    <div class="er-group">
+      <div class="er-group-title"><span style="color:#a3a3a3">📦</span> 11. Other <span style="font-size:.78rem;color:var(--muted);font-weight:400">(6+ collections)</span></div>
+      <div class="er-tables">
+        <div class="er-table" style="border-left:3px solid #a3a3a3">Contacts</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">GroupContacts</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">GuideListings</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">Complaints</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">ReconciliationReports</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">TestResults</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">MembershipUniverse</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">BanfSurveys</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">CareerGuidanceSessions</div>
+        <div class="er-table" style="border-left:3px solid #a3a3a3">CareerSessionRegistrations</div>
+      </div>
+    </div>
+
+    <h3>🔗 Key Relationships</h3>
+    <div class="diagram">
+      <div class="diagram-title">Entity Relationship Map</div>
+
+      <!-- Visual ER diagram using CSS -->
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:.2rem .6rem;align-items:center;font-size:.88rem">
+        <!-- Row 1 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-blue)">Members</span></div>
+        <div style="text-align:center;color:var(--accent-blue);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-violet)">FamilyGroups</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via familyId</span></div>
+
+        <!-- Row 2 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-blue)">Members</span></div>
+        <div style="text-align:center;color:var(--accent-green);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-green)">Payments</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via memberId / email</span></div>
+
+        <!-- Row 3 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-blue)">Members</span></div>
+        <div style="text-align:center;color:var(--accent-amber);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-amber)">EventRSVPs</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via email</span></div>
+
+        <!-- Row 4 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-blue)">Members</span></div>
+        <div style="text-align:center;color:var(--accent-blue);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-blue)">AdminRoles</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via email</span></div>
+
+        <!-- Row 5 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-violet)">FamilyGroups</span></div>
+        <div style="text-align:center;color:var(--accent-violet);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-violet)">FamilyMembers</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via familyGroupId</span></div>
+
+        <!-- Row 6 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-amber)">Events</span></div>
+        <div style="text-align:center;color:var(--accent-amber);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-amber)">EventRSVPs</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via eventId</span></div>
+
+        <!-- Row 7 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-amber)">Events</span></div>
+        <div style="text-align:center;color:var(--accent-amber);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-amber)">EventAttendance</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via eventId</span></div>
+
+        <!-- Row 8 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-amber)">EviteEvents</span></div>
+        <div style="text-align:center;color:var(--accent-rose);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-rose)">EviteRSVPs</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via eventId</span></div>
+
+        <!-- Row 9 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-rose)">EmailQueue</span></div>
+        <div style="text-align:center;color:var(--accent-rose);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-rose)">SentEmails</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">on send</span></div>
+
+        <!-- Row 10 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-cyan)">Surveys</span></div>
+        <div style="text-align:center;color:var(--accent-cyan);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-cyan)">SurveyResponses</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via surveyId</span></div>
+
+        <!-- Row 11 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-indigo)">AgentProfiles</span></div>
+        <div style="text-align:center;color:var(--accent-indigo);font-weight:700">──→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-indigo)">AgentHistory</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via agentId</span></div>
+
+        <!-- Row 12 -->
+        <div style="text-align:right"><span class="er-table" style="border-left:3px solid var(--accent-indigo)">KnowledgeBase</span></div>
+        <div style="text-align:center;color:var(--accent-indigo);font-weight:700">~~→</div>
+        <div><span class="er-table" style="border-left:3px solid var(--accent-violet)">RAG Queries</span> <span style="font-size:.75rem;color:var(--muted);font-style:italic">via embedding similarity</span></div>
+      </div>
+    </div>
+
+    <h3>📐 Collection Statistics</h3>
+    <div class="card-grid">
+      <div class="card" style="text-align:center">
+        <div style="font-size:2.2rem;font-weight:800;color:var(--accent-blue)">65</div>
+        <div style="font-size:.85rem;color:var(--muted)">Total Collections</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2.2rem;font-weight:800;color:var(--accent-violet)">11</div>
+        <div style="font-size:.85rem;color:var(--muted)">Domain Groups</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2.2rem;font-weight:800;color:var(--accent-green)">12</div>
+        <div style="font-size:.85rem;color:var(--muted)">Key Relationships</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:2.2rem;font-weight:800;color:var(--accent-amber)">150+</div>
+        <div style="font-size:.85rem;color:var(--muted)">HTTP API Endpoints</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /.container -->
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+  <div>🏛️ <strong>BANF System Architecture</strong> — Bengali Association of North Florida</div>
+  <div style="margin-top:.3rem">📍 jaxbengali.org &nbsp;|&nbsp; Generated: <span id="gen-ts"></span></div>
+  <div style="margin-top:.3rem;font-size:.75rem">Self-contained HTML document · No external dependencies · Built with GitHub Copilot CLI</div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// Collapsible sections
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  header.classList.toggle('collapsed');
+  body.classList.toggle('hidden');
+}
+
+// Timestamp
+document.getElementById('gen-ts').textContent = new Date().toLocaleString('en-US', {
+  weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
+});
+</script>
+</body>
+</html>
