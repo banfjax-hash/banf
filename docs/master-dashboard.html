@@ -562,7 +562,7 @@ function renderQuickLinks() {
   let html = '';
   links.forEach(l => {
     html += '<a href="' + l.url + '" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--text);font-size:.82rem;transition:.15s"' +
-      ' onmouseover="this.style.borderColor=\\'var(--accent)\\'" onmouseout="this.style.borderColor=\\'var(--line)\\'"><i class="fas ' + l.icon + '" style="color:' + l.color + ';width:18px;text-align:center"></i>' + l.label + '</a>';
+      ' onmouseover="this.style.borderColor=&apos;var(--accent)&apos;" onmouseout="this.style.borderColor=&apos;var(--line)&apos;"><i class="fas ' + l.icon + '" style="color:' + l.color + ';width:18px;text-align:center"></i>' + l.label + '</a>';
   });
   el.innerHTML = html;
 }

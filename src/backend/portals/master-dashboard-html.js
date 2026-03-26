@@ -333,11 +333,12 @@ async function fetchJSON(url) {
 }
 
 async function refreshAll() {
+  const ak = 'key=banf-bosonto-2026-live';
   const [health, pipeline, membership, crm] = await Promise.all([
     fetchJSON('http://127.0.0.1:9876/health'),
     fetchJSON(API + '/pipeline_status'),
-    fetchJSON(API + '/membership_summary'),
-    fetchJSON(API + '/crm_stats')
+    fetchJSON(API + '/membership_summary?' + ak),
+    fetchJSON(API + '/crm_stats?' + ak)
   ]);
   renderKPIs(health, pipeline, crm);
   renderWorkers(health);
@@ -459,14 +460,15 @@ function renderMembership(membership, crm) {
   const grid = document.getElementById('memGrid');
   const badge = document.getElementById('memBadge');
 
-  // Default membership data (from CRM)
+  // Default membership data (from CRM — corrected 2026-06-30)
   const years = {
-    '2026-27': { households: 6, categories: { 'M2 Premium EB - Family': 3, 'M2 Premium - Couple': 3 } },
-    '2025-26': { households: 53, categories: { 'EB - Family': 20, 'EB - Couple': 12, 'EB - Individual': 2, 'Reg - Family': 2, 'Reg - Couple': 3 } }
+    '2026-27': { households: 21, members: 23, totalIncome: 7041, categories: { 'M2 Premium - Family': 7, 'M2 Premium - Couple': 7, 'M1 Regular - Family': 3, 'M1 Regular - Couple': 1, 'M1 Regular - Individual': 2, 'M1 Regular - Student': 1, 'M2 Premium - Individual': 1, 'M2 Premium EB - Couple': 1 } },
+    '2025-26': { households: 53, categories: { 'EB - Family': 20, 'EB - Couple': 12, 'EB - Individual': 2, 'Reg - Family': 2, 'Reg - Couple': 3, 'Other': 14 } }
   };
-  const membersByYear = { '2022-23': 105, '2023-24': 107, '2024-25': 91, '2025-26': 112, '2026-27': 6 };
+  const membersByYear = { '2022-23': 105, '2023-24': 107, '2024-25': 91, '2025-26': 112, '2026-27': 23 };
 
   if (membership && membership.years) Object.assign(years, membership.years);
+  if (membership && membership.membersByYear) Object.assign(membersByYear, membership.membersByYear);
 
   let html = '';
 
@@ -565,7 +567,7 @@ function renderQuickLinks() {
   let html = '';
   links.forEach(l => {
     html += '<a href="' + l.url + '" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--text);font-size:.82rem;transition:.15s"' +
-      ' onmouseover="this.style.borderColor=\\'var(--accent)\\'" onmouseout="this.style.borderColor=\\'var(--line)\\'"><i class="fas ' + l.icon + '" style="color:' + l.color + ';width:18px;text-align:center"></i>' + l.label + '</a>';
+      ' onmouseover="this.style.borderColor=&apos;var(--accent)&apos;" onmouseout="this.style.borderColor=&apos;var(--line)&apos;"><i class="fas ' + l.icon + '" style="color:' + l.color + ';width:18px;text-align:center"></i>' + l.label + '</a>';
   });
   el.innerHTML = html;
 }
