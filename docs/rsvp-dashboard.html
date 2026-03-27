@@ -486,33 +486,96 @@ function renderNotes(notes) {
 
 /* ── RSVP Table ── */
 let currentTab = 'attending';
+function getDedupAnnotations(attending) {
+    if (!dedupEnabled || !householdData || !householdData.emailToHousehold) return {};
+    const emailMap = householdData.emailToHousehold;
+    const hhLookup = {};
+    (householdData.households || []).forEach(h => { hhLookup[h.id] = h; });
+    const decisions = getHHDecisions();
+    // Group attending by household
+    const hhGroups = {};
+    attending.forEach(r => {
+        const email = (r.email || '').toLowerCase().trim();
+        const hhId = emailMap[email];
+        if (hhId && hhLookup[hhId] && hhLookup[hhId].members.length > 1) {
+            if (!hhGroups[hhId]) hhGroups[hhId] = [];
+            hhGroups[hhId].push(r);
+        }
+    });
+    const annotations = {}; // email → {hhId, hhName, isPrimary, isMerged}
+    Object.entries(hhGroups).forEach(([hhId, rows]) => {
+        if (rows.length < 2) return;
+        const dec = decisions[hhId];
+        if (dec && dec.accepted === false) return; // rejected — no annotation
+        const hh = hhLookup[hhId];
+        // Primary = row with highest total
+        const sorted = [...rows].sort((a,b) => (b.totalAttendees||0) - (a.totalAttendees||0));
+        sorted.forEach((r, idx) => {
+            const email = (r.email || '').toLowerCase().trim();
+            annotations[email] = {
+                hhId, hhName: hh.displayName,
+                isPrimary: idx === 0,
+                isMerged: idx > 0
+            };
+        });
+    });
+    return annotations;
+}
+
 function renderTable(rows) {
+    const attending = rows.attending || [];
+    const annotations = getDedupAnnotations(attending);
+    const mergedCount = Object.values(annotations).filter(a => a.isMerged).length;
+    const effectiveAttending = attending.length - mergedCount;
+    const showDedup = dedupEnabled && mergedCount > 0;
     const tabs = [
-        { key:'attending', label:'Attending', count:(rows.attending||[]).length, cls:'yes' },
-        { key:'notAttending', label:'Not Attending', count:(rows.notAttending||[]).length, cls:'no' },
-        { key:'maybe', label:'Maybe', count:(rows.maybe||[]).length, cls:'maybe' }
+        { key:'attending', label:'Attending', count: showDedup ? effectiveAttending : attending.length, raw: showDedup ? attending.length : 0, cls:'yes' },
+        { key:'notAttending', label:'Not Attending', count:(rows.notAttending||[]).length, raw:0, cls:'no' },
+        { key:'maybe', label:'Maybe', count:(rows.maybe||[]).length, raw:0, cls:'maybe' }
     ];
-    document.getElementById('statusTabs').innerHTML = tabs.map(t => `
-        <button class="tab-btn ${t.key===currentTab?'active':''}" onclick="switchTab('${t.key}')">${t.label} <span class="badge-s ${t.cls}" style="margin-left:4px">${t.count}</span></button>`).join('');
+    document.getElementById('statusTabs').innerHTML = tabs.map(t => {
+        const rawNote = t.raw ? ` <span style="font-size:.6rem;color:var(--purple);font-weight:400">(${t.raw} raw)</span>` : '';
+        return `<button class="tab-btn ${t.key===currentTab?'active':''}" onclick="switchTab('${t.key}')">${t.label} <span class="badge-s ${t.cls}" style="margin-left:4px">${t.count}</span>${rawNote}</button>`;
+    }).join('');
     window._rows = rows;
-    renderTableRows(rows[currentTab] || []);
+    renderTableRows(rows[currentTab] || [], currentTab === 'attending' ? annotations : {});
 }
 function switchTab(key) { currentTab = key; renderTable(window._rows); }
-function renderTableRows(arr) {
+function renderTableRows(arr, annotations) {
     if (!arr.length) {
         document.getElementById('rsvpTableWrap').innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i>No entries</div>';
         return;
     }
-    const hdr = '<tr><th>#</th><th>Name</th><th>Email</th><th>Adults</th><th>Kids</th><th>Total</th><th>Dietary</th><th>Veg</th><th>Non-Veg</th><th>Notes</th><th>Cultural</th><th>Confidence</th></tr>';
+    const hasAnnotations = annotations && Object.keys(annotations).length > 0;
+    const hhCol = hasAnnotations ? '<th>Household</th>' : '';
+    const hdr = `<tr><th>#</th><th>Name</th><th>Email</th><th>Adults</th><th>Kids</th><th>Total</th>${hhCol}<th>Dietary</th><th>Veg</th><th>Non-Veg</th><th>Notes</th><th>Cultural</th><th>Confidence</th></tr>`;
+    let num = 0;
     const rows = arr.map((r,i) => {
+        const email = (r.email || '').toLowerCase().trim();
+        const ann = annotations ? annotations[email] : null;
+        const isMerged = ann && ann.isMerged;
+        const mergedStyle = isMerged ? 'opacity:.45;text-decoration:line-through;' : '';
         const cultural = r.culturalParticipant ? '<span class="badge-s yes">Yes</span>' : '<span style="color:var(--dim)">—</span>';
-        return `<tr>
-            <td>${i+1}</td>
+        if (!isMerged) num++;
+        let hhCell = '';
+        if (hasAnnotations) {
+            if (ann) {
+                const badge = ann.isPrimary
+                    ? `<span style="font-size:.62rem;background:rgba(168,85,247,.12);color:var(--purple);padding:2px 6px;border-radius:4px"><i class="fas fa-people-roof"></i> ${esc(ann.hhName)}</span>`
+                    : `<span style="font-size:.62rem;background:rgba(239,68,68,.08);color:var(--red);padding:2px 6px;border-radius:4px"><i class="fas fa-compress"></i> merged</span>`;
+                hhCell = `<td>${badge}</td>`;
+            } else {
+                hhCell = '<td></td>';
+            }
+        }
+        return `<tr style="${mergedStyle}">
+            <td>${isMerged ? '<span style="color:var(--dim)">—</span>' : num}</td>
             <td style="font-weight:600">${esc(r.senderName)}</td>
             <td style="color:var(--muted)">${esc(r.email)}</td>
             <td>${r.adults}</td>
             <td>${r.kids}</td>
             <td style="font-weight:700">${r.totalAttendees}</td>
+            ${hhCell}
             <td>${esc((r.dietary||'').replace(/_/g,' '))}</td>
             <td>${r.vegCount}</td>
             <td>${r.nonVegCount}</td>
@@ -768,22 +831,60 @@ function toggleDedup() {
     if (lastWorksheet) render(lastWorksheet);
 }
 
-function acceptHHMapping(hhId) {
+async function acceptHHMapping(hhId) {
     saveHHDecision(hhId, true);
     if (lastWorksheet) render(lastWorksheet);
+    // Sync to backend CRM
+    try {
+        const hh = householdData.households.find(h => h.id === hhId);
+        if (!hh) return;
+        const session = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}');
+        await fetch(API_BASE + '/evite_household_decision', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                eventId: EVENT_ID,
+                householdId: hhId,
+                accepted: true,
+                decidedBy: session.email || 'unknown',
+                displayName: hh.displayName,
+                members: hh.members
+            })
+        });
+    } catch (_) { /* localStorage still has the decision */ }
 }
 
-function rejectHHMapping(hhId) {
+async function rejectHHMapping(hhId) {
     const decisions = getHHDecisions();
     const current = decisions[hhId];
-    // If already rejected, toggle back to auto (remove decision)
+    let accepted;
     if (current && current.accepted === false) {
         delete decisions[hhId];
         localStorage.setItem(HH_DECISIONS_KEY, JSON.stringify(decisions));
+        accepted = null; // toggled back to auto
     } else {
         saveHHDecision(hhId, false);
+        accepted = false;
     }
     if (lastWorksheet) render(lastWorksheet);
+    // Sync to backend CRM
+    try {
+        const hh = householdData.households.find(h => h.id === hhId);
+        if (!hh) return;
+        const session = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}');
+        await fetch(API_BASE + '/evite_household_decision', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                eventId: EVENT_ID,
+                householdId: hhId,
+                accepted: accepted,
+                decidedBy: session.email || 'unknown',
+                displayName: hh.displayName,
+                members: hh.members
+            })
+        });
+    } catch (_) { /* localStorage still has the decision */ }
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
