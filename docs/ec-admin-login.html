@@ -577,7 +577,9 @@ function enterPortal(user, email) {
     memberId: 'EC-' + (user.ecTitle || '').replace(/\s/g, ''), isECMember: true, role: user.ecTitle,
     memberSince: '2024'
   }));
-  window.location.href = 'admin-portal.html';
+  // Redirect to returnUrl if present, otherwise admin-portal
+  const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
+  window.location.href = returnUrl || 'admin-portal.html';
 }
 
 // ── SIGN IN ──
@@ -1050,8 +1052,9 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const session = JSON.parse(existing);
       if (session.email && session.roles) {
-        // All EC members go to admin-portal.html (the EC Admin Portal)
-        window.location.href = 'admin-portal.html';
+        // Redirect to returnUrl if present, otherwise admin-portal
+        const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
+        window.location.href = returnUrl || 'admin-portal.html';
         return;
       }
     } catch (e) {}

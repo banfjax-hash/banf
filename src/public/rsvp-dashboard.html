@@ -54,7 +54,6 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica
 .badge-s.yes{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
 .badge-s.no{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)}
 .badge-s.maybe{background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.25)}
-.badge-s.unclear{background:rgba(148,163,184,.12);color:var(--muted);border:1px solid rgba(148,163,184,.25)}
 table.tb{width:100%;border-collapse:collapse;font-size:.78rem}
 table.tb th{background:var(--bg2);color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;font-size:.68rem;padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;position:sticky;top:0}
 table.tb td{padding:7px 10px;border-bottom:1px solid var(--line);color:var(--text)}
@@ -89,6 +88,13 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
 <div class="loading-overlay" id="loadingOverlay">
     <div class="spinner"></div>
     <p>Loading RSVP analytics…</p>
+</div>
+
+<!-- Auth overlay -->
+<div id="authOverlay" class="loading-overlay hidden" style="flex-direction:column;gap:20px">
+    <i class="fas fa-lock" style="font-size:2.5rem;color:var(--accent);opacity:.6"></i>
+    <p style="font-size:1rem;color:var(--text)">EC Admin access required</p>
+    <p style="color:var(--muted);font-size:.82rem">Redirecting to login…</p>
 </div>
 
 <div class="top-bar">
@@ -184,7 +190,23 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
 <script>
 const API_BASE = 'https://www.jaxbengali.org/_functions';
 const EVENT_ID = '61849b36-68e5-41fc-885d-998feafc21f2';
+const VENUE_CAPACITY = 500;
 let chartInstances = {};
+
+// ── EC Admin Auth Gate ──
+(function checkAuth() {
+    try {
+        const session = JSON.parse(sessionStorage.getItem('banf_admin_session') || 'null');
+        if (session && session.email) return; // authenticated
+    } catch(_) {}
+    // Not logged in — show auth overlay and redirect
+    document.getElementById('loadingOverlay').classList.add('hidden');
+    document.getElementById('authOverlay').classList.remove('hidden');
+    setTimeout(function() {
+        const returnUrl = encodeURIComponent(window.location.href);
+        window.location.href = 'ec-admin-login.html?returnUrl=' + returnUrl;
+    }, 1500);
+})();
 
 async function loadData() {
     const btn = document.querySelector('.refresh-btn');
@@ -236,13 +258,13 @@ function renderKPIs(ws) {
         { label:'Total Responses', val:s.totalResponses, sub:'from email scan', icon:'fa-envelope', cls:'' },
         { label:'Attending', val:s.attending, sub:`${Math.round(s.attending/Math.max(s.totalResponses,1)*100)}% of responses`, icon:'fa-check-circle', cls:'green' },
         { label:'Not Attending', val:s.notAttending, sub:'declined', icon:'fa-times-circle', cls:'red' },
-        { label:'Maybe / Unclear', val:s.maybe + s.unclear, sub:`${s.maybe} maybe · ${s.unclear} unclear`, icon:'fa-question-circle', cls:'yellow' },
+        { label:'Maybe', val:s.maybe, sub:`${s.maybe} tentative`, icon:'fa-question-circle', cls:'yellow' },
         { label:'Total Adults', val:h.adults, sub:'confirmed attending', icon:'fa-user', cls:'blue' },
         { label:'Total Kids', val:h.kids, sub:'confirmed attending', icon:'fa-child', cls:'cyan' },
         { label:'Total Headcount', val:h.totalHeads, sub:`of ${ws.event.capacity || '?'} capacity`, icon:'fa-people-group', cls:'purple' },
         { label:'Vegetarian', val:d.vegTotal || 0, sub:`${d.vegTotal && h.totalHeads ? Math.round(d.vegTotal/h.totalHeads*100) : 0}% of attendees`, icon:'fa-leaf', cls:'green' },
         { label:'Non-Vegetarian', val:d.nonVegTotal || 0, sub:`${d.nonVegTotal && h.totalHeads ? Math.round(d.nonVegTotal/h.totalHeads*100) : 0}% of attendees`, icon:'fa-drumstick-bite', cls:'red' },
-        { label:'Special Dietary', val:countSpecialDietary(d), sub:'vegan · allergy · other', icon:'fa-wheat-awn-circle-exclamation', cls:'yellow' },
+        { label:'Special Dietary', val:countSpecialDietaryFromRows(ws.rows), sub:'special requests from attendees', icon:'fa-wheat-awn-circle-exclamation', cls:'yellow' },
         { label:'Cultural Performers', val:c.totalParticipants || 0, sub:`${c.totalPerformances || 0} performances`, icon:'fa-music', cls:'pink' }
     ];
     document.getElementById('kpiRow').innerHTML = kpis.map(k => `
@@ -257,7 +279,7 @@ function renderKPIs(ws) {
 
 /* ── Capacity Bar ── */
 function renderCapacity(ws) {
-    const h = ws.headcount, cap = ws.event.capacity || 300;
+    const h = ws.headcount, cap = ws.event.capacity || VENUE_CAPACITY;
     const pct = Math.min(Math.round(h.totalHeads / cap * 100), 100);
     const color = pct > 90 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
     document.getElementById('capacityCard').innerHTML = `
@@ -277,10 +299,10 @@ function renderCharts(ws) {
     chartInstances = {};
     const s = ws.summary, h = ws.headcount, d = ws.dietary;
 
-    // RSVP status doughnut
+    // RSVP status doughnut (no unclear — only attending, not attending, maybe)
     chartInstances.rsvp = new Chart(document.getElementById('chartRsvp'), {
         type:'doughnut',
-        data:{labels:['Attending','Not Attending','Maybe','Unclear'],datasets:[{data:[s.attending,s.notAttending,s.maybe,s.unclear],backgroundColor:['#22c55e','#ef4444','#eab308','#64748b'],borderWidth:0}]},
+        data:{labels:['Attending','Not Attending','Maybe'],datasets:[{data:[s.attending,s.notAttending,s.maybe],backgroundColor:['#22c55e','#ef4444','#eab308'],borderWidth:0}]},
         options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',font:{size:11},padding:12}}}}
     });
 
@@ -421,8 +443,7 @@ function renderTable(rows) {
     const tabs = [
         { key:'attending', label:'Attending', count:(rows.attending||[]).length, cls:'yes' },
         { key:'notAttending', label:'Not Attending', count:(rows.notAttending||[]).length, cls:'no' },
-        { key:'maybe', label:'Maybe', count:(rows.maybe||[]).length, cls:'maybe' },
-        { key:'unclear', label:'Unclear', count:(rows.unclear||[]).length, cls:'unclear' }
+        { key:'maybe', label:'Maybe', count:(rows.maybe||[]).length, cls:'maybe' }
     ];
     document.getElementById('statusTabs').innerHTML = tabs.map(t => `
         <button class="tab-btn ${t.key===currentTab?'active':''}" onclick="switchTab('${t.key}')">${t.label} <span class="badge-s ${t.cls}" style="margin-left:4px">${t.count}</span></button>`).join('');
@@ -482,6 +503,15 @@ function countSpecialDietary(d) {
     let count = 0;
     Object.entries(d.breakdown).forEach(([k,v]) => {
         if (k !== 'non_vegetarian' && k !== 'vegetarian' && k !== 'unknown') count += v;
+    });
+    return count;
+}
+
+function countSpecialDietaryFromRows(rows) {
+    if (!rows || !rows.attending) return 0;
+    let count = 0;
+    rows.attending.forEach(r => {
+        if (r.notes && /diet|allerg|gluten|nut|dairy|vegan|halal|kosher|lactose|celiac|special/i.test(r.notes)) count++;
     });
     return count;
 }
