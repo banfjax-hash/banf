@@ -102,6 +102,31 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
 .btn-reject.rejected{background:var(--red);color:#fff}
 .hh-dedup-impact{background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);border-radius:10px;padding:14px 18px;margin-bottom:14px;font-size:.82rem}
 .hh-dedup-impact strong{color:var(--purple)}
+.instr-box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.instr-box h3{font-size:.88rem;font-weight:700;color:#fff;margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.instr-box h3 i{color:var(--accent);font-size:.8rem}
+.instr-box textarea{width:100%;min-height:90px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:10px 14px;font-size:.82rem;font-family:inherit;resize:vertical;line-height:1.5}
+.instr-box textarea:focus{outline:none;border-color:var(--accent)}
+.instr-box textarea::placeholder{color:var(--dim)}
+.instr-hints{font-size:.7rem;color:var(--dim);margin:8px 0 12px;line-height:1.6}
+.instr-hints code{background:var(--bg2);padding:1px 5px;border-radius:4px;font-size:.68rem;color:var(--muted)}
+.instr-submit{background:rgba(249,115,22,.15);color:var(--accent);border:1px solid rgba(249,115,22,.35);border-radius:8px;padding:8px 20px;font-size:.78rem;font-weight:700;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:6px}
+.instr-submit:hover{background:rgba(249,115,22,.25)}
+.instr-submit:disabled{opacity:.5;cursor:not-allowed}
+.instr-result{margin-top:12px;font-size:.78rem}
+.instr-result-item{padding:8px 12px;border-radius:8px;margin-bottom:6px;display:flex;align-items:flex-start;gap:8px}
+.instr-result-item.ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)}
+.instr-result-item.fail{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.instr-result-item i{margin-top:2px;flex-shrink:0}
+.instr-history{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+.instr-history h4{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:700;margin:0 0 10px}
+.instr-log{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:.78rem}
+.instr-log .log-time{font-size:.68rem;color:var(--dim)}
+.instr-log .log-by{font-size:.68rem;color:var(--muted);margin-left:8px}
+.instr-log .log-text{color:var(--text);margin:4px 0}
+.instr-log .log-results{font-size:.72rem;color:var(--muted)}
+.instr-log .log-results .ok{color:var(--green)}
+.instr-log .log-results .fail{color:var(--red)}
 </style>
 </head>
 <body>
@@ -206,6 +231,30 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
     <!-- Household Dedup -->
     <div class="section-title"><i class="fas fa-people-roof"></i> Household Spouse Deduplication</div>
     <div class="card-p" id="householdDedupCard"></div>
+
+    <!-- EC Admin Instructions -->
+    <div class="section-title"><i class="fas fa-pen-to-square"></i> EC Admin Instructions</div>
+    <div class="instr-box" id="adminInstrCard">
+        <h3><i class="fas fa-terminal"></i> Submit RSVP Corrections</h3>
+        <textarea id="instrTextarea" placeholder="Type instructions here (one per line or separated by semicolons)...
+Examples:
+Ranadhir Ghosh and Moumita Mukherjee are spouses
+Mark Sanhita Roy as attending
+Add Priya Das for cultural performance
+Update Amit Sen to 3 adults and 2 kids"></textarea>
+        <div class="instr-hints">
+            <b>Supported commands:</b><br>
+            <code>X and Y are spouses</code> &mdash; Link two RSVPs as one household<br>
+            <code>Mark X as attending/not attending/maybe</code> &mdash; Override RSVP status<br>
+            <code>X is bringing N adults and M kids</code> &mdash; Update headcount<br>
+            <code>Add X for cultural performance</code> &mdash; Flag as performer<br>
+            <code>X is vegetarian</code> &mdash; Override dietary preference<br>
+            <code>Note for X: some text</code> &mdash; Add admin note to an RSVP
+        </div>
+        <button class="instr-submit" id="instrSubmitBtn" onclick="submitInstruction()"><i class="fas fa-paper-plane"></i> Execute Instructions</button>
+        <div id="instrResultArea" class="instr-result"></div>
+        <div id="instrHistoryArea" class="instr-history"></div>
+    </div>
 
     <div style="text-align:center;padding:30px;font-size:.7rem;color:var(--dim)">
         Generated at <span id="genTime">—</span> · BANF Admin
@@ -887,9 +936,99 @@ async function rejectHHMapping(hhId) {
     } catch (_) { /* localStorage still has the decision */ }
 }
 
+/* ── EC Admin Instructions ── */
+async function submitInstruction() {
+    const textarea = document.getElementById('instrTextarea');
+    const btn = document.getElementById('instrSubmitBtn');
+    const resultArea = document.getElementById('instrResultArea');
+    const text = textarea.value.trim();
+    if (!text) { resultArea.innerHTML = '<div class="instr-result-item fail"><i class="fas fa-exclamation-circle" style="color:var(--red)"></i> Please enter at least one instruction.</div>'; return; }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    resultArea.innerHTML = '';
+
+    let session = {};
+    try { session = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}'); } catch(_) {}
+
+    try {
+        const res = await fetch(`${API_BASE}/evite_admin_instruction`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                eventId: EVENT_ID,
+                instruction: text,
+                adminEmail: session.email || 'unknown',
+                adminName: session.name || ''
+            })
+        });
+        const json = await res.json();
+        if (!json.success) {
+            resultArea.innerHTML = `<div class="instr-result-item fail"><i class="fas fa-times-circle" style="color:var(--red)"></i> ${esc(json.error || 'Failed to process')}</div>`;
+            return;
+        }
+
+        // Show results
+        let html = '';
+        (json.results || []).forEach(r => {
+            if (r.success) {
+                html += `<div class="instr-result-item ok"><i class="fas fa-check-circle" style="color:var(--green)"></i><div><strong>${esc(r.type.replace(/_/g, ' '))}</strong>: ${esc(r.detail)}</div></div>`;
+            } else {
+                html += `<div class="instr-result-item fail"><i class="fas fa-times-circle" style="color:var(--red)"></i><div><strong>${esc(r.type.replace(/_/g, ' '))}</strong>: ${esc(r.error || 'Failed')}<br><span style="color:var(--dim);font-size:.72rem">${esc(r.raw)}</span></div></div>`;
+            }
+        });
+        const summary = `<div style="font-size:.75rem;color:var(--muted);margin-bottom:8px">${json.successCount} succeeded, ${json.failCount} failed out of ${json.actionsParsed} action(s)</div>`;
+        resultArea.innerHTML = summary + html;
+        textarea.value = '';
+
+        // Refresh data to show updated RSVP info
+        if (json.successCount > 0) {
+            setTimeout(() => loadData(), 800);
+        }
+        // Refresh instruction history
+        loadInstructionHistory();
+    } catch (e) {
+        resultArea.innerHTML = `<div class="instr-result-item fail"><i class="fas fa-times-circle" style="color:var(--red)"></i> Network error: ${esc(e.message)}</div>`;
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Execute Instructions';
+    }
+}
+
+async function loadInstructionHistory() {
+    const area = document.getElementById('instrHistoryArea');
+    try {
+        const res = await fetch(`${API_BASE}/evite_admin_instructions?eventId=${EVENT_ID}`);
+        const json = await res.json();
+        if (!json.success || !json.instructions || !json.instructions.length) {
+            area.innerHTML = '<h4><i class="fas fa-clock-rotate-left"></i> Instruction History</h4><div style="font-size:.78rem;color:var(--dim)">No instructions submitted yet.</div>';
+            return;
+        }
+        let html = '<h4><i class="fas fa-clock-rotate-left"></i> Instruction History</h4>';
+        json.instructions.forEach(inst => {
+            const time = inst.executedAt ? new Date(inst.executedAt).toLocaleString() : '—';
+            const resultSummary = (inst.results || []).map(r => {
+                return r.success
+                    ? `<span class="ok"><i class="fas fa-check" style="font-size:.6rem"></i> ${esc(r.detail || r.type)}</span>`
+                    : `<span class="fail"><i class="fas fa-times" style="font-size:.6rem"></i> ${esc(r.error || r.type)}</span>`;
+            }).join('<br>');
+            html += `<div class="instr-log">
+                <span class="log-time">${esc(time)}</span>
+                <span class="log-by">by ${esc(inst.adminEmail || 'unknown')}</span>
+                <div class="log-text">${esc(inst.instruction)}</div>
+                <div class="log-results">${resultSummary || '<span style="color:var(--dim)">No details</span>'}</div>
+            </div>`;
+        });
+        area.innerHTML = html;
+    } catch (e) {
+        area.innerHTML = '<h4><i class="fas fa-clock-rotate-left"></i> Instruction History</h4><div style="font-size:.78rem;color:var(--dim)">Could not load history.</div>';
+    }
+}
+
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
 loadData();
+loadInstructionHistory();
 </script>
 </body>
 </html>
