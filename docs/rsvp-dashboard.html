@@ -81,6 +81,27 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
 .loading-overlay .spinner{width:40px;height:40px;border:3px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 .loading-overlay p{color:var(--muted);font-size:.88rem}
 .hidden{display:none!important}
+.dedup-toggle{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:4px 12px;font-size:.72rem;font-weight:600;cursor:pointer;color:var(--muted);transition:.15s;margin-left:12px}
+.dedup-toggle.active{background:rgba(168,85,247,.12);color:var(--purple);border-color:rgba(168,85,247,.3)}
+.dedup-toggle i{font-size:.65rem}
+.hh-pair{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px;position:relative}
+.hh-pair .hh-name{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.hh-pair .hh-name .hh-badge{font-size:.65rem;padding:2px 8px;border-radius:999px;font-weight:600}
+.hh-pair .hh-members{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.hh-pair .hh-member{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:.78rem;flex:1;min-width:200px}
+.hh-pair .hh-member .m-name{font-weight:700;color:var(--text)}
+.hh-pair .hh-member .m-detail{color:var(--muted);font-size:.72rem;margin-top:2px}
+.hh-pair .hh-evidence{font-size:.7rem;color:var(--dim);margin-top:4px}
+.hh-pair .hh-actions{display:flex;gap:6px;margin-top:8px}
+.hh-pair .hh-actions button{border:none;border-radius:6px;padding:5px 14px;font-size:.72rem;font-weight:600;cursor:pointer;transition:.15s}
+.btn-accept{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)!important}
+.btn-accept:hover{background:rgba(34,197,94,.2)}
+.btn-accept.accepted{background:var(--green);color:#fff}
+.btn-reject{background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25)!important}
+.btn-reject:hover{background:rgba(239,68,68,.2)}
+.btn-reject.rejected{background:var(--red);color:#fff}
+.hh-dedup-impact{background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.2);border-radius:10px;padding:14px 18px;margin-bottom:14px;font-size:.82rem}
+.hh-dedup-impact strong{color:var(--purple)}
 </style>
 </head>
 <body>
@@ -182,6 +203,10 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
         <div class="scroll-table" id="reviewTableWrap"></div>
     </div>
 
+    <!-- Household Dedup -->
+    <div class="section-title"><i class="fas fa-people-roof"></i> Household Spouse Deduplication</div>
+    <div class="card-p" id="householdDedupCard"></div>
+
     <div style="text-align:center;padding:30px;font-size:.7rem;color:var(--dim)">
         Generated at <span id="genTime">—</span> · BANF Admin
     </div>
@@ -191,7 +216,12 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
 const API_BASE = 'https://www.jaxbengali.org/_functions';
 const EVENT_ID = '61849b36-68e5-41fc-885d-998feafc21f2';
 const VENUE_CAPACITY = 500;
+const HH_MAP_URL = 'https://banfjax-hash.github.io/banf/data/household-map.json';
+const HH_DECISIONS_KEY = 'banf_hh_dedup_decisions';
 let chartInstances = {};
+let householdData = null;
+let dedupEnabled = true;
+let lastWorksheet = null;
 
 // ── EC Admin Auth Gate ──
 (function checkAuth() {
@@ -213,9 +243,15 @@ async function loadData() {
     btn.classList.add('loading');
     document.getElementById('loadingOverlay').classList.remove('hidden');
     try {
-        const res = await fetch(`${API_BASE}/evite_attendance_report?eventId=${EVENT_ID}`);
-        const json = await res.json();
+        // Load RSVP data and household map in parallel
+        const [rsvpRes, hhRes] = await Promise.all([
+            fetch(`${API_BASE}/evite_attendance_report?eventId=${EVENT_ID}`),
+            householdData ? Promise.resolve(null) : fetch(HH_MAP_URL).then(r => r.ok ? r.json() : null).catch(() => null)
+        ]);
+        if (hhRes) householdData = hhRes;
+        const json = await rsvpRes.json();
         if (!json.worksheet) throw new Error(json.error || 'No data');
+        lastWorksheet = json.worksheet;
         render(json.worksheet);
     } catch (e) {
         alert('Failed to load: ' + e.message);
@@ -235,6 +271,7 @@ function render(ws) {
     renderNotes(ws.notes);
     renderTable(ws.rows);
     renderReview(ws.needsReview);
+    renderHouseholdDedup(ws);
     document.getElementById('genTime').textContent = new Date(ws.generatedAt).toLocaleString();
 }
 
@@ -254,14 +291,20 @@ function renderEventBanner(ev) {
 /* ── KPI Cards ── */
 function renderKPIs(ws) {
     const s = ws.summary, h = ws.headcount, c = ws.cultural || {}, d = ws.dietary || {};
+    const dd = getDedup(ws);
+    const useDedup = dedupEnabled && dd.hasDuplicates;
+    const adults = useDedup ? dd.adults : h.adults;
+    const kids = useDedup ? dd.kids : h.kids;
+    const total = useDedup ? dd.totalHeads : h.totalHeads;
+    const dedupNote = useDedup ? ` <span style="font-size:.6rem;color:var(--purple)">(deduped)</span>` : '';
     const kpis = [
         { label:'Total Responses', val:s.totalResponses, sub:'from email scan', icon:'fa-envelope', cls:'' },
         { label:'Attending', val:s.attending, sub:`${Math.round(s.attending/Math.max(s.totalResponses,1)*100)}% of responses`, icon:'fa-check-circle', cls:'green' },
         { label:'Not Attending', val:s.notAttending, sub:'declined', icon:'fa-times-circle', cls:'red' },
         { label:'Maybe', val:s.maybe, sub:`${s.maybe} tentative`, icon:'fa-question-circle', cls:'yellow' },
-        { label:'Total Adults', val:h.adults, sub:'confirmed attending', icon:'fa-user', cls:'blue' },
-        { label:'Total Kids', val:h.kids, sub:'confirmed attending', icon:'fa-child', cls:'cyan' },
-        { label:'Total Headcount', val:h.totalHeads, sub:`of ${ws.event.capacity || '?'} capacity`, icon:'fa-people-group', cls:'purple' },
+        { label:'Total Adults' + dedupNote, val:adults, sub:useDedup ? `raw: ${h.adults} (${h.adults - adults} deduped)` : 'confirmed attending', icon:'fa-user', cls:'blue' },
+        { label:'Total Kids' + dedupNote, val:kids, sub:useDedup ? `raw: ${h.kids} (${h.kids - kids} deduped)` : 'confirmed attending', icon:'fa-child', cls:'cyan' },
+        { label:'Total Headcount' + dedupNote, val:total, sub:useDedup ? `raw: ${h.totalHeads} | saved ${h.totalHeads - total}` : `of ${ws.event.capacity || '?'} capacity`, icon:'fa-people-group', cls:'purple' },
         { label:'Vegetarian', val:d.vegTotal || 0, sub:`${d.vegTotal && h.totalHeads ? Math.round(d.vegTotal/h.totalHeads*100) : 0}% of attendees`, icon:'fa-leaf', cls:'green' },
         { label:'Non-Vegetarian', val:d.nonVegTotal || 0, sub:`${d.nonVegTotal && h.totalHeads ? Math.round(d.nonVegTotal/h.totalHeads*100) : 0}% of attendees`, icon:'fa-drumstick-bite', cls:'red' },
         { label:'Special Dietary', val:countSpecialDietaryFromRows(ws.rows), sub:'special requests from attendees', icon:'fa-wheat-awn-circle-exclamation', cls:'yellow' },
@@ -280,13 +323,17 @@ function renderKPIs(ws) {
 /* ── Capacity Bar ── */
 function renderCapacity(ws) {
     const h = ws.headcount, cap = ws.event.capacity || VENUE_CAPACITY;
-    const pct = Math.min(Math.round(h.totalHeads / cap * 100), 100);
+    const dd = getDedup(ws);
+    const useDedup = dedupEnabled && dd.hasDuplicates;
+    const heads = useDedup ? dd.totalHeads : h.totalHeads;
+    const pct = Math.min(Math.round(heads / cap * 100), 100);
     const color = pct > 90 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+    const dedupLabel = useDedup ? ` <span style="font-size:.72rem;color:var(--purple)">(deduped from ${h.totalHeads})</span>` : '';
     document.getElementById('capacityCard').innerHTML = `
         <h3><i class="fas fa-gauge-high"></i> Venue Capacity</h3>
         <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px">
-            <span>${h.totalHeads} confirmed</span>
-            <span style="color:var(--muted)">${h.capacityRemaining != null ? h.capacityRemaining + ' remaining' : ''} of ${cap}</span>
+            <span>${heads} confirmed${dedupLabel}</span>
+            <span style="color:var(--muted)">${cap - heads} remaining of ${cap}</span>
         </div>
         <div class="capacity-bar"><div class="fill" style="width:${pct}%;background:${color}"></div></div>
         <div style="text-align:center;font-size:.72rem;color:var(--dim);margin-top:4px">${pct}% filled</div>
@@ -514,6 +561,229 @@ function countSpecialDietaryFromRows(rows) {
         if (r.notes && /diet|allerg|gluten|nut|dairy|vegan|halal|kosher|lactose|celiac|special/i.test(r.notes)) count++;
     });
     return count;
+}
+
+/* ── Household Dedup Engine ── */
+function getHHDecisions() {
+    try { return JSON.parse(localStorage.getItem(HH_DECISIONS_KEY) || '{}'); } catch(_) { return {}; }
+}
+function saveHHDecision(hhId, accepted) {
+    const d = getHHDecisions();
+    const session = JSON.parse(sessionStorage.getItem('banf_admin_session') || '{}');
+    d[hhId] = { accepted, decidedBy: session.email || 'unknown', decidedAt: new Date().toISOString() };
+    localStorage.setItem(HH_DECISIONS_KEY, JSON.stringify(d));
+}
+
+function getDedup(ws) {
+    const result = { hasDuplicates: false, adults: 0, kids: 0, totalHeads: 0, duplicateHouseholds: [] };
+    const attending = (ws.rows && ws.rows.attending) || [];
+    if (!householdData || !householdData.emailToHousehold || !attending.length) {
+        result.adults = ws.headcount.adults;
+        result.kids = ws.headcount.kids;
+        result.totalHeads = ws.headcount.totalHeads;
+        return result;
+    }
+
+    const emailMap = householdData.emailToHousehold;
+    const hhLookup = {};
+    (householdData.households || []).forEach(h => { hhLookup[h.id] = h; });
+
+    // Group attending rows by householdId
+    const hhGroups = {};   // hhId → [row, row, ...]
+    const standalone = []; // rows not in any household pair
+
+    attending.forEach(r => {
+        const email = (r.email || '').toLowerCase().trim();
+        const hhId = emailMap[email];
+        if (hhId && hhLookup[hhId] && hhLookup[hhId].members.length > 1) {
+            if (!hhGroups[hhId]) hhGroups[hhId] = [];
+            hhGroups[hhId].push(r);
+        } else {
+            standalone.push(r);
+        }
+    });
+
+    const decisions = getHHDecisions();
+    let dedupAdults = 0, dedupKids = 0;
+
+    // Add standalone row counts
+    standalone.forEach(r => { dedupAdults += (r.adults || 0); dedupKids += (r.kids || 0); });
+
+    // Process household groups
+    Object.entries(hhGroups).forEach(([hhId, rows]) => {
+        if (rows.length < 2) {
+            // Only one response from this household - count normally
+            rows.forEach(r => { dedupAdults += (r.adults || 0); dedupKids += (r.kids || 0); });
+            return;
+        }
+
+        // Multiple responses from same household
+        const hh = hhLookup[hhId];
+        const decision = decisions[hhId];
+        const isRejected = decision && decision.accepted === false;
+
+        if (isRejected) {
+            // EC rejected this mapping — count as separate
+            rows.forEach(r => { dedupAdults += (r.adults || 0); dedupKids += (r.kids || 0); });
+        } else {
+            // Accept (default or explicit) — use MAX adults, MAX kids
+            const mergedAdults = Math.max(...rows.map(r => r.adults || 0));
+            const mergedKids = Math.max(...rows.map(r => r.kids || 0));
+            dedupAdults += mergedAdults;
+            dedupKids += mergedKids;
+
+            result.duplicateHouseholds.push({
+                hhId,
+                displayName: hh.displayName,
+                type: hh.type,
+                responses: rows,
+                allMembers: hh.members,
+                mergedAdults,
+                mergedKids,
+                rawAdults: rows.reduce((s,r) => s + (r.adults||0), 0),
+                rawKids: rows.reduce((s,r) => s + (r.kids||0), 0),
+                evidence: hh.evidence || [],
+                weight: hh.weight,
+                decision: decision || null
+            });
+        }
+    });
+
+    result.adults = dedupAdults;
+    result.kids = dedupKids;
+    result.totalHeads = dedupAdults + dedupKids;
+    result.hasDuplicates = result.duplicateHouseholds.length > 0;
+    return result;
+}
+
+/* ── Render Household Dedup Section ── */
+function renderHouseholdDedup(ws) {
+    const el = document.getElementById('householdDedupCard');
+    if (!el) return;
+
+    if (!householdData || !householdData.households) {
+        el.innerHTML = '<div class="empty-state"><i class="fas fa-circle-info" style="color:var(--muted)"></i>Household data not available</div>';
+        return;
+    }
+
+    const dd = getDedup(ws);
+    const decisions = getHHDecisions();
+
+    // Also find households where only one spouse responded (show as info)
+    const attending = (ws.rows && ws.rows.attending) || [];
+    const attendingEmails = new Set(attending.map(r => (r.email || '').toLowerCase().trim()));
+    const emailMap = householdData.emailToHousehold;
+    const hhLookup = {};
+    (householdData.households || []).forEach(h => { hhLookup[h.id] = h; });
+
+    let html = '';
+
+    // Toggle button
+    html += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+        <h3 style="margin:0"><i class="fas fa-people-roof"></i> Household Spouse Deduplication</h3>
+        <button class="dedup-toggle ${dedupEnabled ? 'active' : ''}" onclick="toggleDedup()">
+            <i class="fas ${dedupEnabled ? 'fa-toggle-on' : 'fa-toggle-off'}"></i> Dedup ${dedupEnabled ? 'ON' : 'OFF'}
+        </button>
+    </div>`;
+
+    if (!dd.hasDuplicates) {
+        html += '<div class="empty-state"><i class="fas fa-check-circle" style="color:var(--green)"></i>No duplicate household responses detected</div>';
+        el.innerHTML = html;
+        return;
+    }
+
+    // Impact summary
+    const rawTotal = ws.headcount.totalHeads;
+    const savedAdults = ws.headcount.adults - dd.adults;
+    const savedKids = ws.headcount.kids - dd.kids;
+    const savedTotal = rawTotal - dd.totalHeads;
+    html += `<div class="hh-dedup-impact">
+        <i class="fas fa-wand-magic-sparkles" style="color:var(--purple)"></i>
+        <strong>${dd.duplicateHouseholds.length}</strong> household${dd.duplicateHouseholds.length > 1 ? 's' : ''} with overlapping RSVP responses detected.
+        ${dedupEnabled ? `Dedup saves <strong>${savedTotal}</strong> headcount (${savedAdults} adults, ${savedKids} kids) &mdash; raw ${rawTotal} &rarr; deduped ${dd.totalHeads}.` : 'Enable dedup to adjust headcount.'}
+    </div>`;
+
+    // Render each detected duplicate household
+    dd.duplicateHouseholds.forEach(dh => {
+        const dec = decisions[dh.hhId];
+        const isAccepted = dec && dec.accepted === true;
+        const isRejected = dec && dec.accepted === false;
+        const statusBadge = isAccepted
+            ? '<span class="hh-badge" style="background:rgba(34,197,94,.15);color:var(--green)"><i class="fas fa-check"></i> Accepted</span>'
+            : isRejected
+            ? '<span class="hh-badge" style="background:rgba(239,68,68,.15);color:var(--red)"><i class="fas fa-times"></i> Rejected</span>'
+            : '<span class="hh-badge" style="background:rgba(168,85,247,.15);color:var(--purple)"><i class="fas fa-robot"></i> Auto-detected</span>';
+
+        html += `<div class="hh-pair" data-hh="${esc(dh.hhId)}">
+            <div class="hh-name">
+                <i class="fas fa-people-roof" style="color:var(--purple)"></i>
+                ${esc(dh.displayName)} ${statusBadge}
+                <span style="font-size:.65rem;color:var(--dim);font-weight:400;margin-left:auto">confidence: ${dh.weight}</span>
+            </div>
+            <div class="hh-members">`;
+
+        // Show each response from this household
+        dh.responses.forEach(r => {
+            html += `<div class="hh-member">
+                <div class="m-name"><i class="fas fa-user" style="font-size:.65rem;color:var(--cyan)"></i> ${esc(r.senderName)}</div>
+                <div class="m-detail">${esc(r.email)}</div>
+                <div class="m-detail">Adults: <strong>${r.adults}</strong> &middot; Kids: <strong>${r.kids}</strong> &middot; Total: <strong>${r.totalAttendees}</strong></div>
+                <div class="m-detail">Dietary: ${esc((r.dietary||'unknown').replace(/_/g,' '))} &middot; Confidence: ${r.llmConfidence}%</div>
+            </div>`;
+        });
+
+        html += `</div>`; // close hh-members
+
+        // Merged result
+        html += `<div style="font-size:.75rem;color:var(--muted);margin-bottom:6px">
+            <i class="fas fa-compress"></i> Merged count: <strong style="color:var(--purple)">${dh.mergedAdults} adults + ${dh.mergedKids} kids = ${dh.mergedAdults + dh.mergedKids}</strong>
+            (raw sum was ${dh.rawAdults} adults + ${dh.rawKids} kids = ${dh.rawAdults + dh.rawKids})
+        </div>`;
+
+        // Evidence
+        if (dh.evidence.length) {
+            html += `<div class="hh-evidence"><i class="fas fa-fingerprint"></i> Evidence: `;
+            html += dh.evidence.map(e => `${esc(e.detail)} <span style="color:var(--purple)">(w:${e.weight})</span>`).join(' &bull; ');
+            html += `</div>`;
+        }
+
+        // Accept / Reject buttons
+        html += `<div class="hh-actions">
+            <button class="btn-accept ${isAccepted ? 'accepted' : ''}" onclick="acceptHHMapping('${esc(dh.hhId)}')">
+                <i class="fas fa-check"></i> ${isAccepted ? 'Accepted' : 'Accept Mapping'}
+            </button>
+            <button class="btn-reject ${isRejected ? 'rejected' : ''}" onclick="rejectHHMapping('${esc(dh.hhId)}')">
+                <i class="fas fa-times"></i> ${isRejected ? 'Rejected' : 'Reject (Count Separately)'}
+            </button>
+        </div>`;
+
+        html += `</div>`; // close hh-pair
+    });
+
+    el.innerHTML = html;
+}
+
+function toggleDedup() {
+    dedupEnabled = !dedupEnabled;
+    if (lastWorksheet) render(lastWorksheet);
+}
+
+function acceptHHMapping(hhId) {
+    saveHHDecision(hhId, true);
+    if (lastWorksheet) render(lastWorksheet);
+}
+
+function rejectHHMapping(hhId) {
+    const decisions = getHHDecisions();
+    const current = decisions[hhId];
+    // If already rejected, toggle back to auto (remove decision)
+    if (current && current.accepted === false) {
+        delete decisions[hhId];
+        localStorage.setItem(HH_DECISIONS_KEY, JSON.stringify(decisions));
+    } else {
+        saveHHDecision(hhId, false);
+    }
+    if (lastWorksheet) render(lastWorksheet);
 }
 
 function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }

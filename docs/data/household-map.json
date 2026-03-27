@@ -1,0 +1,793 @@
+{
+  "households": [
+    {
+      "id": "HH-003",
+      "type": "family",
+      "displayName": "Partha & Amrita Mukhopadhyay",
+      "members": [
+        {
+          "email": "mukhopadhyay.partha@gmail.com",
+          "name": "Partha Mukhopadhyay"
+        },
+        {
+          "email": "amrriita@gmail.com",
+          "name": "Amrita"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Partha Mukhopadhyay\" ($340)",
+          "weight": 15
+        },
+        {
+          "type": "raw_entry_cooccurrence",
+          "detail": "Co-occur in raw entry \"Partha+Amrita Mukherjee\" (2024-25)",
+          "weight": 8
+        },
+        {
+          "type": "cross_year_frequency",
+          "detail": "Co-occur 2 years: 2023-24, 2024-25",
+          "weight": 10
+        }
+      ],
+      "weight": 33
+    },
+    {
+      "id": "HH-017",
+      "type": "couple",
+      "displayName": "Soumyajit & Nandita Dutta",
+      "members": [
+        {
+          "email": "g.nnandita@gmail.com",
+          "name": "Nandita Guin"
+        },
+        {
+          "email": "duttasoumyajit86@gmail.com",
+          "name": "Soumyajit Dutta"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Soumyajit/ Nandita\" ($300)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-024",
+      "type": "family",
+      "displayName": "Swarnendu & Sreya Sen",
+      "members": [
+        {
+          "email": "swarnendu.sen@gmail.com",
+          "name": "Swarnendu Sen"
+        },
+        {
+          "email": "sreya.ghosh1510@gmail.com",
+          "name": "Sreya Ghosh"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Swarnendu/ Sreya\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-021",
+      "type": "family",
+      "displayName": "Joyeeta & Krishna Polley",
+      "members": [
+        {
+          "email": "r.se47@yahoo.com",
+          "name": "Krishna Di"
+        },
+        {
+          "email": "joyeeta.all@gmail.com",
+          "name": "Joyeeta Polley"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Joyeeta/Krishnendu\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-054",
+      "type": "family",
+      "displayName": "Kapil & Sanghamitra Sadhu",
+      "members": [
+        {
+          "email": "kapil.sadhu@gmail.com",
+          "name": "Kapil Sadhu"
+        },
+        {
+          "email": "riyachandra1988@gmail.com",
+          "name": "Sanghamitra Chandra"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Kapil / Sanghamitra\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-051",
+      "type": "couple",
+      "displayName": "Rajib & Rita S",
+      "members": [
+        {
+          "email": "rajibs123@gmail.com",
+          "name": "Rajib S"
+        },
+        {
+          "email": "ritabhattacharjee@gmail.com",
+          "name": "Rita Bhattacharjee"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Rajib Da/Rita Di\" ($300)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-039",
+      "type": "couple",
+      "displayName": "Ayan & urmi Dutta",
+      "members": [
+        {
+          "email": "urmi.kanya@gmail.com",
+          "name": "urmi rakshit"
+        },
+        {
+          "email": "duttaayan.cs@gmail.com",
+          "name": "Ayan Dutta"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Ayan / Urmi\" ($300)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-038",
+      "type": "couple",
+      "displayName": "Koushik & Bithika Karmakar",
+      "members": [
+        {
+          "email": "karmakar.2007@gmail.com",
+          "name": "Koushik Karmakar"
+        },
+        {
+          "email": "bithikaroy96@gmail.com",
+          "name": "Bithika Roy"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Koushik/Bithika\" ($300)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-059",
+      "type": "couple",
+      "displayName": "Dibendu & Paulami Roy",
+      "members": [
+        {
+          "email": "drpaulami@gmail.com",
+          "name": "Paulami Guha"
+        },
+        {
+          "email": "dbroy05@gmail.com",
+          "name": "Dibendu Roy"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Dibendu & Paulami Roy\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 12
+    },
+    {
+      "id": "HH-055",
+      "type": "family",
+      "displayName": "Arnab & SUDESHNA Sikdar",
+      "members": [
+        {
+          "email": "callarnabsikdar@gmail.com",
+          "name": "Arnab Sikdar"
+        },
+        {
+          "email": "sudeshna.chatterjee1986@gmail.com",
+          "name": "SUDESHNA CHATTERJEE"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Arnab/ Sudeshna\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-049",
+      "type": "couple",
+      "displayName": "Sharmistha & Surajit Poddar",
+      "members": [
+        {
+          "email": "sharmi.p09@gmail.com",
+          "name": "Sharmistha Poddar"
+        },
+        {
+          "email": "surajit_c@hotmail.com",
+          "name": "Surajit Chakravarty"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Surojit Da/ Sharmistha Di\" ($300)",
+          "weight": 15
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Surajit & Sharmistha Chakravarty\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 27
+    },
+    {
+      "id": "HH-036",
+      "type": "family",
+      "displayName": "Raj & Holly Goswami",
+      "members": [
+        {
+          "email": "holly_goswami@buildfusion.com",
+          "name": "Holly Goswami"
+        },
+        {
+          "email": "raj.goswami@gmail.com",
+          "name": "Raj Goswami"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Raj & Holly Goswami\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-018",
+      "type": "family",
+      "displayName": "RANADHIR & Moumita Ghosh",
+      "members": [
+        {
+          "email": "ranadhir.ghosh@gmail.com",
+          "name": "RANADHIR GHOSH"
+        },
+        {
+          "email": "tinnee223@gmail.com",
+          "name": "Moumita Mitra"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Ranadhir Da/ Moumita Di\" ($340)",
+          "weight": 15
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Ranadhir & Moumita Ghosh\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 27
+    },
+    {
+      "id": "HH-043",
+      "type": "family",
+      "displayName": "Sumit & Paramita Pal",
+      "members": [
+        {
+          "email": "runaparamita@gmail.com",
+          "name": "Paramita Pal"
+        },
+        {
+          "email": "sumit_system@yahoo.com",
+          "name": "Sumit Pal"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Sumit Da/ Paramita Di\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-046",
+      "type": "family",
+      "displayName": "Suvendu & Munmun Maitra",
+      "members": [
+        {
+          "email": "slmaitra@gmail.com",
+          "name": "Suvendu Maitra"
+        },
+        {
+          "email": "munmun_maitra@yahoo.com",
+          "name": "Munmun Maitra"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "Reg - Family: \"Suvendu Da/ Munmun Di\" ($215)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-025",
+      "type": "family",
+      "displayName": "Swapnoneel & Sayani Roy",
+      "members": [
+        {
+          "email": "maitra.sayani@gmail.com",
+          "name": "Sayani Maitra"
+        },
+        {
+          "email": "sroy.iitm@gmail.com",
+          "name": "Swapnoneel Roy"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Swapnoneel/ Sayani\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-019",
+      "type": "family",
+      "displayName": "Santanu & Sanchari Bhattacharya",
+      "members": [
+        {
+          "email": "tosanchari@gmail.com",
+          "name": "Sanchari Bhattacharyya"
+        },
+        {
+          "email": "tosantanu@gmail.com",
+          "name": "Santanu Bhattacharya"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Santanu Da/ Sanchari Di\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-020",
+      "type": "family",
+      "displayName": "Jiniya & Nilay Chandra",
+      "members": [
+        {
+          "email": "chandranilay@gmail.com",
+          "name": "Nilay Chandra"
+        },
+        {
+          "email": "jiniya.chandra@gmail.com",
+          "name": "Jiniya Chandra"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Jiniya/Nilay\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-005",
+      "type": "family",
+      "displayName": "Chiradip & Barnali Chatterjee",
+      "members": [
+        {
+          "email": "cchat003@fiu.edu",
+          "name": "Chiradip Chatterjee"
+        },
+        {
+          "email": "hibarnali@gmail.com",
+          "name": "Barnali Mondal"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Chiradip Chatterjee\" ($340)",
+          "weight": 15
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Barnali & Chiradip Mondal\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 27
+    },
+    {
+      "id": "HH-028",
+      "type": "couple",
+      "displayName": "Rahul & Sunanda Banerjee",
+      "members": [
+        {
+          "email": "sunanda.banerjee@gmail.com",
+          "name": "Sunanda Banerjee"
+        },
+        {
+          "email": "weekender_in@yahoo.com",
+          "name": "Rahul Banerjee"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "Reg - Couple: \"Rahul B/ Sunanda B\" ($200)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-029",
+      "type": "couple",
+      "displayName": "Subrata & Moushumi Mondal",
+      "members": [
+        {
+          "email": "moushumi.mondal@gmail.com",
+          "name": "Moushumi Mondal"
+        },
+        {
+          "email": "sm.mondal@gmail.com",
+          "name": "Subrata Mondal"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Subrata Da\" ($300)",
+          "weight": 15
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Moushumi & Subrata Mondal\" (couple)",
+          "weight": 12
+        },
+        {
+          "type": "cross_year_frequency",
+          "detail": "Co-occur 2 years: 2022-23, 2023-24",
+          "weight": 10
+        }
+      ],
+      "weight": 37
+    },
+    {
+      "id": "HH-058",
+      "type": "couple",
+      "displayName": "Jay & Pallavi Chakraborty",
+      "members": [
+        {
+          "email": "pallavib_00@yahoo.com",
+          "name": "Pallavi Chakraborty"
+        },
+        {
+          "email": "jchakrab@gmail.com",
+          "name": "Jay Chakraborty"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "raw_entry_cooccurrence",
+          "detail": "Co-occur in raw entry \"Jay+Pallavi Chakraborty\" (2022-23)",
+          "weight": 8
+        },
+        {
+          "type": "raw_entry_cooccurrence",
+          "detail": "Co-occur in raw entry \"Jay+Pallavi Chakraborty\" (2023-24)",
+          "weight": 8
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Jay & Pallavi Chakraborty\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 28
+    },
+    {
+      "id": "HH-009",
+      "type": "family",
+      "displayName": "Rajarshi & Lopita Majumdar",
+      "members": [
+        {
+          "email": "lopita.majumdar@gmail.com",
+          "name": "Lopita Majumdar"
+        },
+        {
+          "email": "rajarshi.majumdar@gmail.com",
+          "name": "Rajarshi Majumdar"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"RAJARSHI MAJUMDAR\" ($340)",
+          "weight": 15
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Lopita & Rajarshi Majumdar\" (couple)",
+          "weight": 12
+        },
+        {
+          "type": "cross_year_frequency",
+          "detail": "Co-occur 2 years: 2022-23, 2023-24",
+          "weight": 10
+        }
+      ],
+      "weight": 37
+    },
+    {
+      "id": "HH-040",
+      "type": "family",
+      "displayName": "Atmadeep & Madhumita Mazumdar",
+      "members": [
+        {
+          "email": "madhumita.mazumdar3@gmail.com",
+          "name": "Madhumita Chakravarty"
+        },
+        {
+          "email": "atmadeep.mazumdar@gmail.com",
+          "name": "Atmadeep Mazumdar"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Atmadeep / Madhumita\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-023",
+      "type": "family",
+      "displayName": "Reshma & Saugata Das",
+      "members": [
+        {
+          "email": "mrsaugatadas@gmail.com",
+          "name": "Saugata Das"
+        },
+        {
+          "email": "reshmabhadra@gmail.com",
+          "name": "Reshma Das"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Sougata Da/ Reshma Di\" ($340)",
+          "weight": 15
+        },
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Saugata & Reshma Das\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 27
+    },
+    {
+      "id": "HH-034",
+      "type": "family",
+      "displayName": "Sumanta & Rajanya Ghosh",
+      "members": [
+        {
+          "email": "sumo475@gmail.com",
+          "name": "Sumanta Ghosh"
+        },
+        {
+          "email": "rajanya.ghosh@gmail.com",
+          "name": "Rajanya Ghosh"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Couple: \"Sumanta/Rajanya\" ($300)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-044",
+      "type": "family",
+      "displayName": "Bhaskar & Sonu Roy",
+      "members": [
+        {
+          "email": "sonuroy123@gmail.com",
+          "name": "Sonu Roy"
+        },
+        {
+          "email": "bhaskarroy24@gmail.com",
+          "name": "Bhaskar Roy"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Bhaskar / Sonu\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-030",
+      "type": "family",
+      "displayName": "Sudip & Ipshita Roy",
+      "members": [
+        {
+          "email": "roysu2000@gmail.com",
+          "name": "Sudip Roy"
+        },
+        {
+          "email": "sudipshita@yahoo.com",
+          "name": "Ipshita Roy"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "membership_xlsx_payment",
+          "detail": "EB - Family: \"Sudip Da/ Ipshita Di\" ($340)",
+          "weight": 15
+        }
+      ],
+      "weight": 15
+    },
+    {
+      "id": "HH-060",
+      "type": "couple",
+      "displayName": "Tapash & Sanhita Roy",
+      "members": [
+        {
+          "email": "sanhitadas_2000@yahoo.com",
+          "name": "Sanhita Roy"
+        },
+        {
+          "email": "tapashroyk@msn.com",
+          "name": "Tapash Roy"
+        }
+      ],
+      "evidence": [
+        {
+          "type": "family_fix_mapping",
+          "detail": "Family Fix: \"Tapash & Sanhita Roy\" (couple)",
+          "weight": 12
+        }
+      ],
+      "weight": 12
+    }
+  ],
+  "emailToHousehold": {
+    "mukhopadhyay.partha@gmail.com": "HH-003",
+    "amrriita@gmail.com": "HH-003",
+    "g.nnandita@gmail.com": "HH-017",
+    "duttasoumyajit86@gmail.com": "HH-017",
+    "swarnendu.sen@gmail.com": "HH-024",
+    "sreya.ghosh1510@gmail.com": "HH-024",
+    "r.se47@yahoo.com": "HH-021",
+    "joyeeta.all@gmail.com": "HH-021",
+    "kapil.sadhu@gmail.com": "HH-054",
+    "riyachandra1988@gmail.com": "HH-054",
+    "rajibs123@gmail.com": "HH-051",
+    "ritabhattacharjee@gmail.com": "HH-051",
+    "urmi.kanya@gmail.com": "HH-039",
+    "duttaayan.cs@gmail.com": "HH-039",
+    "karmakar.2007@gmail.com": "HH-038",
+    "bithikaroy96@gmail.com": "HH-038",
+    "drpaulami@gmail.com": "HH-059",
+    "dbroy05@gmail.com": "HH-059",
+    "callarnabsikdar@gmail.com": "HH-055",
+    "sudeshna.chatterjee1986@gmail.com": "HH-055",
+    "sharmi.p09@gmail.com": "HH-049",
+    "surajit_c@hotmail.com": "HH-049",
+    "holly_goswami@buildfusion.com": "HH-036",
+    "raj.goswami@gmail.com": "HH-036",
+    "ranadhir.ghosh@gmail.com": "HH-018",
+    "tinnee223@gmail.com": "HH-018",
+    "runaparamita@gmail.com": "HH-043",
+    "sumit_system@yahoo.com": "HH-043",
+    "slmaitra@gmail.com": "HH-046",
+    "munmun_maitra@yahoo.com": "HH-046",
+    "maitra.sayani@gmail.com": "HH-025",
+    "sroy.iitm@gmail.com": "HH-025",
+    "tosanchari@gmail.com": "HH-019",
+    "tosantanu@gmail.com": "HH-019",
+    "chandranilay@gmail.com": "HH-020",
+    "jiniya.chandra@gmail.com": "HH-020",
+    "cchat003@fiu.edu": "HH-005",
+    "hibarnali@gmail.com": "HH-005",
+    "sunanda.banerjee@gmail.com": "HH-028",
+    "weekender_in@yahoo.com": "HH-028",
+    "moushumi.mondal@gmail.com": "HH-029",
+    "sm.mondal@gmail.com": "HH-029",
+    "pallavib_00@yahoo.com": "HH-058",
+    "jchakrab@gmail.com": "HH-058",
+    "lopita.majumdar@gmail.com": "HH-009",
+    "rajarshi.majumdar@gmail.com": "HH-009",
+    "madhumita.mazumdar3@gmail.com": "HH-040",
+    "atmadeep.mazumdar@gmail.com": "HH-040",
+    "mrsaugatadas@gmail.com": "HH-023",
+    "reshmabhadra@gmail.com": "HH-023",
+    "sumo475@gmail.com": "HH-034",
+    "rajanya.ghosh@gmail.com": "HH-034",
+    "sonuroy123@gmail.com": "HH-044",
+    "bhaskarroy24@gmail.com": "HH-044",
+    "roysu2000@gmail.com": "HH-030",
+    "sudipshita@yahoo.com": "HH-030",
+    "sanhitadas_2000@yahoo.com": "HH-060",
+    "tapashroyk@msn.com": "HH-060"
+  },
+  "generatedAt": "2026-03-27T14:59:12.582Z",
+  "totalHouseholds": 29
+}
