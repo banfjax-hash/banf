@@ -236,15 +236,18 @@ table.tb tr:hover td{background:rgba(249,115,22,.04)}
     <div class="section-title"><i class="fas fa-pen-to-square"></i> EC Admin Instructions</div>
     <div class="instr-box" id="adminInstrCard">
         <h3><i class="fas fa-terminal"></i> Submit RSVP Corrections</h3>
-        <textarea id="instrTextarea" placeholder="Type instructions here (one per line or separated by semicolons)...
+        <textarea id="instrTextarea" placeholder="Type instructions in natural language...
 Examples:
+We got RSVP from Ranadhir Ghosh (husband) and Moumita Mukherjee (wife)
 Ranadhir Ghosh and Moumita Mukherjee are spouses
 Mark Sanhita Roy as attending
-Add Priya Das for cultural performance
+Sanhita Roy added for cultural performance but system needs update
 Update Amit Sen to 3 adults and 2 kids"></textarea>
         <div class="instr-hints">
-            <b>Supported commands:</b><br>
-            <code>X and Y are spouses</code> &mdash; Link two RSVPs as one household<br>
+            <b>Write naturally &mdash; the system understands:</b><br>
+            <code>We got RSVP from X (husband) and Y (wife)</code> &mdash; Link as household<br>
+            <code>X and Y are spouses / the same / a couple</code> &mdash; Link as household<br>
+            <code>X is the wife/husband of Y</code> &mdash; Link as household<br>
             <code>Mark X as attending/not attending/maybe</code> &mdash; Override RSVP status<br>
             <code>X is bringing N adults and M kids</code> &mdash; Update headcount<br>
             <code>Add X for cultural performance</code> &mdash; Flag as performer<br>
@@ -981,12 +984,16 @@ async function submitInstruction() {
         resultArea.innerHTML = summary + html;
         textarea.value = '';
 
-        // Refresh data to show updated RSVP info
-        if (json.successCount > 0) {
-            setTimeout(() => loadData(), 800);
-        }
-        // Refresh instruction history
+        // Refresh data and instruction history to show updated RSVP info
         loadInstructionHistory();
+        if (json.successCount > 0) {
+            // Brief delay for Wix DB to settle, then full reload
+            resultArea.innerHTML += '<div style="margin-top:8px;font-size:.72rem;color:var(--accent)"><i class="fas fa-sync fa-spin"></i> Refreshing dashboard data...</div>';
+            setTimeout(async () => {
+                await loadData();
+                resultArea.querySelectorAll('.fa-sync').forEach(el => { el.classList.remove('fa-spin'); el.parentElement.innerHTML = '<i class="fas fa-check" style="color:var(--green)"></i> Dashboard refreshed'; });
+            }, 1200);
+        }
     } catch (e) {
         resultArea.innerHTML = `<div class="instr-result-item fail"><i class="fas fa-times-circle" style="color:var(--red)"></i> Network error: ${esc(e.message)}</div>`;
     } finally {
