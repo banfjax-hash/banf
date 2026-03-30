@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF Sponsorship & Partnership Program 2026-27</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D48B;
+    --gold-bg: #FBF7EC;
+    --navy: #0D1B3E;
+    --navy-light: #1A2F5A;
+    --crimson: #8B1A1A;
+    --white: #FFFFFF;
+    --off-white: #F8F6F0;
+    --charcoal: #2C2C2C;
+    --slate: #5A6B7D;
+    --text: #333;
+    --text-light: #666;
+    --border: #E0E0E0;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--text); background: var(--white); line-height: 1.7; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* ═══ PAGE BREAKS FOR PDF ═══ */
+  .page-break { page-break-before: always; break-before: page; }
+  .no-break { page-break-inside: avoid; break-inside: avoid; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     HERO — Page 1
+     ═══════════════════════════════════════════════════════════════ */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #1A1A4E 50%, var(--crimson) 100%);
+    color: var(--white);
+    padding: 56px 32px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -15%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-inner { position: relative; z-index: 2; max-width: 960px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.6);
+    color: var(--gold);
+    padding: 6px 20px;
+    border-radius: 24px;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+  .hero h1 span { display: block; font-size: 22px; font-weight: 600; margin-top: 8px; color: var(--gold-light); }
+  .hero-desc { font-size: 16px; opacity: 0.88; max-width: 580px; line-height: 1.7; margin-bottom: 32px; }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 560px;
+  }
+  .hero-stat {
+    text-align: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 14px 8px;
+  }
+  .hero-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .hero-stat .lbl { font-size: 11px; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.7; margin-top: 4px; display: block; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SECTION BASE
+     ═══════════════════════════════════════════════════════════════ */
+  .section { padding: 48px 0; }
+  .section-dark { background: var(--navy); color: var(--white); }
+  .section-gold { background: linear-gradient(135deg, #F7F0DD 0%, #FFF8E7 100%); }
+  .section-light { background: var(--off-white); }
+
+  .section-header { margin-bottom: 32px; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .section-dark .section-title { color: var(--gold); }
+  .section-divider { width: 48px; height: 3px; background: var(--gold); margin: 10px 0 14px; }
+  .section-dark .section-divider { background: var(--gold); }
+  .section-subtitle {
+    font-size: 15px;
+    color: var(--text-light);
+    max-width: 600px;
+    line-height: 1.7;
+  }
+  .section-dark .section-subtitle { color: rgba(255,255,255,0.7); }
+
+  /* ═══════════════════════════════════════════════════════════════
+     WHO WE ARE — Page 1
+     ═══════════════════════════════════════════════════════════════ */
+  .about-text { margin-bottom: 28px; }
+  .about-text p { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 14px; }
+  .about-text strong { color: var(--navy); }
+
+  .highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .hl-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--gold);
+  }
+  .hl-card .icon { font-size: 24px; margin-bottom: 6px; }
+  .hl-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .hl-card p { font-size: 13px; color: var(--slate); line-height: 1.6; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     EVENTS — Page 2
+     ═══════════════════════════════════════════════════════════════ */
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .ev-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .ev-card .month { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .ev-card .name { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .ev-card .att { font-size: 12px; opacity: 0.6; margin-top: 2px; }
+  .ev-label {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+  .l-cultural { background: rgba(139,26,26,0.2); color: #FF8A8A; }
+  .l-social { background: rgba(76,175,80,0.2); color: #81C784; }
+  .l-religious { background: rgba(255,183,77,0.2); color: #FFD54F; }
+  .l-educational { background: rgba(100,181,246,0.2); color: #90CAF9; }
+  .l-flagship { background: rgba(201,168,76,0.3); color: var(--gold); }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SPONSORSHIP TIERS — Page 3 (KEY SECTION — Stacked for readability)
+     ═══════════════════════════════════════════════════════════════ */
+  .tier-stack { display: flex; flex-direction: column; gap: 20px; }
+  .tier-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .tier-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    text-align: center;
+    color: var(--white);
+  }
+  .tier-label .t-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .tier-label .t-price {
+    font-size: 28px;
+    font-weight: 800;
+  }
+  .tier-label .t-price span { font-size: 13px; font-weight: 400; opacity: 0.8; }
+  .tier-label .t-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tier-benefits-box {
+    padding: 20px 24px;
+    background: var(--white);
+  }
+  .tier-benefits-box ul { list-style: none; font-size: 13px; line-height: 1.9; columns: 2; column-gap: 24px; }
+  .tier-benefits-box li { break-inside: avoid; }
+  .tier-benefits-box li::before { content: '\2713'; color: var(--gold); font-weight: 700; margin-right: 6px; }
+
+  /* Tier color themes */
+  .tier-platinum .tier-label { background: linear-gradient(135deg, #1A1A2E, #0D1B3E); }
+  .tier-diamond .tier-label { background: linear-gradient(135deg, #1A237E, #283593); }
+  .tier-gold .tier-label { background: linear-gradient(135deg, #8D6E18, #B8860B); }
+  .tier-silver .tier-label { background: linear-gradient(135deg, #455A64, #607D8B); }
+  .tier-bronze .tier-label { background: linear-gradient(135deg, #6D4C41, #8D6E63); }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PARTNERSHIP CHANNELS — Page 4
+     ═══════════════════════════════════════════════════════════════ */
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .ch-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .ch-card .ch-icon { font-size: 28px; margin-bottom: 8px; }
+  .ch-card h4 { font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+  .ch-card p { font-size: 13px; opacity: 0.85; line-height: 1.7; margin-bottom: 8px; }
+  .ch-card ul { font-size: 13px; opacity: 0.85; margin-left: 16px; line-height: 1.9; }
+  .ch-card-full { grid-column: 1 / -1; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     YOUTH PROGRAMS — Page 4/5
+     ═══════════════════════════════════════════════════════════════ */
+  .youth-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .youth-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--gold);
+  }
+  .youth-card .y-icon { font-size: 28px; margin-bottom: 8px; }
+  .youth-card h4 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .youth-card p { font-size: 13px; color: #555; line-height: 1.7; }
+  .youth-card:nth-child(1) { border-top-color: var(--crimson); }
+  .youth-card:nth-child(3) { border-top-color: #1565C0; }
+
+  .youth-value {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .youth-value h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .youth-value ul { list-style: none; font-size: 13px; line-height: 2; }
+  .youth-value li::before { content: '\2713'; color: var(--gold); font-weight: 700; margin-right: 6px; }
+  .stat-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .stat-mini {
+    text-align: center;
+    background: var(--off-white);
+    border-radius: 10px;
+    padding: 16px 8px;
+  }
+  .stat-mini .val { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--navy); }
+  .stat-mini .desc { font-size: 10px; color: var(--slate); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 2px; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     DIGITAL PRESENCE
+     ═══════════════════════════════════════════════════════════════ */
+  .digital-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .dig-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 24px 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .dig-card .platform { font-size: 28px; margin-bottom: 8px; }
+  .dig-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .dig-card .handle { color: var(--gold); font-weight: 600; font-size: 13px; margin: 4px 0; }
+  .dig-card p { font-size: 12px; color: var(--slate); line-height: 1.5; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     IMPACT BAR
+     ═══════════════════════════════════════════════════════════════ */
+  .impact-bar {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    padding: 28px 16px;
+    background: var(--off-white);
+    border-radius: var(--radius);
+    margin-top: 24px;
+  }
+  .impact-item { text-align: center; }
+  .impact-item .val { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--navy); }
+  .impact-item .desc { font-size: 10px; color: var(--slate); text-transform: uppercase; letter-spacing: 0.8px; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     CTA + FOOTER
+     ═══════════════════════════════════════════════════════════════ */
+  .cta-section {
+    background: linear-gradient(135deg, var(--crimson) 0%, #5C0A0A 100%);
+    color: var(--white);
+    padding: 48px 0;
+    text-align: center;
+  }
+  .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 32px; margin-bottom: 14px; }
+  .cta-section p { font-size: 15px; opacity: 0.85; max-width: 560px; margin: 0 auto 24px; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    padding: 14px 40px;
+    border-radius: 28px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+  .cta-contact { margin-top: 24px; font-size: 14px; opacity: 0.75; }
+  .cta-contact p { margin: 4px auto; }
+
+  .footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    padding: 28px 24px;
+    text-align: center;
+    font-size: 13px;
+  }
+  .footer a { color: var(--gold); text-decoration: none; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOBILE RESPONSIVE — 480px
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 480px) {
+    .hero { padding: 32px 20px; }
+    .hero h1 { font-size: 26px; }
+    .hero h1 span { font-size: 16px; }
+    .hero-desc { font-size: 14px; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .hero-stat .num { font-size: 28px; }
+    .section { padding: 32px 0; }
+    .section-title { font-size: 22px; }
+    .container { padding: 0 16px; }
+    .highlight-grid { grid-template-columns: 1fr; }
+    .events-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .tier-row { grid-template-columns: 1fr; }
+    .tier-label { padding: 16px; flex-direction: row; gap: 12px; }
+    .tier-benefits-box ul { columns: 1; }
+    .channels-grid { grid-template-columns: 1fr; }
+    .youth-grid { grid-template-columns: 1fr; }
+    .youth-value { grid-template-columns: 1fr; }
+    .digital-grid { grid-template-columns: repeat(2, 1fr); }
+    .impact-bar { grid-template-columns: repeat(3, 1fr); }
+    .cta-section h2 { font-size: 24px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     TABLET RESPONSIVE — 768px
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 768px) and (min-width: 481px) {
+    .hero { padding: 40px 24px; }
+    .hero h1 { font-size: 32px; }
+    .hero h1 span { font-size: 18px; }
+    .hero-stats { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .hero-stat .num { font-size: 30px; }
+    .events-grid { grid-template-columns: repeat(3, 1fr); }
+    .tier-row { grid-template-columns: 140px 1fr; }
+    .tier-benefits-box ul { columns: 1; }
+    .channels-grid { grid-template-columns: 1fr; }
+    .youth-grid { grid-template-columns: 1fr 1fr; }
+    .digital-grid { grid-template-columns: repeat(3, 1fr); }
+    .impact-bar { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     PRINT / PDF — Optimized pagination
+     ═══════════════════════════════════════════════════════════════ */
+  @media print {
+    html { font-size: 14px; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .hero { min-height: auto; padding: 36px 28px; }
+    .hero h1 { font-size: 32px; color: white !important; -webkit-text-fill-color: white !important; }
+    .section { padding: 32px 0; }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    .tier-row { box-shadow: none; border: 1px solid var(--border); }
+    .hl-card, .youth-card, .dig-card { box-shadow: none; border: 1px solid var(--border); }
+    .youth-value { box-shadow: none; border: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ╔════════════════════════════════════════════════════════════════╗
+     ║  PAGE 1 — HERO + WHO WE ARE                                  ║
+     ╚════════════════════════════════════════════════════════════════╝ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Official Sponsorship Program 2026-27</div>
+    <h1>
+      Partner With Jacksonville's Bengali Community
+      <span>Bengali Association of North Florida (BANF)</span>
+    </h1>
+    <p class="hero-desc">
+      A 501(c)(3) nonprofit connecting businesses with one of Jacksonville's most engaged, educated, and growing cultural communities. Your brand. Our community. Real impact.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">500+</span><span class="lbl">Event Attendees</span></div>
+      <div class="hero-stat"><span class="num">17</span><span class="lbl">Annual Events</span></div>
+      <div class="hero-stat"><span class="num">416</span><span class="lbl">Community Members</span></div>
+      <div class="hero-stat"><span class="num">105</span><span class="lbl">Families</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">Who We Are</div>
+      <div class="section-divider"></div>
+    </div>
+    <div class="about-text">
+      <p>
+        Founded in 2008, the <strong>Bengali Association of North Florida (BANF)</strong> is a registered 501(c)(3) nonprofit
+        that preserves Bengali culture, fosters community connections, and creates meaningful impact in Jacksonville.
+        Our community comprises <strong>professionals, entrepreneurs, healthcare providers, IT specialists, educators, and families</strong>
+        who are highly engaged, digitally connected, and actively involved in local commerce and services.
+      </p>
+      <p>
+        In a historic recognition, the <strong>Mayor of Jacksonville officially proclaimed August 7th as Bengali Cultural Heritage Day</strong> &mdash;
+        a testament to our community's significance. We partner with the <strong>Jacksonville City Council</strong> on charity initiatives
+        including community beach cleanup drives, demonstrating our commitment to civic responsibility.
+      </p>
+    </div>
+    <div class="highlight-grid no-break">
+      <div class="hl-card">
+        <div class="icon">&#127942;</div>
+        <h4>Top 10 HSNEF</h4>
+        <p>Ranked in top 10 for fundraising at HSNEF Ananda Bazar for the first time</p>
+      </div>
+      <div class="hl-card">
+        <div class="icon">&#127891;</div>
+        <h4>Youth &amp; Kids Programs</h4>
+        <p>&ldquo;Let's Learn Bengali&rdquo; classes, Summer Camps (coding, tennis, STEM), Youth Civic Design Lab, Kids Sports Training</p>
+      </div>
+      <div class="hl-card">
+        <div class="icon">&#127908;</div>
+        <h4>Weekly Radio</h4>
+        <p>Community radio program broadcasting Rabindra Sangit, folk &amp; film music</p>
+      </div>
+      <div class="hl-card">
+        <div class="icon">&#128240;</div>
+        <h4>Jagriti Magazine</h4>
+        <p>Annual digital literary &amp; cultural magazine reaching entire community</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔════════════════════════════════════════════════════════════════╗
+     ║  PAGE 2 — EVENTS CALENDAR                                    ║
+     ╚════════════════════════════════════════════════════════════════╝ -->
+<div class="section section-dark page-break">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">17 Events, Year-Round Visibility</div>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">From grand celebrations drawing 500+ to intimate gatherings, your brand stays visible 365 days a year.</p>
+    </div>
+
+    <div class="events-grid">
+      <div class="ev-card">
+        <div class="month">February</div>
+        <div class="name">Saraswati Puja</div>
+        <div class="att">200+ attendees</div>
+        <span class="ev-label l-religious">Religious</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">March</div>
+        <div class="name">Bosonto Utsob</div>
+        <div class="att">300+ attendees</div>
+        <span class="ev-label l-cultural">Cultural</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">March</div>
+        <div class="name">Holi Celebration</div>
+        <div class="att">200+ attendees</div>
+        <span class="ev-label l-cultural">Cultural</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">March</div>
+        <div class="name">Ram Navami</div>
+        <div class="att">150+ attendees</div>
+        <span class="ev-label l-religious">Religious</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">April</div>
+        <div class="name">Sports Day</div>
+        <div class="att">200+ attendees</div>
+        <span class="ev-label l-social">Social</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">April</div>
+        <div class="name" style="color:var(--gold);font-weight:700;">Noboborsho</div>
+        <div class="att">300+ attendees</div>
+        <span class="ev-label l-cultural">Cultural</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">June</div>
+        <div class="name">Summer Picnic</div>
+        <div class="att">250+ attendees</div>
+        <span class="ev-label l-social">Social</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">June&ndash;July</div>
+        <div class="name">Summer Camps</div>
+        <div class="att">STEM, Tennis, Coding</div>
+        <span class="ev-label l-educational">Educational</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">August 7</div>
+        <div class="name" style="color:var(--gold);font-weight:700;">Bengali Heritage Day</div>
+        <div class="att">Mayor-proclaimed</div>
+        <span class="ev-label l-flagship">Flagship</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">August</div>
+        <div class="name">Beach Cleanup</div>
+        <div class="att">Civic initiative</div>
+        <span class="ev-label l-social">Social</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">September</div>
+        <div class="name">Mahalaya</div>
+        <div class="att">200+ attendees</div>
+        <span class="ev-label l-religious">Religious</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">October</div>
+        <div class="name" style="color:var(--gold);font-weight:700;">Durga Puja</div>
+        <div class="att">500+ attendees</div>
+        <span class="ev-label l-flagship">Flagship</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">October</div>
+        <div class="name">Bijoya Dashami</div>
+        <div class="att">300+ attendees</div>
+        <span class="ev-label l-religious">Religious</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">November</div>
+        <div class="name">Kali Puja</div>
+        <div class="att">200+ attendees</div>
+        <span class="ev-label l-religious">Religious</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">Year-round</div>
+        <div class="name">Bengali Classes</div>
+        <div class="att">K-5 ACTFL-aligned</div>
+        <span class="ev-label l-educational">Educational</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">Year-round</div>
+        <div class="name">Youth Mentoring</div>
+        <div class="att">By UNF professors</div>
+        <span class="ev-label l-educational">Educational</span>
+      </div>
+      <div class="ev-card">
+        <div class="month">Annual</div>
+        <div class="name">HSNEF Ananda Bazar</div>
+        <div class="att">Top 10 ranking</div>
+        <span class="ev-label l-cultural">Cultural</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔════════════════════════════════════════════════════════════════╗
+     ║  PAGE 3 — SPONSORSHIP TIERS (Stacked for readability)        ║
+     ╚════════════════════════════════════════════════════════════════╝ -->
+<div class="section section-gold page-break">
+  <div class="container">
+    <div class="section-header" style="text-align:center;">
+      <div class="section-title" style="text-align:center;">Sponsorship Packages</div>
+      <div class="section-divider" style="margin:10px auto 14px;"></div>
+      <p class="section-subtitle" style="text-align:center;margin:0 auto 8px;">
+        Every tier includes year-round multi-channel exposure. Choose the partnership level that fits your goals.
+      </p>
+    </div>
+
+    <div class="tier-stack">
+      <!-- Platinum -->
+      <div class="tier-row tier-platinum no-break">
+        <div class="tier-label">
+          <div class="t-tag">Flagship Partner</div>
+          <div class="t-name">Platinum</div>
+          <div class="t-price">$5,000<span> /yr</span></div>
+        </div>
+        <div class="tier-benefits-box">
+          <ul>
+            <li>Event title naming rights (all flagship events)</li>
+            <li>Full-page Jagriti back cover (premium)</li>
+            <li>On-stage recognition at all 17 events</li>
+            <li>Radio program guest appearance (4x/year)</li>
+            <li>Permanent website hero section placement</li>
+            <li>Monthly social media campaigns</li>
+            <li>Email newsletter premium banner</li>
+            <li>Dedicated stall at Durga Puja (500+)</li>
+            <li>Speaking slot at flagship events</li>
+            <li>Community referral + active promotion</li>
+            <li>Quarterly ROI impact report</li>
+            <li>VIP seating (10 seats) at all events</li>
+            <li>Youth program sponsor recognition</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Diamond -->
+      <div class="tier-row tier-diamond no-break">
+        <div class="tier-label">
+          <div class="t-tag">Premium</div>
+          <div class="t-name">Diamond</div>
+          <div class="t-price">$4,000<span> /yr</span></div>
+        </div>
+        <div class="tier-benefits-box">
+          <ul>
+            <li>Co-title naming on 2 flagship events</li>
+            <li>Full-page Jagriti ad (inside cover)</li>
+            <li>On-stage recognition at major events</li>
+            <li>Radio program guest appearance (2x/year)</li>
+            <li>Website sponsor section (featured)</li>
+            <li>Bi-monthly social media campaigns</li>
+            <li>Email newsletter logo placement</li>
+            <li>Stall at Durga Puja &amp; Bosonto (800+)</li>
+            <li>Speaker intro at flagship events</li>
+            <li>Community referral program</li>
+            <li>VIP seating (8 seats) at all events</li>
+            <li>Youth program event recognition</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Gold -->
+      <div class="tier-row tier-gold no-break">
+        <div class="tier-label">
+          <div class="t-tag">Popular</div>
+          <div class="t-name">Gold</div>
+          <div class="t-price">$3,000<span> /yr</span></div>
+        </div>
+        <div class="tier-benefits-box">
+          <ul>
+            <li>Full-page Jagriti ad</li>
+            <li>Logo on event banners &amp; programs</li>
+            <li>Monthly social media sponsor posts</li>
+            <li>Website sponsor section listing</li>
+            <li>Email newsletter logo placement</li>
+            <li>Radio program mention (2x/year)</li>
+            <li>Event recognition &amp; invitation</li>
+            <li>Stall space at Durga Puja (500+)</li>
+            <li>Community referral program</li>
+            <li>VIP seating (6 seats)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Silver -->
+      <div class="tier-row tier-silver no-break">
+        <div class="tier-label">
+          <div class="t-name">Silver</div>
+          <div class="t-price">$2,000<span> /yr</span></div>
+        </div>
+        <div class="tier-benefits-box">
+          <ul>
+            <li>Half-page Jagriti ad</li>
+            <li>Name on event banners</li>
+            <li>Quarterly social media mention</li>
+            <li>Website sponsor section listing</li>
+            <li>Radio program mention (1x/year)</li>
+            <li>Event invitation with recognition</li>
+            <li>Stall space at Durga Puja</li>
+            <li>Community referral inclusion</li>
+            <li>Reserved seating (4 seats)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bronze -->
+      <div class="tier-row tier-bronze no-break">
+        <div class="tier-label">
+          <div class="t-name">Bronze</div>
+          <div class="t-price">$1,000<span> /yr</span></div>
+        </div>
+        <div class="tier-benefits-box">
+          <ul>
+            <li>Quarter-page Jagriti ad</li>
+            <li>Name in event programs</li>
+            <li>Social media mention (2x/year)</li>
+            <li>Website sponsor section listing</li>
+            <li>Event invitation</li>
+            <li>Thank-you acknowledgment at events</li>
+            <li>Reserved seating (2 seats)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--slate);">
+      Custom packages available. Multi-year commitments receive 10% discount. All sponsorships are tax-deductible &mdash; BANF is a registered 501(c)(3) (EIN available on request).<br>
+      <strong>Payment:</strong> Zelle to banfjax@gmail.com &nbsp;|&nbsp; Check payable to &ldquo;BANF&rdquo; &nbsp;|&nbsp; <strong>Contact:</strong> sponsorship@jaxbengali.org
+    </p>
+  </div>
+</div>
+
+<!-- ╔════════════════════════════════════════════════════════════════╗
+     ║  PAGE 4 — PARTNERSHIP CHANNELS                                ║
+     ╚════════════════════════════════════════════════════════════════╝ -->
+<div class="section section-dark page-break">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">A New Standard in Community Sponsorship</div>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">
+        We&rsquo;ve redesigned our partnership model with <strong>7 distinct engagement channels</strong>
+        that keep your brand in front of our community consistently, all year long.
+      </p>
+    </div>
+
+    <div class="channels-grid">
+      <div class="ch-card no-break">
+        <div class="ch-icon">&#127760;</div>
+        <h4>Website Sponsor Section</h4>
+        <p>Your brand, logo, and business details displayed permanently on jaxbengali.org &mdash; visited by 400+ active users for event registration, payments, and community tools.</p>
+        <ul>
+          <li>Permanent logo placement</li>
+          <li>Clickable link to your website</li>
+          <li>Featured on event registration pages</li>
+        </ul>
+      </div>
+
+      <div class="ch-card no-break">
+        <div class="ch-icon">&#128247;</div>
+        <h4>Social Media Campaigns</h4>
+        <p>Dedicated sponsor spotlight posts across Instagram (@banf_jax), Facebook (/banfofficial), YouTube (@banfjacksonville), and LinkedIn.</p>
+        <ul>
+          <li>Professional sponsor spotlight posts</li>
+          <li>Event video credits &amp; mentions</li>
+          <li>Story features &amp; highlights</li>
+        </ul>
+      </div>
+
+      <div class="ch-card no-break">
+        <div class="ch-icon">&#128251;</div>
+        <h4>Radio Guest Spots</h4>
+        <p>5&ndash;10 minute guest appearances on our weekly community radio program. Share your story and build personal connections.</p>
+        <ul>
+          <li>Business promotion segments</li>
+          <li>Recorded &amp; shared on social media</li>
+          <li>Community Q&amp;A opportunities</li>
+        </ul>
+      </div>
+
+      <div class="ch-card no-break">
+        <div class="ch-icon">&#128218;</div>
+        <h4>Jagriti Magazine &mdash; Premium Ads</h4>
+        <p>Annual digital literary &amp; cultural magazine distributed to 400+ households. Professional design support included.</p>
+        <ul>
+          <li>Full-page / half-page / back cover options</li>
+          <li>Professional ad design assistance</li>
+          <li>Permanent digital archive</li>
+        </ul>
+      </div>
+
+      <div class="ch-card no-break">
+        <div class="ch-icon">&#127915;</div>
+        <h4>Event Stall &amp; Speaking</h4>
+        <p>Dedicated booth at major events. Your representative can interact directly with 300&ndash;500 attendees.</p>
+        <ul>
+          <li>Dedicated stall with your representative</li>
+          <li>On-stage recognition &amp; speaking slot</li>
+          <li>Photo/video coverage on social media</li>
+        </ul>
+      </div>
+
+      <div class="ch-card no-break">
+        <div class="ch-icon">&#128231;</div>
+        <h4>Newsletter &amp; Email</h4>
+        <p>Regular email communications to 400+ engaged members featuring your brand and sponsor spotlight features.</p>
+        <ul>
+          <li>Logo in event email templates</li>
+          <li>Dedicated sponsor spotlight emails</li>
+          <li>Quarterly sponsor feature stories</li>
+        </ul>
+      </div>
+
+      <div class="ch-card ch-card-full no-break">
+        <div class="ch-icon">&#129309;</div>
+        <h4>Community Referral &amp; Member Engagement Program</h4>
+        <p>
+          The game-changer: an active member referral program that bridges sponsorship and real business results.
+          Through our member portal, we actively encourage members to patronize sponsor businesses, share experiences, and provide testimonials.
+        </p>
+        <ul style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+          <li>Active member referral messaging</li>
+          <li>Sponsor profiles in member portal</li>
+          <li>&ldquo;Support Our Sponsors&rdquo; campaigns</li>
+          <li>Member testimonial collection</li>
+          <li>Special member discount coordination</li>
+          <li>Quarterly impact reports for sponsors</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔════════════════════════════════════════════════════════════════╗
+     ║  PAGE 5 — YOUTH PROGRAMS + DIGITAL + IMPACT + CTA            ║
+     ╚════════════════════════════════════════════════════════════════╝ -->
+<div class="section section-gold page-break">
+  <div class="container">
+    <div class="section-header" style="text-align:center;">
+      <div class="section-title" style="text-align:center;">Dedicated Youth &amp; Kids Programs</div>
+      <div class="section-divider" style="margin:10px auto 14px;"></div>
+      <p class="section-subtitle" style="text-align:center;margin:0 auto 8px;">
+        Reaching the next generation &mdash; and their families. Sponsors gain unique visibility with engaged parents.
+      </p>
+    </div>
+
+    <div class="youth-grid">
+      <div class="youth-card no-break">
+        <div class="y-icon">&#128218;</div>
+        <h4>&ldquo;Let's Learn Bengali&rdquo; Language Program</h4>
+        <p>Year-round K&ndash;5 Bengali language classes following ACTFL standards. Weekly sessions engaging children and parents. Sponsor logos on learning materials and certificates.</p>
+      </div>
+      <div class="youth-card no-break">
+        <div class="y-icon">&#127947;</div>
+        <h4>Summer Camps &amp; Sports Training</h4>
+        <p>Multi-week coding workshops, STEM camps (by UNF Professor Dr. Swapnoneel Roy), tennis coaching, kids sports training. Families invest $35&ndash;$50/child.</p>
+      </div>
+      <div class="youth-card no-break">
+        <div class="y-icon">&#127912;</div>
+        <h4>Youth Civic Design Lab (Gr. 6&ndash;10)</h4>
+        <p>Open to students across Florida. 10+ teams compete with assigned mentors. Sponsors become named competition partners with prominent branding.</p>
+      </div>
+    </div>
+
+    <div class="youth-value no-break">
+      <div>
+        <h4>&#127919; Why Youth = Premium Sponsor Value</h4>
+        <ul>
+          <li>Parents (decision-makers) are highly engaged</li>
+          <li>Dedicated sponsor stall at youth events</li>
+          <li>Logo on certificates, T-shirts, materials</li>
+          <li>Featured in Jagriti youth section</li>
+          <li>Photo/video across social media</li>
+          <li>Named sponsorship opportunities</li>
+        </ul>
+      </div>
+      <div>
+        <h4>&#128202; Engagement Numbers</h4>
+        <div class="stat-mini-grid">
+          <div class="stat-mini"><div class="val">50+</div><div class="desc">Kids enrolled/year</div></div>
+          <div class="stat-mini"><div class="val">105</div><div class="desc">Families reached</div></div>
+          <div class="stat-mini"><div class="val">6+</div><div class="desc">Youth programs/yr</div></div>
+          <div class="stat-mini"><div class="val">10+</div><div class="desc">Teams in Civic Lab</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DIGITAL PRESENCE -->
+<div class="section">
+  <div class="container">
+    <div class="section-header" style="text-align:center;">
+      <div class="section-title" style="text-align:center;">Our Digital Reach</div>
+      <div class="section-divider" style="margin:10px auto 14px;"></div>
+    </div>
+    <div class="digital-grid">
+      <div class="dig-card no-break">
+        <div class="platform">&#127760;</div>
+        <h4>jaxbengali.org</h4>
+        <div class="handle">Full-Service Portal</div>
+        <p>Events, payments, CRM, newsletters, sponsor showcase. 400+ active users.</p>
+      </div>
+      <div class="dig-card no-break">
+        <div class="platform">&#128247;</div>
+        <h4>Instagram</h4>
+        <div class="handle">@banf_jax</div>
+        <p>Visual sponsor spotlights &amp; event highlights.</p>
+      </div>
+      <div class="dig-card no-break">
+        <div class="platform">&#128250;</div>
+        <h4>YouTube</h4>
+        <div class="handle">@banfjacksonville</div>
+        <p>Event recordings with sponsor credits.</p>
+      </div>
+      <div class="dig-card no-break">
+        <div class="platform">&#128101;</div>
+        <h4>Facebook</h4>
+        <div class="handle">/banfofficial</div>
+        <p>Community hub &amp; sponsor recognition.</p>
+      </div>
+      <div class="dig-card no-break">
+        <div class="platform">&#128188;</div>
+        <h4>LinkedIn</h4>
+        <div class="handle">BANF Jacksonville</div>
+        <p>B2B sponsor visibility among professionals.</p>
+      </div>
+      <div class="dig-card no-break">
+        <div class="platform">&#128231;</div>
+        <h4>Email Newsletter</h4>
+        <div class="handle">400+ Recipients</div>
+        <p>Regular sponsor features reaching every member.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMMUNITY IMPACT -->
+<div class="section section-light no-break">
+  <div class="container">
+    <div class="section-header" style="text-align:center;">
+      <div class="section-title" style="text-align:center;">Community Impact</div>
+      <div class="section-divider" style="margin:10px auto 14px;"></div>
+    </div>
+    <div class="impact-bar">
+      <div class="impact-item"><div class="val">18</div><div class="desc">Years Active</div></div>
+      <div class="impact-item"><div class="val">500+</div><div class="desc">Flagship Attendance</div></div>
+      <div class="impact-item"><div class="val">17</div><div class="desc">Annual Events</div></div>
+      <div class="impact-item"><div class="val">105</div><div class="desc">Families</div></div>
+      <div class="impact-item"><div class="val">Aug 7</div><div class="desc">Heritage Day</div></div>
+      <div class="impact-item"><div class="val">Top 10</div><div class="desc">HSNEF Ranking</div></div>
+    </div>
+    <p style="text-align:center;margin-top:20px;font-size:16px;color:var(--navy);font-weight:600;font-family:'Playfair Display',serif;">
+      &ldquo;Our sponsors aren't just advertisers &mdash; they're partners in preserving and celebrating Bengali heritage in Jacksonville.&rdquo;
+    </p>
+    <p style="text-align:center;font-size:13px;color:var(--slate);margin-top:6px;">&mdash; BANF Executive Committee</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section no-break">
+  <div class="container">
+    <h2>Ready to Partner With Us?</h2>
+    <p>Join a growing family of sponsors who see real community impact. Let's build something meaningful together.</p>
+    <a href="mailto:banfjax@gmail.com?subject=BANF%20Sponsorship%20Inquiry%202026-27" class="cta-btn">
+      Get Started &mdash; Email Us Today
+    </a>
+    <div class="cta-contact">
+      <p>Bengali Association of North Florida (BANF) &nbsp;|&nbsp; 501(c)(3) Nonprofit &nbsp;|&nbsp; Jacksonville, FL</p>
+      <p>&#128231; banfjax@gmail.com &nbsp;|&nbsp; &#128222; (904) 712-2265 &nbsp;|&nbsp; &#127760; www.jaxbengali.org</p>
+      <p>Instagram: @banf_jax &nbsp;|&nbsp; Facebook: /banfofficial &nbsp;|&nbsp; YouTube: @banfjacksonville</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  &copy; 2026 Bengali Association of North Florida (BANF). All rights reserved.<br>
+  <a href="https://www.jaxbengali.org">www.jaxbengali.org</a> &nbsp;|&nbsp; Tax-exempt 501(c)(3) organization
+</div>
+
+</body>
+</html>
