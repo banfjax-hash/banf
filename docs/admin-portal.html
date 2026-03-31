@@ -394,6 +394,10 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Segoe UI',syst
     <div class="sb-group">Events</div>
     <div class="sb-item" data-panel="evite-manager"><i class="fas fa-envelope-open-text"></i><span>E-Vite Manager</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
 
+    <div class="sb-group">Sponsorship</div>
+    <div class="sb-item" data-panel="cold-campaign"><i class="fas fa-bullseye"></i><span>Cold Campaign</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+    <div class="sb-item" data-panel="existing-sponsors"><i class="fas fa-handshake"></i><span>Existing Sponsors</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
+
     <div class="sb-group" id="president-group" style="display:none">President</div>
     <div class="sb-item" data-panel="ec-replacement" id="president-ec-replace" style="display:none"><i class="fas fa-user-shield"></i><span>EC Replacement</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
     <div class="sb-item" data-panel="ec-revoke" id="president-ec-revoke" style="display:none"><i class="fas fa-ban"></i><span>Revoke EC Role</span><span style="margin-left:auto;font-size:.6rem;color:var(--green);">LIVE</span></div>
@@ -1615,7 +1619,7 @@ Schedule:
         </div>
         <div>
           <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Highlights</label>
-          <textarea id="ev-highlights" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">Traditional alpona, cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.</textarea>
+          <textarea id="ev-highlights" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">Cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.</textarea>
         </div>
       </div>
 
@@ -1896,6 +1900,22 @@ We will try our best to accommodate every request. If demand exceeds the allotte
             <div style="overflow-x:auto"><table class="t"><thead><tr id="ev-scan-thead-review"></tr></thead><tbody id="ev-scan-tbody-review"></tbody></table></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- ── COLD CAMPAIGN DASHBOARD PANEL ── -->
+    <div class="portal-section" id="panel-cold-campaign">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Cold Sponsorship Campaign — New Sponsor Outreach</div>
+      <div class="card-a" style="padding:0;overflow:hidden;border-radius:12px">
+        <iframe src="cold-campaign-dashboard.html" style="width:100%;height:calc(100vh - 120px);border:none;border-radius:12px" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- ── EXISTING SPONSORS DASHBOARD PANEL ── -->
+    <div class="portal-section" id="panel-existing-sponsors">
+      <div class="stg-label"><i class="fas fa-circle" style="color:var(--green)"></i> Existing Sponsors — Re-engagement Campaign</div>
+      <div class="card-a" style="padding:0;overflow:hidden;border-radius:12px">
+        <iframe src="existing-sponsors-dashboard.html" style="width:100%;height:calc(100vh - 120px);border:none;border-radius:12px" loading="lazy"></iframe>
       </div>
     </div>
 

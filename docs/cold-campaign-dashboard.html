@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="300">
+<title>BANF Cold Campaign Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0f1117; --surface: #1a1d27; --card: #22252f; --border: #2d3040;
+    --text: #e5e7eb; --muted: #8b8fa3; --accent: #6366f1; --accent2: #a78bfa;
+    --success: #22c55e; --warn: #f59e0b; --danger: #ef4444; --info: #3b82f6;
+    --pink: #ec4899; --teal: #14b8a6; --gold: #d4af37;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+  .header { background: linear-gradient(135deg, #1e3a5f, #0d47a1 60%, #1565c0); padding: 28px 32px; }
+  .header h1 { font-size: 22px; font-weight: 800; }
+  .header .sub { font-size: 12px; opacity: 0.7; margin-top: 4px; }
+  .header .live { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #22c55e; margin-top: 8px; }
+  .header .live .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative; overflow: hidden; }
+  .stat .val { font-size: 26px; font-weight: 800; line-height: 1.2; }
+  .stat .lbl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  .stat .bar { position: absolute; bottom: 0; left: 0; height: 3px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .card h2 { font-size: 16px; color: var(--accent2); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: var(--surface); color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 8px; text-align: left; }
+  td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  tr:hover { background: rgba(99,102,241,0.03); }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; }
+  .tag-high { background: rgba(239,68,68,0.15); color: var(--danger); }
+  .tag-medium { background: rgba(59,130,246,0.15); color: var(--info); }
+  .tag-low { background: rgba(139,143,163,0.1); color: var(--muted); }
+  .tag-sent { background: rgba(34,197,94,0.15); color: var(--success); }
+  .tag-pending { background: rgba(245,158,11,0.15); color: var(--warn); }
+  .tag-responded { background: rgba(163,230,53,0.2); color: #a3e635; }
+  .tag-converted { background: rgba(34,197,94,0.25); color: var(--success); border: 1px solid rgba(34,197,94,0.3); }
+  .tag-declined { background: rgba(139,143,163,0.1); color: #666; }
+  .tag-interested { background: rgba(99,102,241,0.15); color: var(--accent2); }
+  .tag-human { background: rgba(236,72,153,0.15); color: var(--pink); animation: pulse 2s infinite; }
+  .tag-approval { background: rgba(245,158,11,0.2); color: var(--warn); border: 1px dashed var(--warn); }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 12px 0; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .kpi .kpi-label { font-size: 11px; color: var(--muted); }
+  .kpi .kpi-val { font-size: 20px; font-weight: 700; margin: 4px 0; }
+  .kpi .kpi-target { font-size: 10px; color: var(--muted); }
+  .kpi .kpi-bar { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .kpi .kpi-fill { height: 100%; border-radius: 2px; transition: width 0.5s; }
+  .wave-timeline { display: flex; gap: 4px; margin: 16px 0; flex-wrap: wrap; }
+  .wave-step { flex: 1; min-width: 180px; padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
+  .wave-step.sent { border-color: var(--success); background: rgba(34,197,94,0.04); }
+  .wave-step.due { border-color: var(--warn); background: rgba(245,158,11,0.04); }
+  .wave-step h4 { font-size: 12px; color: var(--accent2); }
+  .wave-step .ws-detail { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .alert-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .alert-box h3 { color: var(--danger); font-size: 14px; margin-bottom: 8px; }
+  .approval-box { background: rgba(245,158,11,0.08); border: 1px dashed rgba(245,158,11,0.3); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .approval-box h3 { color: var(--warn); font-size: 14px; margin-bottom: 8px; }
+  .funnel { display: flex; align-items: center; gap: 8px; margin: 16px 0; flex-wrap: wrap; }
+  .funnel-step { text-align: center; padding: 12px 20px; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); min-width: 100px; }
+  .funnel-step .fn { font-size: 24px; font-weight: 800; }
+  .funnel-step .fl { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+  .funnel-arrow { color: var(--muted); font-size: 20px; }
+  .activity-item { padding: 8px 12px; border-left: 3px solid var(--accent); margin: 4px 0; background: rgba(99,102,241,0.03); border-radius: 0 8px 8px 0; font-size: 12px; }
+  .activity-item .at { font-size: 10px; color: var(--muted); }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>BANF Cold Sponsorship Campaign 2026-27</h1>
+  <div class="sub">24/7 Autonomous Campaign Agent | Target: 10% Conversion = 11+ New Sponsors</div>
+  <div class="live"><div class="dot"></div> Agent Active — Day 1 | Last poll: 3/30/2026, 8:22:33 PM | Updated: 3/30/2026, 8:22:33 PM</div>
+</div>
+<div class="container">
+
+<!-- Alerts -->
+<div class="alert-box"><h3>Human Attention Required (48)</h3><div style="font-size:12px;margin:4px 0;"><strong>5th Element Indian Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Masala Mantra Indian Bistro</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Mayuri Indian Cuisine</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Kalyaan Market</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Indian Grocery (Baymeadows)</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Hawkers Asian Street Fare</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Flavors Indian Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>India House</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Tandoori Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Indias Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Shriee Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Bawarchi Biryani</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>JAXMINT Indian Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Namaste Indian Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Kolapasi Indian Canteen</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Tuscany Delsa Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Indochine Thai Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Green Papaya Thai Cuisine</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Kimbe Asian Bistro</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Banana Leaf Asian Bistro</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Mama Fus Asian House (Mandarin)</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Wasabi Japanese Steakhouse & Sushi Bar</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Kan-Ki Japanese Steakhouse</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Hong Kong Trading Asian Foods</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Kong Grocery (Asian, Latino & Fresh Produce)</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Simply Tasty Thai</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Rice and Noodles</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Grand Asian</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Wok N Roll</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Yashi Sushi</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Sushi Bear Sushi & Grill</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Fuji Sushi West</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Yummy Sushi / Kyoto Ramen</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Sushi House 2</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>China 99</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Royal Buffet</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Jimmy Fus Asian Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Bento Asian</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Asian Taste Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Gold Stone Asian Bistro</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Tuptimthai Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Daruma Japanese Steak House</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>China Buffet</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Ho-Ho Restaurant</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Fresh Market (Baymeadows)</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Trader Joes (Jacksonville)</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Whole Foods Market (Town Center)</strong>: No email — phone call required</div><div style="font-size:12px;margin:4px 0;"><strong>Vakok Asian Grocery</strong>: No email — phone call required</div></div>
+
+
+<!-- KPI Dashboard -->
+<div class="grid">
+  <div class="stat"><div class="val" style="color:var(--accent2)">105</div><div class="lbl">Total Targets</div><div class="bar" style="width:100%;background:var(--accent)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--info)">55</div><div class="lbl">Contacted</div><div class="bar" style="width:52.38095238095239%;background:var(--info)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--success)">0</div><div class="lbl">Responded</div><div class="bar" style="width:0%;background:var(--success)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--accent2)">0</div><div class="lbl">Interested</div><div class="bar" style="width:0%;background:var(--accent2)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--gold)">0</div><div class="lbl">Converted</div><div class="bar" style="width:0%;background:var(--gold)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--teal)">$0</div><div class="lbl">Revenue</div><div class="bar" style="width:0%;background:var(--teal)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--warn)">0.0%</div><div class="lbl">Response Rate</div><div class="bar" style="width:0.0%;background:var(--warn)"></div></div>
+  <div class="stat"><div class="val" style="color:var(--danger)">0.0%</div><div class="lbl">Conversion Rate</div><div class="bar" style="width:0.0%;background:var(--danger)"></div></div>
+</div>
+
+<!-- Conversion Funnel -->
+<div class="card">
+  <h2>Conversion Funnel</h2>
+  <div class="funnel">
+    <div class="funnel-step"><div class="fn">105</div><div class="fl">Targets</div></div>
+    <div class="funnel-arrow">&#8594;</div>
+    <div class="funnel-step"><div class="fn">55</div><div class="fl">Contacted</div></div>
+    <div class="funnel-arrow">&#8594;</div>
+    <div class="funnel-step"><div class="fn">0</div><div class="fl">Responded</div></div>
+    <div class="funnel-arrow">&#8594;</div>
+    <div class="funnel-step"><div class="fn">0</div><div class="fl">Interested</div></div>
+    <div class="funnel-arrow">&#8594;</div>
+    <div class="funnel-step"><div class="fn">0</div><div class="fl">Negotiating</div></div>
+    <div class="funnel-arrow">&#8594;</div>
+    <div class="funnel-step" style="border-color:var(--gold);background:rgba(212,175,55,0.06)"><div class="fn" style="color:var(--gold)">0</div><div class="fl">CONVERTED</div></div>
+  </div>
+</div>
+
+<!-- KPI Goals -->
+<div class="card">
+  <h2>KPI Goals vs Actual</h2>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Emails Sent</div><div class="kpi-val">55</div><div class="kpi-target">Target: 105</div><div class="kpi-bar"><div class="kpi-fill" style="width:52.38095238095239%;background:var(--info)"></div></div></div>
+    <div class="kpi"><div class="kpi-label">Response Rate</div><div class="kpi-val">0.0%</div><div class="kpi-target">Target: 10%</div><div class="kpi-bar"><div class="kpi-fill" style="width:0%;background:var(--success)"></div></div></div>
+    <div class="kpi"><div class="kpi-label">Conversion Rate</div><div class="kpi-val">0.0%</div><div class="kpi-target">Target: 10%</div><div class="kpi-bar"><div class="kpi-fill" style="width:0%;background:var(--gold)"></div></div></div>
+    <div class="kpi"><div class="kpi-label">Revenue</div><div class="kpi-val">$0</div><div class="kpi-target">Target: $11,000</div><div class="kpi-bar"><div class="kpi-fill" style="width:0%;background:var(--teal)"></div></div></div>
+    <div class="kpi"><div class="kpi-label">Conversions</div><div class="kpi-val">0</div><div class="kpi-target">Target: 11</div><div class="kpi-bar"><div class="kpi-fill" style="width:0%;background:var(--success)"></div></div></div>
+    <div class="kpi"><div class="kpi-label">Human Actions Needed</div><div class="kpi-val" style="color:var(--pink)">48</div><div class="kpi-target">Requires attention</div></div>
+  </div>
+</div>
+
+<!-- Wave Timeline -->
+<div class="card">
+  <h2>Campaign Waves</h2>
+  <div class="wave-timeline">
+    <div class="wave-step due">
+      <h4>&#9888; Wave 1 — HIGH Priority (Verified Emails)</h4>
+      <div class="ws-detail">Day 1 | DUE — ready to send</div>
+    </div><div class="wave-step ">
+      <h4>&#9675; Wave 2 — HIGH Priority (Phone+Web)</h4>
+      <div class="ws-detail">Day 8 | Starts Day 8</div>
+    </div><div class="wave-step ">
+      <h4>&#9675; Wave 3 — MEDIUM Priority</h4>
+      <div class="ws-detail">Day 15 | Starts Day 15</div>
+    </div><div class="wave-step ">
+      <h4>&#9675; Wave 4 — LOW Priority Batch</h4>
+      <div class="ws-detail">Day 25 | Starts Day 25</div>
+    </div><div class="wave-step ">
+      <h4>&#9675; Wave 5 — Follow-up All Non-Responders</h4>
+      <div class="ws-detail">Day 35 | Starts Day 35</div>
+    </div>
+  </div>
+</div>
+
+<div class="two-col">
+<!-- Target Status Table -->
+<div class="card">
+  <h2>Target Status (105)</h2>
+  <div style="max-height:500px;overflow-y:auto;">
+  <table>
+    <tr><th>#</th><th>Business</th><th>Cat</th><th>Priority</th><th>Status</th><th>Contacts</th><th>Response</th></tr>
+    <tr>
+      <td>1</td>
+      <td><strong>Masala Indian Cuisine</strong><br><span style="font-size:10px;color:var(--info)">info@jaxmasala.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>2</td>
+      <td><strong>Minerva Indian Restaurant</strong><br><span style="font-size:10px;color:var(--info)">Minerva4jax@gmail.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>3</td>
+      <td><strong>Spice Grill Indian Cuisine</strong><br><span style="font-size:10px;color:var(--info)">preethijax@gmail.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>4</td>
+      <td><strong>JaxSpice Indian &amp; Nepali Restaurant</strong><br><span style="font-size:10px;color:var(--info)">jaxspicefamily@jaxspice.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>5</td>
+      <td><strong>Maa Kitchen</strong><br><span style="font-size:10px;color:var(--info)">skandhaa.mk@gmail.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>6</td>
+      <td><strong>Jax Spice (Gate Parkway location)</strong><br><span style="font-size:10px;color:var(--info)">jaxspicefamily@jaxspice.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>7</td>
+      <td><strong>Jax Spice (CR 210 St Johns)</strong><br><span style="font-size:10px;color:var(--info)">jaxspicefamily@jaxspice.com</span></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        </td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>8</td>
+      <td><strong>5th Element Indian Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>9</td>
+      <td><strong>Masala Mantra Indian Bistro</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>10</td>
+      <td><strong>Mayuri Indian Cuisine</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>11</td>
+      <td><strong>Kalyaan Market</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>12</td>
+      <td><strong>Indian Grocery (Baymeadows)</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>13</td>
+      <td><strong>Hawkers Asian Street Fare</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>14</td>
+      <td><strong>Flavors Indian Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>15</td>
+      <td><strong>India House</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>16</td>
+      <td><strong>Tandoori Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>17</td>
+      <td><strong>Indias Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>18</td>
+      <td><strong>Shriee Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>19</td>
+      <td><strong>Bawarchi Biryani</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>20</td>
+      <td><strong>JAXMINT Indian Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>21</td>
+      <td><strong>Namaste Indian Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>22</td>
+      <td><strong>Kolapasi Indian Canteen</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>23</td>
+      <td><strong>Thali Indian Kitchen (food truck)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>24</td>
+      <td><strong>Samosas &amp; More Catering</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>25</td>
+      <td><strong>Bengali Sweet House</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>26</td>
+      <td><strong>Spice Route Indian Catering</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>27</td>
+      <td><strong>Desi Bites Food Truck</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>28</td>
+      <td><strong>Bangla Grocery &amp; Spices</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-high">HIGH</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>29</td>
+      <td><strong>Karma Indian Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>30</td>
+      <td><strong>Foo Dog Curry Traders</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>31</td>
+      <td><strong>Tuscany Delsa Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>32</td>
+      <td><strong>Mesa Indian Fine Dining</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>33</td>
+      <td><strong>Indochine Thai Restaurant</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>34</td>
+      <td><strong>Green Papaya Thai Cuisine</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>35</td>
+      <td><strong>Kimbe Asian Bistro</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>36</td>
+      <td><strong>Banana Leaf Asian Bistro</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>37</td>
+      <td><strong>Mama Fus Asian House (Mandarin)</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>38</td>
+      <td><strong>Wasabi Japanese Steakhouse &amp; Sushi Bar</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>39</td>
+      <td><strong>Patel Tax &amp; Accounting Services</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>40</td>
+      <td><strong>Desi Spice &amp; Chai Lounge</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>41</td>
+      <td><strong>Jax Halal Meat &amp; Grocery</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>42</td>
+      <td><strong>Kan-Ki Japanese Steakhouse</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>43</td>
+      <td><strong>Apna Bazaar Indian Grocery</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>44</td>
+      <td><strong>Swad Indian Grocery &amp; Snacks</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>45</td>
+      <td><strong>Chai Pani Tea House</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>46</td>
+      <td><strong>Lassi Corner</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>47</td>
+      <td><strong>Dunkin (Indian franchise owner)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>48</td>
+      <td><strong>Subway (Indian franchise owners)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>49</td>
+      <td><strong>Holiday Inn Express (Indian-owned)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>50</td>
+      <td><strong>Comfort Inn &amp; Suites (Indian-owned)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>51</td>
+      <td><strong>Days Inn (Indian-owned)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>52</td>
+      <td><strong>Jax Indian Travel &amp; Tours</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>53</td>
+      <td><strong>Bollywood Fashion &amp; Boutique</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>54</td>
+      <td><strong>Indian Jewelers of Jacksonville</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>55</td>
+      <td><strong>Mantra Yoga &amp; Wellness</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>56</td>
+      <td><strong>Jax Mehndi &amp; Henna Arts</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>57</td>
+      <td><strong>Jai Ho Indian Store</strong></td>
+      <td style="font-size:10px">indian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>58</td>
+      <td><strong>Hong Kong Trading Asian Foods</strong></td>
+      <td style="font-size:10px">asian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>59</td>
+      <td><strong>Kong Grocery (Asian, Latino &amp; Fresh Produce)</strong></td>
+      <td style="font-size:10px">asian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>60</td>
+      <td><strong>Kadaikudi South Indian Restaurant</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>61</td>
+      <td><strong>Raja Indian Spices</strong></td>
+      <td style="font-size:10px">indian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>62</td>
+      <td><strong>Simply Tasty Thai</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>63</td>
+      <td><strong>Rice and Noodles</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>64</td>
+      <td><strong>Grand Asian</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>65</td>
+      <td><strong>Wok N Roll</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>66</td>
+      <td><strong>Yashi Sushi</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>67</td>
+      <td><strong>Sushi Bear Sushi &amp; Grill</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>68</td>
+      <td><strong>Fuji Sushi West</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>69</td>
+      <td><strong>Yummy Sushi / Kyoto Ramen</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>70</td>
+      <td><strong>Sushi House 2</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>71</td>
+      <td><strong>China 99</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>72</td>
+      <td><strong>Royal Buffet</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>73</td>
+      <td><strong>Charlos Kitchen Roti Shop</strong></td>
+      <td style="font-size:10px">south-asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>74</td>
+      <td><strong>Kabob Hut</strong></td>
+      <td style="font-size:10px">south-asian-restaurant</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>75</td>
+      <td><strong>Jimmy Fus Asian Restaurant</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>76</td>
+      <td><strong>Bento Asian</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>77</td>
+      <td><strong>Asian Taste Restaurant</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>78</td>
+      <td><strong>Gold Stone Asian Bistro</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>79</td>
+      <td><strong>Tuptimthai Restaurant</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>80</td>
+      <td><strong>Daruma Japanese Steak House</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>81</td>
+      <td><strong>China Buffet</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>82</td>
+      <td><strong>Ho-Ho Restaurant</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>83</td>
+      <td><strong>Fresh Market (Baymeadows)</strong></td>
+      <td style="font-size:10px">general-grocery</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>84</td>
+      <td><strong>Trader Joes (Jacksonville)</strong></td>
+      <td style="font-size:10px">general-grocery</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>85</td>
+      <td><strong>Whole Foods Market (Town Center)</strong></td>
+      <td style="font-size:10px">general-grocery</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>86</td>
+      <td><strong>Global Mart International Grocery</strong></td>
+      <td style="font-size:10px">asian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>87</td>
+      <td><strong>Donut Palace (Indian-owned)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>88</td>
+      <td><strong>La Quinta Inn (Indian-owned)</strong></td>
+      <td style="font-size:10px">indian-business</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>89</td>
+      <td><strong>International Food Market</strong></td>
+      <td style="font-size:10px">asian-grocery</td>
+      <td><span class="tag tag-medium">MEDIUM</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>90</td>
+      <td><strong>Vakok Asian Grocery</strong></td>
+      <td style="font-size:10px">asian-grocery</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-sent">outreach sent</span>
+        <span class="tag tag-human">HUMAN</span></td>
+      <td style="text-align:center">1</td>
+      <td>-</td>
+    </tr><tr>
+      <td>91</td>
+      <td><strong>Sprouts Farmers Market</strong></td>
+      <td style="font-size:10px">general-grocery</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>92</td>
+      <td><strong>Mediterranean Deli &amp; Catering</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>93</td>
+      <td><strong>Nile Ethiopian Restaurant</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>94</td>
+      <td><strong>Sahara Mediterranean Grill</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>95</td>
+      <td><strong>Bosphorus Turkish Cuisine</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>96</td>
+      <td><strong>Boba Tea House St Johns</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>97</td>
+      <td><strong>Pho Viet Vietnamese</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>98</td>
+      <td><strong>Thai Kitchen Jacksonville</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>99</td>
+      <td><strong>Sala Thai</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>100</td>
+      <td><strong>Taco Lu</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>101</td>
+      <td><strong>Mellow Mushroom (San Marco)</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>102</td>
+      <td><strong>Biscottis</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>103</td>
+      <td><strong>Metro Diner (Original)</strong></td>
+      <td style="font-size:10px">general-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>104</td>
+      <td><strong>Angie Jins Asian Fusion</strong></td>
+      <td style="font-size:10px">asian-restaurant</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr><tr>
+      <td>105</td>
+      <td><strong>Sunshine Grocery &amp; Deli</strong></td>
+      <td style="font-size:10px">general-grocery</td>
+      <td><span class="tag tag-low">LOW</span></td>
+      <td><span class="tag tag-no_contact_info">no contact info</span>
+        </td>
+      <td style="text-align:center">0</td>
+      <td>-</td>
+    </tr>
+  </table>
+  </div>
+</div>
+
+<!-- Activity & Notifications -->
+<div>
+  <div class="card">
+    <h2>Recent Activity</h2>
+    <div class="activity-item"><div class="at">3/28/2026, 10:31:43 PM</div><strong>wave_sent</strong>: Wave 4: 24 sent, 19 skipped</div><div class="activity-item"><div class="at">3/28/2026, 10:31:39 PM</div><strong>wave_sent</strong>: Wave 3: 18 sent, 25 skipped</div><div class="activity-item"><div class="at">3/28/2026, 10:31:36 PM</div><strong>wave_sent</strong>: Wave 2: 6 sent, 6 skipped</div><div class="activity-item"><div class="at">3/28/2026, 10:31:31 PM</div><strong>wave_sent</strong>: Wave 1: 7 sent, 0 skipped</div>
+  </div>
+  <div class="card">
+    <h2>President Notifications (0)</h2>
+    <p style="color:var(--muted);font-size:12px">No notifications yet.</p>
+  </div>
+</div>
+</div>
+
+<!-- Priority Breakdown -->
+<div class="card">
+  <h2>Priority Breakdown</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0;">
+    <div style="padding:14px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:10px;">
+      <div style="font-size:18px;font-weight:700;color:var(--danger)">19 HIGH</div>
+      <div style="font-size:10px;color:var(--muted)">Contacted: 19 | Responded: 0</div>
+    </div>
+    <div style="padding:14px;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:10px;">
+      <div style="font-size:18px;font-weight:700;color:var(--info)">43 MEDIUM</div>
+      <div style="font-size:10px;color:var(--muted)">Contacted: 43 | Responded: 0</div>
+    </div>
+    <div style="padding:14px;background:rgba(139,143,163,0.06);border:1px solid rgba(139,143,163,0.1);border-radius:10px;">
+      <div style="font-size:18px;font-weight:700;color:var(--muted)">43 LOW</div>
+      <div style="font-size:10px;color:var(--muted)">Contacted: 43 | Responded: 0</div>
+    </div>
+  </div>
+</div>
+
+</div>
+<div style="text-align:center;padding:24px;font-size:11px;color:var(--muted)">
+  BANF Cold Campaign Agent | Campaign ID: COLD-2026-mnb559lh | Poll #41 | Auto-refreshes every 5 min
+</div>
+</body></html>

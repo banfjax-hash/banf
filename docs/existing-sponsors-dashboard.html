@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BANF Existing Sponsors Campaign — Monitoring Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #0D1B3E; --gold: #C9A84C; --crimson: #8B1A1A; --green: #2e7d32;
+    --orange: #e65100; --red: #c62828; --blue: #1565c0; --slate: #5A6B7D;
+  }
+  body { font-family: 'Inter', sans-serif; background: #f0f2f5; color: #333; line-height: 1.6; }
+  .header { background: linear-gradient(135deg, var(--navy), #1A2F5A 60%, var(--crimson)); color: #fff; padding: 48px 40px; }
+  .header h1 { font-size: 30px; font-weight: 800; margin-bottom: 8px; }
+  .header p { font-size: 14px; opacity: 0.85; max-width: 750px; }
+  .header .meta { font-size: 12px; opacity: 0.6; margin-top: 12px; }
+  .header .live-badge { display: inline-block; background: var(--green); color: #fff; padding: 3px 12px; border-radius: 12px; font-size: 11px; font-weight: 700; animation: pulse 2s infinite; margin-left: 8px; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 24px; }
+  .dash-card { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; transition: transform 0.2s; }
+  .dash-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .dash-card .num { font-size: 28px; font-weight: 800; }
+  .dash-card .lbl { font-size: 10px; text-transform: uppercase; color: #888; letter-spacing: 0.5px; margin-top: 4px; }
+  .section { background: #fff; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .section h2 { font-size: 20px; color: var(--navy); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 3px solid var(--gold); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+  th { background: var(--navy); color: #fff; padding: 10px 8px; text-align: left; font-size: 11px; text-transform: uppercase; }
+  td { padding: 8px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+  tr:hover { background: #f9f9f9; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+  .badge-urgent { background: #FFEBEE; color: var(--red); }
+  .badge-high { background: #FFF3E0; color: var(--orange); }
+  .badge-medium { background: #E3F2FD; color: var(--blue); }
+  .badge-low { background: #F5F5F5; color: #666; }
+  .badge-recovery { background: #FCE4EC; color: #C62828; }
+  .badge-retention { background: #E8F5E9; color: #2E7D32; }
+  .badge-conversion { background: #FFF8E1; color: #F57F17; }
+  .badge-strategic { background: #EDE7F6; color: #4A148C; }
+  .badge-re-engage { background: #ECEFF1; color: #546E7A; }
+  .badge-pending { background: #FFF3E0; color: var(--orange); border: 1px dashed var(--orange); }
+  .badge-approved { background: #E8F5E9; color: var(--green); }
+  .badge-sent { background: #E3F2FD; color: var(--blue); }
+  .phase-bar { display: flex; gap: 0; margin: 16px 0; border-radius: 10px; overflow: hidden; }
+  .phase-step { flex: 1; padding: 14px 16px; color: #fff; }
+  .phase-step h4 { font-size: 13px; font-weight: 700; }
+  .phase-step p { font-size: 11px; opacity: 0.85; margin-top: 4px; }
+  .phase-1 { background: linear-gradient(135deg, #c62828, #d32f2f); }
+  .phase-2 { background: linear-gradient(135deg, #e65100, #f57c00); }
+  .phase-3 { background: linear-gradient(135deg, #1565c0, #1976d2); }
+  .phase-4 { background: linear-gradient(135deg, #546e7a, #78909c); }
+  .approval-card { border: 2px solid #FFE082; border-radius: 10px; padding: 16px; margin: 12px 0; background: #FFFDE7; }
+  .approval-card h4 { color: var(--navy); font-size: 14px; margin-bottom: 8px; }
+  .approval-card .email-preview { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin: 8px 0; font-size: 12px; white-space: pre-line; max-height: 200px; overflow-y: auto; }
+  .approval-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .btn { padding: 6px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; }
+  .btn-approve { background: var(--green); color: #fff; }
+  .btn-reject { background: #eee; color: #666; }
+  .btn-edit { background: var(--blue); color: #fff; }
+  .friction-alert { background: #FFF8E1; border-left: 4px solid var(--orange); padding: 10px 14px; margin: 6px 0; border-radius: 0 6px 6px 0; font-size: 12px; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .kpi-card { background: #f8f9fa; border-radius: 10px; padding: 14px; border-left: 4px solid var(--navy); }
+  .kpi-card h4 { font-size: 12px; color: var(--navy); font-weight: 700; }
+  .kpi-card .val { font-size: 11px; color: var(--green); font-weight: 600; margin-top: 4px; }
+  .sponsor-row { cursor: pointer; }
+  .sponsor-detail { display: none; background: #fafbfc; padding: 16px; border: 1px solid #eee; border-radius: 8px; margin: 8px 0; }
+  .sponsor-detail.open { display: block; }
+  .liaison-badge { display: inline-flex; align-items: center; gap: 4px; background: #EDE7F6; border-radius: 6px; padding: 2px 8px; font-size: 11px; }
+  .liaison-badge .name { font-weight: 700; color: #4A148C; }
+  .footer { text-align: center; color: #999; font-size: 11px; padding: 24px; }
+  @media print { .header { padding: 24px; } .approval-card { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Existing Sponsors Campaign <span class="live-badge">LIVE</span></h1>
+  <p>Re-engagement campaign for 23 existing BANF sponsors (2022-2026). Relationship-aware, human-approved messaging with per-sponsor context analysis.</p>
+  <div class="meta">Campaign: ESP-1774769574315 | Started: 2026-03-29T07:32:54.315Z | Last Updated: 3/29/2026, 10:24:15 AM | Pending Approval: 0 | Approved: 23</div>
+</div>
+<div class="container">
+
+<!-- Dashboard Cards -->
+<div class="dashboard">
+  <div class="dash-card"><div class="num" style="color:var(--navy);">23</div><div class="lbl">Total Sponsors</div></div>
+  <div class="dash-card"><div class="num" style="color:var(--red);">2</div><div class="lbl">Urgent Recovery</div></div>
+  <div class="dash-card"><div class="num" style="color:var(--orange);">8</div><div class="lbl">High Retention</div></div>
+  <div class="dash-card"><div class="num" style="color:var(--blue);">8</div><div class="lbl">Medium Growth</div></div>
+  <div class="dash-card"><div class="num" style="color:#666;">5</div><div class="lbl">Low Re-engage</div></div>
+  <div class="dash-card"><div class="num" style="color:var(--green);">20</div><div class="lbl">With Email</div></div>
+  <div class="dash-card"><div class="num" style="color:var(--orange);">14</div><div class="lbl">Friction Cases</div></div>
+  <div class="dash-card"><div class="num" style="color:var(--gold);">$33K</div><div class="lbl">Potential Revenue</div></div>
+</div>
+
+<!-- Phase Timeline -->
+<div class="section">
+  <h2>Campaign Phases</h2>
+  <div class="phase-bar">
+    <div class="phase-step phase-1"><h4>Phase 1: URGENT Recovery</h4><p>Week 1 — Friction/at-risk sponsors<br/>Goal: Repair relationship, prevent churn<br/>Expected: 50% conversion</p></div><div class="phase-step phase-2"><h4>Phase 2: HIGH Retention & Growth</h4><p>Week 1-2 — Loyal returning sponsors<br/>Goal: Renew + upsell tier<br/>Expected: 80% conversion</p></div><div class="phase-step phase-3"><h4>Phase 3: MEDIUM Warm Leads</h4><p>Week 2-3 — One-time sponsors, warm intros<br/>Goal: Convert to recurring<br/>Expected: 40% conversion</p></div><div class="phase-step phase-4"><h4>Phase 4: LOW Re-engagement</h4><p>Week 3-4 — Lapsed, zero-response, cold-retry<br/>Goal: Re-establish contact<br/>Expected: 15% conversion</p></div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="section">
+  <h2>Campaign KPIs</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card"><h4>Sponsors Contacted</h4><div class="val">Target: 23/23</div></div><div class="kpi-card"><h4>Response Rate</h4><div class="val">Target: 65%+</div></div><div class="kpi-card"><h4>Renewal Rate</h4><div class="val">Target: 60%+ (14+ sponsors)</div></div><div class="kpi-card"><h4>Upsell Rate</h4><div class="val">Target: 30%+ (move up a tier)</div></div><div class="kpi-card"><h4>Total Revenue</h4><div class="val">Target: $18K-$35K</div></div><div class="kpi-card"><h4>New Friction Cases</h4><div class="val">Target: 0</div></div><div class="kpi-card"><h4>Resolution Rate</h4><div class="val">Target: 100% of existing friction</div></div>
+  </div>
+</div>
+
+<!-- Approval Queue -->
+<div class="section">
+  <h2>Human Approval Queue (0 pending)</h2>
+  <p style="font-size:13px;color:#666;margin-bottom:16px;">Every message requires human review before sending. Review the email, friction history, and recommended tier below. Approve, edit, or reject each message.</p>
+  <p style="color:#888;font-style:italic;">No messages pending approval.</p>
+  
+</div>
+
+<!-- Approved Messages -->
+
+<div class="section">
+  <h2>Approved Messages (23)</h2>
+  <table>
+    <tr><th>#</th><th>Sponsor</th><th>Priority</th><th>Tier</th><th>Liaison</th><th>Approved At</th><th>Status</th></tr>
+    <tr>
+      <td>1</td>
+      <td><strong>Dr. Anil Haresh Punjabi / Ohana Hearts</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">Suvankar Paul</span></span></td>
+      <td>2026-03-29T14:20:21.554Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>2</td>
+      <td><strong>State Farm (via Asok Da)</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:20:21.555Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>3</td>
+      <td><strong>NAQ Global</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:20:21.555Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>4</td>
+      <td><strong>Gulani Vision Institute</strong></td>
+      <td><span class="badge badge-urgent">URGENT</span></td>
+      <td>Gold ($3,000)</td>
+      <td><span class="liaison-badge"><span class="name">Tanay Bhaduri</span></span></td>
+      <td>2026-03-29T14:23:22.553Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>5</td>
+      <td><strong>Rohit Saraogi / Ensure Home Loans LLC</strong></td>
+      <td><span class="badge badge-urgent">URGENT</span></td>
+      <td>Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:25.010Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>6</td>
+      <td><strong>Shankar Thayver / The Thayver Group</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">Prabir Mandal</span></span></td>
+      <td>2026-03-29T14:23:27.473Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>7</td>
+      <td><strong>Sushila Beauty Salon</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Bronze ($1,000) or custom legacy package</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:29.931Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>8</td>
+      <td><strong>Jitendra Prusty (S&N Realty)</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:32.316Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>9</td>
+      <td><strong>Principal Financial Group (Raj Patel)</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:34.744Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>10</td>
+      <td><strong>Jiger Shah</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:37.202Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>11</td>
+      <td><strong>VyStar Credit Union</strong></td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td>Diamond ($4,000)</td>
+      <td><span class="liaison-badge"><span class="name">Tanay Bhaduri</span></span></td>
+      <td>2026-03-29T14:23:39.659Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>12</td>
+      <td><strong>Merrill Lynch / John Worsowicz</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">Tanay Bhaduri</span></span></td>
+      <td>2026-03-29T14:23:42.321Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>13</td>
+      <td><strong>Corner Chatpatta</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000) + catering</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:44.779Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>14</td>
+      <td><strong>BMC Jacksonville (Moumita Mitra)</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">Suvankar Paul</span></span></td>
+      <td>2026-03-29T14:23:47.236Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>15</td>
+      <td><strong>InnovativeLE Financial Services (Raka)</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:49.694Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>16</td>
+      <td><strong>AAAction LLC (Banambar Patra)</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:52.152Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>17</td>
+      <td><strong>AIM Realty (Inder Arora)</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">Suvankar Paul</span></span></td>
+      <td>2026-03-29T14:23:54.609Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>18</td>
+      <td><strong>Graphiks Due (Ananta K Sarkar)</strong></td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td>Custom ($200-$500)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:57.068Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>19</td>
+      <td><strong>Hancock Whitney Bank (Raj Adhikari)</strong></td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:23:59.626Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>20</td>
+      <td><strong>Beacon Fisheries</strong></td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td>Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:24:02.086Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>21</td>
+      <td><strong>Anheuser-Busch</strong></td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td>Diamond ($4,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:24:04.496Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>22</td>
+      <td><strong>Walmart Foundation</strong></td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td>Grant application</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:24:06.900Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>23</td>
+      <td><strong>Bubbakoos</strong></td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td>Bronze ($1,000) + catering barter</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td>2026-03-29T14:24:09.227Z</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- Full Sponsor List -->
+<div class="section">
+  <h2>All Sponsors (23)</h2>
+  <table>
+    <tr><th>#</th><th>Sponsor</th><th>Category</th><th>Phase</th><th>Priority</th><th>Approach</th><th>Score</th><th>Rec. Tier</th><th>Liaison</th><th>Email</th><th>Friction</th><th>Status</th></tr>
+    <tr>
+      <td>1</td>
+      <td><strong>Gulani Vision Institute</strong></td>
+      <td style="font-size:11px;">Healthcare / Eye Care</td>
+      <td>1</td>
+      <td><span class="badge badge-urgent">URGENT</span></td>
+      <td><span class="badge badge-recovery">recovery</span></td>
+      <td>3.3</td>
+      <td style="font-size:11px;">Gold ($3,000)</td>
+      <td><span class="liaison-badge"><span class="name">Tanay Bhaduri</span></span></td>
+      <td><a href="mailto:gulanivision@gulani.com" style="color:var(--blue);font-size:11px;text-decoration:none;">gulanivision@gulani.com</a></td>
+      <td><span class="badge badge-recovery">HIGH</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>2</td>
+      <td><strong>Rohit Saraogi / Ensure Home Loans LLC</strong></td>
+      <td style="font-size:11px;">Financial Services / Mortgage</td>
+      <td>1</td>
+      <td><span class="badge badge-urgent">URGENT</span></td>
+      <td><span class="badge badge-recovery">recovery</span></td>
+      <td>0.85</td>
+      <td style="font-size:11px;">Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:rsaraogi@ensurehomeloans.com" style="color:var(--blue);font-size:11px;text-decoration:none;">rsaraogi@ensurehomeloans.com</a></td>
+      <td><span class="badge badge-recovery">CRITICAL</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>3</td>
+      <td><strong>Shankar Thayver / The Thayver Group</strong></td>
+      <td style="font-size:11px;">Real Estate</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>4</td>
+      <td style="font-size:11px;">Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">Prabir Mandal</span></span></td>
+      <td><a href="mailto:sthayver@thayvergroup.com" style="color:var(--blue);font-size:11px;text-decoration:none;">sthayver@thayvergroup.com</a></td>
+      <td><span class="badge badge-recovery">MEDIUM</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>4</td>
+      <td><strong>Sushila Beauty Salon</strong></td>
+      <td style="font-size:11px;">Beauty / Personal Care</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>3.35</td>
+      <td style="font-size:11px;">Bronze ($1,000) or custom legacy package</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:sushilabeauty@yahoo.com" style="color:var(--blue);font-size:11px;text-decoration:none;">sushilabeauty@yahoo.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>5</td>
+      <td><strong>Dr. Anil Haresh Punjabi / Ohana Hearts</strong></td>
+      <td style="font-size:11px;">Healthcare (Cardiovascular)</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>3.25</td>
+      <td style="font-size:11px;">Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">Suvankar Paul</span></span></td>
+      <td><em style="color:#999;font-size:11px;">None</em></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>6</td>
+      <td><strong>Jitendra Prusty (S&N Realty)</strong></td>
+      <td style="font-size:11px;">Real Estate</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>3.15</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:jitendra.prusty@gmail.com" style="color:var(--blue);font-size:11px;text-decoration:none;">jitendra.prusty@gmail.com</a></td>
+      <td><span class="badge badge-recovery">MEDIUM</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>7</td>
+      <td><strong>Principal Financial Group (Raj Patel)</strong></td>
+      <td style="font-size:11px;">Financial Services</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-conversion">conversion</span></td>
+      <td>2.8</td>
+      <td style="font-size:11px;">Silver ($2,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:patel.raj@principal.com" style="color:var(--blue);font-size:11px;text-decoration:none;">patel.raj@principal.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>8</td>
+      <td><strong>Jiger Shah</strong></td>
+      <td style="font-size:11px;">Business Services</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>2.65</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:jigershah@yahoo.com" style="color:var(--blue);font-size:11px;text-decoration:none;">jigershah@yahoo.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>9</td>
+      <td><strong>State Farm (via Asok Da)</strong></td>
+      <td style="font-size:11px;">Insurance</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>2.5</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><em style="color:#999;font-size:11px;">None</em></td>
+      <td><span class="badge badge-recovery">LOW</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>10</td>
+      <td><strong>Merrill Lynch / John Worsowicz</strong></td>
+      <td style="font-size:11px;">Financial Services</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>2.35</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">Tanay Bhaduri</span></span></td>
+      <td><a href="mailto:john.worsowicz@ml.com" style="color:var(--blue);font-size:11px;text-decoration:none;">john.worsowicz@ml.com</a></td>
+      <td><span class="badge badge-recovery">LOW</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>11</td>
+      <td><strong>Corner Chatpatta</strong></td>
+      <td style="font-size:11px;">Food & Beverage</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>2.35</td>
+      <td style="font-size:11px;">Bronze ($1,000) + catering</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:cornerchatpatta@gmail.com" style="color:var(--blue);font-size:11px;text-decoration:none;">cornerchatpatta@gmail.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>12</td>
+      <td><strong>NAQ Global</strong></td>
+      <td style="font-size:11px;">Technology / IT Services</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-outreach">outreach</span></td>
+      <td>2.35</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><em style="color:#999;font-size:11px;">None</em></td>
+      <td><span class="badge badge-recovery">MEDIUM</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>13</td>
+      <td><strong>BMC Jacksonville (Moumita Mitra)</strong></td>
+      <td style="font-size:11px;">Healthcare</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-retention">retention</span></td>
+      <td>2.35</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">Suvankar Paul</span></span></td>
+      <td><a href="mailto:Moumita.Mitra@bmcjax.com" style="color:var(--blue);font-size:11px;text-decoration:none;">Moumita.Mitra@bmcjax.com</a></td>
+      <td><span class="badge badge-recovery">LOW</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>14</td>
+      <td><strong>VyStar Credit Union</strong></td>
+      <td style="font-size:11px;">Financial Services (Banking)</td>
+      <td>2</td>
+      <td><span class="badge badge-high">HIGH</span></td>
+      <td><span class="badge badge-strategic">strategic</span></td>
+      <td>2.3</td>
+      <td style="font-size:11px;">Diamond ($4,000)</td>
+      <td><span class="liaison-badge"><span class="name">Tanay Bhaduri</span></span></td>
+      <td><a href="mailto:gasperk@vystarcu.org" style="color:var(--blue);font-size:11px;text-decoration:none;">gasperk@vystarcu.org</a></td>
+      <td><span class="badge badge-recovery">STRATEGIC</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>15</td>
+      <td><strong>InnovativeLE Financial Services (Raka)</strong></td>
+      <td style="font-size:11px;">Financial Services / Insurance</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-community">community</span></td>
+      <td>2.15</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:raka1027@aol.com" style="color:var(--blue);font-size:11px;text-decoration:none;">raka1027@aol.com</a></td>
+      <td><span class="badge badge-recovery">LOW</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>16</td>
+      <td><strong>AAAction LLC (Banambar Patra)</strong></td>
+      <td style="font-size:11px;">Business Services</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-conversion">conversion</span></td>
+      <td>1.9</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:banambarpatra@gmail.com" style="color:var(--blue);font-size:11px;text-decoration:none;">banambarpatra@gmail.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>17</td>
+      <td><strong>AIM Realty (Inder Arora)</strong></td>
+      <td style="font-size:11px;">Real Estate</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-conversion">conversion</span></td>
+      <td>1.9</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">Suvankar Paul</span></span></td>
+      <td><a href="mailto:inder.aimrealty@yahoo.com" style="color:var(--blue);font-size:11px;text-decoration:none;">inder.aimrealty@yahoo.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>18</td>
+      <td><strong>Hancock Whitney Bank (Raj Adhikari)</strong></td>
+      <td style="font-size:11px;">Financial Services (Banking)</td>
+      <td>4</td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td><span class="badge badge-re-engage">re-engage</span></td>
+      <td>1.6</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:Raj.Adhikari@hancockwhitney.com" style="color:var(--blue);font-size:11px;text-decoration:none;">Raj.Adhikari@hancockwhitney.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>19</td>
+      <td><strong>Graphiks Due (Ananta K Sarkar)</strong></td>
+      <td style="font-size:11px;">Creative / Design Services</td>
+      <td>3</td>
+      <td><span class="badge badge-medium">MEDIUM</span></td>
+      <td><span class="badge badge-recovery">recovery</span></td>
+      <td>1.5</td>
+      <td style="font-size:11px;">Custom ($200-$500)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:graphiksdue@gmail.com" style="color:var(--blue);font-size:11px;text-decoration:none;">graphiksdue@gmail.com</a></td>
+      <td><span class="badge badge-recovery">MODERATE</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>20</td>
+      <td><strong>Beacon Fisheries</strong></td>
+      <td style="font-size:11px;">Food Industry</td>
+      <td>4</td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td><span class="badge badge-re-engage">re-engage</span></td>
+      <td>0.6</td>
+      <td style="font-size:11px;">Bronze ($1,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:etwibell@beaconfisheries.com" style="color:var(--blue);font-size:11px;text-decoration:none;">etwibell@beaconfisheries.com</a></td>
+      <td><span class="badge badge-recovery">NONE</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>21</td>
+      <td><strong>Anheuser-Busch</strong></td>
+      <td style="font-size:11px;">Beverage / FMCG</td>
+      <td>4</td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td><span class="badge badge-re-engage">re-engage</span></td>
+      <td>0.45</td>
+      <td style="font-size:11px;">Diamond ($4,000)</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:erik.joyner@northfloridasales.com" style="color:var(--blue);font-size:11px;text-decoration:none;">erik.joyner@northfloridasales.com</a></td>
+      <td><span class="badge badge-recovery">NONE</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>22</td>
+      <td><strong>Walmart Foundation</strong></td>
+      <td style="font-size:11px;">Retail / Foundation</td>
+      <td>4</td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td><span class="badge badge-re-engage">re-engage</span></td>
+      <td>0.45</td>
+      <td style="font-size:11px;">Grant application</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:SparkGoodSupport@walmart.com" style="color:var(--blue);font-size:11px;text-decoration:none;">SparkGoodSupport@walmart.com</a></td>
+      <td>—</td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr><tr>
+      <td>23</td>
+      <td><strong>Bubbakoos</strong></td>
+      <td style="font-size:11px;">Food & Beverage</td>
+      <td>4</td>
+      <td><span class="badge badge-low">LOW</span></td>
+      <td><span class="badge badge-re-engage">re-engage</span></td>
+      <td>0.3</td>
+      <td style="font-size:11px;">Bronze ($1,000) + catering barter</td>
+      <td><span class="liaison-badge"><span class="name">BANF EC</span></span></td>
+      <td><a href="mailto:mediarelations@bubbakoos.com" style="color:var(--blue);font-size:11px;text-decoration:none;">mediarelations@bubbakoos.com</a></td>
+      <td><span class="badge badge-recovery">NONE</span></td>
+      <td><span class="badge badge-approved">APPROVED</span></td>
+    </tr>
+  </table>
+</div>
+
+<!-- Campaign Stats -->
+<div class="section">
+  <h2>Campaign Statistics</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card"><h4>Contacted</h4><div class="val">23 / 23</div></div>
+    <div class="kpi-card"><h4>Pending Approval</h4><div class="val">0</div></div>
+    <div class="kpi-card"><h4>Approved</h4><div class="val">23</div></div>
+    <div class="kpi-card"><h4>Sent</h4><div class="val">20</div></div>
+    <div class="kpi-card"><h4>Responded</h4><div class="val">0</div></div>
+    <div class="kpi-card"><h4>Converted</h4><div class="val">0</div></div>
+  </div>
+</div>
+
+<!-- Action Log -->
+<div class="section">
+  <h2>Action Log (46 actions)</h2>
+  <table>
+    <tr><th>Time</th><th>Action</th><th>Sponsor</th><th>Message ID</th></tr>
+    <tr>
+      <td style="font-size:11px;">3/29/2026, 10:24:09 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Bubbakoos</td>
+      <td style="font-size:10px;color:#999;">MSG-23-1774769574324</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:24:06 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Walmart Foundation</td>
+      <td style="font-size:10px;color:#999;">MSG-22-1774769574324</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:24:04 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Anheuser-Busch</td>
+      <td style="font-size:10px;color:#999;">MSG-21-1774769574323</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:24:02 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Beacon Fisheries</td>
+      <td style="font-size:10px;color:#999;">MSG-20-1774769574323</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:59 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Hancock Whitney Bank (Raj Adhikari)</td>
+      <td style="font-size:10px;color:#999;">MSG-18-1774769574323</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:57 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Graphiks Due (Ananta K Sarkar)</td>
+      <td style="font-size:10px;color:#999;">MSG-19-1774769574322</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:54 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>AIM Realty (Inder Arora)</td>
+      <td style="font-size:10px;color:#999;">MSG-17-1774769574322</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:52 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>AAAction LLC (Banambar Patra)</td>
+      <td style="font-size:10px;color:#999;">MSG-16-1774769574322</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:49 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>InnovativeLE Financial Services (Raka)</td>
+      <td style="font-size:10px;color:#999;">MSG-15-1774769574321</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:47 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>BMC Jacksonville (Moumita Mitra)</td>
+      <td style="font-size:10px;color:#999;">MSG-13-1774769574321</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:44 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Corner Chatpatta</td>
+      <td style="font-size:10px;color:#999;">MSG-11-1774769574321</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:42 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Merrill Lynch / John Worsowicz</td>
+      <td style="font-size:10px;color:#999;">MSG-10-1774769574320</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:39 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>VyStar Credit Union</td>
+      <td style="font-size:10px;color:#999;">MSG-14-1774769574320</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:37 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Jiger Shah</td>
+      <td style="font-size:10px;color:#999;">MSG-8-1774769574320</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:34 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Principal Financial Group (Raj Patel)</td>
+      <td style="font-size:10px;color:#999;">MSG-7-1774769574319</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:32 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Jitendra Prusty (S&N Realty)</td>
+      <td style="font-size:10px;color:#999;">MSG-6-1774769574319</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:29 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Sushila Beauty Salon</td>
+      <td style="font-size:10px;color:#999;">MSG-4-1774769574318</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:27 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Shankar Thayver / The Thayver Group</td>
+      <td style="font-size:10px;color:#999;">MSG-3-1774769574318</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:25 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Rohit Saraogi / Ensure Home Loans LLC</td>
+      <td style="font-size:10px;color:#999;">MSG-2-1774769574317</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:23:22 AM</td>
+      <td><span class="badge badge-sent">SENT</span></td>
+      <td>Gulani Vision Institute</td>
+      <td style="font-size:10px;color:#999;">MSG-1-1774769574317</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:20:21 AM</td>
+      <td><span class="badge badge-sent">APPROVED_MANUAL</span></td>
+      <td>NAQ Global</td>
+      <td style="font-size:10px;color:#999;">MSG-12-1774769574321</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:20:21 AM</td>
+      <td><span class="badge badge-sent">APPROVED_MANUAL</span></td>
+      <td>State Farm (via Asok Da)</td>
+      <td style="font-size:10px;color:#999;">MSG-9-1774769574320</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 10:20:21 AM</td>
+      <td><span class="badge badge-sent">APPROVED_MANUAL</span></td>
+      <td>Dr. Anil Haresh Punjabi / Ohana Hearts</td>
+      <td style="font-size:10px;color:#999;">MSG-5-1774769574319</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>Bubbakoos</td>
+      <td style="font-size:10px;color:#999;">MSG-23-1774769574324</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>Walmart Foundation</td>
+      <td style="font-size:10px;color:#999;">MSG-22-1774769574324</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>Anheuser-Busch</td>
+      <td style="font-size:10px;color:#999;">MSG-21-1774769574323</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>Beacon Fisheries</td>
+      <td style="font-size:10px;color:#999;">MSG-20-1774769574323</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>Hancock Whitney Bank (Raj Adhikari)</td>
+      <td style="font-size:10px;color:#999;">MSG-18-1774769574323</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>Graphiks Due (Ananta K Sarkar)</td>
+      <td style="font-size:10px;color:#999;">MSG-19-1774769574322</td>
+    </tr><tr>
+      <td style="font-size:11px;">3/29/2026, 3:32:54 AM</td>
+      <td><span class="badge badge-pending">QUEUED</span></td>
+      <td>AIM Realty (Inder Arora)</td>
+      <td style="font-size:10px;color:#999;">MSG-17-1774769574322</td>
+    </tr>
+  </table>
+</div>
+
+</div><!-- container -->
+<div class="footer">
+  BANF Existing Sponsors Campaign | ESP-1774769574315 | 23 Sponsors | Generated 3/29/2026, 10:24:15 AM | banfjax@gmail.com
+</div>
+</body>
+</html>
