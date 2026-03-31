@@ -4,6 +4,17 @@
 //  navbar behaviour, footer hydration
 // ═══════════════════════════════════════════════
 
+// ── PWA Service Worker Registration ──
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('sw.js').then(function(reg) {
+            console.log('BANF SW registered, scope:', reg.scope);
+        }).catch(function(err) {
+            console.log('BANF SW registration failed:', err);
+        });
+    });
+}
+
 // ── Utility: escape HTML entities ──
 function esc(str) {
     if (str == null) return '';
