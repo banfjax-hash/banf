@@ -22,7 +22,7 @@ const BANF_EVENTS_CALENDAR = [
   { id: 'mahalaya-2026', name: 'Mahalaya', date: '2026-10-17', type: 'Religious' },
   { id: 'durga-puja-2026', name: 'Durga Puja Day 1 & 2 + Lunch', date: '2026-10-24', type: 'Religious' },
   { id: 'lakshmi-puja-2026', name: 'Lakshmi Puja', date: '2026-10-25', type: 'Religious' },
-  { id: 'kali-puja-2026', name: 'Kali Puja + Lunch', date: '2026-11-07', type: 'Religious' },
+  { id: 'kali-puja-2026', name: 'Kali Puja + Snacks', date: '2026-11-07', type: 'Religious' },
   { id: 'winter-picnic-2027', name: 'Winter Picnic', date: '2027-01-11', type: 'Social' },
   { id: 'saraswati-puja-2027', name: 'Saraswati Puja', date: '2027-02-27', type: 'Religious' },
 ];

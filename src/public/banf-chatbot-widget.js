@@ -90,7 +90,7 @@
             { name: 'Bijoya Sonmiloni', date: 'October 25, 2026', type: 'Social' },
             { name: 'Artist Program - Day 1 + Dinner', date: 'October 24, 2026', type: 'Cultural' },
             { name: 'Artist Program - Day 2 + Dinner', date: 'October 25, 2026', type: 'Cultural' },
-            { name: 'Kali Puja + Lunch', date: 'November 7, 2026', type: 'Religious' },
+            { name: 'Kali Puja + Snacks', date: 'November 7, 2026', type: 'Religious' },
             { name: 'Natok (Drama) + Dinner', date: 'November 7, 2026', type: 'Cultural' },
             { name: 'Winter Picnic', date: 'January 2027', type: 'Social' },
             { name: 'Saraswati Puja', date: 'February 27, 2027', type: 'Religious' }

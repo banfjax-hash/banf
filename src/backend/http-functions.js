@@ -7371,7 +7371,7 @@ const BANF_EVENTS_2025_26 = [
     { id: 'bijoya-sonmiloni-2026', name: 'Bijoya Sonmiloni', date: '2026-10-25', type: 'Social' },
     { id: 'artist-program-day1-2026', name: 'Artist Program Day 1 + Dinner', date: '2026-10-24', type: 'Cultural' },
     { id: 'artist-program-day2-2026', name: 'Artist Program Day 2 + Dinner', date: '2026-10-25', type: 'Cultural' },
-    { id: 'kali-puja-2026', name: 'Kali Puja + Lunch', date: '2026-11-07', type: 'Religious' },
+    { id: 'kali-puja-2026', name: 'Kali Puja + Snacks', date: '2026-11-07', type: 'Religious' },
     { id: 'natok-dinner-2026', name: 'Natok (Drama) + Dinner', date: '2026-11-07', type: 'Cultural' },
     { id: 'winter-picnic-2027', name: 'Winter Picnic', date: '2027-01-11', type: 'Social' },
     { id: 'saraswati-puja-2027', name: 'Saraswati Puja', date: '2027-02-27', type: 'Religious' }

@@ -1618,7 +1618,7 @@ Schedule:
         </div>
         <div>
           <label style="font-size:.75rem;color:var(--muted);display:block;margin-bottom:4px">Highlights</label>
-          <textarea id="ev-highlights" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">Traditional alpona, cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.</textarea>
+          <textarea id="ev-highlights" rows="2" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg2);color:#fff;font-size:.85rem;resize:vertical">Cultural performances by our members and their families, authentic Bengali cuisine, kids activities, and Rabindra-Nazrul sangeet performances.</textarea>
         </div>
       </div>
 
@@ -3304,7 +3304,7 @@ const BANF_EVENTS = [
   { id:'spondon-2026', name:'Spondon'},{ id:'mahalaya-2026', name:'Mahalaya'},
   { id:'durga-puja-2026', name:'Durga Puja Day 1 & 2 + Lunch'},{ id:'lakshmi-puja-2026', name:'Lakshmi Puja'},
   { id:'bijoya-sonmiloni-2026', name:'Bijoya Sonmiloni'},{ id:'artist-program-day1-2026', name:'Artist Program Day 1 + Dinner'},
-  { id:'artist-program-day2-2026', name:'Artist Program Day 2 + Dinner'},{ id:'kali-puja-2026', name:'Kali Puja + Lunch'},
+  { id:'artist-program-day2-2026', name:'Artist Program Day 2 + Dinner'},{ id:'kali-puja-2026', name:'Kali Puja + Snacks'},
   { id:'natok-dinner-2026', name:'Natok (Drama) + Dinner'},{ id:'winter-picnic-2027', name:'Winter Picnic'},
   { id:'saraswati-puja-2027', name:'Saraswati Puja'}
 ];

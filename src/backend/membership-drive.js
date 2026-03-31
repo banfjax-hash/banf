@@ -56,7 +56,7 @@ const ALL_EVENTS = [
     { name: 'Bijoya Sonmiloni',                date: 'Oct 25',    type: 'Social'      },
     { name: 'Artist Program Day 1 + Dinner',  date: 'Oct 24',    type: 'Cultural'    },
     { name: 'Artist Program Day 2 + Dinner',  date: 'Oct 25',    type: 'Cultural'    },
-    { name: 'Kali Puja + Lunch',              date: 'Nov 14',    type: 'Religious'   },
+    { name: 'Kali Puja + Snacks',              date: 'Nov 14',    type: 'Religious'   },
     { name: 'Natok (Drama) + Dinner',         date: 'Nov 14',    type: 'Cultural'    },
     { name: 'Winter Picnic',                  date: 'Jan 11/27', type: 'Social'      },
     { name: 'Saraswati Puja',                 date: 'Feb 27',    type: 'Religious'   }

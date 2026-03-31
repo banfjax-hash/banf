@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ═══════════════════════════════════════════════════════════════
  *  RAG ENGINE — Vector Retrieval Augmented Generation
  *  Wix does not have native vector search, so we implement:
@@ -201,7 +201,7 @@ export async function seedDefaultKnowledge() {
         },
         {
             title: 'BANF Events Calendar 2026-27 — Official',
-            content: 'BANF 2026-27 Annual Events (17 total — SOURCE: membership_events.jpg):\n1. Bosonto Utsob — March 7, 2026 (Cultural)\n2. Noboborsho — April 25, 2026 (Cultural)\n3. Kids Summer Sports Training — Jun–Jul 2026 (Educational)\n4. Summer Workshops Kids — Jun–Jul 2026 (Educational)\n5. Summer Workshops General — Jun–Jul 2026 (Educational)\n6. Sports Day — July 2026 (Social)\n7. Spondon — August 2026 (Cultural)\n8. Mahalaya — October 17, 2026 (Religious)\n9. Durga Puja Day 1 & 2 + Lunch — October 24–25, 2026 (Religious)\n10. Lakshmi Puja — October 25, 2026 (Religious)\n11. Bijoya Sonmiloni — October 25, 2026 (Social)\n12. Artist Program Day 1 + Dinner — October 24, 2026 (Cultural)\n13. Artist Program Day 2 + Dinner — October 25, 2026 (Cultural)\n14. Kali Puja + Lunch — November 7, 2026 (Religious)\n15. Natok (Drama) + Dinner — November 7, 2026 (Cultural)\n16. Winter Picnic — January 2027 (Social)\n17. Saraswati Puja — February 27, 2027 (Religious)',
+            content: 'BANF 2026-27 Annual Events (17 total — SOURCE: membership_events.jpg):\n1. Bosonto Utsob — March 7, 2026 (Cultural)\n2. Noboborsho — April 25, 2026 (Cultural)\n3. Kids Summer Sports Training — Jun–Jul 2026 (Educational)\n4. Summer Workshops Kids — Jun–Jul 2026 (Educational)\n5. Summer Workshops General — Jun–Jul 2026 (Educational)\n6. Sports Day — July 2026 (Social)\n7. Spondon — August 2026 (Cultural)\n8. Mahalaya — October 17, 2026 (Religious)\n9. Durga Puja Day 1 & 2 + Lunch — October 24–25, 2026 (Religious)\n10. Lakshmi Puja — October 25, 2026 (Religious)\n11. Bijoya Sonmiloni — October 25, 2026 (Social)\n12. Artist Program Day 1 + Dinner — October 24, 2026 (Cultural)\n13. Artist Program Day 2 + Dinner — October 25, 2026 (Cultural)\n14. Kali Puja + Snacks — November 7, 2026 (Religious)\n15. Natok (Drama) + Dinner — November 7, 2026 (Cultural)\n16. Winter Picnic — January 2027 (Social)\n17. Saraswati Puja — February 27, 2027 (Religious)',
             category: 'events',
             tags: 'events,calendar,bosonto,noboborsho,durga puja,kali puja,saraswati,sports,cultural,2026,2027',
             sourceType: 'seed'
