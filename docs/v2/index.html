@@ -284,9 +284,9 @@
                 <h2 style="color: #fff;"><i class="fas fa-mobile-alt me-2" style="color: #C8A23C;"></i>Get the BANF App</h2>
                 <p style="color: rgba(255,255,255,0.8);">Install our free app on your phone — no app store needed!</p>
             </div>
-            <div class="row g-4 justify-content-center mt-2">
+            <div class="row g-4 justify-content-center mt-2" id="app-install-cards">
                 <!-- Android -->
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" id="card-android">
                     <div class="card h-100 p-4 rounded-4 border-0" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1) !important;">
                         <div class="text-center mb-3">
                             <i class="fab fa-android" style="font-size: 3rem; color: #3DDC84;"></i>
@@ -304,7 +304,7 @@
                     </div>
                 </div>
                 <!-- iPhone / iPad -->
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" id="card-ios">
                     <div class="card h-100 p-4 rounded-4 border-0" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1) !important;">
                         <div class="text-center mb-3">
                             <i class="fab fa-apple" style="font-size: 3rem; color: #fff;"></i>
@@ -322,7 +322,7 @@
                     </div>
                 </div>
                 <!-- Desktop -->
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" id="card-desktop">
                     <div class="card h-100 p-4 rounded-4 border-0" style="background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1) !important;">
                         <div class="text-center mb-3">
                             <i class="fas fa-laptop" style="font-size: 3rem; color: #64B5F6;"></i>
@@ -345,11 +345,12 @@
                     <i class="fas fa-info-circle me-1"></i>The app is a Progressive Web App (PWA). It works offline, loads fast, and feels just like a native app — completely free, no downloads required.
                 </p>
             </div>
-            <!-- Install button for browsers that support it -->
-            <div class="text-center mt-3" id="pwa-install-prompt" style="display: none;">
-                <button onclick="installPWA()" class="btn px-4 py-2" style="background: linear-gradient(135deg, #C8A23C, #DAA520); color: #1a1a2e; font-weight: 600; border-radius: 30px; font-size: 1rem; border: none; box-shadow: 0 4px 15px rgba(200,162,60,0.4);">
+            <!-- Install button — auto-detects platform -->
+            <div class="text-center mt-3" id="pwa-install-prompt">
+                <button id="pwa-install-btn" onclick="installPWA()" class="btn px-4 py-2" style="background: linear-gradient(135deg, #C8A23C, #DAA520); color: #1a1a2e; font-weight: 600; border-radius: 30px; font-size: 1.05rem; border: none; box-shadow: 0 4px 15px rgba(200,162,60,0.4);">
                     <i class="fas fa-download me-2"></i>Install BANF App Now
                 </button>
+                <p id="pwa-install-hint" style="color: rgba(255,255,255,0.7); font-size: 0.82rem; margin-top: 0.5rem; display: none;"></p>
             </div>
         </div>
     </section>
@@ -530,21 +531,50 @@
             }
         });
 
-    // PWA Install Prompt
+    // PWA Install Prompt — platform-aware
     let deferredPrompt;
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    var isAndroid = /Android/.test(navigator.userAgent);
+    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    var installBtn = document.getElementById('pwa-install-btn');
+    var installHint = document.getElementById('pwa-install-hint');
+
+    // On iOS: show guidance since beforeinstallprompt never fires
+    if (isIOS) {
+        if (installBtn) {
+            installBtn.innerHTML = '<i class="fab fa-apple me-2"></i>How to Install on iPhone';
+            installBtn.onclick = function() {
+                alert('To install BANF App:\n\n1. Tap the Share button (□↑) at the bottom of Safari\n2. Scroll down and tap "Add to Home Screen"\n3. Tap "Add"\n\nThe BANF app will appear on your home screen!');
+            };
+        }
+        if (installHint) {
+            installHint.style.display = 'block';
+            installHint.innerHTML = '<i class="fab fa-safari me-1"></i>Open in Safari → Tap <strong>Share □↑</strong> → <strong>Add to Home Screen</strong>';
+        }
+    } else if (isAndroid) {
+        // Android Chrome fires beforeinstallprompt — wait for it, but show fallback
+        if (installHint) {
+            installHint.style.display = 'block';
+            installHint.innerHTML = '<i class="fab fa-chrome me-1"></i>Tap the <strong>⋮ menu</strong> in Chrome → <strong>Install app</strong>';
+        }
+    }
+
     window.addEventListener('beforeinstallprompt', function(e) {
         e.preventDefault();
         deferredPrompt = e;
-        var btn = document.getElementById('pwa-install-prompt');
-        if (btn) btn.style.display = 'block';
+        if (installBtn) {
+            installBtn.innerHTML = '<i class="fas fa-download me-2"></i>Install BANF App Now';
+            installBtn.onclick = function() { window.installPWA(); };
+        }
+        if (installHint) installHint.style.display = 'none';
     });
     window.installPWA = function() {
         if (deferredPrompt) {
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then(function(choice) {
                 if (choice.outcome === 'accepted') {
-                    var btn = document.getElementById('pwa-install-prompt');
-                    if (btn) btn.style.display = 'none';
+                    var wrap = document.getElementById('pwa-install-prompt');
+                    if (wrap) wrap.innerHTML = '<p style="color:#C8A23C;"><i class="fas fa-check-circle me-2"></i>BANF App installed! Check your home screen.</p>';
                 }
                 deferredPrompt = null;
             });
@@ -555,6 +585,21 @@
         var sec = document.getElementById('get-app');
         if (sec) sec.style.display = 'none';
     }
+
+    // Highlight user's platform card and move it first on mobile
+    (function() {
+        var cardId = isIOS ? 'card-ios' : isAndroid ? 'card-android' : 'card-desktop';
+        var card = document.getElementById(cardId);
+        if (card) {
+            var inner = card.querySelector('.card');
+            if (inner) inner.style.border = '2px solid #C8A23C';
+            // On small screens, move the matching card to the top
+            var row = document.getElementById('app-install-cards');
+            if (row && window.innerWidth < 768) {
+                row.insertBefore(card, row.firstChild);
+            }
+        }
+    })();
     </script>
 </body>
 </html>
