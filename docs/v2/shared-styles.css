@@ -37,6 +37,7 @@
         /* HERO */
         .hero {
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             align-items: safe center;
             justify-content: center;
@@ -780,11 +781,11 @@
 
         .pricing-card.featured {
             background: #fff;
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .pricing-card.featured:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
 
         .pricing-header {
@@ -1428,18 +1429,33 @@
             .president-header { flex-direction: column; text-align: center; }
             .banf-navbar .nav-links { display: none; }
             .banf-navbar .nav-toggle { display: flex; }
-            .banf-navbar .nav-links.show { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--navy); padding: 1rem; gap: 0.25rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 9999; }
+            .banf-navbar .nav-links.show { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(15,27,61,0.98); padding: 1rem; gap: 0.25rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); z-index: 9999; max-height: calc(100vh - 56px); max-height: calc(100dvh - 56px); overflow-y: auto; -webkit-overflow-scrolling: touch; }
+            .banf-navbar .nav-links.show a { padding: 0.65rem 1rem; font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+            .banf-navbar .nav-links.show a:last-child { border-bottom: none; }
         }
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .stat-number { font-size: 2.5rem; }
             .president-body { padding: 1.5rem; }
-            .pricing-card.featured { transform: scale(1); }
+            .pricing-card.featured { transform: none; }
+            .pricing-card.featured:hover { transform: none; }
             section { padding: 3rem 0; }
             .hero { padding: 4rem 1rem; }
             .hero-content img { width: 95% !important; }
-            .ec-card { min-width: 260px; }
+            .ec-card { min-width: auto; padding: 1.25rem 1rem; }
+            .ec-card h5 { font-size: 0.95rem; }
+            .ec-card h6 { font-size: 0.75rem; }
+            .ec-avatar-img { width: 80px !important; height: 80px !important; }
+            .ec-avatar { width: 80px; height: 80px; font-size: 1.5rem; }
+            .ec-short-bio { font-size: 0.75rem; }
+            .ec-position { font-size: 0.7rem; padding: 0.3rem 0.8rem; }
+            .event-image { height: 120px; }
+            .event-content { padding: 0.75rem; }
+            .event-content h4 { font-size: 0.85rem; }
+            .event-date { font-size: 0.72rem; padding: 0.3rem 0.6rem; margin-bottom: 0.5rem; }
+            .event-location { font-size: 0.75rem; }
+            .pricing-price { font-size: 2.2rem; }
             .radio-player { padding: 1.5rem; }
             .radio-controls { gap: 0.5rem; }
         }
@@ -1452,7 +1468,20 @@
             .hero-buttons { flex-direction: column; gap: 0.75rem; }
             .hero-buttons a { width: 100%; text-align: center; }
             .pricing-card { margin-bottom: 1rem; }
-            .banf-navbar { padding: 0.5rem 1rem; }
+            .pricing-price { font-size: 1.8rem; }
+            .ec-card { padding: 1rem 0.75rem; }
+            .ec-card h5 { font-size: 0.85rem; }
+            .ec-avatar-img { width: 64px !important; height: 64px !important; }
+            .ec-avatar { width: 64px; height: 64px; font-size: 1.2rem; margin-bottom: 0.5rem; }
+            .ec-short-bio { font-size: 0.7rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+            .ec-position { font-size: 0.65rem; padding: 0.25rem 0.6rem; }
+            .event-image { height: 100px; }
+            .event-content { padding: 0.6rem; }
+            .event-content h4 { font-size: 0.78rem; }
+            .event-date { font-size: 0.68rem; padding: 0.25rem 0.5rem; }
+            .stats-section { margin-top: -40px; padding: 2.5rem 0; }
+            .stat-number { font-size: 1.8rem; }
+            .banf-navbar { padding: 0.5rem 1rem; padding-left: max(0.5rem, env(safe-area-inset-left)); padding-right: max(0.5rem, env(safe-area-inset-right)); }
             .banf-navbar .nav-brand span { font-size: 0.95rem; }
             .ec-modal-content { width: 96%; border-radius: 16px; }
             .contact-form { padding: 1.5rem; }
@@ -1470,6 +1499,7 @@
             background: rgba(15,27,61,0.97); backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: space-between;
             padding: 0.6rem 2rem; box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+            padding-top: max(0.6rem, env(safe-area-inset-top));
         }
         .banf-navbar .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
         .banf-navbar .nav-brand img { height: 36px; border-radius: 4px; }
