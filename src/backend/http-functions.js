@@ -6870,17 +6870,17 @@ function htmlPage(html) {
     });
 }
 
-// GET /_functions/home  main landing page — redirects to GitHub Pages
-// Wix HTTP functions cannot serve HTML to browsers (CDN overrides Content-Type).
-// All HTML pages are served from GitHub Pages where text/html works correctly.
+// GET /_functions/home  main landing page — served by this site's own backend
+// (backend/portals/landing-html.js). Previously redirected to GitHub Pages;
+// the *_raw portal endpoints prove the ok()/htmlPage path serves HTML fine.
 export function get_home(request) {
-    return pageRedirect('/landing.html');
+    return htmlPage(getLandingHtml());
 }
 export function options_home(request)      { return handleCors(); }
 
-// GET /_functions/landing — alternate route to landing page
+// GET /_functions/landing — alternate route to landing page (same backend-served page)
 export function get_landing(request) {
-    return pageRedirect('/landing.html');
+    return htmlPage(getLandingHtml());
 }
 export function options_landing(request) { return handleCors(); }
 
